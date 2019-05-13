@@ -115,6 +115,18 @@ if(mysqli_num_rows($result_otorisasi) > 0){
 			Bank
 		</button>
 	</a>
+	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+		<i class="fa fa-undo" aria-hidden="true"></i>
+		Return
+	</button>
+	<div class="dropdown-container">
+		<a href="sales_return_dashboard.php">
+			<p>Sales return</p>
+		</a>
+		<a href="#">
+			<p>Purchasing return</p>
+		</a>
+	</div>
 	<hr>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
 		<a href='../human_resource/user_dashboard.php' style='color:white;text-decoration:none'>

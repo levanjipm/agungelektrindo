@@ -13,7 +13,7 @@
 ?>
 <div class='main'>
 	<div class='container'>
-	<form method='POST' action='sales_return_input.php' id='myForm'>
+	<form method='POST' action='sales_return_input_dashboard.php' id='myForm'>
 <?php
 	$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $code['customer_id'] . "'";
 	$result_customer = $conn->query($sql_customer);
@@ -23,12 +23,9 @@
 		<p><?= $customer['address'] ?></p>
 		<p><?= $customer['city'] ?></p>
 		<label>Document number</label>
-		<div class="input-group">
-			<input type='text' class='form-control' style='width:50%'  id='document' name='document' required>
-			<div class="input-group-append">
-				<button class="btn btn-primary" type="submit">Don't find any document? Click here</button> 
-			</div>
-		</div>
+		<input type='text' class='form-control' style='width:50%'  id='document' name='document' required>
+		<label>Date</label>
+		<input type='date' value='<?= date('Y-m-d') ?>' name='dating'>
 	</div>
 	<table class='table-hover'>
 		<tr>
@@ -42,7 +39,10 @@
 	while($return = $result_return->fetch_assoc()){
 ?>
 		<tr>
-			<td><?= $return['reference'] ?></td>
+			<td>
+				<?= $return['reference'] ?>
+				<input type='hidden' value='<?= $return['reference'] ?>' name='reference<?= $i ?>'>
+			</td>
 			<input type='hidden' value='<?= $return['id'] ?>' name='id<?= $i ?>'>
 			<td><?php
 				$sql_item = "SELECT description FROM itemlist WHERE reference = '" . $return['reference'] . "'";
@@ -62,6 +62,7 @@
 ?>
 	</table>
 	<input type='hidden' value='<?= $i ?>' name='x'>
+	<input type='hidden' value='<?= $return_id ?>' name='return_id'>
 	<button type='button' class='btn btn-default' onclick='check()'>Next</button>
 </div>
 <script>

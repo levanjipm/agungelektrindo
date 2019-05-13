@@ -168,32 +168,28 @@ switch (date('m',strtotime($do_date))) {
 			$sql_item = "SELECT description FROM itemlist WHERE reference = '" . $item . "'";
 			$result = $conn->query($sql_item);
 			if ($result->num_rows > 0){
-				while($row_item = $result->fetch_assoc()){
-					$item_description = $row_item['description'];
-				}
+				$row_item = $result->fetch_assoc();
+				$item_description = $row_item['description'];
 			} else {
 				$item_description = '';
 			};
 ?>
 <?php
-			if (($qty == '') || ($qty == 0)){
-			} else {
 ?>
-				<tr>
-					<td>
-						<?=$item_description?>
-					</td>
-					<td>
-						<?=$item?>
-						<input type="hidden" name="item<?= $i ?>" value="<?=$item?>">
-					</td>
-					<td>
-						<?=$qty?>
-						<input type="hidden" name="qty<?= $i ?>" value="<?=$qty?>">
-					</td>
-				</tr>
+			<tr>
+				<td>
+					<?=$item_description?>
+				</td>
+				<td>
+					<?=$item?>
+					<input type="hidden" name="item<?= $i ?>" value="<?=$item?>">
+				</td>
+				<td>
+					<?=$qty?>
+					<input type="hidden" name="qty<?= $i ?>" value="<?=$qty?>">
+				</td>
+			</tr>
 <?php
-			}
 		}
 ?>
 			</tbody>
