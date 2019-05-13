@@ -1,0 +1,138 @@
+.forming{
+		border:none;
+		border-bottom:2px solid #777;
+		background-color:transparent;
+	}
+	.forming:focus{
+		outline-width: 0;
+	}
+.dropdown-container a{
+	color:white;
+	text-decoration:none;
+}
+.box_notif{
+	border:1px solid #ddd;
+	box-shadow:2px 5px 3px #999;
+	border-radius:4px;
+	width:100%;
+}
+.btn_notif{
+	background-color:transparent;
+	border:none;
+	color:black;
+	text-align:left;
+	box-shadow:2px 5px 3px #999;
+}
+.sidenav{
+	background-color:#333;
+	padding:20px;
+	height:100%;
+	top:0;
+	left:0;
+	width:200px;
+	position:fixed;
+}
+.sidenav a{
+	color:white;
+	text-decoration:none;
+}
+.main{
+	margin-left:200px;
+	padding:20px;
+}
+.dropdown-container {
+    display: none;
+    background-color: #ccccff;
+    padding-left: 8px;
+}
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+#myTable {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: center;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2
+}
+
+#myTable tr.header, #myTable tr:hover {
+  /* Add a grey background color to the table header and on hover */
+  background-color: #f1f1f1;
+}
+.sticky{
+	margin-top:0px;
+	position:fixed;
+}
+	
+.sticky + .main {
+  padding-top: 0px;
+}	
+.nomor{
+	width:100%;
+	background-color:#fff;
+	border:none;
+}
+.selectmr{
+	background-color:#fff;
+	border-radius:5px;
+}
+.fa-folder{
+	width:50px;
+	font-size: 20px;
+	padding:20px;
+	top:50%;
+	right:0px;
+	position:fixed;
+	background-color:#333;
+	border-radius:8px;
+	text-align:center;
+	color:#4da6ff;
+}
+#right-button{
+	top:70%;
+	position:fixed;
+	right:0px;
+	width:50px;
+	padding:20px;
+}
+.fa-copy{
+
+	font-size: 20px;
+
+	background-color:#ddd;
+	border-radius:8px;
+	text-align:center;
+	color:black;
+}
+.fa-close{
+	width:50px;
+	font-size: 20px;
+	padding:20px;
+	top:60%;
+	right:0px;
+	position:fixed;
+	background-color:#333;
+	border-radius:8px;
+	text-align:center;
+	color:red;
+}
