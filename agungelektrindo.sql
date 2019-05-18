@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2019 at 10:57 AM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.2
+-- Generation Time: May 18, 2019 at 02:32 PM
+-- Server version: 10.1.28-MariaDB
+-- PHP Version: 7.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -750,7 +750,8 @@ INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `custo
 (317, '2018-12-22', 57, 0, 'SJ-AE-57N.22-XII-18', 30, 1, 0, 1, 0),
 (318, '2018-12-26', 58, 1, 'SJ-AE-58P.26-XII-18', 6, 1, 0, 1, 0),
 (319, '2018-12-26', 59, 1, 'SJ-AE-59P.26-XII-18', 12, 1, 0, 1, 0),
-(320, '2018-12-31', 60, 1, 'SJ-AE-60P.31-XII-18', 40, 1, 0, 1, 0);
+(320, '2018-12-31', 60, 1, 'SJ-AE-60P.31-XII-18', 40, 1, 0, 1, 0),
+(321, '2019-05-18', 1, 1, 'SJ-AE-01P.18-V-19', 5, 1, 0, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -1072,6 +1073,14 @@ CREATE TABLE `code_salesorder` (
   `retail_phone` varchar(50) DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `code_salesorder`
+--
+
+INSERT INTO `code_salesorder` (`id`, `name`, `date`, `po_number`, `taxing`, `customer_id`, `delivery_id`, `value`, `retail_address`, `retail_city`, `retail_phone`) VALUES
+(1, '1905-SO-001', '2019-05-18', '', 1, 1, 5, '1000000.00', '', NULL, ''),
+(2, '1905-SO-002', '2019-05-18', '', 1, 5, 9, '500000.00', '', NULL, '');
+
 -- --------------------------------------------------------
 
 --
@@ -1087,8 +1096,16 @@ CREATE TABLE `code_sales_return` (
   `other` text NOT NULL,
   `isconfirm` tinyint(1) NOT NULL DEFAULT '0',
   `isdelete` tinyint(1) NOT NULL DEFAULT '0',
-  `isfinished` tinyint(4) NOT NULL DEFAULT '0'
+  `isfinished` tinyint(4) NOT NULL DEFAULT '0',
+  `method` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `code_sales_return`
+--
+
+INSERT INTO `code_sales_return` (`id`, `submission_date`, `customer_id`, `do_id`, `reason`, `other`, `isconfirm`, `isdelete`, `isfinished`, `method`) VALUES
+(1, '2019-05-18', 5, 321, 1, '', 1, 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1275,6 +1292,13 @@ CREATE TABLE `delivery_order` (
   `do_id` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `delivery_order`
+--
+
+INSERT INTO `delivery_order` (`id`, `reference`, `quantity`, `do_id`) VALUES
+(1, 'NYY435', 5, 321);
+
 -- --------------------------------------------------------
 
 --
@@ -1333,6 +1357,19 @@ CREATE TABLE `events` (
   `event_id` smallint(2) NOT NULL,
   `event_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `events`
+--
+
+INSERT INTO `events` (`id`, `date`, `event_id`, `event_name`) VALUES
+(1, '2019-05-18', 5, 'SWP1'),
+(2, '2019-05-18', 5, 'SWP2'),
+(3, '2019-05-18', 5, 'SWP3'),
+(4, '2019-05-18', 5, 'SWP4'),
+(5, '2019-05-18', 5, 'SWP5'),
+(6, '2019-05-18', 5, 'SWP6'),
+(7, '2019-05-18', 5, 'SWP7');
 
 -- --------------------------------------------------------
 
@@ -7607,6 +7644,26 @@ CREATE TABLE `receivable` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `return_invoice_sales`
+--
+
+CREATE TABLE `return_invoice_sales` (
+  `id` int(255) NOT NULL,
+  `return_id` int(255) NOT NULL,
+  `invoice_id` int(255) NOT NULL,
+  `value` decimal(20,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `return_invoice_sales`
+--
+
+INSERT INTO `return_invoice_sales` (`id`, `return_id`, `invoice_id`, `value`) VALUES
+(3, 1, 183, '200000.00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `salary`
 --
 
@@ -7649,6 +7706,14 @@ CREATE TABLE `sales_order` (
   `status` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `sales_order`
+--
+
+INSERT INTO `sales_order` (`id`, `reference`, `price`, `discount`, `price_list`, `quantity`, `so_id`, `status`) VALUES
+(1, 'A9K14106', '100000.00', '-400.00', '20000.00', 10, 1, 0),
+(2, 'NYY435', '100000.00', '50.00', '200000.00', 5, 2, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -7662,6 +7727,14 @@ CREATE TABLE `sales_order_sent` (
   `so_id` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sales_order_sent`
+--
+
+INSERT INTO `sales_order_sent` (`id`, `reference`, `quantity`, `so_id`, `status`) VALUES
+(1, 'A9K14106', 0, 1, 0),
+(2, 'NYY435', 5, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -7678,6 +7751,13 @@ CREATE TABLE `sales_return` (
   `return_code` int(11) NOT NULL,
   `isdone` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sales_return`
+--
+
+INSERT INTO `sales_return` (`id`, `reference`, `quantity`, `received`, `isreceive`, `return_code`, `isdone`) VALUES
+(1, 'NYY435', 2, 2, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -8041,7 +8121,37 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (376, '2018-12-31', 'NYY435', 'IN', 55, 55, 0, 0, 'Stock awal'),
 (377, '2018-12-31', 'NYYHY2075', 'IN', 1050, 1050, 0, 0, 'Stock awal'),
 (378, '2018-12-31', 'NYYHY3075', 'IN', 700, 700, 0, 0, 'Stock awal'),
-(379, '2018-12-31', 'NYYHY31', 'IN', 400, 400, 0, 0, 'Stock awal');
+(379, '2018-12-31', 'NYYHY31', 'IN', 400, 400, 0, 0, 'Stock awal'),
+(380, '0000-00-00', 'NYYHY31', 'SWP', 10, 390, 0, 0, 'SWP1'),
+(381, '0000-00-00', 'NYYHY3075', 'SWP', 10, 690, 0, 0, 'SWP1'),
+(382, '0000-00-00', 'NYYHY2075', 'SWP', 10, 1060, 0, 0, 'SWP1'),
+(383, '0000-00-00', 'NYY435', 'SWP', 10, 65, 0, 0, 'SWP1'),
+(384, '0000-00-00', 'NYYHY31', 'SWP', 10, 380, 0, 0, 'SWP2'),
+(385, '0000-00-00', 'NYYHY3075', 'SWP', 10, 680, 0, 0, 'SWP2'),
+(386, '0000-00-00', 'NYYHY2075', 'SWP', 10, 1070, 0, 0, 'SWP2'),
+(387, '0000-00-00', 'NYY435', 'SWP', 10, 75, 0, 0, 'SWP2'),
+(388, '0000-00-00', 'NYYHY31', 'SWP', 10, 370, 0, 0, 'SWP3'),
+(389, '0000-00-00', 'NYYHY3075', 'SWP', 10, 670, 0, 0, 'SWP3'),
+(390, '0000-00-00', 'NYYHY2075', 'SWP', 10, 1080, 0, 0, 'SWP3'),
+(391, '0000-00-00', 'NYY435', 'SWP', 10, 85, 0, 0, 'SWP3'),
+(392, '0000-00-00', 'LC1D09M7', 'SWP', 5, 72, 0, 0, 'SWP4'),
+(393, '0000-00-00', 'A9F74132', 'SWP', 5, 45, 0, 0, 'SWP4'),
+(394, '0000-00-00', 'A9F74125', 'SWP', 5, 50, 0, 0, 'SWP4'),
+(395, '0000-00-00', 'A9F74120', 'SWP', 5, 83, 0, 0, 'SWP4'),
+(396, '0000-00-00', 'XCJ127', 'SWP', 2, 10, 0, 0, 'SWP5'),
+(397, '0000-00-00', 'XB7NA45', 'SWP', 2, 19, 0, 0, 'SWP5'),
+(398, '0000-00-00', 'XB7NA31', 'SWP', 2, 84, 0, 0, 'SWP5'),
+(399, '0000-00-00', 'XB7NA21', 'SWP', 2, 27, 0, 0, 'SWP5'),
+(400, '0000-00-00', 'XCJ127', 'SWP', 2, 8, 0, 0, 'SWP6'),
+(401, '0000-00-00', 'XB7NA45', 'SWP', 2, 17, 0, 0, 'SWP6'),
+(402, '0000-00-00', 'XB7NA31', 'SWP', 2, 86, 0, 0, 'SWP6'),
+(403, '0000-00-00', 'XB7NA21', 'SWP', 2, 29, 0, 0, 'SWP6'),
+(404, '0000-00-00', 'XCJ127', 'SWP', 2, 6, 0, 0, 'SWP7'),
+(405, '0000-00-00', 'XB7NA45', 'SWP', 2, 15, 0, 0, 'SWP7'),
+(406, '0000-00-00', 'XB7NA31', 'SWP', 2, 88, 0, 0, 'SWP7'),
+(407, '0000-00-00', 'XB7NA21', 'SWP', 2, 31, 0, 0, 'SWP7'),
+(408, '2019-05-18', 'NYY435', 'OUT', 5, 80, 0, 5, 'SJ-AE-01P.18-V-19'),
+(409, '2019-05-19', 'NYY435', 'IN', 2, 82, 0, 5, 'RTRTAN');
 
 -- --------------------------------------------------------
 
@@ -8066,7 +8176,7 @@ CREATE TABLE `stock_value_in` (
 --
 
 INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `sisa`, `supplier_id`, `customer_id`, `gr_id`) VALUES
-(1, '2018-12-31', 'LC1D09M7', 77, '130515.00', 20, 0, 0, 0),
+(1, '2018-12-31', 'LC1D09M7', 77, '130515.00', 15, 0, 0, 0),
 (2, '2018-12-31', 'LRD07', 1, '189783.00', 0, 0, 0, 0),
 (3, '2018-12-31', 'EZC100N3080', 22, '414216.00', 21, 0, 0, 0),
 (4, '2018-12-31', 'A9F74310', 6, '237387.00', 2, 0, 0, 0),
@@ -8117,11 +8227,11 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (56, '2018-12-31', 'A9C20731', 4, '90288.00', 4, 0, 0, 0),
 (57, '2018-12-31', 'A9E21180', 4, '717188.00', 4, 0, 0, 0),
 (58, '2018-12-31', 'A9F74101', 36, '70323.00', 36, 0, 0, 0),
-(59, '2018-12-31', 'XCJ127', 12, '88303.60', 12, 0, 0, 0),
+(59, '2018-12-31', 'XCJ127', 12, '88303.60', 6, 0, 0, 0),
 (60, '2018-12-31', 'XB7ND33', 8, '41269.80', 8, 0, 0, 0),
 (61, '2018-12-31', 'XB7ND21', 16, '32175.00', 16, 0, 0, 0),
 (62, '2018-12-31', 'A9F74102', 47, '70323.00', 47, 0, 0, 0),
-(63, '2018-12-31', 'XB7NA45', 21, '37675.00', 21, 0, 0, 0),
+(63, '2018-12-31', 'XB7NA45', 21, '37675.00', 15, 0, 0, 0),
 (64, '2018-12-31', 'A9F74104', 17, '70323.00', 17, 0, 0, 0),
 (65, '2018-12-31', 'A9F74106', 22, '62537.00', 22, 0, 0, 0),
 (66, '2018-12-31', 'XB7NA42', 150, '21386.30', 150, 0, 0, 0),
@@ -8129,7 +8239,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (68, '2018-12-31', 'A9F74116', 54, '61720.00', 54, 0, 0, 0),
 (69, '2018-12-31', 'A9F74120', 78, '50528.00', 78, 0, 0, 0),
 (70, '2018-12-31', 'A9F74125', 45, '53174.00', 45, 0, 0, 0),
-(71, '2018-12-31', 'A9F74132', 50, '60581.00', 50, 0, 0, 0),
+(71, '2018-12-31', 'A9F74132', 50, '60581.00', 45, 0, 0, 0),
 (72, '2018-12-31', 'A9F74206', 1, '153725.00', 1, 0, 0, 0),
 (74, '2018-12-31', 'XB7NA31', 82, '21560.00', 77, 0, 0, 0),
 (76, '2018-12-31', 'XB7NA21', 25, '23525.04', 25, 0, 0, 0),
@@ -8402,10 +8512,25 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (350, '2018-12-31', 'NYY21', 1000, '6934.00', 1000, 0, 0, 0),
 (351, '2018-12-31', 'NYY34', 200, '20430.00', 200, 0, 0, 0),
 (352, '2018-12-31', 'NYY36', 200, '27069.00', 200, 0, 0, 0),
-(353, '2018-12-31', 'NYY435', 55, '163498.00', 55, 0, 0, 0),
+(353, '2018-12-31', 'NYY435', 55, '163498.00', 50, 0, 0, 0),
 (354, '2018-12-31', 'NYYHY2075', 1050, '3830.00', 1050, 0, 0, 0),
 (355, '2018-12-31', 'NYYHY3075', 700, '5876.00', 700, 0, 0, 0),
-(356, '2018-12-31', 'NYYHY31', 400, '8636.00', 400, 0, 0, 0);
+(356, '2018-12-31', 'NYYHY31', 400, '8636.00', 370, 0, 0, 0),
+(357, '2019-05-18', 'NYYHY2075', 0, '0.00', 0, 0, 0, 0),
+(358, '2019-05-18', 'NYY435', 0, '0.00', 0, 0, 0, 0),
+(359, '2019-05-18', 'NYYHY2075', 0, '0.00', 0, 0, 0, 0),
+(360, '2019-05-18', 'NYY435', 0, '0.00', 0, 0, 0, 0),
+(361, '2019-05-18', 'NYYHY2075', 0, '483.73', 0, 0, 0, 0),
+(362, '2019-05-18', 'NYY435', 0, '967.47', 0, 0, 0, 0),
+(363, '2019-05-18', 'A9F74125', 0, '19109.60', 5, 0, 0, 0),
+(364, '2019-05-18', 'A9F74120', 0, '19109.60', 5, 0, 0, 0),
+(365, '2019-05-18', 'XB7NA31', 2, '10498.22', 2, 0, 0, 0),
+(366, '2019-05-18', 'XB7NA21', 2, '20996.43', 2, 0, 0, 0),
+(367, '2019-05-18', 'XB7NA31', 2, '10498.22', 2, 0, 0, 0),
+(368, '2019-05-18', 'XB7NA21', 2, '20996.43', 2, 0, 0, 0),
+(369, '2019-05-18', 'XB7NA31', 2, '20996.43', 2, 0, 0, 0),
+(370, '2019-05-18', 'XB7NA21', 2, '41992.87', 2, 0, 0, 0),
+(371, '2019-05-19', 'NYY435', 2, '163498.00', 2, 0, 5, 0);
 
 -- --------------------------------------------------------
 
@@ -8420,6 +8545,27 @@ CREATE TABLE `stock_value_out` (
   `quantity` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `stock_value_out`
+--
+
+INSERT INTO `stock_value_out` (`id`, `date`, `in_id`, `quantity`, `customer_id`) VALUES
+(1, '2019-05-18', 356, 10, 0),
+(2, '2019-05-18', 355, 0, 0),
+(3, '2019-05-18', 356, 10, 0),
+(4, '2019-05-18', 355, 0, 0),
+(5, '2019-05-18', 356, 10, 0),
+(6, '2019-05-18', 355, 0, 0),
+(7, '2019-05-18', 1, 5, 0),
+(8, '2019-05-18', 71, 5, 0),
+(9, '2019-05-18', 59, 2, 0),
+(10, '2019-05-18', 63, 2, 0),
+(11, '2019-05-18', 59, 2, 0),
+(12, '2019-05-18', 63, 2, 0),
+(13, '2019-05-18', 59, 2, 0),
+(14, '2019-05-18', 63, 2, 0),
+(15, '2019-05-18', 353, 5, 5);
 
 -- --------------------------------------------------------
 
@@ -8724,6 +8870,14 @@ ALTER TABLE `receivable`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `return_invoice_sales`
+--
+ALTER TABLE `return_invoice_sales`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `invoice_id` (`invoice_id`),
+  ADD KEY `return_id` (`return_id`);
+
+--
 -- Indexes for table `salary`
 --
 ALTER TABLE `salary`
@@ -8827,7 +8981,7 @@ ALTER TABLE `code_bank`
 -- AUTO_INCREMENT for table `code_delivery_order`
 --
 ALTER TABLE `code_delivery_order`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=321;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=322;
 
 --
 -- AUTO_INCREMENT for table `code_goodreceipt`
@@ -8869,13 +9023,13 @@ ALTER TABLE `code_random_do`
 -- AUTO_INCREMENT for table `code_salesorder`
 --
 ALTER TABLE `code_salesorder`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `code_sales_return`
 --
 ALTER TABLE `code_sales_return`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `customer`
@@ -8899,7 +9053,7 @@ ALTER TABLE `delivery_address`
 -- AUTO_INCREMENT for table `delivery_order`
 --
 ALTER TABLE `delivery_order`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -8917,7 +9071,7 @@ ALTER TABLE `event`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `goodreceipt`
@@ -8992,6 +9146,12 @@ ALTER TABLE `receivable`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `return_invoice_sales`
+--
+ALTER TABLE `return_invoice_sales`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `salary`
 --
 ALTER TABLE `salary`
@@ -9001,37 +9161,37 @@ ALTER TABLE `salary`
 -- AUTO_INCREMENT for table `sales_order`
 --
 ALTER TABLE `sales_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sales_order_sent`
 --
 ALTER TABLE `sales_order_sent`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sales_return`
 --
 ALTER TABLE `sales_return`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=380;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=410;
 
 --
 -- AUTO_INCREMENT for table `stock_value_in`
 --
 ALTER TABLE `stock_value_in`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=357;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=372;
 
 --
 -- AUTO_INCREMENT for table `stock_value_out`
 --
 ALTER TABLE `stock_value_out`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `supplier`
@@ -9060,6 +9220,13 @@ ALTER TABLE `users`
 --
 ALTER TABLE `quotation`
   ADD CONSTRAINT `quotation_ibfk_1` FOREIGN KEY (`quotation_code`) REFERENCES `code_quotation` (`id`);
+
+--
+-- Constraints for table `return_invoice_sales`
+--
+ALTER TABLE `return_invoice_sales`
+  ADD CONSTRAINT `return_invoice_sales_ibfk_1` FOREIGN KEY (`invoice_id`) REFERENCES `invoices` (`id`),
+  ADD CONSTRAINT `return_invoice_sales_ibfk_2` FOREIGN KEY (`return_id`) REFERENCES `code_sales_return` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

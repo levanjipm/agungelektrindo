@@ -270,20 +270,26 @@
 	case "5":
 	$date = $_POST['date5'];
 	$quantity_swap = $_POST['swapq'];
+	$swap_cal = $_POST['swapq'];
+	
+	$price_one = $_POST['price_one'];
+	$price_two = $_POST['price_two'];
+	
 	$swap_minus1 = $_POST['swap_minus_one'];
 	$swap_minus2 = $_POST['swap_minus_two'];
 	$swap_plus1 = $_POST['swap_plus_one'];
 	$swap_plus2 = $_POST['swap_plus_two'];
+	
 	$sql_check = "SELECT stock FROM stock WHERE reference = '" . $swap_minus1 . "' ORDER BY id DESC LIMIT 1";
 	$result_check = $conn->query($sql_check);
-	while($row_check = $result_check->fetch_assoc()){
-		$stock1 = $row_check['stock'];
-	}
+	$row_check = $result_check->fetch_assoc();
+	$stock1 = $row_check['stock'];
+	
 	$sql_check2 = "SELECT stock FROM stock WHERE reference = '" . $swap_minus2 . "' ORDER BY id DESC LIMIT 1";
 	$result_check2 = $conn->query($sql_check2);
-	while($row_check2 = $result_check2->fetch_assoc()){
-		$stock2 = $row_check2['stock'];
-	}
+	$row_check2 = $result_check2->fetch_assoc();
+	$stock2 = $row_check2['stock'];
+	
 	if ($quantity_swap > $stock1 || $quantity_swap > $stock2){
 		echo ('this operation is illegal');
 		header( "refresh:5; url=inventory.php" ); 
@@ -302,19 +308,22 @@
 		$sql_initial = "SELECT stock FROM stock WHERE reference = '" . $swap_minus1 . "' ORDER BY id DESC LIMIT 1";
 		$result_initial = $conn->query($sql_initial);
 		$row_initial = $result_initial->fetch_assoc();
-			$stock_awal1 = $row_initial['stock'];
+		$stock_awal1 = $row_initial['stock'];
 		
 		$sql_initial2 = "SELECT stock FROM stock WHERE reference = '" . $swap_minus2 . "' ORDER BY id DESC LIMIT 1";
 		$result_initial2 = $conn->query($sql_initial2);
 		$row_initial2 = $result_initial2->fetch_assoc();
-			$stock_awal2 = $row_initial2['stock'];
+		$stock_awal2 = $row_initial2['stock'];
 		
 		$stock_akhir1 = $stock_awal1 - $quantity_swap;
 		$stock_akhir2 = $stock_awal2 - $quantity_swap;
+		
 		$sql_stock1 = "INSERT INTO stock (reference, transaction, quantity, stock, supplier_id, customer_id, document) 
 		VALUES ('$swap_minus1','SWP','$quantity_swap','$stock_akhir1','0','0','$event_name')";
+		
 		$sql_stock2 = "INSERT INTO stock (reference, transaction, quantity, stock, supplier_id, customer_id, document) 
 		VALUES ('$swap_minus2','SWP','$quantity_swap','$stock_akhir2','0','0','$event_name')";
+		
 		$result1 = $conn->query($sql_stock1);
 		$result2 = $conn->query($sql_stock2);
 		$sql_event = "INSERT INTO events (date,event_id,event_name) VALUES ('$date','5','$event_name')";
@@ -338,20 +347,55 @@
 		$sql_stock = "INSERT INTO stock (reference, transaction, quantity, stock, supplier_id, customer_id, document) VALUES ('$swap_plus2','SWP','$quantity_swap','$stock_akhir4','0','0','$event_name')";
 		$result4 = $conn->query($sql_stock);
 		
-		$price_initial = 0;
+		$price_initial1 = 0;
 		$sql_value_in1 = "SELECT * FROM stock_value_in WHERE reference = '" . $swap_minus1 . "' AND sisa > 0 ORDER BY id ASC";
 		$result_value_in1 = $conn->query($sql_value_in1);
 		while($value_in1 = $result_value_in1->fetch_assoc()){
-			$in_id = $in['id'];
-			$sisa = $in['sisa'];
+			$in_id = $value_in1['id'];
+			$sisa = $value_in1['sisa'];
 			$pengurang = min($sisa,$quantity_swap);
 			$sql_update = "UPDATE stock_value_in SET sisa = '" . ($sisa - $pengurang) . "' WHERE id = '" . $in_id . "'";
+			$sql_insert_out1 = "INSERT INTO stock_value_out (date,in_id,quantity,customer_id) VALUES ('$date','$in_id','$pengurang','0')";
 			$result_update = $conn->query($sql_update);
+			$result_insert_out1 = $conn->query($sql_insert_out1);
+			$price_initial1 = $price_initial1 + $value_in1['price'] * $pengurang;
+			$quantity_swap = $quantity_swap - $pengurang;
 			if ($quantity_swap == 0){
 				break;
 			}
 		}
+		$quantity_swap = $_POST['swapq'];
 		
+		$price_initial2 = 0;
+		$sql_value_in2 = "SELECT * FROM stock_value_in WHERE reference = '" . $swap_minus2 . "' AND sisa > 0 ORDER BY id ASC";
+		$result_value_in2 = $conn->query($sql_value_in2);
+		while($value_in2 = $result_value_in2->fetch_assoc()){
+			$in_id = $value_in2['id'];
+			$sisa = $value_in2['sisa'];
+			$pengurang = min($sisa,$quantity_swap);
+			$sql_update = "UPDATE stock_value_in SET sisa = '" . ($sisa - $pengurang) . "' WHERE id = '" . $in_id . "'";
+			$sql_insert_out2 = "INSERT INTO stock_value_out (date,in_id,quantity,customer_id) VALUES ('$date','$in_id','$pengurang','0')";
+			$result_update = $conn->query($sql_update);
+			$result_insert_out2 = $conn->query($sql_insert_out2);
+			$price_initial2 = $price_initial2 + $value_in2['price'] * $pengurang;
+			$quantity_swap = $quantity_swap - $pengurang;
+			if ($quantity_swap == 0){
+				break;
+			}
+		}
+		$total_price = $price_initial1 + $price_initial2;
+		$unit_price = $total_price/ (2 * $swap_cal);
+		echo $unit_price;
+		$price1 = $price_one * $unit_price / ($price_one + $price_two);
+		
+		$stock_1 = "INSERT INTO stock_value_in (date,reference,quantity,price,sisa,supplier_id,customer_id,gr_id)
+		VALUES ('$date','$swap_plus1','$swap_cal','$price1','$swap_cal','0','0','0')";
+		$result_1 = $conn->query($stock_1);
+		
+		$price2 = $price_two * $unit_price / ($price_one + $price_two);
+		$stock_2 = "INSERT INTO stock_value_in (date,reference,quantity,price,sisa,supplier_id,customer_id,gr_id)
+		VALUES ('$date','$swap_plus2','$swap_cal','$price2','$swap_cal','0','0','0')";
+		$result_2 = $conn->query($stock_2);
 	}
 	//header('location:inventory.php');
 	break;
