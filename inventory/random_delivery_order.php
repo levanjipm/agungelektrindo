@@ -8,26 +8,49 @@
 <?php
 switch ($type) {
     case "1":
+	$sql = "SELECT * FROM code_project WHERE isdone = '0'";
+	$result = $conn->query($sql);
+	if(mysqli_num_rows($result) != 0){
 ?>
+	<script>
+	$(document).ready(function(){
+		$('#reference1').autocomplete({
+			source: "ajax/search_item.php"
+		})
+	});
+	</script>
 	<a href="#" id="folder"><i class="fa fa-folder"></i></a>
 	<a href="#" id="close"><i class="fa fa-close"></i></a>
 	<form action='random_delivery_order_validation.php' method='POST'>
 		<input type='hidden' value='1' name='type'>
-		<label>Customer</label>
+		<label>Project name</label>
+<?php
+	}
+		if(mysqli_num_rows($result) != 0){
+?>
 		<select class='form-control' name='customer'>
 			<option value='0'>Pelase select a customer</option>
 <?php
-		$sql_customer = "SELECT id,name FROM customer ORDER BY name ASC";
-		$result_customer = $conn->query($sql_customer);
-		while($customer = $result_customer->fetch_assoc()){
+			while($row = $result->fetch_assoc()){
 ?>
-			<option value='<?= $customer['id'] ?>'><?= $customer['name'] ?></option>
+			<option value='<?= $row['id'] ?>'><?= $row['project_name'] ?></option>
 <?php
+			}
+?>
+		</select>
+<?php
+		} else {
+			echo ('No project to be sent');
+			echo '<br>';
+			echo '<br>';
 		}
 ?>
 		</select>
-		<label>Project name</label>
-		<input type='text' class='form-control' name='project_name'>
+<?php
+		$sql_1 = "SELECT * FROM code_project WHERE isdone = '0'";
+		$result_1 = $conn->query($sql_1);
+		if(mysqli_num_rows($result_1) != 0){
+?>
 		<div class='row' style='padding-top:30px'>
 			<div class='col-sm-1'>No.</div>
 			<div class='col-sm-4'>Reference</div>
@@ -78,6 +101,14 @@ switch ($type) {
 		});
 	</script>
 <?php
+		} else {
+?>
+			<br>
+			<a href='random_delivery_order_dashboard.php'>
+				<button type='button' class='btn btn-success'>Back</button>
+			</a>
+<?php
+		}
 		break;
 
     case "2":

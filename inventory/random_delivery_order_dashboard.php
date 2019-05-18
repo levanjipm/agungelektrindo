@@ -25,7 +25,7 @@
 </style>
 <div class="main">
 	<div class='row'>
-		<div class='col-sm-3'>
+		<div class='col-sm-6'>
 			<form action='random_delivery_order.php' method='POST' id='myForm'>
 				<label>Random delivery order type</label>
 				<select class="form-control" onchange="select_detail()" id="selecting" name='type'>

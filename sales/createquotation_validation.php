@@ -19,9 +19,8 @@ $comment = $_POST['comment'];
 $customer = $_POST['quote_person'];
 $sql_customer = "SELECT * FROM customer WHERE id='" . $customer . "'";
 $result = $conn->query($sql_customer);
-while($row = $result->fetch_assoc()) { 
-   $customer_name = $row['name'];
-};
+$row = $result->fetch_assoc();
+$customer_name = $row['name'];
 
 if ($terms == 1){
 	$note = "Payment must be done before delivery";
@@ -44,7 +43,7 @@ if ($terms == 1){
 		</div>
 		<div class="row">
 			<div class="col-sm-6">
-				<input type="hidden" value=<?= $customer?>" name="customer">
+				<input type="hidden" value='<?= $customer?>' name="customer">
 				<h2><?= $customer_name ?></h2>
 				<p><?= date('d M Y',strtotime($q_date)) ?></p>
 			</div>

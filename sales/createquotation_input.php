@@ -12,6 +12,7 @@
 	$lunas = $_POST['lunas'];
 	$terms = $_POST['terms'];
 	$total = $_POST['total'];
+	
 	if (date('m',strtotime($q_date)) == '01'){
 		$month = 'I';
 	} else if(date('m',strtotime($q_date)) == '02'){
@@ -36,7 +37,8 @@
 		$month = 'XI';
 	} else {
 		$month = 'XII';
-	}		
+	};
+	
 	$sql = " SELECT COUNT(*) AS jumlah FROM code_quotation WHERE MONTH(date) = MONTH('" . $q_date . "') 
 	AND YEAR(date) = YEAR('" . $q_date . "')";
 	$result = $conn->query($sql);
@@ -48,21 +50,20 @@
 			$jumlah = 0;
 		}
 	$jumlah++;
-	$q_number = "Q-AE-" . str_pad($jumlah,2,"0",STR_PAD_LEFT) . "." . date("d"). "-" . $month. "-" . date("y");
+	$q_number = "Q-AE-" . str_pad($jumlah,2,"0",STR_PAD_LEFT) . "." . date("d",strtotime($q_date)). "-" . $month. "-" . date("y",strtotime($q_date));
 	$customer = $_POST['customer'];
 	$comment = $_POST['comment'];
-	
-	include ("../codes/connect.php");
-	$sql_insert = "INSERT INTO code_quotation (name,customer_id,date,value,payment_id,down_payment,repayment,note) VALUES ('$q_number','$customer','$q_date','$total','$terms','$dp','$lunas','$comment')";	
-	$r = $conn->query($sql_insert);	
+	$sql_insert = "INSERT INTO code_quotation (name,customer_id,date,value,payment_id,down_payment,repayment,note) 
+	VALUES ('$q_number','$customer','$q_date','$total','$terms','$dp','$lunas','$comment')";
+	echo $sql_insert;
+	$r = $conn->query($sql_insert);
 	$x = $_POST['jumlah_barang'];
 
 	$i = 1;
-	$sql_first= "SELECT * FROM code_quotation WHERE name = '" . $q_number . "'"; 
+	$sql_first= "SELECT id FROM code_quotation WHERE name = '" . $q_number . "'"; 
 	$result = $conn->query($sql_first);	
-	while($rows = $result->fetch_assoc()){
-		$quotation_id = $rows['id'];
-	}
+	$rows = $result->fetch_assoc();
+	$quotation_id = $rows['id'];
 	for ($i = 1; $i <= $x; $i++){
 		$item = $_POST["item" . $i ];
 		$price = $_POST["price" . $i ];

@@ -20,8 +20,9 @@
 		<div class="input-group">
 		<select class='form-control' id='lawan' name='lawan'>
 			<option value='0'>Please pick a client</option>
+			<option value='-1'>CV Agung Elektrindo (Internal transaction)</option>
 <?php
-	$sql = "SELECT name FROM bank_accounts";
+	$sql = "SELECT name FROM bank_accounts ORDER BY name ASC";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){
 ?>
@@ -36,6 +37,9 @@
 				Add
 			</button>
 		</a>
+		<br>
+		<label>Description</label>
+		<input type='text' class='form-control'>
 		<hr>
 		<button type='button' class='btn btn-primary' onclick='check_all()'>
 			Submit
