@@ -70,7 +70,7 @@
 	</script>
 <?php
 	$timeout = 0;
-	$sql_invoice = "SELECT SUM(value) AS jumlah,customer_id FROM purchases WHERE isdone = '0' GROUP BY customer_id ORDER BY jumlah DESC";
+	$sql_invoice = "SELECT SUM(value) AS jumlah,supplier_id FROM purchases WHERE isdone = '0' GROUP BY supplier_id ORDER BY jumlah DESC";
 	$result_invoice = $conn->query($sql_invoice);
 	while($invoice = $result_invoice->fetch_assoc()){
 		$width = max($invoice['jumlah'] * 100/ $maximum,2);
@@ -78,23 +78,23 @@
 	<div class='row'>
 		<div class='col-sm-3'>
 <?php
-	$sql_customer = "SELECT name FROM customer WHERE id = '" . $invoice['customer_id'] . "'";
+	$sql_customer = "SELECT name FROM supplier WHERE id = '" . $invoice['supplier_id'] . "'";
 	$result_customer = $conn->query($sql_customer);
 	$customer = $result_customer->fetch_assoc();
 	echo $customer['name'];
 ?>
 		</div>
 		<div class='col-sm-6'>
-			<div class='row garis' style='width:0%' id='garis<?= $invoice['customer_id'] ?>'>			
+			<div class='row garis' style='width:0%' id='garis<?= $invoice['supplier_id'] ?>'>			
 			</div>
 		</div>
-		<div class='col-sm-2' id='nominal<?= $invoice['customer_id'] ?>'>
+		<div class='col-sm-2' id='nominal<?= $invoice['supplier_id'] ?>'>
 			Rp. <?= number_format($invoice['jumlah'],2) ?>
 		</div>
 	</div>
 	<script>
 		setTimeout(function(){
-			$("#garis<?= $invoice['customer_id'] ?>").animate({
+			$("#garis<?= $invoice['supplier_id'] ?>").animate({
 				width: '<?= $width ?>%'
 			})
 		},<?= $timeout ?>)

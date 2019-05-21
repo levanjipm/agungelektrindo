@@ -12,7 +12,7 @@
 			<th></th>
 		</tr>
 <?php
-	$sql_return = "SELECT id,customer_id,do_id FROM code_sales_return WHERE isfinished = '1'";
+	$sql_return = "SELECT id,customer_id,do_id FROM code_sales_return WHERE isfinished = '1' AND isassign = '0'";
 	$result_return = $conn->query($sql_return);
 	while($return = $result_return->fetch_assoc()){
 ?>

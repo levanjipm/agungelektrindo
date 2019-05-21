@@ -2,12 +2,21 @@
 	include('accountingheader.php');
 	if(empty($_POST['id'])){
 		header('location:accounting.php');
+		die();
 	}
 	$return_id = $_POST['id'];
-	$sql_initial = "SELECT do_id,customer_id,method FROM code_sales_return WHERE id = '" . $return_id . "'";
+	$sql_initial = "SELECT do_id,customer_id,method,isassign FROM code_sales_return WHERE id = '" . $return_id . "'";
 	$result_initial = $conn->query($sql_initial);
 	$initial = $result_initial->fetch_assoc();
 	
+	if($initial['isassign'] == 1){
+?>
+		<script>
+			window.location.replace("accounting.php");
+		</script>
+<?php
+	}
+	else {
 	$sql_do = "SELECT name,so_id FROM code_delivery_order WHERE id = '" . $initial['do_id'] . "'";
 	$result_do = $conn->query($sql_do);
 	$do = $result_do->fetch_assoc();
@@ -73,11 +82,15 @@
 	$sql = "SELECT * FROM invoices WHERE isdone = '0' AND customer_id = '" . $initial['customer_id'] . "'";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){
+		$invoice_id = $row['id'];
+		$sql_return = "SELECT SUM(value) AS jumlah_retur FROM return_invoice_sales WHERE invoice_id = '" . $invoice_id . "'";
+		$result_return = $conn->query($sql_return);
+		$return = $result_return->fetch_assoc();
 ?>
 		<tr>
 			<td><?= date('d M Y',strtotime($row['date'])) ?></td>
 			<td><?= $row['name'] ?></td>
-			<td>Rp. <?= number_format($row['value'],2) ?></td>
+			<td>Rp. <?= number_format(($row['value'] - $return['jumlah_retur']),2) ?></td>
 			<td>
 				<input type='hidden' value='<?= $row['value'] ?>' name='value<?= $i ?>'>
 				<input type='hidden' value='<?= $row['id'] ?>' name='invoice<?= $i ?>'>
@@ -95,3 +108,6 @@
 	<button type='submit'>Next</button>
 </div>
 </div>
+<?php
+	}
+?>

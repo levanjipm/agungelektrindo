@@ -3,14 +3,14 @@ include('accountingheader.php');
 if(empty($_POST['id'])){
 	header('localtion:accounting.php');
 }
-$bank_id = $_POST['id'];
-$sql_bank = "SELECT * FROM code_bank WHERE id = '" . $bank_id . "'";
-$result_bank = $conn->query($sql_bank);
-$bank = $result_bank->fetch_assoc();
-$transaction = $bank['transaction'];
-$date = $bank['date'];
-$value = $bank['value'];
-$lawan = $bank['name'];
+	$bank_id = $_POST['id'];
+	$sql_bank = "SELECT * FROM code_bank WHERE id = '" . $bank_id . "'";
+	$result_bank = $conn->query($sql_bank);
+	$bank = $result_bank->fetch_assoc();
+	$transaction = $bank['transaction'];
+	$date = $bank['date'];
+	$value = $bank['value'];
+	$lawan = $bank['name'];
 ?>
 <script src='../universal/Numeral-js-master/src/numeral.js'></script>
 <div class='main'>
@@ -30,9 +30,33 @@ $lawan = $bank['name'];
 		</tr>
 <?php
 	if($transaction == 1){
-		
-	}
-	else {
+		$sql_supplier = "SELECT id FROM supplier WHERE name = '" . $lawan . "'";
+		$result_supplier = $conn->query($sql_supplier);
+		$supplier = $result_supplier->fetch_assoc();
+		$sql_invoice = "SELECT * FROM purchases WHERE supplier_id = '" . $supplier['id'] . "'";
+		$result_invoice = $conn->query($sql_invoice);
+		$i = 1;
+		while($invoices = $result_invoice->fetch_assoc()){
+?>
+		<tr>
+			<input type='hidden' value='<?= $invoices['id'] ?>' name='id<?= $i ?>'>
+			<td><?= $invoices['date'] ?></td>
+			<td><?= $invoices['name']; ?></td>
+			<td><?= number_format(($invoices['value']),2) ?></td>
+			<td>
+				<div class="checkbox">
+					<label><input type="checkbox" id="check-<?= $i ?>" onchange="add(<?= $i ?>)" name='check<?= $i ?>'></label>
+				</div>
+				<input type='hidden' value='<?= $invoices['value'] ?>' id='angka<?= $i ?>' readonly>
+			</td>
+			<td>
+				Rp. <span id='remain-<?= $i ?>'><?= number_format(($invoices['value']),2) ?></span>
+				<input type='hidden' value='<?= $invoices['value'] ?>' id='remaining-<?= $i ?>' name='remaining<?= $i ?>' readonly>
+			</td>
+		</tr>
+<?php
+		}
+	} else {
 		$sql_customer = "SELECT id FROM customer WHERE name = '" . $lawan . "'";
 		$result_customer = $conn->query($sql_customer);
 		$customer = $result_customer->fetch_assoc();

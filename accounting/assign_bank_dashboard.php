@@ -28,8 +28,8 @@
 			<td><?= date('d M Y',strtotime($row['date'])) ?></td>
 			<td><?= $row['name'] ?></td>
 			<td>Rp. <?= number_format($row['value'],2) ?></td>
-			<td><button type='button' class='btn btn-default' onclick='pass(<?= $row['id'] ?>)'>Assign this transaction</button></td>
-			<td><button type='button' class='btn btn-primary'>Assign as other income or expense</button></td>
+			<td><button type='button' class='btn btn-default' onclick='pass(<?= $row['id'] ?>)'>Assign as payment</button></td>
+			<td><button type='button' class='btn btn-primary'>Assign as other</button></td>
 			<form action='assign_bank_assign.php' method='POST' id='form<?= $row['id'] ?>'>
 				<input type='hidden' value='<?= $row['id'] ?>' name='id'>
 			</form>
@@ -58,7 +58,7 @@
 			<td><?= date('d M Y',strtotime($row['date'])) ?></td>
 			<td><?= $row['name'] ?></td>
 			<td>Rp. <?= number_format($row['value'],2) ?></td>
-			<td><button type='button' class='btn btn-default' onclick='pass(<?= $row['id'] ?>)'>Assign this transaction</button></td>
+			<td><button type='button' class='btn btn-default' onclick='pass(<?= $row['id'] ?>)'>Assign as payment</button></td>
 			<td><button type='button' class='btn btn-primary'>Assign as other income or expense</button></td>
 			<form action='assign_bank_assign.php' method='POST' id='form<?= $row['id'] ?>'>
 				<input type='hidden' value='<?= $row['id'] ?>' name='id'>

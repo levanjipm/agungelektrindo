@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2019 at 12:51 PM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.2
+-- Generation Time: May 21, 2019 at 04:12 PM
+-- Server version: 10.1.28-MariaDB
+-- PHP Version: 7.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -411,6 +411,13 @@ CREATE TABLE `code_bank` (
   `isdelete` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `code_bank`
+--
+
+INSERT INTO `code_bank` (`id`, `date`, `value`, `transaction`, `name`, `isdone`, `major_id`, `isdelete`) VALUES
+(1, '2019-05-22', '300000000.00', '1', 'CV Matahari Elektrindo', 1, 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -775,6 +782,14 @@ CREATE TABLE `code_goodreceipt` (
   `invoice_id` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `code_goodreceipt`
+--
+
+INSERT INTO `code_goodreceipt` (`id`, `supplier_id`, `date`, `received_date`, `document`, `po_id`, `isconfirm`, `isinvoiced`, `invoice_id`) VALUES
+(1, 3, '2019-05-21', '2019-05-21', 'ffffuck', 1, 1, 1, 1),
+(2, 4, '2019-05-23', '2019-05-21', 'ASOE', 2, 1, 1, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -809,6 +824,14 @@ CREATE TABLE `code_purchaseorder` (
   `isclosed` tinyint(1) NOT NULL DEFAULT '0',
   `maker` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `code_purchaseorder`
+--
+
+INSERT INTO `code_purchaseorder` (`id`, `name`, `supplier_id`, `date`, `top`, `value`, `taxing`, `delivery_id`, `promo_code`, `isclosed`, `maker`) VALUES
+(1, 'PO-AE-01.21-V-19', 3, '2019-05-21', 30, '1600000000.00', '2', 1, '', 0, 1),
+(2, 'PO-AE-02.21-V-19', 4, '2019-05-21', 30, '140000000.00', '1', 1, '', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1104,15 +1127,16 @@ CREATE TABLE `code_sales_return` (
   `isconfirm` tinyint(1) NOT NULL DEFAULT '0',
   `isdelete` tinyint(1) NOT NULL DEFAULT '0',
   `isfinished` tinyint(4) NOT NULL DEFAULT '0',
-  `method` tinyint(1) NOT NULL
+  `method` tinyint(1) NOT NULL,
+  `isassign` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `code_sales_return`
 --
 
-INSERT INTO `code_sales_return` (`id`, `submission_date`, `customer_id`, `do_id`, `reason`, `other`, `isconfirm`, `isdelete`, `isfinished`, `method`) VALUES
-(1, '2019-05-18', 5, 321, 1, '', 1, 0, 1, 1);
+INSERT INTO `code_sales_return` (`id`, `submission_date`, `customer_id`, `do_id`, `reason`, `other`, `isconfirm`, `isdelete`, `isfinished`, `method`, `isassign`) VALUES
+(1, '2019-05-18', 5, 321, 1, '', 1, 0, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1391,6 +1415,14 @@ CREATE TABLE `goodreceipt` (
   `quantity` int(11) NOT NULL,
   `gr_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `goodreceipt`
+--
+
+INSERT INTO `goodreceipt` (`id`, `received_id`, `quantity`, `gr_id`) VALUES
+(1, 1, 50, 1),
+(2, 2, 200, 2);
 
 -- --------------------------------------------------------
 
@@ -5902,6 +5934,27 @@ INSERT INTO `otorisasi` (`user_id`, `department_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payable`
+--
+
+CREATE TABLE `payable` (
+  `id` int(255) NOT NULL,
+  `date` date NOT NULL,
+  `purchase_id` int(255) NOT NULL,
+  `value` decimal(20,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `payable`
+--
+
+INSERT INTO `payable` (`id`, `date`, `purchase_id`, `value`) VALUES
+(1, '2019-05-22', 1, '300000000.00'),
+(2, '2019-05-22', 1, '300000000.00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `payment`
 --
 
@@ -6556,6 +6609,14 @@ CREATE TABLE `purchaseorder` (
   `purchaseorder_id` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `purchaseorder`
+--
+
+INSERT INTO `purchaseorder` (`id`, `reference`, `price_list`, `discount`, `unitprice`, `quantity`, `totalprice`, `purchaseorder_id`) VALUES
+(1, 'A9L00002', 20000000, '20', 16000000, 100, '1600000000.00', '1'),
+(2, 'NYA10B', 200000, '30', 140000, 1000, '140000000.00', '2');
+
 -- --------------------------------------------------------
 
 --
@@ -6570,6 +6631,14 @@ CREATE TABLE `purchaseorder_received` (
   `status` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `purchaseorder_received`
+--
+
+INSERT INTO `purchaseorder_received` (`id`, `reference`, `purchaseorder_id`, `quantity`, `status`) VALUES
+(1, 'A9L00002', 1, 50, 0),
+(2, 'NYA10B', 2, 200, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -6582,10 +6651,18 @@ CREATE TABLE `purchases` (
   `supplier_id` int(255) NOT NULL,
   `faktur` varchar(50) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `value` decimal(10,2) NOT NULL,
+  `value` decimal(20,2) NOT NULL,
   `isconfirm` tinyint(1) NOT NULL DEFAULT '0',
   `isdone` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchases`
+--
+
+INSERT INTO `purchases` (`id`, `date`, `supplier_id`, `faktur`, `name`, `value`, `isconfirm`, `isdone`) VALUES
+(1, '2019-05-21', 3, '', 'ffffffuckkk', '800000000.00', 0, 0),
+(2, '2019-05-23', 4, '010.003.00-01020302', 'ASOE SEKALI', '28000000.00', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -7685,7 +7762,11 @@ CREATE TABLE `return_invoice_sales` (
 --
 
 INSERT INTO `return_invoice_sales` (`id`, `return_id`, `invoice_id`, `value`) VALUES
-(3, 1, 183, '200000.00');
+(3, 1, 183, '200000.00'),
+(4, 1, 202, '200000.00'),
+(5, 1, 184, '200000.00'),
+(6, 1, 183, '200000.00'),
+(7, 1, 183, '200000.00');
 
 -- --------------------------------------------------------
 
@@ -8177,7 +8258,9 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (406, '0000-00-00', 'XB7NA31', 'SWP', 2, 88, 0, 0, 'SWP7'),
 (407, '0000-00-00', 'XB7NA21', 'SWP', 2, 31, 0, 0, 'SWP7'),
 (408, '2019-05-18', 'NYY435', 'OUT', 5, 80, 0, 5, 'SJ-AE-01P.18-V-19'),
-(409, '2019-05-19', 'NYY435', 'IN', 2, 82, 0, 5, 'RTRTAN');
+(409, '2019-05-19', 'NYY435', 'IN', 2, 82, 0, 5, 'RTRTAN'),
+(410, '2019-05-21', 'A9L00002', 'IN', 50, 50, 3, 0, 'ffffuck'),
+(411, '2019-05-23', 'NYA10B', 'IN', 200, 200, 4, 0, 'ASOE');
 
 -- --------------------------------------------------------
 
@@ -8210,8 +8293,8 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (6, '2018-12-31', 'A9F74332', 3, '271738.00', 1, 0, 0, 0),
 (7, '2018-12-31', 'A9F74104', 17, '70324.00', 13, 0, 0, 0),
 (8, '2018-12-31', 'A9F74116', 54, '61721.00', 51, 0, 0, 0),
-(9, '2019-01-08', 'LC1D18M7', 6, '217671.00', 6, 2, 0, 1),
-(10, '2019-01-08', 'LRD07', 5, '199272.00', 5, 2, 0, 2),
+(9, '2019-01-08', 'LC1D18M7', 6, '16000000.00', 6, 2, 0, 1),
+(10, '2019-01-08', 'LRD07', 5, '140000.00', 5, 2, 0, 2),
 (11, '2019-01-08', 'LRD08', 9, '199272.00', 9, 2, 0, 3),
 (12, '2019-01-08', 'LRD10', 2, '199272.00', 2, 2, 0, 4),
 (13, '2019-01-08', 'LRD14', 2, '199272.00', 2, 2, 0, 5),
@@ -8556,7 +8639,9 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (368, '2019-05-18', 'XB7NA21', 2, '20996.43', 2, 0, 0, 0),
 (369, '2019-05-18', 'XB7NA31', 2, '20996.43', 2, 0, 0, 0),
 (370, '2019-05-18', 'XB7NA21', 2, '41992.87', 2, 0, 0, 0),
-(371, '2019-05-19', 'NYY435', 2, '163498.00', 2, 0, 5, 0);
+(371, '2019-05-19', 'NYY435', 2, '163498.00', 2, 0, 5, 0),
+(372, '2019-05-21', 'A9L00002', 50, '16000000.00', 50, 3, 0, 1),
+(373, '2019-05-23', 'NYA10B', 200, '140000.00', 200, 4, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -8840,6 +8925,12 @@ ALTER TABLE `itemlist`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `payable`
+--
+ALTER TABLE `payable`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `payment`
 --
 ALTER TABLE `payment`
@@ -9000,7 +9091,7 @@ ALTER TABLE `closed_purchaseorder`
 -- AUTO_INCREMENT for table `code_bank`
 --
 ALTER TABLE `code_bank`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `code_delivery_order`
@@ -9012,7 +9103,7 @@ ALTER TABLE `code_delivery_order`
 -- AUTO_INCREMENT for table `code_goodreceipt`
 --
 ALTER TABLE `code_goodreceipt`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `code_project`
@@ -9024,7 +9115,7 @@ ALTER TABLE `code_project`
 -- AUTO_INCREMENT for table `code_purchaseorder`
 --
 ALTER TABLE `code_purchaseorder`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `code_purchase_invoice`
@@ -9102,7 +9193,7 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `goodreceipt`
 --
 ALTER TABLE `goodreceipt`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `invoices`
@@ -9115,6 +9206,12 @@ ALTER TABLE `invoices`
 --
 ALTER TABLE `itemlist`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4125;
+
+--
+-- AUTO_INCREMENT for table `payable`
+--
+ALTER TABLE `payable`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `payment`
@@ -9138,19 +9235,19 @@ ALTER TABLE `petty_cash_classification`
 -- AUTO_INCREMENT for table `purchaseorder`
 --
 ALTER TABLE `purchaseorder`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `purchaseorder_received`
 --
 ALTER TABLE `purchaseorder_received`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `quotation`
@@ -9174,7 +9271,7 @@ ALTER TABLE `receivable`
 -- AUTO_INCREMENT for table `return_invoice_sales`
 --
 ALTER TABLE `return_invoice_sales`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `salary`
@@ -9204,13 +9301,13 @@ ALTER TABLE `sales_return`
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=410;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=412;
 
 --
 -- AUTO_INCREMENT for table `stock_value_in`
 --
 ALTER TABLE `stock_value_in`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=372;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=374;
 
 --
 -- AUTO_INCREMENT for table `stock_value_out`
