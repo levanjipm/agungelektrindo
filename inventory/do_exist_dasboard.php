@@ -2,6 +2,9 @@
 	include("inventoryheader.php")
 ?>
 <div class="main">
+	<h2>Delivery Order</h2>
+	<p>Create new delivery order</p>
+	<hr>
 <?php
 	$so_name = $_POST['so_id'];
 	$sql = "SELECT * FROM code_salesorder WHERE name = '" . $so_name . "'";
@@ -20,29 +23,33 @@
 		$customer_id = $row['customer_id'];
 		$delivery_id = $row['delivery_id'];
 	}
-	$sql_customer = "SELECT * FROM customer WHERE id = '" . $customer_id . "'";
+	$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $customer_id . "'";
 	$res = $conn->query($sql_customer);
-	while($ro = $res->fetch_assoc()){
-		$customer_name = $ro['name'];
-	}	
+	$ro = $res->fetch_assoc();
+	$customer_name = $ro['name'];
+	$customer_address = $ro['address'];
+	$customer_city = $ro['city'];
 ?>
 	<div class="container">	
 		<form method="POST" action="do_validation.php" id="do_validate">
 			<div class="row">
-				<div class="col-lg-4">
+				<div class="col-sm-4">
 					<p><b>Purchase order number :</b><?= $po_number ?></p>
 					<input type="hidden" value="<?= $po_number ?>" class="form-control">
+					<label>Customer:</label><br>
+					<h4><?= $customer_name ?></h4>
+					<p><?= $customer_address ?></p>
+					<p><strong><?= $customer_city ?></strong></p>
+					<input type="hidden" value="<?= $customer_name ?>" class="form-control" readonly>
 				</div>
-				<div class="col-lg-3 offset-lg-5">
+				<div class="col-sm-3 offset-lg-5">
 					<label>Date:</label>
 					<input type="date" class="form-control" value="<?php echo date('Y-m-d');?>" name="today">
-					<label>Customer:</label>
-					<input type="text" value="<?= $customer_name ?>" class="form-control" readonly>
 				</div>
 			</div>
 			<br><br>
 			<div class="row">
-				<div class="col-lg-8">
+				<div class="col-sm-8">
 
 				</div>
 			</div>
@@ -112,9 +119,7 @@
 			<input type="hidden" name="jumlah" value="<?= $i ?>" id='jumlah'>
 			<br>
 			<div class="row">
-				<div class="col-lg-3 offset-lg-9">
-					<button type="button" class="btn btn-info" onclick="lihat()">Proceed</button>
-				</div>
+				<button type="button" class="btn btn-default" onclick="lihat()">Proceed</button>
 			</div>
 		</form>
 	</div>

@@ -114,7 +114,7 @@
 			<div class="col-sm-3">
 				<p><b>Reference</b></p>
 			</div>
-			<div class="col-sm-5">
+			<div class="col-sm-4">
 				<p><b>Description</b></p>
 			</div>
 		</div>
@@ -122,10 +122,10 @@
 			} else {
 		?>
 		<div class="row" style="text-align:center">
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<p><b>Reference</b></p>
 			</div>
-			<div class="col-sm-8">
+			<div class="col-sm-5">
 				<p><b>Description</b></p>
 			</div>
 		</div>
@@ -153,46 +153,30 @@
 				<div class="col-sm-3">
 					<p><?= $row['reference']; ?></p>
 				</div>
-				<div class="col-sm-5">
+				<div class="col-sm-4">
 					<p><?= $row['description']; ?></p>
+				</div>
+				<div class="col-sm-3">
+					<p><?= $row['type']; ?></p>
 				</div>
 			<?php
 				} else {
 			?>
-				<div class="col-sm-4">
+				<div class="col-sm-3">
 					<p><?= $row['reference']; ?></p>
 				</div>
-				<div class="col-sm-8">
+				<div class="col-sm-6">
 					<p><?= $row['description']; ?></p>
+				</div>
+				<div class="col-sm-3">
+					<p><?= $row['type']; ?></p>
 				</div>
 			<?php
 				}
 				if($role == 'superadmin'){
 			?>
-				<div class="col-sm-1">
+				<div class="col-sm-2">
 					<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal-<?=$row['id']?>">Edit</button>
-				</div>
-			<?php
-				if ($row['isactive'] == 1){
-			?>
-				<div class="col-sm-2">
-					<a href="deactivate_item.php?id=<?= $row['id']?>">
-						<button type="button" class="btn btn-warning">Set Inactive</button>
-					</a>
-				</div>
-			<?php
-				} else {
-			?>
-				<div class="col-sm-2">
-					<a href="activate_item.php?id=<?= $row['id']?>">
-						<button type="button" class="btn btn-success" href="activate_item.php?id=<?= $row['id']?>">Set Active</button>
-					</a>
-				</div>				
-			<?php
-				}
-			?>
-				<div class="col-sm-1">
-					<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-<?=$row['id']?>">Delete</button>
 				</div>
 			<?php
 				}
@@ -211,33 +195,23 @@
 							<input class="form-control" for="name" name="reference" value="<?=$row['reference']?>" id ='reference<?= $row['id'] ?>' required>
 							<label for="name" >Description </label>
 							<input class="form-control" for="name" name="description" id="description<?= $row['id'] ?>" value="<?=$row['description']?>" required>
+							<label>Type</label>
+							<select class='form-control' name='type' id='type<?= $row['id'] ?>'>
+								<option value='0'>Please select a type</option>
+<?php
+	$sql_brand = "SELECT DISTINCT type FROM itemlist WHERE type <> '' ORDER BY type ASC";
+	$result_brand = $conn->query($sql_brand);
+	while($brand = $result_brand->fetch_assoc()){
+?>
+								<option value='<?= $brand['type'] ?>'><?= $brand['type'] ?></option>
+<?php
+	}
+?>
+							</select>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 							<button type="button" class="btn btn-success" onclick='send_edit(<?= $row['id'] ?>)' id="edit">Edit</button>
-						</div>
-						</form>
-					</div>
-				</div>
-			</div>
-				<div class="modal" id="delete-<?=$row['id']?>" role="dialog">
-				<div class="modal-dialog modal-lg">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title">Delete item</h4>
-						</div>
-						<form id="delete-<?=$row['id']?>" action="delete_item.php" method="POST">
-						<div class="modal-body">
-							Are you sure to delete this item?
-							<input name="id" type="hidden" value="<?php echo $row['id']?>">
-							<p><b>Reference</b></p>
-							<p><?=$row['reference']?></p>
-							<p><b>Description</b></p>
-							<p><?=$row['description']?></p>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-danger"  id="edit">Delete Item</button>
 						</div>
 						</form>
 					</div>
@@ -318,6 +292,7 @@ function send_edit(n){
 		data: {
 			reference : $('#reference' + id).val(),
 			description : $('#description' + id).val(),
+			type : $('#type' + id).val(),
 			id : n,
 		},
 		type: "POST",

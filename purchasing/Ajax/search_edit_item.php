@@ -11,41 +11,22 @@
 	//Collecting users data from the session datum obtained//
 	$sql_user = "SELECT name, role FROM users WHERE id = " . $_SESSION['user_id'];
 	$result_user = $conn->query($sql_user);
-	while($row_user = $result_user->fetch_assoc()){
-		$role = $row_user['role'];
-		$user_name = $row_user['name'];
-	};
+	$row_user = $result_user->fetch_assoc();
+	$role = $row_user['role'];
+	$user_name = $row_user['name'];
 	//If user is set as superadmin, he can edit item//
 	if($role == 'superadmin'){
 	while($row = $result->fetch_object()) {
 		$function_result[$i]=$row;
 ?>
 	<div class="row" style="text-align:center">
-		<div class="col-lg-3"><?= $row->reference ?></div>
-		<div class="col-lg-5"><?= $row->description ?></div>
-		<div class="col-lg-1">
+		<div class="col-sm-3"><?= $row->reference ?></div>
+		<div class="col-sm-4"><?= $row->description ?></div>
+		<div class="col-sm-3">
+			<?= $row->type ?>
+		</div>
+		<div class="col-sm-2">
 			<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal-<?=$row->id ?>">Edit</button>
-		</div>
-<?php
-	//Do not show the inactive items on default//
-	if ($row->isactive == 1){
-?>
-		<div class="col-lg-2">
-			<a href="deactivate_item.php?id=<?= $row->id ?>">
-				<button type="button" class="btn btn-warning">Set Inactive</button>
-			</a>
-		</div>
-<?php
-	} else{
-?>
-		<div class="col-lg-2">
-			<a href="activate_item.php?id=<?= $row->id ?>">
-				<button type="button" class="btn btn-success">Set Active</button>
-			</a>
-		</div>
-	<?php } ?>
-		<div class="col-lg-1">
-			<button type="button" class="btn btn-danger">Delete</button>
 		</div>
 	</div>
 	<br>
@@ -62,6 +43,19 @@
 					<input class="form-control" for="name" name="reference" value="<?=$row->reference ?>" id ='reference<?= $row->id ?>' required>
 					<label for="name" >Description </label>
 					<input class="form-control" for="name" name="description" id="description<?= $row->id ?>" value="<?=$row->description ?>" required>
+					<label>Type</label>
+					<select class='form-control' name='type' id='type<?= $row->id ?>'>
+						<option value='0'>Please select a type</option>
+<?php
+	$sql_brand = "SELECT DISTINCT type FROM itemlist WHERE type <> '' ORDER BY type ASC";
+	$result_brand = $conn->query($sql_brand);
+	while($brand = $result_brand->fetch_assoc()){
+?>
+						<option value='<?= $brand['type'] ?>'><?= $brand['type'] ?></option>
+<?php
+	}
+?>
+					</select>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -79,8 +73,9 @@
 			$function_result[$i]=$row;
 ?>
 	<div class="row" style="text-align:center;padding:10px;">
-		<div class="col-lg-4"><?= $row->reference ?></div>
-		<div class="col-lg-8"><?= $row->description ?></div>
+		<div class="col-sm-3"><?= $row->reference ?></div>
+		<div class="col-sm-6"><?= $row->description ?></div>
+		<div class="col-sm-3"><?= $row->type ?></div>
 	</div>
 <?php
 		$i++;

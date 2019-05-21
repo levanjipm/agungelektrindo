@@ -17,9 +17,9 @@
 	$customer = $result_customer->fetch_assoc();
 	
 	if($initial['method'] == 1){
-		$methods = "PONTONG T";
+		$methods = "reduction in receivables";
 	} else if($initial['method'] == 2){
-		$methods = "BAYAR TOT";
+		$methods = "convert to payable";
 	}
 ?>
 	<div class='main'>

@@ -24,9 +24,8 @@
 			<?php
 				$sql_customer = "SELECT name FROM customer WHERE id = '" . $customer_id . "'";
 				$result_customer = $conn->query($sql_customer);
-				while($row_customer = $result_customer->fetch_assoc()){
-					echo ($row_customer['name']);
-				}
+				$row_customer = $result_customer->fetch_assoc();
+				echo ($row_customer['name']);
 			?>
 			</td>
 			<td>

@@ -1,16 +1,16 @@
 <?php
-	include('accountingheader.php');
-	if(empty($_POST['id'])){
-		header('localtion:accounting.php');
-	}
-	$bank_id = $_POST['id'];
-	$sql_bank = "SELECT * FROM code_bank WHERE id = '" . $bank_id . "'";
-	$result_bank = $conn->query($sql_bank);
-	$bank = $result_bank->fetch_assoc();
-	$transaction = $bank['transaction'];
-	$date = $bank['date'];
-	$value = $bank['value'];
-	$lawan = $bank['name'];
+include('accountingheader.php');
+if(empty($_POST['id'])){
+	header('localtion:accounting.php');
+}
+$bank_id = $_POST['id'];
+$sql_bank = "SELECT * FROM code_bank WHERE id = '" . $bank_id . "'";
+$result_bank = $conn->query($sql_bank);
+$bank = $result_bank->fetch_assoc();
+$transaction = $bank['transaction'];
+$date = $bank['date'];
+$value = $bank['value'];
+$lawan = $bank['name'];
 ?>
 <script src='../universal/Numeral-js-master/src/numeral.js'></script>
 <div class='main'>

@@ -21,20 +21,20 @@ tr.border_bottom td{
 	}
 	$sql = "SELECT * FROM code_delivery_order WHERE name = '" . $do_name . "'";
 	$result = $conn->query($sql);
-	while($row = $result->fetch_assoc()) {
-		$do_id = $row['id'];
-		$so_id = $row['so_id'];
-		$date = $row['date'];
-		$customer = $row['customer_id'];
-		$tax = $row['tax'];
-	}
+	$row = $result->fetch_assoc();
+	$do_id = $row['id'];
+	$so_id = $row['so_id'];
+	$date = $row['date'];
+	$customer = $row['customer_id'];
+	$tax = $row['tax'];
+	
 	$sql_customer = "SELECT * FROM customer WHERE id = '" . $customer . "'";
 	$result_customer = $conn->query($sql_customer);
-	while($row_customer = $result_customer->fetch_assoc()) {
-		$name = $row_customer['name'];
-		$address = $row_customer['address'];
-		$city = $row_customer['city'];
-	}
+	$row_customer = $result_customer->fetch_assoc();
+	$name = $row_customer['name'];
+	$address = $row_customer['address'];
+	$city = $row_customer['city'];
+	
 	//date name
 	if (date('m',strtotime($date)) == 1){
 		$month=" Januari ";
@@ -109,17 +109,15 @@ tr.border_bottom td{
 		$sql_item = "SELECT * FROM itemlist WHERE reference = '" . $reference . "'";
 		$result_item = $conn->query($sql_item);
 		if ($result_item->num_rows > 0){
-			while($row_item = $result_item->fetch_assoc()) {
-				$description = $row_item['description'];
-			}
+			$row_item = $result_item->fetch_assoc();
+			$description = $row_item['description'];
 		} else {
 			$description = '';
 		};
 		$sql_price = "SELECT price FROM sales_order WHERE reference = '" . $reference . "' AND so_id = '" . $so_id . "'";
 		$result_price = $conn->query($sql_price);
-		while($row_price = $result_price->fetch_assoc()) {
-			$price = $row_price['price'];
-		}
+		$row_price = $result_price->fetch_assoc();
+		$price = $row_price['price'];
 		$quantity = $rows['quantity'];
 ?>
 								<tr class="border_bottom">

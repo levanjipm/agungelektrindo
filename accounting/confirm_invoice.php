@@ -49,11 +49,10 @@ input {
 			<?php
 				$sql_do = "SELECT * FROM code_delivery_order WHERE name = '" . $do_name . "'";
 				$result_do = $conn->query($sql_do);
-				while($row_do = $result_do->fetch_assoc()){
-					$do_id = $row_do['id'];
-					$so_id = $row_do['so_id'];
-					$customer_id = $row_do['customer_id'];
-				}
+				$row_do = $result_do->fetch_assoc();
+				$do_id = $row_do['id'];
+				$so_id = $row_do['so_id'];
+				$customer_id = $row_do['customer_id'];
 				$sql_table = "SELECT * FROM delivery_order WHERE do_id = '" . $do_id . "'";
 				$result_table = $conn->query($sql_table);
 				while($row_table = $result_table->fetch_assoc()){
@@ -106,10 +105,9 @@ input {
 				<?php
 					$sql_invoice = "SELECT value,ongkir FROM invoices WHERE name = '" . $invoice_name . "'";
 					$result_invoice = $conn->query($sql_invoice);
-					while($row_invoice = $result_invoice->fetch_assoc()){
-						$value = $row_invoice['value'];
-						$ongkir = $row_invoice['ongkir'];
-					}
+					$row_invoice = $result_invoice->fetch_assoc();
+					$value = $row_invoice['value'];
+					$ongkir = $row_invoice['ongkir'];
 					if($taxing == 1){
 				?>
 					<td>Subtotal</td>

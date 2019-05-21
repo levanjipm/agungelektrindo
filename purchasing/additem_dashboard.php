@@ -10,17 +10,32 @@
 	<br>
 		<form id="inputitem" method="POST" action="additem.php">
 			<div class="row">
-				<div class="col-lg-12">
+				<div class="col-sm-12">
 					<label for="name">Item Name</label>
 					<input type="text" id="itemreff" class="form-control" placeholder="Item reference..." name="itemreff" required id="first" autofocus></input>
 				</div>
-				<div class="col-lg-12">
+				<div class='col-sm-3'>
+					<label>Type</label>
+					<select class='form-control' name='type'>
+						<option value='0'>Please select a type</option>
+<?php
+	$sql_brand = "SELECT DISTINCT type FROM itemlist WHERE type <> '' ORDER BY type ASC";
+	$result_brand = $conn->query($sql_brand);
+	while($brand = $result_brand->fetch_assoc()){
+?>
+						<option value='<?= $brand['type'] ?>'><?= $brand['type'] ?></option>
+<?php
+	}
+?>
+					</select>
+				</div>
+				<div class="col-sm-12">
 					<label for="name">Item Description</label>
 					<input type="textarea" id="itemdescs" class="form-control" style="height:100px" rows="3" name="itemdescs" placeholder="Item description..." required></input>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-12" style="padding:10px">	
+				<div class="col-sm-12" style="padding:10px">	
 					<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" id="submitbutton">Submit Item</button>
 				</div>
 				<div class="modal" id="myModal" role="dialog">

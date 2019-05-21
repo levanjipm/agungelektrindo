@@ -81,6 +81,9 @@ Sales Department
 		<a href="createsalesorder_dashboard.php">
 			<p>Create sales order</p>
 		</a>
+		<a href="confirmsalesorder_dashboard.php">
+			<p>Confirm sales order</p>
+		</a>
 		<a href="editsalesorder_dashboard.php">
 			<p>Edit sales order</p>
 		</a>

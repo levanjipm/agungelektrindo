@@ -16,12 +16,10 @@ if(empty($_SESSION['user_id'])){
 	header('location:../landing_page.php');
 }
 $sql = "SELECT name,role FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
-
 $result = $conn->query($sql);
-while($row = $result->fetch_assoc()){
-	$user_name = $row['name'];
-	$role = $row['role'];
-}
+$row = $result->fetch_assoc();
+$user_name = $row['name'];
+$role = $row['role'];
 $sql_otorisasi = "SELECT * FROM otorisasi WHERE user_id = '" . $_SESSION['user_id'] . "' AND department_id = '4'";
 $result_otorisasi = $conn->query($sql_otorisasi);
 if(mysqli_num_rows($result_otorisasi) > 0){
