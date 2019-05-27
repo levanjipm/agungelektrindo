@@ -128,6 +128,19 @@
 			<button class="btn btn-primary hidden-print" type="button" id="print" onclick="printing('printable')">Print</button>
 		</div>
 	</div>
+<style>
+@media print {
+	html, body {
+		display: block; 
+		font-family: "Calibri";
+		margin: 0;
+	}
+
+	@page {
+	  size: 21.59cm 13.97cm;
+	}
+}
+</style>
 <script>
 function printing(divName) {
      window.print();

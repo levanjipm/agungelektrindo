@@ -14,28 +14,36 @@
 </style>
 <?php
 	include('../codes/connect.php');
+	
 	$id = $_POST['id'];
+	
 	$sql = "SELECT * FROM invoices WHERE id = '" . $id . "'";
 	$result = $conn->query($sql);
 	$row = $result->fetch_assoc();
+	
 	$ongkir = $row['ongkir'];
 	$value = $row['value'];
 	$name = $row['name'];
 	$date = $row['date'];
 	$customer_id = $row['customer_id'];
 	$faktur = $row['faktur'];
+	
 	$do_name = 'SJ-AE-' . substr($name,6,100);
+	
 	$sql_customer = "SELECT name, address, city FROM customer WHERE id = '" . $customer_id . "'";
 	$result_customer = $conn->query($sql_customer);
 	$row_customer = $result_customer->fetch_assoc();
+	
 	$customer_name = $row_customer['name'];
 	$customer_address = $row_customer['address'];
 	$customer_city = $row_customer['city'];
+	
 	$sql_do = "SELECT so_id,id FROM code_delivery_order WHERE name = '" . $do_name . "'";
 	$result_do = $conn->query($sql_do);
 	$row_do = $result_do->fetch_assoc();
 	$do_id = $row_do['id'];
 	$so_id = $row_do['so_id'];
+	
 	$sql_so = "SELECT po_number,taxing FROM code_salesorder WHERE id = '" . $so_id . "'";
 	$result_so = $conn->query($sql_so);
 	$row_so = $result_so->fetch_assoc();
@@ -171,11 +179,18 @@
 			} else {
 		?>
 			<tr>
-				<td style='background-color:white;border-bottom:none;'></td>
-				<td style='background-color:white;border-bottom:none;'></td>
-				<td style='background-color:white;border-bottom:none;'></td>
-				<td>Subtotal</td>
+				<td style='background-color:white;border:none;'></td>
+				<td style='background-color:white;border:none;'></td>
+				<td style='background-color:white;border:none;'></td>
+				<td>Ongkos Kirim</td>
 				<td><?= 'Rp. ' . number_format($ongkir,2) ?></td>
+			</tr>
+			<tr>
+				<td style='background-color:white;border:none;'></td>
+				<td style='background-color:white;border:none;'></td>
+				<td style='background-color:white;border:none;'></td>
+				<td>Grand total</td>
+				<td><?= 'Rp. ' . number_format($ongkir + $value,2) ?></td>
 			</tr>
 			<?php } ?>
 		</table>

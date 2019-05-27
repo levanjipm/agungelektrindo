@@ -18,6 +18,14 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
+<style>
+	*{
+		font-size:1.015em;
+	}
+	tr{
+		font-size:1.2em;
+	}
+</style>
 <?php
 	$po_id = $_POST['id'];
 ?>
@@ -58,7 +66,7 @@
 			<div class="row">
 				<div class="col-sm-5 offset-sm-1">
 					<div class="col-sm-5">
-						<b>Purchase order number:</b>
+						<b>Purchase order number</b>
 					</div>
 					<div class="col-sm-7">
 						<?= $po_name?>
@@ -66,7 +74,7 @@
 				</div>
 				<div class="col-sm-5">
 					<div class="col-sm-5">	
-						<b>Vendor code          :</b>
+						<b>Vendor code</b>
 					</div>
 					<div class="col-sm-7">
 						<?= ($vendor)?>
@@ -76,7 +84,7 @@
 			<div class="row">
 				<div class="col-sm-5 offset-sm-1">
 					<div class="col-sm-5">	
-						<b>Purchase order date  :</b>
+						<b>Purchase order date</b>
 					</div>
 					<div class="col-sm-7">
 						<?= $po_date?>
@@ -84,7 +92,7 @@
 				</div>
 				<div class="col-sm-5">
 					<div class="col-sm-5">
-						<b>Vendor name         :</b>
+						<b>Vendor name</b>
 					</div>
 					<div class="col-sm-7">
 						<?= $vendor_name?>
@@ -94,7 +102,7 @@
 			<div class="row">
 				<div class="col-sm-5 offset-sm-1">
 					<div class="col-sm-5">	
-						<b>Status :</b>
+						<b>Status</b>
 					</div>
 					<div class="col-sm-7">
 						<b>Urgent</b>
@@ -148,7 +156,7 @@
 	$row = $result->fetch_assoc();
 	$x = $row['sum'];
 ?>	
-			<br><br><br>
+			<br>
 			<div style="padding:50px">
 				<p>Please supply/manufacture and deliver the following items in accordance with the terms and conditions 
 				of Purchase Order attached.</p>

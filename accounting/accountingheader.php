@@ -76,6 +76,9 @@ if(mysqli_num_rows($result_otorisasi) > 0){
 		<a href="debt_document_dashboard.php">
 			<p>Input debt document</p>
 		</a>
+		<a href="#">
+			<p>Confirm document</p>
+		</a>
 		<a href="waiting_for_billing.php">
 			<p>Pending bills</p>
 		</a>

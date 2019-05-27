@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2019 at 04:12 PM
--- Server version: 10.1.28-MariaDB
--- PHP Version: 7.0.25
+-- Generation Time: May 27, 2019 at 12:31 PM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -32,120 +32,141 @@ CREATE TABLE `absentee_list` (
   `ID` int(255) NOT NULL,
   `user_id` int(11) NOT NULL,
   `time` time NOT NULL,
-  `date` date NOT NULL
+  `date` date NOT NULL,
+  `isdelete` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `absentee_list`
 --
 
-INSERT INTO `absentee_list` (`ID`, `user_id`, `time`, `date`) VALUES
-(5, 2, '08:04:43', '2019-02-23'),
-(6, 2, '08:09:32', '2019-02-25'),
-(7, 2, '08:06:24', '2019-02-26'),
-(8, 2, '08:05:01', '2019-02-27'),
-(9, 2, '08:07:12', '2019-02-28'),
-(10, 2, '08:02:35', '2019-03-01'),
-(11, 2, '07:54:36', '2019-03-02'),
-(12, 2, '07:53:47', '2019-03-04'),
-(13, 2, '07:53:53', '2019-03-04'),
-(14, 2, '07:51:05', '2019-03-05'),
-(15, 2, '08:30:00', '2019-03-06'),
-(16, 2, '07:55:29', '2019-03-08'),
-(17, 2, '07:51:11', '2019-03-09'),
-(18, 2, '08:01:27', '2019-03-11'),
-(19, 2, '08:00:00', '2019-03-12'),
-(20, 2, '08:00:00', '2019-03-13'),
-(21, 2, '08:00:00', '2019-03-14'),
-(22, 2, '07:54:13', '2019-03-15'),
-(23, 2, '07:57:47', '2019-03-16'),
-(24, 2, '07:58:30', '2019-03-18'),
-(25, 2, '07:58:02', '2019-03-19'),
-(26, 2, '07:54:42', '2019-03-20'),
-(27, 2, '07:54:51', '2019-03-20'),
-(28, 2, '07:56:45', '2019-03-21'),
-(29, 2, '07:52:32', '2019-03-22'),
-(30, 2, '08:23:02', '2019-03-23'),
-(31, 2, '08:00:00', '2019-03-25'),
-(32, 2, '08:00:00', '2019-03-26'),
-(33, 2, '08:00:00', '2019-03-27'),
-(34, 2, '08:00:00', '2019-03-28'),
-(35, 2, '08:00:00', '2019-03-29'),
-(36, 2, '08:35:15', '2019-03-30'),
-(37, 2, '08:00:00', '2019-03-31'),
-(38, 2, '08:00:00', '2019-04-01'),
-(39, 3, '08:10:34', '2019-04-01'),
-(40, 2, '07:56:24', '2019-04-02'),
-(41, 2, '07:54:08', '2019-04-04'),
-(42, 3, '07:57:21', '2019-04-04'),
-(43, 2, '07:56:32', '2019-04-05'),
-(44, 3, '08:02:51', '2019-04-05'),
-(46, 3, '08:10:14', '2019-04-06'),
-(47, 2, '08:06:24', '2019-04-06'),
-(48, 3, '08:08:38', '2019-04-08'),
-(49, 2, '07:57:04', '2019-04-09'),
-(50, 2, '08:04:38', '2019-04-10'),
-(51, 3, '08:07:46', '2019-04-10'),
-(52, 2, '07:59:15', '2019-04-11'),
-(53, 3, '08:06:56', '2019-04-11'),
-(54, 2, '07:55:41', '2019-04-12'),
-(55, 3, '08:01:53', '2019-04-12'),
-(57, 2, '08:01:02', '2019-04-15'),
-(58, 3, '08:40:04', '2019-04-15'),
-(59, 1, '08:03:23', '2019-04-16'),
-(60, 2, '08:03:32', '2019-04-16'),
-(61, 2, '08:02:08', '2019-04-18'),
-(62, 3, '08:02:16', '2019-04-18'),
-(63, 3, '08:02:28', '2019-04-22'),
-(64, 2, '08:02:37', '2019-04-22'),
-(65, 2, '07:58:22', '2019-04-23'),
-(66, 2, '08:02:32', '2019-04-24'),
-(67, 3, '08:13:47', '2019-04-24'),
-(68, 2, '08:01:46', '2019-04-25'),
-(69, 3, '08:04:57', '2019-04-25'),
-(70, 2, '07:55:15', '2019-04-26'),
-(71, 3, '07:57:38', '2019-04-26'),
-(72, 3, '07:58:28', '2019-04-27'),
-(73, 2, '08:01:50', '2019-04-27'),
-(74, 3, '07:58:34', '2019-04-29'),
-(75, 2, '08:03:46', '2019-04-29'),
-(76, 2, '08:02:38', '2019-04-30'),
-(77, 3, '08:06:41', '2019-04-30'),
-(78, 3, '08:00:00', '2019-04-02'),
-(79, 3, '08:00:00', '2019-04-16'),
-(80, 3, '08:00:00', '2019-04-13'),
-(81, 3, '08:00:00', '2019-04-23'),
-(82, 3, '08:00:00', '2019-04-09'),
-(83, 2, '08:00:00', '2019-04-08'),
-(84, 2, '08:00:00', '2019-04-13'),
-(85, 2, '07:59:24', '2019-05-02'),
-(86, 2, '08:02:38', '2019-05-03'),
-(87, 2, '07:54:13', '2019-05-04'),
-(88, 3, '08:01:07', '2019-05-04'),
-(89, 2, '08:03:10', '2019-05-06'),
-(90, 3, '08:03:21', '2019-05-06'),
-(91, 2, '07:56:02', '2019-05-08'),
-(93, 3, '08:20:00', '2019-05-08'),
-(94, 2, '08:03:09', '2019-05-09'),
-(95, 3, '08:14:19', '2019-05-09'),
-(96, 2, '07:56:49', '2019-05-10'),
-(97, 3, '08:15:20', '2019-05-10'),
-(98, 2, '07:50:20', '2019-05-11'),
-(99, 3, '08:06:27', '2019-05-11'),
-(100, 2, '07:00:00', '2019-05-13'),
-(101, 2, '07:58:03', '2019-05-14'),
-(102, 3, '08:07:17', '2019-05-14'),
-(103, 2, '08:00:36', '2019-05-15'),
-(104, 2, '07:50:47', '2019-05-16'),
-(105, 3, '08:17:22', '2019-05-16'),
-(106, 2, '08:00:10', '2019-05-17'),
-(107, 3, '08:08:34', '2019-05-17'),
-(108, 2, '07:56:08', '2019-05-18'),
-(109, 3, '08:04:05', '2019-05-18'),
-(110, 2, '07:55:00', '2019-05-20'),
-(111, 3, '08:11:00', '2019-05-20'),
-(112, 3, '07:58:34', '2019-05-21'),
-(113, 2, '07:58:43', '2019-05-21');
+INSERT INTO `absentee_list` (`ID`, `user_id`, `time`, `date`, `isdelete`) VALUES
+(5, 2, '08:04:43', '2019-02-23', 0),
+(6, 2, '08:09:32', '2019-02-25', 0),
+(7, 2, '08:06:24', '2019-02-26', 0),
+(8, 2, '08:05:01', '2019-02-27', 0),
+(9, 2, '08:07:12', '2019-02-28', 0),
+(10, 2, '08:02:35', '2019-03-01', 0),
+(11, 2, '07:54:36', '2019-03-02', 0),
+(12, 2, '07:53:47', '2019-03-04', 0),
+(13, 2, '07:53:53', '2019-03-04', 0),
+(14, 2, '07:51:05', '2019-03-05', 0),
+(15, 2, '08:30:00', '2019-03-06', 0),
+(16, 2, '07:55:29', '2019-03-08', 0),
+(17, 2, '07:51:11', '2019-03-09', 0),
+(18, 2, '08:01:27', '2019-03-11', 0),
+(19, 2, '08:00:00', '2019-03-12', 0),
+(20, 2, '08:00:00', '2019-03-13', 0),
+(21, 2, '08:00:00', '2019-03-14', 0),
+(22, 2, '07:54:13', '2019-03-15', 0),
+(23, 2, '07:57:47', '2019-03-16', 0),
+(24, 2, '07:58:30', '2019-03-18', 0),
+(25, 2, '07:58:02', '2019-03-19', 0),
+(26, 2, '07:54:42', '2019-03-20', 0),
+(27, 2, '07:54:51', '2019-03-20', 0),
+(28, 2, '07:56:45', '2019-03-21', 0),
+(29, 2, '07:52:32', '2019-03-22', 0),
+(30, 2, '08:23:02', '2019-03-23', 0),
+(31, 2, '08:00:00', '2019-03-25', 0),
+(32, 2, '08:00:00', '2019-03-26', 0),
+(33, 2, '08:00:00', '2019-03-27', 0),
+(34, 2, '08:00:00', '2019-03-28', 0),
+(35, 2, '08:00:00', '2019-03-29', 0),
+(36, 2, '08:35:15', '2019-03-30', 0),
+(37, 2, '08:00:00', '2019-03-31', 0),
+(38, 2, '08:00:00', '2019-04-01', 0),
+(39, 3, '08:10:34', '2019-04-01', 0),
+(40, 2, '07:56:24', '2019-04-02', 0),
+(41, 2, '07:54:08', '2019-04-04', 0),
+(42, 3, '07:57:21', '2019-04-04', 0),
+(43, 2, '07:56:32', '2019-04-05', 0),
+(44, 3, '08:02:51', '2019-04-05', 0),
+(46, 3, '08:10:14', '2019-04-06', 0),
+(47, 2, '08:06:24', '2019-04-06', 0),
+(48, 3, '08:08:38', '2019-04-08', 0),
+(49, 2, '07:57:04', '2019-04-09', 0),
+(50, 2, '08:04:38', '2019-04-10', 0),
+(51, 3, '08:07:46', '2019-04-10', 0),
+(52, 2, '07:59:15', '2019-04-11', 0),
+(53, 3, '08:06:56', '2019-04-11', 0),
+(54, 2, '07:55:41', '2019-04-12', 0),
+(55, 3, '08:01:53', '2019-04-12', 0),
+(57, 2, '08:01:02', '2019-04-15', 0),
+(58, 3, '08:40:04', '2019-04-15', 0),
+(59, 1, '08:03:23', '2019-04-16', 0),
+(60, 2, '08:03:32', '2019-04-16', 0),
+(61, 2, '08:02:08', '2019-04-18', 0),
+(62, 3, '08:02:16', '2019-04-18', 0),
+(63, 3, '08:02:28', '2019-04-22', 0),
+(64, 2, '08:02:37', '2019-04-22', 0),
+(65, 2, '07:58:22', '2019-04-23', 0),
+(66, 2, '08:02:32', '2019-04-24', 0),
+(67, 3, '08:13:47', '2019-04-24', 0),
+(68, 2, '08:01:46', '2019-04-25', 0),
+(69, 3, '08:04:57', '2019-04-25', 0),
+(70, 2, '07:55:15', '2019-04-26', 0),
+(71, 3, '07:57:38', '2019-04-26', 0),
+(72, 3, '07:58:28', '2019-04-27', 0),
+(73, 2, '08:01:50', '2019-04-27', 0),
+(74, 3, '07:58:34', '2019-04-29', 0),
+(75, 2, '08:03:46', '2019-04-29', 0),
+(76, 2, '08:02:38', '2019-04-30', 0),
+(77, 3, '08:06:41', '2019-04-30', 0),
+(78, 3, '08:00:00', '2019-04-02', 0),
+(79, 3, '08:00:00', '2019-04-16', 0),
+(80, 3, '08:00:00', '2019-04-13', 0),
+(81, 3, '08:00:00', '2019-04-23', 0),
+(82, 3, '08:00:00', '2019-04-09', 0),
+(83, 2, '08:00:00', '2019-04-08', 0),
+(84, 2, '08:00:00', '2019-04-13', 0),
+(85, 2, '07:59:24', '2019-05-02', 0),
+(86, 2, '08:02:38', '2019-05-03', 0),
+(87, 2, '07:54:13', '2019-05-04', 0),
+(88, 3, '08:01:07', '2019-05-04', 0),
+(89, 2, '08:03:10', '2019-05-06', 0),
+(90, 3, '08:03:21', '2019-05-06', 0),
+(91, 2, '07:56:02', '2019-05-08', 0),
+(93, 3, '08:20:00', '2019-05-08', 0),
+(94, 2, '08:03:09', '2019-05-09', 0),
+(95, 3, '08:14:19', '2019-05-09', 0),
+(96, 2, '07:56:49', '2019-05-10', 0),
+(97, 3, '08:15:20', '2019-05-10', 0),
+(98, 2, '07:50:20', '2019-05-11', 0),
+(99, 3, '08:06:27', '2019-05-11', 0),
+(100, 2, '07:00:00', '2019-05-13', 0),
+(101, 2, '07:58:03', '2019-05-14', 0),
+(102, 3, '08:07:17', '2019-05-14', 0),
+(103, 2, '08:00:36', '2019-05-15', 0),
+(104, 2, '07:50:47', '2019-05-16', 0),
+(105, 3, '08:17:22', '2019-05-16', 0),
+(106, 2, '08:00:10', '2019-05-17', 0),
+(107, 3, '08:08:34', '2019-05-17', 0),
+(108, 2, '07:56:08', '2019-05-18', 0),
+(109, 3, '08:04:05', '2019-05-18', 0),
+(110, 2, '07:55:00', '2019-05-20', 0),
+(111, 3, '08:11:00', '2019-05-20', 0),
+(112, 3, '07:58:34', '2019-05-21', 0),
+(113, 2, '07:58:43', '2019-05-21', 0),
+(114, 2, '07:59:17', '2019-05-22', 0),
+(115, 3, '08:06:35', '2019-05-22', 0),
+(122, 1, '17:18:45', '2019-05-22', 1),
+(123, 4, '17:18:46', '2019-05-22', 1),
+(124, 1, '08:00:57', '2019-05-23', 0),
+(125, 4, '08:00:58', '2019-05-23', 0),
+(126, 2, '08:05:26', '2019-05-23', 0),
+(127, 3, '08:07:31', '2019-05-23', 0),
+(128, 1, '07:49:14', '2019-05-24', 0),
+(129, 4, '07:55:54', '2019-05-24', 0),
+(130, 2, '07:59:55', '2019-05-24', 0),
+(131, 3, '08:17:19', '2019-05-24', 0),
+(132, 1, '07:58:50', '2019-05-25', 0),
+(133, 3, '07:58:52', '2019-05-25', 0),
+(134, 4, '07:58:53', '2019-05-25', 0),
+(135, 2, '08:01:58', '2019-05-25', 0),
+(136, 1, '08:02:03', '2019-05-27', 0),
+(137, 2, '08:06:45', '2019-05-27', 0),
+(138, 3, '08:08:10', '2019-05-27', 0),
+(139, 4, '08:08:10', '2019-05-27', 0);
 
 -- --------------------------------------------------------
 
@@ -349,7 +370,8 @@ INSERT INTO `calendar` (`id`, `date`, `maker`, `event`, `description`) VALUES
 (11, '2019-05-04', 1, 'Surat Jalan Royal Abadi Sejahtera', 'Merespon kehilangannya surat jalan untuk PT Royal Abadi sejahtera dengan nomor 65N bulan April.\r\nMaka untuk hari ini, mohon dibuatkan surat jalan pengganti dengan membawa arsip surat jalana yang sudah ditandatangani sebelumnya\r\ndari gudang (Oong). Terima kasih'),
 (12, '2019-05-06', 3, 'Kurnia Abadi Padang', 'Cocokkan invoice yg diterima pihak padang'),
 (13, '2019-05-27', 3, 'Penagihan', 'Follow Up bu Paskah tgl 28 bayar semua'),
-(14, '2019-06-14', 3, 'Penagihan', '05N.2-V-19 Toko Mandiri Electric (Ibu Lya) Rp. 19.531.655');
+(14, '2019-06-14', 3, 'Penagihan', '05N.2-V-19 Toko Mandiri Electric (Ibu Lya) Rp. 19.531.655'),
+(15, '2019-05-24', 3, 'Lapor Pajak', 'Sebelum lapor pajak Bulan April, follow up BPN Tritunggal dahulu karena item tersebut di invoice bulan April 2019');
 
 -- --------------------------------------------------------
 
@@ -380,7 +402,8 @@ INSERT INTO `calendar_tag` (`calendar_id`, `user_id`) VALUES
 (12, 1),
 (13, 1),
 (14, 3),
-(14, 1);
+(14, 1),
+(15, 1);
 
 -- --------------------------------------------------------
 
@@ -762,7 +785,10 @@ INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `custo
 (318, '2018-12-26', 58, 1, 'SJ-AE-58P.26-XII-18', 6, 1, 0, 1, 0),
 (319, '2018-12-26', 59, 1, 'SJ-AE-59P.26-XII-18', 12, 1, 0, 1, 0),
 (320, '2018-12-31', 60, 1, 'SJ-AE-60P.31-XII-18', 40, 1, 0, 1, 0),
-(321, '2019-05-18', 1, 1, 'SJ-AE-01P.18-V-19', 5, 1, 0, 0, 2);
+(321, '2019-05-18', 1, 1, 'SJ-AE-01P.18-V-19', 5, 1, 0, 1, 2),
+(322, '2019-05-22', 2, 1, 'SJ-AE-02P.22-V-19', 3, 1, 0, 1, 3),
+(323, '2019-05-22', 3, 0, 'SJ-AE-03N.22-V-19', 5, 0, 0, 0, 4),
+(324, '2019-05-25', 4, 0, 'SJ-AE-04N.25-V-19', 16, 1, 0, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -831,7 +857,8 @@ CREATE TABLE `code_purchaseorder` (
 
 INSERT INTO `code_purchaseorder` (`id`, `name`, `supplier_id`, `date`, `top`, `value`, `taxing`, `delivery_id`, `promo_code`, `isclosed`, `maker`) VALUES
 (1, 'PO-AE-01.21-V-19', 3, '2019-05-21', 30, '1600000000.00', '2', 1, '', 0, 1),
-(2, 'PO-AE-02.21-V-19', 4, '2019-05-21', 30, '140000000.00', '1', 1, '', 0, 1);
+(2, 'PO-AE-02.21-V-19', 4, '2019-05-21', 30, '140000000.00', '1', 1, '', 0, 1),
+(3, 'PO-AE-03.22-V-19', 8, '2019-05-22', 30, '4300000.00', '1', 1, '', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1066,7 +1093,14 @@ INSERT INTO `code_quotation` (`id`, `name`, `customer_id`, `date`, `value`, `pay
 (242, 'Q-AE-37.17-V-19', 11, '2019-05-17', 11536932, 3, 0, 30, '											', 0),
 (243, 'Q-AE-38.18-V-19', 11, '2019-05-18', 3829540, 3, 0, 30, '											', 0),
 (244, 'Q-AE-39.20-V-19', 79, '2019-05-20', 18947565, 3, 0, 45, '											', 0),
-(245, 'Q-AE-40.21-V-19', 31, '2019-05-21', 117975, 3, 0, 30, '											', 0);
+(245, 'Q-AE-40.21-V-19', 31, '2019-05-21', 117975, 3, 0, 30, '											', 0),
+(246, 'Q-AE-41.23-V-19', 35, '2019-05-23', 3212517, 3, 0, 30, '', 0),
+(247, 'Q-AE-42.23-V-19', 41, '2019-05-23', 600000, 1, 0, 0, '', 0),
+(248, 'Q-AE-43.23-V-19', 80, '2019-05-23', 7530259, 3, 0, 30, '', 0),
+(249, 'Q-AE-44.25-V-19', 38, '2019-05-25', 4836942, 3, 0, 30, '', 0),
+(250, 'Q-AE-45.27-V-19', 81, '2019-05-27', 413600000, 4, 20, 60, '', 0),
+(251, 'Q-AE-46.27-V-19', 11, '2019-05-27', 879339, 3, 0, 30, '', 0),
+(252, 'Q-AE-47.27-V-19', 37, '2019-05-27', 1605186, 3, 0, 30, '', 0);
 
 -- --------------------------------------------------------
 
@@ -1109,7 +1143,10 @@ CREATE TABLE `code_salesorder` (
 
 INSERT INTO `code_salesorder` (`id`, `name`, `date`, `po_number`, `taxing`, `customer_id`, `delivery_id`, `value`, `retail_address`, `retail_city`, `retail_phone`, `isconfirm`) VALUES
 (1, '1905-SO-001', '2019-05-18', '', 1, 1, 5, '1000000.00', '', NULL, '', 1),
-(2, '1905-SO-002', '2019-05-18', '', 1, 5, 9, '500000.00', '', NULL, '', 1);
+(2, '1905-SO-002', '2019-05-18', '', 1, 5, 9, '500000.00', '', NULL, '', 1),
+(3, '1905-SO-003', '2019-05-22', 'YANA/YUANA', 1, 3, 7, '4000000.00', '', NULL, '', 1),
+(4, '1905-SO-004', '2019-05-22', '', 0, 5, 9, '3000000.00', '', NULL, '', 1),
+(5, '1905-SO-005', '2019-05-24', 'UAUAUA', 0, 16, 20, '17500000.00', '', NULL, '', 1);
 
 -- --------------------------------------------------------
 
@@ -1137,6 +1174,19 @@ CREATE TABLE `code_sales_return` (
 
 INSERT INTO `code_sales_return` (`id`, `submission_date`, `customer_id`, `do_id`, `reason`, `other`, `isconfirm`, `isdelete`, `isfinished`, `method`, `isassign`) VALUES
 (1, '2019-05-18', 5, 321, 1, '', 1, 0, 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `code_sample`
+--
+
+CREATE TABLE `code_sample` (
+  `id` int(11) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `customer_id` int(255) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1236,7 +1286,9 @@ INSERT INTO `customer` (`id`, `name`, `address`, `phone`, `npwp`, `city`, `prefi
 (76, 'Toko Cahaya Baru', 'Jalan Holis Blok 000 no.326, RT000, RW000', '(022) 6019617', '', 'Bandung', 'Bapak', 'Cahyar'),
 (77, 'PT Nuansa Karisma Djaya', 'Jalan H. Kurdi Selatan Blok 000 no.45, RT006, RW006', '(022) 25210899', '02.749.906.0-422.000', 'Bandung', 'Bapak', 'Novianto Kuswandi'),
 (78, 'PT Batu Bukit Intan', 'Kampung Ciembe Blok 000 no.000, RT005, RW001', '', '03.323.046.7-405.000', 'Sukabumi', 'Bapak', 'Marvin Kurnia'),
-(79, 'PT voltech Kreasi Engineering', 'Ruko Suncity Square Jalan M. Hasibuan Blok H no.8, RT000, RW000', '(021) 88869035', '31.190.745.5-432.000', 'Bekasi', 'Ibu', 'Ivon');
+(79, 'PT voltech Kreasi Engineering', 'Ruko Suncity Square Jalan M. Hasibuan Blok H no.8, RT000, RW000', '(021) 88869035', '31.190.745.5-432.000', 'Bekasi', 'Ibu', 'Ivon'),
+(80, 'PT Inti Citra Makmur', 'Jalan Karang Arum Raya Blok B no.48, RT001, RW001', '(022) 87881436', '', 'Bandung', 'Bapak', 'Gagah Arsalla'),
+(81, 'PT Berkah Cipta Persada', 'Kawasan Industri Deltamas Jalan Greenland 1 Cluster Batavia Blok AC no.7, RT000, RW000', '(021) 89972630', '', 'Bekasi', 'Ibu', 'Brida Ayunani');
 
 -- --------------------------------------------------------
 
@@ -1329,7 +1381,11 @@ CREATE TABLE `delivery_order` (
 --
 
 INSERT INTO `delivery_order` (`id`, `reference`, `quantity`, `do_id`) VALUES
-(1, 'NYY435', 5, 321);
+(1, 'NYY435', 5, 321),
+(2, 'GVAE11', 20, 322),
+(3, 'A9L00002', 2, 323),
+(4, 'RXM2AB1P7', 3, 324),
+(5, 'RXZE2M114M', 2, 324);
 
 -- --------------------------------------------------------
 
@@ -1768,7 +1824,10 @@ INSERT INTO `invoices` (`id`, `date`, `do_id`, `faktur`, `name`, `value`, `ongki
 (317, '2018-12-22', 317, '', 'FU-AE-57N.22-XII-18', '831317.00', '0.00', 1, 0, '0000-00-00', 30),
 (318, '2018-12-26', 318, '', 'FU-AE-58P.26-XII-18', '251213.00', '0.00', 1, 0, '0000-00-00', 6),
 (319, '2018-12-26', 319, '', 'FU-AE-59P.26-XII-18', '5738732.00', '0.00', 1, 0, '0000-00-00', 12),
-(320, '2018-12-31', 320, '', 'FU-AE-60P.31-XII-18', '6300000.00', '0.00', 1, 0, '0000-00-00', 40);
+(320, '2018-12-31', 320, '', 'FU-AE-60P.31-XII-18', '6300000.00', '0.00', 1, 0, '0000-00-00', 40),
+(321, '2019-05-18', 321, '010.000.31-5351351_', 'FU-AE-01P.18-V-19', '500000.00', '0.00', 1, 0, '0000-00-00', 5),
+(322, '2019-05-22', 322, '', 'FU-AE-02P.22-V-19', '4000000.00', '0.00', 0, 0, '0000-00-00', 3),
+(323, '2019-05-25', 324, '', 'FU-AE-04N.25-V-19', '3000000.00', '56000.00', 1, 0, '0000-00-00', 16);
 
 -- --------------------------------------------------------
 
@@ -5901,7 +5960,10 @@ INSERT INTO `itemlist` (`id`, `reference`, `description`, `type`, `isactive`, `i
 (4121, 'N2XSY13524', 'Kabel N2XSY 1 x 35mm 24kV', 'Cable', 1, 0),
 (4122, 'RAY335S', 'Outdoor termination 3 x 35mm single core - Raychem', '', 1, 0),
 (4123, 'RAY135S', 'Outdoor termination 1 x 35mm single core - Raychem', '', 1, 0),
-(4124, 'MVS25N4MF2A', 'ACB 4P 2500A 50kA MVS25 Tipe Fixed', 'Schneider Electric LV', 1, 0);
+(4124, 'MVS25N4MF2A', 'ACB 4P 2500A 50kA MVS25 Tipe Fixed', 'Schneider Electric LV', 1, 0),
+(4125, 'EH1', 'Heater for Schneider SM6 MV cubicle', '', 1, 0),
+(4126, 'V230-3C7EPE-I', 'Feeder protection relay (VAMP230) 40.. 265 V AC/DC + DI19, DI 20 + 1 x Arc sensor, RJ-45 100Mbps ether net interface with IEC 61850 IP54', '', 1, 0),
+(4127, 'V260-1C7APE', 'Feeder Proctection Relay (VAMP260) 40.. 265V AC/DC, RJ-45 100Mbps ethernet interface inc. IEC 61850', 'Schneider Electric PLC', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -6542,7 +6604,37 @@ INSERT INTO `petty_cash` (`id`, `date`, `info`, `value`, `balance`, `class`) VAL
 (560, '2019-05-20', 'Parkir', '10000.00', '1403750.00', 15),
 (561, '2019-05-20', 'Parkir', '2000.00', '1401750.00', 15),
 (562, '2019-05-20', 'Bensin mobil', '250000.00', '1151750.00', 13),
-(563, '2019-05-20', 'Pengiriman barang', '420000.00', '731750.00', 16);
+(563, '2019-05-20', 'Pengiriman barang', '420000.00', '731750.00', 16),
+(564, '2019-05-20', 'Bahan panel', '24000.00', '707750.00', 20),
+(565, '2019-05-21', 'Pengiriman barang - Teramare', '105000.00', '602750.00', 16),
+(566, '2019-05-21', 'Pengiriman barang', '120000.00', '482750.00', 16),
+(567, '2019-05-21', 'Bahan panel', '22000.00', '460750.00', 20),
+(568, '2019-05-21', 'Parkir', '3000.00', '457750.00', 15),
+(569, '2019-05-21', 'Bahan panel', '32500.00', '425250.00', 20),
+(570, '2019-05-22', 'Pengiriman barang dan forklift', '1400000.00', '-974750.00', 16),
+(571, '2019-05-22', 'Pengiriman barang', '68000.00', '-1042750.00', 16),
+(572, '2019-05-22', 'Bensin motor', '20000.00', '-1062750.00', 13),
+(574, '2019-05-23', '', '3912750.00', '2850000.00', 25),
+(575, '2019-05-23', 'Pengiriman barang - Bekasi', '81660.00', '2768340.00', 16),
+(576, '2019-05-23', 'Pengiriman barang', '2400000.00', '368340.00', 16),
+(577, '2019-05-23', 'Pengiriman barang - Kalimantan', '330000.00', '38340.00', 16),
+(578, '2019-05-23', 'Pengiriman barang', '320000.00', '-281660.00', 16),
+(579, '2019-05-23', 'Parkir', '2000.00', '-283660.00', 15),
+(580, '2019-05-23', 'Parkir', '4000.00', '-287660.00', 15),
+(581, '2019-05-23', 'Bahan panel', '40400.00', '-328060.00', 20),
+(582, '2019-05-24', 'Pengiriman barang - Bali', '476000.00', '-804060.00', 16),
+(583, '2019-05-24', 'Pengiriman barang', '1220000.00', '-2024060.00', 16),
+(584, '2019-05-24', '', '3004060.00', '980000.00', 25),
+(585, '2019-05-24', 'Pengiriman barang', '96000.00', '884000.00', 16),
+(586, '2019-05-25', 'Bahan panel', '127100.00', '756900.00', 20),
+(587, '2019-05-25', 'Service press tang', '30000.00', '726900.00', 6),
+(589, '2019-05-25', 'Gaji bapak Amahdi', '1200000.00', '-473100.00', 9),
+(590, '2019-05-25', 'Pengiriman barang', '22000.00', '-495100.00', 16),
+(591, '2019-05-25', 'Pengiriman barang', '99000.00', '-594100.00', 16),
+(592, '2019-05-25', 'Pengiriman barang', '24000.00', '-618100.00', 16),
+(593, '2019-05-25', 'Pengiriman barang', '371000.00', '-989100.00', 16),
+(594, '2019-05-27', '', '2859000.00', '1869900.00', 25),
+(595, '2019-05-27', 'Bahan panel', '250300.00', '1619600.00', 20);
 
 -- --------------------------------------------------------
 
@@ -6615,7 +6707,9 @@ CREATE TABLE `purchaseorder` (
 
 INSERT INTO `purchaseorder` (`id`, `reference`, `price_list`, `discount`, `unitprice`, `quantity`, `totalprice`, `purchaseorder_id`) VALUES
 (1, 'A9L00002', 20000000, '20', 16000000, 100, '1600000000.00', '1'),
-(2, 'NYA10B', 200000, '30', 140000, 1000, '140000000.00', '2');
+(2, 'NYA10B', 200000, '30', 140000, 1000, '140000000.00', '2'),
+(3, 'A9A26929', 100000, '50', 50000, 30, '1500000.00', '3'),
+(4, 'AAACS120', 200000, '30', 140000, 20, '2800000.00', '3');
 
 -- --------------------------------------------------------
 
@@ -6637,7 +6731,9 @@ CREATE TABLE `purchaseorder_received` (
 
 INSERT INTO `purchaseorder_received` (`id`, `reference`, `purchaseorder_id`, `quantity`, `status`) VALUES
 (1, 'A9L00002', 1, 50, 0),
-(2, 'NYA10B', 2, 200, 0);
+(2, 'NYA10B', 2, 200, 0),
+(3, 'A9A26929', 3, 0, 0),
+(4, 'AAACS120', 3, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -7708,7 +7804,37 @@ INSERT INTO `quotation` (`id`, `reference`, `price_list`, `discount`, `net_price
 (3370, 'XB4BA4322', 130350, '35.00', 84728, 13, 1101458, 243),
 (3371, 'LC1F630', 28202000, '41.50', 16498170, 1, 16498170, 244),
 (3372, 'LX1FL220', 4187000, '41.50', 2449395, 1, 2449395, 244),
-(3373, 'RXZE1M4C', 36300, '35.00', 23595, 5, 117975, 245);
+(3373, 'RXZE1M4C', 36300, '35.00', 23595, 5, 117975, 245),
+(3374, 'DOM12252SNI', 81950, '33.00', 54907, 12, 658878, 246),
+(3375, 'DOM11340SNI', 66550, '33.00', 44589, 4, 178354, 246),
+(3376, 'DOM11341SNI', 66550, '33.00', 44589, 8, 356708, 246),
+(3377, 'DOM11342SNI', 66550, '33.00', 44589, 12, 535062, 246),
+(3378, 'DOM11343SNI', 66550, '33.00', 44589, 4, 178354, 246),
+(3379, 'DOM11344SNI', 75350, '33.00', 50485, 6, 302907, 246),
+(3380, 'DOM11345SNI', 78100, '33.00', 52327, 2, 104654, 246),
+(3381, 'A9K14110', 93500, '40.00', 56100, 8, 448800, 246),
+(3382, 'A9K14116', 93500, '40.00', 56100, 8, 448800, 246),
+(3383, 'EH1', 300000, '0.00', 300000, 2, 600000, 247),
+(3405, 'DOM12252SNI', 81950, '30.00', 57365, 16, 917840, 248),
+(3406, 'EZC250F3125', 1557600, '49.50', 786588, 6, 4719528, 248),
+(3407, 'RXM2LB1P7', 55000, '39.00', 33550, 10, 335500, 248),
+(3408, 'RXM4LB1P7', 60500, '39.00', 36905, 8, 295240, 248),
+(3409, 'RXZE1M2C', 29150, '39.00', 17782, 10, 177815, 248),
+(3410, 'RXZE1M4C', 36300, '39.00', 22143, 12, 265716, 248),
+(3411, 'REXL4TMP7', 335500, '39.00', 204655, 4, 818620, 248),
+(3412, 'DOM11344SNI', 75350, '32.00', 51238, 60, 3074280, 249),
+(3413, 'DOM11342SNI', 66550, '32.00', 45254, 24, 1086096, 249),
+(3414, 'DOM11351SNI', 331650, '32.00', 225522, 3, 676566, 249),
+(3417, 'LC1D09M7', 274500, '38.00', 170190, 1, 170190, 251),
+(3418, 'XB5AD33', 122100, '40.00', 73260, 1, 73260, 251),
+(3419, 'XB5AD21', 101200, '40.00', 60720, 1, 60720, 251),
+(3420, 'LRD12', 388000, '38.00', 240560, 1, 240560, 251),
+(3421, 'XB7EV04MP', 62700, '40.00', 37620, 1, 37620, 251),
+(3422, 'A9F74316', 512050, '42.00', 296989, 1, 296989, 251),
+(3423, 'DOM11341SNI', 66550, '33.00', 44589, 24, 1070124, 252),
+(3424, 'DOM11342SNI', 66550, '33.00', 44589, 12, 535062, 252),
+(3425, 'V230-3C7EPE-I', 49500000, '0.00', 49500000, 4, 198000000, 250),
+(3426, 'V260-1C7APE', 53900000, '0.00', 53900000, 4, 215600000, 250);
 
 -- --------------------------------------------------------
 
@@ -7819,7 +7945,11 @@ CREATE TABLE `sales_order` (
 
 INSERT INTO `sales_order` (`id`, `reference`, `price`, `discount`, `price_list`, `quantity`, `so_id`, `status`) VALUES
 (1, 'A9K14106', '100000.00', '-400.00', '20000.00', 10, 1, 0),
-(2, 'NYY435', '100000.00', '50.00', '200000.00', 5, 2, 0);
+(2, 'NYY435', '100000.00', '50.00', '200000.00', 5, 2, 0),
+(3, 'GVAE11', '200000.00', '33.33', '300000.00', 20, 3, 0),
+(4, 'A9L00002', '300000.00', '25.00', '400000.00', 10, 4, 0),
+(5, 'RXM2AB1P7', '500000.00', '16.67', '600000.00', 20, 5, 0),
+(6, 'RXZE2M114M', '750000.00', '15.73', '890000.00', 10, 5, 0);
 
 -- --------------------------------------------------------
 
@@ -7841,7 +7971,11 @@ CREATE TABLE `sales_order_sent` (
 
 INSERT INTO `sales_order_sent` (`id`, `reference`, `quantity`, `so_id`, `status`) VALUES
 (1, 'A9K14106', 0, 1, 0),
-(2, 'NYY435', 5, 2, 1);
+(2, 'NYY435', 5, 2, 1),
+(3, 'GVAE11', 20, 3, 1),
+(4, 'A9L00002', 2, 4, 0),
+(5, 'RXM2AB1P7', 3, 5, 0),
+(6, 'RXZE2M114M', 2, 5, 0);
 
 -- --------------------------------------------------------
 
@@ -7865,6 +7999,19 @@ CREATE TABLE `sales_return` (
 
 INSERT INTO `sales_return` (`id`, `reference`, `quantity`, `received`, `isreceive`, `return_code`, `isdone`) VALUES
 (1, 'NYY435', 2, 2, 1, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sample`
+--
+
+CREATE TABLE `sample` (
+  `id` int(255) NOT NULL,
+  `reference` varchar(50) NOT NULL,
+  `quantity` int(20) NOT NULL,
+  `code_id` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -8260,7 +8407,10 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (408, '2019-05-18', 'NYY435', 'OUT', 5, 80, 0, 5, 'SJ-AE-01P.18-V-19'),
 (409, '2019-05-19', 'NYY435', 'IN', 2, 82, 0, 5, 'RTRTAN'),
 (410, '2019-05-21', 'A9L00002', 'IN', 50, 50, 3, 0, 'ffffuck'),
-(411, '2019-05-23', 'NYA10B', 'IN', 200, 200, 4, 0, 'ASOE');
+(411, '2019-05-23', 'NYA10B', 'IN', 200, 200, 4, 0, 'ASOE'),
+(412, '2019-05-22', 'GVAE11', 'OUT', 20, 30, 0, 3, 'SJ-AE-02P.22-V-19'),
+(413, '2019-05-25', 'RXM2AB1P7', 'OUT', 3, 74, 0, 16, 'SJ-AE-04N.25-V-19'),
+(414, '2019-05-25', 'RXZE2M114M', 'OUT', 2, 7, 0, 16, 'SJ-AE-04N.25-V-19');
 
 -- --------------------------------------------------------
 
@@ -8427,7 +8577,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (152, '2018-12-31', 'ATV320U55N4B', 1, '4789070.00', 1, 0, 0, 0),
 (153, '2018-12-31', 'ATV320U75N4B', 1, '5373725.00', 1, 0, 0, 0),
 (154, '2018-12-31', 'ATV610U15N4', 2, '9581786.00', 2, 0, 0, 0),
-(155, '2018-12-31', 'RXZE2M114M', 9, '19319.30', 9, 0, 0, 0),
+(155, '2018-12-31', 'RXZE2M114M', 9, '19319.30', 7, 0, 0, 0),
 (156, '2018-12-31', 'RXM041FU7', 5, '17374.50', 5, 0, 0, 0),
 (157, '2018-12-31', 'RXM4LB1P7', 6, '24750.00', 6, 0, 0, 0),
 (158, '2018-12-31', 'RXM4LB1JD', 10, '24750.00', 10, 0, 0, 0),
@@ -8436,7 +8586,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (161, '2018-12-31', 'RXM2LB2BD', 18, '23100.00', 18, 0, 0, 0),
 (162, '2018-12-31', 'RXM2AB2JD', 10, '42350.00', 10, 0, 0, 0),
 (163, '2018-12-31', 'RXM2AB2BD', 45, '42350.00', 45, 0, 0, 0),
-(164, '2018-12-31', 'RXM2AB1P7', 77, '36652.00', 77, 0, 0, 0),
+(164, '2018-12-31', 'RXM2AB1P7', 77, '36652.00', 74, 0, 0, 0),
 (165, '2018-12-31', 'RXM2AB1BD', 20, '37400.00', 20, 0, 0, 0),
 (166, '2018-12-31', 'RUMC22P7', 20, '72600.00', 20, 0, 0, 0),
 (167, '2018-12-31', 'REXL4TMP7', 2, '149525.20', 2, 0, 0, 0),
@@ -8518,7 +8668,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (245, '2018-12-31', 'MVS20H4MF2A', 2, '24244369.15', 2, 0, 0, 0),
 (246, '2018-12-31', 'GV3P65', 2, '1163085.00', 2, 0, 0, 0),
 (247, '2018-12-31', 'METSEPM5560', 3, '8111317.50', 3, 0, 0, 0),
-(248, '2018-12-31', 'GVAE11', 50, '71874.00', 50, 0, 0, 0),
+(248, '2018-12-31', 'GVAE11', 50, '71874.00', 30, 0, 0, 0),
 (249, '2018-12-31', 'GVAN11', 37, '83952.00', 37, 0, 0, 0),
 (250, '2018-12-31', 'HMIGTO2300', 1, '8924256.00', 1, 0, 0, 0),
 (251, '2018-12-31', 'HMIGXU5512', 3, '5278561.00', 3, 0, 0, 0),
@@ -8676,7 +8826,10 @@ INSERT INTO `stock_value_out` (`id`, `date`, `in_id`, `quantity`, `customer_id`)
 (12, '2019-05-18', 63, 2, 0),
 (13, '2019-05-18', 59, 2, 0),
 (14, '2019-05-18', 63, 2, 0),
-(15, '2019-05-18', 353, 5, 5);
+(15, '2019-05-18', 353, 5, 5),
+(16, '2019-05-22', 248, 20, 3),
+(17, '2019-05-25', 164, 3, 16),
+(18, '2019-05-25', 155, 2, 16);
 
 -- --------------------------------------------------------
 
@@ -8757,6 +8910,7 @@ CREATE TABLE `users` (
   `bank` varchar(50) NOT NULL,
   `gender` tinyint(1) NOT NULL,
   `date_in` date NOT NULL,
+  `privilege` tinyint(1) NOT NULL DEFAULT '0',
   `isactive` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -8764,11 +8918,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `NIK`, `name`, `mail`, `username`, `password`, `pin`, `role`, `address`, `city`, `bank`, `gender`, `date_in`, `isactive`) VALUES
-(1, '3273090804950001', 'Daniel Tri', 'danielrudianto12@gmail.com', 'danieltri', 'aa47f8215c6f30a0dcdb2a36a9f4168e', 314159, 'superadmin', '', 'Bandung', '8090175441', 1, '2018-01-01', 1),
-(2, '3204062407930001', 'Dadan Sutisna', 'danz.ezzyy90@gmail.com', 'dadans', 'fd68e8922a6705a916b19669fb356cce', 0, 'logistic_staff', 'Kampung Kandang Sapi RT001 RW001', 'Bandung', '0083445189', 1, '2018-05-31', 1),
-(3, '3273146702980003', 'Febyola Pratiwi', 'febyolapratiwi27@gmail.com', 'febyolapra', '5f3747d11c039d0c203f18a183c52497', 280219, 'superadmin', 'Jalan Padasuka RT006 RW006, Kecamatan Cibeunying Kidul, Kelurahan Pasirlayung', 'Bandung', '5140316263', 2, '2018-02-01', 1),
-(4, '3305052312940002', 'Figriani Listyanto', 'oonkskak@gmail.com', 'oong', 'b6829751e5986b15d70f8d2183daa548', 0, 'staff_inventory', 'Dusun KEMBANGAN RT03/RW02, Kelurahan Jogosimo', 'Kebumen', '8090291620', 1, '2018-06-01', 1);
+INSERT INTO `users` (`id`, `NIK`, `name`, `mail`, `username`, `password`, `pin`, `role`, `address`, `city`, `bank`, `gender`, `date_in`, `privilege`, `isactive`) VALUES
+(1, '3273090804950001', 'Daniel Tri', 'danielrudianto12@gmail.com', 'danieltri', 'aa47f8215c6f30a0dcdb2a36a9f4168e', 314159, 'superadmin', '', 'Bandung', '8090175441', 1, '2018-01-01', 1, 1),
+(2, '3204062407930001', 'Dadan Sutisna', 'danz.ezzyy90@gmail.com', 'dadans', 'fd68e8922a6705a916b19669fb356cce', 0, 'logistic_staff', 'Kampung Kandang Sapi RT001 RW001', 'Bandung', '0083445189', 1, '2018-05-31', 0, 1),
+(3, '3273146702980003', 'Febyola Pratiwi', 'febyolapratiwi27@gmail.com', 'febyolapra', '5f3747d11c039d0c203f18a183c52497', 280219, 'superadmin', 'Jalan Padasuka RT006 RW006, Kecamatan Cibeunying Kidul, Kelurahan Pasirlayung', 'Bandung', '5140316263', 2, '2018-02-01', 0, 1),
+(4, '3305052312940002', 'Figriani Listyanto', 'oonkskak@gmail.com', 'oong', 'b6829751e5986b15d70f8d2183daa548', 0, 'staff_inventory', 'Dusun KEMBANGAN RT03/RW02, Kelurahan Jogosimo', 'Kebumen', '8090291620', 1, '2018-06-01', 0, 1);
 
 --
 -- Indexes for dumped tables
@@ -8862,6 +9016,12 @@ ALTER TABLE `code_salesorder`
 -- Indexes for table `code_sales_return`
 --
 ALTER TABLE `code_sales_return`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `code_sample`
+--
+ALTER TABLE `code_sample`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -9018,6 +9178,12 @@ ALTER TABLE `sales_return`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `sample`
+--
+ALTER TABLE `sample`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `stock`
 --
 ALTER TABLE `stock`
@@ -9061,7 +9227,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `absentee_list`
 --
 ALTER TABLE `absentee_list`
-  MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 
 --
 -- AUTO_INCREMENT for table `announcement`
@@ -9079,7 +9245,7 @@ ALTER TABLE `bank_accounts`
 -- AUTO_INCREMENT for table `calendar`
 --
 ALTER TABLE `calendar`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `closed_purchaseorder`
@@ -9097,7 +9263,7 @@ ALTER TABLE `code_bank`
 -- AUTO_INCREMENT for table `code_delivery_order`
 --
 ALTER TABLE `code_delivery_order`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=322;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=325;
 
 --
 -- AUTO_INCREMENT for table `code_goodreceipt`
@@ -9115,7 +9281,7 @@ ALTER TABLE `code_project`
 -- AUTO_INCREMENT for table `code_purchaseorder`
 --
 ALTER TABLE `code_purchaseorder`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `code_purchase_invoice`
@@ -9127,7 +9293,7 @@ ALTER TABLE `code_purchase_invoice`
 -- AUTO_INCREMENT for table `code_quotation`
 --
 ALTER TABLE `code_quotation`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=246;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=253;
 
 --
 -- AUTO_INCREMENT for table `code_random_do`
@@ -9139,7 +9305,7 @@ ALTER TABLE `code_random_do`
 -- AUTO_INCREMENT for table `code_salesorder`
 --
 ALTER TABLE `code_salesorder`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `code_sales_return`
@@ -9148,10 +9314,16 @@ ALTER TABLE `code_sales_return`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `code_sample`
+--
+ALTER TABLE `code_sample`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT for table `customer_deliveryaddress`
@@ -9169,7 +9341,7 @@ ALTER TABLE `delivery_address`
 -- AUTO_INCREMENT for table `delivery_order`
 --
 ALTER TABLE `delivery_order`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -9199,13 +9371,13 @@ ALTER TABLE `goodreceipt`
 -- AUTO_INCREMENT for table `invoices`
 --
 ALTER TABLE `invoices`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=321;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=324;
 
 --
 -- AUTO_INCREMENT for table `itemlist`
 --
 ALTER TABLE `itemlist`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4125;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4128;
 
 --
 -- AUTO_INCREMENT for table `payable`
@@ -9223,7 +9395,7 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT for table `petty_cash`
 --
 ALTER TABLE `petty_cash`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=564;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=596;
 
 --
 -- AUTO_INCREMENT for table `petty_cash_classification`
@@ -9235,13 +9407,13 @@ ALTER TABLE `petty_cash_classification`
 -- AUTO_INCREMENT for table `purchaseorder`
 --
 ALTER TABLE `purchaseorder`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `purchaseorder_received`
 --
 ALTER TABLE `purchaseorder_received`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `purchases`
@@ -9253,7 +9425,7 @@ ALTER TABLE `purchases`
 -- AUTO_INCREMENT for table `quotation`
 --
 ALTER TABLE `quotation`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3374;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3427;
 
 --
 -- AUTO_INCREMENT for table `reason`
@@ -9283,13 +9455,13 @@ ALTER TABLE `salary`
 -- AUTO_INCREMENT for table `sales_order`
 --
 ALTER TABLE `sales_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `sales_order_sent`
 --
 ALTER TABLE `sales_order_sent`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `sales_return`
@@ -9298,10 +9470,16 @@ ALTER TABLE `sales_return`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `sample`
+--
+ALTER TABLE `sample`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=412;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=415;
 
 --
 -- AUTO_INCREMENT for table `stock_value_in`
@@ -9313,7 +9491,7 @@ ALTER TABLE `stock_value_in`
 -- AUTO_INCREMENT for table `stock_value_out`
 --
 ALTER TABLE `stock_value_out`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `supplier`

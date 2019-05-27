@@ -1,3 +1,4 @@
+<script src='../universal/jquery/jquery-3.3.0.min.js'></script>
 <?php
 	include('../codes/connect.php');
 	$q_id = $_POST['id'];
@@ -37,7 +38,7 @@ $(document).ready(function () {
     window.setTimeout(function () {
 		$('#q_id').submit();
 
-	}, 100);
+	},100);
 	window.setTimeout("location = ('sales.php');",125);
 });
 </script>
