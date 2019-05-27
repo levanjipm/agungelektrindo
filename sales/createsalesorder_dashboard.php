@@ -22,7 +22,7 @@ $( function() {
 			<hr>
 			<form name="salesorder" class="form" method="POST" id="sales_order" action="createsalesorder_validation.php">
 				<div class="row">
-					<div class="col-lg-6">
+					<div class="col-sm-6">
 						<label for="name">Customer</label>
 						<select class="forming" id="select_customer" name="select_customer"  onclick="disable_two()" onchange='show_retail()'>
 						<option id="customer_one" value="">Please select a customer--</option>
@@ -49,17 +49,17 @@ $( function() {
 							}
 						</script>
 					</div>
-					<div class="col-lg-2 offset-lg-2">
+					<div class="col-sm-2 offset-lg-2">
 						<label for="date">Date</label>
 						<input id="today" name="today" type="date" class="forming" value="<?php echo date('Y-m-d');?>">
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-6">
+					<div class="col-sm-6">
 						<label for="purchaseordernumber">Purchase Order number</label>
 						<input type="name" class="forming" id="purchaseordernumber" name="purchaseordernumber">
 					</div>
-					<div class="col-lg-3 offset-lg-2">
+					<div class="col-sm-3 offset-lg-2">
 						<label for="taxing">Taxing option</label>
 						<select name="taxing" id="taxing" class="forming" onclick="disable()">
 							<option id="taxingopt_one" value="">--Please choose taxing option--</option>
@@ -69,48 +69,48 @@ $( function() {
 					</div>
 				</div>
 				<div class="row" id="headerlist" style="border-radius:10px;padding-top:25px">
-					<div class="col-lg-1" style="background-color:#aaa">
+					<div class="col-sm-1" style="background-color:#aaa">
 						Nomor
 					</div>
-					<div class="col-lg-2" style="background-color:#ccc">
+					<div class="col-sm-2" style="background-color:#ccc">
 						Refference
 					</div>
-					<div class="col-lg-1" style="background-color:#aaa">
+					<div class="col-sm-1" style="background-color:#aaa">
 						Quantity
 					</div>
-					<div class="col-lg-2" style="background-color:#ccc">
+					<div class="col-sm-2" style="background-color:#ccc">
 						Price after tax
 					</div>
-					<div class="col-lg-2" style="background-color:#aaa">
+					<div class="col-sm-2" style="background-color:#aaa">
 						Price list
 					</div>
-					<div class="col-lg-1" style="background-color:#ccc">
+					<div class="col-sm-1" style="background-color:#ccc">
 						Discount
 					</div>
-					<div class="col-lg-2" style="background-color:#aaa">
+					<div class="col-sm-2" style="background-color:#aaa">
 						Total Price
 					</div>
 				</div>
 				<div class="row" style="padding-top:10px;">
-					<div class="col-lg-1">
+					<div class="col-sm-1">
 						<input class="nomor" id="no1" style="width:40%" value="1"></input>
 					</div>
-					<div class="col-lg-2">
+					<div class="col-sm-2">
 						<input id="reference1" class="form-control" name="reference1" style="width:100%">
 					</div>
-					<div class="col-lg-1">
+					<div class="col-sm-1">
 						<input style="overflow-x:hidden" id="qty1" name="qty1" class="form-control" style="width:100%">
 					</div>
-					<div class="col-lg-2">
+					<div class="col-sm-2">
 						<input style="overflow-x:hidden" id="vat1" name="vat1" class="form-control" style="width:100%">
 					</div>
-					<div class="col-lg-2">
+					<div class="col-sm-2">
 						<input style="overflow-x:hidden" id="pl1" name="pl1" class="form-control" style="width:100%">
 					</div>
-					<div class="col-lg-1">
+					<div class="col-sm-1">
 						<input class="form-control" id="disc1" readonly name="disc1">
 					</div>
-					<div class="col-lg-2">
+					<div class="col-sm-2">
 						<input style="overflow-x:hidden" id="total1" class="form-control" style="width:100%" readonly name="total1">
 					</div>
 				</div>
@@ -118,10 +118,10 @@ $( function() {
 				</div>
 				<br>
 				<div class="row">
-					<div class="col-lg-2 offset-lg-7">
+					<div class="col-sm-2 offset-lg-7">
 						<a href="#" data-toggle="tooltip" data-placement="bottom" title="Check the purchase order's tax option"><b>Grand Total *</b></a>
 					</div>
-					<div class="col-lg-2">
+					<div class="col-sm-2">
 						<input type="text" class="form-control" id="total" readonly name="total">
 					</div>
 				</div>
@@ -138,7 +138,7 @@ $( function() {
 					<input type='text' class='form-control' name='retail_phone'>
 				</div>
 				<div class="row">
-					<div class="col-lg-2" style="padding:20px">
+					<div class="col-sm-2" style="padding:20px">
 						<button type="button" class="btn btn-success" onclick="return validateso()" id="calculate">Calculate</button>
 						<button type="button" class="btn btn-primary" style="display:none" id="submitbtn" onclick="return look()">Submit</button>
 						<button type="button" class="btn btn-danger" style="display:none" id="back">Back</button>

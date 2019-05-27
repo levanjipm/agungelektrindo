@@ -52,7 +52,7 @@
 	$jumlah++;
 	$q_number = "Q-AE-" . str_pad($jumlah,2,"0",STR_PAD_LEFT) . "." . date("d",strtotime($q_date)). "-" . $month. "-" . date("y",strtotime($q_date));
 	$customer = $_POST['customer'];
-	$comment = mysql_escape_string($_POST['comment']);
+	$comment = mysqli_real_escape_string($_POST['comment']);
 	$sql_insert = "INSERT INTO code_quotation (name,customer_id,date,value,payment_id,down_payment,repayment,note) 
 	VALUES ('$q_number','$customer','$q_date','$total','$terms','$dp','$lunas','$comment')";
 	echo $sql_insert;

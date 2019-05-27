@@ -144,6 +144,22 @@ Sales Department
 			</button>
 		</a>
 	</div>
+	<button class="btn btn-badge dropdown-btn" style='color:white'>
+		<i class="fa fa-clock-o" aria-hidden="true"></i>
+		Samples
+	</button>
+	<div class="dropdown-container">
+		<a href="add_sampling_dashboard.php">
+			<button type='button' class='btn btn-badge'>
+				Add sampling
+			</button>
+		</a>
+		<a href="view_project_dashboard.php">
+			<button type='button' class='btn btn-badge'>
+				Cancel sampling
+			</button>
+		</a>
+	</div>
 	<hr>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
 		<a href='../human_resource/user_dashboard.php' style='color:white;text-decoration:none'>

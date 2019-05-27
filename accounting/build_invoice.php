@@ -148,7 +148,6 @@ tr.border_bottom td{
 							</tbody>
 							<tfoot>
 <?php
-								echo $tax;
 								if($tax == 0){
 ?>
 								<tr>

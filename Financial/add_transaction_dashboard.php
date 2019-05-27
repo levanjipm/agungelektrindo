@@ -20,7 +20,7 @@
 		<div class="input-group">
 		<select class='form-control' id='lawan' name='lawan'>
 			<option value='0'>Please pick a client</option>
-			<option value='-1'>CV Agung Elektrindo (Internal transaction)</option>
+			<option value='-1'>CV Agung Elektrindo</option>
 <?php
 	$sql = "SELECT name FROM bank_accounts ORDER BY name ASC";
 	$result = $conn->query($sql);
@@ -63,6 +63,7 @@
 			alert('Please insert value number!');
 		} else if($('#lawan').val() == 0){
 			alert('Please pick a client!');
+		} else if($
 		} else {
 			$('#formasi').submit();
 		}

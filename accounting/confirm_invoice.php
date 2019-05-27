@@ -123,7 +123,6 @@ input {
 				<?php
 					} else {
 				?>
-				<tr>
 					<td>Total</td>
 					<td><?= 'Rp. ' . number_format($value,2)?> </td>
 				</tr>
@@ -134,10 +133,6 @@ input {
 			<?php
 				if($ongkir == 0){
 			?>
-			<tr>
-				<td style='border:none;background-color:white'></td>
-				<td style='border:none;background-color:white'></td>
-				<td style='border:none;background-color:white'></td>
 				<td>Total</td>
 				<td><?= 'Rp. ' . number_format($value,2)?></td>
 			</tr>
