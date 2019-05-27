@@ -1,0 +1,15 @@
+table code_purchase_return
+	id 			int255 PRIMARY KEY
+	date 		date
+	supplier_id int255
+	isconfirm 	tinyint defaultvalue 0
+
+table purchase_return
+	id			int(11)	Primary key
+	reference	varchar(100)	
+	quantity	int(11)	
+	code_id		int(255)	reference to code_purchase_return.id
+	issent 		tinyint defaultvalue 0
+	
+insert column table purchases
+	code_return	int(11)	default value NULL

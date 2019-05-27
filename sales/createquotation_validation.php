@@ -149,9 +149,7 @@ if ($terms == 1){
 			</div>
 			<div class="row">
 				<div class="col-sm-6">
-					<textarea class="text" name="comment">
-						<?= $comment ?>
-					</textarea>
+					<textarea class="text" name="comment"><?= $comment ?></textarea>
 				</div>
 			</div>
 		</div>
