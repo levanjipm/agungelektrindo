@@ -1,11 +1,26 @@
 <?php
 	include('../../codes/connect.php');
-	$supplier = $_POST['supplier'];
-	$sql_search = "SELECT *	FROM code_purchaseorder WHERE supplier_id = '" . $supplier . "' GROUP BY MONTH(date)";
-	$result_search = $conn->query($sql_search);
-	while($search = $result_search->fetch_assoc()){
-?>
-		<option value='<?= $search['id'] ?>'><?= $search['name'] ?></option>
-<?php
+	$reference = $_POST['reference'];
+	$quantity = $_POST['quantity'];
+	if($quantity == '' || $quantity == 0){
+		echo ("Error");
+	} else {
+		$sql_item = "SELECT COUNT(id) AS jumlah FROM itemlist WHERE reference = '" . $reference . "'";
+		$result_item = $conn->query($sql_item);
+		$item = $result_item->fetch_assoc();
+		if($item['jumlah'] == 0){
+			echo ('Item not found!');
+			return false;
+		} else {
+			$sql_check_stock = "SELECT stock FROM stock WHERE reference = '" . $reference . "' ORDER BY id DESC LIMIT 1";
+			$result_check_stock = $conn->query($sql_check_stock);
+			$stock = $result_check_stock->fetch_assoc();
+			if($stock['stock'] == 0){
+				echo ("Stock is insufficient");
+				return false;
+			} else {
+				echo ("OK");
+			}
+		}
 	}
-?>
+?>	

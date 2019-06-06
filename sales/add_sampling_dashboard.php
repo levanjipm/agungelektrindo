@@ -16,7 +16,7 @@ $( function() {
 	<hr>
 	<form action='add_sampling_validation.php' method='POST' id='add_sample_form'>
 	<label>Customer</label>
-	<select class='form-control'>
+	<select class='form-control' name='customer' id='customer'>
 		<option value='0'>Please pick a customer</option>
 <?php	
 	$sql_customer = "SELECT id,name FROM customer ORDER BY name ASC";
@@ -53,6 +53,8 @@ $( function() {
 		<div class='col-sm-3'>
 			<input type='number' class='form-control' name='quantity<?= $i ?>'>
 		</div>
+		<div class='col-sm-2' id='checking<?= $i ?>'>
+		</div>
 	</div>
 	<br>
 <?php
@@ -66,8 +68,9 @@ $( function() {
 </div>
 <script>
 	function submiting(){
-		if($('#reference1').val() == '' || $('#quantity1').val() == '' || $('#quantity1').val() == 0){
-			alert('Insert correct sampling data!');
+		if($('#customer').val() == 0){
+			alert('Please insert a customer!');
+			$('#customer').focus();
 			return false;
 		} else {
 			$('#add_sample_form').submit();

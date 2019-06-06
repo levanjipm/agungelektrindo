@@ -138,6 +138,11 @@ Sales Department
 				Add project
 			</button>
 		</a>
+		<a href="edit_project_dashboard.php">
+			<button type='button' class='btn btn-badge'>
+				Edit project
+			</button>
+		</a>
 		<a href="view_project_dashboard.php">
 			<button type='button' class='btn btn-badge'>
 				View project

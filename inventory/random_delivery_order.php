@@ -112,29 +112,7 @@ switch ($type) {
 		break;
 
     case "4":
-?>	
-		<script>
-			$(document).ready(function(){
-				$('#reference1').autocomplete({
-					source: "ajax/search_item.php"
-				})
-			});
-		</script>
-		<a href="#" id="folder"><i class="fa fa-folder"></i></a>
-		<a href="#" id="close"><i class="fa fa-close"></i></a>
-		<label>Customer</label>
-		<select class='form-control' name='customer'>
-			<option value='0'>Please select a customer</option>
-<?php
-        $sql = "SELECT id,name FROM customer ORDER BY name";
-		$result = $conn->query($sql);
-		while($row = $result->fetch_assoc()){
 ?>
-			<option value='<?= $row['id'] ?>'><?= $row['name'] ?></option>
-<?php
-		}
-?>
-		</select>
 		<div class='row' style='padding-top:30px'>
 			<div class='col-sm-1'>No.</div>
 			<div class='col-sm-4'>Reference</div>
