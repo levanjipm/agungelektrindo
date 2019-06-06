@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 27, 2019 at 12:31 PM
+-- Generation Time: Jun 06, 2019 at 04:24 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -166,7 +166,16 @@ INSERT INTO `absentee_list` (`ID`, `user_id`, `time`, `date`, `isdelete`) VALUES
 (136, 1, '08:02:03', '2019-05-27', 0),
 (137, 2, '08:06:45', '2019-05-27', 0),
 (138, 3, '08:08:10', '2019-05-27', 0),
-(139, 4, '08:08:10', '2019-05-27', 0);
+(139, 4, '08:08:10', '2019-05-27', 0),
+(140, 1, '07:24:25', '2019-05-28', 0),
+(141, 4, '07:35:12', '2019-05-28', 0),
+(142, 3, '07:55:19', '2019-05-28', 0),
+(143, 2, '08:07:52', '2019-05-28', 0),
+(144, 1, '08:02:05', '2019-05-29', 0),
+(145, 4, '08:02:06', '2019-05-29', 0),
+(146, 2, '08:02:32', '2019-05-29', 0),
+(147, 3, '08:07:17', '2019-05-29', 0),
+(148, 1, '06:27:58', '2019-05-30', 0);
 
 -- --------------------------------------------------------
 
@@ -416,6 +425,13 @@ CREATE TABLE `closed_purchaseorder` (
   `purchaseorder_id` int(255) NOT NULL,
   `closed_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `closed_purchaseorder`
+--
+
+INSERT INTO `closed_purchaseorder` (`id`, `purchaseorder_id`, `closed_date`) VALUES
+(1, 1, '2019-06-04');
 
 -- --------------------------------------------------------
 
@@ -826,6 +842,7 @@ CREATE TABLE `code_project` (
   `id` int(255) NOT NULL,
   `customer_id` int(255) NOT NULL,
   `project_name` text NOT NULL,
+  `major_id` int(11) NOT NULL DEFAULT '0',
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `isdone` int(11) NOT NULL DEFAULT '0'
@@ -856,7 +873,7 @@ CREATE TABLE `code_purchaseorder` (
 --
 
 INSERT INTO `code_purchaseorder` (`id`, `name`, `supplier_id`, `date`, `top`, `value`, `taxing`, `delivery_id`, `promo_code`, `isclosed`, `maker`) VALUES
-(1, 'PO-AE-01.21-V-19', 3, '2019-05-21', 30, '1600000000.00', '2', 1, '', 0, 1),
+(1, 'PO-AE-01.21-V-19', 3, '2019-05-21', 30, '1600000000.00', '2', 1, '', 1, 1),
 (2, 'PO-AE-02.21-V-19', 4, '2019-05-21', 30, '140000000.00', '1', 1, '', 0, 1),
 (3, 'PO-AE-03.22-V-19', 8, '2019-05-22', 30, '4300000.00', '1', 1, '', 0, 1);
 
@@ -872,6 +889,26 @@ CREATE TABLE `code_purchase_invoice` (
   `name` varchar(50) NOT NULL,
   `tax_invoice` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `code_purchase_return`
+--
+
+CREATE TABLE `code_purchase_return` (
+  `id` int(255) NOT NULL,
+  `date` date NOT NULL,
+  `supplier_id` int(255) NOT NULL,
+  `isconfirm` tinyint(4) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `code_purchase_return`
+--
+
+INSERT INTO `code_purchase_return` (`id`, `date`, `supplier_id`, `isconfirm`) VALUES
+(1, '2019-06-02', 9, 0);
 
 -- --------------------------------------------------------
 
@@ -1100,7 +1137,10 @@ INSERT INTO `code_quotation` (`id`, `name`, `customer_id`, `date`, `value`, `pay
 (249, 'Q-AE-44.25-V-19', 38, '2019-05-25', 4836942, 3, 0, 30, '', 0),
 (250, 'Q-AE-45.27-V-19', 81, '2019-05-27', 413600000, 4, 20, 60, '', 0),
 (251, 'Q-AE-46.27-V-19', 11, '2019-05-27', 879339, 3, 0, 30, '', 0),
-(252, 'Q-AE-47.27-V-19', 37, '2019-05-27', 1605186, 3, 0, 30, '', 0);
+(252, 'Q-AE-47.27-V-19', 37, '2019-05-27', 1605186, 3, 0, 30, '', 0),
+(253, 'Q-AE-48.28-V-19', 44, '2019-05-28', 30910165, 3, 0, 30, '', 0),
+(254, 'Q-AE-49.28-V-19', 44, '2019-05-28', 12215775, 3, 0, 30, '', 0),
+(255, 'Q-AE-50.29-V-19', 3, '2019-05-29', 30691970, 3, 0, 30, '', 0);
 
 -- --------------------------------------------------------
 
@@ -1183,10 +1223,17 @@ INSERT INTO `code_sales_return` (`id`, `submission_date`, `customer_id`, `do_id`
 
 CREATE TABLE `code_sample` (
   `id` int(11) NOT NULL,
-  `name` varchar(30) NOT NULL,
   `customer_id` int(255) NOT NULL,
   `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `code_sample`
+--
+
+INSERT INTO `code_sample` (`id`, `customer_id`, `date`) VALUES
+(1, 47, '2019-06-01'),
+(2, 57, '2019-06-04');
 
 -- --------------------------------------------------------
 
@@ -6634,7 +6681,43 @@ INSERT INTO `petty_cash` (`id`, `date`, `info`, `value`, `balance`, `class`) VAL
 (592, '2019-05-25', 'Pengiriman barang', '24000.00', '-618100.00', 16),
 (593, '2019-05-25', 'Pengiriman barang', '371000.00', '-989100.00', 16),
 (594, '2019-05-27', '', '2859000.00', '1869900.00', 25),
-(595, '2019-05-27', 'Bahan panel', '250300.00', '1619600.00', 20);
+(595, '2019-05-27', 'Bahan panel', '250300.00', '1619600.00', 20),
+(596, '2019-05-27', 'Prive - Pulsa', '51500.00', '1568100.00', 21),
+(597, '2019-05-27', 'Bensin mobil', '200000.00', '1368100.00', 13),
+(598, '2019-05-27', 'Pengiriman barang - Padang', '120000.00', '1248100.00', 16),
+(599, '2019-05-27', 'Parkir', '3000.00', '1245100.00', 15),
+(600, '2019-05-27', 'Parkir', '4000.00', '1241100.00', 15),
+(601, '2019-05-27', 'Bahan panel', '1198000.00', '43100.00', 20),
+(602, '2019-05-27', 'Parkir', '10000.00', '33100.00', 15),
+(603, '2019-05-28', '', '1966900.00', '2000000.00', 25),
+(604, '2019-05-28', 'Bahan panel', '870000.00', '1130000.00', 20),
+(605, '2019-05-28', 'Parkir', '3000.00', '1127000.00', 15),
+(606, '2019-05-28', 'Parkir', '3000.00', '1124000.00', 15),
+(607, '2019-05-28', 'Parkir', '2000.00', '1122000.00', 15),
+(608, '2019-05-28', 'Parkir', '2000.00', '1120000.00', 15),
+(609, '2019-05-28', 'Parkir', '2000.00', '1118000.00', 15),
+(610, '2019-05-28', 'Bahan panel', '52500.00', '1065500.00', 20),
+(611, '2019-05-28', 'Bahan panel', '115000.00', '950500.00', 20),
+(612, '2019-05-28', 'Pengiriman barang', '41000.00', '909500.00', 16),
+(613, '2019-05-28', 'Bahan panel', '15000.00', '894500.00', 20),
+(614, '2019-05-28', 'Konsumsi - Buka bersama', '1011960.00', '-117460.00', 26),
+(615, '2019-05-29', '', '617460.00', '500000.00', 25),
+(616, '2019-05-29', 'Tinta printer', '20000.00', '480000.00', 11),
+(617, '2019-05-29', 'Pengiriman barang', '2600000.00', '-2120000.00', 16),
+(618, '2019-05-29', 'Gaji bapak Amahdi', '1100000.00', '-3220000.00', 9),
+(619, '2019-05-29', 'Pengiriman barang', '70000.00', '-3290000.00', 16),
+(620, '2019-05-29', 'Bensin motor', '20000.00', '-3310000.00', 13),
+(621, '2019-05-29', 'Parkir', '10000.00', '-3320000.00', 15),
+(622, '2019-05-29', 'Jasa angkut barang', '50000.00', '-3370000.00', 16),
+(623, '2019-05-30', 'Prive - Tennis', '850000.00', '-4220000.00', 21),
+(624, '2019-05-31', 'Bahan panel - potensio', '10500.00', '-4230500.00', 20),
+(625, '2019-05-31', 'Parkir', '3000.00', '-4233500.00', 15),
+(626, '2019-05-29', 'Pengiriman barang', '198000.00', '-4431500.00', 16),
+(627, '2019-05-31', 'Bahan panel - baut', '100500.00', '-4532000.00', 20),
+(628, '2019-06-01', 'Sewa forklift', '1250000.00', '-5782000.00', 16),
+(629, '2019-06-01', 'Pengiriman barang - sewa truck', '500000.00', '-6282000.00', 16),
+(630, '2019-06-01', 'Gaji bapak Amahdi', '600000.00', '-6882000.00', 9),
+(631, '2019-06-02', '', '6882000.00', '0.00', 25);
 
 -- --------------------------------------------------------
 
@@ -6730,7 +6813,7 @@ CREATE TABLE `purchaseorder_received` (
 --
 
 INSERT INTO `purchaseorder_received` (`id`, `reference`, `purchaseorder_id`, `quantity`, `status`) VALUES
-(1, 'A9L00002', 1, 50, 0),
+(1, 'A9L00002', 1, 50, 1),
 (2, 'NYA10B', 2, 200, 0),
 (3, 'A9A26929', 3, 0, 0),
 (4, 'AAACS120', 3, 0, 0);
@@ -7834,7 +7917,23 @@ INSERT INTO `quotation` (`id`, `reference`, `price_list`, `discount`, `net_price
 (3423, 'DOM11341SNI', 66550, '33.00', 44589, 24, 1070124, 252),
 (3424, 'DOM11342SNI', 66550, '33.00', 44589, 12, 535062, 252),
 (3425, 'V230-3C7EPE-I', 49500000, '0.00', 49500000, 4, 198000000, 250),
-(3426, 'V260-1C7APE', 53900000, '0.00', 53900000, 4, 215600000, 250);
+(3426, 'V260-1C7APE', 53900000, '0.00', 53900000, 4, 215600000, 250),
+(3427, 'LV429632', 1694000, '44.75', 935935, 10, 9359350, 253),
+(3428, 'LV430630', 3020600, '44.75', 1668882, 10, 16688815, 253),
+(3429, '29450', 440000, '44.75', 243100, 20, 4862000, 253),
+(3430, 'LV429388', 1105500, '44.75', 610789, 20, 12215775, 254),
+(3431, 'NYAF075M', 1450, '0.00', 1450, 300, 435000, 255),
+(3432, 'NYAF075K', 1450, '0.00', 1450, 200, 290000, 255),
+(3433, 'NYAF075B', 1450, '0.00', 1450, 200, 290000, 255),
+(3434, 'LADN22', 214500, '45.00', 117975, 6, 707850, 255),
+(3435, 'LC1D32F7', 761000, '42.00', 441380, 9, 3972420, 255),
+(3436, 'LC1D50AM7', 1614000, '42.00', 936120, 12, 11233440, 255),
+(3437, 'LC1D65AM7', 2254000, '45.00', 1239700, 8, 9917600, 255),
+(3438, 'LRD06', 388000, '45.00', 213400, 2, 426800, 255),
+(3439, 'LRD07', 388000, '45.00', 213400, 3, 640200, 255),
+(3440, 'LRD08', 388000, '43.00', 221160, 1, 221160, 255),
+(3441, 'LRD21', 440000, '43.00', 250800, 4, 1003200, 255),
+(3442, 'GV2ME14', 706500, '45.00', 388575, 4, 1554300, 255);
 
 -- --------------------------------------------------------
 
@@ -7920,7 +8019,10 @@ INSERT INTO `salary` (`id`, `user_id`, `working`, `daily`, `basic`, `bonus`, `cu
 (2, 2, 28, '60000.00', '750000.00', 0, 0, 3, 2019),
 (5, 3, 22, '60000.00', '750000.00', 0, 0, 4, 2019),
 (6, 2, 22, '60000.00', '750000.00', 0, 0, 4, 2019),
-(7, 4, 0, '0.00', '500000.00', 0, 0, 4, 2019);
+(7, 4, 0, '0.00', '500000.00', 0, 0, 4, 2019),
+(8, 3, 19, '60000.00', '750000.00', 0, 0, 5, 2019),
+(9, 2, 23, '60000.00', '750000.00', 0, 0, 5, 2019),
+(10, 4, 6, '0.00', '400000.00', 0, 0, 5, 2019);
 
 -- --------------------------------------------------------
 
@@ -8012,6 +8114,33 @@ CREATE TABLE `sample` (
   `quantity` int(20) NOT NULL,
   `code_id` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sample`
+--
+
+INSERT INTO `sample` (`id`, `reference`, `quantity`, `code_id`) VALUES
+(1, 'A9K14110', 20, 1),
+(2, 'A9K14120', 10, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sample_sent`
+--
+
+CREATE TABLE `sample_sent` (
+  `id` int(255) NOT NULL,
+  `reference` varchar(100) NOT NULL,
+  `quantity` int(255) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sample_sent`
+--
+
+INSERT INTO `sample_sent` (`id`, `reference`, `quantity`) VALUES
+(1, 'A9K14120', 0);
 
 -- --------------------------------------------------------
 
@@ -8995,6 +9124,12 @@ ALTER TABLE `code_purchase_invoice`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `code_purchase_return`
+--
+ALTER TABLE `code_purchase_return`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `code_quotation`
 --
 ALTER TABLE `code_quotation`
@@ -9184,6 +9319,12 @@ ALTER TABLE `sample`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `sample_sent`
+--
+ALTER TABLE `sample_sent`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `stock`
 --
 ALTER TABLE `stock`
@@ -9227,7 +9368,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `absentee_list`
 --
 ALTER TABLE `absentee_list`
-  MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
 
 --
 -- AUTO_INCREMENT for table `announcement`
@@ -9251,7 +9392,7 @@ ALTER TABLE `calendar`
 -- AUTO_INCREMENT for table `closed_purchaseorder`
 --
 ALTER TABLE `closed_purchaseorder`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `code_bank`
@@ -9290,10 +9431,16 @@ ALTER TABLE `code_purchase_invoice`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `code_purchase_return`
+--
+ALTER TABLE `code_purchase_return`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `code_quotation`
 --
 ALTER TABLE `code_quotation`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=253;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=256;
 
 --
 -- AUTO_INCREMENT for table `code_random_do`
@@ -9317,7 +9464,7 @@ ALTER TABLE `code_sales_return`
 -- AUTO_INCREMENT for table `code_sample`
 --
 ALTER TABLE `code_sample`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `customer`
@@ -9395,7 +9542,7 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT for table `petty_cash`
 --
 ALTER TABLE `petty_cash`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=596;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=632;
 
 --
 -- AUTO_INCREMENT for table `petty_cash_classification`
@@ -9425,7 +9572,7 @@ ALTER TABLE `purchases`
 -- AUTO_INCREMENT for table `quotation`
 --
 ALTER TABLE `quotation`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3427;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3443;
 
 --
 -- AUTO_INCREMENT for table `reason`
@@ -9449,7 +9596,7 @@ ALTER TABLE `return_invoice_sales`
 -- AUTO_INCREMENT for table `salary`
 --
 ALTER TABLE `salary`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `sales_order`
@@ -9473,7 +9620,13 @@ ALTER TABLE `sales_return`
 -- AUTO_INCREMENT for table `sample`
 --
 ALTER TABLE `sample`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `sample_sent`
+--
+ALTER TABLE `sample_sent`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `stock`
