@@ -113,12 +113,18 @@
 			<p>Edit delivery address</p>
 		</a>
 	</div>
-	<a href="purchasing_return_dashboard.php">
-		<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
-			<i class="fa fa-undo" aria-hidden="true"></i>
-			Return
-		</button>
-	</a></button>
+	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+		<i class="fa fa-undo" aria-hidden="true"></i>
+		Return
+	</button>
+	<div class="dropdown-container">
+		<a href="purchasing_return_dashboard.php">
+			<p>Create Purchasing Return</p>
+		</a>
+		<a href="return_confirm_dashboard.php">
+			<p>Confirm Purchasing Return</p>
+		</a>
+	</div>
 	</a>
 	<hr>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>

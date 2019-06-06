@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2019 at 04:24 AM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.2
+-- Generation Time: Jun 06, 2019 at 09:02 AM
+-- Server version: 10.1.28-MariaDB
+-- PHP Version: 7.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -175,7 +175,11 @@ INSERT INTO `absentee_list` (`ID`, `user_id`, `time`, `date`, `isdelete`) VALUES
 (145, 4, '08:02:06', '2019-05-29', 0),
 (146, 2, '08:02:32', '2019-05-29', 0),
 (147, 3, '08:07:17', '2019-05-29', 0),
-(148, 1, '06:27:58', '2019-05-30', 0);
+(148, 1, '06:27:58', '2019-05-30', 0),
+(149, 3, '10:25:41', '2019-06-06', 0),
+(150, 4, '10:25:43', '2019-06-06', 0),
+(151, 1, '10:25:48', '2019-06-06', 0),
+(152, 2, '10:25:48', '2019-06-06', 0);
 
 -- --------------------------------------------------------
 
@@ -900,15 +904,20 @@ CREATE TABLE `code_purchase_return` (
   `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `supplier_id` int(255) NOT NULL,
-  `isconfirm` tinyint(4) NOT NULL DEFAULT '0'
+  `value` decimal(20,2) NOT NULL,
+  `isconfirm` tinyint(4) NOT NULL DEFAULT '0',
+  `send_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `code_purchase_return`
 --
 
-INSERT INTO `code_purchase_return` (`id`, `date`, `supplier_id`, `isconfirm`) VALUES
-(1, '2019-06-02', 9, 0);
+INSERT INTO `code_purchase_return` (`id`, `date`, `supplier_id`, `value`, `isconfirm`, `send_date`) VALUES
+(1, '2019-06-02', 9, '0.00', 1, NULL),
+(2, '2019-06-06', 8, '0.00', 1, NULL),
+(3, '2019-06-06', 15, '0.00', 1, NULL),
+(4, '2019-06-06', 15, '0.00', 1, '2019-06-06');
 
 -- --------------------------------------------------------
 
@@ -6846,6 +6855,28 @@ INSERT INTO `purchases` (`id`, `date`, `supplier_id`, `faktur`, `name`, `value`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `purchase_return`
+--
+
+CREATE TABLE `purchase_return` (
+  `id` int(255) NOT NULL,
+  `reference` varchar(100) NOT NULL,
+  `quantity` int(100) NOT NULL,
+  `price` decimal(20,2) NOT NULL,
+  `code_id` int(255) NOT NULL,
+  `isconfirm` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchase_return`
+--
+
+INSERT INTO `purchase_return` (`id`, `reference`, `quantity`, `price`, `code_id`, `isconfirm`) VALUES
+(1, 'NYY435', 3, '163494.00', 4, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `quotation`
 --
 
@@ -7972,6 +8003,27 @@ CREATE TABLE `receivable` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `return_delivery_order`
+--
+
+CREATE TABLE `return_delivery_order` (
+  `id` int(255) NOT NULL,
+  `date` date NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `type` varchar(4) DEFAULT NULL,
+  `supplier_customer` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `return_delivery_order`
+--
+
+INSERT INTO `return_delivery_order` (`id`, `date`, `name`, `type`, `supplier_customer`) VALUES
+(1, '2019-06-06', 'RTB-1-2019', 'BELI', 15);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `return_invoice_sales`
 --
 
@@ -8918,7 +8970,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (368, '2019-05-18', 'XB7NA21', 2, '20996.43', 2, 0, 0, 0),
 (369, '2019-05-18', 'XB7NA31', 2, '20996.43', 2, 0, 0, 0),
 (370, '2019-05-18', 'XB7NA21', 2, '41992.87', 2, 0, 0, 0),
-(371, '2019-05-19', 'NYY435', 2, '163498.00', 2, 0, 5, 0),
+(371, '2019-05-19', 'NYY435', 2, '163494.00', 2, 0, 5, 0),
 (372, '2019-05-21', 'A9L00002', 50, '16000000.00', 50, 3, 0, 1),
 (373, '2019-05-23', 'NYA10B', 200, '140000.00', 200, 4, 0, 2);
 
@@ -9262,6 +9314,12 @@ ALTER TABLE `purchases`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `purchase_return`
+--
+ALTER TABLE `purchase_return`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `quotation`
 --
 ALTER TABLE `quotation`
@@ -9278,6 +9336,12 @@ ALTER TABLE `reason`
 -- Indexes for table `receivable`
 --
 ALTER TABLE `receivable`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `return_delivery_order`
+--
+ALTER TABLE `return_delivery_order`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -9368,7 +9432,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `absentee_list`
 --
 ALTER TABLE `absentee_list`
-  MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
+  MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
 
 --
 -- AUTO_INCREMENT for table `announcement`
@@ -9434,7 +9498,7 @@ ALTER TABLE `code_purchase_invoice`
 -- AUTO_INCREMENT for table `code_purchase_return`
 --
 ALTER TABLE `code_purchase_return`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `code_quotation`
@@ -9569,6 +9633,12 @@ ALTER TABLE `purchases`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `purchase_return`
+--
+ALTER TABLE `purchase_return`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `quotation`
 --
 ALTER TABLE `quotation`
@@ -9585,6 +9655,12 @@ ALTER TABLE `reason`
 --
 ALTER TABLE `receivable`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `return_delivery_order`
+--
+ALTER TABLE `return_delivery_order`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `return_invoice_sales`

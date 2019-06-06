@@ -141,7 +141,7 @@
 		<a href="sales_return_dashboard.php">
 			<p>Sales return</p>
 		</a>
-		<a href="#">
+		<a href="purchasing_return_dashboard.php">
 			<p>Purchasing return</p>
 		</a>
 	</div>
