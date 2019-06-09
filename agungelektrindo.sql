@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2019 at 09:02 AM
+-- Generation Time: Jun 09, 2019 at 01:17 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.0.25
 
@@ -435,7 +435,8 @@ CREATE TABLE `closed_purchaseorder` (
 --
 
 INSERT INTO `closed_purchaseorder` (`id`, `purchaseorder_id`, `closed_date`) VALUES
-(1, 1, '2019-06-04');
+(1, 1, '2019-06-04'),
+(2, 2, '2019-06-09');
 
 -- --------------------------------------------------------
 
@@ -459,7 +460,12 @@ CREATE TABLE `code_bank` (
 --
 
 INSERT INTO `code_bank` (`id`, `date`, `value`, `transaction`, `name`, `isdone`, `major_id`, `isdelete`) VALUES
-(1, '2019-05-22', '300000000.00', '1', 'CV Matahari Elektrindo', 1, 0, 0);
+(1, '2019-05-22', '300000000.00', '1', 'CV Matahari Elektrindo', 1, 0, 0),
+(2, '2019-06-09', '20000000.00', '2', 'PT Kahatex', 0, 0, 0),
+(3, '2019-06-08', '10000000.00', '2', 'PT Kahatex', 0, 0, 1),
+(4, '2019-06-08', '3189296.00', '2', 'PT Kahatex', 1, 3, 0),
+(5, '2019-06-08', '6810704.00', '2', 'PT Kahatex', 0, 3, 0),
+(6, '2019-06-10', '350000.00', '2', 'CV Surya Elektrik', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -808,7 +814,8 @@ INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `custo
 (321, '2019-05-18', 1, 1, 'SJ-AE-01P.18-V-19', 5, 1, 0, 1, 2),
 (322, '2019-05-22', 2, 1, 'SJ-AE-02P.22-V-19', 3, 1, 0, 1, 3),
 (323, '2019-05-22', 3, 0, 'SJ-AE-03N.22-V-19', 5, 0, 0, 0, 4),
-(324, '2019-05-25', 4, 0, 'SJ-AE-04N.25-V-19', 16, 1, 0, 1, 5);
+(324, '2019-05-25', 4, 0, 'SJ-AE-04N.25-V-19', 16, 1, 0, 1, 5),
+(325, '2019-06-09', 1, 1, 'SJ-AE-01P.09-VI-19', 7, 1, 0, 1, 7);
 
 -- --------------------------------------------------------
 
@@ -878,7 +885,7 @@ CREATE TABLE `code_purchaseorder` (
 
 INSERT INTO `code_purchaseorder` (`id`, `name`, `supplier_id`, `date`, `top`, `value`, `taxing`, `delivery_id`, `promo_code`, `isclosed`, `maker`) VALUES
 (1, 'PO-AE-01.21-V-19', 3, '2019-05-21', 30, '1600000000.00', '2', 1, '', 1, 1),
-(2, 'PO-AE-02.21-V-19', 4, '2019-05-21', 30, '140000000.00', '1', 1, '', 0, 1),
+(2, 'PO-AE-02.21-V-19', 4, '2019-05-21', 30, '140000000.00', '1', 1, '', 1, 1),
 (3, 'PO-AE-03.22-V-19', 8, '2019-05-22', 30, '4300000.00', '1', 1, '', 0, 1);
 
 -- --------------------------------------------------------
@@ -1195,7 +1202,9 @@ INSERT INTO `code_salesorder` (`id`, `name`, `date`, `po_number`, `taxing`, `cus
 (2, '1905-SO-002', '2019-05-18', '', 1, 5, 9, '500000.00', '', NULL, '', 1),
 (3, '1905-SO-003', '2019-05-22', 'YANA/YUANA', 1, 3, 7, '4000000.00', '', NULL, '', 1),
 (4, '1905-SO-004', '2019-05-22', '', 0, 5, 9, '3000000.00', '', NULL, '', 1),
-(5, '1905-SO-005', '2019-05-24', 'UAUAUA', 0, 16, 20, '17500000.00', '', NULL, '', 1);
+(5, '1905-SO-005', '2019-05-24', 'UAUAUA', 0, 16, 20, '17500000.00', '', NULL, '', 1),
+(6, '1906-SO-001', '2019-06-09', '', 1, 6, 10, '500000.00', '', NULL, '', 1),
+(7, '1906-SO-002', '2019-06-09', 'ASSSSS', 1, 7, 11, '2000000.00', '', NULL, '', 1);
 
 -- --------------------------------------------------------
 
@@ -1441,7 +1450,8 @@ INSERT INTO `delivery_order` (`id`, `reference`, `quantity`, `do_id`) VALUES
 (2, 'GVAE11', 20, 322),
 (3, 'A9L00002', 2, 323),
 (4, 'RXM2AB1P7', 3, 324),
-(5, 'RXZE2M114M', 2, 324);
+(5, 'RXZE2M114M', 2, 324),
+(6, 'A9L00002', 2, 325);
 
 -- --------------------------------------------------------
 
@@ -1576,14 +1586,14 @@ INSERT INTO `invoices` (`id`, `date`, `do_id`, `faktur`, `name`, `value`, `ongki
 (13, '2018-10-05', 13, '', 'FU-AE-13P.05-X-18', '1775356.00', '0.00', 1, 0, '0000-00-00', 11),
 (14, '2018-10-05', 14, '', 'FU-AE-14P.05-X-18', '7497499.00', '0.00', 1, 0, '0000-00-00', 11),
 (15, '2018-10-05', 15, '', 'FU-AE-15P.05-X-18', '1672592.00', '0.00', 1, 0, '0000-00-00', 19),
-(16, '2018-10-06', 16, '', 'FU-AE-16P.06-X-18', '12621950.00', '0.00', 1, 0, '0000-00-00', 3),
-(17, '2018-10-06', 17, '', 'FU-AE-17P.06-X-18', '4935150.00', '0.00', 1, 0, '0000-00-00', 3),
+(16, '2018-10-06', 16, '', 'FU-AE-16P.06-X-18', '12621950.00', '0.00', 1, 1, '0000-00-00', 3),
+(17, '2018-10-06', 17, '', 'FU-AE-17P.06-X-18', '4935150.00', '0.00', 1, 1, '0000-00-00', 3),
 (18, '2018-10-05', 18, '', 'FU-AE-18P.05-X-18', '553384.00', '0.00', 1, 0, '0000-00-00', 20),
 (19, '2018-10-05', 19, '', 'FU-AE-19N.05-X-18', '1983956.00', '0.00', 1, 0, '0000-00-00', 0),
 (20, '2018-10-05', 20, '', 'FU-AE-20N.05-X-18', '1274427.00', '0.00', 1, 0, '0000-00-00', 10),
 (21, '2018-10-05', 21, '', 'FU-AE-21P.05-X-18', '2656665.00', '0.00', 1, 0, '0000-00-00', 9),
 (22, '2018-10-05', 22, '', 'FU-AE-22N.05-X-18', '2139000.00', '0.00', 1, 0, '0000-00-00', 0),
-(23, '2018-10-06', 23, '', 'FU-AE-23P.06-X-18', '3189296.00', '0.00', 1, 0, '0000-00-00', 3),
+(23, '2018-10-06', 23, '', 'FU-AE-23P.06-X-18', '3189296.00', '0.00', 1, 1, '0000-00-00', 3),
 (24, '2018-10-06', 24, '', 'FU-AE-24P.06-X-18', '4742977.00', '0.00', 1, 0, '0000-00-00', 3),
 (25, '2018-10-06', 25, '', 'FU-AE-25P.06-X-18', '60500000.00', '0.00', 1, 0, '0000-00-00', 3),
 (26, '2018-10-06', 26, '', 'FU-AE-26P.06-X-18', '786500.00', '0.00', 1, 0, '0000-00-00', 13),
@@ -1883,7 +1893,8 @@ INSERT INTO `invoices` (`id`, `date`, `do_id`, `faktur`, `name`, `value`, `ongki
 (320, '2018-12-31', 320, '', 'FU-AE-60P.31-XII-18', '6300000.00', '0.00', 1, 0, '0000-00-00', 40),
 (321, '2019-05-18', 321, '010.000.31-5351351_', 'FU-AE-01P.18-V-19', '500000.00', '0.00', 1, 0, '0000-00-00', 5),
 (322, '2019-05-22', 322, '', 'FU-AE-02P.22-V-19', '4000000.00', '0.00', 0, 0, '0000-00-00', 3),
-(323, '2019-05-25', 324, '', 'FU-AE-04N.25-V-19', '3000000.00', '56000.00', 1, 0, '0000-00-00', 16);
+(323, '2019-05-25', 324, '', 'FU-AE-04N.25-V-19', '3000000.00', '56000.00', 1, 0, '0000-00-00', 16),
+(324, '2019-06-09', 325, '010.000.00-00000000', 'FU-AE-01P.09-VI-19', '400000.00', '10000.00', 1, 0, '0000-00-00', 7);
 
 -- --------------------------------------------------------
 
@@ -6823,7 +6834,7 @@ CREATE TABLE `purchaseorder_received` (
 
 INSERT INTO `purchaseorder_received` (`id`, `reference`, `purchaseorder_id`, `quantity`, `status`) VALUES
 (1, 'A9L00002', 1, 50, 1),
-(2, 'NYA10B', 2, 200, 0),
+(2, 'NYA10B', 2, 200, 1),
 (3, 'A9A26929', 3, 0, 0),
 (4, 'AAACS120', 3, 0, 0);
 
@@ -7997,8 +8008,16 @@ CREATE TABLE `receivable` (
   `id` int(11) NOT NULL,
   `invoice_id` int(11) NOT NULL,
   `date` date NOT NULL,
-  `value` decimal(20,2) NOT NULL
+  `value` decimal(20,2) NOT NULL,
+  `bank_id` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `receivable`
+--
+
+INSERT INTO `receivable` (`id`, `invoice_id`, `date`, `value`, `bank_id`) VALUES
+(4, 23, '2019-06-08', '3189296.00', 3);
 
 -- --------------------------------------------------------
 
@@ -8103,7 +8122,9 @@ INSERT INTO `sales_order` (`id`, `reference`, `price`, `discount`, `price_list`,
 (3, 'GVAE11', '200000.00', '33.33', '300000.00', 20, 3, 0),
 (4, 'A9L00002', '300000.00', '25.00', '400000.00', 10, 4, 0),
 (5, 'RXM2AB1P7', '500000.00', '16.67', '600000.00', 20, 5, 0),
-(6, 'RXZE2M114M', '750000.00', '15.73', '890000.00', 10, 5, 0);
+(6, 'RXZE2M114M', '750000.00', '15.73', '890000.00', 10, 5, 0),
+(7, 'A9K14106', '100000.00', '50.00', '200000.00', 5, 6, 0),
+(8, 'A9L00002', '200000.00', '-566.67', '30000.00', 10, 7, 0);
 
 -- --------------------------------------------------------
 
@@ -8129,7 +8150,9 @@ INSERT INTO `sales_order_sent` (`id`, `reference`, `quantity`, `so_id`, `status`
 (3, 'GVAE11', 20, 3, 1),
 (4, 'A9L00002', 2, 4, 0),
 (5, 'RXM2AB1P7', 3, 5, 0),
-(6, 'RXZE2M114M', 2, 5, 0);
+(6, 'RXZE2M114M', 2, 5, 0),
+(7, 'A9K14106', 0, 6, 0),
+(8, 'A9L00002', 2, 7, 0);
 
 -- --------------------------------------------------------
 
@@ -8591,7 +8614,8 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (411, '2019-05-23', 'NYA10B', 'IN', 200, 200, 4, 0, 'ASOE'),
 (412, '2019-05-22', 'GVAE11', 'OUT', 20, 30, 0, 3, 'SJ-AE-02P.22-V-19'),
 (413, '2019-05-25', 'RXM2AB1P7', 'OUT', 3, 74, 0, 16, 'SJ-AE-04N.25-V-19'),
-(414, '2019-05-25', 'RXZE2M114M', 'OUT', 2, 7, 0, 16, 'SJ-AE-04N.25-V-19');
+(414, '2019-05-25', 'RXZE2M114M', 'OUT', 2, 7, 0, 16, 'SJ-AE-04N.25-V-19'),
+(415, '2019-06-09', 'A9L00002', 'OUT', 2, 48, 0, 7, 'SJ-AE-01P.09-VI-19');
 
 -- --------------------------------------------------------
 
@@ -8971,7 +8995,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (369, '2019-05-18', 'XB7NA31', 2, '20996.43', 2, 0, 0, 0),
 (370, '2019-05-18', 'XB7NA21', 2, '41992.87', 2, 0, 0, 0),
 (371, '2019-05-19', 'NYY435', 2, '163494.00', 2, 0, 5, 0),
-(372, '2019-05-21', 'A9L00002', 50, '16000000.00', 50, 3, 0, 1),
+(372, '2019-05-21', 'A9L00002', 50, '16000000.00', 48, 3, 0, 1),
 (373, '2019-05-23', 'NYA10B', 200, '140000.00', 200, 4, 0, 2);
 
 -- --------------------------------------------------------
@@ -9010,7 +9034,8 @@ INSERT INTO `stock_value_out` (`id`, `date`, `in_id`, `quantity`, `customer_id`)
 (15, '2019-05-18', 353, 5, 5),
 (16, '2019-05-22', 248, 20, 3),
 (17, '2019-05-25', 164, 3, 16),
-(18, '2019-05-25', 155, 2, 16);
+(18, '2019-05-25', 155, 2, 16),
+(19, '2019-06-09', 372, 2, 7);
 
 -- --------------------------------------------------------
 
@@ -9456,19 +9481,19 @@ ALTER TABLE `calendar`
 -- AUTO_INCREMENT for table `closed_purchaseorder`
 --
 ALTER TABLE `closed_purchaseorder`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `code_bank`
 --
 ALTER TABLE `code_bank`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `code_delivery_order`
 --
 ALTER TABLE `code_delivery_order`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=325;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=326;
 
 --
 -- AUTO_INCREMENT for table `code_goodreceipt`
@@ -9498,7 +9523,7 @@ ALTER TABLE `code_purchase_invoice`
 -- AUTO_INCREMENT for table `code_purchase_return`
 --
 ALTER TABLE `code_purchase_return`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `code_quotation`
@@ -9516,7 +9541,7 @@ ALTER TABLE `code_random_do`
 -- AUTO_INCREMENT for table `code_salesorder`
 --
 ALTER TABLE `code_salesorder`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `code_sales_return`
@@ -9552,7 +9577,7 @@ ALTER TABLE `delivery_address`
 -- AUTO_INCREMENT for table `delivery_order`
 --
 ALTER TABLE `delivery_order`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -9582,7 +9607,7 @@ ALTER TABLE `goodreceipt`
 -- AUTO_INCREMENT for table `invoices`
 --
 ALTER TABLE `invoices`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=324;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=325;
 
 --
 -- AUTO_INCREMENT for table `itemlist`
@@ -9654,7 +9679,7 @@ ALTER TABLE `reason`
 -- AUTO_INCREMENT for table `receivable`
 --
 ALTER TABLE `receivable`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `return_delivery_order`
@@ -9678,13 +9703,13 @@ ALTER TABLE `salary`
 -- AUTO_INCREMENT for table `sales_order`
 --
 ALTER TABLE `sales_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `sales_order_sent`
 --
 ALTER TABLE `sales_order_sent`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `sales_return`
@@ -9708,7 +9733,7 @@ ALTER TABLE `sample_sent`
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=415;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=416;
 
 --
 -- AUTO_INCREMENT for table `stock_value_in`
@@ -9720,7 +9745,7 @@ ALTER TABLE `stock_value_in`
 -- AUTO_INCREMENT for table `stock_value_out`
 --
 ALTER TABLE `stock_value_out`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `supplier`

@@ -26,6 +26,9 @@
 	</div>
 	<div id="showresults"></div>
 </div>
+<form id="reset_form" action='reset_transaction_validation.php' method='POST'>
+	<input type='hidden' value="" name='bank_id' id='bank_id'>
+</form>
 <script>
 	function view(){
 		var start= new Date($("#start_date").val());
@@ -57,5 +60,9 @@
 				},
 			});
 		}
+	}
+	function reset(n){
+		$('#bank_id').val(n);
+		$('#reset_form').submit();
 	}
 </script>

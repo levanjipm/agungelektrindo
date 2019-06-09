@@ -63,7 +63,6 @@
 			alert('Please insert value number!');
 		} else if($('#lawan').val() == 0){
 			alert('Please pick a client!');
-		} else if($
 		} else {
 			$('#formasi').submit();
 		}

@@ -22,7 +22,7 @@
 			<th></th>
 		</tr>
 <?php
-	$sql_table = "SELECT id,name,value,transaction,date FROM code_bank WHERE date >= '" . $start_date . "' AND date <= '" . $end_date . "' AND isdelete = '1'";
+	$sql_table = "SELECT id,name,value,transaction,date FROM code_bank WHERE date >= '" . $start_date . "' AND date <= '" . $end_date . "' AND isdone ='1'";
 	$result_table = $conn->query($sql_table);
 	while($table = $result_table->fetch_assoc()){
 		$date = $table['date'];
@@ -38,12 +38,11 @@
 			<td><?= date('d M Y',strtotime($date)) ?></td>
 			<td><?= $table['name'] ?></td>
 			<td><?= number_format($table['value'],2) . "  " . $trans ?></td>
-			<td><button type='button' class='btn btn-danger'>Reset transaction</button></td>
+			<td><button type='button' class='btn btn-danger' onclick='reset(<?= $table['id'] ?>)'>Reset transaction</button></td>
 			<td><button type='button' class='btn btn-default'>+</button></td>
-		</tr>		
+		</tr>
 <?php
 		}
-	}
 ?>
 	</table>
 	<p><strong>Saldo akhir:</strong>Rp. <?= number_format($saldo_awal,2) ?></p>

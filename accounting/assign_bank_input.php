@@ -8,7 +8,6 @@
 	$value_awal = $bank['value'];
 	$transaction = $bank['transaction'];
 	$name = $bank['name'];
-	print_r($_POST);
 	$uang = $bank['value'];
 	$tt = $_POST['tt'];
 	$i = 1;
@@ -24,7 +23,7 @@
 					
 					$remaining = $_POST['remaining' . $i];
 					$paid = $invoice['value'] + $invoice['ongkir'] - $remaining;
-					$sql = "INSERT INTO receivable (invoice_id,date,value) VALUES ('$invoice_id','$date','$paid')";
+					$sql = "INSERT INTO receivable (invoice_id,date,value,bank_id) VALUES ('$invoice_id','$date','$paid','$bank_id')";
 					$result = $conn->query($sql);
 					if($remaining == 0){
 						$update_invoice = "UPDATE invoices SET isdone = '1' WHERE id = '" . $invoice_id . "'";
@@ -97,6 +96,6 @@
 			$result_2 = $conn->query($sql_insert2);
 			$result_delete = $conn->query($sql_delete);
 		}
-		// header('location:accounting.php');
 	}
+	header('location:accounting.php');
 ?>
