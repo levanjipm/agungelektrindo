@@ -59,8 +59,11 @@
 			<td><?= $row['name'] ?></td>
 			<td>Rp. <?= number_format($row['value'],2) ?></td>
 			<td><button type='button' class='btn btn-default' onclick='pass(<?= $row['id'] ?>)'>Assign as payment</button></td>
-			<td><button type='button' class='btn btn-primary'>Assign as other income or expense</button></td>
+			<td><button type='button' class='btn btn-primary' onclick='other(<?= $row['id'] ?>)'>Assign as other income</button></td>
 			<form action='assign_bank_assign.php' method='POST' id='form<?= $row['id'] ?>'>
+				<input type='hidden' value='<?= $row['id'] ?>' name='id'>
+			</form>
+			<form action='assign_bank_other.php' method='POST' id='other_form<?= $row['id'] ?>'>
 				<input type='hidden' value='<?= $row['id'] ?>' name='id'>
 			</form>
 		</tr>
@@ -70,6 +73,9 @@
 	</table>
 </div>
 <script>
+	function other(n){
+		$('#other_form' + n).submit();
+	}
 	function pass(n){
 		var id = n;
 		$('#form' + id).submit();

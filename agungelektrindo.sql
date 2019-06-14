@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2019 at 01:17 PM
--- Server version: 10.1.28-MariaDB
--- PHP Version: 7.0.25
+-- Generation Time: Jun 14, 2019 at 01:22 PM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -416,6 +416,21 @@ INSERT INTO `calendar_tag` (`calendar_id`, `user_id`) VALUES
 (13, 1),
 (14, 3),
 (14, 1),
+(15, 1),
+(7, 2),
+(7, 3),
+(8, 3),
+(8, 2),
+(9, 4),
+(9, 1),
+(10, 1),
+(11, 2),
+(11, 3),
+(11, 4),
+(12, 1),
+(13, 1),
+(14, 3),
+(14, 1),
 (15, 1);
 
 -- --------------------------------------------------------
@@ -461,11 +476,32 @@ CREATE TABLE `code_bank` (
 
 INSERT INTO `code_bank` (`id`, `date`, `value`, `transaction`, `name`, `isdone`, `major_id`, `isdelete`) VALUES
 (1, '2019-05-22', '300000000.00', '1', 'CV Matahari Elektrindo', 1, 0, 0),
-(2, '2019-06-09', '20000000.00', '2', 'PT Kahatex', 0, 0, 0),
+(2, '2019-06-09', '20000000.00', '2', 'PT Kahatex', 1, 0, 0),
 (3, '2019-06-08', '10000000.00', '2', 'PT Kahatex', 0, 0, 1),
 (4, '2019-06-08', '3189296.00', '2', 'PT Kahatex', 1, 3, 0),
 (5, '2019-06-08', '6810704.00', '2', 'PT Kahatex', 0, 3, 0),
-(6, '2019-06-10', '350000.00', '2', 'CV Surya Elektrik', 0, 0, 0);
+(6, '2019-06-10', '350000.00', '2', 'CV Surya Elektrik', 1, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `code_bank_other`
+--
+
+CREATE TABLE `code_bank_other` (
+  `id` int(255) NOT NULL,
+  `bank_id` int(255) NOT NULL,
+  `class` int(255) NOT NULL,
+  `information` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `code_bank_other`
+--
+
+INSERT INTO `code_bank_other` (`id`, `bank_id`, `class`, `information`) VALUES
+(1, 6, 13, '1234'),
+(2, 2, 14, 'Bunga bank');
 
 -- --------------------------------------------------------
 
@@ -1242,16 +1278,20 @@ INSERT INTO `code_sales_return` (`id`, `submission_date`, `customer_id`, `do_id`
 CREATE TABLE `code_sample` (
   `id` int(11) NOT NULL,
   `customer_id` int(255) NOT NULL,
-  `date` date NOT NULL
+  `date` date NOT NULL,
+  `issent` tinyint(1) NOT NULL DEFAULT '0',
+  `date_sent` date NOT NULL,
+  `isback` tinyint(1) NOT NULL DEFAULT '0',
+  `date_back` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `code_sample`
 --
 
-INSERT INTO `code_sample` (`id`, `customer_id`, `date`) VALUES
-(1, 47, '2019-06-01'),
-(2, 57, '2019-06-04');
+INSERT INTO `code_sample` (`id`, `customer_id`, `date`, `issent`, `date_sent`, `isback`, `date_back`) VALUES
+(1, 47, '2019-06-01', 0, '0000-00-00', 0, '0000-00-00'),
+(2, 57, '2019-06-04', 0, '0000-00-00', 0, '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -9171,6 +9211,12 @@ ALTER TABLE `code_bank`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `code_bank_other`
+--
+ALTER TABLE `code_bank_other`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `code_delivery_order`
 --
 ALTER TABLE `code_delivery_order`
@@ -9490,6 +9536,12 @@ ALTER TABLE `code_bank`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `code_bank_other`
+--
+ALTER TABLE `code_bank_other`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `code_delivery_order`
 --
 ALTER TABLE `code_delivery_order`
@@ -9679,7 +9731,7 @@ ALTER TABLE `reason`
 -- AUTO_INCREMENT for table `receivable`
 --
 ALTER TABLE `receivable`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `return_delivery_order`

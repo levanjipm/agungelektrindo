@@ -1,61 +1,119 @@
 <?php
 	include('../codes/connect.php');
+	$max = 0;
 	$month = $_POST['month'];
 	$year = $_POST['year'];
-	$pengeluaran = 0;
-	if($_POST['filter'] == 0){
-		$sql_check = "SELECT COUNT(id) AS jumlah FROM petty_cash WHERE MONTH(date) = '" . $month . "' AND YEAR(date) = '" . $year . "'";
-		$result_check = $conn->query($sql_check);
-		$check = $result_check->fetch_assoc();
-		$checking = $check['jumlah'];
-	} else {
-		$sql_check = "SELECT COUNT(id) AS jumlah FROM petty_cash WHERE MONTH(date) = '" . $month . "' AND YEAR(date) = '" . $year . "'
-		AND class = '" . $_POST['filter'] . "'";
-		$result_check = $conn->query($sql_check);
-		$check = $result_check->fetch_assoc();
-		$checking = $check['jumlah'];
-			$sql_kelas = "SELECT * FROM petty_cash_classification WHERE major_id = '" . $_POST['filter'] . "'";
-			$result_kelas = $conn->query($sql_kelas);	
-			while($kelas = $result_kelas->fetch_assoc()){
-				$sql_sub = "SELECT COUNT(id) AS jumlah FROM petty_cash WHERE MONTH(date) = '" . $month . "' AND YEAR(date) = '" . $year . "'
-				AND class = '" . $kelas['id'] . "'";
-				$result_sub = $conn->query($sql_sub);
-				$sub = $result_sub->fetch_assoc();
-				$checking = $checking + $sub['jumlah'];
-			}
-	}
-	if($month == 0 && $year != 0){
-?>
-<style>
-	.box{
-		margin-bottom:0px;
-	}
-</style>
-<div class='row'>
-<?php
-		$sql_maximum = "SELECT MAX(value) AS maximum FROM petty_cash WHERE YEAR(date) = '" . $year . "' GROUP BY MONTH(date)";
-		$result_maximum = $conn->query($sql_maximum);
-		$max = $result_maximum->fetch_assoc();
-		$maximum_value = $max['maximum'];
-		$x = 1;
-		for($x = 1;$x <= 12; $x++){
-?>
-<?php
-			
-			
-			
-			$sql_chart = "SELECT SUM(value) AS pengeluaran FROM petty_cash WHERE MONTH(date) = '" . $x . "' AND YEAR(date) = '" . $year . "'";
-			$result_chart = $conn->query($sql_chart);
-			while($chart = $result_chart->fetch_assoc()){
-?>
-	<div class='col-sm-1' style='height:<?= $chart['pengeluaran'] * 40 / $maximum_value ?>px;background-color:green;position:relative;bottom:0;left:auto;margin-left:2px;display:inline-flex'></div>
-<?php
+	if($month != 0){
+		$sql = "SELECT SUM(value) AS pengeluaran FROM petty_cash WHERE MONTH(date) = '" . $month . "' AND YEAR(date) = '" . $year . "' AND class <> '25' GROUP BY class";
+		$result = $conn->query($sql);
+		while($row = $result->fetch_assoc()){
+			if($row['pengeluaran'] > $max){
+				$max = $row['pengeluaran'];
 			}
 		}
 ?>
-</div>
+	<style>
+		#width_control{
+			border-left:2px solid #333;
+			border-bottom:2px solid #333;
+		}
+		.chart_bar{
+			background-color:#333;
+			position:relative;
+			display:inline-block;
+		}
+	</style>
+	<div class='row'>
+		<div class='col-sm-12' id='width_control'>
 <?php
-	} else if($month != 0 && $year !=0){
-		$jumlah_hari = cal_days_in_month (CAL_GREGORIAN,$month,$year);
+		$sql_classes = "SELECT COUNT(*) AS jumlah_kelas FROM petty_cash_classification";
+		$result_classes = $conn->query($sql_classes);
+		$classes = $result_classes->fetch_assoc();
+		$jumlah_kelas = $classes['jumlah_kelas'];
+?>
+	<script>
+		var chart_width = $('#width_control').innerWidth() / <?= $jumlah_kelas ?>;
+		$('.chart_bar').each(function(){
+			$(this).css('width',chart_width  );
+		});
+	</script>
+<?php
+		$sql_show = "SELECT SUM(value) AS pengeluaran_kategori,class FROM petty_cash WHERE MONTH(date) = '" . $month . "' AND YEAR(date) = '" . $year . "' AND class <> '25' GROUP BY class ORDER BY class ASC";
+		$result_show = $conn->query($sql_show);
+		while($show = $result_show->fetch_assoc()){
+			$height_percentage = $show['pengeluaran_kategori'];
+			$sql_name = "SELECT name FROM petty_cash_classification WHERE id = '" . $show['class'] . "'";
+			$result_name = $conn->query($sql_name);
+			$name = $result_name->fetch_assoc();
+			$class_name = $name['name'];
+?>
+					<div data-html="true" class='chart_bar chart<?= $row['class'] ?>' style='height:<?= max(10,200 * $height_percentage / $max) ?>px' data-toggle="tooltip" title="<?= $class_name . "<br/>Rp. " . number_format($height_percentage,2)?>"></div>
+<?php
+	}
+?>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function(){
+		  $('[data-toggle="tooltip"]').tooltip(); 
+		});
+	</script>
+<?php
+	} else {
+		$sql = "SELECT SUM(value) AS pengeluaran FROM petty_cash WHERE YEAR(date) = '" . $year . "' AND class <> '25' GROUP BY class";
+		$result = $conn->query($sql);
+		while($row = $result->fetch_assoc()){
+			if($row['pengeluaran'] > $max){
+				$max = $row['pengeluaran'];
+			}
+		}
+?>
+	<style>
+		#width_control{
+			border-left:2px solid #333;
+			border-bottom:2px solid #333;
+		}
+		.chart_bar{
+			background-color:#333;
+			position:relative;
+			display:inline-block;
+		}
+	</style>
+	<div class='row'>
+		<div class='col-sm-12' id='width_control'>
+<?php
+		$sql_classes = "SELECT COUNT(*) AS jumlah_kelas FROM petty_cash_classification";
+		$result_classes = $conn->query($sql_classes);
+		$classes = $result_classes->fetch_assoc();
+		$jumlah_kelas = $classes['jumlah_kelas'];
+?>
+	<script>
+		var chart_width = $('#width_control').innerWidth() / <?= $jumlah_kelas ?>;
+		$('.chart_bar').each(function(){
+			$(this).css('width',chart_width  );
+		});
+	</script>
+<?php
+		$sql_show = "SELECT SUM(value) AS pengeluaran_kategori,class FROM petty_cash WHERE YEAR(date) = '" . $year . "' AND class <> '25' GROUP BY class ORDER BY class ASC";
+		$result_show = $conn->query($sql_show);
+		while($show = $result_show->fetch_assoc()){
+			$height_percentage = $show['pengeluaran_kategori'];
+			$sql_name = "SELECT name FROM petty_cash_classification WHERE id = '" . $show['class'] . "'";
+			$result_name = $conn->query($sql_name);
+			$name = $result_name->fetch_assoc();
+			$class_name = $name['name'];
+?>
+					<div data-html="true" class='chart_bar chart<?= $row['class'] ?>' style='height:<?= max(10,200 * $height_percentage / $max) ?>px' data-toggle="tooltip" title="<?= $class_name . "<br/>Rp. " . number_format($height_percentage,2)?>"></div>
+<?php
+	}
+?>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function(){
+		  $('[data-toggle="tooltip"]').tooltip(); 
+		});
+	</script>
+<?php
 	}
 ?>

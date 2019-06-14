@@ -20,7 +20,7 @@ input[type=number]::-webkit-outer-spin-button {
 <div class="main">
 <a href="#" id="folder"><i class="fa fa-folder"></i></a>
 <a href="#" id="close"><i class="fa fa-close"></i></a>
-	<div class="container" style="right:50px">
+	<div class='col-sm-11'>
 	<h2>Quotation</h2>
 	<h4 style="color:#444">Create new quotation</h4>
 	<hr>
@@ -114,7 +114,7 @@ input[type=number]::-webkit-outer-spin-button {
 					<input type="hidden" class="form-control" id="jumlah_barang" name="jumlah_barang">
 				</div>	
 			</div>
-			<div class="container" style="background-color:#eee">
+			<div style="background-color:#eee;padding:30px">
 				<div class="row" style="padding:20px">
 					<h3><b>Note</b></h3>
 				</div>
@@ -176,7 +176,7 @@ input[type=number]::-webkit-outer-spin-button {
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="form-group">
-							<textarea class="form-control" name="comment" rows="10" form="quotation"></textarea>
+							<textarea class="form-control" name="comment" rows="3" form="quotation"></textarea>
 						</div>
 					</div>
 				</div>
@@ -197,6 +197,7 @@ input[type=number]::-webkit-outer-spin-button {
 			</div>
 		</form>
 	</div>
+	<div class='col-sm-1'></div>
 </div>
 <script>
 function hitung(){

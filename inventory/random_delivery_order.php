@@ -114,60 +114,61 @@ switch ($type) {
     case "4":
 ?>
 		<div class='row' style='padding-top:30px'>
-			<div class='col-sm-1'>No.</div>
-			<div class='col-sm-4'>Reference</div>
-			<div class='col-sm-3'>Quantity</div>
-		</div>
-		<hr>
-		<div class='row'>
-			<div class='col-sm-1'>
-				1
+			<div class='col-sm-12'>
+				<h2>Random Delivery Order</h2>
+				<p>Samples</p>
+				<hr>
+				<h3>Send sample</h3>
+				<table class='table'>
+					<tr>
+						<th>Customer</th>
+						<th>Date issued</th>
+						<th></th>
+					</tr>
+<?php
+				$sql_sample = "SELECT id,customer_id,date FROM code_sample WHERE issent = '0'";
+				$result_sample = $conn->query($sql_sample);
+				while($sample = $result_sample->fetch_assoc()){
+					
+					$sql_customer = "SELECT name FROM customer WHERE id = '" . $sample['customer_id'] . "'";
+					$result_customer = $conn->query($sql_customer);
+					$customer = $result_customer->fetch_assoc();
+?>
+					<tr>
+						<td><?= $customer['name'] ?></td>
+						<td><?= date('d M Y',strtotime($sample['date'])) ?></td>
+						<td><button type='button' class='btn btn-default' onclick='submiting(<?= $sample['id'] ?>)'>Send</button></td>
+					</tr>
+					<form action='sample_validate.php' id='submit_form<?= $sample['id'] ?>' method='POST'>
+						<input type='hidden' value='<?= $sample['id'] ?>' name='id'>
+					</form>
+					<tbody>
+<?php
+					$sql_sample_detail = "SELECT * FROM sample WHERE code_id = '" . $sample['id'] . "'";
+					$result_sample_detail = $conn->query($sql_sample_detail);
+					while($sample_detail = $result_sample_detail->fetch_assoc()){
+?>
+						<tr>
+							<td><?= $sample_detail['reference'] ?></td>
+							<td><?= $sample_detail['quantity'] ?></td>
+						</tr>
+<?php
+				}
+?>
+					</tbody>
+<?php
+				}
+?>
+				</table>
+				<h3>Receive back sample</h3>
 			</div>
-			<div class='col-sm-4'>
-				<input name='reference1' id='reference1' class='form-control'>
-			</div>
-			<div class='col-sm-3'>
-				<input name='quantity1' id='quantity1' class='form-control'>
-			</div>
-		</div>
-		<div id="input_list">
 		</div>
 		<hr>
 		<script>
-		var i;
-		var a = 2;
-		$("#folder").click(function (){	
-			if(a == 4){
-				alert('Maximum input is 3!');
-				return false;
-			} else {
-				$("#input_list").append(
-				'<div class="row" style="padding-top:10px" id="barisan'+a+'">'+
-				'<div class="col-sm-1">'+a+'</div>'+
-				'<div class="col-sm-4"><input id="reference'+a+'" name="reference'+a+'" class="form-control" style="width:100%"></div>'+
-				'<div class="col-sm-3">'+'<input id="quantity'+a+'" name="quantity'+a+'" class="form-control" style="width:100%"></div>'+
-				'</div>').find("input").each(function () {
-				});
-				$("#reference" + a).autocomplete({
-					source: "ajax/search_item.php"
-				});
-				$('#jumlah').val(a);
-				a++;
+			function submiting(n){
+				$('#submit_form' + n).submit();
 			}
-		});
-
-		$("#close").click(function () {
-			if(a>2){
-				a--;
-				x = 'barisan' + a;
-				$("#"+x).remove();
-			} else {
-				return false;
-			}
-		});
-	</script>
-	<input type='hidden' value='1' id='jumlah' name='jumlah'>
-	<button type='button' class='btn btn-default'>Proceed</button>
+		</script>
 <?php
 		break;
     case "3":

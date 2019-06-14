@@ -103,7 +103,10 @@
 			<p>Add a transaction</p>
 		</a>
 		<a href="petty_view.php">
-			<p>View</p>
+			<p>View table</p>
+		</a>
+		<a href="petty_chart.php">
+			<p>View chart</p>
 		</a>
 	</div>
 	<hr>

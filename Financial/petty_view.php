@@ -82,11 +82,14 @@
 ?>
 					</select>
 				</div>
-				<div class='col-sm-1'>
+				<div class='col-sm-2'>
 					<label>Print</label><br>
 					<button type='button' class='btn btn-warning' onclick='printer()'>
 						<i class="fa fa-print" aria-hidden="true"></i>
 					</button>
+				</div>
+				<div class='col-sm-12'>
+					<button class='btn btn-default' onclick='view_chart()'>View chart</button>
 				</div>
 			</div>
 			<div id='inputs'></div>
