@@ -37,6 +37,7 @@
 		</tr>
 <?php
 	$sql_so = "SELECT * FROM code_salesorder WHERE isconfirm = '0'";
+	echo $sql_so;
 	$result_so = $conn->query($sql_so);
 	while($so = $result_so->fetch_assoc()){
 ?>

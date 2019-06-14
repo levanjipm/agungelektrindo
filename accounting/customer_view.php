@@ -47,10 +47,44 @@
 			<table class='table'>
 				<tr>
 					<th>Date</th>
-					<th>PO Number</th>
-					<th>Delivery order</th>
-					<th>Items</th>
+					<th>Invoice number</th>
+					<th>Value</th>
+<?php
+	if($role == 'superadmin'){
+?>
+					<th></th>
+<?php
+	}
+?>
 				</tr>
-		</div>
+<?php
+	$sql_invoice_detail = "SELECT invoices.id, invoices.date, invoices.name AS invoice_name, invoices.value, invoices.ongkir FROM invoices
+	WHERE invoices.customer_id = '" . $_POST['customer'] . "' AND invoices.isdone = '0'";
+	$result_invoice_detail = $conn->query($sql_invoice_detail);
+	while($invoice_detail = $result_invoice_detail->fetch_assoc()){
+?>
+				<tr>
+					<td><?= date('d M Y',strtotime($invoice_detail['date'])) ?></td>
+					<td><?= $invoice_detail['invoice_name'] ?></td>
+					<td>Rp. <?= number_format($invoice_detail['value'] + $invoice_detail['ongkir']) ?></td>
+<?php
+	if($role == 'superadmin'){
+?>
+					<td><button type='button' class='btn btn-default' onclick='submiting(<?= $invoice_detail['id'] ?>)'>Lunas</button></td>
+					<form id='hitung_lunas<?= $invoice_detail['id'] ?>' action='invoice_isdone.php' method='POST'>
+						<input type='hidden' value='<?= $invoice_detail['id'] ?>' name='id' readonly>
+					</form>
+<?php
+	}
+?>
+				</tr>
+<?php
+	}
+?>
 	</div>
 </div>
+<script>
+	function submiting(n){
+		$('#hitung_lunas' + n).submit();
+	};
+</script>

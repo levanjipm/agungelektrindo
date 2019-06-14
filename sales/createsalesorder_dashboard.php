@@ -138,10 +138,10 @@ $( function() {
 					<input type='text' class='form-control' name='retail_phone'>
 				</div>
 				<div class="row">
-					<div class="col-sm-2" style="padding:20px">
-						<button type="button" class="btn btn-success" onclick="return validateso()" id="calculate">Calculate</button>
-						<button type="button" class="btn btn-primary" style="display:none" id="submitbtn" onclick="return look()">Submit</button>
+					<div class="col-sm-6" style="padding:20px">
+						<button type="button" class="btn btn-default" onclick="return validateso()" id="calculate">Calculate</button>
 						<button type="button" class="btn btn-danger" style="display:none" id="back">Back</button>
+						<button type="button" class="btn btn-default" style="display:none" id="submitbtn" onclick="return look()">Submit</button	
 					</div>
 				</div>
 				<input type="hidden" class="form-control" id="jumlah_barang" name="jumlah_barang"></input>

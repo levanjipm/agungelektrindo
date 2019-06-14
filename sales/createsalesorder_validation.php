@@ -66,7 +66,7 @@ while($rows = $r->fetch_assoc()) {
 <?php
 				} else {
 ?>
-				<p><?= $customer ?></p>
+				<p><?= $customer_name ?></p>
 <?php
 				}
 ?>				
@@ -224,7 +224,3 @@ while($rows = $r->fetch_assoc()) {
 		</div>
 	</form>
 </div>
-
-<script>
-$("html, body").animate({ scrollTop: scroll_height }, 600);
-</script>

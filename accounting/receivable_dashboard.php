@@ -70,10 +70,16 @@
 	</script>
 <?php
 	$timeout = 0;
-	$sql_invoice = "SELECT SUM(value) AS jumlah,customer_id FROM invoices WHERE isdone = '0' GROUP BY customer_id ORDER BY jumlah DESC";
+	$sql_invoice = "SELECT SUM(value + ongkir) AS jumlah,customer_id,id FROM invoices GROUP BY customer_id ORDER BY jumlah DESC";
 	$result_invoice = $conn->query($sql_invoice);
 	while($invoice = $result_invoice->fetch_assoc()){
-		$width = max($invoice['jumlah'] * 100/ $maximum,2);
+		$sql_receive = "SELECT SUM(receivable.value) AS bayar_total, code_delivery_order.customer_id FROM receivable 
+		JOIN invoices ON receivable.invoice_id = invoices.id 
+		JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+		WHERE code_delivery_order.customer_id = '" . $invoice['customer_id'] . "'";
+		$result_receive = $conn->query($sql_receive);
+		$receive = $result_receive->fetch_assoc();
+		$width = max(($invoice['jumlah'] - $receive['bayar_total']) * 100/ $maximum,2);	
 ?>
 	<div class='row'>
 		<div class='col-sm-3'>
@@ -89,7 +95,7 @@
 			</div>
 		</div>
 		<div class='col-sm-2' id='nominal<?= $invoice['customer_id'] ?>'>
-			Rp. <?= number_format($invoice['jumlah'],2) ?>
+			Rp. <?= number_format($invoice['jumlah'] - $receive['bayar_total'],2) ?>
 		</div>
 	</div>
 	<script>
