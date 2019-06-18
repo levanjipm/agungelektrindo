@@ -2,6 +2,9 @@
 	include('hrheader.php');
 ?>
 	<div class='main'>
+	<h2>Salary Slip</h2>
+	<p>Create salary slip</p>
+	<hr>
 		<form method="POST" action='create_salary_slip_validation.php'>
 			<label>User id</label>
 			<select class='form-control' id='users' name='userid'>
@@ -17,6 +20,7 @@
 ?>
 			</select>
 			<div id='absentee'>
+			<label>Term</label>
 			<select class='form-control' id='absence' onchange='panggil()' name='absence'>
 				<option value=''>Pick the term</option>
 <?php

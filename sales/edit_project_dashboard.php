@@ -6,7 +6,8 @@
 	<p>Edit project</p>
 	<hr>
 	<label>Project</label>
-	<select class='form-control' name='project'>
+	<select class='form-control' id='project_id' onchange='view_project()'>
+		<option value='0'>Please pick a project</option>
 <?php
 	$sql = "SELECT * FROM code_project WHERE major_id = '0'";
 	$result = $conn->query($sql);
@@ -17,12 +18,8 @@
 	}
 ?>
 	</select>
-	<div class='col-sm-2' style='padding:30px'>
-		<button type='button' class='btn btn-default'>
-			Add Assignment
-		</button>
-	</div>
-	<div class='col-sm-8'>
+	<br><br>
+	<div class='col-sm-8' id='project_minor'>
 		<table class='table table-hover'>
 			<tr>
 				<th>Assignment name</th>
@@ -41,3 +38,17 @@
 	}
 ?>
 	</table>
+<script>
+	function view_project(){
+		$.ajax({
+			url:"view_project.php",
+			data:{
+				project_major : $('#project_id').val(),
+			},
+			type:"POST",
+			success:function(response){
+				$('#project_minor').html(response);
+			},
+		})
+	};
+</script>

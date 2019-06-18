@@ -42,42 +42,48 @@ function disable_year(){
 	</style>
 	<div id='quotation_result'>
 		<div class='container'>
-			<h3>Latest Sales Order</h3>
+			<h3>Incomplete Sales Order</h3>
 		</div>
 		<div class='row' id='wrapping'>
 			<div class='col-sm-4'>
 <?php
-	$sql_initial = "SELECT DISTINCT(so_id) FROM sales_order_sent WHERE status = '0'";
+	$sql_initial = "SELECT DISTINCT(so_id) AS so_id FROM sales_order_sent WHERE status = '0'";
 	$result_initial = $conn->query($sql_initial);
 	if(mysqli_num_rows($result_initial) > 0){
 		while($initial = $result_initial->fetch_assoc()){
-			$sql_code = "SELECT * FROM code_salesorder WHERE id = '" . $initial['so_id'];
+			$sql_code = "SELECT * FROM code_salesorder WHERE id = '" . $initial['so_id'] . "'";
 			$result_code = $conn->query($sql_code);
-			$quotation = $result_code->fetch_assoc();
+			$code = $result_code->fetch_assoc();
 ?>
-				<div class='row' style='padding:20px;background-color:#ddd;margin-top:5px' id='row-<?= $quotation['id'] ?>'>
+				<div class='row' style='padding:20px;background-color:#ddd;margin-top:5px' id='row-<?= $code['id'] ?>'>
 					<div class='col-sm-6'>
-						<strong><?= $quotation['name'] ?></strong><br>
+						<strong><?= $code['name'] ?></strong><br>
 						<p><?php
-							$sql_customer = "SELECT name FROM customer WHERE id = '" . $quotation['customer_id'] . "'";
+							$sql_customer = "SELECT name FROM customer WHERE id = '" . $code['customer_id'] . "'";
 							$result_customer = $conn->query($sql_customer);
 							$customer = $result_customer->fetch_assoc();
 							echo $customer['name'];
 						?></p>
 					</div>
 					<div class='col-sm-6'>
-						<button type='button' class='btn btn-default' style='border:none;background-color:#777' onclick='view_pane(<?= $quotation['id'] ?>)'>
+						<button type='button' class='btn btn-default' style='border:none;background-color:#777' onclick='view_pane(<?= $code['id'] ?>)'>
 							<i class="fa fa-eye" aria-hidden="true"></i>
 						</button>
-						<a href="editquotation.php?id=<?= $quotation['id']?>" style="text-decoration:none;color:black">
-							<button type='button' class='btn btn-success'>
-								<i class="fa fa-pencil" aria-hidden="true"></i>
-							</button>
-						</a>
 <?php
 	if($role == 'superadmin'){
 ?>
-						<button type='button' class='btn btn-danger' onclick='closing(<?= $quotation['id'] ?>)'>
+						<button type='button' class='btn btn-success' onclick='editing(<?= $code['id'] ?>)'>
+							<i class="fa fa-pencil" aria-hidden="true"></i>
+						</button>
+						<form id='edit_form<?= $code['id'] ?>' method='POST' action='edit_so.php'>
+							<input type='hidden' value='<?= $code['id'] ?>' name='id'>
+						</form>
+						<script>
+							function editing(n){
+								$('#edit_form' + n).submit();
+							}
+						</script>
+						<button type='button' class='btn btn-danger' onclick='closing(<?= $code['id'] ?>)'>
 							<i class="fa fa-ban" aria-hidden="true"></i>
 						</button>
 <?php
@@ -96,13 +102,13 @@ function disable_year(){
 	if($role == 'superadmin'){
 ?>
 			<div class='col-sm-4 col-sm-offset-4' id='sure' style='position:absolute;top:50%;z-index:200;display:none'>
-				<form action='close_so.php' method='POST' id='close_so_form'>
+				<form action='close_so.php' method='POST' id='close_so_form<?= $code['id'] ?>'>
 					<label>Input your pin</label>
 					<input type='number' id='pin' class='form-control' name='pin'>
 					<input type='hidden' id='id_so' name='id'>
 					<br>
 					<button type='button' class='btn btn-default'>Close</button>
-					<button type='button' class='btn btn-warning' onclick='submiting()'>Submit</button>
+					<button type='button' class='btn btn-warning' onclick='submiting(<?= $code['id'] ?>)'>Submit</button>
 				</form>
 			</div>
 <?php
@@ -120,8 +126,8 @@ function disable_year(){
 </style>
 </body>
 <script>
-function submiting(){
-	$('#close_so_form').submit();
+function submiting(n){
+	$('#close_so_form' + n).submit();
 }
 function closing(n){
 	$('#viewpane').fadeOut();
