@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2019 at 04:18 PM
+-- Generation Time: Jun 18, 2019 at 04:50 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.0.25
 
@@ -354,7 +354,8 @@ INSERT INTO `bank_accounts` (`id`, `name`) VALUES
 (133, 'CV Aditya Pratama'),
 (134, 'Bapak Aris Hermawan'),
 (135, 'Siauw Tjun Kwek'),
-(136, 'Michael Andi Rudianto');
+(136, 'Michael Andi Rudianto'),
+(137, 'PT Prima Indah Lestari');
 
 -- --------------------------------------------------------
 
@@ -481,7 +482,10 @@ INSERT INTO `code_bank` (`id`, `date`, `value`, `transaction`, `name`, `isdone`,
 (4, '2019-06-08', '3189296.00', '2', 'PT Kahatex', 1, 3, 0),
 (5, '2019-06-08', '6810704.00', '2', 'PT Kahatex', 0, 3, 0),
 (6, '2019-06-10', '350000.00', '2', 'CV Surya Elektrik', 1, 0, 0),
-(7, '2019-06-17', '8311000.00', '2', 'PT Royal Abadi Sejahtera', 1, 0, 0);
+(7, '2019-06-17', '8311000.00', '2', 'PT Royal Abadi Sejahtera', 1, 0, 0),
+(23, '2019-06-18', '2000000.00', '1', 'PT Prima Indah Lestari', 1, 0, 0),
+(24, '2019-06-20', '3000000.00', '1', 'PT Prima Indah Lestari', 1, 0, 0),
+(25, '2019-06-21', '30000000.00', '1', 'CV Matahari Elektrindo', 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -520,15 +524,15 @@ CREATE TABLE `code_delivery_order` (
   `sent` tinyint(1) NOT NULL DEFAULT '0',
   `isdelete` tinyint(1) NOT NULL DEFAULT '0',
   `isinvoiced` tinyint(4) NOT NULL DEFAULT '0',
-  `so_id` int(11) NOT NULL,
-  `label` varchar(5) DEFAULT NULL
+  `so_id` int(255) DEFAULT NULL,
+  `project_id` int(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `code_delivery_order`
 --
 
-INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `customer_id`, `sent`, `isdelete`, `isinvoiced`, `so_id`, `label`) VALUES
+INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `customer_id`, `sent`, `isdelete`, `isinvoiced`, `so_id`, `project_id`) VALUES
 (1, '2018-10-01', 1, 1, 'SJ-AE-01P.01-X-18', 50, 1, 0, 1, 0, NULL),
 (2, '2018-10-01', 2, 1, 'SJ-AE-02P.01-X-18', 3, 1, 0, 1, 0, NULL),
 (3, '2018-10-01', 3, 0, 'SJ-AE-03N.01-X-18', 38, 1, 0, 1, 0, NULL),
@@ -899,6 +903,14 @@ CREATE TABLE `code_project` (
   `isdone` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `code_project`
+--
+
+INSERT INTO `code_project` (`id`, `customer_id`, `project_name`, `price`, `major_id`, `start_date`, `end_date`, `isdone`) VALUES
+(1, 20, 'Cokilin asu', '0.00', 0, '2019-06-18', '2019-06-18', 0),
+(2, 20, 'Mulai dulu dengan ini', '0.00', 1, '2019-06-19', '2019-06-18', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -1197,20 +1209,6 @@ INSERT INTO `code_quotation` (`id`, `name`, `customer_id`, `date`, `value`, `pay
 (253, 'Q-AE-48.28-V-19', 44, '2019-05-28', 30910165, 3, 0, 30, '', 0),
 (254, 'Q-AE-49.28-V-19', 44, '2019-05-28', 12215775, 3, 0, 30, '', 0),
 (255, 'Q-AE-50.29-V-19', 3, '2019-05-29', 30691970, 3, 0, 30, '', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `code_random_do`
---
-
-CREATE TABLE `code_random_do` (
-  `id` int(255) NOT NULL,
-  `date` date NOT NULL,
-  `prefix` varchar(5) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `project_id` int(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -6120,16 +6118,20 @@ CREATE TABLE `payable` (
   `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `purchase_id` int(255) NOT NULL,
-  `value` decimal(20,2) NOT NULL
+  `value` decimal(20,2) NOT NULL,
+  `bank_id` int(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `payable`
 --
 
-INSERT INTO `payable` (`id`, `date`, `purchase_id`, `value`) VALUES
-(1, '2019-05-22', 1, '300000000.00'),
-(2, '2019-05-22', 1, '300000000.00');
+INSERT INTO `payable` (`id`, `date`, `purchase_id`, `value`, `bank_id`) VALUES
+(1, '2019-05-22', 1, '300000000.00', NULL),
+(2, '2019-05-22', 1, '300000000.00', NULL),
+(8, '2019-06-18', 2, '2000000.00', 23),
+(9, '2019-06-20', 2, '3000000.00', 24),
+(10, '2019-06-21', 1, '30000000.00', 25);
 
 -- --------------------------------------------------------
 
@@ -6836,6 +6838,51 @@ INSERT INTO `petty_cash_classification` (`id`, `name`, `major_id`) VALUES
 (28, 'Electricity', 27),
 (29, 'Water', 27),
 (30, 'Internet and telephone', 27);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project`
+--
+
+CREATE TABLE `project` (
+  `id` int(255) NOT NULL,
+  `reference` varchar(100) NOT NULL,
+  `quantity` int(255) NOT NULL,
+  `project_do_id` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `project`
+--
+
+INSERT INTO `project` (`id`, `reference`, `quantity`, `project_do_id`) VALUES
+(1, 'DOM12251SNI', 0, 1),
+(2, 'DOM12251SNI', 1, 2),
+(3, 'DOM12251SNI', 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `project_delivery_order`
+--
+
+CREATE TABLE `project_delivery_order` (
+  `id` int(255) NOT NULL,
+  `date` date NOT NULL,
+  `project_id` int(255) NOT NULL,
+  `isconfirm` tinyint(1) NOT NULL DEFAULT '0',
+  `created_by` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `project_delivery_order`
+--
+
+INSERT INTO `project_delivery_order` (`id`, `date`, `project_id`, `isconfirm`, `created_by`) VALUES
+(1, '2019-06-18', 1, 0, 1),
+(2, '2019-06-18', 1, 0, 1),
+(3, '2019-06-18', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -9291,12 +9338,6 @@ ALTER TABLE `code_quotation`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `code_random_do`
---
-ALTER TABLE `code_random_do`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `code_salesorder`
 --
 ALTER TABLE `code_salesorder`
@@ -9396,6 +9437,18 @@ ALTER TABLE `petty_cash`
 -- Indexes for table `petty_cash_classification`
 --
 ALTER TABLE `petty_cash_classification`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `project`
+--
+ALTER TABLE `project`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `project_delivery_order`
+--
+ALTER TABLE `project_delivery_order`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -9547,7 +9600,7 @@ ALTER TABLE `announcement`
 -- AUTO_INCREMENT for table `bank_accounts`
 --
 ALTER TABLE `bank_accounts`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
 
 --
 -- AUTO_INCREMENT for table `calendar`
@@ -9565,7 +9618,7 @@ ALTER TABLE `closed_purchaseorder`
 -- AUTO_INCREMENT for table `code_bank`
 --
 ALTER TABLE `code_bank`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `code_bank_other`
@@ -9589,7 +9642,7 @@ ALTER TABLE `code_goodreceipt`
 -- AUTO_INCREMENT for table `code_project`
 --
 ALTER TABLE `code_project`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `code_purchaseorder`
@@ -9614,12 +9667,6 @@ ALTER TABLE `code_purchase_return`
 --
 ALTER TABLE `code_quotation`
   MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=256;
-
---
--- AUTO_INCREMENT for table `code_random_do`
---
-ALTER TABLE `code_random_do`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `code_salesorder`
@@ -9703,7 +9750,7 @@ ALTER TABLE `itemlist`
 -- AUTO_INCREMENT for table `payable`
 --
 ALTER TABLE `payable`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `payment`
@@ -9722,6 +9769,18 @@ ALTER TABLE `petty_cash`
 --
 ALTER TABLE `petty_cash_classification`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT for table `project`
+--
+ALTER TABLE `project`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `project_delivery_order`
+--
+ALTER TABLE `project_delivery_order`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `purchaseorder`

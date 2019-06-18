@@ -12,13 +12,14 @@
 <?php
 	$maximum = 0;
 	$total = 0;
-	$sql_initial = "SELECT SUM(value) AS maximum FROM purchases WHERE isdone = '0' GROUP by supplier_id";
+	$sql_initial = "SELECT SUM(purchases.value) AS maximum, SUM(payable.value) AS pengurang FROM purchases
+	JOIN payable ON payable.purchase_id = purchases.id WHERE purchases.isdone = '0' GROUP by purchases.supplier_id, payable.purchase_id";
 	$result_initial = $conn->query($sql_initial);
 	while($initial = $result_initial->fetch_assoc()){
-		if($initial['maximum'] > $maximum){
-			$maximum = $initial['maximum'];
+		if($initial['maximum'] - $initial['pengurang'] > $maximum){
+			$maximum = $initial['maximum'] - $initial['pengurang'];
 		}
-		$total = $total + $initial['maximum'];
+		$total = $total + $initial['maximum'] - $initial['pengurang'];
 	}
 ?>
 <div class='main'>
@@ -70,10 +71,16 @@
 	</script>
 <?php
 	$timeout = 0;
-	$sql_invoice = "SELECT SUM(value) AS jumlah,supplier_id FROM purchases WHERE isdone = '0' GROUP BY supplier_id ORDER BY jumlah DESC";
+	$sql_invoice = "SELECT id,SUM(value) AS jumlah,supplier_id FROM purchases WHERE isdone = '0' GROUP BY supplier_id ORDER BY jumlah DESC";
 	$result_invoice = $conn->query($sql_invoice);
 	while($invoice = $result_invoice->fetch_assoc()){
-		$width = max($invoice['jumlah'] * 100/ $maximum,2);
+		
+		$sql_paid = "SELECT SUM(value) AS paid FROM payable WHERE purchase_id = '" . $invoice['id'] . "'";
+		$result_paid = $conn->query($sql_paid);
+		$paid = $result_paid->fetch_assoc();
+		$dibayar = $paid['paid'];
+		
+		$width = max(($invoice['jumlah'] - $dibayar) * 100/ $maximum,2);
 ?>
 	<div class='row'>
 		<div class='col-sm-3'>
@@ -89,7 +96,7 @@
 			</div>
 		</div>
 		<div class='col-sm-2' id='nominal<?= $invoice['supplier_id'] ?>'>
-			Rp. <?= number_format($invoice['jumlah'],2) ?>
+			Rp. <?= number_format($invoice['jumlah'] - $dibayar,2) ?>
 		</div>
 	</div>
 	<script>

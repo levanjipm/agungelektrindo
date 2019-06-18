@@ -133,6 +133,12 @@
 			Check stock
 		</button>
 	</a>
+	<a href="project_do_dashboard.php">
+		<button type='button' class='btn btn-badge' style='color:white'>
+			<i class="fa fa-archive" aria-hidden="true"></i>
+			Project
+		</button>
+	</a>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-undo" aria-hidden="true"></i>
 		Return

@@ -3,14 +3,15 @@ include('accountingheader.php');
 if(empty($_POST['id'])){
 	header('localtion:accounting.php');
 }
-	$bank_id = $_POST['id'];
-	$sql_bank = "SELECT * FROM code_bank WHERE id = '" . $bank_id . "'";
-	$result_bank = $conn->query($sql_bank);
-	$bank = $result_bank->fetch_assoc();
-	$transaction = $bank['transaction'];
-	$date = $bank['date'];
-	$value = $bank['value'];
-	$lawan = $bank['name'];
+$bank_id = $_POST['id'];
+$sql_bank = "SELECT * FROM code_bank WHERE id = '" . $bank_id . "'";
+$result_bank = $conn->query($sql_bank);
+$bank = $result_bank->fetch_assoc();
+
+$transaction = $bank['transaction'];
+$date = $bank['date'];
+$value = $bank['value'];
+$lawan = $bank['name'];
 ?>
 <script src='../universal/Numeral-js-master/src/numeral.js'></script>
 <div class='main'>
@@ -37,21 +38,25 @@ if(empty($_POST['id'])){
 		$result_invoice = $conn->query($sql_invoice);
 		$i = 1;
 		while($invoices = $result_invoice->fetch_assoc()){
+			$sql_paid = "SELECT SUM(value) AS paid FROM payable WHERE purchase_id = '" . $invoices['id'] . "'";
+			$result_paid = $conn->query($sql_paid);
+			$paid = $result_paid->fetch_assoc();
+			$received = $paid['paid'];
 ?>
 		<tr>
 			<input type='hidden' value='<?= $invoices['id'] ?>' name='id<?= $i ?>'>
 			<td><?= $invoices['date'] ?></td>
 			<td><?= $invoices['name']; ?></td>
-			<td><?= number_format(($invoices['value']),2) ?></td>
+			<td><?= number_format(($invoices['value'] - $received),2) ?></td>
 			<td>
 				<div class="checkbox">
 					<label><input type="checkbox" id="check-<?= $i ?>" onchange="add(<?= $i ?>)" name='check<?= $i ?>'></label>
 				</div>
-				<input type='hidden' value='<?= $invoices['value'] ?>' id='angka<?= $i ?>' readonly>
+				<input type='hidden' value='<?= $invoices['value'] - $received ?>' id='angka<?= $i ?>' readonly>
 			</td>
 			<td>
-				Rp. <span id='remain-<?= $i ?>'><?= number_format(($invoices['value']),2) ?></span>
-				<input type='hidden' value='<?= $invoices['value'] ?>' id='remaining-<?= $i ?>' name='remaining<?= $i ?>' readonly>
+				Rp. <span id='remain-<?= $i ?>'><?= number_format(($invoices['value'] - $received),2) ?></span>
+				<input type='hidden' value='<?= $invoices['value'] - $received ?>' id='remaining-<?= $i ?>' name='remaining<?= $i ?>' readonly>
 			</td>
 		</tr>
 <?php
@@ -65,20 +70,24 @@ if(empty($_POST['id'])){
 		$result_invoice = $conn->query($sql_invoice);
 		$i = 1;
 		while($invoices = $result_invoice->fetch_assoc()){
+			$sql_paid = "SELECT SUM(value) AS paid FROM receivable WHERE invoice_id = '" . $invoices['id'] . "'";
+			$result_paid = $conn->query($sql_paid);
+			$paid = $result_paid->fetch_assoc();
+			$received = $paid['paid'];
 ?>
 		<tr>
 			<input type='hidden' value='<?= $invoices['id'] ?>' name='id<?= $i ?>'>
 			<td><?= $invoices['date'] ?></td>
 			<td><?= $invoices['name']; ?></td>
-			<td><?= number_format(($invoices['value'] + $invoices['ongkir']),2) ?></td>
+			<td><?= number_format(($invoices['value'] + $invoices['ongkir'] - $received),2) ?></td>
 			<td>
 				<div class="checkbox">
 					<label><input type="checkbox" id="check-<?= $i ?>" onchange="add(<?= $i ?>)" name='check<?= $i ?>'></label>
 				</div>
-				<input type='hidden' value='<?= $invoices['value'] + $invoices['ongkir'] ?>' id='angka<?= $i ?>' readonly>
+				<input type='hidden' value='<?= $invoices['value'] + $invoices['ongkir'] - $received ?>' id='angka<?= $i ?>' readonly>
 			</td>
 			<td>
-				Rp. <span id='remain-<?= $i ?>'><?= number_format(($invoices['value'] + $invoices['ongkir']),2) ?></span>
+				Rp. <span id='remain-<?= $i ?>'><?= number_format(($invoices['value'] + $invoices['ongkir'] - $received),2) ?></span>
 				<input type='hidden' value='<?= ($invoices['value'] + $invoices['ongkir']) ?>' id='remaining-<?= $i ?>' name='remaining<?= $i ?>' readonly>
 			</td>
 		</tr>
@@ -113,9 +122,9 @@ if(empty($_POST['id'])){
 			}
 			if($('#value_now').val() == 0){
 				$("input:checkbox:not(:checked)").attr('disabled',true);
-				$('input[type=checkbox]').prop('checked').attr('disabled',false);
+				$('input:checkbox(:checked)').attr('disabled',false);
 			} else {
-				$('input[type=checkbox]').prop('checked').attr('disabled',false);
+				$('input:checkbox(:checked)').attr('disabled',false);
 			}
 		} else {
 			var pengurang = parseInt($('#angka' + n).val());

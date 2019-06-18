@@ -1,9 +1,11 @@
 <?php
 	include('../codes/connect.php');
 	$bank_id = $_POST['bank_id'];
+	
 	$sql_bank = "SELECT value,date,transaction,name FROM code_bank WHERE id = '" . $bank_id . "'";
 	$result_bank = $conn->query($sql_bank);
 	$bank = $result_bank->fetch_assoc();
+	
 	$date = $bank['date'];
 	$value_awal = $bank['value'];
 	$transaction = $bank['transaction'];
@@ -11,7 +13,7 @@
 	$uang = $bank['value'];
 	$tt = $_POST['tt'];
 	$i = 1;
-	if($transaction == 2){
+	if($transaction == 2){ //Kredit ->masuk duit//
 		$date = $_POST['date'];
 		for($i = 1; $i < $tt; $i++){{
 			if(array_key_exists('check'.$i, $_POST)){
@@ -51,7 +53,8 @@
 			$result_delete = $conn->query($sql_delete);
 		}
 		// header('location:accounting.php');
-	} else if($transaction == 1){
+	} else if($transaction == 1){ //Debit -> keluar duit//
+		print_r($_POST);
 		$date = $_POST['date'];
 		echo $date;
 		echo $tt;
@@ -63,9 +66,16 @@
 					$sql_invoice = "SELECT value FROM purchases WHERE id = '" . $purchase_id . "'";
 					$result_invoice = $conn->query($sql_invoice);
 					$invoice = $result_invoice->fetch_assoc();
+					
+					$sql_udah_dibayar = "SELECT SUM(value) AS udah_dibayar FROM payable WHERE purchase_id = '" . $purchase_id . "'";
+					$result_udah_dibayar = $conn->query($sql_udah_dibayar);
+					$udah_dibayar = $result_udah_dibayar->fetch_assoc();
+					
+					$paid = $udah_dibayar['udah_dibayar'];
+					
 					$remaining = $_POST['remaining' . $i];
-					$paid = $invoice['value'] - $remaining;
-					$sql = "INSERT INTO payable (purchase_id,date,value) VALUES ('$purchase_id','$date','$paid')";
+					$paid = $invoice['value'] - $remaining - $paid;
+					$sql = "INSERT INTO payable (purchase_id,date,value,bank_id) VALUES ('$purchase_id','$date','$paid','$bank_id')";
 					$result = $conn->query($sql);
 					if($remaining == 0){
 						$update_invoice = "UPDATE purchases SET isdone = '1' WHERE id = '" . $purchase_id . "'";
@@ -80,10 +90,8 @@
 		
 		if($uang == 0){
 			$sql_update = "UPDATE code_bank SET isdone = '1' WHERE id = '" . $bank_id . "'";
-			echo $bank_id;
 			$result_update = $conn->query($sql_update);
 		} else {
-			echo "Ga masuk sini harusnya anjink";
 			$yangdiassign = $value_awal - $uang;
 			$sql_delete = "UPDATE code_bank SET isdelete = '1' WHERE id = '" . $bank_id . "'";
 			$sql_insert1 = "INSERT INTO code_bank (date,value,transaction,name,isdone,major_id)
