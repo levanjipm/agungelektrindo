@@ -1,10 +1,14 @@
 <?php
 	include('../codes/connect.php');
-	print_r($_POST);
+	session_start();
+	if(!isset($_SESSION['user_id'])){
+		header('location:sales.php');
+	}
+	
 	$customer = $_POST['customer'];
 	$date = date('Y-m-d');
-	$sql = "INSERT INTO code_sample (customer_id,date)
-	VALUES ('$customer','$date')";
+	$sql = "INSERT INTO code_sample (customer_id,date,created_by)
+	VALUES ('$customer','$date','" . $_SESSION['user_id'] . "')";
 	$result = $conn->query($sql);
 	$sql_select = "SELECT id FROM code_sample ORDER BY id DESC LIMIT 1";
 	$result_select = $conn->query($sql_select);

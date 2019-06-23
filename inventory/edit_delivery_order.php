@@ -96,7 +96,6 @@
 				return false;
 			}
 		}
-		console.log(nilai);
 		if(nilai == 0){
 			$('#myForm').submit();
 		}

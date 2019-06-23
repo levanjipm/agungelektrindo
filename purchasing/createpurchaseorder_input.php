@@ -26,7 +26,7 @@
 	$tax = $_POST['taxing'];
 	$total = $_POST['total'];
 	$code_promo = $_POST['code_promo'];
-	$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,value,taxing,delivery_id,promo_code,maker) 
+	$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,value,taxing,delivery_id,promo_code,created_by) 
 	VALUES ('$po_number','$vendor_id','$date','$top','$total','$tax','$address','$code_promo','$_SESSION[user_id]')";
 	echo $sql;
 	$result = $conn->query($sql);

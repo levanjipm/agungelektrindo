@@ -53,23 +53,23 @@
 			$sql_sent_updated = "UPDATE sales_order_sent SET quantity = '" . ($quantity + $sent - $quantity_before) . "', status = '1'
 			WHERE id = '" . $so['id'] . "' AND reference = '" . $reference . "'";
 		}
-		// $result_sent_updated = $conn->query($sql_sent_updated);
+		$result_sent_updated = $conn->query($sql_sent_updated);
 		
 		$sql_delete = "DELETE FROM delivery_order WHERE do_id = '" . $do_id . "'";
-		// $result_delete = $conn->query($sql_delete);
+		$result_delete = $conn->query($sql_delete);
 		
 		$sql_insert = "INSERT INTO delivery_order (reference,quantity,do_id) VALUES ('$reference','$quantity','$do_id')";
-		// $result_insert = $conn->query($sql_insert);
+		$result_insert = $conn->query($sql_insert);
 	}
 ?>
 	<form method='POST' action='do_print.php' id='print_form' target='_blank'>
 		<input type='hidden' value='<?= $do_id ?>' name='id'>
 	</form>
 	<script>
-		// $(document).ready(function(){
-			// $('#print_form').submit();
-		// });
-		// setTimeout(function(){
-			// window.location.replace("inventory.php");
-		// },500)
+		$(document).ready(function(){
+			$('#print_form').submit();
+		});
+		setTimeout(function(){
+			window.location.replace("inventory.php");
+		},500)
 	</script>

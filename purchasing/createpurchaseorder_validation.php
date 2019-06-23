@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <?php
+	print_r($_POST);
 	$payement = $_POST['top'];
 	$po_date = $_POST['today'];
 	$vendor = $_POST['selectsupplier'];
@@ -20,7 +21,7 @@
 	   $vendor_city = $rows['city'];
 	};		
 	$total = $_POST['total'];
-	$address = $_POST['select_address'];
+	$address_choice = $_POST['optradio'];
 	$code_promo = $_POST['code_promo'];
 	
 	$sql = " SELECT COUNT(*) AS jumlah FROM code_purchaseorder WHERE MONTH(date) = MONTH('" . $po_date . "') AND YEAR(date) = YEAR('" . $po_date . "')";
@@ -86,14 +87,16 @@
 					<?= $vendor_city ?><br>
 					<strong>Payment terms:</strong> <?= $payement ?> days.<br>
 					<strong>Promo code:</strong> <?= $code_promo ?><br>
-				<?php
-				$sql = "SELECT * FROM delivery_address WHERE id = '" . $address . "'";
-				$result = $conn->query($sql);
-				while($row = $result->fetch_assoc()) { 
-					$address_tag = $row['tag'];
-				};
-				?>
-				<strong>Delivery address: </strong><?= $address_tag ?>
+
+				<strong>Delivery address: </strong>
+<?php
+	if($address_choice == 1){
+					echo ('Jalan Jamuju no. 18, Bandung');
+	} else {
+					echo ($_POST['address']);
+					echo (
+	}
+?>					
 					
 				</div>
 			</div>

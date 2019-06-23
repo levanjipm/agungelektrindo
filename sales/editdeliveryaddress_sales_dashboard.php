@@ -2,20 +2,24 @@
 	include('salesheader.php');
 ?>
 	<div class="main">
+		<h2>Delivery Address</h2>
+		<p>Edit delivery address</p>
+		<hr>
 		<table class="table">
 			<tr>
-				<th>Tag</th>
+				<th>Customer</th>
 				<th>Address</th>
 				<th>City</th>
 				<th></th>
 			</tr>
 <?php
-	$sql = "SELECT * FROM delivery_address";
+	$sql = "SELECT customer_deliveryaddress.address, customer_deliveryaddress.city, customer.name FROM customer_deliveryaddress
+	JOIN customer ON customer.id = customer_deliveryaddress.customer_id ORDER BY customer.name";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){
 ?>
 			<tr>
-				<td><?= $row['tag']; ?></td>
+				<td><?= $row['name'] ?></td>
 				<td><?= $row['address']; ?></td>
 				<td><?= $row['city']; ?></td>
 				<td><button type='button' class='btn btn-default' data-toggle="modal" data-target="#myModal-<?=$row['id']?>">Edit</button></td>

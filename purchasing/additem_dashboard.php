@@ -1,8 +1,25 @@
 <?php
 	include("purchasingheader.php");
-	include('../Codes/connect.php');
 ?>
+<style>
+	.alert_wrapper{
+		position:absolute;
+		z-index:55;
+		left:50%;
+	}
+</style>
 <div class="main">
+	<div class='alert_wrapper'>
+		<div class="alert alert-success" id='success_alert' style='display:none'>
+			<strong>Success!</strong> Successfully add item.
+		</div>
+		<div class="alert alert-warning" id='exist_alert' style='display:none'>
+			<strong>Info</strong> We found an exact same reference. Aborting operation.
+		</div>
+		<div class="alert alert-danger" id='failed_alert' style='display:none'>
+			<strong>Danger</strong> Failed to add item.
+		</div>
+	</div>
 	<div class="container" style="right:50px">
 	<h2>Item</h2>
 	<h4 style="color:#444">Add new item</h4>
@@ -12,18 +29,18 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<label for="name">Item Name</label>
-					<input type="text" id="itemreff" class="form-control" placeholder="Item reference..." name="itemreff" required id="first" autofocus></input>
+					<input type="text" id="itemreff" class="form-control" placeholder="Item reference..." name="itemreff" required autofocus></input>
 				</div>
 				<div class='col-sm-3'>
 					<label>Type</label>
-					<select class='form-control' name='type'>
+					<select class='form-control' name='type' id='type'>
 						<option value='0'>Please select a type</option>
 <?php
-	$sql_brand = "SELECT DISTINCT type FROM itemlist WHERE type <> '' ORDER BY type ASC";
+	$sql_brand = "SELECT id,name FROM itemlist_category ORDER BY name ASC";
 	$result_brand = $conn->query($sql_brand);
 	while($brand = $result_brand->fetch_assoc()){
 ?>
-						<option value='<?= $brand['type'] ?>'><?= $brand['type'] ?></option>
+						<option value='<?= $brand['id'] ?>'><?= $brand['name'] ?></option>
 <?php
 	}
 ?>
@@ -58,7 +75,7 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-								<button type="submit" class="btn btn-success">Proceed</button>
+								<button type="button" class="btn btn-success" onclick='add_item()'>Proceed</button>
 							</div>
 						</div>
 					</div>
@@ -68,14 +85,68 @@
 	</div>
 </div>
 <script>
-$(document).ready(function(){
-	$('input[name=itemreff]').focus()
-});
+	$(document).ready(function(){
+		$('#itemreff').focus()
+	});
 
-$('#submitbutton').click(function() {
-	$('#itemref').text($('#itemreff').val());
-	$('#itemdesc').text($('#itemdescs').val());
-});
+	$('#submitbutton').click(function() {
+		if($('#itemreff').val() == ''){
+			alert('Please insert correct reference');
+			$('#itemreff').focus();
+			return false;
+		} else if($('#itemdescs').val() == ''){
+			alert('Please insert correct description');
+			$('#itemdescs').focus();
+			return false;
+		} else {
+			$('#myModal').modal('hide');
+			$('#itemref').text($('#itemreff').val());
+			$('#itemdesc').text($('#itemdescs').val());
+		}
+	});
+	
+	function add_item(){
+		if($('#itemreff').val() == '' || $('#itemdescs').val() == ''){
+			$('#myModal').modal('show');
+			return false;
+		} else {
+			$.ajax({
+				url:'additem.php',
+				data:{
+					reference : $('#itemreff').val(),
+					description : $('#itemdescs').val(),
+					user : <?= $_SESSION['user_id'] ?>,
+					type : $('#type').val(),
+				},
+				type:"POST",
+				beforeSend: function() {
+					$('#myModal').modal('hide');
+				},
+				success:function(response){
+					if(response == 0){
+						$('#exist_alert').fadeIn();
+						setTimeout(function(){
+							$('#exist_alert').fadeOut();
+						},1000);
+						$('#itemreff').focus();
+					} else if(response == 1){
+						$('#success_alert').fadeIn();
+						setTimeout(function(){
+							$('#success_alert').fadeOut();
+						},1000);
+						$('#itemreff').val('');
+						$('#type').val(0);
+						$('#itemdescs').val('');
+					} else if(response == 2){
+						$('#failed_alert').fadeIn();
+						setTimeout(function(){
+							$('#failed_alert').fadeOut();
+						},1000);
+					}
+				},
+			})
+		}
+	}
 </script>
 </body>
 </html>

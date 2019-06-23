@@ -5,9 +5,11 @@
 	$result = $conn->query($sql);
 ?>
 <div class='main'>
-	<h2>Waiting for billing</h2>
+	<h2>Purchase Invoice</h2>
+	<p>Waiting for billing</p>
 	<div id='naming'></div>
-	<table class='table'>
+	<hr>
+	<table class='table table-hover'>
 		<tr>
 			<th>Date</th>
 			<th>Supplier</th>

@@ -2,12 +2,14 @@
 	include("salesheader.php");
 ?>
 <div class="main">
-<h1>Input new delivery address</h1>
+	<h2>Delivery Address</h2>
+	<p>Add delivery address</p>
+	<hr>
 	<form method="POST" action="adddeliveryaddress_sales.php">
 		<div class="row">
 			<div class="col-lg-6">
 				<label for="tag">Customer</label><br>
-				<select class="forming" id="select_customer" name="select_customer"  onclick="disable_two()">
+				<select class="form-control" id="select_customer" name="select_customer"  onclick="disable_two()">
 					<option id="customer_one" value="">Please select a customer--</option>
 						<?php
 							include("connect.php");

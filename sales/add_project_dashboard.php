@@ -22,7 +22,6 @@
 <?php
 		}
 ?>
-	
 	<div class='row'>
 		<div class='col-sm-6' style='padding:30px'>
 			<form action='add_project_input.php' method='POST' id='myForm'>

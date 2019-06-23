@@ -12,16 +12,6 @@ $( function() {
 });
 </script>
 <style>
-.forming{
-	border:none;
-	border-bottom:2px solid #999;
-	background-color:transparent;
-	display:block;
-	width:100%;
-}
-.forming:focus{
-	outline-width: 0;
-}
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
@@ -41,9 +31,9 @@ input[type=number]::-webkit-outer-spin-button {
 			<br>
 			<form name="purchaseorder" id="purchaseorder" class="form" method="POST" action="createpurchaseorder_validation.php" style="font-family:sans-serif">
 				<div class="row">
-					<div class="col-sm-4">
+					<div class="col-sm-5">
 						<label for="name">Order to</label>
-						<select class="forming" id="selectsupplier" name="selectsupplier"  onclick="disable()">
+						<select class="form-control" id="selectsupplier" name="selectsupplier"  onclick="disable()">
 						<option id="kosong" value="">--Please Select a supplier--</option>
 							<?php
 								include("connect.php");
@@ -56,41 +46,21 @@ input[type=number]::-webkit-outer-spin-button {
 								}
 							?>
 						</select>
-					</div>
-					<div class="col-sm-2 col-sm-offset-5">
-						<label for="date">Date</label>
-						<input id="today" name="today" type="date" class="forming" value="<?php echo date('Y-m-d');?>">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-4">
 						<label>Promo Code</label>
-						<input type="text" class="forming" name="code_promo" placeholder="Promo code">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-3 mb-4">
+						<input type="text" class="form-control" name="code_promo" placeholder="Promo code">
 						<label for="top">Payement Terms:</label>
-						<input class="forming" id="top" value="30" name="top" style='width:75%;display:inline-block;' required>
-						<span style='width:20%;display:inline-block;'>Days</span>
+						<input class="form-control" id="top" value="30" name="top" style='width:75%;display:inline-block;' required>
+						<span style='width:20%;display:inline-block;'>Days</span>	
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-3 mb-4">
-						<label for="top" required>Delivery address:</label>
-						<select class="forming" id="select_address" name="select_address"  onclick="disable()">
-							<?php
-								include("connect.php");
-								$sql = "SELECT * FROM delivery_address";
-								$result = $conn->query($sql);
-								if ($result->num_rows > 0) {
-									while($row = mysqli_fetch_array($result)) {
-									echo '<option id="pilih" value="' . $row["id"] . '">'. $row["tag"].'</option> ';
-									}
-								}
-							?>
-						</select>
-					 </div>
+					<div class="col-sm-5 col-sm-offset-1">
+						<label for="date">Date</label>
+						<input id="today" name="today" type="date" class="form-control" value="<?php echo date('Y-m-d');?>">
+						<label>Send date</label>
+						<input type='date' class='form-control' name='sent_date'>
+						<div class="checkbox">
+							<label><input type="checkbox" value="1" name='send_date'>Send date unknown</label>
+						</div>
+					</div>
 				</div>
 				<div class="row" id="headerlist" style="border-radius:10px;padding-top:25px">
 					<div class="col-sm-1" style="background-color:#aaa">
@@ -149,6 +119,31 @@ input[type=number]::-webkit-outer-spin-button {
 						<input class="nomor" id="total" name="total" readonly></input>
 					</div>
 				</div>
+				<div class='row'>
+					<div class='col-sm-8'>
+						<label class="radio-inline"><input type="radio" name="optradio" checked value='1' onchange='delivery_option()'>Default</label>
+						<label class="radio-inline"><input type="radio" name="optradio" value='2' onchange='delivery_option()'>As dropshiper</label>
+						<br><br>
+						<div id='dropshiper_delivery' style='display:none'>
+							<label for="top" required>Delivery address:</label>
+							<input type='text' class='form-control' name='address'>
+							<label>City</label>
+							<input type='text' class='form-control' name='city'>
+							<label>Phone number</label>
+							<input type='text' class='form-control'>
+						</div>
+					</div>
+					<script>
+						function delivery_option(){
+							if($('input[name=optradio]:checked').val() == 1){
+								$('#dropshiper_delivery').fadeOut();
+							} else {
+								$('#dropshiper_delivery').fadeIn();
+							}
+						}
+					</script>
+				</div>
+				<br><br>
 				<div class="row">
 					<div class="col-sm-2">
 						<button type="button" class="btn btn-primary" onclick="hitung()" id="calculate">Calculate</button>

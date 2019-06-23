@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 18, 2019 at 04:50 PM
--- Server version: 10.1.28-MariaDB
--- PHP Version: 7.0.25
+-- Generation Time: Jun 21, 2019 at 01:07 PM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -179,7 +179,27 @@ INSERT INTO `absentee_list` (`ID`, `user_id`, `time`, `date`, `isdelete`) VALUES
 (149, 3, '10:25:41', '2019-06-06', 0),
 (150, 4, '10:25:43', '2019-06-06', 0),
 (151, 1, '10:25:48', '2019-06-06', 0),
-(152, 2, '10:25:48', '2019-06-06', 0);
+(152, 2, '10:25:48', '2019-06-06', 0),
+(153, 1, '08:16:21', '2019-06-17', 0),
+(154, 2, '08:16:22', '2019-06-17', 0),
+(155, 3, '08:16:22', '2019-06-17', 0),
+(156, 4, '08:16:23', '2019-06-17', 1),
+(157, 1, '07:52:50', '2019-06-18', 0),
+(158, 2, '07:52:50', '2019-06-18', 0),
+(159, 4, '07:52:52', '2019-06-18', 0),
+(160, 3, '08:09:55', '2019-06-18', 0),
+(161, 1, '07:57:58', '2019-06-19', 0),
+(162, 2, '07:57:59', '2019-06-19', 0),
+(163, 3, '07:58:01', '2019-06-19', 1),
+(164, 4, '07:58:02', '2019-06-19', 0),
+(165, 1, '07:52:28', '2019-06-20', 0),
+(166, 2, '07:52:29', '2019-06-20', 0),
+(167, 4, '07:52:31', '2019-06-20', 0),
+(168, 3, '08:08:22', '2019-06-20', 0),
+(169, 1, '08:00:59', '2019-06-21', 0),
+(170, 2, '08:00:59', '2019-06-21', 0),
+(171, 4, '08:01:01', '2019-06-21', 0),
+(172, 3, '08:03:14', '2019-06-21', 0);
 
 -- --------------------------------------------------------
 
@@ -883,8 +903,7 @@ CREATE TABLE `code_goodreceipt` (
 --
 
 INSERT INTO `code_goodreceipt` (`id`, `supplier_id`, `date`, `received_date`, `document`, `po_id`, `isconfirm`, `isinvoiced`, `invoice_id`) VALUES
-(1, 3, '2019-05-21', '2019-05-21', 'ffffuck', 1, 1, 1, 1),
-(2, 4, '2019-05-23', '2019-05-21', 'ASOE', 2, 1, 1, 2);
+(3, 4, '2019-02-07', '2019-06-21', 'PI-KL-AI-OODCC', 4, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -908,8 +927,8 @@ CREATE TABLE `code_project` (
 --
 
 INSERT INTO `code_project` (`id`, `customer_id`, `project_name`, `price`, `major_id`, `start_date`, `end_date`, `isdone`) VALUES
-(1, 20, 'Cokilin asu', '0.00', 0, '2019-06-18', '2019-06-18', 0),
-(2, 20, 'Mulai dulu dengan ini', '0.00', 1, '2019-06-19', '2019-06-18', 1);
+(1, 20, 'Cokilin asu', '0.00', 0, '2019-06-18', '2019-06-19', 1),
+(2, 20, 'Mulai dulu dengan ini', '0.00', 1, '2019-06-19', '0000-00-00', 1);
 
 -- --------------------------------------------------------
 
@@ -936,22 +955,26 @@ CREATE TABLE `code_purchaseorder` (
 --
 
 INSERT INTO `code_purchaseorder` (`id`, `name`, `supplier_id`, `date`, `top`, `value`, `taxing`, `delivery_id`, `promo_code`, `isclosed`, `maker`) VALUES
-(1, 'PO-AE-01.21-V-19', 3, '2019-05-21', 30, '1600000000.00', '2', 1, '', 1, 1),
-(2, 'PO-AE-02.21-V-19', 4, '2019-05-21', 30, '140000000.00', '1', 1, '', 1, 1),
-(3, 'PO-AE-03.22-V-19', 8, '2019-05-22', 30, '4300000.00', '1', 1, '', 0, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `code_purchase_invoice`
---
-
-CREATE TABLE `code_purchase_invoice` (
-  `id` int(255) NOT NULL,
-  `date` date NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `tax_invoice` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+(4, 'PO-AE-01.01-II-19', 4, '2019-02-01', 60, '1218328891.00', '1', 1, '', 0, 3),
+(5, 'PO-AE-02.02-II-19', 4, '2019-02-02', 60, '3016440.00', '1', 1, '', 0, 3),
+(6, 'PO-AE-03.04-II-19', 16, '2019-02-04', 30, '6043488.00', '2', 1, '', 0, 3),
+(7, 'PO-AE-04.06-II-19', 2, '2019-02-06', 30, '17251300.00', '1', 1, '', 0, 3),
+(8, 'PO-AE-05.12-II-19', 2, '2019-02-12', 30, '155385014.66', '1', 1, '', 0, 3),
+(9, 'PO-AE-06.15-II-19', 2, '2019-02-15', 30, '1415216.00', '1', 1, '', 0, 3),
+(10, 'PO-AE-07.18-II-19', 4, '2019-02-18', 60, '208609739.53', '1', 1, '', 0, 3),
+(11, 'PO-AE-08.19-II-19', 2, '2019-02-19', 30, '32249684.50', '1', 1, '', 0, 3),
+(12, 'PO-AE-09.09-II-19', 16, '2019-02-09', 30, '11000000.00', '2', 1, '', 0, 3),
+(13, 'PO-AE-10.22-II-19', 2, '2019-02-22', 30, '17946775.00', '1', 1, 'Minggu Breaker', 0, 3),
+(14, 'PO-AE-11.26-II-19', 2, '2019-02-26', 30, '1719586.00', '1', 1, '', 0, 3),
+(15, 'PO-AE-12.26-II-19', 7, '2019-02-26', 30, '2962388.00', '1', 1, '', 0, 3),
+(16, 'PO-AE-13.28-II-19', 2, '2019-02-28', 30, '9709656.00', '1', 1, '', 0, 3),
+(17, 'PO-AE-01.05-III-19', 8, '2019-03-05', 45, '485126400.00', '1', 1, 'Minta 1 free sample dudukan kapasitor Minta 1 set free sample skun L dan vinil', 0, 3),
+(18, 'PO-AE-02.05-III-19', 4, '2019-03-05', 60, '23037861.00', '1', 1, '', 0, 3),
+(19, 'PO-AE-03.06-III-19', 7, '2019-03-06', 30, '335540588.00', '1', 1, '', 0, 3),
+(20, 'PO-AE-04.06-III-19', 2, '2019-03-06', 30, '40353393.50', '1', 1, '', 0, 3),
+(21, 'PO-AE-05.11-III-19', 4, '2019-03-11', 60, '584951485.70', '1', 1, 'PIL HEBAT', 0, 3),
+(22, 'PO-AE-06.12-III-19', 2, '2019-03-12', 30, '5651800.00', '1', 1, '', 0, 3),
+(23, 'PO-AE-07.13-III-19', 1, '2019-03-13', 30, '926640.00', '1', 1, '', 0, 3);
 
 -- --------------------------------------------------------
 
@@ -1208,7 +1231,26 @@ INSERT INTO `code_quotation` (`id`, `name`, `customer_id`, `date`, `value`, `pay
 (252, 'Q-AE-47.27-V-19', 37, '2019-05-27', 1605186, 3, 0, 30, '', 0),
 (253, 'Q-AE-48.28-V-19', 44, '2019-05-28', 30910165, 3, 0, 30, '', 0),
 (254, 'Q-AE-49.28-V-19', 44, '2019-05-28', 12215775, 3, 0, 30, '', 0),
-(255, 'Q-AE-50.29-V-19', 3, '2019-05-29', 30691970, 3, 0, 30, '', 0);
+(255, 'Q-AE-50.29-V-19', 3, '2019-05-29', 30691970, 3, 0, 30, '', 0),
+(256, 'Q-AE-01.17-VI-19', 3, '2019-06-17', 3905000, 3, 0, 30, '', 0),
+(257, 'Q-AE-02.17-VI-19', 44, '2019-06-17', 6834300, 3, 0, 30, '', 0),
+(258, 'Q-AE-03.17-VI-19', 31, '2019-06-17', 2832748, 3, 0, 30, '', 0),
+(259, 'Q-AE-04.17-VI-19', 27, '2019-06-17', 1567167888, 3, 0, 30, '', 0),
+(260, 'Q-AE-05.17-VI-19', 79, '2019-06-17', 63982034, 3, 0, 30, '', 0),
+(261, 'Q-AE-06.18-VI-19', 1, '2019-06-18', 2730815, 3, 0, 30, '', 0),
+(262, 'Q-AE-07.19-VI-19', 50, '2019-06-19', 239868605, 3, 0, 30, '', 0),
+(263, 'Q-AE-08.19-VI-19', 15, '2019-06-19', 33197175, 3, 0, 30, '', 0),
+(264, 'Q-AE-09.19-VI-19', 8, '2019-06-19', 201442322, 3, 0, 30, '', 0),
+(265, 'Q-AE-10.19-VI-19', 27, '2019-06-19', 42845400, 3, 0, 30, '', 0),
+(266, 'Q-AE-11.19-VI-19', 50, '2019-06-19', 4566892, 3, 0, 30, '', 0),
+(267, 'Q-AE-12.19-VI-19', 50, '2019-06-19', 6923587, 3, 0, 30, '', 0),
+(268, 'Q-AE-13.19-VI-19', 33, '2019-06-19', 101037508, 3, 0, 30, '', 0),
+(269, 'Q-AE-14.19-VI-19', 4, '2019-06-19', 16850000, 2, 0, 45, '', 0),
+(270, 'Q-AE-15.19-VI-19', 4, '2019-06-19', 62000000, 2, 0, 45, '', 0),
+(271, 'Q-AE-16.20-VI-19', 50, '2019-06-20', 3868800, 3, 0, 30, '', 0),
+(272, 'Q-AE-17.20-VI-19', 3, '2019-06-20', 64461120, 3, 0, 30, '147584', 0),
+(273, 'Q-AE-18.20-VI-19', 3, '2019-06-20', 30294370, 3, 0, 30, '147586', 0),
+(274, 'Q-AE-19.20-VI-19', 11, '2019-06-20', 5928001, 3, 0, 30, '', 0);
 
 -- --------------------------------------------------------
 
@@ -1244,7 +1286,7 @@ INSERT INTO `code_salesorder` (`id`, `name`, `date`, `po_number`, `taxing`, `cus
 (6, '1906-SO-001', '2019-06-09', '', 1, 6, 10, '500000.00', '', NULL, '', 1),
 (7, '1906-SO-002', '2019-06-09', 'ASSSSS', 1, 7, 11, '2000000.00', '', NULL, '', 1),
 (8, '1906-SO-003', '2019-06-14', '19113355/XL', 1, 31, 39, '6250000.00', '', NULL, '', 1),
-(9, '1906-SO-004', '2019-06-14', 'asdf', 0, 5, 9, '20000.00', '', NULL, '', 0);
+(9, '1906-SO-004', '2019-06-14', 'asdf', 0, 5, 9, '20000.00', '', NULL, '', 1);
 
 -- --------------------------------------------------------
 
@@ -1311,93 +1353,95 @@ CREATE TABLE `customer` (
   `npwp` varchar(20) NOT NULL,
   `city` text NOT NULL,
   `prefix` text NOT NULL,
-  `pic` varchar(100) NOT NULL
+  `pic` varchar(100) NOT NULL,
+  `date_created` date NOT NULL,
+  `created_by` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`id`, `name`, `address`, `phone`, `npwp`, `city`, `prefix`, `pic`) VALUES
-(1, 'PT Mitracool Jaya Utama', 'Jalan Indramayu Blok 000 no.45, RT000, RW000', '022-60842371/022-721', '02.204.095.0-429.000', 'Bandung', 'Ibu', 'Sani Angraeni'),
-(2, 'PT Mentari Gemilang Perdana Sentosa', 'Jalan Raya Paseban Blok 000 no.1B, RT000, RW000', '021-3153888', '01.859.814.4-032.000', 'Jakarta Barat', 'Bapak', 'Keefvin Sastraaminata'),
-(3, 'PT Kahatex', 'Jalan Raya Rancaekek KM6 Blok 000 no.000, RT000, RW000', '022-27798051', '01.104.586.1-092.000', 'Bandung', 'Ibu', 'Margaretha Liana'),
-(4, 'PT Sahabat Mitra Jaya', 'Jalan Boulevard Raya Grand Galaxy City Blok RSN I no.53, RT000, RW000', '021-82742227', '80.912.736.8-432.000', 'Bekasi', 'Ibu', 'Paskah Ria'),
-(5, 'PT Mathar Telekomunikasi Indonesia', 'Jalan Cingised Komplek Griya Caraka Blok AA no.32, RT001, RW005', '022-87881504', '02.203.924.2-429.000', 'Bandung', 'Bapak', 'H. Arief'),
-(6, 'PT Mugirahayu Sentosa', 'Jalan Alamanda Komplek Griya Caraka Blok A5 no.76, RT000, RW000', '0231-8493500', '02.447.793.7-426.000', 'Cirebon', 'Bapak', 'Sumardi'),
-(7, 'CV Surya Elektrik', 'Sangkuriang Blok 000 no.76, RT000, RW000', '022-6650986', '01.240.382.0-421.000', 'Cimahi', '', ''),
-(8, 'PT Wahana Kreasi Teknik', 'Jalan Kiaracondong gg Samsi II Blok 000 no.22, RT001, RW001', '022-7271395', '84.212.084.2-424.000', 'Bandung', '', ''),
-(9, 'PT Lucy Elektrik Djaya', 'Jalan H. Kurdi I Blok 000 no.14, RT000, RW000', '022-5206600', '80.351.967.7-422.000', 'Bandung', 'Bapak', 'Wawan Irawan'),
-(10, 'CV Anugrah Jaya Elektrindo', 'Jalan Otto Iskandar Dinata Blok 000 no.38, RT000, RW000', '022-4231572', '00.000.000.0-000.000', 'Bandung', '', ''),
-(11, 'PT Padi Hijau Buana', 'Thamrin Square Jalan MH.Thamrin Blok C no.6, RT000, RW000', '022-2019251', '01.713.741.5-431.000', 'Cikarang', '', ''),
-(12, 'PT Hen Jaya', 'Jalan H.Kurdi Blok 1 no.14, RT005, RW001', '022-5206600', '02.366.495.6-422.000', 'Bandung', 'Bapak', 'Henhen Bestari'),
-(13, 'PT Bandung Sakura Textile Mills', 'Jalan Raya Dayeuh Kolot Blok 000 no.33, RT002, RW007', '022-5205888', '01.104.698.4-441.000', 'Bandung', '', ''),
-(14, 'PT Metropolitan Teknologi', 'Jalan Taman Holis Indah Blok C5 no.47 rt 005 rw 003', '022-91213770', '31.812.344.5-422.000', 'Bandung', 'Ibu', 'Silvi Chandra'),
-(15, 'CV Karunia Abadi', 'Jalan ABC Komplek Cikapundung Electronic Center Lantai 1 Blok EE-25 no.000, RT000, RW000', '081-2211-5405', '82.233.773.9-423.000', 'Bandung', 'Bapak', 'Untung Sugiarto'),
-(16, 'PT Tri Sumber Elektrika', 'Jalan Sutawinangun gg Tulus Blok 000 no.035, RT001, RW006', '0231-209741', '02.447.968.5-426.000', 'Cirebon', '', ''),
-(17, 'PT Teguh Jaya Pranata', 'Jalan Mengger Blok 000 no.99, RT001, RW007', '022-5203126', '01.465.527.8-441.000', 'Bandung', '', ''),
-(18, 'PT Sinar Jaya Rimbawan Asri', 'Jalan Soekarno Hatta Blok 000 no.835, RT000, RW000', '022-7800391', '...-.', 'Bandung', '', ''),
-(19, 'PT Wahana Teknik Indonesia', 'Jalan Kiaracondong gg Samsi II Blok 000 no.22, RT001, RW001', '022-7271395', '02.023.953.9-424.000', 'Bandung', '', ''),
-(20, 'CV Karunia Hidup Teknik', 'Jalan Banceuy Blok 000 no.031, RT004, RW002', '022-4231286', '80.625.835.6-423.000', 'Bandung', '', ''),
-(21, 'PT Namasindo Plas', 'Kp. Cangkorah Blok 000 no.007, RT007, RW001', '022-6867068/022-6867', '02.011.944.2-441.000', 'Bandung', '', ''),
-(22, 'CV Matahari Elektrindo', 'Banceuy no.79A rt 005 rw 002', '022-4231282', '83.391.815.4-423.000', 'Bandung', 'Bapak', 'Niko'),
-(23, 'Toko Sumber Lampu', 'Jalan Jendral Ahmad Yani no. 296 (Plaza IBCC) Blok B2 no.3, RT029, RW006', '022-7233271', '...-.', 'Bandung', '', ''),
-(25, 'Toko Agni Surya', 'Jalan A.Yani Blok 000 no.353, RT000, RW000', '022-7273893', '...-.', 'Bandung', '', ''),
-(26, 'PT Sinar Mulia Plasindo Lestari', 'Jalan Cicukang Holis Blok 000 no.22, RT000, RW000', '022-6030672', '01.772.511.0-441.000', 'Bandung', '', ''),
-(27, 'PT Tritunggal Swarna', 'Jalan Tamblong Blok 000 no.2, RT000, RW000', '', '21.073.608.8-423.000', 'Bandung', 'Ibu', 'Eri Mayasari'),
-(28, 'PT Kurnia Abadi Padang', 'Komplek Pulo Mas Blok C no.17, RT004, RW000', '(0751)35569', '01.714.605.1-201.000', 'Padang', 'Ibu', 'Suci Noverina Misri'),
-(29, 'PT Pajajaran Internusa Tekstil', 'Jalan Kebon Jati Blok Kav. B-4 no.88, RT000, RW000', '', '01.778.288.9-428.000', 'Bandung', 'Bapak', 'Khanan'),
-(30, 'Toko Sarana Abadi', 'Jalan Sukamaju Ruko Gondangdia Residence Blok 000 no.A3, RT000, RW000', '(022)87883454', '', 'Bandung', 'Bapak', ''),
-(31, 'PT Royal Abadi Sejahtera', 'Jalan Raya Cimareme Blok 000 no.275, RT000, RW000', '(022)6866360#132', '01.455.909.0-441.000', 'Bandung', 'Ibu', 'Retno Tyas'),
-(32, 'PT Hariff Power Services', 'Jalan A. H. Nasution Blok 000 no.80, RT000, RW000', '', '02.519.152.9-424.000', 'Bandung', 'Bapak', 'Mufti Pitriadi'),
-(33, 'PT Total Inpro Multitech', 'Jalan Letjen Suprapto Ruko Mega Grosir Cempaka Mas Blok G no.10, RT001, RW003', '(021)42883851', '21.050.975.8-048.000', 'Jakarta Pusat', 'Ibu', 'Gita Eda'),
-(34, 'PT Assa Paper', 'Jalan Raya Cibatu KM9 Blok 000 no.000, RT000, RW000', '', '21.119.805.6-409.000', 'Purwakarta', 'Bapak', 'Kama Jaya'),
-(35, 'Toko Trijaya 2', 'Jalan Cikawao Blok 000 no.56, RT001, RW001', '(022)4220661', '...-.', 'Bandung', 'Ibu', 'Devi'),
-(36, 'CV Toyo Teknik', 'Jalan Soekarno Hatta km. 13,8 Blok 000 no.D5, RT000, RW000', '(022)7834607', '07.141.137.5-429.000', 'Bandung', 'Bapak', 'Sutaya'),
-(37, 'Toko Utama Lighting', 'Jalan Jendral Ahmad Yani no. 296 (Plaza IBCC) Blok D2 no.12, RT029, RW006', '0812-2449-9786', '', 'Bandung', 'Ibu', 'Mimi'),
-(38, 'Toko Surya Agung', 'Jalan H. Ibrahim Adjie (Bandung Trade Mall) Blok C1 no.47A, RT005, RW011', '(022)7238333', '...-.', 'Bandung', 'Bapak', 'Jajang Aji'),
-(39, 'CV SMTwoS', 'Jalan Satria Raya Blok 000 no.H74, RT000, RW000', '(022)5402332', '...-.', 'Bandung', 'Bapak', 'Yohanes R.'),
-(40, 'PT Bintang Indospin Industri', 'Jalan Raya Cicalengka KM 4,3 Blok 000 no.000, RT000, RW000', '(022)7948881', '02.267.521.9-444.000', 'Bandung', 'Ibu', 'Atun'),
-(41, 'Dani Riswandi', 'Pasir Pogor Blok 000 no.000, RT000, RW000', '+62 815-7202-8877', '...-.', 'Bandung', 'Bapak', 'Dani Riswandi'),
-(42, 'PT Lingga Kanaka Jaya', 'Industri Cimareme no.1', '+6281321587850', '01.723.275.2-421.000', 'Padalarang', 'Bapak', 'Kama Jaya'),
-(43, 'PT Aemco Persada Nusantara', 'Jalan Terusan Panyileukan Blok 000 no.37, RT000, RW000', '(022)87826777', '31.445.219.4-421.000', 'Bandung', 'Ibu', 'Novi'),
-(44, 'PT Citra Telemindo Perkasa', 'Komplek Balikpapan Baru Ruko Little China Blok A8 no.28, RT000, RW000', '(0542)7204325', '02.594.631.0-722.000', 'Balikpapan', 'Bapak', 'Suwarno Hadi'),
-(45, 'CV Aditya Pratama', 'Denki Selatan I Blok 000 no.22, RT000, RW000', '(022)5206530', '21.037.508.5-424.000', 'Bandung', 'Bapak', 'Jajang Nurjaman'),
-(46, 'Toko Bina Elektrik Engineering', 'Jalan Cibadak Blok 000 no.190, RT003, RW004', '(022)6031805', '04.146.770.5-422.000', 'Bandung', 'Bapak', 'David Tandei'),
-(47, 'Aris Herman', 'Kampung Cicarita Blok 000 no.000, RT004, RW019', '+62 852-2277-6919', '', 'Bandung', 'Bapak', 'Aris Herman'),
-(49, 'Toko Dua Saudara Electric', 'Jalan Pungkur Blok 000 no.51, RT001, RW005', '(022)4234947', '', 'Bandung', 'Ibu', 'Yunike'),
-(50, 'PT Karya Putra Sangkuriang', 'Jalan raya Cipacing km.20 Jatinangor', '022-7796345', '01.421.870.5-441.000', 'Sumedang', 'Bapak', 'Aldi'),
-(51, 'CV Sinar Jaya', 'Taman Kopo Indah I Ruko Lucky Business Center Blok C no.8, RT000, RW000', '', '72.683.962.4-445.000', 'Bandung', 'Bapak', 'Roy'),
-(52, 'PT Jaya Lestari Plasindo', 'Industri Blok 000 no.10, RT001, RW001', '+6281321587850', '02.544.628.7-421.000', 'Bandung', 'Bapak', 'Kama Jaya'),
-(53, 'PT Anugerah Cemerlang Abadi', 'Jalan raya cimareme Blok 000 no.275, RT000, RW000', '', '66.327.032.0-451.000', 'Bandung', 'Ibu', 'Retno Tyas'),
-(54, 'PT Anugerah Megah Lestari', 'Terusan Pasir Koja Blok 000 no.192, RT002, RW006', '022-5224904', '72.361.952.4-422.000', 'Bandung', 'Ibu', 'Herlina'),
-(55, 'PT Modul Sinergi Technology', 'Taman Makam Pahlawan / TPU3 Blok 000 no.15A, RT004, RW001', '021-29502471', '02.184.920.3-061.000', 'Depok', 'Bapak', 'Agus Farid M'),
-(56, 'PT Daese Garmin', 'H. Ibrahim Adjie Blok 000 no.090, RT001, RW006', '022-7200950', '01.456.031.2-441.000', 'Bandung', 'Bapak', 'Hendri'),
-(57, 'CV Ides', 'Parakan Permai Blok 000 no.005, RT000, RW000', '', '31.157.078.2-429.000', 'Bandung', 'Bapak', 'Iqbal'),
-(58, 'CV Sarana Elsiscom Engineering', 'Jalan Kawista no.5', '(022)6031805', '01.612.067.7-423.000', 'Bandung', 'Bapak', 'David Eryawan Tandei'),
-(59, 'Toko Surya Indah', 'Moh.Toha Blok 000 no.204A, RT000, RW000', '', '...-.', 'Bandung', 'Bapak', '-'),
-(60, 'PT Benang Warna Indonusa', 'Industri II Blok 000 no.003, RT006, RW009', '022-6019033', '01.468.318.9-421.000', 'Cimahi', 'Bapak', '-'),
-(61, 'PT Guna Inti Gemilang', 'Taman Kopo Indah III Blok E8 no.007, RT000, RW000', '(022)87775988', '31.698.816.1-445.000', 'Bandung', 'Ibu', 'Yuli'),
-(62, 'PT Cimerang Sakura Spinning', 'Desa Cimerang Km.1.2 Blok 000 no.000, RT001, RW007', '022-6864588', '01.645.232.8-421.000', 'Bandung', 'Bapak', ''),
-(63, 'PT Estha Karta Trus Niyata', 'Sriwijaya Blok 000 no.133A, RT000, RW000', '', '75.546.900.4-424.000', 'Bandung', 'Ibu', 'Jessica Pangestu'),
-(64, 'PT Tifatex Pakarlestari', 'Industri Cimareme I Blok 000 no.012, RT000, RW000', '022-6866642', '01.671.229.1-441.000', 'Bandung', 'Ibu', ''),
-(65, 'PT Badjatex', 'Jalan Citepus, Moh. Toha Blok 000 no.5, RT000, RW000', '(022)5203033', '01.118.471.0-421.000', 'Bandung', 'Ibu', 'Lucy'),
-(66, 'PT Wahana Anugrah Teknik', 'Jalan Ibrahim Adjie Blok 000 no.22, RT000, RW000', '0851-0573-3000', '', 'Bandung', 'Bapak', 'Permadi'),
-(67, 'CV Duta Jaya Trans', 'Jalan Inhoftank Ruko Kurdi Regency Blok 000 no.45AB, RT002, RW006', '+62 813-2030-7777', '', 'Bandung', 'Bapak', 'Albert Soeganda'),
-(68, 'Toko Mandiri Electric', 'Jl. Raya Mayor Oking Blok 000 no.5G, RT000, RW000', '(021)87942290', '', 'Bogor', 'Ibu', 'Lya'),
-(69, 'PT Rahmat Kurnia Abadi', 'Jalan Bunga Turi I Blok 000 no.38 Lk. 1, RT000, RW000', '(061) 8444091', '02.996.546.4-121.000', 'Medan', 'Bapak', 'Yosmin Kurniawan Ang'),
-(70, 'PT Sunindo Mandiri Perkasa', 'Jalan Karmal Raya Outer Ring Road Mutiara Taman Palem Blok D1 no.31, RT006, RW014', '(021) 29020080', '31.351.513.2-034.000', 'Jakarta Barat', 'Bapak', 'Budiman Cahyadi'),
-(71, 'PT Tahta Djaga Internasional', 'Jalan Cikutra Dalam Blok 000 no.24, RT000, RW000', '(022) 7216893', '02.480.803.2-423.000', 'Bandung', 'Bapak', 'Haryoto'),
-(72, 'Toko Buana Elektrik', 'Jalan Cinangka Blok 000 no.4, RT000, RW000', '', '', 'Bandung', 'Bapak', 'Darma'),
-(73, 'Toko Daya Elektrik', 'Jalan Pecinan Lama Blok 000 no.31-33, RT000, RW000', '(022) 4238276', '', 'Bandung', 'Bapak', 'Ignatius'),
-(74, 'PT Megah Asri Busana Internasional', 'Ruko Batununggal Indah Blok 000 no.70 Lt. 3, RT004, RW005', '(022) 7790534', '01.836.762.3-424.000', 'Bandung', 'Bapak', 'Khanan'),
-(75, 'PT Alpha Konstruksi Nusantara', 'Jalan Jamuju Blok 000 no.18, RT005, RW006', '(022) 7202747', '86.189.824.5-423.000', 'Bandung', 'Bapak', 'Michael Andi'),
-(76, 'Toko Cahaya Baru', 'Jalan Holis Blok 000 no.326, RT000, RW000', '(022) 6019617', '', 'Bandung', 'Bapak', 'Cahyar'),
-(77, 'PT Nuansa Karisma Djaya', 'Jalan H. Kurdi Selatan Blok 000 no.45, RT006, RW006', '(022) 25210899', '02.749.906.0-422.000', 'Bandung', 'Bapak', 'Novianto Kuswandi'),
-(78, 'PT Batu Bukit Intan', 'Kampung Ciembe Blok 000 no.000, RT005, RW001', '', '03.323.046.7-405.000', 'Sukabumi', 'Bapak', 'Marvin Kurnia'),
-(79, 'PT voltech Kreasi Engineering', 'Ruko Suncity Square Jalan M. Hasibuan Blok H no.8, RT000, RW000', '(021) 88869035', '31.190.745.5-432.000', 'Bekasi', 'Ibu', 'Ivon'),
-(80, 'PT Inti Citra Makmur', 'Jalan Karang Arum Raya Blok B no.48, RT001, RW001', '(022) 87881436', '', 'Bandung', 'Bapak', 'Gagah Arsalla'),
-(81, 'PT Berkah Cipta Persada', 'Kawasan Industri Deltamas Jalan Greenland 1 Cluster Batavia Blok AC no.7, RT000, RW000', '(021) 89972630', '', 'Bekasi', 'Ibu', 'Brida Ayunani');
+INSERT INTO `customer` (`id`, `name`, `address`, `phone`, `npwp`, `city`, `prefix`, `pic`, `date_created`, `created_by`) VALUES
+(1, 'PT Mitracool Jaya Utama', 'Jalan Indramayu Blok 000 no.45, RT000, RW000', '022-60842371/022-721', '02.204.095.0-429.000', 'Bandung', 'Ibu', 'Sani Angraeni', '2019-01-01', 0),
+(2, 'PT Mentari Gemilang Perdana Sentosa', 'Jalan Raya Paseban Blok 000 no.1B, RT000, RW000', '021-3153888', '01.859.814.4-032.000', 'Jakarta Barat', 'Bapak', 'Keefvin Sastraaminata', '2019-01-01', 0),
+(3, 'PT Kahatex', 'Jalan Raya Rancaekek KM6 Blok 000 no.000, RT000, RW000', '022-27798051', '01.104.586.1-092.000', 'Bandung', 'Ibu', 'Margaretha Liana', '2019-01-01', 0),
+(4, 'PT Sahabat Mitra Jaya', 'Jalan Boulevard Raya Grand Galaxy City Blok RSN I no.53, RT000, RW000', '021-82742227', '80.912.736.8-432.000', 'Bekasi', 'Ibu', 'Paskah Ria', '2019-01-01', 0),
+(5, 'PT Mathar Telekomunikasi Indonesia', 'Jalan Cingised Komplek Griya Caraka Blok AA no.32, RT001, RW005', '022-87881504', '02.203.924.2-429.000', 'Bandung', 'Bapak', 'H. Arief', '2019-01-01', 0),
+(6, 'PT Mugirahayu Sentosa', 'Jalan Alamanda Komplek Griya Caraka Blok A5 no.76, RT000, RW000', '0231-8493500', '02.447.793.7-426.000', 'Cirebon', 'Bapak', 'Sumardi', '2019-01-01', 0),
+(7, 'CV Surya Elektrik', 'Sangkuriang Blok 000 no.76, RT000, RW000', '022-6650986', '01.240.382.0-421.000', 'Cimahi', '', '', '2019-01-01', 0),
+(8, 'PT Wahana Kreasi Teknik', 'Jalan Kiaracondong gg Samsi II Blok 000 no.22, RT001, RW001', '022-7271395', '84.212.084.2-424.000', 'Bandung', '', '', '2019-01-01', 0),
+(9, 'PT Lucy Elektrik Djaya', 'Jalan H. Kurdi I Blok 000 no.14, RT000, RW000', '022-5206600', '80.351.967.7-422.000', 'Bandung', 'Bapak', 'Wawan Irawan', '2019-01-01', 0),
+(10, 'CV Anugrah Jaya Elektrindo', 'Jalan Otto Iskandar Dinata Blok 000 no.38, RT000, RW000', '022-4231572', '00.000.000.0-000.000', 'Bandung', '', '', '2019-01-01', 0),
+(11, 'PT Padi Hijau Buana', 'Thamrin Square Jalan MH.Thamrin Blok C no.6, RT000, RW000', '022-2019251', '01.713.741.5-431.000', 'Cikarang', '', '', '2019-01-01', 0),
+(12, 'PT Hen Jaya', 'Jalan H.Kurdi Blok 1 no.14, RT005, RW001', '022-5206600', '02.366.495.6-422.000', 'Bandung', 'Bapak', 'Henhen Bestari', '2019-01-01', 0),
+(13, 'PT Bandung Sakura Textile Mills', 'Jalan Raya Dayeuh Kolot Blok 000 no.33, RT002, RW007', '022-5205888', '01.104.698.4-441.000', 'Bandung', '', '', '2019-01-01', 0),
+(14, 'PT Metropolitan Teknologi', 'Jalan Taman Holis Indah Blok C5 no.47 rt 005 rw 003', '022-91213770', '31.812.344.5-422.000', 'Bandung', 'Ibu', 'Silvi Chandra', '2019-01-01', 0),
+(15, 'CV Karunia Abadi', 'Jalan ABC Komplek Cikapundung Electronic Center Lantai 1 Blok EE-25 no.000, RT000, RW000', '081-2211-5405', '82.233.773.9-423.000', 'Bandung', 'Bapak', 'Untung Sugiarto', '2019-01-01', 0),
+(16, 'PT Tri Sumber Elektrika', 'Jalan Sutawinangun gg Tulus Blok 000 no.035, RT001, RW006', '0231-209741', '02.447.968.5-426.000', 'Cirebon', '', '', '2019-01-01', 0),
+(17, 'PT Teguh Jaya Pranata', 'Jalan Mengger Blok 000 no.99, RT001, RW007', '022-5203126', '01.465.527.8-441.000', 'Bandung', '', '', '2019-01-01', 0),
+(18, 'PT Sinar Jaya Rimbawan Asri', 'Jalan Soekarno Hatta Blok 000 no.835, RT000, RW000', '022-7800391', '...-.', 'Bandung', '', '', '2019-01-01', 0),
+(19, 'PT Wahana Teknik Indonesia', 'Jalan Kiaracondong gg Samsi II Blok 000 no.22, RT001, RW001', '022-7271395', '02.023.953.9-424.000', 'Bandung', '', '', '2019-01-01', 0),
+(20, 'CV Karunia Hidup Teknik', 'Jalan Banceuy Blok 000 no.031, RT004, RW002', '022-4231286', '80.625.835.6-423.000', 'Bandung', '', '', '2019-01-01', 0),
+(21, 'PT Namasindo Plas', 'Kp. Cangkorah Blok 000 no.007, RT007, RW001', '022-6867068/022-6867', '02.011.944.2-441.000', 'Bandung', '', '', '2019-01-01', 0),
+(22, 'CV Matahari Elektrindo', 'Banceuy no.79A rt 005 rw 002', '022-4231282', '83.391.815.4-423.000', 'Bandung', 'Bapak', 'Niko', '2019-01-01', 0),
+(23, 'Toko Sumber Lampu', 'Jalan Jendral Ahmad Yani no. 296 (Plaza IBCC) Blok B2 no.3, RT029, RW006', '022-7233271', '...-.', 'Bandung', '', '', '2019-01-01', 0),
+(25, 'Toko Agni Surya', 'Jalan A.Yani Blok 000 no.353, RT000, RW000', '022-7273893', '...-.', 'Bandung', '', '', '2019-01-01', 0),
+(26, 'PT Sinar Mulia Plasindo Lestari', 'Jalan Cicukang Holis Blok 000 no.22, RT000, RW000', '022-6030672', '01.772.511.0-441.000', 'Bandung', 'Bapak', 'Roy', '2019-01-01', 0),
+(27, 'PT Tritunggal Swarna', 'Jalan Tamblong Blok 000 no.2, RT000, RW000', '', '21.073.608.8-423.000', 'Bandung', 'Ibu', 'Eri Mayasari', '2019-01-01', 0),
+(28, 'PT Kurnia Abadi Padang', 'Komplek Pulo Mas Blok C no.17, RT004, RW000', '(0751)35569', '01.714.605.1-201.000', 'Padang', 'Ibu', 'Suci Noverina Misri', '2019-01-01', 0),
+(29, 'PT Pajajaran Internusa Tekstil', 'Jalan Kebon Jati Blok Kav. B-4 no.88, RT000, RW000', '', '01.778.288.9-428.000', 'Bandung', 'Bapak', 'Khanan', '2019-01-01', 0),
+(30, 'Toko Sarana Abadi', 'Jalan Sukamaju Ruko Gondangdia Residence Blok 000 no.A3, RT000, RW000', '(022)87883454', '', 'Bandung', 'Bapak', '', '2019-01-01', 0),
+(31, 'PT Royal Abadi Sejahtera', 'Jalan Raya Cimareme Blok 000 no.275, RT000, RW000', '(022)6866360#132', '01.455.909.0-441.000', 'Bandung', 'Ibu', 'Retno Tyas', '2019-01-01', 0),
+(32, 'PT Hariff Power Services', 'Jalan A. H. Nasution Blok 000 no.80, RT000, RW000', '', '02.519.152.9-424.000', 'Bandung', 'Bapak', 'Mufti Pitriadi', '2019-01-01', 0),
+(33, 'PT Total Inpro Multitech', 'Jalan Letjen Suprapto Ruko Mega Grosir Cempaka Mas Blok G no.10, RT001, RW003', '(021)42883851', '21.050.975.8-048.000', 'Jakarta Pusat', 'Ibu', 'Gita Eda', '2019-01-01', 0),
+(34, 'PT Assa Paper', 'Jalan Raya Cibatu KM9 Blok 000 no.000, RT000, RW000', '', '21.119.805.6-409.000', 'Purwakarta', 'Bapak', 'Kama Jaya', '2019-01-01', 0),
+(35, 'Toko Trijaya 2', 'Jalan Cikawao Blok 000 no.56, RT001, RW001', '(022)4220661', '...-.', 'Bandung', 'Ibu', 'Devi', '2019-01-01', 0),
+(36, 'CV Toyo Teknik', 'Jalan Soekarno Hatta km. 13,8 Blok 000 no.D5, RT000, RW000', '(022)7834607', '07.141.137.5-429.000', 'Bandung', 'Bapak', 'Sutaya', '2019-01-01', 0),
+(37, 'Toko Utama Lighting', 'Jalan Jendral Ahmad Yani no. 296 (Plaza IBCC) Blok D2 no.12, RT029, RW006', '0812-2449-9786', '', 'Bandung', 'Ibu', 'Mimi', '2019-01-01', 0),
+(38, 'Toko Surya Agung', 'Jalan H. Ibrahim Adjie (Bandung Trade Mall) Blok C1 no.47A, RT005, RW011', '(022)7238333', '...-.', 'Bandung', 'Bapak', 'Jajang Aji', '2019-01-01', 0),
+(39, 'CV SMTwoS', 'Jalan Satria Raya Blok 000 no.H74, RT000, RW000', '(022)5402332', '...-.', 'Bandung', 'Bapak', 'Yohanes R.', '2019-01-01', 0),
+(40, 'PT Bintang Indospin Industri', 'Jalan Raya Cicalengka KM 4,3 Blok 000 no.000, RT000, RW000', '(022)7948881', '02.267.521.9-444.000', 'Bandung', 'Ibu', 'Atun', '2019-01-01', 0),
+(41, 'Dani Riswandi', 'Pasir Pogor Blok 000 no.000, RT000, RW000', '+62 815-7202-8877', '...-.', 'Bandung', 'Bapak', 'Dani Riswandi', '2019-01-01', 0),
+(42, 'PT Lingga Kanaka Jaya', 'Industri Cimareme no.1', '+6281321587850', '01.723.275.2-421.000', 'Padalarang', 'Bapak', 'Kama Jaya', '2019-01-01', 0),
+(43, 'PT Aemco Persada Nusantara', 'Jalan Terusan Panyileukan Blok 000 no.37, RT000, RW000', '(022)87826777', '31.445.219.4-421.000', 'Bandung', 'Ibu', 'Novi', '2019-01-01', 0),
+(44, 'PT Citra Telemindo Perkasa', 'Komplek Balikpapan Baru Ruko Little China Blok A8 no.28, RT000, RW000', '(0542)7204325', '02.594.631.0-722.000', 'Balikpapan', 'Bapak', 'Suwarno Hadi', '2019-01-01', 0),
+(45, 'CV Aditya Pratama', 'Denki Selatan I Blok 000 no.22, RT000, RW000', '(022)5206530', '21.037.508.5-424.000', 'Bandung', 'Bapak', 'Jajang Nurjaman', '2019-01-01', 0),
+(46, 'Toko Bina Elektrik Engineering', 'Jalan Cibadak Blok 000 no.190, RT003, RW004', '(022)6031805', '04.146.770.5-422.000', 'Bandung', 'Bapak', 'David Tandei', '2019-01-01', 0),
+(47, 'Aris Hermana', 'Kampung Cicarita Blok 000 no.000, RT004, RW019', '+62 852-2277-6919', '', 'Bandung', 'Bapak', 'Aris Herman', '2019-01-01', 0),
+(49, 'Toko Dua Saudara Electric', 'Jalan Pungkur Blok 000 no.51, RT001, RW005', '(022)4234947', '', 'Bandung', 'Ibu', 'Yunike', '2019-01-01', 0),
+(50, 'PT Karya Putra Sangkuriang', 'Jalan raya Cipacing km.20 Jatinangor', '022-7796345', '01.421.870.5-441.000', 'Sumedang', 'Bapak', 'Aldi', '2019-01-01', 0),
+(51, 'CV Sinar Jaya', 'Taman Kopo Indah I Ruko Lucky Business Center Blok C no.8, RT000, RW000', '', '72.683.962.4-445.000', 'Bandung', 'Bapak', 'Roya', '2019-01-01', 0),
+(52, 'PT Jaya Lestari Plasindo', 'Industri Blok 000 no.10, RT001, RW001', '+6281321587850', '02.544.628.7-421.000', 'Bandung', 'Bapak', 'Kama Jaya', '2019-01-01', 0),
+(53, 'PT Anugerah Cemerlang Abadi', 'Jalan raya cimareme Blok 000 no.275, RT000, RW000', '', '66.327.032.0-451.000', 'Bandung', 'Ibu', 'Retno Tyas', '2019-01-01', 0),
+(54, 'PT Anugerah Megah Lestari', 'Terusan Pasir Koja Blok 000 no.192, RT002, RW006', '022-5224904', '72.361.952.4-422.000', 'Bandung', 'Ibu', 'Herlina', '2019-01-01', 0),
+(55, 'PT Modul Sinergi Technology', 'Taman Makam Pahlawan / TPU3 Blok 000 no.15A, RT004, RW001', '021-29502471', '02.184.920.3-061.000', 'Depok', 'Bapak', 'Agus Farid M', '2019-01-01', 0),
+(56, 'PT Daese Garmin', 'H. Ibrahim Adjie Blok 000 no.090, RT001, RW006', '022-7200950', '01.456.031.2-441.000', 'Bandung', 'Bapak', 'Hendri', '2019-01-01', 0),
+(57, 'CV Ides', 'Parakan Permai Blok 000 no.005, RT000, RW000', '', '31.157.078.2-429.000', 'Bandung', 'Bapak', 'Iqbal', '2019-01-01', 0),
+(58, 'CV Sarana Elsiscom Engineering', 'Jalan Kawista no.5', '(022)6031805', '01.612.067.7-423.000', 'Bandung', 'Bapak', 'David Eryawan Tandei', '2019-01-01', 0),
+(59, 'Toko Surya Indah', 'Moh.Toha Blok 000 no.204A, RT000, RW000', '', '...-.', 'Bandung', 'Bapak', '-', '2019-01-01', 0),
+(60, 'PT Benang Warna Indonusa', 'Industri II Blok 000 no.003, RT006, RW009', '022-6019033', '01.468.318.9-421.000', 'Cimahi', 'Bapak', '', '2019-01-01', 0),
+(61, 'PT Guna Inti Gemilang', 'Taman Kopo Indah III Blok E8 no.007, RT000, RW000', '(022)87775988', '31.698.816.1-445.000', 'Bandung', 'Ibu', 'Yuli', '2019-01-01', 0),
+(62, 'PT Cimerang Sakura Spinning', 'Desa Cimerang Km.1.2 Blok 000 no.000, RT001, RW007', '022-6864588', '01.645.232.8-421.000', 'Bandung', 'Bapak', '', '2019-01-01', 0),
+(63, 'PT Estha Karta Trus Niyata', 'Sriwijaya Blok 000 no.133A, RT000, RW000', '', '75.546.900.4-424.000', 'Bandung', 'Ibu', 'Jessica Pangestu', '2019-01-01', 0),
+(64, 'PT Tifatex Pakarlestari', 'Industri Cimareme I Blok 000 no.012, RT000, RW000', '022-6866642', '01.671.229.1-441.000', 'Bandung', 'Ibu', '', '2019-01-01', 0),
+(65, 'PT Badjatex', 'Jalan Citepus, Moh. Toha Blok 000 no.5, RT000, RW000', '(022)5203033', '01.118.471.0-421.000', 'Bandung', 'Ibu', 'Lucy', '2019-01-01', 0),
+(66, 'PT Wahana Anugrah Teknik', 'Jalan Ibrahim Adjie Blok 000 no.22, RT000, RW000', '0851-0573-3000', '', 'Bandung', 'Bapak', 'Permadi', '2019-01-01', 0),
+(67, 'CV Duta Jaya Trans', 'Jalan Inhoftank Ruko Kurdi Regency Blok 000 no.45AB, RT002, RW006', '+62 813-2030-7777', '', 'Bandung', 'Bapak', 'Albert Soeganda', '2019-01-01', 0),
+(68, 'Toko Mandiri Electric', 'Jl. Raya Mayor Oking Blok 000 no.5G, RT000, RW000', '(021)87942290', '', 'Bogor', 'Ibu', 'Lya', '2019-01-01', 0),
+(69, 'PT Rahmat Kurnia Abadi', 'Jalan Bunga Turi I Blok 000 no.38 Lk. 1, RT000, RW000', '(061) 8444091', '02.996.546.4-121.000', 'Medan', 'Bapak', 'Yosmin Kurniawan Ang', '2019-01-01', 0),
+(70, 'PT Sunindo Mandiri Perkasa', 'Jalan Karmal Raya Outer Ring Road Mutiara Taman Palem Blok D1 no.31, RT006, RW014', '(021) 29020080', '31.351.513.2-034.000', 'Jakarta Barat', 'Bapak', 'Budiman Cahyadi', '2019-01-01', 0),
+(71, 'PT Tahta Djaga Internasional', 'Jalan Cikutra Dalam Blok 000 no.24, RT000, RW000', '(022) 7216893', '02.480.803.2-423.000', 'Bandung', 'Bapak', 'Haryoto', '2019-01-01', 0),
+(72, 'Toko Buana Elektrik', 'Jalan Cinangka Blok 000 no.4, RT000, RW000', '', '', 'Bandung', 'Bapak', 'Darma', '2019-01-01', 0),
+(73, 'Toko Daya Elektrik', 'Jalan Pecinan Lama Blok 000 no.31-33, RT000, RW000', '(022) 4238276', '', 'Bandung', 'Bapak', 'Ignatius', '2019-01-01', 0),
+(74, 'PT Megah Asri Busana Internasional', 'Ruko Batununggal Indah Blok 000 no.70 Lt. 3, RT004, RW005', '(022) 7790534', '01.836.762.3-424.000', 'Bandung', 'Bapak', 'Khanan', '2019-01-01', 0),
+(75, 'PT Alpha Konstruksi Nusantara', 'Jalan Jamuju Blok 000 no.18, RT005, RW006', '(022) 7202747', '86.189.824.5-423.000', 'Bandung', 'Bapak', 'Michael Andi', '2019-01-01', 0),
+(76, 'Toko Cahaya Baru', 'Jalan Holis Blok 000 no.326, RT000, RW000', '(022) 6019617', '', 'Bandung', 'Bapak', 'Cahyar', '2019-01-01', 0),
+(77, 'PT Nuansa Karisma Djaya', 'Jalan H. Kurdi Selatan Blok 000 no.45, RT006, RW006', '(022) 25210899', '02.749.906.0-422.000', 'Bandung', 'Bapak', 'Novianto Kuswandi', '2019-01-01', 0),
+(78, 'PT Batu Bukit Intan', 'Kampung Ciembe Blok 000 no.000, RT005, RW001', '', '03.323.046.7-405.000', 'Sukabumi', 'Bapak', 'Marvin Kurnia', '2019-01-01', 0),
+(79, 'PT voltech Kreasi Engineering', 'Ruko Suncity Square Jalan M. Hasibuan Blok H no.8, RT000, RW000', '(021) 88869035', '31.190.745.5-432.000', 'Bekasi', 'Ibu', 'Ivon', '2019-01-01', 0),
+(80, 'PT Inti Citra Makmur', 'Jalan Karang Arum Raya Blok B no.48, RT001, RW001', '(022) 87881436', '', 'Bandung', 'Bapak', 'Gagah Arsalla', '2019-01-01', 0),
+(81, 'PT Berkah Cipta Persada', 'Kawasan Industri Deltamas Jalan Greenland 1 Cluster Batavia Blok AC no.7, RT000, RW000', '(021) 89972630', '', 'Bekasi', 'Ibu', 'Brida Ayunani', '2019-01-01', 0);
 
 -- --------------------------------------------------------
 
@@ -1591,7 +1635,11 @@ CREATE TABLE `goodreceipt` (
 
 INSERT INTO `goodreceipt` (`id`, `received_id`, `quantity`, `gr_id`) VALUES
 (1, 1, 50, 1),
-(2, 2, 200, 2);
+(2, 2, 200, 2),
+(3, 5, 1000, 3),
+(4, 8, 128, 3),
+(5, 9, 50, 3),
+(6, 10, 20, 3);
 
 -- --------------------------------------------------------
 
@@ -2838,7 +2886,7 @@ INSERT INTO `itemlist` (`id`, `reference`, `description`, `type`, `isactive`, `i
 (887, 'BC25', 'Kabel bare cooper 25mm', 'Cable', 1, 0),
 (888, 'NYM21', 'Kabel NYM 2 x 1,5mm', 'Cable', 1, 0),
 (889, 'NYM315', 'Kabel NYM 3 x 1,5mm', 'Cable', 1, 0),
-(890, 'NYM325', 'Kabel NYM 3 x 2,5mm', 'Cable', 1, 0),
+(890, 'NYM32', 'Kabel NYM 3 x 2,5mm', 'Cable', 1, 0),
 (891, '51006543M0', 'MV fuse cubicle 24kV, DIN standard, 31.5A', 'Schneider Electric MV', 1, 0),
 (892, 'NYY50', 'Kabel NYY 1 x 50mm', 'Cable', 1, 0),
 (893, 'NYY1185', 'Kabel NYY 1 x 185mm', 'Cable', 1, 0),
@@ -2878,7 +2926,7 @@ INSERT INTO `itemlist` (`id`, `reference`, `description`, `type`, `isactive`, `i
 (928, '51006503M0', 'MV fuse cubicle 24kV, DIN standard, 20A', 'Schneider Electric MV', 1, 0),
 (929, 'F-SM6-EP-M', 'SM6-end cover panel mirroring', 'Schneider Electric MV', 1, 0),
 (930, 'D00400C60', 'Transformer 3P 400kVA 50Hz 20kV DYN5 - Schneider', '', 1, 0),
-(931, 'SC300-16CU', 'Schoen tembaga 300mm dengan lubang baut M16', '', 1, 0),
+(931, 'SC300CU', 'Schoen tembaga 300mm', '0', 1, 0),
 (932, 'RAY170S', 'Outdoor termination 1 x 70mm single core - Raychem', '', 1, 0),
 (933, 'CL1200100L', 'Cable Ladder 1200mm x 100mm x 3000mm lokal', '', 1, 0),
 (934, 'CL800100L', 'Cable ladder 800mm x 100mm x 3000mm lokal', '', 1, 0),
@@ -5034,15 +5082,15 @@ INSERT INTO `itemlist` (`id`, `reference`, `description`, `type`, `isactive`, `i
 (3082, 'BP403020', 'Box panel ukuran 40 x 30 x 20mm', 'Box panel', 1, 0),
 (3083, 'NYAF12M', 'Kabel NYAF 1 x 2.5 Merah', 'Cable', 1, 0),
 (3084, 'LV432695', 'MCCB 3P 400A 70kA Micrologic 2.3 Compact NSX400H', 'Schneider Electric LV', 1, 0),
-(3085, 'SC35-8CU', 'Schoen tembaga 35mm dengan lubang baut M8', '', 1, 0),
-(3086, 'V-38', 'Vinily schoen kabel ukuran 35mm', '', 1, 0),
+(3085, 'SC35CU', 'Schoen tembaga 35mm', '0', 1, 0),
+(3086, 'V38H', 'Vinily schoen kabel ukuran 35mm hitam', '0', 1, 0),
 (3087, 'NCT102P', 'Nylon cable tie 100mm x 2.5mm putih', '', 1, 0),
 (3088, 'NCT202P', 'Nylon cable tie 200mm x 2.5mm putih', '', 1, 0),
 (3089, 'EN2516', 'Schoen ferrules 25mm', '', 1, 0),
 (3090, 'KS1010', 'Kabel spiral 10mm - 10 meter', 'Cable', 1, 0),
 (3091, 'KS810', 'Kabel spiral 8mm - 10 meter', 'Cable', 1, 0),
 (3092, 'Y125-3', 'Scoen Y 1.25mm - 3mm', '', 1, 0),
-(3093, 'Y2-4', 'Schoen Y 2mm - 4mm', '', 1, 0),
+(3093, 'SCY2-4', 'Schoen Y 2mm - 4mm', '0', 1, 0),
 (3094, 'TER325', 'Terminal block 3P 25A', '', 1, 0),
 (3095, 'DUCT4545', 'Cable duct 45mm x 45mm - 4 meter', '', 1, 0),
 (3096, 'FKL', 'Fuse kubur lokal', '', 1, 0),
@@ -6078,7 +6126,30 @@ INSERT INTO `itemlist` (`id`, `reference`, `description`, `type`, `isactive`, `i
 (4124, 'MVS25N4MF2A', 'ACB 4P 2500A 50kA MVS25 Tipe Fixed', 'Schneider Electric LV', 1, 0),
 (4125, 'EH1', 'Heater for Schneider SM6 MV cubicle', '', 1, 0),
 (4126, 'V230-3C7EPE-I', 'Feeder protection relay (VAMP230) 40.. 265 V AC/DC + DI19, DI 20 + 1 x Arc sensor, RJ-45 100Mbps ether net interface with IEC 61850 IP54', '', 1, 0),
-(4127, 'V260-1C7APE', 'Feeder Proctection Relay (VAMP260) 40.. 265V AC/DC, RJ-45 100Mbps ethernet interface inc. IEC 61850', 'Schneider Electric PLC', 1, 0);
+(4127, 'V260-1C7APE', 'Feeder Proctection Relay (VAMP260) 40.. 265V AC/DC, RJ-45 100Mbps ethernet interface inc. IEC 61850', 'Schneider Electric PLC', 1, 0),
+(4128, 'V250H', 'Vinily schoen kabel ukuran 250mm hitam', '0', 1, 0),
+(4129, 'V250M', 'Vinily schoen kabel ukuran 250mm merah', '0', 1, 0),
+(4130, 'V250B', 'Vinily schoen kabel ukuran 250mm biru', '0', 1, 0),
+(4131, 'V250K', 'Vinily schoen kabel ukuran 250mm kuning', '0', 1, 0),
+(4132, 'V100H', 'Vinily schoen kabel ukuran 100mm hitam', '', 1, 0),
+(4133, 'V100B', 'Vinily schoen kabel ukuran 100mm biru', '', 1, 0),
+(4134, 'V100K', 'Vinily schoen kabel ukuran 100mm kuning', '', 1, 0),
+(4135, 'V100M', 'Vinily schoen kabel ukuran 100mm merah', '', 1, 0),
+(4136, 'V80H', 'Vinily schoen kabel ukuran 80mm hitam', '', 1, 0),
+(4137, 'V80B', 'Vinily schoen kabel ukuran 80mm biru', '', 1, 0),
+(4138, 'V80K', 'Vinily schoen kabel ukuran 80mm kuning', '', 1, 0),
+(4139, 'V80M', 'Vinily schoen kabel ukuran 80mm merah', '', 1, 0),
+(4140, 'V60H', 'Vinily schoen kabel ukuran 60mm hitam', '', 1, 0),
+(4141, 'V60B', 'Vinily schoen kabel ukuran 60mm biru', '', 1, 0),
+(4142, 'V60M', 'Vinily schoen kabel ukuran 60mm merah', '', 1, 0),
+(4143, 'V60K', 'Vinily schoen kabel ukuran 60mm kuning', '', 1, 0),
+(4144, 'NCT301P', 'Kabel ties 30mm x 1mm putih', '', 1, 0),
+(4145, 'SC240CU', 'Schoen tembaga 240mm', '', 1, 0),
+(4146, 'SC95CU', 'Schoen tembaga 95mm', '', 1, 0),
+(4147, 'SC70CU', 'Schoen tembaga 70mm', '', 1, 0),
+(4148, 'SC50CU', 'Schoen tembaga 50mm', '', 1, 0),
+(4149, 'N2XSY170', 'Kabel N2XSY 1 x 70mm', '', 1, 0),
+(4150, 'ATV312H075N4', 'Inverter Altivar312 3P 0.75kW 380-500VAC', 'Schneider Electric PLC', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -6789,7 +6860,20 @@ INSERT INTO `petty_cash` (`id`, `date`, `info`, `value`, `balance`, `class`) VAL
 (628, '2019-06-01', 'Sewa forklift', '1250000.00', '-5782000.00', 16),
 (629, '2019-06-01', 'Pengiriman barang - sewa truck', '500000.00', '-6282000.00', 16),
 (630, '2019-06-01', 'Gaji bapak Amahdi', '600000.00', '-6882000.00', 9),
-(631, '2019-06-02', '', '6882000.00', '0.00', 25);
+(631, '2019-06-02', '', '6882000.00', '0.00', 25),
+(632, '2019-06-17', '', '1600000.00', '1600000.00', 25),
+(633, '2019-06-17', 'Materai', '600000.00', '1000000.00', 11),
+(634, '2019-06-17', 'Parkir', '2000.00', '998000.00', 15),
+(635, '2019-06-17', 'Bensin motor', '20000.00', '978000.00', 13),
+(636, '2019-06-17', 'Pengiriman barang', '19000.00', '959000.00', 16),
+(637, '2019-06-18', 'Koran', '110000.00', '849000.00', 26),
+(638, '2019-06-18', 'Pengiriman barang - GTS', '650000.00', '199000.00', 16),
+(639, '2019-06-18', 'Parkir', '3000.00', '196000.00', 15),
+(640, '2019-06-18', '', '30000.00', '226000.00', 25),
+(641, '2019-06-18', 'Pengiriman barang - Bekasi', '29000.00', '197000.00', 16),
+(642, '2019-06-19', 'Parkir', '2000.00', '195000.00', 15),
+(643, '2019-06-19', 'Bensin motor', '25000.00', '170000.00', 13),
+(644, '2019-06-19', 'Pengiriman dokumen - Jakarta', '11000.00', '159000.00', 17);
 
 -- --------------------------------------------------------
 
@@ -6852,15 +6936,6 @@ CREATE TABLE `project` (
   `project_do_id` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `project`
---
-
-INSERT INTO `project` (`id`, `reference`, `quantity`, `project_do_id`) VALUES
-(1, 'DOM12251SNI', 0, 1),
-(2, 'DOM12251SNI', 1, 2),
-(3, 'DOM12251SNI', 1, 3);
-
 -- --------------------------------------------------------
 
 --
@@ -6874,15 +6949,6 @@ CREATE TABLE `project_delivery_order` (
   `isconfirm` tinyint(1) NOT NULL DEFAULT '0',
   `created_by` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `project_delivery_order`
---
-
-INSERT INTO `project_delivery_order` (`id`, `date`, `project_id`, `isconfirm`, `created_by`) VALUES
-(1, '2019-06-18', 1, 0, 1),
-(2, '2019-06-18', 1, 0, 1),
-(3, '2019-06-18', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -6906,10 +6972,103 @@ CREATE TABLE `purchaseorder` (
 --
 
 INSERT INTO `purchaseorder` (`id`, `reference`, `price_list`, `discount`, `unitprice`, `quantity`, `totalprice`, `purchaseorder_id`) VALUES
-(1, 'A9L00002', 20000000, '20', 16000000, 100, '1600000000.00', '1'),
-(2, 'NYA10B', 200000, '30', 140000, 1000, '140000000.00', '2'),
-(3, 'A9A26929', 100000, '50', 50000, 30, '1500000.00', '3'),
-(4, 'AAACS120', 200000, '30', 140000, 20, '2800000.00', '3');
+(5, 'NYY1240', 281250, '3', 272813, 2945, '803432812.50', '4'),
+(6, 'NYY1185', 213150, '3', 206756, 1455, '300829252.50', '4'),
+(7, 'NYY1150', 171680, '3', 166530, 485, '80766856.00', '4'),
+(8, 'NYY450', 243600, '5', 231420, 128, '29621760.00', '4'),
+(9, 'NYYHY32', 13932, '5', 13235, 50, '661770.00', '4'),
+(10, 'N2XSY170', 158760, '5', 150822, 20, '3016440.00', '4'),
+(11, 'N2XSY170', 158760, '5', 150822, 20, '3016440.00', '5'),
+(12, 'CL1200100L', 900000, '3', 873000, 5, '4365000.00', '6'),
+(13, 'CL800100L', 528000, '3', 512160, 3, '1536480.00', '6'),
+(14, 'CLR1200800', 146400, '3', 142008, 1, '142008.00', '6'),
+(15, '33472', 20009000, '50', 10004500, 1, '10004500.00', '7'),
+(16, 'LV432877', 14493600, '50', 7246800, 1, '7246800.00', '7'),
+(17, 'EZC100F3015', 669900, '52', 324902, 25, '8122537.50', '8'),
+(18, 'EZC100F3020', 703450, '52', 338092, 75, '25356910.42', '8'),
+(19, 'EZESHT200AC', 736313, '52', 357112, 13, '4642453.47', '8'),
+(20, 'NW20H14F2EH', 67018875, '52', 32504154, 2, '65008308.75', '8'),
+(21, 'NW08H14F2EH', 42376950, '52', 20552821, 1, '20552820.75', '8'),
+(22, '47353', 1947330, '52', 944455, 2, '1888910.10', '8'),
+(23, '47363', 1947330, '52', 944455, 4, '3777820.20', '8'),
+(24, '47383', 2590665, '52', 1256473, 8, '10051780.20', '8'),
+(25, '48212', 10985205, '52', 5327824, 3, '15983473.27', '8'),
+(26, 'DOM11353SNI', 375650, '34', 247929, 4, '991716.00', '9'),
+(27, 'LC1E2501M5', 385000, '45', 211750, 2, '423500.00', '9'),
+(28, 'NYY170', 81092, '3', 78659, 22, '1730503.28', '10'),
+(29, 'NYY195', 111502, '3', 108157, 150, '16223541.00', '10'),
+(30, 'NYY150', 57618, '3', 55889, 50, '2794473.00', '10'),
+(31, 'NYY435', 182700, '5', 173565, 810, '140587650.00', '10'),
+(32, 'NYY425', 135720, '5', 128934, 100, '12893400.00', '10'),
+(33, 'NYY416', 87000, '5', 82650, 360, '29754000.00', '10'),
+(34, 'NYY410', 57459, '5', 54586, 70, '3821023.50', '10'),
+(35, 'NYY46', 33901, '5', 32206, 25, '805148.75', '10'),
+(36, 'LADN31', 214500, '46', 115830, 30, '3474900.00', '11'),
+(37, 'XB5AW34M5', 167750, '51', 82198, 28, '2301530.00', '11'),
+(38, 'XB5AW33M5', 167750, '51', 82198, 45, '3698887.50', '11'),
+(39, 'XALD02', 156750, '51', 76808, 6, '460845.00', '11'),
+(40, '33466', 16940000, '51', 8300600, 1, '8300600.00', '11'),
+(41, 'EZESHT200AC', 773300, '51', 378917, 6, '2273502.00', '11'),
+(42, 'EZC100F3015', 703450, '51', 344691, 30, '10340715.00', '11'),
+(43, 'EZC100N3100', 951500, '51', 466235, 3, '1398705.00', '11'),
+(44, 'BP1800800800L', 5500000, '0', 5500000, 2, '11000000.00', '12'),
+(45, 'ZBE101', 31900, '45', 17545, 33, '578985.00', '13'),
+(46, 'LV430630', 3020600, '51', 1480094, 10, '14800940.00', '13'),
+(47, 'XB5AA42', 63250, '45', 34788, 10, '347875.00', '13'),
+(48, 'LRD08', 388000, '45', 213400, 2, '426800.00', '13'),
+(49, 'A9F74310', 512050, '50', 256025, 2, '512050.00', '13'),
+(50, 'A9F74316', 512050, '50', 256025, 5, '1280125.00', '13'),
+(51, 'A9F74306', 512050, '50', 256025, 4, '1024100.00', '14'),
+(52, 'METSECT5MA030', 455400, '41', 268686, 1, '268686.00', '14'),
+(53, 'LRD08', 388000, '45', 213400, 2, '426800.00', '14'),
+(54, 'ATV312H075N4', 5696900, '48', 2962388, 1, '2962388.00', '15'),
+(55, 'DOM11353SNI', 375650, '34', 247929, 1, '247929.00', '16'),
+(56, 'ABL1REM24100', 2379300, '41', 1403787, 1, '1403787.00', '16'),
+(57, 'LRD08', 388000, '45', 213400, 2, '426800.00', '16'),
+(58, 'XB5AD33', 122100, '45', 67155, 18, '1208790.00', '16'),
+(59, 'EZC100N3100', 951500, '50', 475750, 5, '2378750.00', '16'),
+(60, 'EZC250F3160', 1600500, '50', 800250, 4, '3201000.00', '16'),
+(61, 'EZC250F3225', 1685200, '50', 842600, 1, '842600.00', '16'),
+(62, 'PhMKP525.3.25,00-84', 5053400, '0', 5053400, 96, '485126400.00', '17'),
+(63, 'NYAF2H', 3200, '5', 3040, 2000, '6079810.00', '18'),
+(64, 'NYAF2M', 3200, '5', 3040, 2000, '6079810.00', '18'),
+(65, 'NYAF2KH', 3200, '5', 3040, 200, '607981.00', '18'),
+(66, 'NYAF10H', 13514, '5', 12838, 800, '10270260.00', '18'),
+(67, 'ATV212HD30N4', 17984524, '0', 17984524, 8, '143876192.00', '19'),
+(68, 'ATV630C22N4', 266396900, '50', 134264038, 1, '134264037.60', '19'),
+(69, 'ATV212HD15N4', 21952700, '50', 11064161, 2, '22128321.60', '19'),
+(70, 'ATV610D37N4', 51847400, '50', 26131090, 1, '26131089.60', '19'),
+(71, 'ATV212HD11N4', 18136800, '50', 9140947, 1, '9140947.20', '19'),
+(72, 'EZC100N3100', 951500, '51', 466235, 15, '6993525.00', '20'),
+(73, 'EZESHT200AC', 773300, '51', 378917, 32, '12125344.00', '20'),
+(74, 'XB5AW31G5', 225500, '50', 112750, 5, '563750.00', '20'),
+(75, 'XB5AW33G5', 225500, '50', 112750, 30, '3382500.00', '20'),
+(76, 'XB5AW34G5', 225500, '50', 112750, 5, '563750.00', '20'),
+(77, 'XB5AK125G5', 321200, '50', 160600, 5, '803000.00', '20'),
+(78, 'XB5AK124G5', 321200, '50', 160600, 5, '803000.00', '20'),
+(79, 'XB5AVG4', 136950, '50', 68475, 6, '410850.00', '20'),
+(80, 'XB5AVG1', 136950, '50', 68475, 6, '410850.00', '20'),
+(81, 'EZC250F3160', 1600500, '51', 784245, 8, '6273960.00', '20'),
+(82, 'EZC250F3225', 1685200, '51', 825748, 4, '3302992.00', '20'),
+(83, 'GV2MC01', 284000, '37', 178920, 15, '2683800.00', '20'),
+(84, 'A9N18369', 2373250, '51', 1162893, 1, '1162892.50', '20'),
+(85, 'EZEAX', 356400, '51', 174636, 5, '873180.00', '20'),
+(86, 'NYFGBY270', 232500, '5', 220875, 1220, '269467500.00', '21'),
+(87, 'NYFGBY34', 29506, '5', 28031, 360, '10091052.00', '21'),
+(88, 'NYFGBY42', 23601, '5', 22421, 202, '4529031.90', '21'),
+(89, 'NYFGBY410', 63459, '5', 60286, 74, '4461167.70', '21'),
+(90, 'NYFGBY416', 99000, '5', 94050, 65, '6113250.00', '21'),
+(91, 'NYFGBY425', 158720, '5', 150784, 1058, '159529472.00', '21'),
+(92, 'NYY1300', 356700, '5', 338865, 120, '40663800.00', '21'),
+(93, 'NYY1185', 213150, '5', 202493, 424, '85856820.00', '21'),
+(94, 'NYY44', 26103, '5', 24798, 50, '1239892.50', '21'),
+(95, 'NYM32', 10800, '5', 10260, 100, '1026000.00', '21'),
+(96, 'NYA70KH', 86557, '5', 82229, 24, '1973499.60', '21'),
+(97, 'EZC100N3080', 951500, '50', 475750, 1, '475750.00', '22'),
+(98, 'EZESHT200AC', 773300, '50', 386650, 10, '3866500.00', '22'),
+(99, 'EZC250F3160', 1600500, '50', 800250, 1, '800250.00', '22'),
+(100, 'A9F74363', 1018600, '50', 509300, 1, '509300.00', '22'),
+(101, 'EZEAX', 356400, '48', 185328, 5, '926640.00', '23');
 
 -- --------------------------------------------------------
 
@@ -6930,10 +7089,103 @@ CREATE TABLE `purchaseorder_received` (
 --
 
 INSERT INTO `purchaseorder_received` (`id`, `reference`, `purchaseorder_id`, `quantity`, `status`) VALUES
-(1, 'A9L00002', 1, 50, 1),
-(2, 'NYA10B', 2, 200, 1),
-(3, 'A9A26929', 3, 0, 0),
-(4, 'AAACS120', 3, 0, 0);
+(5, 'NYY1240', 4, 1000, 0),
+(6, 'NYY1185', 4, 0, 0),
+(7, 'NYY1150', 4, 0, 0),
+(8, 'NYY450', 4, 128, 1),
+(9, 'NYYHY32', 4, 50, 1),
+(10, 'N2XSY170', 4, 20, 1),
+(11, 'N2XSY170', 5, 0, 0),
+(12, 'CL1200100L', 6, 0, 0),
+(13, 'CL800100L', 6, 0, 0),
+(14, 'CLR1200800', 6, 0, 0),
+(15, '33472', 7, 0, 0),
+(16, 'LV432877', 7, 0, 0),
+(17, 'EZC100F3015', 8, 0, 0),
+(18, 'EZC100F3020', 8, 0, 0),
+(19, 'EZESHT200AC', 8, 0, 0),
+(20, 'NW20H14F2EH', 8, 0, 0),
+(21, 'NW08H14F2EH', 8, 0, 0),
+(22, '47353', 8, 0, 0),
+(23, '47363', 8, 0, 0),
+(24, '47383', 8, 0, 0),
+(25, '48212', 8, 0, 0),
+(26, 'DOM11353SNI', 9, 0, 0),
+(27, 'LC1E2501M5', 9, 0, 0),
+(28, 'NYY170', 10, 0, 0),
+(29, 'NYY195', 10, 0, 0),
+(30, 'NYY150', 10, 0, 0),
+(31, 'NYY435', 10, 0, 0),
+(32, 'NYY425', 10, 0, 0),
+(33, 'NYY416', 10, 0, 0),
+(34, 'NYY410', 10, 0, 0),
+(35, 'NYY46', 10, 0, 0),
+(36, 'LADN31', 11, 0, 0),
+(37, 'XB5AW34M5', 11, 0, 0),
+(38, 'XB5AW33M5', 11, 0, 0),
+(39, 'XALD02', 11, 0, 0),
+(40, '33466', 11, 0, 0),
+(41, 'EZESHT200AC', 11, 0, 0),
+(42, 'EZC100F3015', 11, 0, 0),
+(43, 'EZC100N3100', 11, 0, 0),
+(44, 'BP1800800800L', 12, 0, 0),
+(45, 'ZBE101', 13, 0, 0),
+(46, 'LV430630', 13, 0, 0),
+(47, 'XB5AA42', 13, 0, 0),
+(48, 'LRD08', 13, 0, 0),
+(49, 'A9F74310', 13, 0, 0),
+(50, 'A9F74316', 13, 0, 0),
+(51, 'A9F74306', 14, 0, 0),
+(52, 'METSECT5MA030', 14, 0, 0),
+(53, 'LRD08', 14, 0, 0),
+(54, 'ATV312H075N4', 15, 0, 0),
+(55, 'DOM11353SNI', 16, 0, 0),
+(56, 'ABL1REM24100', 16, 0, 0),
+(57, 'LRD08', 16, 0, 0),
+(58, 'XB5AD33', 16, 0, 0),
+(59, 'EZC100N3100', 16, 0, 0),
+(60, 'EZC250F3160', 16, 0, 0),
+(61, 'EZC250F3225', 16, 0, 0),
+(62, 'PhMKP525.3.25,00-84', 17, 0, 0),
+(63, 'NYAF2H', 18, 0, 0),
+(64, 'NYAF2M', 18, 0, 0),
+(65, 'NYAF2KH', 18, 0, 0),
+(66, 'NYAF10H', 18, 0, 0),
+(67, 'ATV212HD30N4', 19, 0, 0),
+(68, 'ATV630C22N4', 19, 0, 0),
+(69, 'ATV212HD15N4', 19, 0, 0),
+(70, 'ATV610D37N4', 19, 0, 0),
+(71, 'ATV212HD11N4', 19, 0, 0),
+(72, 'EZC100N3100', 20, 0, 0),
+(73, 'EZESHT200AC', 20, 0, 0),
+(74, 'XB5AW31G5', 20, 0, 0),
+(75, 'XB5AW33G5', 20, 0, 0),
+(76, 'XB5AW34G5', 20, 0, 0),
+(77, 'XB5AK125G5', 20, 0, 0),
+(78, 'XB5AK124G5', 20, 0, 0),
+(79, 'XB5AVG4', 20, 0, 0),
+(80, 'XB5AVG1', 20, 0, 0),
+(81, 'EZC250F3160', 20, 0, 0),
+(82, 'EZC250F3225', 20, 0, 0),
+(83, 'GV2MC01', 20, 0, 0),
+(84, 'A9N18369', 20, 0, 0),
+(85, 'EZEAX', 20, 0, 0),
+(86, 'NYFGBY270', 21, 0, 0),
+(87, 'NYFGBY34', 21, 0, 0),
+(88, 'NYFGBY42', 21, 0, 0),
+(89, 'NYFGBY410', 21, 0, 0),
+(90, 'NYFGBY416', 21, 0, 0),
+(91, 'NYFGBY425', 21, 0, 0),
+(92, 'NYY1300', 21, 0, 0),
+(93, 'NYY1185', 21, 0, 0),
+(94, 'NYY44', 21, 0, 0),
+(95, 'NYM32', 21, 0, 0),
+(96, 'NYA70KH', 21, 0, 0),
+(97, 'EZC100N3080', 22, 0, 0),
+(98, 'EZESHT200AC', 22, 0, 0),
+(99, 'EZC250F3160', 22, 0, 0),
+(100, 'A9F74363', 22, 0, 0),
+(101, 'EZEAX', 23, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -6952,14 +7204,6 @@ CREATE TABLE `purchases` (
   `isdone` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `purchases`
---
-
-INSERT INTO `purchases` (`id`, `date`, `supplier_id`, `faktur`, `name`, `value`, `isconfirm`, `isdone`) VALUES
-(1, '2019-05-21', 3, '', 'ffffffuckkk', '800000000.00', 0, 0),
-(2, '2019-05-23', 4, '010.003.00-01020302', 'ASOE SEKALI', '28000000.00', 0, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -6974,13 +7218,6 @@ CREATE TABLE `purchase_return` (
   `code_id` int(255) NOT NULL,
   `isconfirm` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `purchase_return`
---
-
-INSERT INTO `purchase_return` (`id`, `reference`, `quantity`, `price`, `code_id`, `isconfirm`) VALUES
-(1, 'NYY435', 3, '163494.00', 4, 0);
 
 -- --------------------------------------------------------
 
@@ -8072,7 +8309,122 @@ INSERT INTO `quotation` (`id`, `reference`, `price_list`, `discount`, `net_price
 (3439, 'LRD07', 388000, '45.00', 213400, 3, 640200, 255),
 (3440, 'LRD08', 388000, '43.00', 221160, 1, 221160, 255),
 (3441, 'LRD21', 440000, '43.00', 250800, 4, 1003200, 255),
-(3442, 'GV2ME14', 706500, '45.00', 388575, 4, 1554300, 255);
+(3442, 'GV2ME14', 706500, '45.00', 388575, 4, 1554300, 255),
+(3443, 'LC1D12M7', 322000, '45.00', 177100, 10, 1771000, 256),
+(3444, 'LRD06', 388000, '45.00', 213400, 10, 2134000, 256),
+(3445, 'LV510306', 1199000, '43.00', 683430, 10, 6834300, 257),
+(3446, 'EZC100F3075', 778250, '35.00', 505863, 1, 505863, 258),
+(3447, 'LC1D18M7', 423500, '35.00', 275275, 2, 550550, 258),
+(3448, 'EZC100F3100', 778250, '35.00', 505863, 2, 1011725, 258),
+(3449, 'DOM11352SNI', 364100, '30.00', 254870, 3, 764610, 258),
+(3451, '33478', 25980900, '48.00', 13510068, 116, 1567167888, 259),
+(3452, 'LV429635', 1566400, '45.00', 861520, 1, 861520, 260),
+(3453, 'LV429634', 1566400, '45.00', 861520, 1, 861520, 260),
+(3454, 'A9R71225', 714450, '45.00', 392948, 2, 785895, 260),
+(3455, 'LC1D25M7', 575500, '40.00', 345300, 1, 345300, 260),
+(3456, 'LV432693', 8582200, '45.00', 4720210, 1, 4720210, 260),
+(3457, 'A9F74110', 133650, '45.00', 73508, 1, 73508, 260),
+(3458, '33478', 25980900, '45.00', 14289495, 1, 14289495, 260),
+(3459, 'EZC100N3050', 871200, '45.00', 479160, 1, 479160, 260),
+(3460, 'LV429630', 1694000, '45.00', 931700, 3, 2795100, 260),
+(3461, 'LV430630', 3020600, '45.00', 1661330, 1, 1661330, 260),
+(3462, 'LC1D09M7', 274500, '40.00', 164700, 2, 329400, 260),
+(3463, 'LV429633', 1566400, '45.00', 861520, 2, 1723040, 260),
+(3464, 'LC1F185', 6945000, '40.00', 4167000, 1, 4167000, 260),
+(3465, 'LX9FG220', 1320000, '40.00', 792000, 1, 792000, 260),
+(3466, 'LV431630', 3364900, '45.00', 1850695, 1, 1850695, 260),
+(3467, 'LC1D32M7', 761000, '40.00', 456600, 1, 456600, 260),
+(3468, 'LRD35', 582500, '40.00', 349500, 1, 349500, 260),
+(3469, 'LV432893', 11280500, '45.00', 6204275, 1, 6204275, 260),
+(3470, 'LC1D18M7', 423500, '40.00', 254100, 2, 508200, 260),
+(3471, 'LC1D12M7', 322000, '40.00', 193200, 1, 193200, 260),
+(3472, 'TCSESM043F2CU0', 33255200, '38.25', 20535086, 1, 20535086, 260),
+(3473, 'DOM12251SNI', 81950, '30.00', 57365, 1, 57365, 261),
+(3474, 'EZC100N3100', 951500, '35.00', 618475, 1, 618475, 261),
+(3475, 'LC1D80M7', 2272000, '35.00', 1476800, 1, 1476800, 261),
+(3476, 'LADR2', 889500, '35.00', 578175, 1, 578175, 261),
+(3481, 'LV432876', 9913200, '45.00', 5452260, 1, 5452260, 263),
+(3482, 'EZC250N3160', 1769900, '45.00', 973445, 6, 5840670, 263),
+(3483, 'EZC250N3250', 2104300, '45.00', 1157365, 4, 4629460, 263),
+(3484, 'EZC100N3030', 703450, '45.00', 386898, 16, 6190360, 263),
+(3485, 'EZC100F3100', 778250, '45.00', 428038, 1, 428038, 263),
+(3486, 'A9F74250', 512050, '45.00', 281628, 1, 281628, 263),
+(3487, 'EZC100N3050', 871200, '45.00', 479160, 1, 479160, 263),
+(3488, 'METSEPM5560', 15224000, '35.00', 9895600, 1, 9895600, 263),
+(3489, 'NYM31', 7574, '2.00', 7423, 750, 5566890, 264),
+(3490, 'NYM21', 5904, '2.00', 5786, 2100, 12150432, 264),
+(3491, 'NYY21', 7300, '0.00', 7300, 1100, 8030000, 264),
+(3492, 'NFA2X416', 14400, '15.00', 12240, 14000, 171360000, 264),
+(3493, 'NFA2X216', 7200, '15.00', 6120, 500, 3060000, 264),
+(3494, 'NFA2X210', 5000, '15.00', 4250, 300, 1275000, 264),
+(3495, 'NYAF35H', 47606, '0.00', 47606, 900, 42845400, 265),
+(3496, 'EZC250F3200', 1685200, '40.00', 1011120, 1, 1011120, 266),
+(3497, 'DOM11342SNI', 66550, '30.00', 46585, 15, 698775, 266),
+(3498, 'DOM11351SNI', 331650, '30.00', 232155, 1, 232155, 266),
+(3499, 'XB7EV03MP', 62700, '38.00', 38874, 1, 38874, 266),
+(3500, 'XB7EV04MP', 62700, '38.00', 38874, 1, 38874, 266),
+(3501, 'XB7EV05MP', 62700, '38.00', 38874, 1, 38874, 266),
+(3502, 'METSEDM3110', 547800, '35.00', 356070, 3, 1068210, 266),
+(3503, 'METSEDM3210', 504900, '35.00', 328185, 1, 328185, 266),
+(3504, 'K1F027MLHL', 568700, '35.00', 369655, 1, 369655, 266),
+(3505, 'METSECT5CC015', 380600, '35.00', 247390, 3, 742170, 266),
+(3506, 'EZC400N3400N', 3943500, '40.00', 2366100, 1, 2366100, 267),
+(3507, 'EZC100F3100', 778250, '40.00', 466950, 2, 933900, 267),
+(3508, 'EZC100B3050', 658900, '40.00', 395340, 2, 790680, 267),
+(3509, 'XB7EV03MP', 62700, '38.00', 38874, 1, 38874, 267),
+(3510, 'XB7EV04MP', 62700, '38.00', 38874, 1, 38874, 267),
+(3511, 'XB7EV05MP', 62700, '38.00', 38874, 1, 38874, 267),
+(3512, 'METSEDM3210', 504900, '35.00', 328185, 1, 328185, 267),
+(3513, 'METSEDM3110', 547800, '35.00', 356070, 3, 1068210, 267),
+(3514, 'K1F027MLHL', 568700, '35.00', 369655, 1, 369655, 267),
+(3515, 'METSECT5MA040', 487300, '35.00', 316745, 3, 950235, 267),
+(3516, 'NYY1240', 276660, '1.00', 273893, 362, 99149411, 262),
+(3517, 'NYY195', 120060, '1.00', 118859, 966, 114818180, 262),
+(3518, 'NYY170', 85260, '1.00', 84407, 67, 5655296, 262),
+(3519, 'NYY150', 63510, '1.00', 62875, 322, 20245718, 262),
+(3520, 'LV432894', 15338400, '48.00', 7975968, 2, 15951936, 268),
+(3521, 'LV432539', 5847600, '48.00', 3040752, 2, 6081504, 268),
+(3522, 'LV432642', 15834500, '48.00', 8233940, 2, 16467880, 268),
+(3523, '32610', 22444400, '48.00', 11671088, 1, 11671088, 268),
+(3524, 'LV432520', 261800, '48.00', 136136, 2, 272272, 268),
+(3525, '29450', 440000, '48.00', 228800, 4, 915200, 268),
+(3526, '29471', 28133600, '48.00', 14629472, 2, 29258944, 268),
+(3527, 'LV540306', 4075500, '48.00', 2119260, 1, 2119260, 268),
+(3528, 'LV516303', 1995400, '48.00', 1037608, 1, 1037608, 268),
+(3529, 'EZC100B3040', 658900, '48.00', 342628, 2, 685256, 268),
+(3530, 'EZC400N3400N', 3943500, '48.00', 2050620, 1, 2050620, 268),
+(3531, 'EZC400N3300', 3646500, '48.00', 1896180, 2, 3792360, 268),
+(3532, 'EZC100H3050', 1005400, '48.00', 522808, 3, 1568424, 268),
+(3533, 'EZC100H3040', 1005400, '48.00', 522808, 1, 522808, 268),
+(3534, 'EZC100F3040', 703450, '48.00', 365794, 2, 731588, 268),
+(3535, 'DOM11348SNI', 313500, '35.00', 203775, 33, 6724575, 268),
+(3536, 'DOM11341SNI', 66550, '35.00', 43258, 6, 259545, 268),
+(3537, 'DOM11340SNI', 66550, '35.00', 43258, 12, 519090, 268),
+(3538, 'DOM11349SNI', 313500, '35.00', 203775, 2, 407550, 268),
+(3541, 'NYFGBY44', 33700, '0.00', 33700, 500, 16850000, 269),
+(3542, 'NYFGBY34', 31000, '0.00', 31000, 2000, 62000000, 270),
+(3543, 'SC240CU', 72500, '0.00', 72500, 24, 1740000, 271),
+(3544, 'SC95CU', 22500, '0.00', 22500, 58, 1305000, 271),
+(3545, 'SC70CU', 13000, '0.00', 13000, 6, 78000, 271),
+(3546, 'SC50CU', 9200, '0.00', 9200, 16, 147200, 271),
+(3547, 'V250H', 2500, '0.00', 2500, 26, 65000, 271),
+(3548, 'V100H', 1750, '0.00', 1750, 72, 126000, 271),
+(3549, 'V80H', 1350, '0.00', 1350, 72, 97200, 271),
+(3550, 'V60H', 1200, '0.00', 1200, 72, 86400, 271),
+(3551, 'NCT301P', 28000, '0.00', 28000, 8, 224000, 271),
+(3552, 'LC1DWK12M7', 3661000, '42.00', 2123380, 24, 50961120, 272),
+(3553, 'NYAF10H', 13500, '0.00', 13500, 1000, 13500000, 272),
+(3554, 'LC1D40AM7', 1342000, '45.00', 738100, 16, 11809600, 273),
+(3555, 'LV429630', 1694000, '45.00', 931700, 16, 14907200, 273),
+(3556, 'DOM11340SNI', 66550, '35.00', 43258, 16, 692120, 273),
+(3557, 'DOM11341SNI', 66550, '35.00', 43258, 60, 2595450, 273),
+(3558, 'NYAF075H', 1450, '0.00', 1450, 200, 290000, 273),
+(3559, 'LV510337', 1320000, '42.00', 765600, 1, 765600, 274),
+(3560, 'EZC100F3050', 703450, '42.00', 408001, 2, 816002, 274),
+(3561, 'A9F74140', 166100, '42.00', 96338, 3, 289014, 274),
+(3562, 'A9F74125', 140250, '42.00', 81345, 3, 244035, 274),
+(3563, 'NYY46', 33900, '0.00', 33900, 100, 3390000, 274),
+(3564, 'NYM22', 8467, '0.00', 8467, 50, 423350, 274);
 
 -- --------------------------------------------------------
 
@@ -8731,7 +9083,11 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (414, '2019-05-25', 'RXZE2M114M', 'OUT', 2, 7, 0, 16, 'SJ-AE-04N.25-V-19'),
 (415, '2019-06-09', 'A9L00002', 'OUT', 2, 48, 0, 7, 'SJ-AE-01P.09-VI-19'),
 (416, '2019-06-15', 'NYA10B', 'OUT', 25, 175, 0, 31, 'SJ-AE-02P.15-VI-19'),
-(417, '2019-06-15', 'NYY435', 'OUT', 15, 67, 0, 31, 'SJ-AE-02P.15-VI-19');
+(417, '2019-06-15', 'NYY435', 'OUT', 15, 67, 0, 31, 'SJ-AE-02P.15-VI-19'),
+(418, '2019-02-07', 'NYY1240', 'IN', 1000, 1000, 4, 0, 'PI-KL-AI-OODCC'),
+(419, '2019-02-07', 'NYY450', 'IN', 128, 128, 4, 0, 'PI-KL-AI-OODCC'),
+(420, '2019-02-07', 'NYYHY32', 'IN', 50, 50, 4, 0, 'PI-KL-AI-OODCC'),
+(421, '2019-02-07', 'N2XSY170', 'IN', 20, 20, 4, 0, 'PI-KL-AI-OODCC');
 
 -- --------------------------------------------------------
 
@@ -9112,7 +9468,11 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (370, '2019-05-18', 'XB7NA21', 2, '41992.87', 2, 0, 0, 0),
 (371, '2019-05-19', 'NYY435', 2, '163494.00', 0, 0, 5, 0),
 (372, '2019-05-21', 'A9L00002', 50, '16000000.00', 48, 3, 0, 1),
-(373, '2019-05-23', 'NYA10B', 200, '140000.00', 175, 4, 0, 2);
+(373, '2019-05-23', 'NYA10B', 200, '140000.00', 175, 4, 0, 2),
+(374, '2019-02-07', 'NYY1240', 1000, '272813.00', 1000, 4, 0, 3),
+(375, '2019-02-07', 'NYY450', 128, '231420.00', 128, 4, 0, 4),
+(376, '2019-02-07', 'NYYHY32', 50, '13235.00', 50, 4, 0, 5),
+(377, '2019-02-07', 'N2XSY170', 20, '150822.00', 20, 4, 0, 6);
 
 -- --------------------------------------------------------
 
@@ -9190,7 +9550,8 @@ INSERT INTO `supplier` (`id`, `name`, `address`, `phone`, `npwp`, `city`) VALUES
 (12, 'PT Tunas Parahyangan Cemerlang Sejati Sakti', 'Jalan Prof.Dr.Sutami Ruko Setrasari Blok B3 no.59, RT006, RW001', '022-2008811', '70.249.311.5-428.000', 'Bandung'),
 (13, 'Toko Inti Stroom', 'Jalan Sadang Blok 000 no.94, RT001, RW009', '(022) 54417029', '', 'Bandung'),
 (14, 'CV Hen Jaya', 'Jalan H. Kurdi I Blok 000 no.14, RT005, RW001', '(022) 5225662', '01.427.691.9-422.000', 'Bandung'),
-(15, 'PT Global Contromation Indonesia', 'Jalan Tanjungsari Blok 000 no.441, RT001, RW016', '(031) 60037777', '02.458.090.4-604.000', 'Surabaya');
+(15, 'PT Global Contromation Indonesia', 'Jalan Tanjungsari Blok 000 no.441, RT001, RW016', '(031) 60037777', '02.458.090.4-604.000', 'Surabaya'),
+(16, 'Mathar Jaya', 'Jalan Cingised Blok 000 no.032, RT000, RW000', '(022) 87881504', '', 'Bandung');
 
 -- --------------------------------------------------------
 
@@ -9317,12 +9678,6 @@ ALTER TABLE `code_project`
 -- Indexes for table `code_purchaseorder`
 --
 ALTER TABLE `code_purchaseorder`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `code_purchase_invoice`
---
-ALTER TABLE `code_purchase_invoice`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -9588,7 +9943,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `absentee_list`
 --
 ALTER TABLE `absentee_list`
-  MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+  MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=173;
 
 --
 -- AUTO_INCREMENT for table `announcement`
@@ -9636,7 +9991,7 @@ ALTER TABLE `code_delivery_order`
 -- AUTO_INCREMENT for table `code_goodreceipt`
 --
 ALTER TABLE `code_goodreceipt`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `code_project`
@@ -9648,13 +10003,7 @@ ALTER TABLE `code_project`
 -- AUTO_INCREMENT for table `code_purchaseorder`
 --
 ALTER TABLE `code_purchaseorder`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `code_purchase_invoice`
---
-ALTER TABLE `code_purchase_invoice`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `code_purchase_return`
@@ -9666,7 +10015,7 @@ ALTER TABLE `code_purchase_return`
 -- AUTO_INCREMENT for table `code_quotation`
 --
 ALTER TABLE `code_quotation`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=256;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=275;
 
 --
 -- AUTO_INCREMENT for table `code_salesorder`
@@ -9732,7 +10081,7 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `goodreceipt`
 --
 ALTER TABLE `goodreceipt`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `invoices`
@@ -9744,7 +10093,7 @@ ALTER TABLE `invoices`
 -- AUTO_INCREMENT for table `itemlist`
 --
 ALTER TABLE `itemlist`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4128;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4151;
 
 --
 -- AUTO_INCREMENT for table `payable`
@@ -9762,7 +10111,7 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT for table `petty_cash`
 --
 ALTER TABLE `petty_cash`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=632;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=645;
 
 --
 -- AUTO_INCREMENT for table `petty_cash_classification`
@@ -9786,13 +10135,13 @@ ALTER TABLE `project_delivery_order`
 -- AUTO_INCREMENT for table `purchaseorder`
 --
 ALTER TABLE `purchaseorder`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT for table `purchaseorder_received`
 --
 ALTER TABLE `purchaseorder_received`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT for table `purchases`
@@ -9810,7 +10159,7 @@ ALTER TABLE `purchase_return`
 -- AUTO_INCREMENT for table `quotation`
 --
 ALTER TABLE `quotation`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3443;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3565;
 
 --
 -- AUTO_INCREMENT for table `reason`
@@ -9876,13 +10225,13 @@ ALTER TABLE `sample_sent`
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=418;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=422;
 
 --
 -- AUTO_INCREMENT for table `stock_value_in`
 --
 ALTER TABLE `stock_value_in`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=374;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=378;
 
 --
 -- AUTO_INCREMENT for table `stock_value_out`
@@ -9894,7 +10243,7 @@ ALTER TABLE `stock_value_out`
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `type_random_do`
@@ -9911,12 +10260,6 @@ ALTER TABLE `users`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `quotation`
---
-ALTER TABLE `quotation`
-  ADD CONSTRAINT `quotation_ibfk_1` FOREIGN KEY (`quotation_code`) REFERENCES `code_quotation` (`id`);
 
 --
 -- Constraints for table `return_invoice_sales`

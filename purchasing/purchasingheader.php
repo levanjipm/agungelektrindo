@@ -70,6 +70,8 @@
 <?php
 	}
 ?>
+		<br>
+		<a href='archive_view.php'>PO archives</a>
 	</div>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-briefcase" aria-hidden="true"></i>
@@ -99,6 +101,9 @@
 		</a>
 		<a href="edititem_dashboard.php">
 			<p>Edit item list</p>
+		</a>
+		<a href="addclass_item_dashboard.php">
+			<p>Add or edit item list</p>
 		</a>
 	</div>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>

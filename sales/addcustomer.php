@@ -1,20 +1,40 @@
 <?php
 	include("../codes/Connect.php");
-	//Check if the length of NPWP is valid//
-	$name=$_POST['namaperusahaan'];
-	$address=$_POST['alamat'] . " Blok " . $_POST['blok'] . " no." . $_POST['nomor'] . ", RT" . $_POST['rt'] . ", RW" . $_POST['rw'];
-	$phone=$_POST['phone'];
-	$npwp=$_POST['npwp'];
-	$city = $_POST['city'];
-	$prefix = $_POST['prefix'];
-	$pic = $_POST['pic'];
-	$sql = "INSERT INTO customer (name, address, phone, npwp,city,prefix,pic) VALUES ('$name','$address','$phone','$npwp','$city','$prefix','$pic')";
-	if ($conn->query($sql) === TRUE) {
-		echo "New record created successfully";
+	session_start();
+	$name= mysqli_real_escape_string($conn,$_POST['namaperusahaan']);
+	$address = mysqli_real_escape_string($conn,$_POST['alamat']) . " Blok " . mysqli_real_escape_string($conn,$_POST['blok']) . " no." . mysqli_real_escape_string($conn,$_POST['nomor'])
+	. ", RT" . mysqli_real_escape_string($conn,$_POST['rt']) . ", RW" . mysqli_real_escape_string($conn,$_POST['rw']);
+	
+	$sql_check = "SELECT COUNT(id) AS jumlah FROM customer WHERE name = '" . $name . "'";
+	$result_check = $conn->query($sql_check);
+	$check = $result_check->fetch_assoc();
+	$jumlah_satu = $check['jumlah'];
+	
+	$npwp= mysqli_real_escape_string($conn,$_POST['npwp']);
+	if($npwp != ''){
+		$sql_daniel = "SELECT COUNT(id) AS jumlah FROM customer WHERE npwp = '" . $npwp . "'";
+		$result_daniel = $conn->query($sql_daniel);
+		$daniel = $result_daniel->fetch_assoc();
+		$jumlah_dua = $daniel['jumlah'];
 	} else {
-		echo "Error: " . $sql . "<br>" . $conn->error;
+		$jumlah_dua = 0;
 	}
-
-	header("Location: sales.php");
-	die();
+	
+	$phone = mysqli_real_escape_string($conn,$_POST['phone']);
+	$city = mysqli_real_escape_string($conn,$_POST['city']);
+	$prefix = mysqli_real_escape_string($conn,$_POST['prefix']);
+	$pic = mysqli_real_escape_string($conn,$_POST['pic']);
+	
+	if($jumlah_satu > 0 || $jumlah_dua > 0){
+		echo ('0'); //Customer already exist//
+	} else {
+		$sql = "INSERT INTO customer (name, address, phone, npwp,city,prefix,pic,date_created,created_by) 
+		VALUES ('$name','$address','$phone','$npwp','$city','$prefix','$pic',CURDATE(),'" . $_SESSION['user_id'] . "')";
+		$result = $conn->query($sql);
+		if($result){
+			echo ('1'); //Input success//
+		} else {
+			echo ('2'); //input failed//
+		}
+	};
 ?>

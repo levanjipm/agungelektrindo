@@ -13,7 +13,7 @@
 						<select class="form-control" name="supplier" id="supplier" onclick="disable()">
 							<option id="kosong">Please Select a supplier--</option>
 <?php
-	$sql = "SELECT id,name FROM supplier";
+	$sql = "SELECT id,name FROM supplier ORDER BY name ASC";
 	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
 		while($row = mysqli_fetch_array($result)) {

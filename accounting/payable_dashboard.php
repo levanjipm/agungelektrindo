@@ -12,14 +12,20 @@
 <?php
 	$maximum = 0;
 	$total = 0;
-	$sql_initial = "SELECT SUM(purchases.value) AS maximum, SUM(payable.value) AS pengurang FROM purchases
-	JOIN payable ON payable.purchase_id = purchases.id WHERE purchases.isdone = '0' GROUP by purchases.supplier_id, payable.purchase_id";
+	$sql_initial = "SELECT supplier_id,SUM(value) AS maximum FROM purchases WHERE isdone = '0' GROUP BY supplier_id";
 	$result_initial = $conn->query($sql_initial);
 	while($initial = $result_initial->fetch_assoc()){
-		if($initial['maximum'] - $initial['pengurang'] > $maximum){
-			$maximum = $initial['maximum'] - $initial['pengurang'];
+		$sql_pengurang = "SELECT SUM(payable.value) AS pengurang FROM payable 
+		JOIN purchases ON purchases.id = payable.purchase_id
+		WHERE purchases.supplier_id = '" . $initial['supplier_id'] . "'";
+		$result_pengurang = $conn->query($sql_pengurang);
+		$pengurang = $result_pengurang->fetch_assoc();
+		
+		$paid = $pengurang['pengurang'];
+		if(($initial['maximum'] - $paid) > $maximum){
+			$maximum = $initial['maximum'] - $paid;
 		}
-		$total = $total + $initial['maximum'] - $initial['pengurang'];
+		$total = $total + $initial['maximum'] - $paid;
 	}
 ?>
 <div class='main'>
@@ -32,7 +38,7 @@
 			<div class='col-sm-4'>
 				<br>
 				<select class='form-control' onchange='change_customer()' id='seleksi'>
-					<option value='0'>Please insert customer name to view</option>
+					<option value='0'>Please insert supplier name to view</option>
 <?php
 	$sql_select = 'SELECT id,name FROM supplier';
 	$result_select = $conn->query($sql_select);
@@ -43,8 +49,8 @@
 	}
 ?>
 				</select>
-				<form action='customer_view.php' method='POST' id='customer_form'>
-					<input type='hidden' id='customer_to_view' name='customer'>
+				<form action='supplier_view.php' method='POST' id='supplier_form'>
+					<input type='hidden' id='supplier_to_view' name='supplier'>
 				</form>
 			</div>
 			<div class='col-sm-2'>
@@ -58,14 +64,14 @@
 	</div>
 	<script>
 		function change_customer(){
-			$('#customer_to_view').val($('#seleksi').val());
+			$('#supplier_to_view').val($('#seleksi').val());
 		}
 		function submiting(){
-			if($('#customer_to_view').val() == 0){
+			if($('#supplier_to_view').val() == 0){
 				alert('Please insert a customer!');
 				return false;
 			} else {
-				$('#customer_form').submit();
+				$('#supplier_form').submit();
 			}
 		}
 	</script>

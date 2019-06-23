@@ -159,9 +159,9 @@ Sales Department
 				Add sampling
 			</button>
 		</a>
-		<a href="view_project_dashboard.php">
+		<a href="confirm_sampling_dashboard.php">
 			<button type='button' class='btn btn-badge'>
-				Cancel sampling
+				Confirm
 			</button>
 		</a>
 	</div>

@@ -1,6 +1,5 @@
 <?php
 	include('../codes/connect.php');
-	print_r($_POST);
 	if(empty($_POST['customer']) || empty($_POST['start_project']) || empty($_POST['name_project'])){
 		header('location:add_project_dashboard.php');
 	} else {

@@ -31,7 +31,7 @@ $( function() {
 	<hr>
 	<div class='row'>
 		<div class='col-sm-1'>
-		No.
+			No.
 		</div>
 		<div class='col-sm-3'>
 			Reference
@@ -40,6 +40,7 @@ $( function() {
 			Quantity
 		</div>
 	</div>
+	<hr>
 <?php
 	for($i=  1; $i <= 3; $i++){
 ?>

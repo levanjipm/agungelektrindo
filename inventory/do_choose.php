@@ -11,60 +11,24 @@ $( function() {
 });
 </script>
 <style>
-#pick1 {
-	text-align:center;
-	padding:50px;
-	background-color:#eee;
-	transition: all 0.3s ease;
-	color:black;
-	border-radius:30px;
+.box_do{
+	padding:100px 30px;
+	box-shadow: 3px 3px 3px 3px #888888;
 }
-
-#pick1:hover{
-	background-color:#ccc;
-	transition: 0.3s ease;
+.icon_wrapper{
+	position:relative;
 }
-#pick2 {
-	text-align:center;
-	padding:50px;
-	background-color:#222;
-	transition: all 0.3s ease;
-	color:white;
-	border-radius:30px;
-}
-#pick2:hover{
-	background-color:#444;
-	transition: 0.3s ease;
 </style>
 	<div class="main">
-		<div class="row" style="padding:30px" id="choose">
-			<div class="col-lg-5" id="pick1">
-				<i class="fa fa-edit" style="font-size:120px"></i>
-				<br>
-				<button type="button" class="btn btn-primary" onclick="show_exist()">Pick from existing Sales Order</button>
-				<br><br>
-				<p>Choose a sales order to create a delivery order</p>
-				<p>and the default settings has already been installed automatically</p>
-			</div>
-			<div class="col-lg-5 offset-lg-1" id="pick2">
-				<i class="fa fa-pencil" style="font-size:120px"></i>
-				<br>
-				<a href="random_delivery_order_dashboard.php" class="btn btn-danger">Create random delivery order</a>
-				<br><br>
-				<p>Cases which there is <b>no sales order available</b></p>
-				<p>Input every data manually, there are no settings installed</p>
-			</div>
-		</div>
-		<form id="exist_form" style="display:none" action="do_exist_dasboard.php" method="POST">
+		<form id="exist_form" action="do_exist_dasboard.php" method="POST">
 			<div class="row">
-				<div class="col-lg-4 offset-lg-4">
+				<div class="col-sm-4 col-sm-offset-4 box_do" style='text-align:center'>
+					<div class='icon_wrapper'>
+						<h1><i class="fa fa-file-text" aria-hidden="true"></i></h1>
+					</div>
 					<label>Insert Sales Order number</label>
 					<input type="text" class="form-control" name="so_id" id="so_id">
-				</div>
-			</div>
-			<br>
-			<div class="row">
-				<div class="col-lg-6 offset-lg-3">
+					<br><br>
 					<button class="btn btn-success" type="submit">Next</button>
 					<button class="btn btn-primary" type="button" onclick="go_back()">Back</button>
 				</div>
@@ -72,17 +36,3 @@ $( function() {
 		</form>
 	</div>
 </body>
-<script>
-function show_exist(){
-	$('#choose').fadeOut( "10", function() {
-		$('#exist_form').fadeIn( "slow", function() {
-		});	
-	});
-};
-function go_back(){
-	$('#exist_form').fadeOut('300', function() {
-		$('#choose').fadeIn( "slow", function() {
-		});
-	});
-};
-</script>

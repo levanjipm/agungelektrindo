@@ -87,25 +87,7 @@
 				<input type="text" id="myInput" placeholder="Search for reference or description" class="form-control">
 			</div>
 		</div>
-		<div id="results">
-			<p>Showing 20 results only including inactive items, There are <b><?= $jumlah ?></b> Item registered</p>
-		</div>
-		
-		<button type="button" class="btn btn-info" onclick="check_active()" id="item_active">Include inactive data</button>
-		<button type="button" class="btn btn-default" onclick="check_inactive()" id="item_inactive" style="display:none">Exclude inactive data</button>
 		<br><br>
-		<script>
-		function check_active(){
-			$('.inactive').show();
-			$('#item_inactive').show();
-			$('#item_active').hide();
-		}
-		function check_inactive(){
-			$('.inactive').hide();
-			$('#item_inactive').hide();
-			$('#item_active').show();
-		}
-		</script>
 		<br>
 		<?php
 			if($role == 'superadmin'){
@@ -140,48 +122,55 @@
 				} else {
 					$offset = ($page-1) * 100;
 				}
-				$sql = "SELECT * FROM itemlist WHERE isdelete = '0' ORDER by reference ASC LIMIT 100 OFFSET " . $offset;
+				$sql = "SELECT * FROM itemlist ORDER by reference ASC LIMIT 100 OFFSET " . $offset;
 				$result = $conn->query($sql);
-				while($row = mysqli_fetch_array($result)) {
-					if ($row['isactive'] == 1){
-						echo '<div class="row" style="padding:10px;text-align:center">';
-					} else {
-						echo '<div class="row inactive" style="padding:10px;text-align:center;background-color:#ddd">';
-					}
+				while($row = $result->fetch_assoc()){
 				if($role == 'superadmin'){
-			?>			
-				<div class="col-sm-3">
-					<p><?= $row['reference']; ?></p>
-				</div>
-				<div class="col-sm-4">
-					<p><?= $row['description']; ?></p>
-				</div>
-				<div class="col-sm-3">
-					<p><?= $row['type']; ?></p>
-				</div>
+			?>
+				<div class='row' style='text-align:center;margin-top:10px'>
+					<div class="col-sm-3">
+						<p><?= $row['reference']; ?></p>
+					</div>
+					<div class="col-sm-4">
+						<p><?= $row['description']; ?></p>
+					</div>
+					<div class="col-sm-3">
+						<p><?php
+							if($row['type'] == 0){
+								echo ('Unassigned');
+							} else {
+								$sql_type = "SELECT name FROM itemlist_category WHERE id = '" . $row['type'] . "'";
+								$result_type = $conn->query($sql_type);
+								$type = $result_type->fetch_assoc();
+								echo $type['name'];
+							}
+						?></p>
+					</div>
 			<?php
 				} else {
 			?>
-				<div class="col-sm-3">
-					<p><?= $row['reference']; ?></p>
-				</div>
-				<div class="col-sm-6">
-					<p><?= $row['description']; ?></p>
-				</div>
-				<div class="col-sm-3">
-					<p><?= $row['type']; ?></p>
+				<div class='row' style='text-align:center;margin-top:10px'>
+					<div class="col-sm-3">
+						<p><?= $row['reference']; ?></p>
+					</div>
+					<div class="col-sm-6">
+						<p><?= $row['description']; ?></p>
+					</div>
+					<div class="col-sm-3">
+						<p><?= $row['name']; ?></p>
+					</div>
 				</div>
 			<?php
 				}
 				if($role == 'superadmin'){
 			?>
-				<div class="col-sm-2">
-					<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal-<?=$row['id']?>">Edit</button>
+					<div class="col-sm-2">
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal-<?=$row['id']?>">Edit</button>
+					</div>
 				</div>
 			<?php
 				}
 			?>
-			</div>
 			<div class="modal" id="myModal-<?=$row['id']?>" role="dialog">
 				<div class="modal-dialog modal-lg">
 					<div class="modal-content">
@@ -199,11 +188,11 @@
 							<select class='form-control' name='type' id='type<?= $row['id'] ?>'>
 								<option value='0'>Please select a type</option>
 <?php
-	$sql_brand = "SELECT DISTINCT type FROM itemlist WHERE type <> '' ORDER BY type ASC";
+	$sql_brand = "SELECT id,name FROM itemlist_category ORDER BY name ASC";
 	$result_brand = $conn->query($sql_brand);
 	while($brand = $result_brand->fetch_assoc()){
 ?>
-								<option value='<?= $brand['type'] ?>'><?= $brand['type'] ?></option>
+								<option value='<?= $brand['id'] ?>' <?php if($row['type'] == $brand['id']){ echo ('selected');} ?>><?= $brand['name'] ?></option>
 <?php
 	}
 ?>

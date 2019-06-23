@@ -1,23 +1,28 @@
 <?php
 	include("salesheader.php")
 ?>
+<style>
+	.alert_wrapper{
+		position:absolute;
+		z-index:105;
+	}
+</style>
 <script type='text/javascript' src="../universal/Jquery/jquery.inputmask.bundle.js"></script>
 <div class="main" style='padding-top:0'>
-<?php
-	if(empty($_GET['alert'])){
-	} else if($_GET['alert'] == 'npwp'){
-?>
-	<div class="alert alert-warning" style='position:absolute;z-index:105' id='alert_npwp'>
-		<strong>Warning!</strong>NPWP number does not met the criteria set.
+	<div class='alert_wrapper'>
+		<div class="alert alert-warning" id='alert_npwp' style='display:none'>
+			<strong>Warning!</strong>NPWP number does not met the criteria set.
+		</div>
+		<div class="alert alert-warning" id='alert_exist' style='display:none'>
+			<strong>Warning!</strong>Customer already exist!
+		</div>
+		<div class="alert alert-success" id='alert_success' style='display:none'>
+			input data success!
+		</div>
+		<div class="alert alert-danger" id='alert_failed' style='display:none'>
+			<strong>Warning!</strong>Input failed!
+		</div>
 	</div>
-	<script>
-		setTimeout(function(){
-			$('#alert_npwp').fadeOut()
-		},2000)
-	</script>
-<?php
-	}
-?>
 	<div class='row'>
 		<div class='col-sm-1' style='background-color:#ddd'>
 		</div>
@@ -120,7 +125,7 @@
 										</table>
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-default" data-dismiss="modal" id='close_modal'>Close</button>
 										<button type="button" class="btn btn-success" onclick='proceed()'>Proceed</button>
 									</div>
 								</div>
@@ -164,7 +169,45 @@ function disable(){
 	document.getElementById("kosong").disabled = true;
 }
 function proceed(){
-	$('#inputcustomer').submit();
+	$.ajax({
+		url:"addcustomer.php",
+		data:{
+			npwp : $('#npwp').val(),
+			prefix : $('#prefix').val(),
+			pic : $('#pic').val(),
+			prefix : $('#prefix').val(),
+			phone : $('#phone').val(),
+			namaperusahaan : $('#namaperusahaan').val(),
+			alamat : $('#alamat').val(),
+			blok : $('#blok').val(),
+			rt : $('#rt').val(),
+			rw : $('#rw').val(),
+			city : $('#city').val(),
+			nomor: $('#number').val(),
+		},
+		type:"POST",
+		success:function(response){
+			if(response == 0){
+				$('#close_modal').click();
+				$('#alert_exist').fadeIn();
+				setTimeout(function(){
+					$('#alert_exist').fadeOut();
+				},1000);
+			} else if(response == 1){
+				$('#close_modal').click();
+				$('#alert_success').fadeIn();
+				setTimeout(function(){
+					$('#alert_success').fadeOut();
+				},1000);
+			} else if(response == 2){
+				$('#close_modal').click();
+				$('#alert_failed').fadeIn();
+				setTimeout(function(){
+					$('#alert_failed').fadeOut();
+				},1000);
+			}
+		},
+	});
 }
 </script>
 </body>
