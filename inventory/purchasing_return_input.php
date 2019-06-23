@@ -3,6 +3,7 @@
 	if(empty($_POST)){
 		header('location:inventory.php');
 	}
+	
 	$sql_awal = "SELECT * FROM code_purchase_return WHERE id = '" . $_POST['id'] . "'";
 	$result_awal = $conn->query($sql_awal);
 	$awal = $result_awal->fetch_assoc();
@@ -19,6 +20,7 @@
 	$result_update = $conn->query($sql_update);
 	$nilai = true;
 	
+	//Check stocknya//
 	$sql_detail = "SELECT * FROM purchase_return WHERE code_id = '" . $_POST['id'] . "'";
 	$result_detail = $conn->query($sql_detail);
 	while($detail = $result_detail->fetch_assoc()){
@@ -47,7 +49,7 @@
 			$stock_akhir = $stock - $quantity;
 			
 			$sql_stock = "INSERT INTO stock (reference,transaction,quantity,stock,supplier_id,document)
-			VALUES ('$reference','OUT','$quantity','$stock_akhir','$do_name')";
+			VALUES ('$reference','OUT','$quantity','$stock_akhir','$supplier_id','$do_name')";
 			$result_stock = $conn->query($sql_stock);
 			
 			$sql_in = "SELECT * FROM stock_value_in WHERE reference = '" . $reference . "' AND sisa > 0 ORDER BY id DESC";
@@ -56,8 +58,9 @@
 				$in_id = $in['id'];
 				$in_date = $in['date'];
 				$quantity_awal = $in['quantity'];
-				$sisa = $quantity - $in['sisa'];
+				// $quantity_harga_baru = $quantity - $in['sisa'];
 				if($in['sisa'] >= $quantity){
+					
 					$quantity_akhir = $quantity_awal - $quantity;
 					$sql_update_in = "UPDATE stock_value_in SET quantity = '" . $quantity_akhir . "', sisa = '0' WHERE id = '" . $in['id'] . "'";
 					$sql_update_other = "INSERT INTO stock_value_in (date,reference,quantity,price,sisa,supplier_id,customer_id)
@@ -98,4 +101,5 @@
 			}
 		}
 	}
+	header('location:inventory.php');
 ?>

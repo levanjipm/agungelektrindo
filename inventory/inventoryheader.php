@@ -139,6 +139,12 @@
 			Project
 		</button>
 	</a>
+	<a href="sample_dashboard.php">
+		<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+			<i class="fa fa-flask" aria-hidden="true"></i>
+			Samples
+		</button>
+	</a>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-undo" aria-hidden="true"></i>
 		Return
