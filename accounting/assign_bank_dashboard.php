@@ -43,8 +43,8 @@
 <?php
 	}
 ?>
-			<td><button type='button' class='btn btn-primary'>Assign as other</button></td>
-			<form action='assign_bank_assign.php' method='POST' id='form<?= $row['id'] ?>'>
+			<td><button type='button' class='btn btn-primary' onclick='other(<?= $row['id'] ?>)'>Assign as other</button></td>
+			<form action='assign_bank_other.php' method='POST' id='other_form<?= $row['id'] ?>'>
 				<input type='hidden' value='<?= $row['id'] ?>' name='id'>
 			</form>
 		</tr>

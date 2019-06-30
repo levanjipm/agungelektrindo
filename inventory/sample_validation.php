@@ -63,12 +63,13 @@
 	if($point_stock == 1){
 ?>
 	<button type='button' class='btn btn-default' id='submitbutton'>Submit</button>
-	<form action='sample_input.php' method='POST' id='submitform'>
+	<form action='sample_input.php' method='POST' id='submitform' target='_blank'>
 		<input type='hidden' value='<?= $id ?>' name='id'>
 	</form>
 	<script>
 		$('#submitbutton').click(function(){
 			$('#submitform').submit();
+			window.location.replace("inventory.php");
 		});
 	</script>
 <?php

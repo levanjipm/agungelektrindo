@@ -2,7 +2,6 @@
 	include('../codes/connect.php');
 	session_start();
 	$user_id = $_SESSION['user_id'];
-	print_r($_POST);
 	$date = $_POST['date'];
 	$b = $_POST['b'];
 	$x = $_POST['x'];
@@ -10,13 +9,26 @@
 	$supplier_id = mysqli_real_escape_string($conn,$_POST['supplier']);
 	
 	for($i = 1; $i < $b; $i++){
-		$id = $_POST['id' . $i];
-		$gr = $_POST['gr' . $i];
+		$id = mysqli_real_escape_string($conn,$_POST['id' . $i]);
+		$code_gr = mysqli_real_escape_string($conn,$_POST['gr' . $i]);
 		$quantity = $_POST['quantity' . $i];
-		$input = $_POST['input' . $i];
-		$po_detail_id = $_POST['po_detail_id' + $i];
+		$input = mysqli_real_escape_string($conn,$_POST['input' . $i]);
+		$po_detail_id = $_POST['po_detail_id' . $i];
 		
 		$total = $total + $quantity * $input;
+		$sql_po = "SELECT reference FROM purchaseorder WHERE id = '" . $po_detail_id . "'";
+		$result_po = $conn->query($sql_po);
+		$po = $result_po->fetch_assoc();
+		$reference = $po['reference'];
+		
+		$sql_select = "SELECT goodreceipt.id 
+		FROM goodreceipt 
+		JOIN purchaseorder_received ON purchaseorder_received.id = goodreceipt.received_id
+		WHERE goodreceipt.gr_id = '" . $code_gr . "' AND purchaseorder_received.reference = '" . $reference . "'";
+		echo $sql_select;
+		$result_select = $conn->query($sql_select);
+		$select = $result_select->fetch_assoc();
+		$gr = $select['id'];
 		
 		$sql = "UPDATE stock_value_in SET price = '" . $input . "' WHERE gr_id = '" . $gr . "'";
 		$result = $conn->query($sql);
