@@ -7,8 +7,8 @@
 	<hr>
 	<table class='table'>
 		<tr>
-			<th>Customer name</th>
-			<th>DO Number</th>
+			<th>Supplier name</th>
+			<th>Value</th>
 			<th></th>
 		</tr>
 <?php

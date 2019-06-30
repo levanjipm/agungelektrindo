@@ -1,7 +1,54 @@
 <?php
-	include("salesheader.php")
+	include("salesheader.php");
 ?>
 <div class='main'>
+	<div class='row'>
+		<div class='col-sm-3'>
+			<label>Select</label>
+			<div class='input-group'>
+				<select class='form-control' id='sales_chart_term'>
+					<option value='0'>Please pick a term</option>
+					<option value='1'>Daily</option>
+					<option value='2'>Monthly</option>
+					<option value='3'>Yearly</option>
+				</select>
+				<div class='input-group-append'>
+					<button type='button' class='btn btn-success' id='sales_chart_button'>
+						Go
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class='col-sm-3 col-sm-offset-1'>
+			<label>Month</label>
+			<select class='form-control' id='monthly_month'>
+				<option value='0'>Please select the corresponding month</option>
+<?php
+	for($i = 2; $i <= 12; $i++){
+?>
+				<option value='<?= $i-1 ?>'><?= date('F',mktime(0,0,0,$i,0,0)) ?></option>
+<?php
+	}
+?>
+				<option value='12'><?= date('F',mktime(0,0,0,1,0,0)) ?></option>
+			</select>
+		</div>
+		<div class='col-sm-3'>
+			<label>Year</label>
+			<select class='form-control' id='monthly_year'>
+			</select>
+		</div>
+	</div>
+	<div class='row' id='sales_chart'>
+	</div>
+	<script>
+		$('#sales_chart_button').click(function(){
+			if($('#sales_chart_term').val() == 0){
+				alert("Please insert a valid term!");
+			}
+		});
+	</script>
+	<br>
 	<div class='row'>
 		<div class='col-md-4 col-sm-4'>
 			<div class='row box_notif'>

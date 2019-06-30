@@ -2,8 +2,8 @@
 	<p>
 		<?php
 			include("../../codes/connect.php");
-			$term = $_GET['term'];
-			$sql = "SELECT document FROM code_goodreceipt WHERE id = '" . $term . "'";
+			$gr_id = $_GET['term'];
+			$sql = "SELECT document FROM code_goodreceipt WHERE id = '" . $gr_id . "'";
 			$result = $conn->query($sql);
 			while($code = $result->fetch_assoc()){
 				$document = $code['document'];
@@ -17,12 +17,6 @@
 				<th>Quantity</th>
 			</tr>
 <?php
-
-	$sql_initial = "SELECT * FROM goodreceipt WHERE id = '" . $term . "'";
-	$result_initial = $conn->query($sql_initial);
-	while($row_initial = $result_initial->fetch_assoc()){
-		$gr_id = $row_initial['id'];
-	}
 	$sql_first = "SELECT received_id, quantity FROM goodreceipt WHERE gr_id = '" . $gr_id . "'";
 	$i = 0;
 	$result_first = $conn->query($sql_first);

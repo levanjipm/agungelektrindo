@@ -6,11 +6,9 @@
 		<div class='col-sm-1' style='background-color:#ddd'>
 		</div>
 		<div class='col-sm-10'>
-			<div class='container'>
-				<h2>Petty Cash</h2>
-				<p>View cash transaction</p>
-				<hr>
-			</div>
+			<h2 style='font-family:bebasneue'>Petty Cash</h2>
+			<p>View cash transaction</p>
+			<hr>
 			<div class='row'>
 				<div class='col-sm-3'>
 					<label>Month</label>

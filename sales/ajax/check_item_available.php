@@ -5,8 +5,8 @@
 	$result_item = $conn->query($sql_item);
 	$item = $result_item->fetch_object();
 	if($item->jumlah > 0){
-		echo (0);
+		echo (0); // Item ada//
 	} else {
-		echo (1);
+		echo (1); //Item belum terdaftar//
 	}
 ?>

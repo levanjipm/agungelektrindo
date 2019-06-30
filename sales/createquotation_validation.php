@@ -7,6 +7,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="salesstyle.css">
 </head>
 <?php
 $q_date = $_POST['today'];
@@ -33,146 +34,149 @@ if ($terms == 1){
 }
 ?>
 
-<body style="width:100%;overflow-x:hidden;">
-	<div class='container'>
+<body style="height:100%;overflow-x:hidden;">
 	<form action="createquotation_input.php" method="POST" name="quotation_validate">
-		<div class="row">
-			<div class="col-sm-4 offset-lg-4">
+		<div class="row" style='height:100%'>
+			<div class='col-sm-1' style='background-color:#333'>
+			</div>
+			<div class='col-sm-10'>
+				<h2 style='font-family:bebasneue'>Quotation</h2>
+				<p>Validate quotation</p>
+				<hr>
 				<input type="hidden" value="<?= $q_date ?>" name="today">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6">
 				<input type="hidden" value='<?= $customer?>' name="customer">
-				<h2><?= $customer_name ?></h2>
+				<h3><?= $customer_name ?></h3>
 				<p><?= date('d M Y',strtotime($q_date)) ?></p>
-			</div>
-		</div>
-		<br><br><br>
-		<div class="row">
-			<div class="col-sm-12">
-				<table class="table">
-					<thead>
-						<th style="text-align:center;width:20%">Item Description</th>
-						<th style="text-align:center;width:10%">Reference</th>
-						<th style="text-align:center;width:15%">Unit price</th>
-						<th style="text-align:center;width:5%">Discount</th>
-						<th style="text-align:center;width:10%">Quantity</th>
-						<th style="text-align:center;width:15%">Price after discount</th>
-						<th style="text-align:center;width:15%">Total price</th>
-					</thead>	
-					<tbody>
-				<?php
-					$x = $_POST['jumlah_barang'];
-				?>
-					<input type="hidden" name="jumlah_barang" value=" <?= $x ?>">
-				<?php
-					$i = 1;
-					for ($i = 1; $i <= $x; $i++){
-						$ref = $_POST["reference" . $i ];
-				?>
-				<?php
-						$price = $_POST["price" . $i ];
-						$disc = $_POST["discount" . $i ];
-						$qty = $_POST["quantity" . $i ];
-						$netprice = $_POST["unitprice" . $i ];
-						$totprice = $_POST["totalprice" . $i];
-						$sql = "SELECT * FROM itemlist WHERE reference='" . $ref . "'";
-						$result = $conn->query($sql) or die($conn->error);
-						$row = $result->fetch_assoc();
-						if($row == false){
-							$desc = " ";
-						} else { 
-							$item_id = $row['id'];
-							$desc = $row['description'];
-						}
-				?>
-					<tr>	
-						<td style="text-align:center"><?= $desc ?></td>
-						<td style="text-align:center"><?= $ref ?></td>						
-						<td style="text-align:center">Rp. <?= number_format($price,2) ?></td>
-						<td style="text-align:center"><?= $disc . '%' ?></td>
-						<td style="text-align:center"><?= $qty ?></td>
-						<td style="text-align:center">Rp. <?= number_format($netprice,2) ?></td>
-						<td style="text-align:center">Rp. <?= number_format($totprice,2) ?></td>
-					</tr>
-					<input type="hidden" value="<?= $ref ?>" name="item<?=$i?>">
-					<input type="hidden" value="<?= $price ?>" name="price<?=$i?>">
-					<input type="hidden" value="<?= $disc ?>" name="disc<?=$i?>">
-					<input type="hidden" value="<?= $qty ?>" name="qty<?=$i?>">
-					<input type="hidden" value="<?= $netprice ?>" name="netprice<?=$i?>">
-					<input type="hidden" value="<?= $totprice ?>" name="totprice<?=$i?>">
-				<?php
-					}
-				?>
-					</tbody>
-					<tfoot>
-						<tr>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="padding-left:50px"><b>Grand Total</b></td>
-							<td style="text-align:center">
-								Rp. <?= number_format($total,2)?>
-								<input type="hidden" value="<?= $total ?>" name="total">
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-		</div>
-		<div style="padding-left:40px">
-			<div class="row">
-				<div class="col-sm-6">
-					<h4><b>Note</b></h4>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<p><b>1.  </b><?= $note ?></p>
-					<input type="hidden" name="dp" value="<?= $dp ?>">
-					<input type="hidden" name="lunas" value="<?= $lunas ?>">
-					<input type="hidden" name="terms" value="<?= $terms ?>">
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<p><b>2. </b>Prices and availability are subject to change at any time without prior notice.</p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<p><b>3. </b>Prices mentioned above are tax-included.</p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<textarea class="text" name="comment"><?= $comment ?></textarea>
-				</div>
-			</div>
-		</div>
-		<br>
-		<div class="row" style="top:50px;padding-left:50px">
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Proceed</button>
-		</div>				
-		<div id="myModal" class="modal" role="dialog">
-			<div class="modal-dialog">	
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Proceeding Quotation</h4>
-					</div>
-					 <div class="modal-body">
-						<h3>Disclaimer</h3>
-						<p>By clicking on submit button, you are responsible for any risk quoting this quotation</p>
-						<p><b>Please check a couple of times if you must</b></p>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-success">Submit</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<br><br><br>
+				<div class="row">
+					<div class="col-sm-12">
+						<table class="table table-hover">
+							<thead>
+								<th style="text-align:center;width:20%">Item Description</th>
+								<th style="text-align:center;width:10%">Reference</th>
+								<th style="text-align:center;width:15%">Unit price</th>
+								<th style="text-align:center;width:5%">Discount</th>
+								<th style="text-align:center;width:10%">Quantity</th>
+								<th style="text-align:center;width:15%">Price after discount</th>
+								<th style="text-align:center;width:15%">Total price</th>
+							</thead>	
+							<tbody>
+						<?php
+							$x = $_POST['jumlah_barang'];
+						?>
+							<input type="hidden" name="jumlah_barang" value=" <?= $x ?>">
+						<?php
+							$i = 1;
+							for ($i = 1; $i <= $x; $i++){
+								$ref = $_POST["reference" . $i ];
+						?>
+						<?php
+								$price = $_POST["price" . $i ];
+								$disc = $_POST["discount" . $i ];
+								$qty = $_POST["quantity" . $i ];
+								$netprice = $_POST["unitprice" . $i ];
+								$totprice = $_POST["totalprice" . $i];
+								$sql = "SELECT * FROM itemlist WHERE reference='" . $ref . "'";
+								$result = $conn->query($sql) or die($conn->error);
+								$row = $result->fetch_assoc();
+								if($row == false){
+									$desc = " ";
+								} else { 
+									$item_id = $row['id'];
+									$desc = $row['description'];
+								}
+						?>
+							<tr>	
+								<td style="text-align:center"><?= $desc ?></td>
+								<td style="text-align:center"><?= $ref ?></td>						
+								<td style="text-align:center">Rp. <?= number_format($price,2) ?></td>
+								<td style="text-align:center"><?= $disc . '%' ?></td>
+								<td style="text-align:center"><?= $qty ?></td>
+								<td style="text-align:center">Rp. <?= number_format($netprice,2) ?></td>
+								<td style="text-align:center">Rp. <?= number_format($totprice,2) ?></td>
+							</tr>
+							<input type="hidden" value="<?= $ref ?>" name="item<?=$i?>">
+							<input type="hidden" value="<?= $price ?>" name="price<?=$i?>">
+							<input type="hidden" value="<?= $disc ?>" name="disc<?=$i?>">
+							<input type="hidden" value="<?= $qty ?>" name="qty<?=$i?>">
+							<input type="hidden" value="<?= $netprice ?>" name="netprice<?=$i?>">
+							<input type="hidden" value="<?= $totprice ?>" name="totprice<?=$i?>">
+						<?php
+							}
+						?>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td style="border:none"></td>
+									<td style="border:none"></td>
+									<td style="border:none"></td>
+									<td style="border:none"></td>
+									<td style="border:none"></td>
+									<td style="padding-left:50px"><b>Grand Total</b></td>
+									<td style="text-align:center">
+										Rp. <?= number_format($total,2)?>
+										<input type="hidden" value="<?= $total ?>" name="total">
+									</td>
+								</tr>
+							</tfoot>
+						</table>
 					</div>
 				</div>
+				<div style="padding-left:40px">
+					<div class="row">
+						<div class="col-sm-6">
+							<h4><b>Note</b></h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<p><b>1.  </b><?= $note ?></p>
+							<input type="hidden" name="dp" value="<?= $dp ?>">
+							<input type="hidden" name="lunas" value="<?= $lunas ?>">
+							<input type="hidden" name="terms" value="<?= $terms ?>">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<p><b>2. </b>Prices and availability are subject to change at any time without prior notice.</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<p><b>3. </b>Prices mentioned above are tax-included.</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<input type='hidden' name="comment" value='<?= $comment ?>'>
+							<?= $comment ?>
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="row" style="top:50px;padding-left:50px">
+					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#myModal">Proceed</button>
+				</div>				
+				<div id="myModal" class="modal" role="dialog">
+					<div class="modal-dialog">	
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Proceeding Quotation</h4>
+							</div>
+							 <div class="modal-body">
+								<h3>Disclaimer</h3>
+								<p>By clicking on submit button, you are responsible for any risk quoting this quotation</p>
+								<p><b>Please check a couple of times if you must</b></p>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-success">Submit</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='col-sm-1' style='background-color:#333'>
 			</div>
 		</div>
 	</form>

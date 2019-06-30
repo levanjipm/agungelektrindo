@@ -1,3 +1,7 @@
+@font-face {
+  font-family: Bebasneue;
+  src: url(../Universal/Font/Bebasneue/BebasNeue.woff);
+}
 .dropdown-container a{
 	color:white;
 	text-decoration:none;
@@ -23,6 +27,7 @@
 	left:0;
 	width:200px;
 	position:fixed;
+	overflow-y:scroll;
 }
 .main{
 	margin-left:200px;

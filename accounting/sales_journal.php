@@ -5,6 +5,10 @@
 <script src='../universal/Numeral-js-master/numeral.js'></script>
 <div class='main'>
 	<div class='row'>
+		<div class='col-sm-4'>
+			<h2 style='font-family:bebasneue'>Sales Journal</h2>
+			<p>View sales journal monthly</p>
+		</div>
 		<div class='col-sm-3'>
 			<select class='form-control' id='month'>
 				<option value='0'>Select month</option>
@@ -33,11 +37,11 @@
 				?>
 			</select>
 		</div>
-		<div class='col-sm-3'>
+		<div class='col-sm-2'>
 			<button type='button' class='btn btn-default' onclick='search_invoice()'>Show Sales Journal</button>
 		</div>
-		<hr>
 	</div>
+	<hr>
 	<div id='printable'>
 		<div class='container' id='head_print' style='display:none'>
 			<h2>Sales Journal</h2>

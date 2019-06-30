@@ -8,7 +8,7 @@
 	}
 </style>
 <script type='text/javascript' src="../universal/Jquery/jquery.inputmask.bundle.js"></script>
-<div class="main" style='padding-top:0'>
+<div class="main">
 	<div class='alert_wrapper'>
 		<div class="alert alert-warning" id='alert_npwp' style='display:none'>
 			<strong>Warning!</strong>NPWP number does not met the criteria set.
@@ -23,38 +23,30 @@
 			<strong>Warning!</strong>Input failed!
 		</div>
 	</div>
-	<div class='row'>
-		<div class='col-sm-1' style='background-color:#ddd'>
-		</div>
-		<div class='col-sm-10'>
-			<div class="container">
-				<h2>Customer</h2>
-				<p>Add new customer data</p>
-				<hr>
-			</div>
+	<div class='row' style='height:100%'>
+		<div class='col-sm-10 col-sm-offset-1'>
+			<h2 style='font-family:bebasneue'>Customer</h2>
+			<p>Add new customer data</p>
+			<hr>
 			<form id="inputcustomer" method="POST" action="addcustomer.php">
-				<div class="row">
-					<div class="col-sm-12">
-					<label for="name">Nama Perusahaan:</label>
-						<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-							<input type="text" class="form-control" name="namaperusahaan" id="namaperusahaan" placeholder="input nama Perusahaan..." required></input>
-						</div>
-					</div>
-					<div class="col-sm-12" style="padding-top:12px">
-					<label for-"name">Person in Charge: </label>
-						<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-							<span class="input-group-addon">
-								<select  class="selectmr" name="prefix" id="prefix" onclick="disable()" required>
-									<option value="0" id="kosong">Select</option>
-									<option value="Bapak">Mr.</option>
-									<option value="Ibu">Ms.</option>
-								</select>
-							</span>
-							<input type="text" class="form-control" id="pic" name="pic" placeholder="Person in charge...">
-						</div>
-					</div>
+				<label for="name">Nama Perusahaan:</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+					<input type="text" class="form-control" name="namaperusahaan" id="namaperusahaan" placeholder="input nama Perusahaan..." required></input>
+				</div>
+				<label for-"name">Person in Charge: </label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+					<span class="input-group-addon">
+						<select  class="selectmr" name="prefix" id="prefix" onclick="disable()" required>
+							<option value="0" id="kosong">Select</option>
+							<option value="Bapak">Mr.</option>
+							<option value="Ibu">Ms.</option>
+						</select>
+					</span>
+					<input type="text" class="form-control" id="pic" name="pic" placeholder="Person in charge...">
+				</div>
+				<div class='row'>
 					<div class="col-sm-4">
 						<label for="name">Jalan</label>
 						<input type="text" class="form-control" name="alamat" id="alamat" placeholder="Nama Jalan..." required></input>
@@ -67,6 +59,8 @@
 						<label for="name">Kota</label>
 						<input type="text" class="form-control" name="city" id="city" placeholder="Kota..." required></input>
 					</div>
+				</div>
+				<div class='row'>
 					<div class="col-sm-4">
 						<label for="name">Blok</label>
 						<input type="text" class="form-control" name="blok" id="blok" placeholder="Blok..." required></input>
@@ -93,49 +87,44 @@
 						<script>
 							$("#npwp").inputmask("99.999.999.9-999.999");
 						</script>
+						<br><br>
+						<button type="button" class="btn btn-default" id="submitBtn">Submit Here</button>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-sm-3" style="padding:10px">
-						<button type="button" class="btn btn-primary" id="submitBtn">Submit Here</button>
-						<div class="modal" id="myModal" role="dialog">
-							<div class="modal-dialog modal-lg">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h4 class="modal-title">Input Customer Data</h4>
-									</div>
-									<div class="modal-body">
-										<table class="table">
-											<tr>
-												<th style="width:30%">Nama Perusahaan</th>
-												<td id="namaperusahaans"></td>
-											</tr>
-											<tr>
-												<th style="width:30%">Person in charge</th>
-												<td id="picss"></td>
-											</tr>
-											<tr>
-												<th style="width:30%">Alamat</th>
-												<td id="alamats"></td>
-											</tr>
-											<tr>
-												<th style="width:30%">NPWP</th>
-												<td id="npwps"></td>
-											</tr>
-										</table>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default" data-dismiss="modal" id='close_modal'>Close</button>
-										<button type="button" class="btn btn-success" onclick='proceed()'>Proceed</button>
-									</div>
-								</div>
+				<div class="modal" id="myModal" role="dialog">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Input Customer Data</h4>
+							</div>
+							<div class="modal-body">
+								<table class="table">
+									<tr>
+										<th style="width:30%">Nama Perusahaan</th>
+										<td id="namaperusahaans"></td>
+									</tr>
+									<tr>
+										<th style="width:30%">Person in charge</th>
+										<td id="picss"></td>
+									</tr>
+									<tr>
+										<th style="width:30%">Alamat</th>
+										<td id="alamats"></td>
+									</tr>
+									<tr>
+										<th style="width:30%">NPWP</th>
+										<td id="npwps"></td>
+									</tr>
+								</table>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal" id='close_modal'>Close</button>
+								<button type="button" class="btn btn-success" onclick='proceed()'>Proceed</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</form>
-		</div>
-		<div class='col-sm-1' style='background-color:#ddd'>
 		</div>
 	<div>
 </div>

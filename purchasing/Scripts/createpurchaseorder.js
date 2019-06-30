@@ -54,7 +54,6 @@ function hitung(){
 			kosongan = true;
 		};
 	});
-	console.log(kosongan);
 	var calculated_total = 0;
 	for (z = 1; z < a; z++){
 		var raw_price = document.getElementById('price'+z).value;
@@ -78,6 +77,19 @@ function hitung(){
 		alert("Please insert a supplier");
 	} else if(isNaN ($('#total').val())){
 		alert("Insert correct price");
+	} else if($('input[name=optradio]:checked').val() == 2 && $('#dropship_address').val() == '' && $('#dropship_phone').val() == '' && $('#dropship_name').val() == '' && $('#dropship_city').val() == ''){
+		alert('Insert valid delivery address for dropship!');
+	} else if($('input[name=delivery_date]:checked').val() == 1){
+		if($('#sent_date').val() == '' || $('#today').val() == ''){
+			alert('Please insert date!');
+		} else {
+			var sending = new Date($('#sent_date').val());
+			var po_date = new Date($('#today').val());
+			var date_diff = (sending - po_date)/86400000;
+			if(date_diff < 0){
+				alert('Please insert a valid date!');
+			}
+		}
 	} else if(duplicate){
 		alert('May not duplicate input!');
 	} else if(kosongan){
@@ -88,12 +100,16 @@ function hitung(){
 			$('#reference'+ z).attr('readonly',true);
 			$('#price'+ z).attr('readonly',true);
 			$('#discount'+ z).attr('readonly',true);
-			$('#submitbtn').show();
-			$('#back').show();
-			$('#calculate').hide();
-			$('#folder').hide();
-			$('#close').hide();
 		}
+		$('#submitbtn').show();
+		$('#back').show();
+		$('#dropship_address').attr('readonly',true);
+		$('#dropship_phone').attr('readonly',true);
+		$('#dropship_name').attr('readonly',true);
+		$('#dropship_city').attr('readonly',true);
+		$('#calculate').hide();
+		$('#folder').hide();
+		$('#close').hide();
 	}
 };
 

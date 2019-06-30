@@ -25,46 +25,48 @@
 			},1000);
 		});
 	</script>
-	<h2>Sales order</h2>
-	<p>Confirm sales order</p>
-	<hr>
-	<table class='table table-hover'>
-		<tr>
-			<th>Date</th>
-			<th>Customer</th>
-			<th>Name</th>
-			<th></th>
-		</tr>
+	<div class='col-sm-10 col-sm-offset-1'>
+		<h2 style='font-family:bebasneue'>Sales order</h2>
+		<p>Confirm sales order</p>
+		<hr>
+		<table class='table table-hover'>
+			<tr>
+				<th>Date</th>
+				<th>Customer</th>
+				<th>Name</th>
+				<th></th>
+			</tr>
 <?php
 	$sql_so = "SELECT * FROM code_salesorder WHERE isconfirm = '0'";
 	$result_so = $conn->query($sql_so);
 	while($so = $result_so->fetch_assoc()){
 ?>
-		<tr>
-			<td><?= date('d M Y',strtotime($so['date'])) ?></td>
-			<td style='text-align:left'><?php
-				if($so['customer_id'] > 0){
-					$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $so['customer_id'] . "'";
-					$result_customer = $conn->query($sql_customer);
-					$customer = $result_customer->fetch_assoc();
-					echo '<p><strong>' . $customer['name'] . '</strong></p>';
-					echo '<p>' . $customer['address'] . '</p>';
-					echo $customer['city'];
-				}
-			?></td>
-			<td><?= $so['name'] ?></td>
-			<td>
-				<button type='button' class='btn btn-default' onclick='submit(<?= $so['id'] ?>)'>Confirm SO</button>
-				<button type='button' class='btn btn-danger'>Delete SO</button>
-				<form action='confirmsalesorder.php' method='POST' id='form<?= $so['id'] ?>'>
-					<input type='hidden' value='<?= $so['id'] ?>' name='id'>
-				</form>
-			</td>
-		</tr>
+			<tr>
+				<td><?= date('d M Y',strtotime($so['date'])) ?></td>
+				<td style='text-align:left'><?php
+					if($so['customer_id'] > 0){
+						$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $so['customer_id'] . "'";
+						$result_customer = $conn->query($sql_customer);
+						$customer = $result_customer->fetch_assoc();
+						echo '<p><strong>' . $customer['name'] . '</strong></p>';
+						echo '<p>' . $customer['address'] . '</p>';
+						echo $customer['city'];
+					}
+				?></td>
+				<td><?= $so['name'] ?></td>
+				<td>
+					<button type='button' class='btn btn-default' onclick='submit(<?= $so['id'] ?>)'>Confirm SO</button>
+					<button type='button' class='btn btn-danger'>Delete SO</button>
+					<form action='confirmsalesorder.php' method='POST' id='form<?= $so['id'] ?>'>
+						<input type='hidden' value='<?= $so['id'] ?>' name='id'>
+					</form>
+				</td>
+			</tr>
 <?php
 	}
 ?>
-	</table>
+		</table>
+	</div>
 </div>
 <script>
 	function submit(n){

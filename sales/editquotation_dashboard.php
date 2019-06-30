@@ -5,7 +5,7 @@
 <body>
 <div class="main">
 	<div class='container'>
-		<h2>Quotation</h2>
+		<h2 style='font-family:bebasneue'>Quotation</h2>
 		<h4 style="color:#444">Edit or Print Quotation</h4>
 		<hr>
 	</div>
@@ -25,7 +25,7 @@
 	</div>
 	<div id='quotation_result'>
 		<div class='container'>
-			<h3>Latest Quotations</h3>
+			<h3 style='font-family:bebasneue'>Latest Quotations</h3>
 		</div>
 		<div class='row'>
 			<div class='col-sm-4'>

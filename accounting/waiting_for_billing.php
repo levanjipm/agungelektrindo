@@ -21,7 +21,7 @@
 	while($row = $result->fetch_assoc()){
 ?>
 		<tr>
-			<td><?= $row['date']; ?></td>
+			<td><?= date('d M Y',strtotime($row['date'])) ?></td>
 			<td>
 				<?php
 				$supplier_id = $row['supplier_id'];

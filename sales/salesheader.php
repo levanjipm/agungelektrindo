@@ -14,13 +14,17 @@ Sales Department
 <?php
 	include("../codes/connect.php");
 	session_start();
-	$sql_user = "SELECT name,role FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
+	$sql_user = "SELECT name,role,hpp FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
 	$result_user = $conn->query($sql_user);
-	while($row_user = $result_user->fetch_assoc()){
-		$name = $row_user['name'];
-		$role = $row_user['role'];
-	}
-	if ( isset( $_SESSION['user_id'] ) && $role = 'superadmin' || $role = 'sales_admin' ) {
+	$row_user = $result_user->fetch_assoc();
+	$name = $row_user['name'];
+	$role = $row_user['role'];
+	$hpp = $row_user['hpp'];
+	
+	$sql_otorisasi = "SELECT COUNT(*) AS jumlah_otorisasi FROM otorisasi WHERE department_id = '1' AND user_id = '" . $_SESSION['user_id'] . "'";
+	$result_otorisasi = $conn->query($sql_otorisasi);
+	$otorisasi = $result_otorisasi->fetch_assoc();
+	if ($otorisasi['jumlah_otorisasi'] == 1) {
 ?>
 </head>
 <body>
@@ -165,6 +169,17 @@ Sales Department
 			</button>
 		</a>
 	</div>
+<?php
+	if($hpp == 1){
+?>
+	<a href="check_hpp.php">
+		<button type='button' class='btn btn-badge'>
+			<i class="fa fa-money" aria-hidden="true"></i>Check value
+		</button>
+	</a>
+<?php
+	}
+?>
 	<hr>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
 		<a href='../human_resource/user_dashboard.php' style='color:white;text-decoration:none'>

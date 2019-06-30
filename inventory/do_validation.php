@@ -45,7 +45,9 @@ switch (date('m',strtotime($do_date))) {
 		break;		
 }	
 	$taxing = $_POST['tax'];
-	$sql_number = "SELECT * FROM code_delivery_order WHERE MONTH(date) = MONTH('" . $do_date . "') AND YEAR(date) = YEAR('" . $do_date . "') AND isdelete = '0' ORDER BY number ASC";
+	$sql_number = "SELECT * FROM code_delivery_order 
+	WHERE MONTH(date) = MONTH('" . $do_date . "') AND YEAR(date) = YEAR('" . $do_date . "') 
+	AND isdelete = '0' ORDER BY number ASC";
 	$results = $conn->query($sql_number);
 	if ($results->num_rows > 0){
 		$i = 1;
@@ -66,20 +68,21 @@ switch (date('m',strtotime($do_date))) {
 		$tax_preview = 'N';
 	};
 	$do_number_preview = "SJ-AE-" . str_pad($nomor,2,"0",STR_PAD_LEFT) . $tax_preview . "." . date("d",strtotime($do_date)). "-" . $month. "-" . date("y",strtotime($do_date));
+	
 	$sql = "SELECT * FROM code_salesorder WHERE id = '" . $so_id . "'";
 	$result = $conn->query($sql);
-	while($row = $result->fetch_assoc()){
-		$po_number = $row['po_number'];
-		$customer_id = $row['customer_id'];
-		$delivery_id = $row['delivery_id'];
-	};
+	$row = $result->fetch_assoc();
+	$po_number = $row['po_number'];
+	$customer_id = $row['customer_id'];
+	$delivery_id = $row['delivery_id'];
+
 	$sql_customer = "SELECT * FROM customer WHERE id = '" . $customer_id . "'";
 	$res = $conn->query($sql_customer);
-	while($ro = $res->fetch_assoc()){
-		$customer_name = $ro['name'];
-		$customer_address = $ro['address'];
-		$customer_city = $ro['city'];
-	}
+	$ro = $res->fetch_assoc();
+	$customer_name = $ro['name'];
+	$customer_address = $ro['address'];
+	$customer_city = $ro['city'];
+
 	$s = $_POST['jumlah'];
 
 ?>

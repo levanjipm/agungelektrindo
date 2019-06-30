@@ -9,25 +9,21 @@
 	$i = 1;
 	for($i = 1; $i < $x; $i++){
 		$document = $_POST['document' . $i];
-		if($_POST['final' . $i] != 0){
-			$sql = "SELECT isinvoiced,po_id FROM code_goodreceipt WHERE id = '" . $document . "'";
-			$result = $conn->query($sql);
-			$row = $result->fetch_assoc();
-			if($row['isinvoiced'] == 1){
-				$check_invoice++;
+		$sql = "SELECT isinvoiced,po_id FROM code_goodreceipt WHERE id = '" . $document . "'";
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
+		if($row['isinvoiced'] == 1){
+			$check_invoice++;
+			break;
+		}
+		if($i == 1){
+			$po_id = $row['po_id'];
+		} else {
+			if($po_id == $row['po_id']){
+			} else {
+				$check_po++;
 				break;
 			}
-			if($i == 1){
-				$po_id = $row['po_id'];
-			} else {
-				if($po_id == $row['po_id']){
-				} else {
-					$check_po++;
-					break;
-				}
-			}
-		} else {
-			$jumlah_invoice++;
 		}
 	}
 	if($check_invoice > 1 || $check_po > 1){
@@ -42,6 +38,8 @@
 <script src='../universal/Numeral-js-master/numeral.js'></script>
 <script src='../universal/jquery/jquery.inputmask.bundle.js'></script>
 <div class='main'>
+	<h2 style='font-family:bebasneue'>Purchase invoice</h2>
+	<p>Validate purchase invoice</p>
 	<form action='debt_document_input.php' method='POST' id='debt_form'>
 	<input type='hidden' value='<?= $supplier_id ?>' name='supplier'>
 	<input type='hidden' value='<?= $date ?>' name='date'>
@@ -57,32 +55,32 @@
 ?>
 	<table class='table'>
 		<tr>
-			<th style='width:50%'>Item name</th>
+			<th style='width:40%'>Item name</th>
 			<th style='width:10%'>Quantity</th>
-			<th>Price</th>
+			<th style='width:30%'>Price</th>
+			<th style='width:20%'></th>
 		</tr>
 <?php
 	$i = 1;
 	$b = 1;
 	for($i = 1; $i < $x; $i++){
 		$document = $_POST['document' . $i];
-		if($_POST['final' . $i] == 1){
-			$sql_upper = "SELECT id FROM code_goodreceipt WHERE id = '" . $document . "'";
-			$result_upper = $conn->query($sql_upper);
-			$upper = $result_upper->fetch_assoc();
+		$sql_upper = "SELECT id FROM code_goodreceipt WHERE id = '" . $document . "'";
+		$result_upper = $conn->query($sql_upper);
+		$upper = $result_upper->fetch_assoc();
 ?>
 		<input type='hidden' value='<?= $document ?>' name='gr<?= $i ?>'>
 <?php
-			$sql_general = "SELECT purchaseorder.reference,purchaseorder.price_list,purchaseorder.discount,purchaseorder.unitprice, 
-			goodreceipt.id,goodreceipt.quantity FROM goodreceipt 
-			INNER JOIN purchaseorder 
-			ON purchaseorder.id = goodreceipt.received_id 
-			WHERE goodreceipt.gr_id = '" . $upper['id'] . "'";
-			$result_general = $conn->query($sql_general);
-			while($general = $result_general->fetch_assoc()){
-				$sql_item = "SELECT description FROM itemlist WHERE reference = '" . $general['reference'] . "'";
-				$result_item = $conn->query($sql_item);
-				$item = $result_item->fetch_assoc();
+		$sql_general = "SELECT purchaseorder.id AS po_detail_id, purchaseorder.reference,purchaseorder.price_list,purchaseorder.discount,purchaseorder.unitprice, 
+		goodreceipt.id,goodreceipt.quantity FROM goodreceipt 
+		INNER JOIN purchaseorder 
+		ON purchaseorder.id = goodreceipt.received_id 
+		WHERE goodreceipt.gr_id = '" . $upper['id'] . "'";
+		$result_general = $conn->query($sql_general);
+		while($general = $result_general->fetch_assoc()){
+			$sql_item = "SELECT description FROM itemlist WHERE reference = '" . $general['reference'] . "'";
+			$result_item = $conn->query($sql_item);
+			$item = $result_item->fetch_assoc();
 ?>
 		<tr>
 			<td><?= $general['reference'] . " - " . $item['description'] ?></td>
@@ -94,11 +92,14 @@
 			<td>
 				<button type='button' style='background-color:transparent;border:none' onclick='show(<?= $b ?>)' id='button-<?= $b ?>'>Rp. <?= number_format($general['unitprice'],2) ?></button>
 				<input type='number' value='<?= $general['unitprice'] ?>' id='input<?= $b ?>' style='display:none' onfocusout='hide(<?= $b ?>)' class='form-control' name='input<?= $b ?>'>
-			</td>			
+				<input type='hidden' value='<?= $general['po_detail_id'] ?>' name='po_detail_id<?= $b ?>' readonly>
+			</td>
+			<td>
+				<input type="checkbox" class='checkbox'>
+			</td>
 		</tr>
 <?php
 		$b++;
-			}
 		}	
 	}
 ?>
@@ -125,6 +126,9 @@
 			return false;
 		} else if(<?= $taxing ?> == 1 && $('#fp').val() == ''){
 			alert('Please insert correct tax document number');
+			return false;
+		} else if($('.checkbox:checked').length != $('.checkbox').length){
+			alert('Please check all input!');
 			return false;
 		} else {
 			$('#debt_form').submit();

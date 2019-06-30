@@ -4,7 +4,8 @@
 <link rel="stylesheet" href="../jquery-ui.css">
 <script src="../jquery-ui.js"></script>
 <div class="main">
-	<h2>Create Sales Invoice</h2>
+	<h2 style='font-family:bebasneue'>Sales Invoice</h2>
+	<p>Create sales invoice</p>
 	<hr>
 	<div class="row" style="padding:0px;height:100%;margin:0px">
 		

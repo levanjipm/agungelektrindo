@@ -26,7 +26,7 @@
 		$result_receive = $conn->query($sql_receive);
 		$receive = $result_receive->fetch_assoc();
 		
-		$paid = $receive['receive'];
+		$paid = $receive['jumlah_bayar'];
 		$dilunaskan = $value - $paid;
 		
 		$sql_insert = "INSERT INTO receivable (invoice_id,date,value)

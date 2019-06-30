@@ -1,6 +1,7 @@
 <?php
 	include("../codes/connect.php");
 	$id_do = $_GET['id'];
+	session_start();
 	$sql_one = "SELECT customer_id,name,date FROM code_delivery_order WHERE id ='" . $id_do . "'";
 	$result_one = $conn->query($sql_one);
 	while($rows = $result_one->fetch_assoc()){
@@ -63,7 +64,7 @@
 			VALUES ('$date','$references','OUT','$quantitys','$end_stock','0','$customer_id','$document')";
 			$result_stock_out = $conn->query($sql_stock_out);
 		}
-		$sql_updated = "UPDATE code_delivery_order SET sent = '1' WHERE id = '" . $id_do . "'";
+		$sql_updated = "UPDATE code_delivery_order SET sent = '1', confirmed_by = '" . $_SESSION['user_id'] . "', confirm_date = CURDATE() WHERE id = '" . $id_do . "'";
 		$result_updated = $conn->query($sql_updated);
 		header('location:confirm_do_dashboard.php');
 	}

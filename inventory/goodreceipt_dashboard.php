@@ -6,6 +6,9 @@
 		<div class='col-sm-1' style='background-color:#ddd'>
 		</div>
 		<div class='col-sm-10'>
+			<h2 style=';font-family:bebasneue'>Delivery Order</h2>
+			<p>Create delivery order</p>
+			<hr>
 			<form id="goodreceipt" method="POST" action="goodreceipt.php">
 				<div class="row">
 					<div class="col-lg-6">

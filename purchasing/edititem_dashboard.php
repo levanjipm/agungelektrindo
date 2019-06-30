@@ -19,7 +19,7 @@
 <script src="../jquery-ui.js"></script>
 <div class="main">
 	<div class="container" style="right:50px">
-	<h2>Item</h2>
+	<h2 style='font-family:bebasneue'>Item</h2>
 	<h4 style="color:#444">Edit items</h4>
 	<hr>
 	<div class='row' style='text-align:center'>
@@ -285,6 +285,9 @@ function send_edit(n){
 			id : n,
 		},
 		type: "POST",
+		success:function(){
+			location.reload();
+		}
 	});
 };
 $('#myInput').change(function () {

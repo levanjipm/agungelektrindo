@@ -4,6 +4,8 @@
 <link rel="stylesheet" href="../jquery-ui.css">
 <script src="../jquery-ui.js"></script>
 <div class="main">
+	<h2 style='font-family:bebasneue'>Check Stock</h2>
+	<hr>
 	<input type="text" id="myInput" placeholder="Search..">
 	<style>
 		input[type=text] {
@@ -11,13 +13,11 @@
 		-webkit-transition: width 0.4s ease-in-out;
 		transition: width 0.4s ease-in-out;
 		}
-
-		/* When the input field gets focus, change its width to 100% */
 		input[type=text]:focus {
 		width: 100%;
 		}
 	</style>
-	<hr>
+	<br><br><br>
 	<div class="row" style="text-align:center">
 		<div class="col-lg-3">
 			<p><b>Reference</b></p>

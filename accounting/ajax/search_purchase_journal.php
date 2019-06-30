@@ -17,7 +17,7 @@
 			}?></td>
 		<td><?= $row_search->name; ?></td>
 		<td><?php
-			$sql_customer = "SELECT name FROM customer WHERE id = '" . $row_search->customer_id . "'";
+			$sql_customer = "SELECT name FROM supplier WHERE id = '" . $row_search->supplier_id . "'";
 			$result_customer = $conn->query($sql_customer);
 			$customer = $result_customer->fetch_assoc();
 			echo $customer['name'];

@@ -7,6 +7,8 @@
 </head>
 <?php
 	include ("../codes/connect.php");
+	session_start();
+	$user_id = $_SESSION['user_id'];
 	$so_number = $_POST['so_number'];
 	$so_date = $_POST['today'];
 	$customer = $_POST['customer'];
@@ -15,7 +17,8 @@
 	$po_number = $_POST['purchaseordernumber'];
 	$taxing = $_POST['taxing'];
 	
-	$sql_insert = "INSERT INTO code_salesorder (name,date,po_number,taxing,customer_id,delivery_id,value) VALUES ('$so_number','$so_date','$po_number','$taxing','$customer','$delivery_id','$value')";	
+	$sql_insert = "INSERT INTO code_salesorder (name,created_by,date,po_number,taxing,customer_id,delivery_id,value) 
+	VALUES ('$so_number','$user_id','$so_date','$po_number','$taxing','$customer','$delivery_id','$value')";	
 	$r = $conn->query($sql_insert);	
 	$x = $_POST['jumlah_barang'];
 

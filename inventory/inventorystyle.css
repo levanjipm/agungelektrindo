@@ -1,3 +1,7 @@
+@font-face {
+  font-family: Bebasneue;
+  src: url(../Universal/Font/Bebasneue/BebasNeue.woff);
+}
 .dropdown-container a{
 	color:white;
 	text-decoration:none;
@@ -97,7 +101,7 @@ tr:nth-child(even) {
 	background-color:#333;
 	border-radius:8px;
 	text-align:center;
-	color:blue;
+	color:#ddd;
 }
 .fa-close{
 	width:50px;

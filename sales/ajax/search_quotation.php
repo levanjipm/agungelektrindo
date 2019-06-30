@@ -35,19 +35,19 @@
 						<i class="fa fa-eye" aria-hidden="true"></i>
 					</button>
 					<br>
-					<a href="editquotation.php?id=<?= $row['id']?>" style="text-decoration:none;color:black">
-						<button type='button' class='btn btn-success'>
+					<a href="editquotation.php" style="text-decoration:none;color:black">
+						<button type='button' class='btn btn-success' onclick='edit_form(<?= $row['id'] ?>)'>
 							<i class="fa fa-pencil" aria-hidden="true"></i>
 						</button>
+						<form id='editing<?= $row['id'] ?>' action='editquotation.php' method='POST'>
+							<input type='hidden' value='<?= $row['id'] ?>' name='id'>
+						</form>
 					</a>
 					<button type='button' class='btn btn-warning' onclick='submit_form(<?= $row['id']?>)'>
 						<i class="fa fa-print" aria-hidden="true"></i>
 						<form id='<?= $row['id'] ?>' action='createquotation_print.php' method='POST'>
 							<input type='hidden' value='<?= $row['id'] ?>' name='id'>
 						</form>
-					</button>
-					<button type="button" class="btn btn-copy" data-toggle="modal" data-target="#myModal-<?=$quotation['id']?>">
-						<i class="fa fa-clone" aria-hidden="true"></i>
 					</button>
 				</div>
 				<hr>

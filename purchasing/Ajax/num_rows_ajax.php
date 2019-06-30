@@ -1,7 +1,7 @@
 <script src="../jquery-ui.js"></script>
 <?php
 	include("../../Codes/connect.php");
-	$term = $_GET['term'];
+	$term = mysqli_real_escape_string($conn,$_GET['term']);
 	$sql_num = "SELECT * FROM itemlist WHERE reference LIKE '%" . $term . "%' OR description LIKE '%" . $term . "%'";
 	$result_num = $conn->query($sql_num);
 	$total = mysqli_num_rows($result_num);

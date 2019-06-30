@@ -6,29 +6,31 @@
 	$user_id = $_POST['user_id'];
 	$sql = "SELECT * FROM users WHERE id = '" . $user_id . "'";
 	$result = $conn->query($sql);
-	while($row = $result->fetch_assoc()){
-		$gender = $row['gender'];
-		$email = $row['mail'];
-		$name = $row['name'];
-		$address = $row['address'];
-		$city = $row['city'];
-		$nik = $row['NIK'];
-	}
+	$row = $result->fetch_assoc();
+	
+	$gender = $row['gender'];
+	$email = $row['mail'];
+	$name = $row['name'];
+	$address = $row['address'];
+	$city = $row['city'];
+	$nik = $row['NIK'];
+	
 	if($gender == 1){
 		$gender_name = 'Bapak';
 	} else {
 		$gender_name = 'Ibu';
 	}
-	$basic = $_POST['basic'];
-	$daily = $_POST['daily'];
-	$working = $_POST['working'];
-	$bonus = $_POST['bonus'];
-	$cut = $_POST['potongan'];
-	$month = $_POST['bulan'];
-	$year = $_POST['tahun'];
 	
-	$sql_insert = "INSERT INTO salary (user_id,working,daily,basic,cut, month, year)
-	VALUES ('$user_id','$working','$daily','$basic','$cut','$month','$year')";
+	$basic = mysqli_real_escape_string($conn,$_POST['basic']);
+	$daily = mysqli_real_escape_string($conn,$_POST['daily']);
+	$working = mysqli_real_escape_string($conn,$_POST['working']);
+	$bonus = mysqli_real_escape_string($conn,$_POST['bonus']);
+	$cut = mysqli_real_escape_string($conn,$_POST['potongan']);
+	$month = mysqli_real_escape_string($conn,$_POST['bulan']);
+	$year = mysqli_real_escape_string($conn,$_POST['tahun']);
+	
+	$sql_insert = "INSERT INTO salary (user_id,working,daily,basic,bonus,cut, month, year)
+	VALUES ('$user_id','$working','$daily','$basic','$bonus','$cut','$month','$year')";
 	$result_insert = $conn->query($sql_insert);
 	$to = $email;
 	$subject = "Slip Penerimaan Upah Masa" . ' ' . substr($_POST['bulan'],0,2) . ' - ' . $_POST['tahun'];

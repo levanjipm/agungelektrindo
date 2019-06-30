@@ -2,7 +2,7 @@
 <script src="../jquery-ui.js"></script>
 <?php
 	include("../../Codes/connect.php");
-	$term = $_GET['term'];
+	$term = mysqli_real_escape_string($conn,$_GET['term']);
 	$sql = "SELECT * FROM itemlist WHERE reference LIKE '%" . $term . "%' OR description LIKE '%" . $term . "%' ORDER by reference ASC LIMIT 20";
 	$result = $conn->query($sql);
 	$i=0;

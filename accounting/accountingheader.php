@@ -76,11 +76,23 @@ if(mysqli_num_rows($result_otorisasi) > 0){
 		<a href="debt_document_dashboard.php">
 			<p>Input debt document</p>
 		</a>
-		<a href="#">
+		<a href="confirm_purchases_dashboard.php">
 			<p>Confirm document</p>
 		</a>
 		<a href="waiting_for_billing.php">
 			<p>Pending bills</p>
+		</a>
+	</div>
+	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+		<i class="fa fa-code" aria-hidden="true"></i>
+		Counter Bill
+	</button>
+	<div class="dropdown-container">
+		<a href="counter_bill_dashboard.php">
+			<p>Create counter bill</p>
+		</a>
+		<a href="view_counter_bill.php">
+			<p>View counter bill</p>
 		</a>
 	</div>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
@@ -91,7 +103,7 @@ if(mysqli_num_rows($result_otorisasi) > 0){
 		<a href="sales_journal.php">
 			<p>Sales journal</p>
 		</a>
-		<a href="#">
+		<a href="purchasing_journal.php">
 			<p>Purchasing journal</p>
 		</a>
 		<a href="stock_value_dashboard.php">

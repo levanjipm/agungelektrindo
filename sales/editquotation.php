@@ -1,8 +1,6 @@
 <?php
 	include('salesheader.php');
-	if(empty($_POST['id'])){
-		header('location:sales.php');
-	}
+	print_r($_POST);
 ?>
 <body>
 <link rel="stylesheet" href="../jquery-ui.css">

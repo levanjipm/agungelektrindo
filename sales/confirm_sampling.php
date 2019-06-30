@@ -1,9 +1,39 @@
 <?php
 	include('../codes/connect.php');
-	$sample_id = $_POST['id'];
-	$type = $_POST['type'];
+	session_start();
+	if(!isset($_SESSION['user_id'])){
+	} else {
+		$user_id = $_SESSION['user_id'];
 	
-	if($type == 1){
-		$sql = "UPDATE code_sample SET isconfirm = '1' WHERE id = '" . $sample_id . "'";
+		$sample_id = $_POST['id'];
+		$type = $_POST['type'];
+		
+		if($type == 1){
+			$sql = "UPDATE code_sample SET isconfirm = '1', confirmed_by = '" . $user_id . "', confirm_date = CURDATE() WHERE id = '" . $sample_id . "'";
+			$result = $conn->query($sql);
+			if($result){
+				echo ('1'); //Update success//
+			} else {
+				echo ('2'); //Update failed//
+			}
+		} else {
+			$sql_check  ="SELECT issent FROM code_sample WHERE id = '" . $sample_id . "'";
+			$result_check = $conn->query($sql_check);
+			$check = $result_check->fetch_assoc();
+			if($check['issent'] == 0){
+				$sql = "DELETE FROM code_sample WHERE id = '" . $sample_id . "'";
+				$result = $conn->query($sql);
+				
+				$sql = "DELETE FROM sample WHERE code_id = '" . $sample_id . "'";
+				$result = $conn->query($sql);
+				if($result){
+					echo ('3'); //Delete success//
+				} else {
+					echo ('4'); //Delete failed//
+				}
+			} else {
+				echo ('4'); //Cannot delete sent items//
+			}			
+		}
 	}
 ?>

@@ -22,14 +22,12 @@ input[type=number]::-webkit-outer-spin-button {
 	<a href="#" id="folder"><i class="fa fa-folder"></i></a>
 	<a href="#" id="close"><i class="fa fa-close"></i></a>
 	<div class='row' style='padding:0px;height:100%'>
-		<div class='col-sm-1' style='background-color:#eee'>
-		</div>
-		<div class='col-sm-10' style='padding:30px'>
-			<h2>Purchase order</h2>
+		<div class='col-sm-10 col-sm-offset-1' style='padding:30px'>
+			<h2 style='font-family:bebasneue'>Purchase order</h2>
 			<h4 style="color:#444" id='demo'>Creating new purchase order</h4>
 			<hr>
 			<br>
-			<form name="purchaseorder" id="purchaseorder" class="form" method="POST" action="createpurchaseorder_validation.php" style="font-family:sans-serif">
+			<form name="purchaseorder" id="purchaseorder" method="POST" action="createpurchaseorder_validation.php" style="font-family:sans-serif">
 				<div class="row">
 					<div class="col-sm-5">
 						<label for="name">Order to</label>
@@ -54,11 +52,13 @@ input[type=number]::-webkit-outer-spin-button {
 					</div>
 					<div class="col-sm-5 col-sm-offset-1">
 						<label for="date">Date</label>
-						<input id="today" name="today" type="date" class="form-control" value="<?php echo date('Y-m-d');?>">
+						<input id="today" name="today" type="date" class="form-control" value="<?= date('Y-m-d');?>">
 						<label>Send date</label>
-						<input type='date' class='form-control' name='sent_date'>
+						<input type='date' class='form-control' name='sent_date' id='sent_date'>
 						<div class="checkbox">
-							<label><input type="checkbox" value="1" name='send_date'>Send date unknown</label>
+							<label class="radio-inline"><input type="radio" name="delivery_date" checked value='1'>Insert date</label>
+							<label class="radio-inline"><input type="radio" name="delivery_date" value='2'>Unknown date</label>
+							<label class="radio-inline"><input type="radio" name="delivery_date" value='3'>Urgent delivery</label>
 						</div>
 					</div>
 				</div>
@@ -125,12 +125,14 @@ input[type=number]::-webkit-outer-spin-button {
 						<label class="radio-inline"><input type="radio" name="optradio" value='2' onchange='delivery_option()'>As dropshiper</label>
 						<br><br>
 						<div id='dropshiper_delivery' style='display:none'>
-							<label for="top" required>Delivery address:</label>
-							<input type='text' class='form-control' name='address'>
+							<label>Name</label>
+							<input type='text' class='form-control' name='dropship_name' id='dropship_name'>
+							<label>Delivery address:</label>
+							<input type='text' class='form-control' name='dropship_address' id='dropship_address'>
 							<label>City</label>
-							<input type='text' class='form-control' name='city'>
+							<input type='text' class='form-control' name='dropship_city' id='dropship_city'>
 							<label>Phone number</label>
-							<input type='text' class='form-control'>
+							<input type='text' class='form-control' name='dropship_phone' id='dropship_phone'>
 						</div>
 					</div>
 					<script>
@@ -143,27 +145,24 @@ input[type=number]::-webkit-outer-spin-button {
 						}
 					</script>
 				</div>
+				<div class='row' style='padding:20px'>
+					<label>Note</label>
+					<textarea class="form-control" rows="5" form="purchaseorder" name='note'></textarea>
+				</div>
 				<br><br>
 				<div class="row">
 					<div class="col-sm-2">
-						<button type="button" class="btn btn-primary" onclick="hitung()" id="calculate">Calculate</button>
+						<button type="button" class="btn btn-default" onclick="hitung()" id="calculate">Calculate</button>
 					</div>
 				</div>
 				<div class="row" style="padding-top:20px">
-					<div class="col-sm-1">
-						<button type="submit" id="submitbtn" class="btn btn-success" style="display:none">Submit</button>
-					</div>
-					<div class="col-sm-1">
+					<div class="col-sm-6">
 						<button type="button" id="back" class="btn btn-danger" style="display:none">Back</button>
-					</div>
-					<div class="col-sm-2">
+						<button type="submit" id="submitbtn" class="btn btn-success">Submit</button>
 						<input type="hidden" class="form-control" id="jumlah_barang" name="jumlah_barang">
 					</div>
-					
 				</div>
 			</form>
-			</div>
-			<div class='col-sm-1' style='background-color:#eee;z-index:-2'>
 			</div>
 		</div>
 	</div>

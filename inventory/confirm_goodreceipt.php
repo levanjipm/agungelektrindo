@@ -23,9 +23,9 @@
 		} else {
 			$sql_received = "SELECT reference FROM purchaseorder_received WHERE id = '" . $received_id . "'";
 			$result_received = $conn->query($sql_received);
-			while($row_received = $result_received->fetch_assoc()){
-				$reference = $row_received['reference'];
-			}
+			$row_received = $result_received->fetch_assoc();
+			$reference = $row_received['reference'];
+
 			//Getting the previous stock quantity//
 			$sql_initial = "SELECT stock FROM stock WHERE reference = '" . $reference . "' ORDER BY id DESC LIMIT 1";
 			$result_initial = $conn->query($sql_initial);

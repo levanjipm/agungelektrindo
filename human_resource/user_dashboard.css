@@ -1,3 +1,7 @@
+@font-face {
+  font-family: Bebasneue;
+  src: url(../Universal/Font/Bebasneue/BebasNeue.woff);
+}
 #dept{
 	padding:20px;
 }

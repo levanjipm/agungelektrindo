@@ -11,26 +11,14 @@
 	});
 	</script>
 <div class='main'>
+	<h2 style='font-family:Bebasneue'>Project</h2>
+	<p>Create project delivery order</p>
+	<hr>
 	<div class='row'>
 		<a href="#" id="folder"><i class="fa fa-folder"></i></a>
 		<a href="#" id="close"><i class="fa fa-close"></i></a>
 		<div class='col-sm-10'>
 			<form action='project_do_validation.php' method='POST' id='project_form'>
-				<label>Project</label>
-				<select class='form-control' id='projects' name='projects'>
-					<option value='0'>Please select a project</option>
-<?php
-	$sql_project = "SELECT * FROM code_project WHERE isdone = '0'";
-	$result_project = $conn->query($sql_project);
-	while($project = $result_project->fetch_assoc()){
-?>
-					<option value='<?= $project['id'] ?>'><?= $project['project_name'] ?></option>
-<?php
-	}
-?>
-				</select>
-				<br>
-				<button type='button' class='btn btn-warning' id='done_button'>Set done</button>
 				<div class='row' style='padding-top:30px'>
 					<div class='col-sm-1'>No.</div>
 					<div class='col-sm-4'>Reference</div>

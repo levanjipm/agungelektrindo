@@ -165,7 +165,7 @@ input {
 ?>
 	<button type='button' class='btn btn-primary' onclick='lihat()'>Check</button>
 	<script>
-	$("#piash").inputmask("999.999.99-99999999");
+	$("#piash").inputmask("999.999-99.99999999");
 	function lihat(){
 		var faktur = $('#piash').val();
 		var panjang = $('#piash').val().length;

@@ -14,10 +14,10 @@ $( function() {
 <a href="#" id="close"><i class="fa fa-close"></i></a>
 <div class="main" style='padding-top:0;height:100%'>
 	<div class='row' style='height:100%'>
-		<div class='col-sm-1' style='background-color:#ddd'>
+		<div class='col-sm-1' style='background-color:#fff'>
 		</div>
 		<div class='col-sm-10' style='padding:30px'>
-			<h2>Sales Order</h2>
+			<h2 style='font-family:bebasneue'>Sales Order</h2>
 			<p>Create sales order</h2>
 			<hr>
 			<form name="salesorder" class="form" method="POST" id="sales_order" action="createsalesorder_validation.php">

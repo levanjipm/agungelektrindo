@@ -21,15 +21,13 @@
 			<strong>Info!</strong> There was no change detected.
 		</div>
 	</div>
-	<div class='row'>
-		<div class='col-sm-1' style='background-color:#ddd'>
+	<div class='row' style='top:0'>
+		<div class='col-sm-1' style='background-color:#fff'>
 		</div>
 		<div class='col-sm-10'>
-			<div class="container">
-				<h2>Customer</h2>
-				<p>Edit customer data</p>
-				<hr>
-			</div>
+			<h2 style='font-family:bebasneue'>Customer</h2>
+			<p>Edit customer data</p>
+			<hr>
 			<label>Search</label>
 			<input type='text' class='form-control' id='customer_filter' placeholder='Search customer here'>
 			<script>
@@ -127,8 +125,6 @@
 					?>
 				</div>
 			</div>
-		</div>
-		<div class='col-sm-1' style='background-color:#ddd'>
 		</div>
 	</div>
 </div>

@@ -8,32 +8,42 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-<?php
-	print_r($_POST);
-	$payement = $_POST['top'];
-	$po_date = $_POST['today'];
-	$vendor = $_POST['selectsupplier'];
+<?php	
+	$payement = mysqli_real_escape_string($conn,$_POST['top']);
+	$po_date = mysqli_real_escape_string($conn,$_POST['today']);
+	$vendor = mysqli_real_escape_string($conn,$_POST['selectsupplier']); //Supplier id//
+	
+	$sent_date = mysqli_real_escape_string($conn,$_POST['sent_date']);
+	$delivery_date = mysqli_real_escape_string($conn,$_POST['delivery_date']);
+	
+	$note = mysqli_real_escape_string($conn,$_POST['note']);
+	
+	$dropship_name = mysqli_real_escape_string($conn,$_POST['dropship_name']);
+	$dropship_address = mysqli_real_escape_string($conn,$_POST['dropship_address']);
+	$dropship_city = mysqli_real_escape_string($conn,$_POST['dropship_city']);
+	$dropship_phone = mysqli_real_escape_string($conn,$_POST['dropship_phone']);
+	
 	$sql_vendor = "SELECT name,address,city FROM supplier WHERE id='" . $vendor . "'";
 	$r = $conn->query($sql_vendor);
-	while($rows = $r->fetch_assoc()) { 
-       $vendor_name = $rows['name'];
-	   $vendor_address = $rows['address'];
-	   $vendor_city = $rows['city'];
-	};		
-	$total = $_POST['total'];
+	$rows = $r->fetch_assoc();
+	$vendor_name = $rows['name'];
+	$vendor_address = $rows['address'];
+	$vendor_city = $rows['city'];
+	
+	$total = mysqli_real_escape_string($conn,$_POST['total']);
 	$address_choice = $_POST['optradio'];
 	$code_promo = $_POST['code_promo'];
 	
 	$sql = " SELECT COUNT(*) AS jumlah FROM code_purchaseorder WHERE MONTH(date) = MONTH('" . $po_date . "') AND YEAR(date) = YEAR('" . $po_date . "')";
 	$result = $conn->query($sql);
 	if(mysqli_num_rows($result) > 0){	
-		while($row = $result->fetch_assoc()) { 
-		   $jumlah = $row['jumlah'];
-		}
+		$row = $result->fetch_assoc();
+		$jumlah = $row['jumlah'];
 	} else {
 		$jumlah = 0;
 	}
 	$jumlah++;
+	
 	if (date('m',strtotime($po_date)) == '01'){
 		$month = 'I';
 	} else if(date('m',strtotime($po_date)) == '02'){
@@ -59,7 +69,6 @@
 	} else {
 		$month = 'XII';
 	}
-	
 	$po_number = "PO-AE-" . str_pad($jumlah,2,"0",STR_PAD_LEFT) . "." . date("d",strtotime($po_date)). "-" . $month . "-" . date("y");
 ?>
 <body style='overflow-x:hidden'>
@@ -77,24 +86,36 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-3">
-					<input class="hidden" for="vendor_id" value= "<?= $vendor ?>" readonly name="vendor">
-					<input type='hidden' for="top" value="<?= $payement ?>" readonly name="top">
-					<input class="hidden" for="promo_code"value = "<?= $code_promo ?>" readonly name="code_promo">
-					<input class="hidden" for="po_date"value = "<?= $po_date ?>" readonly name="po_date">
-					<input type="hidden" value="<?= $address ?>" name="address">
+					<input type='hidden' value='<?= $dropship_name ?>' name='dropship_name'>
+					<input type='hidden' value='<?= $dropship_address ?>' name='dropship_address'>
+					<input type='hidden' value='<?= $dropship_city ?>' name='dropship_city'>
+					<input type='hidden' value='<?= $dropship_phone ?>' name='dropship_phone'>
+					<input type='hidden' value='<?= $note ?>' name='note'>
+					<input type='hidden' value='<?= $sent_date ?>' name='sent_date'>
+					<input type='hidden' value='<?= $delivery_date ?>' name='delivery_date'>
+					<input type='hidden' value='<?= $address_choice ?>' name='address_choice'>
+					<input type='hidden' value='<?= $note ?>' name='note'>
+					<input type='hidden' value= "<?= $vendor ?>" readonly name="vendor">
+					<input type='hidden' value="<?= $payement ?>" readonly name="top">
+					<input type="hidden" for="promo_code"value = "<?= $code_promo ?>" readonly name="code_promo">
+					<input type="hidden" for="po_date"value = "<?= $po_date ?>" readonly name="po_date">
 					<strong><?= $vendor_name ?></strong><br>
 					<?= $vendor_address ?><br>
 					<?= $vendor_city ?><br>
 					<strong>Payment terms:</strong> <?= $payement ?> days.<br>
 					<strong>Promo code:</strong> <?= $code_promo ?><br>
 
+				<strong>Delivery date: </strong><?php if($sent_date == 1){ echo (date('d M Y',strtotime($delivery_date))); } ?>
+				<br>
 				<strong>Delivery address: </strong>
 <?php
 	if($address_choice == 1){
 					echo ('Jalan Jamuju no. 18, Bandung');
 	} else {
-					echo ($_POST['address']);
-					echo (
+					echo ($dropship_name);
+					echo ($dropship_address);
+					echo ($dropship_city);
+					echo ($dropship_phone);
 	}
 ?>					
 					
@@ -173,7 +194,7 @@
 								</td>
 								<td style="width:15%">
 									Rp. <?= number_format($totprice,2) ?>
-									<input type="hidden" value="<?= $totprice?>" name='totprice<?=$i?>'
+									<input type="hidden" value="<?= $totprice?>" name='totprice<?=$i?>'>
 								</td>
 							</tr>
 		<?php
@@ -194,6 +215,8 @@
 					</div>
 				</div>
 			</div>
+			<br>
+			<?= $note ?>
 			<div class="row" style="top:50px;padding:20px">
 				<button type="button" class="btn btn-primary" onclick='taxing_check()'>Proceed</button>
 			</div>

@@ -133,12 +133,27 @@
 			Check stock
 		</button>
 	</a>
-	<a href="project_do_dashboard.php">
-		<button type='button' class='btn btn-badge' style='color:white'>
-			<i class="fa fa-archive" aria-hidden="true"></i>
-			Project
-		</button>
-	</a>
+	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+		<i class="fa fa-archive" aria-hidden="true"></i>
+		Project
+	</button>
+	<div class="dropdown-container">
+		<a href="project_do_dashboard.php">
+			<button type='button' class='btn btn-badge' style='color:white'>
+				Create DO
+			</button>
+		</a>
+		<a href="project_do_dashboard.php">
+			<button type='button' class='btn btn-badge' style='color:white'>
+				Confirm DO
+			</button>
+		</a>
+		<a href="set_project_done.php">
+			<button type='button' class='btn btn-badge' style='color:white'>
+				Set done
+			</button>
+		</a>
+	</div>
 	<a href="sample_dashboard.php">
 		<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
 			<i class="fa fa-flask" aria-hidden="true"></i>

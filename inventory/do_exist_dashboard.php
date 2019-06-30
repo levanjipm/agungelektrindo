@@ -2,12 +2,12 @@
 	include("inventoryheader.php")
 ?>
 <div class="main">
-	<h2>Delivery Order</h2>
+	<h2 style='font-family:bebasneue'>Delivery Order</h2>
 	<p>Create new delivery order</p>
 	<hr>
 <?php
-	$so_name = $_POST['so_id'];
-	$sql = "SELECT * FROM code_salesorder WHERE name = '" . $so_name . "'";
+	$so_id = $_POST['id'];
+	$sql = "SELECT * FROM code_salesorder WHERE id = '" . $so_id . "'";
 	$result = $conn->query($sql);
 	if(mysqli_num_rows($result) == 0){
 ?>
@@ -16,55 +16,41 @@
 		</script>
 <?php
 	} else {
-	while($row = $result->fetch_assoc()){
+		$row = $result->fetch_assoc();
 		$so_id = $row['id'];
 		$po_number = $row['po_number'];
 		$taxing = $row['taxing'];
 		$customer_id = $row['customer_id'];
 		$delivery_id = $row['delivery_id'];
-	}
-	$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $customer_id . "'";
-	$res = $conn->query($sql_customer);
-	$ro = $res->fetch_assoc();
-	$customer_name = $ro['name'];
-	$customer_address = $ro['address'];
-	$customer_city = $ro['city'];
+		
+		$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $customer_id . "'";
+		$result_customer = $conn->query($sql_customer);
+		$customer = $result_customer->fetch_assoc();
 ?>
-	<div class="container">	
 		<form method="POST" action="do_validation.php" id="do_validate">
 			<div class="row">
 				<div class="col-sm-4">
+					<h4 style='font-family:bebasneue'><strong><?= $customer['name']; ?></strong></h4>
+					<p><?= $customer['address'] ?></p>
+					<p><?= $customer['city'] ?></p>
 					<p><b>Purchase order number :</b><?= $po_number ?></p>
 					<input type="hidden" value="<?= $po_number ?>" class="form-control">
-					<label>Customer:</label><br>
-					<h4><?= $customer_name ?></h4>
-					<p><?= $customer_address ?></p>
-					<p><strong><?= $customer_city ?></strong></p>
 					<input type="hidden" value="<?= $customer_name ?>" class="form-control" readonly>
 				</div>
-				<div class="col-sm-3 offset-lg-5">
+				<div class="col-sm-3 offset-sm-5">
 					<label>Date:</label>
 					<input type="date" class="form-control" value="<?php echo date('Y-m-d');?>" name="today">
 				</div>
 			</div>
-			<br><br>
-			<div class="row">
-				<div class="col-sm-8">
-
-				</div>
-			</div>
-			<br>
 			<hr>
 			<table class="table">
-				<thead>
-					<tr>
-						<th style="width:40%">Item</th>
-						<th style="width:20%">Sent item</th>
-						<th style="width:20%">Quantity ordered</th>
-						<th style="width:20%">Quantity to be sent</th>
-						<th>Stock</th>
-					</tr>
-				</thead>
+				<tr>
+					<th style="width:40%">Item</th>
+					<th style="width:20%">Sent item</th>
+					<th style="width:20%">Quantity ordered</th>
+					<th style="width:20%">Quantity to be sent</th>
+					<th>Stock</th>
+				</tr>
 				<tbody>
 				<?php
 					$total_qty = 0;
@@ -96,13 +82,18 @@
 							<?= $qty ?>
 							<input type='hidden' value="<?= $qty ?>" id="qty<?= $i ?>" readonly tabindex="-1">
 						</td>
-						<td><input class="form-control" type="number" id = "qty_send<?= $i ?>" name="qty_send<?= $i ?>" min="0">
+						<td>
+							<input class="form-control" type="number" id = "qty_send<?= $i ?>" name="qty_send<?= $i ?>" min="0">
 						</td>
 						<td><?php
 							$sql_stock = "SELECT stock FROM stock WHERE reference = '" . $ref . "' ORDER BY id DESC";
 							$result_stock = $conn->query($sql_stock);
 							$stock = $result_stock->fetch_assoc();
-							echo $stock['stock'];
+							if($stock == NULL){
+								echo ('0');
+							} else {
+								echo $stock['stock'];
+							}
 						?></td>
 					</tr>
 				<?php
@@ -117,13 +108,21 @@
 			<input type="hidden" name="id" value="<?= $so_id ?>">
 			<input type="hidden" name="customer_id" value="<?= $customer_id ?>">
 			<input type="hidden" name="jumlah" value="<?= $i ?>" id='jumlah'>
+			<button type='button' class='btn btn-secondary' id='complete_delivery_button'>Complete delivery</button>
 			<br>
-			<div class="row">
-				<button type="button" class="btn btn-default" onclick="lihat()">Proceed</button>
-			</div>
+			<br>
+			<button type="button" class="btn btn-default" onclick="lihat()">Proceed</button>
 		</form>
 	</div>
 	<script>
+	$('#complete_delivery_button').click(function(){
+		$('input[id^="qty_send"]').each(function(){
+			var quantity = $(this).parent().siblings().find('input[id^="qty"]').val();
+			var sent = $(this).parent().siblings().find('input[id^="sent"]').val();
+			var isi = quantity - sent;
+			$(this).val(isi);
+		})
+	});
 	function lihat(){
 		var z = 1;
 		var y = 0;

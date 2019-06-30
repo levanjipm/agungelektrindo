@@ -21,7 +21,7 @@ input[type=number]::-webkit-outer-spin-button {
 <a href="#" id="folder"><i class="fa fa-folder"></i></a>
 <a href="#" id="close"><i class="fa fa-close"></i></a>
 	<div class='col-sm-11'>
-	<h2>Quotation</h2>
+	<h2 style='font-family:bebasneue'>Quotation</h2>
 	<h4 style="color:#444">Create new quotation</h4>
 	<hr>
 		<form name="quotation" id="quotation" class="form" method="POST" action="createquotation_validation.php">

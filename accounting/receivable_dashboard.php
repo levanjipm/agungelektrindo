@@ -106,6 +106,6 @@
 		},<?= $timeout ?>)
 	</script>
 <?php
-	$timeout = $timeout + 50;
+	$timeout = $timeout + 10;
 	}
 ?>

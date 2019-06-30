@@ -1,3 +1,7 @@
+@font-face {
+  font-family: Bebasneue;
+  src: url(../Universal/Font/Bebasneue/BebasNeue.woff);
+}
 .forming{
 		border:none;
 		border-bottom:2px solid #777;
@@ -31,6 +35,7 @@
 	left:0;
 	width:200px;
 	position:fixed;
+	overflow-y:scroll;
 }
 .sidenav a{
 	color:white;

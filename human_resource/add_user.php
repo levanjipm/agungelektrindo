@@ -20,9 +20,6 @@
 	<form id="input_user" method="POST" action="add_user_input.php">
 		<div class='container' style='border-radius:20px;background-color:#eee;padding:0px'>
 			<div class='row'>
-				<div class='col-sm-5' style='padding:0px'>
-					<img src='../universal/images/extrana.png' style='width:100%'>
-				</div>
 				<div class='col-sm-6'>
 					<h3 id="demo"></h3>
 					<input type='text' class='forming' placeholder='Insert name' name='name' required>

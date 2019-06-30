@@ -2,7 +2,7 @@
 <?php
 	//editing purchase order, first get the item now//
 	include('../codes/connect.php');
-	$x = $_POST['x'] - 1;
+	$x = $_POST['x'];
 	//Get the purchase order ID to be query//
 	$po_id = $_POST['po_id'];
 	$promo_code = $_POST['promo_code'];
@@ -10,14 +10,13 @@
 	$taxing = $_POST['taxing'];
 	$i = 1;
 	$grand_total = 0;
-	for ($i = 1; $i <= $x; $i++){
+	for ($i = 1; $i < $x; $i++){
 		$reference = $_POST['ref' . $i];
 		$quantity = (float) $_POST['qty' . $i];
 		echo $quantity;
 		$pl = (float) $_POST['pl' . $i];
 		$discount = (float) $_POST['discount' . $i];
 		$unitprice = (float) $pl * (100 - $discount) / 100;
-		$totalprice = (float) $unitprice * $quantity;
 		//If the reference in the input is empty, delete from purchaseorder and purcahaseorder_received//
 		if($reference !== ''){
 			//If the reference already writter in the database, do not write again//
@@ -25,8 +24,8 @@
 			$result_get = $conn->query($sql_get);
 			//Case where the item is not written yet//
 			if(mysqli_num_rows($result_get) == 0){
-				$sql_input = "INSERT INTO purchaseorder (reference,price_list,discount,unitprice,quantity,totalprice,purchaseorder_id)
-				VALUES ('$reference','$pl','$discount','$unitprice','$quantity','$totalprice','$po_id')";
+				$sql_input = "INSERT INTO purchaseorder (reference,price_list,discount,unitprice,quantity,purchaseorder_id)
+				VALUES ('$reference','$pl','$discount','$unitprice','$quantity','$po_id')";
 				$result_input = $conn->query($sql_input);
 				$sql_input_receive = "INSERT INTO purchaseorder_received (reference,purchaseorder_id,quantity,status)
 				VALUES('$reference','$po_id','0','0')";
@@ -56,13 +55,13 @@
 					if ($quantity > $quantity_ordered){
 						//Update the status to not finished if corresponding items added//
 						$sql_update = "UPDATE purchaseorder SET price_list = '" . $pl . "', discount = '" . $discount . "', 
-						unitprice = '" . $unitprice . "' , quantity = '" . $quantity . "', totalprice = '" . $totalprice . "', status = '0'
+						unitprice = '" . $unitprice . "' , quantity = '" . $quantity . "', status = '0'
 						WHERE purchaseorder_id = '" . $po_id . "' AND reference = '" . $reference . "'";
 						$result_update = $conn->query($sql_update);
 					} else if($quantity == $quantity_ordered){
 						//Do not update status if it is already completed//
 						$sql_update = "UPDATE purchaseorder SET price_list = '" . $pl . "', discount = '" . $discount . "', 
-						unitprice = '" . $unitprice . "' , quantity = '" . $quantity . "', totalprice = '" . $totalprice . "'
+						unitprice = '" . $unitprice . "' , quantity = '" . $quantity . "'
 						WHERE purchaseorder_id = '" . $po_id . "' AND reference = '" . $reference . "'";
 						$result_update = $conn->query($sql_update);
 					} else {
@@ -70,7 +69,7 @@
 				}
 			}
 		}
-	$grand_total = $grand_total + $totalprice;
+	$grand_total = $grand_total + $quantity * $unitprice;
 	}
 	if($taxing == 1){
 		$vat = (float)($grand_total / 1.1);

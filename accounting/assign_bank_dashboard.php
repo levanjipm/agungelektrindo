@@ -3,11 +3,9 @@
 	include('accountingheader.php');
 ?>
 <div class='main'>
-	<div class='container'>
-		<h2>Bank</h2>
-		<p>Assign transaction to journal</p>
-		<hr>
-	</div>
+	<h2 style='font-family:bebasneue'>Bank</h2>
+	<p>Assign transaction to journal</p>
+	<hr>
 	<div class='container'>
 		<h3>Debit</h3>
 		<hr>
@@ -26,9 +24,25 @@
 ?>
 		<tr>
 			<td><?= date('d M Y',strtotime($row['date'])) ?></td>
-			<td><?= $row['name'] ?></td>
+			<td><?php
+				if($row['name'] == -1){
+					echo ('Agung Elektrindo');
+				} else {
+					echo $row['name'];
+				}
+			?></td>
 			<td>Rp. <?= number_format($row['value'],2) ?></td>
+<?php
+	if($row['name'] == -1){
+?>
+			<td></td>
+<?php
+	} else {
+?>
 			<td><button type='button' class='btn btn-default' onclick='pass(<?= $row['id'] ?>)'>Assign as payment</button></td>
+<?php
+	}
+?>
 			<td><button type='button' class='btn btn-primary'>Assign as other</button></td>
 			<form action='assign_bank_assign.php' method='POST' id='form<?= $row['id'] ?>'>
 				<input type='hidden' value='<?= $row['id'] ?>' name='id'>
