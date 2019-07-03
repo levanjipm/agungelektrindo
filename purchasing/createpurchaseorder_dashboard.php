@@ -246,18 +246,9 @@ function hitung(){
 	} else if($('input[name=optradio]:checked').val() == 2 && $('#dropship_address').val() == '' && $('#dropship_phone').val() == '' && $('#dropship_name').val() == '' && $('#dropship_city').val() == ''){
 		alert('Insert valid delivery address for dropship!');
 		return false;
-	} else if($('input[name=delivery_date]:checked').val() == 1){
-		if($('#sent_date').val() == '' || $('#today').val() == ''){
-			alert('Please insert date!');
-			return false;
-		} else {
-			var sending = new Date($('#sent_date').val());
-			var po_date = new Date($('#today').val());
-			var date_diff = (sending - po_date)/86400000;
-			if(date_diff < 0){
-				alert('Please insert a valid date!');
-			}
-		}
+	} else if($('input[name=delivery_date]:checked').val() == 1 && ($('#sent_date').val() == '' || $('#today').val() == '')){
+		alert('Please insert date!');
+		return false;
 	} else if(duplicate){
 		alert('May not duplicate input!');
 		return false;

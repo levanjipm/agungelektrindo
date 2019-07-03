@@ -3,12 +3,11 @@
 	$event = $_POST['event_selector'];
 	switch ($event){
 		case "1":
-		$date = $_POST['date1'];
 		$reference = $_POST['lost_reference'];
 		$quantity = $_POST['lost_quantity'];
 		$sql_item = "SELECT stock FROM stock WHERE reference = '" . $reference . "' ORDER BY id DESC LIMIT 1";
 		$result_item = $conn->query($sql_item);
-		if(mysqli_num_rows($result_item) == 0){
+		if(mysqli_num_rows($result_item) == 0 || $quantity <= 0){
 			echo("This operation is illegal, the mentioned items does not exist.");
 			header( "Refresh:3; url=add_event_dashboard.php");
 		} else{
@@ -17,7 +16,7 @@
 				echo ('This operation is illegal');
 				header( "refresh:5; url=inventory.php" ); 
 			} else {
-				$sql_event_i = "SELECT COUNT(*) AS event_raw FROM events WHERE event_id = '1' AND YEAR(date) = YEAR('$date')";
+				$sql_event_i = "SELECT COUNT(*) AS event_raw FROM events WHERE event_id = '1' AND YEAR(date) = YEAR(CURDATE())";
 				$result_event_i = $conn->query($sql_event_i);
 				while($row_event_i = $result_event_i->fetch_assoc()){
 					if($row_event_i['event_raw'] == 0){
@@ -27,7 +26,7 @@
 					}
 				}
 				$event_name = 'LOS' . $event_name_raw;
-				$sql_event = "INSERT INTO events (date,event_id,event_name) VALUES ('$date','1','$event_name')";
+				$sql_event = "INSERT INTO events (date,event_id,event_name) VALUES (CURDATE(),'1','$event_name')";
 				$result_event = $conn->query($sql_event);
 				$final_stock = $row_item['stock'] - $_POST['lost_quantity'];
 				$sql_input = "INSERT INTO stock (reference,transaction,quantity,stock,supplier_id,customer_id,document)
@@ -56,10 +55,13 @@
 	break;
 	
 	case "2":
-	$date = $_POST['date2'];
 	$reference = $_POST['found_reference'];
 	$quantity = $_POST['found_quantity'];
-	$sql_event_i = "SELECT COUNT(*) AS event_raw FROM events WHERE event_id = '2' AND YEAR(date) = YEAR('$date')";
+	if($quantity <= 0){
+		echo("This operation is illegal, cannot insert minus value");
+		header( "Refresh:3; url=add_event_dashboard.php");
+	}
+	$sql_event_i = "SELECT COUNT(*) AS event_raw FROM events WHERE event_id = '2' AND YEAR(date) = YEAR(CURDATE())";
 	$result_event_i = $conn->query($sql_event_i);
 	while($row_event_i = $result_event_i->fetch_assoc()){
 		if($row_event_i['event_raw'] == 0){
@@ -77,7 +79,7 @@
 		$final_stock = $_POST['fount_quantity'];
 	}
 	$event_name = 'FOU' . $event_name_raw;
-	$sql_event = "INSERT INTO events (date,event_id,event_name) VALUES ('$date','1','$event_name')";
+	$sql_event = "INSERT INTO events (date,event_id,event_name) VALUES (CURDATE(),'1','$event_name')";
 	$result_event = $conn->query($sql_event);
 	$sql_input = "INSERT INTO STOCK (reference,transaction,quantity,stock,supplier_id,customer_id,document)
 	VALUES ('$reference','FOU','$quantity','$final_stock','0','0','$event_name')";
@@ -88,7 +90,6 @@
 	break;
 	
 	case "3":
-	$date = $_POST['date3'];
 	$reference_initial = $_POST['initial_item_de_reference'];
 	$quantity_i = $_POST['initial_item_de_quantity'];
 	$sql_item = "SELECT stock FROM stock WHERE reference = '" . $reference_initial . "' ORDER BY id DESC LIMIT 1";
@@ -101,7 +102,7 @@
 			if ($row_item['stock'] < $quantity_i){
 				echo ('This operation is illegal');
 			} else {
-				$sql_event_i = "SELECT COUNT(*) AS event_raw FROM events WHERE event_id = '3' AND YEAR(date) = YEAR('$date')";
+				$sql_event_i = "SELECT COUNT(*) AS event_raw FROM events WHERE event_id = '3' AND YEAR(date) = YEAR(CURDATE())";
 				$result_event_i = $conn->query($sql_event_i);
 				while($row_event_i = $result_event_i->fetch_assoc()){
 					if($row_event_i['event_raw'] == 0){
@@ -112,7 +113,7 @@
 				};
 				$price_initial = 0;
 				$event_name = 'DEM' . $event_name_raw;
-				$sql_event = "INSERT INTO events (date,event_id,event_name) VALUES ('$date','3','$event_name')";
+				$sql_event = "INSERT INTO events (date,event_id,event_name) VALUES (CURDATE(),'3','$event_name')";
 				$result_event = $conn->query($sql_event);
 				$final_stock = $row_item['stock'] - $quantity_i;
 				$sql_input = "INSERT INTO stock (reference,transaction,quantity,stock,supplier_id,customer_id,document)
@@ -127,7 +128,7 @@
 					$sql_update = "UPDATE stock_value_in SET sisa = '" . ($sisa - $pengurang) . "' WHERE id = '" . $in_id . "'";
 					$result_update = $conn->query($sql_update);
 					$sql_out = "INSERT INTO stock_value_out (date,in_id,quantity,customer_id)
-					VALUES ('$date','$in_id	','$pengurang','0')";
+					VALUES (CURDATE(),'$in_id	','$pengurang','0')";
 					$result_out = $conn->query($sql_out);
 					$price_initial = $price_initial + $pengurang * $in['price'];
 					$quantity_i = $quantity_i - $pengurang;
@@ -165,7 +166,7 @@
 					} else {
 						$price = ($pricelist)* $price_initial/ $pricelist_total;
 						$sql_insert = "INSERT INTO stock_value_in (date,reference,quantity,price,sisa,supplier_id) 
-						VALUES ('$date','$item','$quantity_break','$price','$quantity_break','0')";
+						VALUES (CURDATE(),'$item','$quantity_break','$price','$quantity_break','0')";
 						$result_insert = $conn->query($sql_insert);
 					}
 				}
@@ -179,7 +180,6 @@
 	
 	case "4":
 	$i = 1;
-	$date = $_POST['date4'];
 	$mfinal = $_POST['mfinal'];
 	$mqfinal = $_POST['mqfinal'];
 	$price_initial = 0;
@@ -203,7 +203,7 @@
 		}
 	}
 	if ($validation == true){
-		$sql_event_i = "SELECT COUNT(*) AS event_raw FROM events WHERE event_id = '4' AND YEAR(date) = YEAR('$date')";
+		$sql_event_i = "SELECT COUNT(*) AS event_raw FROM events WHERE event_id = '4' AND YEAR(date) = YEAR(CURDATE())";
 		$result_event_i = $conn->query($sql_event_i);
 		while($row_event_i = $result_event_i->fetch_assoc()){
 			if($row_event_i['event_raw'] == 0){
@@ -240,7 +240,7 @@
 					$result_update = $conn->query($sql_update);
 					
 					$sql_out = "INSERT INTO stock_value_out (date,in_id,quantity,customer_id)
-					VALUES ('$date','$in_id	','$pengurang','0')";
+					VALUES (CURDATE(),'$in_id	','$pengurang','0')";
 					$result_out = $conn->query($sql_out);
 					
 					$price_initial = $price_initial + $pengurang * $in['price'];
@@ -260,7 +260,7 @@
 		$sql_stock = "INSERT INTO STOCK (reference, transaction, quantity, stock, supplier_id, customer_id, document) 
 		VALUES ('$mfinal','MAT','$mqfinal','$stock_akhir','0','0','$event_name')";
 		$result_stock = $conn->query($sql_stock);
-		$sql_event = "INSERT INTO events (date,event_id,event_name) VALUES ('$date','4','$event_name')";
+		$sql_event = "INSERT INTO events (date,event_id,event_name) VALUES (CURDATE(),'4','$event_name')";
 		$result_event = $conn->query($sql_event);
 		$sql_in_again = "INSERT INTO stock_value_in (reference,quantity,price,sisa,supplier_id)
 		VALUES ('$mfinal','$mqfinal','$price_initial','$mqfinal','0')";
@@ -271,7 +271,6 @@
 	break;
 	
 	case "5":
-	$date = $_POST['date5'];
 	$quantity_swap = $_POST['swapq'];
 	$swap_cal = $_POST['swapq'];
 	
@@ -298,7 +297,7 @@
 		header( "refresh:5; url=inventory.php" ); 
 		return false;
 	} else {
-		$sql_event_i = "SELECT COUNT(*) AS event_raw FROM events WHERE event_id = '5' AND YEAR(date) = YEAR('$date')";
+		$sql_event_i = "SELECT COUNT(*) AS event_raw FROM events WHERE event_id = '5' AND YEAR(date) = YEAR(CURDATE())";
 		$result_event_i = $conn->query($sql_event_i);
 		while($row_event_i = $result_event_i->fetch_assoc()){
 			if($row_event_i['event_raw'] == 0){
@@ -329,7 +328,7 @@
 		
 		$result1 = $conn->query($sql_stock1);
 		$result2 = $conn->query($sql_stock2);
-		$sql_event = "INSERT INTO events (date,event_id,event_name) VALUES ('$date','5','$event_name')";
+		$sql_event = "INSERT INTO events (date,event_id,event_name) VALUES (CURDATE(),'5','$event_name')";
 		$result_event = $conn->query($sql_event);
 		
 		$sql_initial3 = "SELECT stock FROM stock WHERE reference = '" . $swap_plus1 . "' ORDER BY id DESC LIMIT 1";
@@ -358,7 +357,7 @@
 			$sisa = $value_in1['sisa'];
 			$pengurang = min($sisa,$quantity_swap);
 			$sql_update = "UPDATE stock_value_in SET sisa = '" . ($sisa - $pengurang) . "' WHERE id = '" . $in_id . "'";
-			$sql_insert_out1 = "INSERT INTO stock_value_out (date,in_id,quantity,customer_id) VALUES ('$date','$in_id','$pengurang','0')";
+			$sql_insert_out1 = "INSERT INTO stock_value_out (date,in_id,quantity,customer_id) VALUES (CURDATE(),'$in_id','$pengurang','0')";
 			$result_update = $conn->query($sql_update);
 			$result_insert_out1 = $conn->query($sql_insert_out1);
 			$price_initial1 = $price_initial1 + $value_in1['price'] * $pengurang;
@@ -377,7 +376,7 @@
 			$sisa = $value_in2['sisa'];
 			$pengurang = min($sisa,$quantity_swap);
 			$sql_update = "UPDATE stock_value_in SET sisa = '" . ($sisa - $pengurang) . "' WHERE id = '" . $in_id . "'";
-			$sql_insert_out2 = "INSERT INTO stock_value_out (date,in_id,quantity,customer_id) VALUES ('$date','$in_id','$pengurang','0')";
+			$sql_insert_out2 = "INSERT INTO stock_value_out (date,in_id,quantity,customer_id) VALUES (CURDATE(),'$in_id','$pengurang','0')";
 			$result_update = $conn->query($sql_update);
 			$result_insert_out2 = $conn->query($sql_insert_out2);
 			$price_initial2 = $price_initial2 + $value_in2['price'] * $pengurang;
@@ -392,12 +391,12 @@
 		$price1 = $price_one * $unit_price / ($price_one + $price_two);
 		
 		$stock_1 = "INSERT INTO stock_value_in (date,reference,quantity,price,sisa,supplier_id,customer_id,gr_id)
-		VALUES ('$date','$swap_plus1','$swap_cal','$price1','$swap_cal','0','0','0')";
+		VALUES (CURDATE(),'$swap_plus1','$swap_cal','$price1','$swap_cal','0','0','0')";
 		$result_1 = $conn->query($stock_1);
 		
 		$price2 = $price_two * $unit_price / ($price_one + $price_two);
 		$stock_2 = "INSERT INTO stock_value_in (date,reference,quantity,price,sisa,supplier_id,customer_id,gr_id)
-		VALUES ('$date','$swap_plus2','$swap_cal','$price2','$swap_cal','0','0','0')";
+		VALUES (CURDATE(),'$swap_plus2','$swap_cal','$price2','$swap_cal','0','0','0')";
 		$result_2 = $conn->query($stock_2);
 	}
 	//header('location:inventory.php');
