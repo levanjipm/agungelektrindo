@@ -7,8 +7,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="salesstyle.css">
 </head>
-
 <?php
 $so_date = $_POST['today'];
 $taxing = $_POST['taxing'];
@@ -21,6 +21,7 @@ if($customer == 0){
 	$phone = $_POST['retail_phone'];
 	$name = $_POST['retail_name'];
 };
+
 $sql = " SELECT COUNT(*) AS jumlah FROM code_salesorder WHERE MONTH(date) = MONTH('" . $so_date . "') 
 AND YEAR(date) = YEAR('" . $so_date . "')";
 $result = $conn->query($sql);
@@ -31,34 +32,33 @@ if($result){
 } else {
 	$jumlah = 0;
 }
+
 $jumlah++;
+
 $so_number = "" . date("y",strtotime($so_date)) . date("m",strtotime($so_date)) . "-SO-" . str_pad($jumlah,3,"0",STR_PAD_LEFT);
 $sql_customer = "SELECT * FROM customer WHERE id = '" . $customer . "'";
 $r = $conn->query($sql_customer);
-while($rows = $r->fetch_assoc()) {
-	$customer_name = $rows['name'];
-}
+$rows = $r->fetch_assoc();
+$customer_name = $rows['name'];
 ?>
-
-<body style="width:99%">
+<body style="height:100%;overflow-x:hidden;">
 	<form action="createsalesorder_input.php" method="POST" name="salesorder_validate">
 		<div class="row">
-			<div class="col-lg-6 offset-lg-3">
-				<h2 style="text-align:center"><?= $so_number?></h2>
+			<div class='col-sm-1' style='background-color:#333'>
+			</div>
+			<div class='col-sm-10'>
+				<h2 style='font-family:bebasneue'>Sales Order</h2>
+				<p>Validate Sales Order</p>
+				<hr>
+				<h3 style="text-align:center;font-family:bebasneue"><?= $so_number?></h3>
 				<input type="hidden" value="<?= $so_number ?>" name="so_number">
-			</div>
-		</div>	
-		<div class="row">
-			<div class="col-lg-4 offset-lg-4">
-				<input type="date" value="<?= $so_date ?>" class="form-control" readonly>
+				<input type="hidden" value="<?= $so_date ?>" class="form-control" readonly>
 				<input type="hidden" value="<?= $so_date ?>" name="today">
-			</div>
-		</div>
-		<br><br>
-		<div class="row">
-			<div class="col-lg-6 offset-lg-3">
-				<label for="customer_name">Customer name: </label>
-				<input type="hidden" value=<?= $customer?>" name="customer">
+				<br><br>
+				<div class="row">
+					<div class="col-sm-6 offset-sm-3">
+						<label for="customer_name">Customer name: </label>
+						<input type="hidden" value=<?= $customer?>" name="customer">
 <?php
 				if($customer == 0){
 ?>
@@ -73,7 +73,7 @@ while($rows = $r->fetch_assoc()) {
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-lg-6 offset-lg-3">
+			<div class="col-sm-6 offset-sm-3">
 				<label>Delivery Address</label>
 			<?php
 			if($customer != 0){
@@ -107,13 +107,13 @@ while($rows = $r->fetch_assoc()) {
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-lg-6 offset-lg-3">
+			<div class="col-sm-6 offset-sm-3">
 				<label>Purchase Order number:</label>
 				<input type="text" class="form-control" value="<?= $po_number ?>" readonly name="purchaseordernumber">
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-lg-6 offset-lg-3">
+			<div class="col-sm-6 offset-sm-3">
 				<label>Taxing (1 for yes, 0 for no):</label>
 <?php
 				if($customer == 0){
@@ -131,7 +131,7 @@ while($rows = $r->fetch_assoc()) {
 		</div>
 		<br><br><br>
 		<div class="row">
-			<div class="col-lg-12">
+			<div class="col-sm-12">
 				<table class="table">
 					<thead>
 						<th style="text-align:center">Reference</th>

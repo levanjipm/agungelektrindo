@@ -9,6 +9,35 @@
 		top:20px;
 		z-index:105;
 	}
+.notification_large{
+	position:fixed;
+	top:0;
+	left:0;
+	background-color:rgba(51,51,51,0.3);
+	width:100%;
+	text-align:center;
+	height:100%;
+}
+.notification_large .notification_box{
+	position:relative;
+	background-color:#fff;
+	padding:30px;
+	width:100%;
+	top:30%;
+	box-shadow: 3px 4px 3px 4px #ddd;
+}
+.btn-delete{
+	background-color:red;
+	font-family:bebasneue;
+	color:white;
+	font-size:1.5em;
+}
+.btn-back{
+	background-color:#777;
+	font-family:bebasneue;
+	color:white;
+	font-size:1.5em;
+}
 </style>
 	<div class='alert_wrapper'>
 		<div class="alert alert-success" id='alert_change' style='display:none'>
@@ -62,25 +91,48 @@
 						<tr>
 							<td><?= $row['name']?></td>
 							<td><?= $row['address']?></td>
-							<td><button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal-<?=$row['id']?>">Edit</td>
 							<td>
-								<button type='button' class='btn btn-success' onclick='view_customer(<?= $row['id'] ?>)'>View</button>
-								<form action='customer_view.php' method='POST' id='view_customer_form<?= $row['id'] ?>'>
-									<input type='hidden' value='<?= $row['id'] ?>' name='customer' readonly>
-								</form>
-								<script>
-									function view_customer(n){
-										$('#view_customer_form' + n).submit();
-									};
-								</script>
+								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal-<?=$row['id']?>">
+									<i class="fa fa-pencil" aria-hidden="true"></i>
+								</button>
 							</td>
+							<td>
+							<?php
+								$sql_check = "SELECT
+									(SELECT COUNT(id) FROM code_salesorder WHERE customer_id = '" . $row['id'] . "') AS table1,
+									(SELECT COUNT(id) FROM code_quotation WHERE customer_id = '" . $row['id'] . "') AS table2,
+									(SELECT COUNT(id) FROM code_bank WHERE name = '" . $row['name'] . "') AS table3,
+									(SELECT COUNT(id) FROM code_delivery_order WHERE customer_id = '" . $row['id'] . "') AS table4,
+									(SELECT COUNT(id) FROM code_project WHERE customer_id = '" . $row['id'] . "') AS table5";
+								$result_check = $conn->query($sql_check);
+								$check = $result_check ->fetch_assoc();
+								$disabled = $check['table1'] + $check['table2'] + $check['table3'] + $check['table4'] + $check['table5'];
+							?>
+									
+								<button type='button' class='btn btn-default' onclick='view_customer(<?= $row['id'] ?>)'>
+									<i class="fa fa-eye" aria-hidden="true"></i>
+								</button>
+							</td>
+							<td>
+								<button type='button' class='btn btn-default' onclick='delete_customer(<?= $row['id'] ?>)' <?php if($disabled > 0){ echo ('disabled'); } ?>>
+									<i class="fa fa-trash-o" aria-hidden="true"></i>
+								</button>
+							</td>
+							<form action='customer_view.php' method='POST' id='view_customer_form<?= $row['id'] ?>'>
+								<input type='hidden' value='<?= $row['id'] ?>' name='customer' readonly>
+							</form>
+							<script>
+								function view_customer(n){
+									$('#view_customer_form' + n).submit();
+								};
+							</script>
 						</tr>
 						
 						<div class="modal" id="myModal-<?= $row['id'] ?>" role="dialog">
 							<div class="modal-dialog modal-lg">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h4 class="modal-title">Input Supplier Data</h4>
+										<h4 class="modal-title">Edit Customer Data</h4>
 									</div>
 									<div class="modal-body">
 										<label for="name">Company: </label>
@@ -128,9 +180,38 @@
 		</div>
 	</div>
 </div>
+<div class='notification_large' style='display:none'>
+	<div class='notification_box' id='box_display'>
+		<h1 style='font-size:3em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h1>
+		<h2 style='font-family:bebasneue'>Are you sure to delete this customer?</h2>
+		<br>
+		<button type='button' class='btn btn-back'>Back</button>
+		<button type='button' class='btn btn-delete'>Close</button>
+	</div>
+</div>
+<input type='hidden' value='0' id='customer_id' name='id'>
 </body>
 </html>
 <script>
+	function delete_customer(n){
+		$('#customer_id').val(n);
+		$('.notification_large').fadeIn();
+	}
+	$('.btn-back').click(function(){
+		$('.notification_large').fadeOut();
+	});
+	$('.btn-delete').click(function(){
+		$.ajax({
+			url:"delete_customer.php",
+			data:{
+				id: $('#customer_id').val()
+			},
+			type:"POST",
+			success:function(){
+				location.reload()
+			},
+		})
+	});
 	$("input[id^=npwp]").inputmask("99.999.999.9-999.999");
 	
 	function submit(n){

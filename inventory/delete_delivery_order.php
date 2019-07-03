@@ -6,12 +6,7 @@
 	$code = $result_code->fetch_assoc();
 	$so_id = $code['so_id'];
 	$isdelete = $code['isdelete'];
-	if($isdelete == 1){
-		header('location:inventory.php');
-	} else {
-		$sql_update = "UPDATE code_delivery_order SET isdelete = '1' WHERE id = '" . $id_do . "'";
-		$results = $conn->query($sql_update);
-		
+	if($isdelete != 1){
 		$sql = "SELECT reference,quantity FROM delivery_order WHERE do_id = '" . $id_do . "'";
 		$result = $conn->query($sql);
 		while($row = $result->fetch_assoc()){
@@ -23,9 +18,13 @@
 			$new_quantity = $so['quantity'] - $quantity;
 			$id = $so['id'];
 			
-			$sql_insert = "UPDATE sales_order_sent SET quantity = '" . $new_quantity . "' WHERE id = '" . $id . "'";
+			$sql_insert = "UPDATE sales_order_sent SET quantity = '" . $new_quantity . "' WHERE id = '" . $id . "' AND status = '0'";
 			$result_insert = $conn->query($sql_insert);
-		}
-		header('location:confirm_do_dashboard.php');
+		};
+		$sql_delete = "DELETE FROM code_delivery_order WHERE id = '" . $id_do . "'";
+		$result_delete = $conn->query($sql_delete);
+		
+		$sql_delete = "DELETE FROM delivery_order WHERE do_id = '" . $id_do . "'";
+		$result_delete = $conn->query($sql_delete);
 	}
 ?>

@@ -33,7 +33,6 @@ if ($terms == 1){
 	$note = $dp . "% down payment upon confirmation and full payment after " . $lunas . " day(s)";
 }
 ?>
-
 <body style="height:100%;overflow-x:hidden;">
 	<form action="createquotation_input.php" method="POST" name="quotation_validate">
 		<div class="row" style='height:100%'>
@@ -69,8 +68,6 @@ if ($terms == 1){
 							$i = 1;
 							for ($i = 1; $i <= $x; $i++){
 								$ref = $_POST["reference" . $i ];
-						?>
-						<?php
 								$price = $_POST["price" . $i ];
 								$disc = $_POST["discount" . $i ];
 								$qty = $_POST["quantity" . $i ];

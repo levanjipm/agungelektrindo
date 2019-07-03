@@ -25,7 +25,6 @@
 	$row_user = $result_user->fetch_assoc();
 	$user_id = $row_user['id'];
 	$username = $row_user['username'];
-	$mail = $row_user['mail'];
 	$name = $row_user['name'];
 	$role = $row_user['role'];
 	$privilege = $row_user['privilege'];

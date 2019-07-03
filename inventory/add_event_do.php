@@ -70,8 +70,11 @@
 	};
 	$sql_item = "SELECT stock FROM stock WHERE reference = '" . $reference . "' ORDER BY id DESC LIMIT 1";
 	$result_item = $conn->query($sql_item);
-	while($row_item = $result_item->fetch_assoc()){
+	if($result_item){
+		$row_item = $result_item->fetch_assoc();
 		$final_stock = $row_item['stock'] + $_POST['found_quantity'];
+	} else {
+		$final_stock = $_POST['fount_quantity'];
 	}
 	$event_name = 'FOU' . $event_name_raw;
 	$sql_event = "INSERT INTO events (date,event_id,event_name) VALUES ('$date','1','$event_name')";

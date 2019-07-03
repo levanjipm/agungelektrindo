@@ -41,7 +41,7 @@
 	if($row_60['less_than_60'] == NULL){
 		$total_60 = 0;
 	} else { 
-		$total_60 = $row_60['less_than_30'];
+		$total_60 = $row_60['less_than_60'];
 	};
 	if($nunggak['nunggak'] == NULL){
 		$total_nunggak = 0;

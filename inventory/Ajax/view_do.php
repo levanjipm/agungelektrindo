@@ -5,10 +5,8 @@
 			$term = $_GET['term'];
 			$sql = "SELECT name FROM code_delivery_order WHERE id = '" . $term . "'";
 			$result = $conn->query($sql);
-			while($code = $result->fetch_assoc()){
-				$name = $code['name'];
-			}
-			echo $name;
+			$code = $result->fetch_assoc();
+			echo ($code['name']);
 		?>
 	</p>
 		<table class='table'>

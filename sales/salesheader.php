@@ -85,6 +85,9 @@ Sales Department
 		<a href="createsalesorder_dashboard.php">
 			<p>Create sales order</p>
 		</a>
+		<a href="service_sales_order_dashboard.php">
+			<p>Services SO</p>
+		</a>
 		<a href="confirmsalesorder_dashboard.php">
 			<p>Confirm sales order</p>
 		</a>
@@ -172,7 +175,7 @@ Sales Department
 <?php
 	if($hpp == 1){
 ?>
-	<a href="check_hpp.php">
+	<a href="check_hpp_dashboard.php">
 		<button type='button' class='btn btn-badge'>
 			<i class="fa fa-money" aria-hidden="true"></i>Check value
 		</button>

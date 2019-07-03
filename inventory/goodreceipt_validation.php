@@ -50,7 +50,6 @@
 				}
 			} else {
 			}				
-		} else {
 		}
 	}
 	header('location:inventory.php');

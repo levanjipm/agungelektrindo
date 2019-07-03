@@ -14,13 +14,41 @@
 .inactive{
 	display:none;
 }
+.notification_large{
+	position:fixed;
+	top:0;
+	left:0;
+	background-color:rgba(51,51,51,0.3);
+	width:100%;
+	text-align:center;
+	height:100%;
+}
+.notification_large .notification_box{
+	position:relative;
+	background-color:#fff;
+	padding:30px;
+	width:100%;
+	top:30%;
+	box-shadow: 3px 4px 3px 4px #ddd;
+}
+.btn-delete{
+	background-color:red;
+	font-family:bebasneue;
+	color:white;
+	font-size:1.5em;
+}
+.btn-back{
+	background-color:#777;
+	font-family:bebasneue;
+	color:white;
+	font-size:1.5em;
+}
 </style>
 <link rel="stylesheet" href="../jquery-ui.css">
 <script src="../jquery-ui.js"></script>
 <div class="main">
-	<div class="container" style="right:50px">
 	<h2 style='font-family:bebasneue'>Item</h2>
-	<h4 style="color:#444">Edit items</h4>
+	<p>Edit items</p>
 	<hr>
 	<div class='row' style='text-align:center'>
 			<div class='col-md-6 col-md-offset-3'>
@@ -84,6 +112,7 @@
 	<br>
 		<div class="row">
 			<div class="col-sm-12">
+				<label>Search</label>
 				<input type="text" id="myInput" placeholder="Search for reference or description" class="form-control">
 			</div>
 		</div>
@@ -165,7 +194,26 @@
 				if($role == 'superadmin'){
 			?>
 					<div class="col-sm-2">
-						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal-<?=$row['id']?>">Edit</button>
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal-<?=$row['id']?>"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+<?php
+	$sql_disable = "SELECT 
+			(SELECT COUNT(id) FROM quotation WHERE reference = '" . $row['reference'] . "') AS quotation_count,
+			(SELECT COUNT(id) FROM sales_order WHERE reference = '" . $row['reference'] . "') AS so_count,
+			(SELECT COUNT(id) FROM stock WHERE reference = '" . $row['reference'] . "') AS stock_count,
+			(SELECT COUNT(id) FROM stock_value_in WHERE reference = '" . $row['reference'] . "') AS value_in_count";
+	$result_disable = $conn->query($sql_disable);
+	$disable = $result_disable->fetch_assoc();
+	$disable_condition = $disable['quotation_count']  + $disable['so_count'] + $disable['stock_count'] + $disable['value_in_count'];
+	if($disable_condition == 0){
+?>					
+						<button type='button' class='btn btn-default' onclick='disable(<?= $row['id'] ?>)'><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+<?php
+	} else {
+?>
+						<button type='button' class='btn btn-default' disabled><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+<?php
+	}
+?>
 					</div>
 				</div>
 			<?php
@@ -272,8 +320,36 @@
 		<div id="showresults"></div>
 		<div id="daniel"></div>
 	</div>
-</div>
+	<div class='notification_large' style='display:none' id='delete_large'>
+		<div class='notification_box'>
+			<h1 style='font-size:3em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h1>
+			<h2 style='font-family:bebasneue'>Are you sure to delete this item?</h2>
+			<br>
+			<button type='button' class='btn btn-back'>Back</button>
+			<button type='button' class='btn btn-delete'>Delete</button>
+		</div>
+	</div>
+	<input type='hidden' id='delete_id'>
 <script>
+function disable(n){
+	$('#delete_large').fadeIn();
+	$('#delete_id').val(n);
+}
+$('.btn-back').click(function(){
+	$('#delete_large').fadeOut();
+});
+$('.btn-delete').click(function(){
+	$.ajax({
+		url:'delete_item.php',
+		data:{
+			id :$('#delete_id').val(),
+		},
+		type:'POST',
+		success: function(){
+			location.reload();
+		}
+	})
+});
 function send_edit(n){
 	var id = n;
 	$.ajax({
@@ -313,7 +389,7 @@ $('#myInput').change(function () {
         type: "GET",
         dataType: "html",
         success: function (data) {
-            $('#edititemtable').replaceWith($('#showresults').html(data));
+            $('#edititemtable').html(data);
         },
         error: function (xhr, status) {
             alert("Sorry, there was a problem!");

@@ -17,14 +17,6 @@
 					<th style="text-align:center;width:20%"><strong>Name</strong></td>
 					<th style="text-align:center;width:30%"><strong>Address</strong></td>
 <?php
-		if($role == 'superadmin'){
-			echo ("<td style='width:10%'></td>");
-}
-?>
-					<th colspan='2'>Created by</th>
-					<th colspan='2'>Modified by</th>
-				</tr>
-<?php
 	while($row = mysqli_fetch_array($result)) {
 ?>
 				<tr>
@@ -79,19 +71,6 @@
 						echo $created['name'];
 					?></td>
 					<td><?= date('d M Y',strtotime($row['date_created'])) ?></td>
-					<td><?php
-						$sql_created = "SELECT name FROM users WHERE id = '" . $row['modified_by'] . "'";
-						$result_created = $conn->query($sql_created);
-						$created = $result_created->fetch_assoc();
-						echo $created['name'];
-					?></td>
-					<td><?php
-						if($row['date_modified'] < '2000-01-01'){
-							echo ('');
-						} else {
-							echo (date('d M Y',strtotime($row['date_modified'])));
-						}
-					?></td>
 				</tr>
 <?php
 		}

@@ -1,7 +1,7 @@
 <?php
 	include('../codes/connect.php');
 	//confirming goods receipt//
-	$good_receipt_id = $_GET['id'];
+	$good_receipt_id = $_POST['id'];
 	//Change status on 'isconfirm' to 1 from 0//
 	$sql_status = "UPDATE code_goodreceipt SET isconfirm = '1' WHERE id = '" . $good_receipt_id . "'";
 	$result_status = $conn->query($sql_status);

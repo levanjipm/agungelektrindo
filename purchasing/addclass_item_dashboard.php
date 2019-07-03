@@ -1,6 +1,8 @@
 <?php
 	include('purchasingheader.php');
 ?>
+<script src='../jquery-ui.js'></script>
+<link rel='stylesheet' href='../jquery-ui.css'>
 <style>
 	.alert_wrapper{
 		position:absolute;
@@ -20,7 +22,7 @@
 			<strong>Danger</strong> Failed to add item.
 		</div>
 	</div>
-	<h2>Item</h2>
+	<h2 style='font-family:bebasneue'>Item</h2>
 	<p>Add class</p>
 	<hr>
 	<label>Class name</label>
@@ -35,6 +37,7 @@
 			<th>Items</th>
 			<th></th>
 		</tr>
+		<tbody>
 <?php
 	$sql = "SELECT date,id,name FROM itemlist_category ORDER BY date ASC";
 	$result = $conn->query($sql);
@@ -54,9 +57,11 @@
 <?php
 	}
 ?>
+		</tbody>
 	</table>
 </div>
 <script>
+	$('tbody').sortable();
 	$('#submit_class').click(function(){
 		if($('#class_name').val() == ''){
 			alert('Please insert a class name!');

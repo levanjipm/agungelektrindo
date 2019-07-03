@@ -72,7 +72,7 @@
 	<input type='hidden' value='<?= $harga_total ?>' name='harga_total'>
 	<input type='hidden' value='<?= $return_id ?>' name='return_id'>
 	<input type='hidden' value='<?= $i ?>' name='i'>
-	<button type='submit'>Next</button>
+	<button type='submit' class='btn btn-default'>Next</button>
 </div>
 </div>
 <?php

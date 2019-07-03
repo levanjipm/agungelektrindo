@@ -6,6 +6,7 @@
 	$b = $_POST['b'];
 	$x = $_POST['x'];
 	$total = 0;
+	
 	$supplier_id = mysqli_real_escape_string($conn,$_POST['supplier']);
 	
 	for($i = 1; $i < $b; $i++){

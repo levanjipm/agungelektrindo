@@ -10,13 +10,45 @@ function disable_year(){
 	buka();
 }
 </script>
+<style>
+.inactive{
+	display:none;
+}
+.notification_large{
+	position:fixed;
+	top:0;
+	left:0;
+	background-color:rgba(51,51,51,0.3);
+	width:100%;
+	text-align:center;
+	height:100%;
+}
+.notification_large .notification_box{
+	position:relative;
+	background-color:#fff;
+	padding:30px;
+	width:100%;
+	top:30%;
+	box-shadow: 3px 4px 3px 4px #ddd;
+}
+.btn-delete{
+	background-color:red;
+	font-family:bebasneue;
+	color:white;
+	font-size:1.5em;
+}
+.btn-back{
+	background-color:#777;
+	font-family:bebasneue;
+	color:white;
+	font-size:1.5em;
+}
+</style>
 <body>
 <div class="main">
-	<div class='container'>
-		<h2>Sales Order</h2>
-		<h4 style="color:#444">Edit or close Sales Order</h4>
-		<hr>
-	</div>
+	<h2 style='font-family:bebasneue'>Sales Order</h2>
+	<h4 style="color:#444">Edit or close Sales Order</h4>
+	<hr>
 	<div class='row'>
 		<div class='col-sm-4 col-sm-offset-4'>
 			<div class="input-group">
@@ -105,7 +137,6 @@ function disable_year(){
 				<form action='close_so.php' method='POST' id='close_so_form<?= $code['id'] ?>'>
 					<label>Input your pin</label>
 					<input type='number' id='pin' class='form-control' name='pin'>
-					<input type='hidden' id='id_so' name='id'>
 					<br>
 					<button type='button' class='btn btn-default'>Close</button>
 					<button type='button' class='btn btn-warning' onclick='submiting(<?= $code['id'] ?>)'>Submit</button>
@@ -115,6 +146,24 @@ function disable_year(){
 	}
 ?>
 		</div>
+	</div>
+</div>
+<div class='notification_large' style='display:none'>
+	<div class='notification_box' id='box_display'>
+		<h1 style='font-size:3em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h1>
+		<h2 style='font-family:bebasneue'>Are you sure to close this sales order?</h2>
+		<br>
+		<button type='button' class='btn btn-back'>Back</button>
+		<button type='button' class='btn btn-delete'>Close</button>
+		<input type='hidden' value='0' id='id_so' name='id'>
+	</div>
+	<div class='notification_box' id='box_pin' style='display:none'>
+		<h1 style='font-size:3em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h1>
+		<h2 style='font-family:bebasneue'>Are you sure to close this sales order?</h2>
+		<br>
+		<button type='button' class='btn btn-back'>Back</button>
+		<button type='button' class='btn btn-delete'>Close</button>
+		<input type='hidden' value='0' id='id_so' name='id'>
 	</div>
 </div>
 <style>
@@ -130,12 +179,21 @@ function submiting(n){
 	$('#close_so_form' + n).submit();
 }
 function closing(n){
-	$('#viewpane').fadeOut();
-	$('#sure').fadeIn();
 	$('.isactive').removeClass('isactive');
 	$('#row-' + n).addClass('isactive');
 	$('#id_so').val(n);
+	$('.notification_large').fadeIn();
+	
 }
+$('.btn-back').click(function(){
+	$('.notification_large').fadeOut();
+});
+$('.btn-delete').click(function(){
+	$('#box_display').fadeOut();
+	setTimeout(function(){
+		$('#box_pin').fadeIn();
+	},300);
+});
 function view_pane(n){
 	$('#sure').fadeOut();
 	$('#viewpane').fadeIn();

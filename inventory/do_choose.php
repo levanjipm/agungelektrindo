@@ -79,7 +79,10 @@ $( function() {
 				<h3 style='font-family:bebasneue'>Incomplete sales orders</h3>
 				<div class='row'>
 <?php
-	$sql = "SELECT id,name,customer_id,po_number FROM code_salesorder WHERE isconfirm = '1'";
+	$sql = "SELECT DISTINCT(sales_order_sent.so_id), code_salesorder.id, code_salesorder.name,code_salesorder.customer_id,code_salesorder.po_number 
+	FROM code_salesorder 
+	JOIN sales_order_sent ON sales_order_sent.so_id = code_salesorder.id
+	WHERE code_salesorder.isconfirm = '1' AND sales_order_sent.status = '0'";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){
 ?>

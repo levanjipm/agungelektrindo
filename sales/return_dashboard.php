@@ -2,6 +2,9 @@
 	include('salesheader.php');
 ?>
 	<div class="main">	
+		<h2 style='font-family:bebasneue'>Return</h2>
+		<p>Create return</p>
+		<hr>
 		<form method="POST" action="return_validation.php">
 			<label>Insert the delivery order to be return</label>
 			<input type="text" class="form-control" name="do" required>

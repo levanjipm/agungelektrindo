@@ -16,10 +16,11 @@
 ?>
 <div class='main'>
 	<div class='container'>
-		<h2>Purchase order data</h2>
-		<p><strong>Supplier :</strong> <?= $supplier['name'] ?></p>
-		<p><strong>PO number:</strong> <?= $initial['name'] ?></p>
-	</div>
+	<h2 style='font-family:bebasneue'>Purchase order</h2>
+	<p>Close purchase order</p>
+	<hr>
+	<p><strong>Supplier :</strong> <?= $supplier['name'] ?></p>
+	<p><strong>PO number:</strong> <?= $initial['name'] ?></p>
 	<table class='table'>
 		<tr>
 			<th>Reference</th>
@@ -56,47 +57,89 @@
 		<button type='button' class='btn btn-default' onclick='confirm()'>Close Purchase Order</button>
 	</form>
 </div>
-<script>
-	function confirm(){
-		$('.main').css('opacity', 0.2);
-		$('#confirmation').fadeIn();
-	}
-</script>
 <style>
-	#confirmation{
-		position:absolute;
+	.notification_large{
+		position:fixed;
+		top:0;
+		left:0;
+		background-color:rgba(51,51,51,0.3);
+		width:100%;
+		text-align:center;
+		height:100%;
+	}
+	.notification_large .notification_box{
+		position:relative;
+		background-color:#fff;
+		padding:30px;
+		width:100%;
 		top:30%;
-		left:50%;
-		display:none;
-		z-index:150;
+		box-shadow: 3px 4px 3px 4px #ddd;
 	}
-	.btn-daniel{
-		background-color:transparent;
-		border:2px solid #0000ff;
-		transition:0.3s all ease;
+	.btn-delete{
+		background-color:red;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
 	}
-	.btn-daniel:hover{
-		background-color:rgba(26,26,255,0.5);
+	.btn-back{
+		background-color:#777;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	.btn-confirm{
+		background-color:green;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	input[type=number] {
+		-webkit-text-security: disc;
+	}
+	input[type=number]::-webkit-inner-spin-button, 
+	input[type=number]::-webkit-outer-spin-button { 
+		-webkit-appearance: none;
+		margin: 0;
 	}
 </style>
-<div id='confirmation'>
-	<div class='container'>
-		<h4><strong>Are you sure to close this purchase order</strong></h4>
-		<p><b>Please note</b> that this action is cannot be undone</p>
-		<button type='button' class='btn btn-daniel' onclick='submitform()'>
-			Yes I am sure
-		</button>
-		<button type='button' class='btn btn-default' onclick='back()'>
-			Check again
-		</button>
+<div class='notification_large' style='display:none'>
+	<div class='notification_box' id='confirm_box'>
+		<h1 style='font-size:3em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h1>
+		<h2 style='font-family:bebasneue'>Are you sure to delete this Purchase Order?</h2>
+		<br>
+		<button type='button' class='btn btn-back' id='confirm_back'>Back</button>
+		<button type='button' class='btn btn-delete'>Delete</button>
+	</div>
+	<div class='notification_box' id='pin_box' style='display:none'>
+		<h1 style='font-size:3em;color:#def'><i class="fa fa-key" aria-hidden="true"></i></h1>
+		<div class='col-md-4 col-md-offset-4'>
+			<input type='number' class='form-control' name='pin'>
+		</div>
+		<br><br>
+		<button type='button' class='btn btn-back' id='pin_back'>Back</button>
+		<button type='button' class='btn btn-confirm'>Confirm</button>
 	</div>
 </div>
 <script>
-	function submitform(){
+	function confirm(){
+		$('.notification_large').fadeIn();
+	}
+	$('#confirm_back').click(function(){
+		$('.notification_large').fadeOut();
+	});
+	$('#pin_back').click(function(){
+		$('#pin_box').fadeOut();
+		setTimeout(function(){
+			$('#confirm_box').fadeIn();
+		},300);
+	});
+	$('.btn-delete').click(function(){
+		$('#confirm_box').fadeOut();
+		setTimeout(function(){
+			$('#pin_box').fadeIn();
+		},300);
+	});
+	$('.btn-confirm').click(function(){
 		$('#closepo').submit();
-	}
-	function back(){
-		$('#confirmation').fadeOut();
-		$('.main').css('opacity',1);
-	}
+	});
 </script>

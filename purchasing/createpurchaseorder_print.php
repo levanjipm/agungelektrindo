@@ -9,7 +9,7 @@
 	$row_user = $result_user->fetch_assoc();
 	if($_POST['id'] == NULL){
 		header('location:purchasing.php');
-	} else {
+	}
 ?>
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
@@ -329,6 +329,3 @@ function printing(){
 	$('#footer_print').hide();
 }
 </script>
-<?php
-	}
-?>

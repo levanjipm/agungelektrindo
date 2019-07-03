@@ -107,18 +107,6 @@
 		</a>
 	</div>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
-		<i class="fa fa-truck" aria-hidden="true"></i>
-		Delivery Address
-	</button>
-	<div class="dropdown-container">
-		<a href="adddeliveryaddress_dashboard.php">
-			<p>Add delivery address</p>
-		</a>
-		<a href="editdeliveryaddress_dashboard.php">
-			<p>Edit delivery address</p>
-		</a>
-	</div>
-	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-undo" aria-hidden="true"></i>
 		Return
 	</button>

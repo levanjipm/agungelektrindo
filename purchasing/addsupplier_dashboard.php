@@ -4,90 +4,84 @@
 <script type='text/javascript' src="../universal/Jquery/jquery.inputmask.bundle.js"></script>
 <div class="main" style='heigth:100%;padding:0px'>
 		<form id="inputsupplier" method="POST" action="addsupplier.php">
-			<div class="row" style='height:100%;padding:0px'>
-				<div class='col-sm-1' style='background-color:#eee'>
-				</div>
-				<div class='col-sm-10'>
-						<h2 style='font-family:bebasneue'>Supplier</h2>
-						<p>Add new supplier</p>
-						<hr>
-						<div class="col-sm-12">
-							<label for="name">Nama Perusahaan:</label>
-							<input type="text" class="form-control" name="namaperusahaan" id="namaperusahaan" placeholder="input nama Perusahaan..." required></input>
-							<br>
-						</div>
-						<div class="col-sm-4">
-							<label for="name">Jalan</label>
-							<input type="text" class="form-control" name="alamat" id="alamat" placeholder="Nama Jalan..." required></input>
-						</div>
-						<div class="col-sm-4">
-							<label for="name">Nomor</label>
-							<input type="text" class="form-control" name="nomor" id="number" placeholder="Nomor..." required></input>	
-						</div>
-						<div class="col-sm-4">
-							<label for="name">Kota</label>
-							<input type="text" class="form-control" name="city" id="city" placeholder="Kota..." required></input>
-							<br>
-						</div>
-						<div class="col-sm-4">
-							<label for="name">Blok</label>
-							<input type="text" class="form-control" name="blok" id="blok" placeholder="Blok..." required></input>
-						</div>
-						<div class="col-sm-4">
-							<label for="name">RT</label>
-							<input type="text" class="form-control" name="rt" id="rt" placeholder="RT..." required minlength="3" maxlength="3"></input>
-						</div>
-						<div class="col-sm-4">
-							<label for="name">RW</label>
-							<input type="text" class="form-control" name="rw" id="rw" placeholder="RW..." required minlength="3" maxlength="3"></input>
-						</div>
-						<div class="col-sm-10">
-							<br>
-							<label for="name">Phone Number</label>
-							<input id="phone" name="phone" type="text" class="form-control"></input>
-						</div>
-						<div class="col-sm-10">
-							<label for="Name">NPWP</label>
-							<input type='text' class='form-control' id='npwp' name='npwp'/>
-							<script>
-								$("#npwp").inputmask("99.999.999.9-999.999");
-							</script>
-						</div>
-						<div class="col-sm-3" style="padding:10px">
-							<button type="button" class="btn btn-primary" id="submitBtn" onclick="getdata()">Submit Here</button>
-							<div class="modal" id="myModal" role="dialog">
-								<div class="modal-dialog modal-lg">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h4 class="modal-title">Input Supplier Data</h4>
-										</div>
-										<div class="modal-body">
-											<table class="table">
-												<tr>
-													<th>Nama Perusahaan</th>
-													<td id="namaperusahaans"></td>
-												</tr>
-												<tr>
-													<th>Alamat</th>
-													<td id="alamats"></td>
-												</tr>
-												<tr>
-													<th>NPWP</th>
-													<td id="npwps"></td>
-												</tr>
-											</table>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-											<button type="submit" class="btn btn-success">Proceed</button>
-										</div>
+			<div class='col-sm-10'>
+					<h2 style='font-family:bebasneue'>Supplier</h2>
+					<p>Add new supplier</p>
+					<hr>
+					<div class="col-sm-12">
+						<label for="name">Nama Perusahaan:</label>
+						<input type="text" class="form-control" name="namaperusahaan" id="namaperusahaan" placeholder="input nama Perusahaan..." required></input>
+						<br>
+					</div>
+					<div class="col-sm-4">
+						<label for="name">Jalan</label>
+						<input type="text" class="form-control" name="alamat" id="alamat" placeholder="Nama Jalan..." required></input>
+					</div>
+					<div class="col-sm-4">
+						<label for="name">Nomor</label>
+						<input type="text" class="form-control" name="nomor" id="number" placeholder="Nomor..." required></input>	
+					</div>
+					<div class="col-sm-4">
+						<label for="name">Kota</label>
+						<input type="text" class="form-control" name="city" id="city" placeholder="Kota..." required></input>
+						<br>
+					</div>
+					<div class="col-sm-4">
+						<label for="name">Blok</label>
+						<input type="text" class="form-control" name="blok" id="blok" placeholder="Blok..." required></input>
+					</div>
+					<div class="col-sm-4">
+						<label for="name">RT</label>
+						<input type="text" class="form-control" name="rt" id="rt" placeholder="RT..." required minlength="3" maxlength="3"></input>
+					</div>
+					<div class="col-sm-4">
+						<label for="name">RW</label>
+						<input type="text" class="form-control" name="rw" id="rw" placeholder="RW..." required minlength="3" maxlength="3"></input>
+					</div>
+					<div class="col-sm-10">
+						<br>
+						<label for="name">Phone Number</label>
+						<input id="phone" name="phone" type="text" class="form-control"></input>
+					</div>
+					<div class="col-sm-10">
+						<label for="Name">NPWP</label>
+						<input type='text' class='form-control' id='npwp' name='npwp'/>
+						<script>
+							$("#npwp").inputmask("99.999.999.9-999.999");
+						</script>
+					</div>
+					<div class="col-sm-3" style="padding:10px">
+						<button type="button" class="btn btn-primary" id="submitBtn" onclick="getdata()">Submit Here</button>
+						<div class="modal" id="myModal" role="dialog">
+							<div class="modal-dialog modal-lg">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h4 class="modal-title">Input Supplier Data</h4>
+									</div>
+									<div class="modal-body">
+										<table class="table">
+											<tr>
+												<th>Nama Perusahaan</th>
+												<td id="namaperusahaans"></td>
+											</tr>
+											<tr>
+												<th>Alamat</th>
+												<td id="alamats"></td>
+											</tr>
+											<tr>
+												<th>NPWP</th>
+												<td id="npwps"></td>
+											</tr>
+										</table>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+										<button type="submit" class="btn btn-success">Proceed</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class='col-sm-1' style='background-color:#eee'>
 				</div>
 			</div>
 		</form>

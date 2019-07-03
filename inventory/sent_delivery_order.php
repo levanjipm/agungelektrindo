@@ -56,10 +56,10 @@
 			}
 			$sql_stock = "SELECT stock FROM stock WHERE reference = '" . $references . "' ORDER BY id DESC LIMIT 1";
 			$result_stock = $conn->query($sql_stock);
-			while($row_stock = $result_stock->fetch_assoc()){
-				$initial_stock = $row_stock['stock'];
-				$end_stock = $initial_stock - $quantitys;
-			}
+			$row_stock = $result_stock->fetch_assoc();
+			$initial_stock = $row_stock['stock'];
+			$end_stock = $initial_stock - $quantitys;
+
 			$sql_stock_out = "INSERT INTO stock (date,reference,transaction,quantity,stock,supplier_id,customer_id,document)
 			VALUES ('$date','$references','OUT','$quantitys','$end_stock','0','$customer_id','$document')";
 			$result_stock_out = $conn->query($sql_stock_out);

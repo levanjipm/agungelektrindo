@@ -19,6 +19,35 @@
 		padding:15px;
 		color:white;
 	}
+	.notification_large{
+		position:fixed;
+		top:0;
+		left:0;
+		background-color:rgba(51,51,51,0.3);
+		width:100%;
+		text-align:center;
+		height:100%;
+	}
+	.notification_large .notification_box{
+		position:relative;
+		background-color:#fff;
+		padding:30px;
+		width:100%;
+		top:30%;
+		box-shadow: 3px 4px 3px 4px #ddd;
+	}
+	.btn-delete{
+		background-color:red;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	.btn-back{
+		background-color:#777;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
 </style>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Counter Bill</h2>
@@ -53,20 +82,35 @@
 	$result_detail = $conn->query($sql_detail);
 	while($detail = $result_detail->fetch_assoc()){
 ?>
-			<div class='col-sm-6'>
-				<?= $detail['name'] ?>
+			<div class='row'>
+				<div class='col-sm-6'>
+					<?= $detail['name'] ?>
+				</div>
+				<div class='col-sm-6'>
+					Rp. <?= number_format($detail['value'],2) ?>
+				</div>
 			</div>
-			<div class='col-sm-6'>
-				Rp. <?= number_format($detail['value'],2) ?>
-			</div>
+			<br>
 <?php
 	}
 ?>
+		<button type='button' class='btn btn-danger' onclick='show_delete(<?= $row['counter_id'] ?>)'>Delete</button>
 		</div>
 	</div>
 <?php
 	}
 ?>
+</div>
+<div class='notification_large' style='display:none'>
+	<div class='notification_box'>
+		<h1 style='font-size:3em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h1>
+		<h2 style='font-family:bebasneue'>Are you sure to delete this counter bill?</h2>
+		<br>
+		<button type='button' class='btn btn-back'>Back</button>
+		<button type='button' class='btn btn-delete'>Delete</button>
+		<input type='hidden' value='0' id='delete_id'>
+	</div>
+</div>
 <script>
 	function view_detail(n){
 		var top = $('#caret_left' + n).top;
@@ -77,4 +121,24 @@
 		$('#caret_detail' + n).css('left',left + far_left + 35);
 		$('#caret_detail' + n).fadeIn();
 	}
+	function show_delete(n){
+		$('.notification_large').fadeIn();
+		$('#delete_id').val(n);
+	}
+	$('.btn-back').click(function(){
+		$('.notification_large').fadeOut();
+	});
+	$('.btn-delete').click(function(){
+		$.ajax({
+			url:'delete_counter_bill.php',
+			data:{
+				id: $('#delete_id').val(),
+			},
+			type:'POST',
+			success:function(response){
+				location.reload();
+			}
+		})
+	});
+			
 </script>
