@@ -64,6 +64,7 @@
 				?>
 				<p><strong>Nomor faktur:</strong> <?= $faktur ?></p>
 					<?php } ?>
+				<p><strong>Nomor PO: </strong><?= $po_number ?></p>
 			</div>
 			<div class='col-sm-4 col-sm-offset-1'>
 				<p>Tanggal: <?= date('d M Y',strtotime($date)) ?></p>
@@ -71,7 +72,6 @@
 				<p><strong><?= $customer_name ?></strong></p>
 				<p><?= $customer_address ?></p>
 				<p><?= $customer_city ?></p>
-				<p>Nomor PO: <?= $po_number ?></p>
 			</div>
 		</div>
 		<hr><br><br>
@@ -195,7 +195,7 @@
 			<?php } ?>
 		</table>
 		<br><br><br><br><br>
-		<div class='col-sm-3 col-sm-offset-9'>
+		<div class='col-sm-3 col-sm-offset-9' style='margin-bottom:150px'>
 			<p style='text-align:right'>Hormat kami,</p>
 			<?php
 				if($taxing == 1){

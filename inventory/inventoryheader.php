@@ -95,6 +95,10 @@
 		<a href="edit_delivery_order_dashboard.php">Edit a DO</a>
 		<br>
 		<a href="confirm_do_dashboard.php">Confirm DO</a>
+		<br>
+		<a href='view_do_archive.php'>
+			Archives
+		</a>
 	</div>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-file-o" aria-hidden="true"></i>
@@ -107,13 +111,16 @@
 <?php
 	$sql_badge_2 = "SELECT COUNT(*) AS jumlah FROM code_goodreceipt WHERE isconfirm = '0'";
 	$result_badge_2 = $conn->query($sql_badge_2);
-	while($row_badge_2 = $result_badge_2->fetch_assoc()){
-		$badge_2 = $row_badge_2['jumlah'];
-	}
+	$row_badge_2 = $result_badge_2->fetch_assoc();
+	$badge_2 = $row_badge_2['jumlah'];
 ?>
-	<a href="goodreceipt_confirm_dashboard.php">
-		Confirm GR<span class="badge"><?= $badge_2 ?></span>
-	</a>
+		<a href="goodreceipt_confirm_dashboard.php">
+			Confirm GR<span class="badge"><?= $badge_2 ?></span>
+		</a>
+		<br>
+		<a href='view_gr_archive.php'>
+			Archives
+		</a>
 	</div>
 <?php
 	if($role == 'superadmin'){
@@ -143,7 +150,7 @@
 				Create DO
 			</button>
 		</a>
-		<a href="project_do_dashboard.php">
+		<a href="confirm_do_dashboard_project.php">
 			<button type='button' class='btn btn-badge' style='color:white'>
 				Confirm DO
 			</button>

@@ -3,7 +3,7 @@
 	include('salesheader.php');
 ?>
 <div class='main'>
-	<h2>Project</h2>
+	<h2 style='font-family:bebasneue'>Project</h2>
 	<p>Add project</p>
 	<hr>
 <?php
@@ -65,6 +65,8 @@
 				<input type='date' class='form-control' name='date_exist_date' id='date_exist_date'>
 				<label>Project name</label>
 				<input type='text' class='form-control' name='name_exist_date' id='name_exist_date'>
+				<label>Project description</label>
+				<textarea class='form-control' rows='2' form='yourForm' name='description'></textarea>
 				<br>
 				<button type='button' class='btn btn-default' id='open_exist_modal'>Add project on existing</button>
 			</form>

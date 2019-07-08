@@ -90,7 +90,7 @@
 	<h2 style='font-family:bebasneue'>Event</h2>
 	<p>Add event</p>
 	<hr>
-	<form action="add_event_do.php" method="POST" id="event_form">
+	<form action="add_event_validation.php" method="POST" id="event_form">
 		<label>Event type</label>
 		<select class="form-control" onchange="select_event()" id="event_selector" name="event_selector">
 			<option id="initialize">Select an event to make</option>
@@ -150,17 +150,11 @@
 			<div class="col-sm-4 col-sm-offset-4">
 				<label>Initial item</label>
 				<input type="text" class="form-control" id="initial_item_de_reference" name="initial_item_de_reference">
-			</div>
-			<div class="col-sm-4">
-			</div>
-			<div class="col-sm-4 col-sm-offset-4">
 				<label>Initial item quantity</label>
 				<input type="number" class="form-control" name="initial_item_de_quantity" id='initial_item_de_quantity'>
 			</div>
 			<div class="col-sm-4">
-			</div>
-			<div class="col-sm-4">
-			<label>Item 1</label>
+				<label>Item 1</label>
 				<div class="input-group">						
 					<input type='text' class='form-control' id="de_1" name="de_1">
 					<span class="input-group-addon">+</span>
@@ -171,7 +165,7 @@
 				<input type='number' class='form-control' name="de_q1" value='1'>
 			</div>
 			<div class="col-sm-4">
-			<label>Item 2</label>
+				<label>Item 2</label>
 				<div class="input-group">
 					<input type='text' class='form-control' id="de_2" name="de_2">
 					<span class="input-group-addon">+</span>

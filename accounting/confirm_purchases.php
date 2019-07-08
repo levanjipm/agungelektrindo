@@ -93,6 +93,7 @@
 				<td>Rp. <?= number_format($total,2) ?></td>
 		</table>
 		<button type='button' class='btn btn-default' id='confirm_button'>Confirm</button>
+		<button type='button' class='btn btn-danger' id='delete_button'>Delete</button>
 <?php
 	}
 ?>
@@ -113,6 +114,18 @@
 						$('#failed_update_alert').fadeOut();
 					},1000);
 				}
+			}
+		})
+	})
+	$('#delete_button').click(function(){
+		$.ajax({
+			url:'delete_purchases_input.php',
+			data:{
+				id: <?= $invoice_id ?>,
+			},
+			type: 'POST',
+			success:function(){
+				window.location.href = 'confirm_purchases_dashboard.php';
 			}
 		})
 	})

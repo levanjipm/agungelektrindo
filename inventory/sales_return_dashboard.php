@@ -3,11 +3,9 @@
 	include('inventoryheader.php');
 ?>
 <div class='main'>
-	<div class='container'>
-		<h2>Return</h2>
-		<p>Sales return</p>
-		<hr>
-	</div>
+	<h2 style='font-family:bebasneue'>Return</h2>
+	<p>Sales return</p>
+	<hr>
 <?php
 	$sql_code = "SELECT id,submission_date,customer_id,do_id FROM code_sales_return WHERE isconfirm = '1' AND isdelete = '0' AND isfinished = '0'";
 	$result_code = $conn->query($sql_code);

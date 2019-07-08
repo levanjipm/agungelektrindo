@@ -64,9 +64,11 @@ if(mysqli_num_rows($result_otorisasi) > 0){
 		<a href="edit_invoice_dashboard.php">Edit an invoice</a>
 		<br>
 		<a href="confirm_invoice_dashboard.php">Confirm an invoice</a>
+		<br>
 <?php
 	}
 ?>
+		<a href='invoice_archive.php'>Archives</a>
 	</div>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-calendar" aria-hidden="true"></i>
@@ -81,6 +83,9 @@ if(mysqli_num_rows($result_otorisasi) > 0){
 		</a>
 		<a href="waiting_for_billing.php">
 			<p>Pending bills</p>
+		</a>
+		<a href='purchase_archive.php'>
+			<p>Archives</p>
 		</a>
 	</div>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
@@ -138,6 +143,21 @@ if(mysqli_num_rows($result_otorisasi) > 0){
 		</a>
 		<a href="purchasing_return_dashboard.php">
 			<p>Purchasing return</p>
+		</a>
+	</div>
+	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+		<i class="fa fa-random" aria-hidden="true"></i>
+		Random Invoice
+	</button>
+	<div class="dropdown-container">
+		<a href="proforma_invoice_dashboard.php">
+			<p><i>Proforma Invoice</i></p>
+		</a>
+		<a href="purchasing_return_dashboard.php">
+			<p><i>DP Invoice</i></p>
+		</a>
+		<a href="purchasing_return_dashboard.php">
+			<p><i>Custom Invoice</i></p>
 		</a>
 	</div>
 	<hr>

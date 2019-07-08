@@ -31,7 +31,7 @@
 		$select = $result_select->fetch_assoc();
 		$gr = $select['id'];
 		
-		$sql = "UPDATE stock_value_in SET price = '" . $input . "' WHERE gr_id = '" . $gr . "'";
+		$sql = "UPDATE stock_value_in SET price = '" . $input . "' WHERE gr_id = '" . $gr . "' AND reference = '" . $reference . "'";
 		$result = $conn->query($sql);
 		
 		$sql = "UPDATE purchaseorder SET billed_price = '" . $input . "' WHERE id = '".  $po_detail_id . "'";

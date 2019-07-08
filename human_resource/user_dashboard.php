@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="user_dashboard.css">
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
-<body style='overflow-x:hidden'>
+<body>
 <?php
 	//User dashboard :D//
 	include('../Codes/connect.php');
@@ -34,9 +34,9 @@
 	//Apabila pertama kali buka dari login, tampilkan animasi//
 	if($animation == 'animate'){
 ?>
-	<div class='row' id='welcome' style='z-index:100;height:100%;display:none'>
-		<div class='col-xs-4 col-xs-offset-4'>
-			<img src='../universal/images/ngasal.png' style='width:100%'></img>
+	<div class='welcome_wrapper'>
+		<div class='welcome'>
+			<h2 style='font-family:bebasneue;color:white'>Welcome <?= $name ?></h2>
 		</div>
 	</div>
 	<script>
@@ -47,12 +47,9 @@
 			$('.dropdown-content').hide();
 		}
 		$(document).ready(function(){
-			$('#welcome').fadeIn(500);
-		});
-		$(document).ready(function(){
 			setTimeout(function() {
-			$('#welcome').fadeOut(1000);
-			},2000);
+			$('.welcome_wrapper').fadeOut(1000);
+			},1500);
 		});
 		$(document).ready(function(){
 			setTimeout(function() {
@@ -90,20 +87,6 @@
 			</div>
 		</div>				
 		<hr>
-		<style>
-			.btn-badge{
-				background-color:transparent;
-				color:white;
-				width:100%;
-				text-align:left;
-			}
-			.dropdown-container {
-				display: none;
-				background-color: #262626;
-				padding-left: 8px;
-				line-height:2.5;
-			}
-		</style>
 		<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
 			<i class="fa fa-id-badge" aria-hidden="true"></i>
 			Departments

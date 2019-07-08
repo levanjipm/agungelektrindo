@@ -2,7 +2,7 @@
 	include('accountingheader.php');
 ?>
 <div class='main'>
-	<h2>Return</h2>
+	<h2 style='font-family:bebasneue'>Return</h2>
 	<p>Sales return</p>
 	<hr>
 	<table class='table'>

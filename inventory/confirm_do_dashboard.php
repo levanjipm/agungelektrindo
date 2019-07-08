@@ -150,7 +150,7 @@
 				id:$('#delete_id').val(),
 			},
 			success:function(){
-				window.location.href = 'inventory.php';
+				// window.location.href = 'inventory.php';
 			},
 			type:"POST",
 		})

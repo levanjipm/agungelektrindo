@@ -10,9 +10,8 @@
 	<h2 style='font-family:bebasneue'>Counter Bill</h2>
 	<p>Create counter bill</p>
 	<hr>
-	<form action='counter_bill_validation.php' method='POST' id='counter_bill_form'>
 		<div class='input-group'>
-			<select class='form-control' style='width:80%' id='customer_select' name='customer'>
+			<select class='form-control' style='width:80%' id='customer_select'>
 				<option value='0'>Please select a customer</option>
 <?php
 	$sql = "SELECT id,name FROM customer ORDER BY name ASC";
@@ -31,6 +30,7 @@
 			</div>
 		</div>
 		<br><br>
+	<form action='counter_bill_validation.php' method='POST' id='counter_bill_form'>
 		<div id='invoices_input'></div>
 	</form>
 </div>

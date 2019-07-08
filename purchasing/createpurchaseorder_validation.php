@@ -69,7 +69,7 @@
 	} else {
 		$month = 'XII';
 	}
-	$po_number = "PO-AE-" . str_pad($jumlah,2,"0",STR_PAD_LEFT) . "." . date("d",strtotime($po_date)). "-" . $month . "-" . date("y");
+	$po_number = "PO-AE-" . str_pad($jumlah,2,"0",STR_PAD_LEFT) . "." . date("d",strtotime($po_date)). "-" . $month . "-" . date("y",strtotime($po_date));
 ?>
 <body style='overflow-x:hidden'>
 <div class='row'>

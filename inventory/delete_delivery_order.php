@@ -1,6 +1,8 @@
 <?php
 	include('../codes/connect.php');
+	
 	$id_do = $_POST['id'];
+	
 	$sql_code = "SELECT so_id,isdelete FROM code_delivery_order WHERE id ='" . $id_do . "'";
 	$result_code = $conn->query($sql_code);
 	$code = $result_code->fetch_assoc();
@@ -18,7 +20,7 @@
 			$new_quantity = $so['quantity'] - $quantity;
 			$id = $so['id'];
 			
-			$sql_insert = "UPDATE sales_order_sent SET quantity = '" . $new_quantity . "' WHERE id = '" . $id . "' AND status = '0'";
+			$sql_insert = "UPDATE sales_order_sent SET quantity = '" . $new_quantity . "', status = '0' WHERE id = '" . $id . "'";
 			$result_insert = $conn->query($sql_insert);
 		};
 		$sql_delete = "DELETE FROM code_delivery_order WHERE id = '" . $id_do . "'";

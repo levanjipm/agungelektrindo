@@ -25,7 +25,7 @@
 <?php
 		}
 	}
-	$project_id = $_POST['projects'];
+	$project_id = $_POST['project_id'];
 	$sql = "SELECT * FROM code_project WHERE id = '" . $project_id . "'";
 	$result = $conn->query($sql);
 	$row = $result->fetch_assoc();

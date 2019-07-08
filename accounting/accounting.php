@@ -130,7 +130,7 @@
 		animation: loadinger-2 1s linear forwards;
 	}
 	.progress.blue .progress-left .progress-bar{
-		animation: loading-2 <?php if(round($total_30 * 2 / $pembagi) < 180){ echo (0); } else { echo (round($total_30 * 2 / $pembagi)); } ?>s linear forwards 1s;
+		animation: loading-2 <?php if(round($total_30 * 1.5/ $pembagi) < 0.5){ echo (0); } else { echo (round($total_30 * 0.5 / $pembagi)); } ?>s linear forwards 1s;
 	}
 	.progress.yellow .progress-bar{
 		border-color: #fdba04;

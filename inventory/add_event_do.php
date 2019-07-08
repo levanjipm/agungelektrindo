@@ -1,5 +1,7 @@
 <?php
 	include('../codes/connect.php');
+	session_start();
+	$user_id = $_SESSION['user_id'];
 	$event = $_POST['event_selector'];
 	switch ($event){
 		case "1":
@@ -79,7 +81,7 @@
 		$final_stock = $_POST['fount_quantity'];
 	}
 	$event_name = 'FOU' . $event_name_raw;
-	$sql_event = "INSERT INTO events (date,event_id,event_name) VALUES (CURDATE(),'1','$event_name')";
+	$sql_event = "INSERT INTO events (date,event_id,event_name) VALUES (CURDATE(),'2','$event_name')";
 	$result_event = $conn->query($sql_event);
 	$sql_input = "INSERT INTO STOCK (reference,transaction,quantity,stock,supplier_id,customer_id,document)
 	VALUES ('$reference','FOU','$quantity','$final_stock','0','0','$event_name')";

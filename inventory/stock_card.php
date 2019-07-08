@@ -10,12 +10,13 @@
 	$description = $item['description'];
 ?>
 	<div class='main'>
-		<h3><?= $reference ?></h3>
+		<h2 style='font-family:bebasneue'><?= $reference ?></h2>
 		<p><?= $description ?></p>
 		<table class='table'>
 			<tr>
 				<th>Date</th>
 				<th>Customer/Supplier</th>
+				<th>Document</th>
 				<th>In</th>
 				<th>Out</th>
 				<th>Stock</th>
@@ -34,6 +35,7 @@
 					$supplier = $result_supplier->fetch_assoc();
 					echo $supplier['name']; 
 				?></td>
+				<td><?= $stock['document']; ?></td>
 				<td><?= $stock['quantity'] ?></td>
 				<td></td>
 				<td><?= $stock['stock'] ?></td>
@@ -49,12 +51,35 @@
 					$customer = $result_customer->fetch_assoc();
 					echo $customer['name']; 
 				?></td>
+				<td><?= $stock['document']; ?></td>
 				<td></td>
 				<td><?= $stock['quantity'] ?></td>
 				<td><?= $stock['stock'] ?></td>
 			</tr>
 <?php
-		}
+		} else if($stock['transaction'] == 'FOU'){
+?>
+			<tr>
+				<td><?= date('d M Y',strtotime($stock['date'])) ?></td>
+				<td></td>
+				<td>Found Goods</td>
+				<td><?= $stock['quantity'] ?></td>
+				<td></td>
+				<td><?= $stock['stock'] ?></td>
+			</tr>
+<?php
+		} else if($stock['transaction'] == 'LOS'){
+?>
+			<tr>
+				<td><?= date('d M Y',strtotime($stock['date'])) ?></td>
+				<td></td>
+				<td>Lost Goods</td>
+				<td></td>
+				<td><?= $stock['quantity'] ?></td>
+				<td><?= $stock['stock'] ?></td>
+			</tr>
+<?php
+		}		
 	}
 ?>
 	</table>

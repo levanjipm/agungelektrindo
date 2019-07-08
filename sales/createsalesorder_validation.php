@@ -26,9 +26,8 @@ $sql = " SELECT COUNT(*) AS jumlah FROM code_salesorder WHERE MONTH(date) = MONT
 AND YEAR(date) = YEAR('" . $so_date . "')";
 $result = $conn->query($sql);
 if($result){	
-	while($row = $result->fetch_assoc()) {
-	   $jumlah = $row['jumlah'];
-	}
+	$row = $result->fetch_assoc();
+   $jumlah = $row['jumlah'];
 } else {
 	$jumlah = 0;
 }

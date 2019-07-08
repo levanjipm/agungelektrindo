@@ -37,6 +37,51 @@
 ?>
 <script src='../universal/Numeral-js-master/numeral.js'></script>
 <script src='../universal/jquery/jquery.inputmask.bundle.js'></script>
+<style>
+.notification_large{
+		position:fixed;
+		top:0;
+		left:0;
+		background-color:rgba(51,51,51,0.3);
+		width:100%;
+		text-align:center;
+		height:100%;
+	}
+	.notification_large .notification_box{
+		position:relative;
+		background-color:#fff;
+		padding:30px;
+		width:100%;
+		top:30%;
+		box-shadow: 3px 4px 3px 4px #ddd;
+	}
+	.btn-confirm{
+		background-color:#2bf076;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	.btn-delete{
+		background-color:red;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	.btn-back{
+		background-color:#777;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	.btn-x{
+		background-color:transparent;
+		border:none;
+		outline:0!important;
+	}
+	.btn-x:focus{
+		outline: 0!important;
+	}
+</style>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Purchase invoice</h2>
 	<p>Validate purchase invoice</p>
@@ -86,13 +131,13 @@
 			<td><?= $general['reference'] . " - " . $item['description'] ?></td>
 			<td>
 				<?= $general['quantity'] ?>
-				<input type='hidden' value='<?= $general['quantity'] ?>' name='quantity<?= $b ?>'>
+				<input type='hidden' value='<?= $general['quantity'] ?>' name='quantity<?= $b ?>' id='quantity<?= $b ?>'>
 				<input type='hidden' value='<?= $general['id'] ?>' name='id<?= $b ?>'>
 			</td>
 			<td>
 				<button type='button' style='background-color:transparent;border:none' onclick='show(<?= $b ?>)' id='button-<?= $b ?>'>Rp. <?= number_format($general['unitprice'],2) ?></button>
 				<input type='number' value='<?= $general['unitprice'] ?>' id='input<?= $b ?>' style='display:none' onfocusout='hide(<?= $b ?>)' class='form-control' name='input<?= $b ?>'>
-				<input type='hidden' value='<?= $general['po_detail_id'] ?>' name='po_detail_id<?= $b ?>' readonly>
+				<input type='hidden' value='<?= $general['po_detail_id'] ?>' name='po_detail_id<?= $b ?>' id='po_detail_id<?= $b ?>' readonly>
 			</td>
 			<td>
 				<input type="checkbox" class='checkbox'>
@@ -108,7 +153,19 @@
 	<input type='hidden' value='<?= $b ?>' name='b'>
 	</form>
 	<button type='button' class='btn btn-default' onclick='hitungin()'>Calculate</button>
+	<div class='notification_large' style='display:none' id='confirm_notification'>
+		<div class='notification_box'>
+			<h1 style='font-size:3em;color:#2bf076'><i class="fa fa-check" aria-hidden="true"></i></h1>
+			<h2 style='font-family:bebasneue'>Are you sure to confirm this purchase?</h2>
+			<p>Nomor faktur pajak : <span id='faktur_pajak_display'></span>
+			<p>Total : <span id='total_display'></span>
+			<br><br>
+			<button type='button' class='btn btn-back'>Back</button>
+			<button type='button' class='btn btn-confirm' id='confirm_button'>Confirm</button>
+		</div>
+	</div>
 <script>
+	var total;
 	$("#fp").inputmask("999.999.99-99999999");
 	function show(n){
 		$('#input' + n).show();
@@ -121,6 +178,7 @@
 		$('#button-' + n).show();
 	}
 	function hitungin(){
+		total = 0;
 		if($('#inv').val() == ''){
 			alert('Insert correct document number!');
 			return false;
@@ -131,7 +189,25 @@
 			alert('Please check all input!');
 			return false;
 		} else {
-			$('#debt_form').submit();
+			$('#faktur_pajak_display').html($('#fp').val());
+			$('input[id^="input"]').each(function(){
+				var price = $(this).val();
+				var parent = $(this).parent();
+				var parent_sibling = parent.siblings();
+				var quantity = parent_sibling.find($('input[id^="quantity"]'));
+				var quantity_val = quantity.val();
+				console.log(quantity_val);
+				console.log(price);
+				total = total + (quantity_val * price);
+			});
+			$('#total_display').html('Rp. ' + numeral(total).format('0,0.00'));
+			$('#confirm_notification').fadeIn();
 		}
 	}
+	$('.btn-back').click(function(){
+		$('#confirm_notification').fadeOut();
+	});
+	$('#confirm_button').click(function(){
+		$('#debt_form').submit();
+	});
 </script>			

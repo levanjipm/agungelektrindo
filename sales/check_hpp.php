@@ -37,11 +37,11 @@
 	<div class='row' style='text-align:center'>
 		<div class='col-sm-3'>
 			<?= $reference ?>
-			<input type='hidden' value='<?= $reference ?>' name='reference[<?= $i ?>]'>
+			<input type='hidden' value='<?= $reference ?>' name='reference_array[<?= $i ?>]'>
 		</div>
 		<div class='col-sm-4'>
 			<div class='input-group'>
-				<input type='number' class='form-control' max='<?= $stock_ ?>' name='quantity[<?= $i ?>]' style='width:80%'>
+				<input type='number' class='form-control' max='<?= $stock_ ?>' name='quantity_array[<?= $i ?>]' style='width:80%'>
 				<div class="input-group-append">
 					<span class="input-group-text" style='min-width:40px'><strong><?= $stock_ ?></strong></span>
 				</div>
@@ -51,6 +51,7 @@
 	<br>
 <?php
 			}
+			$i++;
 		}
 	}
 ?>
