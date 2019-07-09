@@ -60,8 +60,7 @@
 	}
 </style>
 <div class="main">
-	<h2 style='font-family:bebasneue'>User</h2>
-	<p>Add new user</p>
+	<h2 style='font-family:bebasneue'>Users</h2>
 	<hr>
 <?php
 	$sql_user = "SELECT * FROM users ORDER BY name ASC";
@@ -86,31 +85,37 @@
 </div>
 <div class='notification_large' style='display:none' id='confirm_notification'>
 	<div class='notification_box'>
-		<h1 style='font-size:3em;color:#2bf076'><i class="fa fa-check" aria-hidden="true"></i></h1>
+		<h1 style='font-size:3em;color:#2bf076'><i class="fa fa-user-plus" aria-hidden="true"></i></h1>
 		<h2 style='font-family:bebasneue'>New user</h2>
-		<form id="input_user" method="POST" action="add_user_input.php">
-			<div id='form1'>
-				<input type='text' class='form-control' placeholder='Insert name' name='name' required>
-				<input type='text' class='form-control' placeholder='Insert NIK' name='nik' required style='width:50%'>
-				<input type='text' class='form-control' placeholder='Insert username' name='username' required style='width:50%'>
-				<input type='text' class='form-control' placeholder='Insert address' name='address' required>
-				<input type='text' class='form-control' placeholder='Insert city' name='city' required>
-				<button type='button' class='btn btn-back' id='back_button'>Back</button>
-				<button type='button' class='btn btn-confirm' id='next_button'>Next</button>
-			</div>
-			<div id='form2' style='display:none'>
-				<input type='text' class='form-control' placeholder='Insert bank account number' name='bank' required>
-				<label>Email</label>
-				<input type='text' class='form-control' placeholder='Insert mail address' name='mail' required>
-				<label>Password</label>
-				<div class="input-group">
-					<input type='password' class='form-control' placeholder='Password' id='pwd' name='pwd' required minlength="8" style='width:80%'>
-					<span class='input-group-append'>
-						<button type='button' class='btn' onmouseover='show_pwd()' onmouseout='hide_pwd()'><i class="fa fa-eye" aria-hidden="true"></i></button>
-					</span>
+		<form id="input_user" method="POST" action="add_user_input.php" id='add_user_form'>
+			<div class='row'>
+				<div class='col-sm-8 col-sm-offset-2'>
+					<div id='form1'>
+						<input type='text' class='form-control' placeholder='Insert name' name='name' required>
+						<br>
+						<div class='input-group'>
+							<input type='text' class='form-control' placeholder='Insert NIK' name='nik' required style='width:50%'>
+							<input type='text' class='form-control' placeholder='Insert username' name='username' required style='width:50%'>
+						</div>
+						<br>
+						<textarea class='form-control' placeholder='Insert address' name='address' rows='3' form='add_user_form' required></textarea>
+						<br>
+						<input type='text' class='form-control' placeholder='Insert city' name='city' required>
+						<br>
+						<button type='button' class='btn btn-back' id='back_button'>Back</button>
+						<button type='button' class='btn btn-confirm' id='next_button'>Next</button>
+					</div>
+					<div id='form2' style='display:none'>
+						<input type='text' class='form-control' placeholder='Insert bank account number' name='bank' required>
+						<br>
+						<input type='text' class='form-control' placeholder='Insert mail address' name='mail' required>
+						<br>
+						<input type='password' class='form-control' placeholder='Password' id='pwd' name='pwd' required minlength="8">
+						<br>
+						<button type='button' class='btn btn-back' id='prev_button'>Back</button>
+						<button type='button' class='btn btn-confirm' id='next_button'>Next</button>
+					</div>
 				</div>
-				<button type='button' class='btn btn-back' id='prev_button'>Back</button>
-				<button type='button' class='btn btn-confirm' id='next_button'>Next</button>
 			</div>
 		</form>
 	</div>

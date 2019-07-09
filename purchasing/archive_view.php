@@ -6,6 +6,17 @@
 		background-color:transparent;
 		border:none;
 	}
+	.done_flag{
+		padding:5px 20px;
+		border:none;
+		background-color:rgba(62, 134, 250,0.8);
+		color:white;
+		position:absolute;
+		top:10%;
+		right:20%;
+		z-index:20;
+		border-radius:3px;
+	}
 </style>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Purchase Order</h2>

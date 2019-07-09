@@ -11,7 +11,7 @@ $( function() {
 });
 </script>
 <div class='main'>
-	<h2>Sample</h2>
+	<h2 style='font-family:bebasneue'>Sample</h2>
 	<p>Add sampling</p>
 	<hr>
 	<form action='add_sampling_validation.php' method='POST' id='add_sample_form'>
