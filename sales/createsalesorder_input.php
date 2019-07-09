@@ -14,7 +14,7 @@
 	$customer = $_POST['customer'];
 	$delivery_id = $_POST['delivery_address'];
 	$value = $_POST['total_so'];
-	$po_number = $_POST['purchaseordernumber'];
+	$po_number = mysqli_real_escape_string($conn,$_POST['purchaseordernumber']);
 	$taxing = $_POST['taxing'];
 	
 	$sql_insert = "INSERT INTO code_salesorder (name,created_by,date,po_number,taxing,customer_id,delivery_id,value) 

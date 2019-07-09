@@ -24,6 +24,7 @@
 		$total = 0;
 		$key = array_search($reference, $references);
 		$quantity = $quantities[$key];
+		$quantity_cek = $quantities[$key];
 		$sql_value_in = "SELECT price,sisa FROM stock_value_in WHERE sisa > 0 AND reference = '" . $reference . "' ORDER BY id DESC";
 		$result_value_in = $conn->query($sql_value_in);
 		while($value_in = $result_value_in->fetch_assoc()){
@@ -32,7 +33,7 @@
 				break;
 			} else {
 				$total = $total + $value_in['price'] * $value_in['sisa'];
-				$quantity = $quantity - $value_in['sisa'];
+				$quantity_cek = $quantity_cek - $value_in['sisa'];
 			}
 		}
 ?>

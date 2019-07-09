@@ -23,5 +23,5 @@
 			}
 		}
 	}
-	header('location:purchase_return_dashboard.php');
+	header('location:purchasing_return_dashboard.php');
 ?>

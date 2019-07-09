@@ -1,6 +1,6 @@
 <?php
 	include("../codes/connect.php");
-	$term = $_GET['term'];
+	$term = mysqli_real_escape_string($conn,$_GET['term']);
 	$sql = "SELECT name FROM customer WHERE name LIKE '%" . $term . "%' LIMIT 5";
 	$result = $conn->query($sql);
 	$i=0;

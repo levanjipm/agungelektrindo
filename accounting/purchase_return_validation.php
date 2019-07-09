@@ -36,7 +36,7 @@
 ?>
 	Rp. <?= number_format($harga_total,2) ?>
 	<br>
-	<form action='sales_return_input.php' method='POST'>
+	<form action='purchase_return_input.php' method='POST'>
 	<table class='table table-hover'>
 		<tr>
 			<th>Date</th>
@@ -73,7 +73,7 @@
 	<input type='hidden' value='<?= $return_id ?>' name='return_id'>
 	<input type='hidden' value='<?= $i ?>' name='i'>
 	<button type='submit' class='btn btn-default'>Next</button>
-</div>
+	</form>
 </div>
 <?php
 	}

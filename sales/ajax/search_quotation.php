@@ -4,7 +4,7 @@
 <div class='row'>
 	<div class='col-sm-4'>
 <?php
-	$term = $_POST['term'];
+	$term = mysqli_real_escape_string($conn,$_POST['term']);
 	$sql = "(SELECT code_quotation.id
 	FROM code_quotation
 	INNER JOIN customer 

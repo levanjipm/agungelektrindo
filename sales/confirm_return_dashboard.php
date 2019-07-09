@@ -3,6 +3,9 @@
 	include('salesheader.php');
 ?>
 	<div class='main'>
+		<h2 style='font-family:bebasneue'>Sales return</h2>
+		<p>Confirm sales return</p>
+		<hr>
 		<table class='table'>
 			<tr>
 				<th>Delivery order date</th>

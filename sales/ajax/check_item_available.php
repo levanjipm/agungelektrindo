@@ -1,6 +1,6 @@
 <?php
 	include('../../codes/connect.php');
-	$reference = $_POST['reference'];
+	$reference = mysqli_real_escape_string($conn,$_POST['reference']);
 	$sql_item = "SELECT COUNT(*) AS jumlah FROM itemlist WHERE reference = '" . $reference . "'";
 	$result_item = $conn->query($sql_item);
 	$item = $result_item->fetch_object();

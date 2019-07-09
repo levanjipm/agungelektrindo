@@ -153,7 +153,7 @@ if(mysqli_num_rows($result_otorisasi) > 0){
 		<a href="proforma_invoice_dashboard.php">
 			<p><i>Proforma Invoice</i></p>
 		</a>
-		<a href="purchasing_return_dashboard.php">
+		<a href="down_payment_dashboard.php">
 			<p><i>DP Invoice</i></p>
 		</a>
 		<a href="purchasing_return_dashboard.php">

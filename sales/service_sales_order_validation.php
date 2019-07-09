@@ -5,6 +5,13 @@
 	$result_customer = $conn->query($sql_customer);
 	$customer = $result_customer->fetch_assoc();
 	$po_number = mysqli_real_escape_string($conn,$_POST['po_name']);
+	if(mysqli_num_rows($result_customer) == 0){
+?>
+	<script>
+		window.history.back();
+	</script>
+<?php
+	}
 	$date = $_POST['date'];
 	$tax = $_POST['tax'];
 	$seller = $_POST['seller'];

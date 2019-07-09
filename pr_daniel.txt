@@ -1,0 +1,14 @@
+retur benerin tot, terutama purchasing return
+event kasih validasi lagi
+archive beresin goblok
+tampilan, <h2>
+edit itemlist, benerin ajaxnya
+
+--purchasing--
+Add class benerin
+tambahin fungsi delete class
+
+--Accounting--
+Assign bank other goblok pisan
+
+--Random invoice, ikutin sesuai changelog.db.txt

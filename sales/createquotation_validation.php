@@ -67,7 +67,7 @@ if ($terms == 1){
 						<?php
 							$i = 1;
 							for ($i = 1; $i <= $x; $i++){
-								$ref = $_POST["reference" . $i ];
+								$ref = mysqli_real_escape_string($conn,$_POST["reference" . $i ]);
 								$price = $_POST["price" . $i ];
 								$disc = $_POST["discount" . $i ];
 								$qty = $_POST["quantity" . $i ];

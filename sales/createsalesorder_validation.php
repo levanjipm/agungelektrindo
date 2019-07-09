@@ -12,7 +12,7 @@
 <?php
 $so_date = $_POST['today'];
 $taxing = $_POST['taxing'];
-$po_number = $_POST['purchaseordernumber'];
+$po_number = mysqli_real_escape_string($conn,$_POST['purchaseordernumber']);
 $customer = $_POST['select_customer'];
 $total_so = $_POST['total'];
 if($customer == 0){

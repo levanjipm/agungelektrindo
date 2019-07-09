@@ -41,11 +41,10 @@
 			$item = $row['reference'];
 			$sql_code_return = "SELECT id FROM code_sales_return WHERE do_id = '" . $do_id . "'";
 			$result_code_return = $conn->query($sql_code_return);
-			while($code_return = $result_code_return->fetch_assoc()){
-				$sql_return = "SELECT quantity FROM sales_return WHERE reference = '" . $item . "' AND return_code = '" . $code_return['id'] . "'";
-				$result_return = $conn->query($sql_return);
-				$return = $result_return->fetch_assoc();
-			}
+			$code_return = $result_code_return->fetch_assoc();
+			$sql_return = "SELECT quantity FROM sales_return WHERE reference = '" . $item . "' AND return_code = '" . $code_return['id'] . "'";
+			$result_return = $conn->query($sql_return);
+			$return = $result_return->fetch_assoc();
 			$quantity = $row['quantity'];
 ?>
 					<tr>
@@ -80,10 +79,6 @@
 			</select>
 			<br>
 			<input type='text' class='form-control' id='other_reason' placeholder='Type here....' style='display:none' name='other'>
-			<select class='form-control' name='method'>
-				<option value='1'>Potong t</option>
-				<option value='2'>Bayar j</option>
-			</select>
 			<script>
 				function other(){
 					if($('#reason').val() == 0){
