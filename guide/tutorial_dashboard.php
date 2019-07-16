@@ -62,40 +62,6 @@
 		</a>
 	</div>
 	<div class='main'>
-		<div class='row' style='padding-top:30px'>
-			<div class='col-sm-8 col-sm-offset-2'>
-				<div class='container box_notif'>
-					<div class='row' style='padding:0px'>
-						<div class='col-sm-4' style='padding:0px'>
-							<img src='images/sales.png' style='width:100%'>
-						</div>
-						<div class='col-sm-8'>
-							<h2>Sales Department</h2>
-							<p>Learn how to operate the sales department program</p>
-							<a href='tutorial_dashboard_department.php?d=sales' style='text-decoration:none;color:black'>
-								<button type='button' class='btn btn-division'>Click here</button>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class='row' style='padding-top:30px'>
-			<div class='col-sm-8 col-sm-offset-2'>
-				<div class='container box_notif'>
-					<div class='row' style='padding:0px'>
-						<div class='col-sm-4' style='padding:0px'>
-							<img src='images/purchasing.png' style='width:100%'>
-						</div>
-						<div class='col-sm-8'>
-							<h2>Purchasing Department</h2>
-							<p>Learn how to operate the purhchasing department program</p>
-							<button type='button' class='btn btn-division'>Click here</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 	<style>
 		.btn-division{

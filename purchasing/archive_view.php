@@ -17,6 +17,17 @@
 		z-index:20;
 		border-radius:3px;
 	}
+	.closed_flag{
+		padding:5px 20px;
+		border:none;
+		background-color:rgba(217, 47, 28,0.8);
+		color:white;
+		position:absolute;
+		top:10%;
+		right:20%;
+		z-index:20;
+		border-radius:3px;
+	}
 </style>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Purchase Order</h2>
@@ -41,6 +52,7 @@
 	}
 ?>
 	</div>
+</div>
 <script>
 	function view_month(n){
 		$('#depth').val(1);

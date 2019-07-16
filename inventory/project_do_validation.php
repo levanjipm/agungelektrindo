@@ -1,7 +1,7 @@
 <?php
 	include('inventoryheader.php');
 	$jumlah = $_POST['jumlah'];
-	
+	$date = $_POST['date'];
 	$nilai = 1;
 	for($i = 1; $i <= $jumlah; $i++){
 		$sql_check = "SELECT stock FROM stock WHERE reference = '" . $_POST['reference' . $i] . "' ORDER BY id LIMIT 1";
@@ -30,18 +30,17 @@
 	$result = $conn->query($sql);
 	$row = $result->fetch_assoc();
 	
+	$sql_customer = "SELECT name FROM customer WHERE id = '" . $row['customer_id'] . "'";
+	$result_customer = $conn->query($sql_customer);
+	$customer = $result_customer->fetch_assoc();
 ?>
 <div class='main'>
 	<h2><?= $row['project_name']; ?></h2>
-	<?php
-		$sql_customer = "SELECT name FROM customer WHERE id = '" . $row['customer_id'] . "'";
-		$result_customer = $conn->query($sql_customer);
-		$customer = $result_customer->fetch_assoc();
-		echo $customer['name']
-	?>
+	<?= $customer['name'] ?>
 	<hr>
 	<form action='project_do_input.php' method='POST' id='project_form'>
 		<input type='hidden' value='<?= $project_id ?>' readonly name='projects'>
+		<input type='hidden' value='<?= $date ?>' readonly name='date'>
 		<table class='table table-hover'>
 			<tr>
 				<th>Reference</th>

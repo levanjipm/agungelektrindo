@@ -1,12 +1,13 @@
-	<h3>Document number</h3>
-	<p>
-		<?php
+<?php
 			include("../codes/connect.php");
 			$do_id = $_GET['do_id'];
-			$sql_project = "SELECT project_id FROM project_delivery_order WHERE id = '" . $do_id . "'";
+			$sql_project = "SELECT project_id,name FROM project_delivery_order WHERE id = '" . $do_id . "'";
 			$result_project = $conn->query($sql_project);
 			$project = $result_project->fetch_assoc();
-			
+?>
+	<h3 style='font-family:bebasneue'><?= $project['name'] ?></h3>
+	<p>
+		<?php		
 			$sql = "SELECT project_name FROM code_project WHERE id = '" . $project['project_id'] . "'";
 			$result = $conn->query($sql);
 			$code = $result->fetch_assoc();

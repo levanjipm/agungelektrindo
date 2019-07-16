@@ -58,6 +58,23 @@
 	.btn-x:focus{
 		outline: 0!important;
 	}
+	.context_box{
+		position:absolute;
+		z-index:20;
+		padding:10px;
+		display:none;
+		background-color:white;
+		box-shadow: 3px 4px 3px 4px #888888;
+	}
+	.btn-context{
+		width:100%;
+		background-color:transparent;
+		color:#333;
+		padding:10px 20px;
+	}
+	.btn-context:hover{
+		background-color:blue;
+	}
 </style>
 <div class="main">
 	<h2 style='font-family:bebasneue'>Users</h2>
@@ -77,6 +94,35 @@
 <?php
 	}
 ?>
+	<div class='context_box'>
+		<button type='button' class='btn btn-context'>
+			<span style='width:30%;float:left'>
+				<i class="fa fa-eye" aria-hidden="true"></i>
+			</span>
+			<span style='width:70'>
+				View
+			</span>
+		</button>
+		<button type='button' class='btn btn-context'>
+			<span style='width:30%;float:left'>
+				<i class="fa fa-pencil" aria-hidden="true"></i>
+			</span>
+			<span style='width:70'>
+				Edit
+			</span>
+		</button>
+	</div>
+<script>
+$('.box_user').contextmenu(function() {
+	var currentMousePos = { x: -1, y: -1 };
+	currentMousePos.x = event.pageX;
+	currentMousePos.y = event.pageY;
+	$('.context_box').css('left',currentMousePos.x);
+	$('.context_box').css('top',currentMousePos.y);
+	$('.context_box').fadeIn();
+	event.preventDefault();
+});
+</script>
 	<div class='col-sm-3 box_user' onclick='show_new_user_form()' style='cursor:pointer'>
 		<div class='inside_box'>
 			<h1><i class="fa fa-plus" aria-hidden="true"></i></h1>
@@ -113,7 +159,7 @@
 						<input type='password' class='form-control' placeholder='Password' id='pwd' name='pwd' required minlength="8">
 						<br>
 						<button type='button' class='btn btn-back' id='prev_button'>Back</button>
-						<button type='button' class='btn btn-confirm' id='next_button'>Next</button>
+						<button type='button' class='btn btn-confirm' id='submit_button'>Next</button>
 					</div>
 				</div>
 			</div>

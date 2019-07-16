@@ -137,7 +137,7 @@
 	});
 	$('#confirm_button').click(function(){
 		$.ajax({
-			url:'sent_delivery_order.php',
+			url:'sent_delivery_order_project.php',
 			data:{
 				id:$('#confirm_id').val()
 			},
@@ -149,12 +149,12 @@
 	});
 	$('.btn-delete').click(function(){
 		$.ajax({
-			url:"delete_delivery_order.php",
+			url:"delete_delivery_order_project.php",
 			data:{
 				id:$('#delete_id').val(),
 			},
 			success:function(){
-				// window.location.href = 'inventory.php';
+				location.reload();
 			},
 			type:"POST",
 		})

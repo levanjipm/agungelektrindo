@@ -2,7 +2,9 @@
 	include('../../codes/connect.php');
 	$month = $_POST['month'];
 	$year = $_POST['year'];
-	$sql_search = "SELECT * FROM invoices WHERE MONTH(date) = '" . $month . "' AND YEAR(date) = '" . $year . "' AND isconfirm = '1'";
+	$sql_search = "SELECT invoices.date, invoices.name, invoices.faktur, invoices.value, code_delivery_order.customer_id
+	FROM invoices JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+	WHERE MONTH(invoices.date) = '" . $month . "' AND YEAR(invoices.date) = '" . $year . "' AND isconfirm = '1'";
 	$result_search = $conn->query($sql_search);
 	$x = 1;
 	while($row_search = $result_search->fetch_object()){
@@ -17,7 +19,7 @@
 			}?></td>
 		<td><?= $row_search->name; ?></td>
 		<td><?php
-			$sql_customer = "SELECT name FROM customer WHERE id = '" . $row_search->customer_id . "'";
+			$sql_customer = "SELECT customer.name FROM customer WHERE id = '" . $row_search->customer_id . "'";
 			$result_customer = $conn->query($sql_customer);
 			$customer = $result_customer->fetch_assoc();
 			echo $customer['name'];

@@ -21,6 +21,19 @@
 	$sql = "SELECT * FROM code_bank WHERE isdone = '0' AND transaction = '1' AND isdelete = '0'";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){
+		$transaction = $row['transaction'];
+		$date = $row['date'];
+		$value = $row['value'];
+		$opponent_id = $row['bank_opponent_id'];
+		$opponent_type = $row['label'];
+		
+		if($opponent_type == 'CUSTOMER'){
+			$database = 'customer';
+		} else if($opponent_type == 'SUPPLIER'){
+			$database = 'supplier';
+		} else if($opponent_type == 'OTHER'){
+			$database == 'bank_account_other';
+		};
 ?>
 		<tr>
 			<td><?= date('d M Y',strtotime($row['date'])) ?></td>

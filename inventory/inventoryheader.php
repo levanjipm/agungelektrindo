@@ -22,7 +22,7 @@
 	if(mysqli_num_rows($result_user) == 0){
 		header('location:../landing_page.php');
 	}
-	$sql_otorisasi = "SELECT * FROM otorisasi WHERE user_id = '" . $_SESSION['user_id'] . "' AND department_id = '3'";
+	$sql_otorisasi = "SELECT * FROM authorization WHERE user_id = '" . $_SESSION['user_id'] . "' AND department_id = '3'";
 	$otorisasi = $conn->query($sql_otorisasi);
 	if (isset( $_SESSION['user_id'] ) && mysqli_num_rows($otorisasi) != 0) {
 ?>
@@ -125,12 +125,20 @@
 <?php
 	if($role == 'superadmin'){
 ?>
-	<a href="add_event_dashboard.php">
-		<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
-			<i class="fa fa-calendar" aria-hidden="true"></i>
-			Add an event
-		</button>	
-	</a>
+	
+	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+		<i class="fa fa-calendar" aria-hidden="true"></i>
+		Add an event
+	</button>	
+	<div class="dropdown-container">
+		<a href="add_event_dashboard.php">
+			Add event
+		</a>
+		<br>
+		<a href='#'>
+			Confirm event
+		</a>
+	</div>
 <?php
 	}
 ?>
@@ -141,7 +149,7 @@
 		</button>
 	</a>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
-		<i class="fa fa-archive" aria-hidden="true"></i>
+		<i class="fa fa-building" aria-hidden="true"></i>
 		Project
 	</button>
 	<div class="dropdown-container">
@@ -155,7 +163,7 @@
 				Confirm DO
 			</button>
 		</a>
-		<a href="set_project_done.php">
+		<a href="set_project_done_dashboard.php">
 			<button type='button' class='btn btn-badge' style='color:white'>
 				Set done
 			</button>

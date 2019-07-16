@@ -3,45 +3,38 @@
 	include('salesheader.php');
 ?>
 <style>
-	.inputfile{
-		width: 0.1px;
-		height: 0.1px;
-		opacity: 0;
-		overflow: hidden;
-		position: absolute;
-		z-index: -1;
+	.custom-file-input::-webkit-file-upload-button {
+	  visibility: hidden;
 	}
-	.inputfile + label {
-		font-size: 1.25em;
-		color: white;
-		background-color: #999;
+	.custom-file-input::before {
+		content: 'Select some files';
 		display: inline-block;
-		padding:10px 30px;
-		transition:0.3s all ease;
-	}
-	.inputfile:focus + label,
-	.inputfile + label:hover {
-		background-color: #666;
-	}
-	.inputfile + label {
+		background: linear-gradient(top, #f9f9f9, #e3e3e3);
+		border: 1px solid #999;
+		border-radius: 3px;
+		padding: 5px 8px;
+		outline: none;
+		white-space: nowrap;
+		-webkit-user-select: none;
 		cursor: pointer;
+		text-shadow: 1px 1px #fff;
+		font-weight: 700;
+		font-size: 10pt;
 	}
-	.btn-side-file{
-		background-color:transparent;
-		border:none;
-		border-left:2px solid #333;
-		padding:10px;
+	.custom-file-input:hover::before {
+		border-color: black;
+	}
+	.custom-file-input:active::before {
+		background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
 	}
 </style>
 <link rel="stylesheet" href="../jquery-ui.css">
 <script src="../jquery-ui.js"></script>
 <div class="main">
 	<h2 style='font-family:bebasneue'>Check stock</h2>
-	<form action="check_stock_file.php" method="post" enctype="multipart/form-data" accept='.csv'>
-    Select image to upload:
-    <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Upload Image" name="submit">
-</form>
+	<form action="check_stock_file.php" method="post" enctype="multipart/form-data">
+		<input type="file" class="custom-file-input">
+	</form>
 	<input type="text" id="myInput" placeholder="Search for reference or description" class="form-control">
 	<hr>
 	<div class="row" style="text-align:center">

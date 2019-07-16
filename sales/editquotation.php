@@ -17,15 +17,14 @@
 	$id = $_POST['id'];
 	$sql_customer = "SELECT * FROM code_quotation WHERE id = '" . $id . "'";
 	$r = $conn->query($sql_customer);
-	while($rows = $r->fetch_assoc()){
-		$date = $rows['date'];
-		$customer_id = $rows['customer_id'];
-		$total = $rows['value'];
-		$terms = $rows['payment_id'];
-		$dp = $rows['down_payment'];
-		$lunas = $rows['repayment'];
-		$note = $rows['note'];
-	}
+	$rows = $r->fetch_assoc();
+	$date = $rows['date'];
+	$customer_id = $rows['customer_id'];
+	$terms = $rows['payment_id'];
+	$dp = $rows['down_payment'];
+	$lunas = $rows['repayment'];
+	$note = $rows['note'];
+	
 	$sql_customername = "SELECT name FROM customer WHERE id = '" . $customer_id . "'";
 	$result_customername = $conn->query($sql_customername);
 	$customer_naming = $result_customername->fetch_assoc();
@@ -106,7 +105,7 @@
 				<label for="total">Total</label>
 			</div>
 			<div class="col-sm-2">
-				<input class="nomor" id="total" name="total" readonly value="<?= $total ?>">
+				<input class="nomor" id="total" name="total" readonly>
 			</div>
 		</div>
 		<div class="row" style="padding-top:20px">

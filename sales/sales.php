@@ -2,40 +2,6 @@
 	include("salesheader.php");
 ?>
 <div class='main'>
-	<h2 style='font-family:bebasneue'>Daily Sales</h2>
-	<label>End date</label>
-	<input type='date' class='form-control' style='width:30%' onchange='update_date()' id='end_date'>
-	<hr>
-	<div id='chart'>
-	</div>
-<script>
-	$(document).ready(function(){
-		$.ajax({
-			url:'sales_chart.php',
-			data:{
-				date:"<?= date('Y-m-d')?>"
-			},
-			type:'POST',
-			success:function(response){
-				$('#chart').html(response);
-			},
-		})
-	});
-	function update_date(){
-		$.ajax({
-			url:'sales_chart.php',
-			data:{
-				date:$('#end_date').val()
-			},
-			type:'POST',
-			success:function(response){
-				$('#chart').html(response);
-			},
-		})
-	};
-</script>
-				
-	<hr>
 	<div class='row'>
 		<div class='col-md-4 col-sm-4'>
 			<div class='row box_notif'>
@@ -129,6 +95,38 @@ function toggle_pending_so(){
 	?>
 		</table>
 	</div>
+		<h2 style='font-family:bebasneue'>Daily Sales</h2>
+	<label>End date</label>
+	<input type='date' class='form-control' style='width:30%' onchange='update_date()' id='end_date'>
+	<hr>
+	<div id='chart'>
+	</div>
+<script>
+	$(document).ready(function(){
+		$.ajax({
+			url:'sales_chart.php',
+			data:{
+				date:"<?= date('Y-m-d')?>"
+			},
+			type:'POST',
+			success:function(response){
+				$('#chart').html(response);
+			},
+		})
+	});
+	function update_date(){
+		$.ajax({
+			url:'sales_chart.php',
+			data:{
+				date:$('#end_date').val()
+			},
+			type:'POST',
+			success:function(response){
+				$('#chart').html(response);
+			},
+		})
+	};
+</script>
 </div>
 <script>
 	function showdetailso(n){

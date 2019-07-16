@@ -73,6 +73,6 @@
 		}
 	});
 	function view_archive_po(n){
-		$('#do_archieve_form' + n).submit();
+		$('#gr_archive_form' + n).submit();
 	}
 </script>

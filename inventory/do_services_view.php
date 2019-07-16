@@ -41,34 +41,3 @@
 ?>
 				</div>
 				<hr>
-				<h3 style='font-family:bebasneue'>Incomplete sales orders</h3>
-				<div class='row'>
-<?php
-	$sql = "SELECT DISTINCT(sales_order_sent.so_id), code_salesorder.id, code_salesorder.name,code_salesorder.customer_id,code_salesorder.po_number 
-	FROM code_salesorder 
-	JOIN sales_order_sent ON sales_order_sent.so_id = code_salesorder.id
-	WHERE code_salesorder.isconfirm = '1' AND sales_order_sent.status = '0'";
-	$result = $conn->query($sql);
-	while($row = $result->fetch_assoc()){
-?>
-					<div class='col-sm-4' style='margin-top:30px;text-align:center'>
-						<div class='box' style='background-color:#eee;width:100%;text-align:center;padding:10px'>
-							<h3 style='font-family:bebasneue'><?= $row['name'] ?></h3>
-							<p><?php
-								$sql_customer = "SELECT name FROM customer WHERE id = '" . $row['customer_id'] . "'";
-								$result_customer = $conn->query($sql_customer);
-								$customer = $result_customer->fetch_assoc();
-								echo $customer['name'];
-							?></p>
-							<p><?= $row['po_number'] ?></p>
-							<button type='button' class='btn btn-default' onclick='view(<?= $row['id'] ?>)'>View</button>
-							<button type='button' class='btn btn-secondary' onclick='send(<?= $row['id'] ?>)'>Send</button>
-						</div>
-					</div>
-					<form action='do_exist_dashboard.php' method='POST' id='so_form<?= $row['id'] ?>'>
-						<input type='hidden' value='<?= $row['id'] ?>' name='id'>
-					</form>
-<?php
-		}
-?>
-				</div>

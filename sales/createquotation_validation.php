@@ -62,9 +62,6 @@ if ($terms == 1){
 							<tbody>
 						<?php
 							$x = $_POST['jumlah_barang'];
-						?>
-							<input type="hidden" name="jumlah_barang" value=" <?= $x ?>">
-						<?php
 							$i = 1;
 							for ($i = 1; $i <= $x; $i++){
 								$ref = mysqli_real_escape_string($conn,$_POST["reference" . $i ]);
@@ -92,12 +89,12 @@ if ($terms == 1){
 								<td style="text-align:center">Rp. <?= number_format($netprice,2) ?></td>
 								<td style="text-align:center">Rp. <?= number_format($totprice,2) ?></td>
 							</tr>
-							<input type="hidden" value="<?= $ref ?>" name="item<?=$i?>">
-							<input type="hidden" value="<?= $price ?>" name="price<?=$i?>">
-							<input type="hidden" value="<?= $disc ?>" name="disc<?=$i?>">
-							<input type="hidden" value="<?= $qty ?>" name="qty<?=$i?>">
-							<input type="hidden" value="<?= $netprice ?>" name="netprice<?=$i?>">
-							<input type="hidden" value="<?= $totprice ?>" name="totprice<?=$i?>">
+							<input type="hidden" value="<?= $ref ?>" name="item[<?=$i?>]">
+							<input type="hidden" value="<?= $price ?>" name="price[<?=$i?>]">
+							<input type="hidden" value="<?= $disc ?>" name="disc[<?=$i?>]">
+							<input type="hidden" value="<?= $qty ?>" name="qty[<?=$i?>]">
+							<input type="hidden" value="<?= $netprice ?>" name="netprice[<?=$i?>]">
+							<input type="hidden" value="<?= $totprice ?>" name="totprice[<?=$i?>]">
 						<?php
 							}
 						?>
@@ -109,12 +106,40 @@ if ($terms == 1){
 									<td style="border:none"></td>
 									<td style="border:none"></td>
 									<td style="border:none"></td>
-									<td style="padding-left:50px"><b>Grand Total</b></td>
+									<td style="padding-left:50px"><b>Total</b></td>
 									<td style="text-align:center">
 										Rp. <?= number_format($total,2)?>
-										<input type="hidden" value="<?= $total ?>" name="total">
 									</td>
 								</tr>
+								<input type='hidden' value='<?= $_POST['add_discount'] ?>' name='add_discount'>
+<?php
+	if($_POST['add_discount'] > 0){
+?>
+								<tr>
+									<td style="border:none"></td>
+									<td style="border:none"></td>
+									<td style="border:none"></td>
+									<td style="border:none"></td>
+									<td style="border:none"></td>
+									<td style="padding-left:50px"><b>Additional Disc.</b></td>
+									<td style="text-align:center">
+										Rp. <?= number_format($_POST['add_discount'],2)?>
+									</td>
+								</tr>
+								<tr>
+									<td style="border:none"></td>
+									<td style="border:none"></td>
+									<td style="border:none"></td>
+									<td style="border:none"></td>
+									<td style="border:none"></td>
+									<td style="padding-left:50px"><b>Grand Total</b></td>
+									<td style="text-align:center">
+										Rp. <?= number_format($total - $_POST['add_discount'],2)?>
+									</td>
+								</tr>
+<?php
+	}
+?>
 							</tfoot>
 						</table>
 					</div>

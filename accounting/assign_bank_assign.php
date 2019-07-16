@@ -11,7 +11,17 @@ $bank = $result_bank->fetch_assoc();
 $transaction = $bank['transaction'];
 $date = $bank['date'];
 $value = $bank['value'];
-$lawan = $bank['name'];
+$opponent_id = $bank['opponent_id'];
+$opponent_type = $bank['label'];
+
+if($opponent_type == 'CUSTOMER'){
+	$database = 'customer';
+} else if($opponent_type == 'SUPPLIER'){
+	$database = 'supplier';
+} else if($opponent_type == 'OTHER'){
+	$database == 'bank_account_other';
+};
+
 ?>
 <script src='../universal/Numeral-js-master/src/numeral.js'></script>
 <div class='main'>
@@ -31,9 +41,9 @@ $lawan = $bank['name'];
 		</tr>
 <?php
 	if($transaction == 1){
-		$sql_supplier = "SELECT id FROM supplier WHERE name = '" . $lawan . "'";
-		$result_supplier = $conn->query($sql_supplier);
-		$supplier = $result_supplier->fetch_assoc();
+		$sql_opponent = "SELECT id FROM " . $database . " WHERE id = '" . $opponent_id . "'";
+		$result_opponent = $conn->query($sql_opponent);
+		$opponent = $result_opponent->fetch_assoc();
 		$sql_invoice = "SELECT * FROM purchases WHERE supplier_id = '" . $supplier['id'] . "'";
 		$result_invoice = $conn->query($sql_invoice);
 		$i = 1;

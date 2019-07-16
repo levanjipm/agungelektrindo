@@ -4,22 +4,24 @@
 <div class='main'>
 	<div class='row row-eq-height'>
 		<div class='col-sm-4'>
-			<div class='row box_notif'>
-				<div class='col-md-4' style='background-color:#34495e;padding-top:20px'>
-					<button class='btn' type='button' style='background-color:transparent' onclick='toggle_pending_po()'>
-						<img src='../universal/images/po.png' style='width:100%'>
-					</button>
+			<a href='view_incomplete_po.php' style='text-decoration:none'>
+				<div class='row box_notif'>
+					<div class='col-md-4' style='background-color:#34495e;padding-top:20px'>
+						<button class='btn' type='button' style='background-color:transparent' onclick='toggle_pending_po()'>
+							<img src='../universal/images/po.png' style='width:100%'>
+						</button>
+					</div>
+					<div class='col-sm-8'>
+					<?php
+						$sql_pending_po = "SELECT COUNT(DISTINCT(purchaseorder_id)) AS po_id FROM purchaseorder_received WHERE status = '0'";
+						$result_pending_po = $conn->query($sql_pending_po);
+						$row_pending_po = $result_pending_po->fetch_assoc();
+						echo ('<h1>' . $row_pending_po['po_id'] . '</h1>');
+						echo ('<h3>Pending Purchase Order</h3>');
+					?>
+					</div>
 				</div>
-				<div class='col-sm-8'>
-				<?php
-					$sql_pending_po = "SELECT COUNT(DISTINCT(purchaseorder_id)) AS po_id FROM purchaseorder_received WHERE status = '0'";
-					$result_pending_po = $conn->query($sql_pending_po);
-					$row_pending_po = $result_pending_po->fetch_assoc();
-					echo ('<h1>' . $row_pending_po['po_id'] . '</h1>');
-					echo ('<h3>Pending Purchase Order</h3>');
-				?>
-				</div>
-			</div>
+			</a>
 		</div>
 		<div class='col-sm-4'>
 			<div class='row box_notif'>
@@ -58,83 +60,12 @@
 		</div>
 	</div>
 	<script>
-		function toggle_pending_po(){
-			$('#pending_so').fadeOut();
-			$('#pending_po').fadeIn();
-		}
 		function toggle_pending_so(){
 			$('#pending_so').fadeIn();
 			$('#pending_po').fadeOut();
 		}
 	</script>
 	<hr>
-	<div class='row' id='pending_po' style='display:none'>
-		<h2>Pending purchase order</h2>
-		<table class="table">
-			<tr style='background-color:#333;color:white;font-family:Verdana'>
-				<th style="width:20%;font-size:1em">Date</th>
-				<th style="width:30%;font-size:1em">PO Number</th>
-				<th style="width:30%;font-size:1em">Supplier</th>
-				<th></th>
-			</tr>
-	<?php
-	$sql = "SELECT DISTINCT(purchaseorder_id) FROM purchaseorder_received WHERE status = '0'";
-	$result = $conn->query($sql);
-	while($row = $result->fetch_assoc()){
-		$po_id = $row['purchaseorder_id'];
-		$sql_po = "SELECT name,supplier_id,date FROM code_purchaseorder WHERE id = '" . $po_id . "'";
-		$result_po = $conn->query($sql_po);
-		while($row_po = $result_po->fetch_assoc()){
-			$supplier_id = $row_po['supplier_id'];
-			$name = $row_po['name'];
-			$date = $row_po['date'];
-		}
-	?>
-			<tr>
-				<td><strong><?= date('d M Y',strtotime($date)) ?></strong></td>
-				<td><?= $name?></td>
-				<td>
-				<?php
-					$sql_supplier = "SELECT name,city FROM supplier WHERE id = '" . $supplier_id . "'";
-					$result_supplier = $conn->query($sql_supplier);
-					while($row_supplier = $result_supplier->fetch_assoc()){
-						echo ($row_supplier['name'] . ' - ' . $row_supplier['city']);
-					}
-				?>
-				</td>
-				<td style="width:50%">
-					<button type='button' class="btn btn-default" onclick='showdetail(<?= $po_id ?>)' id="more_detail<?= $po_id ?>">+</button>
-					<button type='button' class="btn btn-warning" onclick='lessdetail(<?= $po_id ?>)' id="less_detail<?= $po_id ?>" style="display:none" >-</button>			
-				</td style="width:50%">
-			</tr>
-			<tbody style="display:none" id="<?= $po_id ?>">
-<?php
-		$sql_detail = "SELECT purchaseorder.reference, purchaseorder.quantity AS ordered, purchaseorder_received.id, purchaseorder.id, 
-		purchaseorder_received.quantity, purchaseorder_received.status, purchaseorder_received.purchaseorder_id 
-		FROM purchaseorder_received	INNER JOIN purchaseorder ON purchaseorder_received.id = purchaseorder.id 
-		WHERE purchaseorder_received.status = '0' AND purchaseorder_received.purchaseorder_id = '" . $po_id . "'";
-		$result_detail = $conn->query($sql_detail);
-		while($row_detail = $result_detail->fetch_assoc()){
-			$sql_item = "SELECT description FROM itemlist WHERE reference = '" . $row_detail['reference'] . "'";
-			$result_item = $conn->query($sql_item);
-			while($row_item = $result_item->fetch_assoc()){
-				$description = $row_item['description'];
-			}	
-?>
-				<tr>
-					<td><?= $row_detail['reference'] ?></td>
-					<td><?= $description ?></td>
-					<td><?= $row_detail['ordered'] - $row_detail['quantity'] . ' out of ' . $row_detail['ordered'] . ' uncompleted' ?></td>
-				</tr>
-<?php
-		}
-?>
-			</tbody>
-		<?php
-	}
-?>
-		</table>
-	</div>
 	<div class='row' id='pending_so' style='display:none'>
 		<h2>Pending items</h2>
 		<table class="table">

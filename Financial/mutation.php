@@ -1,5 +1,5 @@
 <?php
-	include('../../codes/connect.php');	
+	include('../codes/connect.php');	
 	$start_date = $_POST['start_date'];
 	$end_date = $_POST['end_date'];
 	$sql_initial1 = "SELECT SUM(value) AS saldo_awal_debit FROM code_bank WHERE date < '" . $start_date . "' AND transaction = '1'";
@@ -16,14 +16,23 @@
 	<table class='table table-hovered'>
 		<tr>
 			<th>Date</th>
-			<th>Client</th>
+			<th>Opponent</th>
+			<th>Opponent_type</th>
 			<th>Value</th>		
 			<th>Balance</th>
 		</tr>
 <?php
-	$sql_table = "SELECT id,name,value,transaction,date FROM code_bank WHERE date >= '" . $start_date . "' AND date <= '" . $end_date . "'";
+	$sql_table = "SELECT id,bank_opponent_id,label,value,transaction,date FROM code_bank WHERE date >= '" . $start_date . "' AND date <= '" . $end_date . "'";
 	$result_table = $conn->query($sql_table);
 	while($table = $result_table->fetch_assoc()){
+		$label = $table['label'];
+		if($label == 'CUSTOMER'){
+			$table_from_label = 'customer';
+		} else if($label == 'SUPPLIER'){
+			$table_from_label = 'supplier';
+		} else {
+			$table_from_label = 'bank_account_other';
+		}
 		$date = $table['date'];
 		$saldo_awal = $table['transaction'] == '1' ? $saldo_awal - $table['value'] : $saldo_awal + $table['value'];
 		if($table['transaction'] == 1){
@@ -35,18 +44,19 @@
 		}
 		?>
 			<td><?= date('d M Y',strtotime($date)) ?></td>
-			<td><?= $table['name'] ?></td>
+			<td>
+				<?php
+					$sql_opponent = "SELECT * FROM " . $table_from_label . " WHERE id = '" . $table['id'] . "'";
+					$result_opponent = $conn->query($sql_opponent);
+					$opponent = $result_opponent->fetch_assoc();
+					echo $opponent['name'];
+				?>
+			</td>
+			<td><?= $label ?></td>
 			<td><?= number_format($table['value'],2) . "  " . $trans ?></td>
-			<td><?= number_format($saldo_awal,2) ?></td>
+			<td>Rp. <?= number_format($saldo_awal,2) ?></td>
 		</tr>
-		<?php
-		$sql_show = "SELECT name,value,transaction FROM code_bank WHERE date = '" . $date . "'";
-		$result_show = $conn->query($sql_show);
-		while($show = $result_show->fetch_assoc()){
-?>
-		
 <?php
-		}
 	}
 ?>
 	</table>

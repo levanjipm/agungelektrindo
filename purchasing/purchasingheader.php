@@ -14,7 +14,7 @@
 		header('location:../landing_page.php');
 		die();
 	}
-	$sql_user = "SELECT * FROM otorisasi WHERE user_id = '" . $_SESSION['user_id'] . "' AND department_id = '2'";
+	$sql_user = "SELECT * FROM authorization WHERE user_id = '" . $_SESSION['user_id'] . "' AND department_id = '2'";
 	$result_user = $conn->query($sql_user);
 	if(mysqli_num_rows($result_user) == 0){
 		header('location:../landing_page.php');
@@ -22,10 +22,9 @@
 	} else {
 		$sql_users = "SELECT name,role FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
 		$result_users = $conn->query($sql_users);
-		while($row_users = $result_users->fetch_assoc()){
-			$user_name = $row_users['name'];
-			$role = $row_users['role'];
-		}
+		$row_users = $result_users->fetch_assoc();
+		$user_name = $row_users['name'];
+		$role = $row_users['role'];
 ?>
 </head>
 <body>
@@ -118,6 +117,11 @@
 			<p>Confirm Purchasing Return</p>
 		</a>
 	</div>
+	<a href='purchasing_report_dashboard.php'>
+		<button class='btn btn-badge' style='text-decoration:none'>
+			<i class="fa fa-flag-checkered" aria-hidden="true"></i>
+			Purchase Report
+		</button>
 	</a>
 	<hr>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>

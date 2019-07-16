@@ -6,7 +6,7 @@
 <script>
 $( function() {
 	$('#reference1').autocomplete({
-		source: "ajax/search_item.php"
+		source: "../codes/search_item.php"
 	 })
 });
 </script>
@@ -109,6 +109,14 @@ input[type=number]::-webkit-outer-spin-button {
 					<input class="nomor" id="total" name="total" readonly>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-sm-2 offset-lg-7">
+					<label for="total">Additional discount</label>
+				</div>
+				<div class="col-sm-2">
+					<input type='number' class="form-control" id="add_discount" name="add_discount" step='0.001'>
+				</div>
+			</div>
 			<div class="row" style="padding-top:20px">
 				<div class="col-sm-2">
 					<input type="hidden" class="form-control" id="jumlah_barang" name="jumlah_barang">
@@ -201,6 +209,9 @@ input[type=number]::-webkit-outer-spin-button {
 </div>
 <script>
 function hitung(){
+	if($('#add_discount').val() == ''){
+		$('#add_discount').val(0);
+	}
 	$('#danieltri').val('benar');
 	var payment_term = $('#terms').val();
 	$('input[id^=reference]').each(function(){
@@ -262,13 +273,7 @@ function hitung(){
 			alert('Insert correct price!');
 			return false;
 		} else {
-			$('#quote_person').attr('readonly',true);
-			$('input[id^=price]').attr('readonly',true);
-			$('input[id^=reference]').attr('readonly',true);
-			$('input[id^=discount]').attr('readonly',true);
-			$('input[id^=quantity]').attr('readonly',true);
-			$('#today').attr('readonly',true);
-			$('#terms').attr('readonly',true);
+			$(':input').attr('readonly',true);
 			$('#tombolku').show();
 			$('#back').show();
 			$('#calculate').hide();
@@ -314,6 +319,7 @@ $("#back").click(function (){
 	$('input[id^=price]').attr('readonly',false);
 	$('input[id^=quantity]').attr('readonly',false);	
 	$('#terms').attr('readonly',false);
+	$('#add_discount').attr('readonly',false);
 	$('#today').attr('readonly',false);
 	$('#tombolku').hide();
 	$('#back').hide();
@@ -339,5 +345,44 @@ function payment_js(){
 		$('#lunas').attr('readonly',false);
 	}
 }
+	var i;
+	var a = 2;
+	function disable(){
+		document.getElementById("kosong").disabled = true;
+	}
+	function disable_two(){
+		document.getElementById("kosongan").disabled = true;
+	}
+	$("#folder").click(function (){	
+		$("#input_list").append(
+		'<div class="row" style="padding-top:10px" id="barisan'+a+'">'+
+		'<div class="col-sm-1"><input class="nomor" value="'+a+'" style="width:40%" style="text-align:center"></div>'+
+		'<div class="col-sm-2"><input id="reference'+a+'" name="reference'+a+'" class="form-control" style="width:100%"></div>'+
+		'<div class="col-sm-2"><input style="overflow-x:hidden" id="price'+a+'" name="price'+a+'" class="form-control" style="width:100%"></div>'+
+		'<div class="col-sm-1">'+'<input type="number" id="discount'+a+'" name="discount'+a+'" class="form-control" style="width:100%"></div>'+
+		'<div class="col-sm-1">'+'<input id="quantity'+a+'" name="quantity'+a+'" class="form-control" style="width:100%"></div>'+
+		'<div class="col-sm-2">'+'<input class="nomor" id="unitprice'+a+'" name="unitprice'+a+'"></div>'+
+		'<div class="col-sm-2">'+'<input class="nomor" id="totalprice'+a+'" name="totalprice'+a+'" ></div>'+
+		'<div class="col-sm-2"></div>'+
+		'</div>').find("input").each(function () {
+			});
+		$("#reference" + a).autocomplete({
+			source: "../codes/search_item.php"
+		 });
+		a++;
+	});
+
+	$("#close").click(function () {
+		if(a>2){
+		a--;
+		x = 'barisan' + a;
+		$("#"+x).remove();
+		} else {
+			return false;
+		}
+	});
+	function round(value, precision) {
+		var multiplier = Math.pow(10, precision || 0);
+		return Math.round(value * multiplier) / multiplier;
+	}
 </script>
-<script type="text/javascript" src="scripts/createquotation.js"></script>

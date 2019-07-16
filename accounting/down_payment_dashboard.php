@@ -6,7 +6,7 @@
 <script>
 $( function() {
 	$('#reference1').autocomplete({
-		source: "ajax/search_item.php"
+		source: "../codes/search_item.php"
 	 })
 });
 </script>
@@ -17,16 +17,15 @@ $( function() {
 		<div class='col-sm-1' style='background-color:#fff'>
 		</div>
 		<div class='col-sm-10' style='padding:30px'>
-			<h2 style='font-family:bebasneue'>Sales Order</h2>
-			<p>Create sales order</h2>
+			<h2 style='font-family:bebasneue'>Random Invoice</h2>
+			<p>Create <i>Down payment</i> invoice</h2>
 			<hr>
-			<form name="salesorder" class="form" method="POST" id="sales_order" action="createsalesorder_validation.php">
+			<form method="POST" id="down_payment_form" action="down_payment_validation.php">
 				<div class="row">
 					<div class="col-sm-6">
 						<label for="name">Customer</label>
-						<select class="form-control" id="select_customer" name="select_customer"  onclick="disable_two()" onchange='show_retail()'>
+						<select class="form-control" id="select_customer" name="select_customer"  onclick="disable_two()">
 						<option id="customer_one" value="">Please select a customer--</option>
-						<option value='0'>Retail</option>
 							<?php
 								$sql = "SELECT id,name FROM customer";
 								$result = $conn->query($sql);
@@ -81,22 +80,22 @@ $( function() {
 						1
 					</div>
 					<div class="col-sm-2">
-						<input id="reference1" class="form-control" name="reference1" style="width:100%">
+						<input id="reference1" class="form-control" name="reference[1]" style="width:100%">
 					</div>
 					<div class="col-sm-1">
-						<input style="overflow-x:hidden" id="qty1" name="qty1" class="form-control" style="width:100%">
+						<input id="qty1" name="qty[1]" class="form-control" style="width:100%">
 					</div>
 					<div class="col-sm-2">
-						<input style="overflow-x:hidden" id="vat1" name="vat1" class="form-control" style="width:100%">
+						<input id="vat1" name="vat[1]" class="form-control" style="width:100%">
 					</div>
 					<div class="col-sm-2">
-						<input style="overflow-x:hidden" id="pl1" name="pl1" class="form-control" style="width:100%">
+						<input id="pl1" name="pl[1]" class="form-control" style="width:100%">
 					</div>
 					<div class="col-sm-1">
-						<input class="form-control" id="disc1" readonly name="disc1">
+						<input class="form-control" id="disc1" readonly name="disc[1]">
 					</div>
 					<div class="col-sm-2">
-						<input style="overflow-x:hidden" id="total1" class="form-control" readonly name="total1">
+						<input id="total1" class="form-control" readonly name="total[1]">
 					</div>
 				</div>
 				<div id="input_list">
@@ -110,21 +109,9 @@ $( function() {
 						<input type="text" class="form-control" id="total" readonly name="total">
 					</div>
 				</div>
-				<div id='retails' style='display:none' >
-					<label>Name (Not required)</label>
-					<input type='text' class='form-control' name='retail_name'>
-					<div class="form-group">
-						<label for="comment">Delivery Address (Not required)</label>
-						<textarea class="form-control" rows="3" id="comment" name='retail_address' form='sales_order'></textarea>
-					</div>
-					<label>City (Not required)</label>
-					<input type='text' class='form-control' name='retail_city'>
-					<label>Phone (Not required)</label>
-					<input type='text' class='form-control' name='retail_phone'>
-				</div>
 				<div class="row">
 					<div class="col-sm-6" style="padding:20px">
-						<button type="button" class="btn btn-default" onclick="return validateso()" id="calculate">Calculate</button>
+						<button type="button" class="btn btn-default" onclick="return validate_invoice()" id="calculate">Calculate</button>
 						<button type="button" class="btn btn-danger" style="display:none" id="back">Back</button>
 						<button type="button" class="btn btn-default" style="display:none" id="submitbtn" onclick="return look()">Submit</button	
 					</div>
@@ -148,7 +135,7 @@ function disable_two(){
 	document.getElementById("customer_one").disabled = true;
 }
 function look(){
-	var total = document.forms["salesorder"]["total"].value;
+	var total = $('#total').val();
 	if (isNaN(total)){
 		alert("insert correct price");
 		for (z = 1; z < a; z++){
@@ -164,18 +151,31 @@ function look(){
 		$('#folder').show();
 		$('#close').show();		
 	} else{
-		document.getElementById("sales_order").submit();
+		$('#down_payment_form').submit();
 }};
-
-function validateso(){
-	var customer = document.forms["salesorder"]["select_customer"].value;
-	var tax = document.forms["salesorder"]["taxing"].value;
-
-	if (customer==""){
+function check_duplicate(){
+	var arr = [];
+	var duplicate = false;
+	$('input[id^="reference"]').each(function(){
+		var value = $(this).val();
+		if (arr.indexOf(value) == -1){
+			arr.push(value);
+		} else {
+			duplicate = true;
+		}
+	});
+	return duplicate;
+}
+function validate_invoice(){
+	var duplicate = check_duplicate();
+	if ($('#select_customer').val() == ""){
 		alert("Pick a customer!");
 		return false;
-	} else if (tax==""){
+	} else if ($('#taxing').val() == ""){
 		alert("Pick a taxing option");
+		return false;
+	} else if(duplicate){
+		alert('Cannot insert duplicate reference');
 		return false;
 	} else {
 		$('input[id^="disc"]').each(function(){
@@ -225,19 +225,20 @@ $("#folder").click(function (){
 	$("#input_list").append(
 	'<div class="row" style="padding-top:10px" id="barisan'+a+'">'+
 	'<div class="col-sm-1">'+a+'</div>'+
-	'<div class="col-sm-2"><input id="reference'+a+'" class="form-control" style="width:100%" name="reference'+a+'"></div>'+
-	'<div class="col-sm-1"><input style="overflow-x:hidden" id="qty'+a+'"" class="form-control" style="width:100%" name="qty'+a+'"></div>'+
-	'<div class="col-sm-2"><input style="overflow-x:hidden" id="vat'+a+'" class="form-control" style="width:100%" name="vat'+a+'"></div>'+
-	'<div class="col-sm-2"><input style="overflow-x:hidden" id="pl'+a+'" class="form-control" name="pl'+a+'"></div>'+
+	'<div class="col-sm-2"><input id="reference'+a+'" class="form-control" style="width:100%" name="reference['+a+']"></div>'+
+	'<div class="col-sm-1"><input style="overflow-x:hidden" id="qty'+a+'"" class="form-control" style="width:100%" name="qty['+a+']"></div>'+
+	'<div class="col-sm-2"><input style="overflow-x:hidden" id="vat'+a+'" class="form-control" style="width:100%" name="vat['+a+']"></div>'+
+	'<div class="col-sm-2"><input style="overflow-x:hidden" id="pl'+a+'" class="form-control" name="pl['+a+']"></div>'+
 	'<div class="col-sm-1"><input class="form-control" id="disc'+a+'" readonly name="disc'+a+'">'+'</div>'+
-	'<div class="col-sm-2"><input style="overflow-x:hidden" id="total'+a+'" class="form-control" style="width:100%" readonly name="total'+a+'"></div>'+
+	'<div class="col-sm-2"><input style="overflow-x:hidden" id="total'+a+'" class="form-control" style="width:100%" readonly name="total['+a+']"></div>'+
 	'</div>').find("input").each(function () {
 		});
 	$("#reference" + a).autocomplete({
-	source: "search_item.php"
+	source: "../codes/search_item.php"
 	 });
 	a++;
 });
+
 $("#close").click(function () {
 	if(a>2){
 	a--;

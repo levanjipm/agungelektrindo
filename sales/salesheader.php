@@ -21,7 +21,7 @@ Sales Department
 	$role = $row_user['role'];
 	$hpp = $row_user['hpp'];
 	
-	$sql_otorisasi = "SELECT COUNT(*) AS jumlah_otorisasi FROM otorisasi WHERE department_id = '1' AND user_id = '" . $_SESSION['user_id'] . "'";
+	$sql_otorisasi = "SELECT COUNT(*) AS jumlah_otorisasi FROM authorization WHERE department_id = '1' AND user_id = '" . $_SESSION['user_id'] . "'";
 	$result_otorisasi = $conn->query($sql_otorisasi);
 	$otorisasi = $result_otorisasi->fetch_assoc();
 	if ($otorisasi['jumlah_otorisasi'] == 1) {

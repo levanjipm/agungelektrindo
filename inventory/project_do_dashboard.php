@@ -13,14 +13,16 @@
 <div class='main'>
 <a href="#" id="folder"><i class="fa fa-folder"></i></a>
 <a href="#" id="close"><i class="fa fa-close"></i></a>
-	<h2 style='font-family:Bebasneue'>Project</h2>
+	<h2 style='font-family:Bebasneue'>Project Delivery Order</h2>
 	<p>Create project delivery order</p>
 	<hr>
 	<div class='row'>
 		<div class='col-sm-10'>
-			<form action='project_do_validation.php' method='POST' id='project_form'>
-			<label>Project</label>
-		<select class='form-control' name='project_id'>
+		<form action='project_do_validation.php' method='POST' id='project_form'>
+		<label>Date</label>
+		<input type='date' class='form-control' name='date' id='date'>
+		<label>Project</label>
+		<select class='form-control' name='project_id' id='projects'>
 			<option value=''>-- Please select a project --</option>
 <?php
 	$sql_project = "SELECT * FROM code_project WHERE isdone = '0'";
@@ -59,6 +61,19 @@
 	</div>
 </div>
 <script>
+	function check_duplicate(){
+		var arr = [];
+		var duplicate = false;
+		$('input[id^="reference"]').each(function(){
+			var value = $(this).val();
+			if (arr.indexOf(value) == -1){
+				arr.push(value);
+			} else {
+				duplicate = true;
+			}
+		});
+		return duplicate;
+	}
 	var i;
 	var a = 2;
 	$("#folder").click(function (){	
@@ -86,30 +101,18 @@
 			return false;
 		}
 	});
-	$('#done_button').click(function(){
-		if($('#projects').val() == 0){
+	$('#proceeding').click(function(){
+		var duplicate = check_duplicate();
+		if($('#projects').val() == ''){
 			alert('Please select a valid project!');
 			$('#projects').focus();
 			return false;
-		} else {
-			$.ajax({
-				url:"set_done.php",
-				data:{
-					project_id : $('#projects').val()
-				},
-				type:"POST",
-				success:function(response){
-					if(response == 1){
-						location.reload();
-					}
-				},
-			})
-		}
-	});
-	$('#proceeding').click(function(){
-		if($('#projects').val() == 0){
-			alert('Please select a valid project!');
-			$('#projects').focus();
+		} else if($('#date').val() == ''){
+			alert('Please insert date');
+			$('#date').focus();
+			return false;
+		} else if(duplicate){
+			alert('Cannot insert duplicate reference');
 			return false;
 		} else {
 			$('#project_form').submit();

@@ -24,7 +24,7 @@
 	if(mysqli_num_rows($result_user) == 0){
 		header('location:../landing_page.php');
 	}
-	$sql_otorisasi = "SELECT * FROM otorisasi WHERE user_id = '" . $_SESSION['user_id'] . "' AND department_id = '5'";
+	$sql_otorisasi = "SELECT * FROM authorization WHERE user_id = '" . $_SESSION['user_id'] . "' AND department_id = '5'";
 	$result_otorisasi = $conn->query($sql_otorisasi);
 	if(!$result_otorisasi){
 		header('location:user_dashboard.php');

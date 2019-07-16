@@ -1,7 +1,12 @@
 <?php	
 	include('../codes/connect.php');
 	$customer_id = $_POST['customer'];
-	$sql = "SELECT * FROM invoices WHERE customer_id = '" . $customer_id . "' AND isdone = '0' AND counter_id IS NULL";
+	$sql = "SELECT * 
+	FROM invoices 
+	JOIN code_delivery_order
+	ON code_delivery_order.id = invoices.do_id
+	WHERE code_delivery_order.customer_id = '" . $customer_id . "' 
+	AND invoices.isdone = '0' AND invoices.counter_id IS NULL";
 ?>
 <style>
 	.notification_large{

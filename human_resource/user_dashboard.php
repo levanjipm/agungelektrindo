@@ -19,6 +19,7 @@
 	include('../Codes/connect.php');
 	session_start();
 	$animation = $_GET['style'] ?? "";
+	ini_set('date.timezone', 'Asia/Jakarta');
 	
 	$sql_user = "SELECT id,role,username,name,mail,privilege FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
 	$result_user = $conn->query($sql_user);
@@ -93,7 +94,7 @@
 		</button>
 		<div class="dropdown-container">
 		<?php
-		$sql_super = "SELECT * FROM otorisasi WHERE user_id = '" . $user_id . "'";
+		$sql_super = "SELECT * FROM authorization WHERE user_id = '" . $user_id . "'";
 		$result_super = $conn->query($sql_super);
 		while($row_super = $result_super->fetch_assoc()){
 			$department = $row_super['department_id'];

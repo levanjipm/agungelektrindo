@@ -46,7 +46,7 @@
 			return false;
 		} else {
 			$.ajax({
-				url: "ajax/mutation.php",
+				url: "mutation.php",
 				data: {
 					start_date: $('#start_date').val(),
 					end_date: $('#end_date').val()

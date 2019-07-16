@@ -39,10 +39,13 @@ $( function() {
 		<p>Choose a confirmed sales order</p>
 		<hr>
 		<div class='row' style='font-family:bebasneue'>
-			<div class='col-sm-3 active_tab tab_top'>
+			<div class='col-sm-2 active_tab tab_top' onclick='sales_order_goods()'>
 				<h3>Goods</h3>
 			</div>
-			<div class='col-sm-3 tab_top'>
+			<div class='col-sm-2 tab_top' onclick='sales_order_import_project()'>
+				<h3>Project</h3>
+			</div>
+			<div class='col-sm-2 tab_top' onclick='sales_order_services()'>
 				<h3>Services</h3>
 			</div>
 		</div>
@@ -63,6 +66,14 @@ $( function() {
 					},
 				});
 			};
+			function sales_order_import_project(){
+				$.ajax({
+					url: 'do_project_view.php',
+					success: function(response){
+						$('#sales_order_pane').html(response);
+					},
+				});
+			}
 			$(document).ready(function(){
 				sales_order_goods()
 			});

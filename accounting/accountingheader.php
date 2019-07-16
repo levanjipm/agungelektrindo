@@ -20,7 +20,7 @@ $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 $user_name = $row['name'];
 $role = $row['role'];
-$sql_otorisasi = "SELECT * FROM otorisasi WHERE user_id = '" . $_SESSION['user_id'] . "' AND department_id = '4'";
+$sql_otorisasi = "SELECT * FROM authorization WHERE user_id = '" . $_SESSION['user_id'] . "' AND department_id = '4'";
 $result_otorisasi = $conn->query($sql_otorisasi);
 if(mysqli_num_rows($result_otorisasi) > 0){
 ?>
@@ -150,14 +150,14 @@ if(mysqli_num_rows($result_otorisasi) > 0){
 		Random Invoice
 	</button>
 	<div class="dropdown-container">
-		<a href="proforma_invoice_dashboard.php">
+		<a href="build_proforma_invoice_dashboard.php">
 			<p><i>Proforma Invoice</i></p>
 		</a>
 		<a href="down_payment_dashboard.php">
 			<p><i>DP Invoice</i></p>
 		</a>
-		<a href="purchasing_return_dashboard.php">
-			<p><i>Custom Invoice</i></p>
+		<a href='random_invoice_archive.php'>
+			<p>Archives</p>
 		</a>
 	</div>
 	<hr>

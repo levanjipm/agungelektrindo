@@ -2,12 +2,58 @@
 	include("../Codes/connect.php");
 ?>
 <head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../Universal/bootstrap/4.1.3/css/bootstrap.min.css">
+<script src="../Universal/jquery/jquery-3.3.0.min.js"></script>
+<script src="../Universal/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="../Universal/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="purchasingstyle.css">
 </head>
+<style>
+.notification_large{
+		position:fixed;
+		top:0;
+		left:0;
+		background-color:rgba(51,51,51,0.3);
+		width:100%;
+		text-align:center;
+		height:100%;
+	}
+	.notification_large .notification_box{
+		position:relative;
+		background-color:#fff;
+		padding:30px;
+		width:100%;
+		top:30%;
+		box-shadow: 3px 4px 3px 4px #ddd;
+	}
+	.btn-confirm{
+		background-color:#2bf076;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	.btn-delete{
+		background-color:red;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	.btn-back{
+		background-color:#777;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	.btn-x{
+		background-color:transparent;
+		border:none;
+		outline:0!important;
+	}
+	.btn-x:focus{
+		outline: 0!important;
+	}
+</style
 <?php	
 	$payement = mysqli_real_escape_string($conn,$_POST['top']);
 	$po_date = mysqli_real_escape_string($conn,$_POST['today']);
@@ -71,21 +117,16 @@
 	}
 	$po_number = "PO-AE-" . str_pad($jumlah,2,"0",STR_PAD_LEFT) . "." . date("d",strtotime($po_date)). "-" . $month . "-" . date("y",strtotime($po_date));
 ?>
-<body style='overflow-x:hidden'>
+<body>
 <div class='row'>
 	<div class='col-sm-1' style='background-color:#ddd'>
 	</div>
 	<div class='col-sm-10' style='padding:12px'>
-		<form action="createpurchaseorder_input.php" method="POST">
-			<div class="row">
-				<div class="col-lg-6 offset-lg-3">
-					<h2 style="text-align:center"><?= $po_number?></h2>
-					<input type="hidden" value="<?= $po_number ?>" name="po_number">
-					<hr>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-3">
+		<form action="createpurchaseorder_input.php" method="POST" id='create_po_validation_form'>
+			<h2 style="font-family:bebasneue">Purchase Order</h2>
+			<p>Validate purchase order</p>
+			<hr>
+			<input type="hidden" value="<?= $po_number ?>" name="po_number">
 					<input type='hidden' value='<?= $dropship_name ?>' name='dropship_name'>
 					<input type='hidden' value='<?= $dropship_address ?>' name='dropship_address'>
 					<input type='hidden' value='<?= $dropship_city ?>' name='dropship_city'>
@@ -99,6 +140,7 @@
 					<input type='hidden' value="<?= $payement ?>" readonly name="top">
 					<input type="hidden" for="promo_code"value = "<?= $code_promo ?>" readonly name="code_promo">
 					<input type="hidden" for="po_date"value = "<?= $po_date ?>" readonly name="po_date">
+					<h4 style='font-family:bebasneue'><?= $po_number ?></h4><br>
 					<strong><?= $vendor_name ?></strong><br>
 					<?= $vendor_address ?><br>
 					<?= $vendor_city ?><br>
@@ -118,129 +160,110 @@
 					echo ($dropship_phone);
 	}
 ?>					
-					
-				</div>
-			</div>
 			<br>
-			<div class="row">
-				<div class="col-sm-4">
-					<select class='form-control' name='taxing' id='taxing'>
-						<option value='0'>Please select taxing option for this purchase</option>
-						<option value='1'>Tax</option>
-						<option value='2'>Non-tax</option>
-					</select>
-				</div>
-				<br><br>
-				<div class='col-sm-12'>
-					<table class="table">
-						<thead>
-							<th>Item Description</th>
-							<th>Reference</th>
-							<th>Unit price</th>
-							<th>Discount</th>
-							<th>Quantity</th>
-							<th>Price after discount</th>
-							<th>Total price</th>
-						</thead>	
-						<tbody>
-						<?php
-							$x = $_POST['jumlah_barang'];
-						?>
-							<input type="hidden" name="jumlah_barang" value=" <?= $x ?>">
-						<?php 
+			<hr>
+			<label>Taxing option</label>
+			<select class='form-control' name='taxing' id='taxing' style='width:50%'>
+				<option value='0'>Please select taxing option for this purchase</option>
+				<option value='1'>Tax</option>
+				<option value='2'>Non-tax</option>
+			</select>
+			<hr>
+			<table class="table table-hover">
+				<thead>
+					<th>Item Description</th>
+					<th>Reference</th>
+					<th>Unit price</th>
+					<th>Discount</th>
+					<th>Quantity</th>
+					<th>Price after discount</th>
+					<th>Total price</th>
+				</thead>	
+				<tbody>
+				<?php
+					$x = $_POST['jumlah_barang'];
+				?>
+					<input type="hidden" name="jumlah_barang" value=" <?= $x ?>">
+				<?php 
 
-							$i = 1;
-							for ($i = 1; $i <= $x; $i++){
-								$ref = $_POST["reference" . $i ];
-								$price = $_POST["price" . $i ];
-								$disc = $_POST["discount" . $i ];
-								$qty = $_POST["quantity" . $i ];
-								$netprice = $_POST["unitprice" . $i ];
-								$totprice = $_POST["totalprice" . $i];
-								$sql = "SELECT * FROM itemlist WHERE reference='" . $ref . "'";
-								$result = $conn->query($sql) or die($conn->error);
-								$row = $result->fetch_assoc();
-								if($row == false){
-									$desc = " ";
-								} else { 
-									$item_id = $row['id'];
-									$desc = $row['description'];
-								}
-						?>
+					$i = 1;
+					for ($i = 1; $i <= $x; $i++){
+						$ref = $_POST["reference" . $i ];
+						$price = $_POST["price" . $i ];
+						$disc = $_POST["discount" . $i ];
+						$qty = $_POST["quantity" . $i ];
+						$netprice = $_POST["unitprice" . $i ];
+						$totprice = $_POST["totalprice" . $i];
+						$sql = "SELECT * FROM itemlist WHERE reference='" . $ref . "'";
+						$result = $conn->query($sql) or die($conn->error);
+						$row = $result->fetch_assoc();
+						if($row == false){
+							$desc = " ";
+						} else { 
+							$item_id = $row['id'];
+							$desc = $row['description'];
+						}
+				?>
 
-							<tr>
-								<td style="width:30%">
-									<?=$desc?>
-								</td>
-								<td style="width:10%">
-									<?= $ref ?>
-									<input class="hidden" for="ref" value= "<?=$ref?>" readonly name='item<?=$i?>'>
-								</td>
-								<td style="width:15%">
-									Rp. <?= number_format($price,0) ?>
-									<input class="hidden" value="<?= $price?>" name='price<?=$i?>'>
-								</td>
-								<td style="width:6%">
-								<?= $disc ?> %
-									<input type='hidden' for="disc" value="<?=$disc?>" readonly name='discount<?=$i?>'>
-								</td>
-								<td style="width:5%">
-									<?= number_format($qty,0) ?>
-									<input type="hidden" value="<?=$qty?>" name='quantity<?=$i?>'>
-								</td>
-								<td style="width:15%">
-									Rp. <?= number_format($netprice,2) ?>
-									<input type="hidden" name='netprice<?=$i?>' value="<?= $netprice ?>">
-								</td>
-								<td style="width:15%">
-									Rp. <?= number_format($totprice,2) ?>
-									<input type="hidden" value="<?= $totprice?>" name='totprice<?=$i?>'>
-								</td>
-							</tr>
-		<?php
-			}
-		?>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div style="padding:5px;right:10px">
-				<div class="row">
-					<div class="col-lg-2 offset-lg-8">
-						<h4 style="text-align:right"><b>Grand Total</b></h4>
-					</div>
-					<div class="col-lg-2">
+					<tr>
+						<td style="width:30%">
+							<?=$desc?>
+						</td>
+						<td style="width:10%">
+							<?= $ref ?>
+							<input class="hidden" for="ref" value= "<?=$ref?>" readonly name='item<?=$i?>'>
+						</td>
+						<td style="width:15%">
+							Rp. <?= number_format($price,0) ?>
+							<input class="hidden" value="<?= $price?>" name='price<?=$i?>'>
+						</td>
+						<td style="width:6%">
+						<?= $disc ?> %
+							<input type='hidden' for="disc" value="<?=$disc?>" readonly name='discount<?=$i?>'>
+						</td>
+						<td style="width:5%">
+							<?= number_format($qty,0) ?>
+							<input type="hidden" value="<?=$qty?>" name='quantity<?=$i?>'>
+						</td>
+						<td style="width:15%">
+							Rp. <?= number_format($netprice,2) ?>
+							<input type="hidden" name='netprice<?=$i?>' value="<?= $netprice ?>">
+						</td>
+						<td style="width:15%">
+							Rp. <?= number_format($totprice,2) ?>
+							<input type="hidden" value="<?= $totprice?>" name='totprice<?=$i?>'>
+						</td>
+					</tr>
+<?php
+	}
+?>
+				</tbody>
+				<tr>
+					<td style='background-color:white;border:none' colspan='5'></td>
+					<td>Grand Total</td>
+					<td>
 						Rp. <?= number_format($total,2) ?>
 						<input class="hidden" id="total" value=" <?= $total ?>" name='total'>
-					</div>
-				</div>
-			</div>
+					</td>
+				</tr>
+			</table>
 			<br>
 			<?= $note ?>
 			<div class="row" style="top:50px;padding:20px">
 				<button type="button" class="btn btn-primary" onclick='taxing_check()'>Proceed</button>
 			</div>
-			<div id="myModal" class="modal" role="dialog">
-				<div class="modal-dialog">	
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title">Proceeding Purchase Order</h4>
-						</div>
-						 <div class="modal-body">
-							<h3>Disclaimer</h3>
-							<p>By clicking on submit button, you are responsible for any risk on ordering this purchase order</p>
-							<p>Please check a couple of times if you must</p>
-						</div>
-						<div class="modal-footer">
-							<button type="submit" class="btn btn-success">Submit</button>
-							<button type="button" class="btn btn-default" onclick='hide_modal()'>Close</button>
-						</div>
-					</div>
-				</div>
-			</div>
 		</form>
 	</div>
 	<div class='col-sm-1' style='background-color:#ddd'>
+	</div>
+</div>
+<div class='notification_large' style='display:none' id='confirm_notification'>
+	<div class='notification_box'>
+		<h1 style='font-size:3em;color:#2bf076'><i class="fa fa-check" aria-hidden="true"></i></h1>
+		<h2 style='font-family:bebasneue'>Are you sure to confirm this delivery order</h2>
+		<br>
+		<button type='button' class='btn btn-back'>Back</button>
+		<button type='button' class='btn btn-confirm' id='confirm_button'>Confirm</button>
 	</div>
 </div>
 </body>
@@ -249,11 +272,15 @@
 	function taxing_check(){
 		if($('#taxing').val() == 0){
 			alert('Insert taxing option');
+			return false;
 		} else {
-			$('#myModal').show();
+			$('#confirm_notification').fadeIn();
 		}
 	}
-	function hide_modal(){
-		$('#myModal').hide();
-	}
+	$('.btn-back').click(function(){
+		$('#confirm_notification').fadeOut();
+	});
+	$('#confirm_button').click(function(){
+		$('#create_po_validation_form').submit();
+	});
 </script>

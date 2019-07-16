@@ -21,7 +21,7 @@
 	if(mysqli_num_rows($result_user) == 0){
 		header('location:../landing_page.php');
 	}
-	$sql_otorisasi = "SELECT * FROM otorisasi WHERE user_id = '" . $_SESSION['user_id'] . "' AND department_id = '3'";
+	$sql_otorisasi = "SELECT * FROM authorization WHERE user_id = '" . $_SESSION['user_id'] . "' AND department_id = '3'";
 	$otorisasi = $conn->query($sql_otorisasi);
 	if (isset( $_SESSION['user_id'] ) && mysqli_num_rows($otorisasi) != 0) {
 ?>
@@ -91,7 +91,8 @@
 	<div class="dropdown-container">
 		<a href='view_mutation_dashboard.php'>View mutation</a><br>
 		<a href="add_transaction_dashboard.php">Add a transaction</a><br>
-		<a href='reset_transaction_dashboard.php'>Reset transaction</a>
+		<a href='reset_transaction_dashboard.php'>Reset transaction</a><br>
+		<a href='#'>Assign transaction</a>
 		<br>
 	</div>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>

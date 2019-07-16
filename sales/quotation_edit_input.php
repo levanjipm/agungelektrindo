@@ -13,20 +13,18 @@
 			$discount = $_POST['discount' . $i];
 			$quantity = $_POST['quantity' . $i];
 			$net_price = $_POST['unitprice' . $i];
-			$total_price = $_POST['totalprice' . $i];
 			$note = $_POST['comment'];
-			$sql_insert = "INSERT INTO quotation (reference,price_list,discount,net_price,quantity,total_price,quotation_code) 
-			VALUES ('$reference','$price','$discount','$net_price','$quantity','$total_price','$q_id')";
+			$sql_insert = "INSERT INTO quotation (reference,price_list,discount,net_price,quantity,quotation_code) 
+			VALUES ('$reference','$price','$discount','$net_price','$quantity','$q_id')";
 			$r = $conn->query($sql_insert);			
 		} else{
 			$i++;
 		}
 	}
-	$total = $_POST['total'];
 	$terms = $_POST['terms'];
 	$dp = $_POST['dp'];
 	$lunas = $_POST['lunas'];
-	$sql_update = "UPDATE code_quotation SET value= '" . $total . "', payment_id = '" . $terms . "', down_payment = '" . $dp . "', 
+	$sql_update = "UPDATE code_quotation SET payment_id = '" . $terms . "', down_payment = '" . $dp . "', 
 	repayment = '" . $lunas . "', note = '" . $note . "' WHERE id = '" . $q_id . "'";
 	$r = $conn->query($sql_update);
 ?>

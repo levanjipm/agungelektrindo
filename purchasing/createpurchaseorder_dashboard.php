@@ -7,7 +7,7 @@
 <script>
 $( function() {
 	$('#reference1').autocomplete({
-		source: "ajax/search_item.php"
+		source: "../codes/search_item.php"
 	 })
 });
 </script>
@@ -187,7 +187,7 @@ $("#folder").click(function (){
 	'</div>').find("input").each(function () {
 		});
 	$("#reference" + a).autocomplete({
-		source: "ajax/search_item.php"
+		source: "../codes/search_item.php"
 	 });
 	a++;
 });

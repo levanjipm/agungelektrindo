@@ -12,7 +12,11 @@
 <?php
 	$maximum = 0;
 	$total = 0;
-	$sql_initial = "SELECT SUM(value) AS maximum FROM invoices WHERE isdone = '0' GROUP by customer_id";
+	$sql_initial = "SELECT SUM(invoices.value) AS maximum, code_delivery_order.customer_id
+	FROM invoices
+		JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
+	WHERE invoices.isdone = '0'
+	GROUP by code_delivery_order.customer_id";
 	$result_initial = $conn->query($sql_initial);
 	while($initial = $result_initial->fetch_assoc()){
 		if($initial['maximum'] > $maximum){
@@ -70,7 +74,10 @@
 	</script>
 <?php
 	$timeout = 0;
-	$sql_invoice = "SELECT SUM(value + ongkir) AS jumlah,customer_id,id FROM invoices GROUP BY customer_id ORDER BY jumlah DESC";
+	$sql_invoice = "SELECT SUM(invoices.value + invoices.ongkir) AS jumlah, code_delivery_order.customer_id, invoices.id 
+	FROM invoices 
+	JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+	GROUP BY code_delivery_order.customer_id ORDER BY jumlah DESC";
 	$result_invoice = $conn->query($sql_invoice);
 	while($invoice = $result_invoice->fetch_assoc()){
 		$sql_receive = "SELECT SUM(receivable.value) AS bayar_total, code_delivery_order.customer_id FROM receivable 
@@ -87,7 +94,11 @@
 	$sql_customer = "SELECT name FROM customer WHERE id = '" . $invoice['customer_id'] . "'";
 	$result_customer = $conn->query($sql_customer);
 	$customer = $result_customer->fetch_assoc();
-	echo $customer['name'];
+	if($invoice['customer_id'] == 0){
+		echo ('<strong>Retail</strong>');
+	} else {
+		echo $customer['name'];
+	}
 ?>
 		</div>
 		<div class='col-sm-6'>
