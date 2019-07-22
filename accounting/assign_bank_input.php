@@ -6,6 +6,7 @@
 	$result_bank = $conn->query($sql_bank);
 	$bank = $result_bank->fetch_assoc();
 	
+	$id = $bank['id'];
 	$date = $bank['date'];
 	$value_awal = $bank['value'];
 	$transaction = $bank['transaction'];
@@ -17,42 +18,55 @@
 	$i = 1;
 	if($transaction == 2){ //Kredit ->masuk duit//
 		$date = $_POST['date'];
-		for($i = 1; $i < $x; $i++){{
+		for($i = 1; $i < $x; $i++){
 			if(array_key_exists('check'.$i, $_POST)){
-				if($_POST['check' . $i] == 'on')
+				if($_POST['check' . $i] == 'on'){
 					$invoice_id = $_POST['id' . $i];
 					$sql_invoice = "SELECT value,ongkir FROM invoices WHERE id = '" . $invoice_id . "'";
 					$result_invoice = $conn->query($sql_invoice);
 					$invoice = $result_invoice->fetch_assoc();
 					
 					$remaining = $_POST['remaining' . $i];
+					
 					$paid = $invoice['value'] + $invoice['ongkir'] - $remaining;
-					$sql = "INSERT INTO receivable (invoice_id,date,value,bank_id) VALUES ('$invoice_id','$date','$paid','$bank_id')";
+					
+					$sql = "INSERT INTO code_bank (date,value,transaction,bank_opponent_id,label,isdone,major_id)
+					VALUES ('$date','$paid','$transaction','$opponent_id','$opponent_type','1','$bank_id')";
+					$conn->query($sql);
+					
+					$sql_get = "SELECT id FROM code_bank ORDER BY id DESC LIMIT 1";
+					$result_get = $conn->query($sql_get);
+					$get = $result_get->fetch_assoc();
+					
+					$last_id = $get['id'];
+					
+					$sql = "INSERT INTO receivable (invoice_id,date,value,bank_id) VALUES ('$invoice_id','$date','$paid','$last_id')";
+					
 					$result = $conn->query($sql);
+					
 					if($remaining == 0){
 						$update_invoice = "UPDATE invoices SET isdone = '1' WHERE id = '" . $invoice_id . "'";
 						$result_update = $conn->query($update_invoice);
 					}
 				$uang = $uang - $paid;
 				}
+			}	
+			if($uang == 0){
+				$sql_update = "UPDATE code_bank SET isdone = '1' WHERE id = '" . $bank_id . "'";
+				$result_update = $conn->query($sql_update);
+			} else {
+				$yangdiassign = $value_awal - $uang;
+				$sql_delete = "UPDATE code_bank SET isdelete = '1' WHERE id = '" . $bank_id . "'";
+				$sql_insert1 = "INSERT INTO code_bank (date,value,transaction,name,isdone,major_id)
+				VALUES ('$date','$yangdiassign','$transaction','$name','1','$bank_id')";
+				
+				$sql_insert2 = "INSERT INTO code_bank (date,value,transaction,bank_opponent_id,label,isdone,major_id)
+				VALUES ('$date','$uang','$transaction','$opponent_id','$opponent_type','0','$bank_id')";
+				
+				$result_1 = $conn->query($sql_insert1);
+				$result_2 = $conn->query($sql_insert2);
+				$result_delete = $conn->query($sql_delete);
 			}
-			
-		}
-		if($uang == 0){
-			$sql_update = "UPDATE code_bank SET isdone = '1' WHERE id = '" . $bank_id . "'";
-			$result_update = $conn->query($sql_update);
-		} else {
-			$yangdiassign = $value_awal - $uang;
-			$sql_delete = "UPDATE code_bank SET isdelete = '1' WHERE id = '" . $bank_id . "'";
-			$sql_insert1 = "INSERT INTO code_bank (date,value,transaction,name,isdone,major_id)
-			VALUES ('$date','$yangdiassign','$transaction','$name','1','$bank_id')";
-			
-			$sql_insert2 = "INSERT INTO code_bank (date,value,transaction,name,isdone,major_id)
-			VALUES ('$date','$uang','$transaction','$name','0','$bank_id')";
-			
-			$result_1 = $conn->query($sql_insert1);
-			$result_2 = $conn->query($sql_insert2);
-			$result_delete = $conn->query($sql_delete);
 		}
 		// header('location:accounting.php');
 	} else if($transaction == 1){ //Debit -> keluar duit//

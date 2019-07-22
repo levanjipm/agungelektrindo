@@ -28,6 +28,7 @@ $selector = $result_selector->fetch_assoc();
 ?>
 <script src='../universal/Numeral-js-master/src/numeral.js'></script>
 <div class='main'>
+	<h2 style='font-family:bebasneue'><?= $selector['name'] ?></h2>
 	<h2>Rp. <span id='rupiah'><?= number_format($value,2) ?></span></h2>
 	<input type='hidden' value='<?= $value ?>' id='value_now' readonly>
 	<form action='assign_bank_input.php' method='POST' id='myForm'>
