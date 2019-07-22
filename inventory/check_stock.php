@@ -33,10 +33,9 @@
 	<div id="edititemtable">
 <?php
 		$sql = "SELECT * FROM stock
-		INNER JOIN (SELECT reference,MAX(id) AS latest FROM stock GROUP BY reference ORDER BY id DESC) topscore 
-		ON stock.reference = topscore.reference 
-		AND stock.id = topscore.latest
-		LIMIT 10";
+		INNER JOIN (SELECT reference,MAX(id) AS latest FROM stock GROUP BY reference ORDER BY id DESC) recent_stock 
+		ON stock.reference = recent_stock.reference 
+		AND stock.id = recent_stock.latest";
 		$result = $conn->query($sql);
 		while($row = $result->fetch_assoc()) {
 ?>

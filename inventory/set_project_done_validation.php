@@ -72,4 +72,20 @@
 		<div class='col-sm-5'>
 		</div>
 	</div>
+	<button type='button' class='btn btn-secondary' id='set_done_button'>Set Done</button>
 </div>
+<script>
+	$('#set_done_button').click(function(){
+		$.ajax({
+			url:'set_done.php',
+			data:{
+				project_id: <?= $code_project_id ?>
+			},
+			success:function(){
+				window.location.href = 'set_project_done_dashboard.php';
+			},
+			type:'POST',
+		});
+	});
+</script>
+			

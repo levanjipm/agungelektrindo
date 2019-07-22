@@ -6,8 +6,8 @@
 		<div class='col-sm-1' style='background-color:#ddd'>
 		</div>
 		<div class='col-sm-10'>
-			<h2 style=';font-family:bebasneue'>Delivery Order</h2>
-			<p>Create delivery order</p>
+			<h2 style=';font-family:bebasneue'>Good receipt</h2>
+			<p>Create new good receipt</p>
 			<hr>
 			<form id="goodreceipt" method="POST" action="goodreceipt.php">
 				<div class="row">
@@ -37,9 +37,10 @@
 						<input type="date" class="form-control" required name="date"></input>
 					</div>
 				</div>
+				<br><hr>
 				<div class="row">
 					<div class="col-lg-3" style="padding:10px">
-						<button type="submit" href="goodreceipt.php" class="btn btn-primary">View Uncompleted Items</button>
+						<button type="submit" href="goodreceipt.php" class="btn btn-secondary">View Uncompleted Items</button>
 					</div>
 				</div>
 			</form>

@@ -6,7 +6,7 @@
 <script>
 $( function() {
 	$('#reference1').autocomplete({
-		source: "ajax/search_item.php"
+		source: "../codes/search_item.php"
 	 })
 });
 </script>

@@ -29,7 +29,7 @@
 			<p>Add new customer data</p>
 			<hr>
 			<form id="inputcustomer" method="POST" action="addcustomer.php">
-				<label for="name">Nama Perusahaan:</label>
+				<label for="name">Company</label>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
 					<input type="text" class="form-control" name="namaperusahaan" id="namaperusahaan" placeholder="input nama Perusahaan..." required></input>
@@ -48,21 +48,21 @@
 				</div>
 				<div class='row'>
 					<div class="col-sm-4">
-						<label for="name">Jalan</label>
+						<label for="name">Street</label>
 						<input type="text" class="form-control" name="alamat" id="alamat" placeholder="Nama Jalan..." required></input>
 					</div>
 					<div class="col-sm-4">
-						<label for="name">Nomor</label>
+						<label for="name">Number</label>
 						<input type="text" class="form-control" name="nomor" id="number" placeholder="Nomor..." required></input>	
 					</div>
 					<div class="col-sm-4">
-						<label for="name">Kota</label>
+						<label for="name">City</label>
 						<input type="text" class="form-control" name="city" id="city" placeholder="Kota..." required></input>
 					</div>
 				</div>
 				<div class='row'>
 					<div class="col-sm-4">
-						<label for="name">Blok</label>
+						<label for="name">Block</label>
 						<input type="text" class="form-control" name="blok" id="blok" placeholder="Blok..." required></input>
 					</div>
 					<div class="col-sm-4">
@@ -100,7 +100,7 @@
 							<div class="modal-body">
 								<table class="table">
 									<tr>
-										<th style="width:30%">Nama Perusahaan</th>
+										<th style="width:30%">Company</th>
 										<td id="namaperusahaans"></td>
 									</tr>
 									<tr>

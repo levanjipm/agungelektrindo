@@ -20,7 +20,12 @@ if($customer == 0){
 	$city = $_POST['retail_city'];
 	$phone = $_POST['retail_phone'];
 	$name = $_POST['retail_name'];
-};
+} else {
+	$address = '';
+	$city = '';
+	$phone = '';
+	$name = '';
+}
 
 $sql = " SELECT COUNT(*) AS jumlah FROM code_salesorder WHERE MONTH(date) = MONTH('" . $so_date . "') 
 AND YEAR(date) = YEAR('" . $so_date . "')";
@@ -50,6 +55,12 @@ $customer_name = $rows['name'];
 				<p>Validate Sales Order</p>
 				<hr>
 				<h3 style="text-align:center;font-family:bebasneue"><?= $so_number?></h3>
+				<input type='hidden' value='<?= $address ?>' name='retail_address'>
+				<input type='hidden' value='<?= $city ?>' name='retail_city'>
+				<input type='hidden' value='<?= $phone ?>' name='retail_phone'>
+				<input type='hidden' value='<?= $name ?>' name='retail_name'>
+				
+				
 				<input type="hidden" value="<?= $so_number ?>" name="so_number">
 				<input type="hidden" value="<?= $so_date ?>" class="form-control" readonly>
 				<input type="hidden" value="<?= $so_date ?>" name="today">

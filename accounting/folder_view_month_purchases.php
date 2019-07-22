@@ -1,6 +1,6 @@
 <?php
 	include('../codes/connect.php');
-	$sql_month = "SELECT DISTINCT(MONTH(date)) AS month FROM invoices WHERE YEAR(date) = '" . $_POST['year'] . "' ORDER BY date ASC";
+	$sql_month = "SELECT DISTINCT(MONTH(date)) AS month FROM purchases WHERE YEAR(date) = '" . $_POST['year'] . "' ORDER BY date ASC";
 	$result_month = $conn->query($sql_month);
 	while($month = $result_month->fetch_assoc()){
 ?>

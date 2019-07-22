@@ -32,30 +32,17 @@
 		} else if($opponent_type == 'SUPPLIER'){
 			$database = 'supplier';
 		} else if($opponent_type == 'OTHER'){
-			$database == 'bank_account_other';
+			$database = 'bank_account_other';
 		};
+		
+		$sql_selector = "SELECT name FROM " . $database . " WHERE id = '" . $opponent_id . "'";
+		$result_selector = $conn->query($sql_selector);
+		$selector = $result_selector->fetch_assoc();
 ?>
 		<tr>
 			<td><?= date('d M Y',strtotime($row['date'])) ?></td>
-			<td><?php
-				if($row['name'] == -1){
-					echo ('Agung Elektrindo');
-				} else {
-					echo $row['name'];
-				}
-			?></td>
-			<td>Rp. <?= number_format($row['value'],2) ?></td>
-<?php
-	if($row['name'] == -1){
-?>
-			<td></td>
-<?php
-	} else {
-?>
+			<td><?= $selector['name'] ?></td>
 			<td><button type='button' class='btn btn-default' onclick='pass(<?= $row['id'] ?>)'>Assign as payment</button></td>
-<?php
-	}
-?>
 			<td><button type='button' class='btn btn-primary' onclick='other(<?= $row['id'] ?>)'>Assign as other</button></td>
 			<form action='assign_bank_other.php' method='POST' id='other_form<?= $row['id'] ?>'>
 				<input type='hidden' value='<?= $row['id'] ?>' name='id'>
@@ -80,10 +67,27 @@
 	$sql = "SELECT * FROM code_bank WHERE isdone = '0' AND transaction = '2' AND isdelete = '0'";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){
+		$transaction = $row['transaction'];
+		$date = $row['date'];
+		$value = $row['value'];
+		$opponent_id = $row['bank_opponent_id'];
+		$opponent_type = $row['label'];
+		
+		if($opponent_type == 'CUSTOMER'){
+			$database = 'customer';
+		} else if($opponent_type == 'SUPPLIER'){
+			$database = 'supplier';
+		} else if($opponent_type == 'OTHER'){
+			$database = 'bank_account_other';
+		};
+		
+		$sql_selector = "SELECT name FROM " . $database . " WHERE id = '" . $opponent_id . "'";
+		$result_selector = $conn->query($sql_selector);
+		$selector = $result_selector->fetch_assoc();
 ?>
 		<tr>
 			<td><?= date('d M Y',strtotime($row['date'])) ?></td>
-			<td><?= $row['name'] ?></td>
+			<td><?= $selector['name'] ?></td>
 			<td>Rp. <?= number_format($row['value'],2) ?></td>
 			<td><button type='button' class='btn btn-default' onclick='pass(<?= $row['id'] ?>)'>Assign as payment</button></td>
 			<td><button type='button' class='btn btn-primary' onclick='other(<?= $row['id'] ?>)'>Assign as other income</button></td>

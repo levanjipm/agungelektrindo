@@ -9,6 +9,7 @@ tr.border_bottom td{
 	$do_name = $_POST['sj'];
 	$inv_name_raw = substr($do_name,6);
 	$inv_name = "FU-AE-" . $inv_name_raw;
+	
 	$sql_check = "SELECT COUNT(id) AS jumlah FROM code_delivery_order WHERE name = '" . $do_name . "' AND sent = '1' AND isinvoiced = '0'";
 	$result_check = $conn->query($sql_check);
 	$check = $result_check->fetch_assoc();
@@ -19,21 +20,36 @@ tr.border_bottom td{
 		</script>
 <?php
 	}
-	$sql = "SELECT * FROM code_delivery_order WHERE name = '" . $do_name . "'";
+	$sql = "SELECT id,so_id,date,customer_id,tax FROM code_delivery_order WHERE name = '" . $do_name . "'";
 	$result = $conn->query($sql);
 	$row = $result->fetch_assoc();
+
 	$do_id = $row['id'];
 	$so_id = $row['so_id'];
 	$date = $row['date'];
 	$customer = $row['customer_id'];
 	$tax = $row['tax'];
 	
-	$sql_customer = "SELECT * FROM customer WHERE id = '" . $customer . "'";
-	$result_customer = $conn->query($sql_customer);
-	$row_customer = $result_customer->fetch_assoc();
-	$name = $row_customer['name'];
-	$address = $row_customer['address'];
-	$city = $row_customer['city'];
+	if($customer != 0){
+		$sql_customer = "SELECT id,name,address,city FROM customer WHERE id = '" . $customer . "'";
+		$result_customer = $conn->query($sql_customer);
+		$row_customer = $result_customer->fetch_assoc();
+		
+		$name = $row_customer['name'];
+		$address = $row_customer['address'];
+		$city = $row_customer['city'];
+	} else {
+		$sql = "SELECT code_salesorder.retail_name, code_salesorder.retail_address, code_salesorder.retail_city
+		FROM code_salesorder
+		JOIN code_delivery_order ON code_delivery_order.so_id = code_salesorder.id
+		WHERE code_delivery_order.id = '" . $do_id . "'";
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
+		
+		$name = $row['retail_name'];
+		$address = $row['retail_address'];
+		$city = $row['retail_city'];
+	}
 	
 	//date name
 	if (date('m',strtotime($date)) == 1){
@@ -114,6 +130,7 @@ tr.border_bottom td{
 		} else {
 			$description = '';
 		};
+		
 		$sql_price = "SELECT price FROM sales_order WHERE reference = '" . $reference . "' AND so_id = '" . $so_id . "'";
 		$result_price = $conn->query($sql_price);
 		$row_price = $result_price->fetch_assoc();
@@ -148,31 +165,22 @@ tr.border_bottom td{
 							</tbody>
 							<tfoot>
 <?php
-								if($tax == 0){
+								if($tax != 1){
 ?>
 								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
+									<td style="border:none;background-color:#fff" colspan='4'></td>
 									<td>Sub Total</td>
 									<td><input type="text" class="form-control" name="invoice_total" value="<?= $price_init ?>" readonly></td>
 								</tr>
 								<tr>
-									<td style="border:none;background-color:#fff"></td>
-									<td style="border:none;background-color:#fff"></td>
-									<td style="border:none;background-color:#fff"></td>
-									<td style="border:none;background-color:#fff"></td>
+									<td style="border:none;background-color:#fff" colspan='4'></td>
 									<td style="background-color:#fff">Ongkos Kirim</td>
 									<td style="background-color:#fff">
 										<input type="text" class="form-control" name="ongkos_kirim" id='ongkir' value='0'>
 									</td>									
 								</tr>
 								<tr>
-									<td style="border:none;background-color:#fff"></td>
-									<td style="border:none;background-color:#fff"></td>
-									<td style="border:none;background-color:#fff"></td>
-									<td style="border:none;background-color:#fff"></td>
+									<td style="border:none;background-color:#fff" colspan='4'></td>
 									<td style="background-color:#fff">Total</td>
 									<td style="background-color:#fff">
 									<input type='text' id='invoice_totalis' class='form-control' readonly>
@@ -182,10 +190,7 @@ tr.border_bottom td{
 								} else{
 ?>
 								<tr>
-									<td style="border:none;border-top:1px solid #ddd;background-color:#fff"></td>
-									<td style="border:none;border-top:1px solid #ddd;background-color:#fff"></td>
-									<td style="border:none;border-top:1px solid #ddd;background-color:#fff"></td>
-									<td style="border:none;border-top:1px solid #ddd;background-color:#fff"></td>
+									<td style="border:none;background-color:#fff" colspan='4'></td>
 									<td style="background-color:#fff">Sub Total</td>
 									<td style="background-color:#fff;text-align:left">
 										<input type='hidden' id="invoice_subtotal" name="invoice_subtotal" value="<?= $price_init/1.1 ?>" readonly>
@@ -193,10 +198,7 @@ tr.border_bottom td{
 									</td>
 								</tr>
 								<tr>
-									<td style="border:none;background-color:#fff"></td>
-									<td style="border:none;background-color:#fff"></td>
-									<td style="border:none;background-color:#fff"></td>
-									<td style="border:none;background-color:#fff"></td>
+									<td style="border:none;background-color:#fff" colspan='4'></td>
 									<td style="background-color:#fff">PPN 10%</td>
 									<td style="background-color:#fff;text-align:left">
 										<input type="hidden" name="ppn"  id="ppn" value="<?= $price_init*1.1 - $price_init ?>" readonly>
@@ -204,10 +206,7 @@ tr.border_bottom td{
 									</td>
 								</tr>
 								<tr>
-									<td style="border:none;background-color:#fff"></td>
-									<td style="border:none;background-color:#fff"></td>
-									<td style="border:none;background-color:#fff"></td>
-									<td style="border:none;background-color:#fff"></td>
+									<td style="border:none;background-color:#fff" colspan='4'></td>
 									<td style="background-color:#fff">Ongkos Kirim</td>
 									<td style="background-color:#fff">
 										<input type="text" class="form-control" name="ongkos_kirim" id='ongkir' value='0'>

@@ -6,8 +6,23 @@
 	$sql = "SELECT * FROM code_bank WHERE id = '" . $_POST['id'] . "'";
 	$result = $conn->query($sql);
 	$row = $result->fetch_assoc();
+	
+	$opponent_id = $row['bank_opponent_id'];
+	$opponent_type = $row['label'];
+	
+	if($opponent_type == 'CUSTOMER'){
+		$database = 'customer';
+	} else if($opponent_type == 'SUPPLIER'){
+		$database = 'supplier';
+	} else if($opponent_type == 'OTHER'){
+		$database = 'bank_account_other';
+	};
+	
+	$sql_selector = "SELECT name FROM " . $database . " WHERE id = '" . $opponent_id . "'";
+	$result_selector = $conn->query($sql_selector);
+	$selector = $result_selector->fetch_assoc();
 ?>
-	<h2><?= $row['name'] ?></h2>
+	<h2><?= $selector['name'] ?></h2>
 	<p><?= date('d M Y',strtotime($row['date'])) ?></p>
 	<hr>
 	<h4>Rp. <?= number_format($row['value']) ?></h4>
@@ -21,7 +36,7 @@
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){
 ?>	
-			<option value='<?= $row['id'] ?>' style='font-weight:bold' disabled><?= $row['name'] ?></option>				
+			<option value='<?= $row['id'] ?>' style='font-weight:bold'><?= $row['name'] ?></option>				
 <?php
 		$sql_detail = "SELECT * FROM petty_cash_classification WHERE major_id = '" . $row['id'] . "'";
 		$result_detail = $conn->query($sql_detail);

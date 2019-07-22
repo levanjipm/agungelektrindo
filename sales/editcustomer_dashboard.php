@@ -101,7 +101,7 @@
 								$sql_check = "SELECT
 									(SELECT COUNT(id) FROM code_salesorder WHERE customer_id = '" . $row['id'] . "') AS table1,
 									(SELECT COUNT(id) FROM code_quotation WHERE customer_id = '" . $row['id'] . "') AS table2,
-									(SELECT COUNT(id) FROM code_bank WHERE name = '" . $row['name'] . "') AS table3,
+									(SELECT COUNT(id) FROM code_bank WHERE bank_opponent_id = '" . $row['id'] . "' AND label = 'CUSTOMER') AS table3,
 									(SELECT COUNT(id) FROM code_delivery_order WHERE customer_id = '" . $row['id'] . "') AS table4,
 									(SELECT COUNT(id) FROM code_project WHERE customer_id = '" . $row['id'] . "') AS table5";
 								$result_check = $conn->query($sql_check);

@@ -2,28 +2,33 @@
 <?php
 	include('../codes/connect.php');
 	$do_id = $_POST['id'];
-	$sql_first = "SELECT * FROM code_delivery_order WHERE id = '" . $do_id . "'";
+	$sql_first = "SELECT date,customer_id,name,so_id FROM code_delivery_order WHERE id = '" . $do_id . "'";
 	$result_first = $conn->query($sql_first);
 	$first_row = $result_first->fetch_assoc();
 	
 	$date = $first_row['date'];
 	$customer_id = $first_row['customer_id'];
-	$name = $first_row['name'];
+	$deliery_order_name = $first_row['name'];
 	$so_id = $first_row['so_id'];
 	
-	$sql_po = "SELECT po_number FROM code_salesorder WHERE id = '" . $so_id . "'";
+	$sql_po = "SELECT po_number,retail_address,retail_city,retail_phone,retail_name FROM code_salesorder WHERE id = '" . $so_id . "'";
 	$result_po = $conn->query($sql_po);
 	$po = $result_po->fetch_assoc();
 	
 	$po_name = $po['po_number'];
 	
-	$sql_customer = "SELECT name, address, city FROM customer WHERE id = '" . $customer_id . "'";
-	$result_customer = $conn->query($sql_customer);
-	$customer = $result_customer->fetch_assoc();
-	
-	$customer_name = $customer['name'];
-	$customer_address = $customer['address'];
-	$customer_city = $customer['city'];
+	if($customer_id != 0){
+		$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $customer_id . "'";
+		$result_customer = $conn->query($sql_customer);
+		$customer = $result_customer->fetch_assoc();
+		$name = $customer['name'];
+		$address = $customer['address'];
+		$city = $customer['city'];
+	} else {
+		$name = $po['retail_name'];
+		$address = $po['retail_address'];
+		$city = $po['retail_city'];
+	}
 ?>
 <head>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
@@ -54,9 +59,9 @@
 				</div>
 				<div class="col-xs-6"><?php echo date('d M Y',strtotime($date));?></div>
 				<div class="col-xs-12">
-					<p>Kepada Yth. <b><?= $customer_name ?></b></p>
-					<p><?= $customer_address ?></p>
-					<p><?= $customer_city ?></p>
+					<p>Kepada Yth. <b><?= $name ?></b></p>
+					<p><?= $address ?></p>
+					<p><?= $city ?></p>
 				</div>
 			</div>
 		</div>
@@ -68,7 +73,7 @@
 					<p><b>Nomor PO:</b></p>
 				</div>
 				<div class="col-xs-4">
-					<p><?= $name ?></p>
+					<p><?= $deliery_order_name ?></p>
 					<p><?= $po_name ?></p>
 				</div>
 			</div>

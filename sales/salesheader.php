@@ -76,6 +76,9 @@ Sales Department
 		<a href="editcustomer_dashboard.php">
 			<p>Edit Customer</p>
 		</a>
+		<a href='#'>
+			<p>Delivery</p>
+		</a>
 	</div>
 	<button class="btn btn-badge dropdown-btn" style='color:white'>
 		<i class="fa fa-file-text" aria-hidden="true"></i>
@@ -93,18 +96,6 @@ Sales Department
 		</a>
 		<a href="editsalesorder_dashboard.php">
 			<p>Edit sales order</p>
-		</a>
-	</div>
-	<button class="btn btn-badge dropdown-btn" style='color:white'>
-		<i class="fa fa-truck" aria-hidden="true"></i>
-		Delivery address
-	</button>
-	<div class="dropdown-container">
-		<a href="adddeliveryaddress_sales_dashboard.php">
-			<p>Add delivery address</p>
-		</a>
-		<a href="editdeliveryaddress_sales_dashboard.php" disabled>
-			<p>Edit/delete delivery address</p>
 		</a>
 	</div>
 	<a href="check_stock.php">

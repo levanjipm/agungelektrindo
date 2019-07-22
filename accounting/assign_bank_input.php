@@ -2,20 +2,22 @@
 	include('../codes/connect.php');
 	$bank_id = $_POST['bank_id'];
 	
-	$sql_bank = "SELECT value,date,transaction,name FROM code_bank WHERE id = '" . $bank_id . "'";
+	$sql_bank = "SELECT * FROM code_bank WHERE id = '" . $bank_id . "'";
 	$result_bank = $conn->query($sql_bank);
 	$bank = $result_bank->fetch_assoc();
 	
 	$date = $bank['date'];
 	$value_awal = $bank['value'];
 	$transaction = $bank['transaction'];
-	$name = $bank['name'];
+	$opponent_id = $bank['bank_opponent_id'];
+	$opponent_type = $bank['label'];
 	$uang = $bank['value'];
-	$tt = $_POST['tt'];
+	
+	$x = $_POST['tt'];
 	$i = 1;
 	if($transaction == 2){ //Kredit ->masuk duit//
 		$date = $_POST['date'];
-		for($i = 1; $i < $tt; $i++){{
+		for($i = 1; $i < $x; $i++){{
 			if(array_key_exists('check'.$i, $_POST)){
 				if($_POST['check' . $i] == 'on')
 					$invoice_id = $_POST['id' . $i];
@@ -57,8 +59,7 @@
 		print_r($_POST);
 		$date = $_POST['date'];
 		echo $date;
-		echo $tt;
-		for($i = 1; $i <= $tt; $i++){
+		for($i = 1; $i <= $x; $i++){
 			if(array_key_exists('check'.$i, $_POST)){
 				if($_POST['check' . $i] == 'on'){
 					echo "Masuk paeko";

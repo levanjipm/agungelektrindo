@@ -115,12 +115,18 @@ if(mysqli_num_rows($result_otorisasi) > 0){
 			<p>Stock value</p>
 		</a>
 	</div>
-	<a href='receivable_dashboard.php'>
-		<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
-			<i class="fa fa-file-o" aria-hidden="true"></i>
-			Receivables
-		</button>
-	</a>
+	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+		<i class="fa fa-undo" aria-hidden="true"></i>
+		Receivable
+	</button>
+	<div class="dropdown-container">
+		<a href='receivable_dashboard.php'>
+			<p>Dashboard</p>
+		</a>
+		<a href='receivable_report_customer.php'>
+			<p>Report</p>
+		</a>
+	</div>
 	<a href='payable_dashboard.php'>
 		<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
 			<i class="fa fa-file-o" aria-hidden="true"></i>
