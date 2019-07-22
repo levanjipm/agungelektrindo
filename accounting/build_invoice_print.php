@@ -17,7 +17,9 @@
 	
 	$id = $_POST['id'];
 	
-	$sql = "SELECT * FROM invoices WHERE id = '" . $id . "'";
+	$sql = "SELECT invoices.faktur,invoices.value, invoices.ongkir, invoices.name, invoices.date, code_delivery_order.customer_id FROM invoices 
+	JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+	WHERE invoices.id = '" . $id . "'";
 	$result = $conn->query($sql);
 	$row = $result->fetch_assoc();
 	

@@ -2,8 +2,10 @@
 	include('../codes/connect.php');
 	$year = $_POST['year'];
 	$month = $_POST['month'];
-	$sql = "SELECT invoices.id ,invoices.name, code_delivery_order.customer_id 
-	FROM invoices WHERE MONTH(date) = '" . $month . "' AND YEAR(date) = '" . $year . "'";
+	$sql = "SELECT invoices.id ,invoices.name, code_delivery_order.customer_id
+	FROM invoices 
+	JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+	WHERE MONTH(invoices.date) = '" . $month . "' AND YEAR(invoices.date) = '" . $year . "'";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){
 		$sql_customer = "SELECT name FROM customer WHERE id = '" . $row['customer_id'] . "'";
