@@ -7,7 +7,9 @@
 	$date = $_POST['date'];
 	$po_number = $_POST['po_number'];
 	$tax = $_POST['tax'];
-	
+	if($tax == 2){
+		$tax = 0;
+	}
 	$descriptions = $_POST['descriptions'];
 	$prices = $_POST['prices'];
 	$quantities = $_POST['quantities'];
@@ -24,6 +26,7 @@
 	}
 	$jumlah++;
 	$so_number = "" . date("y",strtotime($date)) . date("m",strtotime($date)) . "-SO-" . str_pad($jumlah,3,"0",STR_PAD_LEFT);
+	
 	$sql_insert = "INSERT into code_salesorder (name,created_by,date,po_number,taxing,customer_id,delivery_id,value,label,type,seller)
 	VALUES ('$so_number','$user_id','$date','$po_number','$tax','$customer','','0','','SRVC','$seller')";
 	$result_insert = $conn->query($sql_insert);
@@ -46,4 +49,6 @@
 	}
 	$sql_update = "UPDATE code_salesorder SET value = '" . $total . "' WHERE id = '" . $last_so_id . "'";
 	$result_update = $conn->query($sql_update);
+	
+	header('location:sales.php');
 ?>

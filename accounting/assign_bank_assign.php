@@ -11,7 +11,7 @@ $bank = $result_bank->fetch_assoc();
 $transaction = $bank['transaction'];
 $date = $bank['date'];
 $value = $bank['value'];
-$opponent_id = $bank['opponent_id'];
+$opponent_id = $bank['bank_opponent_id'];
 $opponent_type = $bank['label'];
 
 if($opponent_type == 'CUSTOMER'){
@@ -19,16 +19,17 @@ if($opponent_type == 'CUSTOMER'){
 } else if($opponent_type == 'SUPPLIER'){
 	$database = 'supplier';
 } else if($opponent_type == 'OTHER'){
-	$database == 'bank_account_other';
+	$database = 'bank_account_other';
 };
 
+$sql_selector = "SELECT name FROM " . $database . " WHERE id = '" . $opponent_id . "'";
+$result_selector = $conn->query($sql_selector);
+$selector = $result_selector->fetch_assoc();
 ?>
 <script src='../universal/Numeral-js-master/src/numeral.js'></script>
 <div class='main'>
-	<div class='container'>
 	<h2>Rp. <span id='rupiah'><?= number_format($value,2) ?></span></h2>
 	<input type='hidden' value='<?= $value ?>' id='value_now' readonly>
-	</div>
 	<form action='assign_bank_input.php' method='POST' id='myForm'>
 	<input type='hidden' value='<?= $date ?>' name='date' readonly>
 	<table class='table table-hover'>
@@ -72,11 +73,10 @@ if($opponent_type == 'CUSTOMER'){
 <?php
 		}
 	} else {
-		$sql_customer = "SELECT id FROM customer WHERE name = '" . $lawan . "'";
-		$result_customer = $conn->query($sql_customer);
-		$customer = $result_customer->fetch_assoc();
-		
-		$sql_invoice = "SELECT * FROM invoices WHERE customer_id = '" . $customer['id'] . "' AND isdone = '0' ";
+		$sql_invoice = "SELECT invoices.id, invoices.date, invoices.name, invoices.ongkir, invoices.value, code_delivery_order.customer_id
+		FROM invoices 
+		JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
+		WHERE customer_id = '" . $opponent_id . "' AND isdone = '0' ";
 		$result_invoice = $conn->query($sql_invoice);
 		$i = 1;
 		while($invoices = $result_invoice->fetch_assoc()){
@@ -87,7 +87,7 @@ if($opponent_type == 'CUSTOMER'){
 ?>
 		<tr>
 			<input type='hidden' value='<?= $invoices['id'] ?>' name='id<?= $i ?>'>
-			<td><?= $invoices['date'] ?></td>
+			<td><?= date('d M Y',strtotime($invoices['date'])) ?></td>
 			<td><?= $invoices['name']; ?></td>
 			<td><?= number_format(($invoices['value'] + $invoices['ongkir'] - $received),2) ?></td>
 			<td>

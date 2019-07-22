@@ -9,25 +9,36 @@
 	include ("../codes/connect.php");
 	session_start();
 	$user_id = $_SESSION['user_id'];
+	
 	$so_number = $_POST['so_number'];
 	$so_date = $_POST['today'];
 	$customer = $_POST['customer'];
-	$delivery_id = $_POST['delivery_address'];
 	$value = $_POST['total_so'];
 	$po_number = mysqli_real_escape_string($conn,$_POST['purchaseordernumber']);
 	$taxing = $_POST['taxing'];
-	
-	$sql_insert = "INSERT INTO code_salesorder (name,created_by,date,po_number,taxing,customer_id,delivery_id,value) 
-	VALUES ('$so_number','$user_id','$so_date','$po_number','$taxing','$customer','$delivery_id','$value')";	
-	$r = $conn->query($sql_insert);	
 	$x = $_POST['jumlah_barang'];
-
-	$i = 1;
-	$sql_first= "SELECT * FROM code_salesorder WHERE name = '" . $so_number . "'"; 
-	$result = $conn->query($sql_first);	
-	while($rows = $result->fetch_assoc()){
-		$so_id = $rows['id'];
+	
+	if($customer != 0){
+		$delivery_id = $_POST['delivery_address'];
+		$sql = "INSERT INTO code_salesorder (name,created_by,date,po_number,taxing,customer_id,delivery_id,value) 
+		VALUES ('$so_number','$user_id','$so_date','$po_number','$taxing','$customer','$delivery_id','$value')";	
+	} else {
+		$name = mysqli_real_escape_string($conn,$_POST['retail_name']);
+		$address = mysqli_real_escape_string($conn,$_POST['retail_address']);
+		$city = mysqli_real_escape_string($conn,$_POST['retail_city']);
+		$phone = mysqli_real_escape_string($conn,$_POST['retail_phone']);
+		
+		$sql = "INSERT INTO code_salesorder (name,created_by,date,po_number,taxing,customer_id,delivery_id,value,retail_name,retail_address,retail_city,retail_phone) 
+		VALUES ('$so_number','$user_id','$so_date','$po_number','$taxing','$customer','','$value','$name','$address','$city','$phone')";
 	}
+	
+	$conn->query($sql);
+	$i = 1;
+	$sql_so= "SELECT * FROM code_salesorder WHERE name = '" . $so_number . "'"; 
+	$result_so = $conn->query($sql_so);	
+	$so = $result_so->fetch_assoc();
+	$so_id = $so['id'];
+	
 	for ($i = 1; $i <= $x; $i++){
 		$ref = $_POST["ref" . $i ];
 		$vat = $_POST["vat" . $i ];
@@ -35,10 +46,11 @@
 		$qty = $_POST["qty" . $i ];
 		$pl = $_POST["pl" . $i ];
 
-	$sql_second = "INSERT INTO sales_order (reference,price,discount,price_list,quantity,so_id) VALUES ('$ref','$vat','$disc','$pl','$qty','$so_id')";
-	$result = $conn->query($sql_second);
-	$sql_third = "INSERT INTO sales_order_sent (reference,so_id) VALUES ('$ref','$so_id')";
-	$result = $conn->query($sql_third);
+		$sql = "INSERT INTO sales_order (reference,price,discount,price_list,quantity,so_id) VALUES ('$ref','$vat','$disc','$pl','$qty','$so_id')";
+		$conn->query($sql);
+		
+		$sql = "INSERT INTO sales_order_sent (reference,so_id) VALUES ('$ref','$so_id')";
+		$result = $conn->query($sql);
 	} 
 ?>
 <script>

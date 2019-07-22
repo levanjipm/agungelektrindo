@@ -30,7 +30,7 @@
 		<form method="POST" action="do_validation.php" id="do_validate">
 			<div class="row">
 				<div class="col-sm-4">
-					<h4 style='font-family:bebasneue'><strong><?= $customer['name']; ?></strong></h4>
+					<h4 style='font-family:bebasneue'><?= $customer['name']; ?></h4>
 					<p><?= $customer['address'] ?></p>
 					<p><?= $customer['city'] ?></p>
 					<p><b>Purchase order number :</b><?= $po_number ?></p>

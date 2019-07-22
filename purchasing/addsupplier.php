@@ -2,7 +2,7 @@
 	include('../Codes/connect.php');
 	//Get every data on Input//
 	$name=$_POST['namaperusahaan'];
-	$address=$_POST['alamat'] . " Blok " . $_POST['blok'] . " no." . $_POST['nomor'] . ", RT" . $_POST['rt'] . ", RW" . $_POST['rw'];
+	$address = $_POST['alamat'] . " Blok " . $_POST['blok'] . " no." . $_POST['nomor'] . ", RT" . $_POST['rt'] . ", RW" . $_POST['rw'];
 	$phone=$_POST['phone'];
 	$npwp=$_POST['npwp'];
 	$city = $_POST['city'];

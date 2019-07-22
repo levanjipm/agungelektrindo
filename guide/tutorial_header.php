@@ -61,12 +61,4 @@
 			Tutorial
 		</a>
 	</div>
-	<div class='main'>
-	</div>
-	<style>
-		.btn-division{
-			border:2px solid #ac3939;
-			background-color:transparent;
-		}
-	</style>
 					

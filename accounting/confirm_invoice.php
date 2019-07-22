@@ -3,9 +3,6 @@
 ?>
 <script type='text/javascript' src="../universal/Jquery/jquery.inputmask.bundle.js"></script>
 <style>
-	input {
-	  font-family: monospace;
-	}
 	.notification_large{
 		position:fixed;
 		top:0;
@@ -59,16 +56,21 @@
 		header('confirm_invoice_dashboard.php');
 	} else {
 		$invoice_id = $_POST['id'];
-		$sql = "SELECT name FROM invoices WHERE id = '" . $invoice_id . "'";
+		$sql = "SELECT invoices.ongkir,invoices.name, code_delivery_order.tax, code_delivery_order.project_id, code_delivery_order.customer_id
+		FROM invoices 
+		JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+		WHERE invoices.id = '" . $invoice_id . "'";
+		
 		$result = $conn->query($sql);
 		$row = $result->fetch_assoc();
-		$invoice_name = $row['name'];
-		$do_name = 'SJ-AE-' . substr($invoice_name,6,100);
 		
-		$sql_initial = "SELECT tax FROM code_delivery_order WHERE name = '" . $do_name . "'";
-		$result_initial = $conn->query($sql_initial);
-		$row_initial = $result_initial->fetch_assoc();
-		$taxing = $row_initial['tax'];
+		$invoice_name = $row['name'];
+		$ongkir = $row['ongkir'];
+		$do_name = 'SJ-AE-' . substr($invoice_name,6,100);
+		$customer_id = $row['customer_id'];
+		
+		$project_id = $row['project_id'];
+		$taxing = $row['tax'];
 ?>
 		<form method="POST" action='delete_invoice_input.php' id='delete_invoice_form'>
 			<input type='hidden' value='<?= $invoice_id ?>' name='invoice_id'>
@@ -85,6 +87,9 @@
 			}
 ?>
 		</form>
+<?php
+	if($project_id == NULL){
+?>
 		<table class='table'>
 			<tr>
 				<th>Reference</th>
@@ -95,12 +100,13 @@
 				
 			</tr>
 <?php
-				$sql_do = "SELECT * FROM code_delivery_order WHERE name = '" . $do_name . "'";
+				$sql_do = "SELECT id,so_id FROM code_delivery_order WHERE name = '" . $do_name . "'";
 				$result_do = $conn->query($sql_do);
 				$row_do = $result_do->fetch_assoc();
 				$do_id = $row_do['id'];
 				$so_id = $row_do['so_id'];
-				$customer_id = $row_do['customer_id'];
+				
+				$value = 0;
 				$sql_table = "SELECT * FROM delivery_order WHERE do_id = '" . $do_id . "'";
 				$result_table = $conn->query($sql_table);
 				while($row_table = $result_table->fetch_assoc()){
@@ -142,25 +148,19 @@
 				</td>
 			</tr>
 <?php
+				$value += $quantity * $price;
 				}
-				$sql_invoice = "SELECT value,ongkir FROM invoices WHERE name = '" . $invoice_name . "'";
-				$result_invoice = $conn->query($sql_invoice);
-				$row_invoice = $result_invoice->fetch_assoc();
-				$value = $row_invoice['value'];
-				$ongkir = $row_invoice['ongkir'];
+			}
+				
 				if($taxing == 1){
 ?>
 			<tr>
-				<td style='border-top:1px solid #ddd;background-color:white'></td>
-				<td style='border-top:1px solid #ddd;background-color:white'></td>
-				<td style='border-top:1px solid #ddd;background-color:white'></td>
+				<td style='border-top:1px solid #ddd;background-color:white' colspan='3'></td>
 				<td>Subtotal</td>
 				<td><?= 'Rp. ' . number_format($value *10 / 11,2)?></td>
 			</tr>
 			<tr>
-				<td style='border:none;background-color:white'></td>
-				<td style='border:none;background-color:white'></td>
-				<td style='border:none;background-color:white'></td>
+				<td style='border:none;background-color:white' colspan='3'></td>
 				<td>PPn</td>
 				<td><?= 'Rp. ' . number_format($value - $value *10 / 11,2)?></td>
 			</tr>
@@ -168,9 +168,7 @@
 				} else {
 ?>
 			<tr>
-				<td style='border-top:1px solid #ddd;background-color:white'></td>
-				<td style='border-top:1px solid #ddd;background-color:white'></td>
-				<td style='border-top:1px solid #ddd;background-color:white'></td>
+				<td style='border-top:1px solid #ddd;background-color:white' colspan='3'></td>
 				<td>Total</td>
 				<td><?= 'Rp. ' . number_format($value *10 / 11,2)?></td>
 			</tr>

@@ -3,11 +3,14 @@
 	if(empty($_POST['customer']) || $_POST['customer'] == 0){
 		header('location:receivable_dashboard.php');
 	}
-	$sql_customer = "SELECT * FROM customer WHERE id = '" . $_POST['customer'] . "'";
+	$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $_POST['customer'] . "'";
 	$result_customer = $conn->query($sql_customer);
 	$customer = $result_customer->fetch_assoc();
 	
-	$sql_invoice = "SELECT SUM(value) AS jumlah FROM invoices WHERE customer_id = '" . $_POST['customer'] . "'";
+	$sql_invoice = "SELECT SUM(invoices.value) AS jumlah
+	FROM invoices
+	JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
+	WHERE code_delivery_order.customer_id = '" . $_POST['customer'] . "'";
 	$result_invoice = $conn->query($sql_invoice);
 	$invoice = $result_invoice->fetch_assoc();
 ?>
@@ -58,8 +61,10 @@
 ?>
 				</tr>
 <?php
-	$sql_invoice_detail = "SELECT invoices.id, invoices.date, invoices.name AS invoice_name, invoices.value, invoices.ongkir FROM invoices
-	WHERE invoices.customer_id = '" . $_POST['customer'] . "' AND invoices.isdone = '0'";
+	$sql_invoice_detail = "SELECT invoices.id, invoices.date, invoices.name AS invoice_name, invoices.value, invoices.ongkir 
+	FROM invoices
+	JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
+	WHERE code_delivery_order.customer_id = '" . $_POST['customer'] . "' AND invoices.isdone = '0'";
 	$result_invoice_detail = $conn->query($sql_invoice_detail);
 	while($invoice_detail = $result_invoice_detail->fetch_assoc()){
 ?>

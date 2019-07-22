@@ -3,13 +3,28 @@
 	$sql_header = "SELECT * FROM code_bank WHERE id = '" . $_POST['id'] . "'";
 	$result_header = $conn->query($sql_header);
 	$header = $result_header->fetch_assoc();
+	
+	$opponent_id = $header['bank_opponent_id'];
+	$opponent_type = $header['label'];
+	
+	if($opponent_type == 'CUSTOMER'){
+		$database = 'customer';
+	} else if($opponent_type == 'SUPPLIER'){
+		$database = 'supplier';
+	} else if($opponent_type == 'OTHER'){
+		$database = 'bank_account_other';
+	};
+	
+	$sql_selector = "SELECT name FROM " . $database . " WHERE id = '" . $opponent_id . "'";
+	$result_selector = $conn->query($sql_selector);
+	$selector = $result_selector->fetch_assoc();
 ?>
 <div class='main'>
 	<div class='row'>
 		<div class='col-sm-12'>
 			<form action='assign_bank_other_input.php' method='POST' id='input_form'>
 				<input type='hidden' value='<?= $_POST['id'] ?>' name='id' readonly>
-				<h2><?= $header['name'] ?></h2>
+				<h2><?= $selector['name'] ?></h2>
 				<p><?= date('d M Y',strtotime($header['date'])) ?></p>
 				<hr>
 				<table class='table table-hover'>

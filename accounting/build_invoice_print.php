@@ -17,7 +17,10 @@
 	
 	$id = $_POST['id'];
 	
-	$sql = "SELECT * FROM invoices WHERE id = '" . $id . "'";
+	$sql = "SELECT invoices.faktur,invoices.value,invoices.ongkir,invoices.name,invoices.date, code_delivery_order.customer_id
+	FROM invoices 
+	JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+	WHERE invoices.id = '" . $id . "'";
 	$result = $conn->query($sql);
 	$row = $result->fetch_assoc();
 	
@@ -94,6 +97,7 @@
 		} else {
 			$max = $counting;
 		}
+		$value = 0;
 			for($i = 1; $i <= $max; $i++){
 				$sql_table = "SELECT * FROM delivery_order WHERE do_id = '" . $do_id . "' LIMIT 1 OFFSET " . ($i - 1);
 				$result_table = $conn->query($sql_table);
@@ -122,9 +126,8 @@
 				<td><?php
 					$sql_price = "SELECT price FROM sales_order WHERE so_id = '" . $so_id . "' AND reference = '" . $row_table['reference'] . "'";
 					$result_price = $conn->query($sql_price);
-					while($row_price = $result_price->fetch_assoc()){
-						$price = $row_price['price'];
-					}
+					$row_price = $result_price->fetch_assoc();
+					$price = $row_price['price'];
 					if($taxing == 1){
 						echo ('Rp. ' . number_format($price * 10 /11,2));
 					} else {
@@ -140,36 +143,29 @@
 				?></td>
 			</tr>
 		<?php 
+			$value += $price * $row_table['quantity'];
 			}
 		}
 		if($taxing == 1){ 
 		?>
 			<tr>
-				<td style='background-color:white;border-bottom:none;'></td>
-				<td style='background-color:white;border-bottom:none;'></td>
-				<td style='background-color:white;border-bottom:none;'></td>
+				<td style='background-color:white;border-bottom:none;' colspan='3'></td>
 				<td>Subtotal</td>
 				<td><?= 'Rp. ' . number_format($value*10/11,2) ?></td>
 			</tr>
 			<tr>
-				<td style='background-color:white;border-bottom:none;border-top:none'></td>
-				<td style='background-color:white;border-bottom:none;border-top:none'></td>
-				<td style='background-color:white;border-bottom:none;border-top:none'></td>
+				<td style='background-color:white;border-bottom:none;' colspan='3'></td>
 				<td>PPn 10%</td>
 				<td><?= 'Rp. ' . number_format($value - $value*10/11,2) ?></td>
 			</tr>
 			<tr>
-				<td style='background-color:white;border-bottom:none;border-top:none'></td>
-				<td style='background-color:white;border-bottom:none;border-top:none'></td>
-				<td style='background-color:white;border-bottom:none;border-top:none'></td>
+				<td style='background-color:white;border-bottom:none;' colspan='3'></td>
 				<td>Total</td>
 				<td><?= 'Rp. ' . number_format($value,2) ?></td>
 			</tr>
 		<?php } else { ?>
 			<tr>
-				<td style='background-color:white;border-bottom:none;'></td>
-				<td style='background-color:white;border-bottom:none;'></td>
-				<td style='background-color:white;border-bottom:none;'></td>
+				<td style='background-color:white;border-bottom:none;' colspan='3'></td>
 				<td>Total</td>
 				<td><?= 'Rp. ' . number_format($value,2) ?></td>
 			</tr>
@@ -179,16 +175,12 @@
 			} else {
 		?>
 			<tr>
-				<td style='background-color:white;border:none;'></td>
-				<td style='background-color:white;border:none;'></td>
-				<td style='background-color:white;border:none;'></td>
+				<td style='background-color:white;border-bottom:none;' colspan='3'></td>
 				<td>Ongkos Kirim</td>
 				<td><?= 'Rp. ' . number_format($ongkir,2) ?></td>
 			</tr>
 			<tr>
-				<td style='background-color:white;border:none;'></td>
-				<td style='background-color:white;border:none;'></td>
-				<td style='background-color:white;border:none;'></td>
+				<td style='background-color:white;border-bottom:none;' colspan='3'></td>
 				<td>Grand total</td>
 				<td><?= 'Rp. ' . number_format($ongkir + $value,2) ?></td>
 			</tr>

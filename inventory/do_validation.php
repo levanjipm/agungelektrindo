@@ -6,6 +6,7 @@
 $so_id = $_POST["id"];
 $do_date = $_POST['today'];
 $customer_id = $_POST['customer_id'];
+
 switch (date('m',strtotime($do_date))) {
 	case "01" :
 		$month = 'I';
@@ -46,7 +47,7 @@ switch (date('m',strtotime($do_date))) {
 }	
 	$taxing = $_POST['tax'];
 	$sql_number = "SELECT * FROM code_delivery_order 
-	WHERE MONTH(date) = MONTH('" . $do_date . "') AND YEAR(date) = YEAR('" . $do_date . "') 
+	WHERE MONTH(date) = MONTH('" . $do_date . "') AND YEAR(date) = YEAR('" . $do_date . "') AND number > '0'
 	AND isdelete = '0' ORDER BY number ASC";
 	$results = $conn->query($sql_number);
 	if ($results->num_rows > 0){
@@ -62,26 +63,34 @@ switch (date('m',strtotime($do_date))) {
 	} else {
 		$nomor = 1;
 	};
+	
 	if ($taxing){
 		$tax_preview = 'P';
 	} else {
 		$tax_preview = 'N';
 	};
+	
 	$do_number_preview = "SJ-AE-" . str_pad($nomor,2,"0",STR_PAD_LEFT) . $tax_preview . "." . date("d",strtotime($do_date)). "-" . $month. "-" . date("y",strtotime($do_date));
 	
 	$sql = "SELECT * FROM code_salesorder WHERE id = '" . $so_id . "'";
 	$result = $conn->query($sql);
 	$row = $result->fetch_assoc();
+	
 	$po_number = $row['po_number'];
 	$customer_id = $row['customer_id'];
 	$delivery_id = $row['delivery_id'];
-
-	$sql_customer = "SELECT * FROM customer WHERE id = '" . $customer_id . "'";
-	$res = $conn->query($sql_customer);
-	$ro = $res->fetch_assoc();
-	$customer_name = $ro['name'];
-	$customer_address = $ro['address'];
-	$customer_city = $ro['city'];
+	if($customer_id != 0){
+		$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $customer_id . "'";
+		$result_customer = $conn->query($sql_customer);
+		$customer = $result_customer->fetch_assoc();
+		$name = $customer['name'];
+		$address = $customer['address'];
+		$city = $customer['city'];
+	} else {
+		$name = $row['retail_name'];
+		$address = $row['retail_address'];
+		$city = $row['retail_city'];
+	}
 
 	$s = $_POST['jumlah'];
 
@@ -114,9 +123,9 @@ switch (date('m',strtotime($do_date))) {
 				</div>
 				<div class="col-lg-6"><?php echo date('d M Y',strtotime($do_date));?></div>
 				<div class="col-lg-12">
-					<p>Kepada Yth. <b><?= $customer_name ?></b></p>
-					<p><?= $customer_address ?></p>
-					<p><?= $customer_city ?></p>
+					<p>Kepada Yth. <b><?= $name ?></b></p>
+					<p><?= $address ?></p>
+					<p><?= $city ?></p>
 				</div>
 			</div>
 		</div>

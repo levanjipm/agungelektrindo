@@ -105,7 +105,26 @@ $( function() {
 			type:'POST',
 		})
 	}
+	function service_view(n){
+		$.ajax({
+			url:'view_service_so.php',
+			data:{
+				id: n,
+			},
+			success:function(response){
+				$('#view_so').html(response);
+			},
+			type:'POST',
+		})
+	}
 	function send(n){
 		$('#so_form' + n).submit();
+	}
+	function send_project(n){
+		$('#project_form-' + n).submit();
+	}
+	
+	function send_services(n){
+		$('#service_form-'+n).submit();
 	}
 </script>

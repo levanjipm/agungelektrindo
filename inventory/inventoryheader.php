@@ -15,10 +15,9 @@
 	}
 	$sql_user = "SELECT name,role FROM users WHERE id = " . $_SESSION['user_id'];
 	$result_user = $conn->query($sql_user);
-	while($row_user = $result_user->fetch_assoc()){
-		$role = $row_user['role'];
-		$user_name = $row_user['name'];
-	};
+	$row_user = $result_user->fetch_assoc();
+	$role = $row_user['role'];
+	$user_name = $row_user['name'];
 	if(mysqli_num_rows($result_user) == 0){
 		header('location:../landing_page.php');
 	}
@@ -135,7 +134,7 @@
 			Add event
 		</a>
 		<br>
-		<a href='#'>
+		<a href='confirm_event_dashboard.php'>
 			Confirm event
 		</a>
 	</div>

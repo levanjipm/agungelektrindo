@@ -4,6 +4,9 @@
 ?>
 <script src='../universal/Numeral-js-master/numeral.js'></script>
 <div class='main'>
+	<h2 style='font-family:bebasneue'>Purchasing Journal</h2>
+	<p>View purchasing journal monthly</p>
+	<hr>
 	<div class='row'>
 		<div class='col-sm-3'>
 			<select class='form-control' id='month'>

@@ -58,11 +58,9 @@
 		<label>Quantity</label>
 		<input type='number' class='form-control' id='quantity' name='quantity'>
 		<br>
-		<a href='add_event_dashboard.php' style='text-decoration:none'>
-			<button type='button' class='btn btn-secondary'>Back</button>
-		</a>
+		<button type='button' class='btn btn-secondary' id='back_found_goods_button'>Back</button>
+		<button type='button' class='btn btn-default' id='submit_found_goods_confirmation_button'>Submit</button>
 	</form>
-	<button type='button' class='btn btn-default' id='submit_found_goods_confirmation_button'>Submit</button>
 </div>
 <div class='notification_large' style='display:none' id='confirm_notification'>
 	<div class='notification_box'>
@@ -74,6 +72,9 @@
 	</div>
 </div>
 <script>
+	$('#back_found_goods_button').click(function(){
+		window.history.back();
+	});
 	var available = 1;
 	$('#submit_found_goods_confirmation_button').click(function(){
 		$.ajax({

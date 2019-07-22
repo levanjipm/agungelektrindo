@@ -120,7 +120,7 @@
 			<br>
 			<button type='button' style='background-color:transparent;border:none;color:white;text-decoration:none' id='create_anon'>Create announcement</button>
 		</div>
-		<a href='../guide/tutorial_dashboard.php'>
+		<a href='../guide/tutorial.php'>
 			<button type='button' class='btn btn-badge' style='color:white'>
 			<i class="fa fa-graduation-cap" aria-hidden="true"></i>
 			Read Tutorial

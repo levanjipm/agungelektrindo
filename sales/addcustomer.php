@@ -1,6 +1,8 @@
 <?php
 	include("../codes/Connect.php");
 	session_start();
+	print_r($_POST);
+	
 	$name= mysqli_real_escape_string($conn,$_POST['namaperusahaan']);
 	$address = mysqli_real_escape_string($conn,$_POST['alamat']) . " Blok " . mysqli_real_escape_string($conn,$_POST['blok']) . " no." . mysqli_real_escape_string($conn,$_POST['nomor'])
 	. ", RT" . mysqli_real_escape_string($conn,$_POST['rt']) . ", RW" . mysqli_real_escape_string($conn,$_POST['rw']);
@@ -19,6 +21,7 @@
 	} else {
 		$jumlah_dua = 0;
 	}
+	
 	
 	$phone = mysqli_real_escape_string($conn,$_POST['phone']);
 	$city = mysqli_real_escape_string($conn,$_POST['city']);

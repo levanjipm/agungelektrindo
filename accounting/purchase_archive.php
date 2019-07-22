@@ -16,7 +16,7 @@
 	<input type='hidden' value='0' id='depth_year'>
 	<div class='row' id='folders'>
 <?php
-	$sql = "SELECT DISTINCT(YEAR(date)) AS year FROM invoices ORDER BY date DESC";
+	$sql = "SELECT DISTINCT(YEAR(date)) AS year FROM purchases ORDER BY date DESC";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){
 ?>
@@ -72,7 +72,7 @@
 			view_month($('#depth_year').val());
 		}
 	});
-	function view_archive_po(n){
+	function view_archive_purchase(n){
 		$('#purchase_archieve_form' + n).submit();
 	}
 </script>

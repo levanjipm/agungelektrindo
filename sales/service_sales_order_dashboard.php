@@ -7,7 +7,7 @@
 	<a href="#" id="folder"><i class="fa fa-folder"></i></a>
 	<a href="#" id="close"><i class="fa fa-close"></i></a>
 	<div class='row'>
-		<div class='col-sm-10'>
+		<div class='col-sm-10 col-sm-offset-1'>
 			<h2 style='font-family:bebasneue'>Sales order</h2>
 			<p>Create <strong>Service</strong> sales order</p>
 			<hr>

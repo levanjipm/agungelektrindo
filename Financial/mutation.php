@@ -46,7 +46,7 @@
 			<td><?= date('d M Y',strtotime($date)) ?></td>
 			<td>
 				<?php
-					$sql_opponent = "SELECT * FROM " . $table_from_label . " WHERE id = '" . $table['id'] . "'";
+					$sql_opponent = "SELECT name FROM " . $table_from_label . " WHERE id = '" . $table['bank_opponent_id'] . "'";
 					$result_opponent = $conn->query($sql_opponent);
 					$opponent = $result_opponent->fetch_assoc();
 					echo $opponent['name'];
