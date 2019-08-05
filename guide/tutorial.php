@@ -3,5 +3,6 @@
 ?>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Tutorial</h2>
-	<a href='#'>Getting started</a><br>
-	<a href='#'>Sales Department</a>
+	<hr>
+	<a href='getting_started.php'>Getting started</a><br>
+	<a href='#'>Get into it</a>

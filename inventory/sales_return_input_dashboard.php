@@ -37,6 +37,7 @@
 		
 		$sql_stock = "INSERT INTO stock (date,reference,transaction,quantity,stock,customer_id,document) VALUES
 		('$date','$reference','IN','$quantity','$stock_input','$customer_id','$document')";
+		echo $sql_stock;
 		
 		$result_stock = $conn->query($sql_stock);
 		$sql_out = "SELECT stock_value_out.in_id, stock_value_in.id, stock_value_in.price, stock_value_in.quantity AS in_quantity, stock_value_in.reference, stock_value_out.quantity AS out_quantity FROM stock_value_out
@@ -61,5 +62,5 @@
 		$sql_update_finish = "UPDATE code_sales_return SET isfinished = '1' WHERE id = '" . $return_id . "'";
 		$result_update_finish = $conn->query($sql_update_finish);
 	}
-	// header('location:inventory.php');
+	header('location:inventory.php');
 ?>

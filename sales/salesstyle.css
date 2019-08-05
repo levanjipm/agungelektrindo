@@ -2,14 +2,12 @@
   font-family: Bebasneue;
   src: url(../Universal/Font/Bebasneue/BebasNeue.woff);
 }
-.forming{
-		border:none;
-		border-bottom:2px solid #777;
-		background-color:transparent;
-	}
-	.forming:focus{
-		outline-width: 0;
-	}
+.btn:focus {
+	outline-color: transparent;
+	outline-style: none;
+	outline:none!important;
+	outline-width: 0;
+}
 .dropdown-container a{
 	color:white;
 	text-decoration:none;

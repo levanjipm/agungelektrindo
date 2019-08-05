@@ -20,5 +20,5 @@
 			}
 		}
 	}
-	header('location:sales_retrun_dashboard.php');
+	header('location:sales_return_dashboard.php');
 ?>

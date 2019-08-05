@@ -6,7 +6,7 @@
 	}
 ?>
 <div class='main'>
-<h2>Edit invoice</h2>
+<h2 style='font-family:bebasneue'>Edit invoice</h2>
 	<div class='row'>
 		<div class='col-sm-3'>
 			<select class='form-control' id='month'>

@@ -1,142 +1,347 @@
 <?php
 	include("salesheader.php");
+	
+	$sql_pending_so = "SELECT COUNT(DISTINCT(so_id)) AS jumlah_so FROM sales_order_sent WHERE status = '0'";
+	$result_pending_so = $conn->query($sql_pending_so);
+	$row_pending_so = $result_pending_so->fetch_assoc();
+	$pending_so = $row_pending_so['jumlah_so'];
+	
+	$month = date('m');
+	
+	$month_php = $month + 1;
+	$month_before_php = $month_php - 1;
+	$month_last_php = $month_before_php - 1;
+	$year = date('Y');
+	
+	if($month == 2){
+		$month_php = 1;
+		$month_before_php = 0;
+		$month_last_php = 11;
+		
+		$month_before = $month - 1;
+		$year_before = $year;
+		
+		$month_last = 12;
+		$year_last = $year - 1;
+		
+	} else if($month == 1){
+		$month_php = 0;
+		$month_before_php = 11;
+		$month_last_php = 10;
+		
+		$month_before = 12;
+		$year_before = $year - 1;
+		
+		$month_last = 11;
+		$year_last = $year - 1;
+	} else {
+		$month_before = $month - 1;
+		$month_last = $month - 2;
+		
+		$year_before = $year;
+		$year_last = $year;
+	}
+	
+	$sql_annual = "SELECT SUM(value) AS sales FROM invoices WHERE YEAR(date) = '$year'";
+	$result_annual = $conn->query($sql_annual);
+	$annual = $result_annual->fetch_assoc();
+	
+	$month_now = $month;
+	
+	$sql_this_month = "SELECT SUM(value) AS sales FROM invoices WHERE MONTH(date) = '$month' AND YEAR(date) = '$year'";
+	$result_this_month = $conn->query($sql_this_month);
+	$this_month = $result_this_month->fetch_assoc();
+	
+	$month_now = $month - 1;
+	if($month_now > $month){
+		$year = $year - 1;
+	}
+	$sql_month_before = "SELECT SUM(value) AS sales FROM invoices WHERE MONTH(date) = '" . $month_before . "' AND YEAR(date) = '$year_before'";
+	$result_month_before = $conn->query($sql_month_before);
+	$month_before = $result_month_before->fetch_assoc();
+	
+	$month_now = $month - 2;
+	if($month_now > $month || $this_month == 0){
+		$year = $year - 1;
+	}
+	
+	$sql_month_last = "SELECT SUM(value) AS sales FROM invoices WHERE MONTH(date) = '" . $month_last . "' AND YEAR(date) = '$year_last'";
+	$result_month_last = $conn->query($sql_month_last);
+	$month_last = $result_month_last->fetch_assoc();
+	
+	$sales_this_month = $this_month['sales'];
+	$sales_month_before = $month_before['sales'];
+	$sales_month_last = $month_last['sales'];
+	$sales_annual = $annual['sales'];
+	
+	$sales_this_month = $sales_this_month == NULL ? 0 : $sales_this_month;
+	$sales_month_before = $sales_month_before == NULL ? 0 : $sales_month_before;
+	$sales_month_last = $sales_month_last == NULL ? 0 : $sales_month_last;
+	
+	$pembagi = max($sales_this_month, $sales_month_before, $sales_month_last);
+	
+	$sales_annual = $sales_annual == '' ? 0 : $sales_annual;
 ?>
 <div class='main'>
+	<h2 style='font-family:bebasneue'>Sales</h2>
+	<hr>
+<style>
+	.progress{
+		width: 150px;
+		height: 150px;
+		line-height: 150px;
+		background: none;
+		margin: 0 auto;
+		box-shadow: none;
+		position: relative;
+	}
+	.progress:after{
+		content: "";
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+		border: 2px solid #fff;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	.progress > span{
+		width: 50%;
+		height: 100%;
+		overflow: hidden;
+		position: absolute;
+		top: 0;
+		z-index: 1;
+	}
+	.progress .progress-left{
+		left: 0;
+	}
+	.progress .progress-bar{
+		width: 100%;
+		height: 100%;
+		background: none;
+		border-width: 2px;
+		border-style: solid;
+		position: absolute;
+		top: 0;
+	}
+	.progress .progress-left .progress-bar{
+		left: 100%;
+		border-top-right-radius: 80px;
+		border-bottom-right-radius: 80px;
+		border-left: 0;
+		-webkit-transform-origin: center left;
+		transform-origin: center left;
+	}
+	.progress .progress-right{
+		right: 0;
+	}
+	.progress .progress-right .progress-bar{
+		left: -100%;
+		border-top-left-radius: 80px;
+		border-bottom-left-radius: 80px;
+		border-right: 0;
+		-webkit-transform-origin: center right;
+		transform-origin: center right;
+	}
+	.progress .progress-value{
+		width: 85%;
+		height: 85%;
+		border-radius: 50%;
+		border: 2px solid #ebebeb;
+		font-size: 32px;
+		line-height: 125px;
+		text-align: center;
+		position: absolute;
+		top: 7.5%;
+		left: 7.5%;
+	}
+	.progress.blue .progress-bar{
+		border-color: #049dff;
+	}
+	.progress.blue .progress-value{
+		color: #049dff;
+	}
+	.progress.blue .progress-right .progress-bar{
+		animation: loadinger-2 1s linear forwards;
+	}
+	.progress.blue .progress-left .progress-bar{
+		animation: loading-2 <?php if ($pembagi == 0){ echo (0); } else if(round($sales_this_month * 1.5/ $pembagi) < 0.5){ echo (0); } else { echo (round($sales_this_month * 0.5 / $pembagi)); } ?>s linear forwards 1s;
+	}
+	.progress.yellow .progress-bar{
+		border-color: #fdba04;
+	}
+	.progress.yellow .progress-value{
+		color: #fdba04;
+	}
+	.progress.yellow .progress-right .progress-bar{
+		animation: loadinger-3 1s linear forwards;
+	}
+	.progress.yellow .progress-left .progress-bar{
+		animation: loading-3 <?php if ($pembagi == 0){ echo (0); } else if(round($sales_month_before * 1.5/ $pembagi) < 0.5){ echo (0); } else { echo (round($sales_month_before * 0.5 / $pembagi)); } ?>s linear forwards 1s;
+	}
+	.progress.pink .progress-bar{
+		border-color: #ed687c;
+	}
+	.progress.pink .progress-value{
+		color: #ed687c;
+	}
+	.progress.pink .progress-right .progress-bar{
+		animation: loadinger-4 1s linear forwards;
+	}
+	.progress.pink .progress-left .progress-bar{
+		animation: loading-4 <?php if ($pembagi == 0){ echo (0); } else if(round($sales_month_last * 1.5/ $pembagi) < 0.5){ echo (0); } else { echo (round($sales_month_last * 0.5 / $pembagi)); } ?>s linear forwards 1s;
+	}
+	.progress.green .progress-bar{
+		border-color: #1abc9c;
+	}
+	.progress.green .progress-value{
+		color: #1abc9c;
+	}
+	.progress.green .progress-right .progress-bar{
+		animation: loadinger-5 1s linear forwards;
+	}
+	.progress.green .progress-left .progress-bar{
+		animation: loading-5 0.8s linear forwards 1s;
+	}
+	@keyframes loadinger-2{
+		0%{
+			-webkit-transform: rotate(0deg);
+			transform: rotate(0deg);
+		}
+		100%{
+			-webkit-transform: rotate(<?php if($pembagi == 0){ echo (0); } else {echo min(180,round($sales_this_month * 180 / $pembagi)); } ?>deg);
+			transform: rotate(<?php if($pembagi == 0){ echo (0); } else {echo min(180,round($sales_this_month * 180 / $pembagi)); } ?>deg);
+		}
+	}
+	@keyframes loading-2{
+		0%{
+			-webkit-transform: rotate(0deg);
+			transform: rotate(0deg);
+		}
+		100%{
+			-webkit-transform: rotate(<?php if($pembagi == 0){ echo (0); } else if(round($sales_this_month * 170 / $pembagi) < 180){ echo (0); } else { echo (round($sales_this_month * 170 / $pembagi)); } ?>deg);
+			transform: rotate(<?php if($pembagi == 0){ echo (0); } else if(round($sales_this_month * 170 / $pembagi) < 180){ echo (0); } else { echo (round($sales_this_month * 170 / $pembagi)); } ?>deg);
+		}
+	}
+	@keyframes loadinger-3{
+		0%{
+			-webkit-transform: rotate(0deg);
+			transform: rotate(0deg);
+		}
+		100%{
+			-webkit-transform: rotate(<?php if($pembagi == 0){ echo (0); } else {echo min(180,round($sales_month_before * 180 / $pembagi)); } ?>deg);
+			transform: rotate(<?php if($pembagi == 0){ echo (0); } else {echo min(180,round($sales_month_before * 180 / $pembagi)); } ?>deg);
+		}
+	}
+	@keyframes loading-3{
+		0%{
+			-webkit-transform: rotate(0deg);
+			transform: rotate(0deg);
+		}
+		100%{
+			-webkit-transform: rotate(<?php if($pembagi == 0){ echo (0); } else if(round($sales_month_before * 170 / $pembagi) < 170){ echo (0); } else { echo (round($sales_month_before * 170 / $pembagi)); } ?>deg);
+			transform: rotate(<?php if($pembagi == 0){ echo (0); } else if(round($sales_month_before * 170 / $pembagi) < 170){ echo (0); } else { echo (round($sales_month_before * 170 / $pembagi)); } ?>deg);
+		}
+	}
+	@keyframes loadinger-4{
+		0%{
+			-webkit-transform: rotate(0deg);
+			transform: rotate(0deg);
+		}
+		100%{
+			-webkit-transform: rotate(<?php if($pembagi == 0){ echo (0); } else {echo min(180,round($sales_month_last * 180 / $pembagi)); } ?>deg);
+			transform: rotate(<?php if($pembagi == 0){ echo (0); } else {echo min(180,round($sales_month_last * 180 / $pembagi)); } ?>deg);
+		}
+	}
+	@keyframes loading-4{
+		0%{
+			-webkit-transform: rotate(0deg);
+			transform: rotate(0deg);
+		}
+		100%{
+			-webkit-transform: rotate(<?php if($pembagi == 0){ echo (0); } else if(round($sales_month_last * 170 / $pembagi) < 170){ echo (0); } else { echo (round($sales_month_last * 170 / $pembagi)); } ?>deg);
+			transform: rotate(<?php if($pembagi == 0){ echo (0); } else if(round($sales_month_last * 170 / $pembagi) < 170){ echo (0); } else { echo (round($sales_month_last * 170 / $pembagi)); } ?>deg);
+		}
+	}
+	@keyframes loadinger-5{
+		0%{
+			-webkit-transform: rotate(0deg);
+			transform: rotate(0deg);
+		}
+		100%{
+			-webkit-transform: rotate(180deg);
+			transform: rotate(180deg);
+		}
+	}
+	@keyframes loading-5{
+		0%{
+			-webkit-transform: rotate(0deg);
+			transform: rotate(0deg);
+		}
+		100%{
+			-webkit-transform: rotate(150deg);
+			transform: rotate(150deg);
+		}
+	}
+	@media only screen and (max-width: 990px){
+		.progress{ margin-bottom: 20px; }
+	}
+</style>
 	<div class='row'>
-		<div class='col-md-4 col-sm-4'>
-			<div class='row box_notif'>
-				<div class='col-md-5' style='background-color:#2c3e50;padding-top:20px'>
-					<button class='btn' type='button' style='background-color:transparent' onclick='toggle_pending_so()'>
-						<img src='../universal/images/so.png' style='width:100%'>
-					</button>
-				</div>
-				<div class='col-md-7'>
+		<div class="col-sm-3" style='text-align:center'>
+			<div class="progress blue">
+				<span class="progress-left">
+					<span class="progress-bar"></span>
+				</span>
+				<span class="progress-right">
+					<span class="progress-bar"></span>
+				</span>
+				<div class="progress-value"><?= date('M',mktime(0,0,0,$month_php,0,$year)) ?></div>
+			</div>
+			<h5><strong>Rp. <?= number_format($sales_this_month,2) ?></strong></h5>
+		</div>
+		<div class="col-sm-3" style='text-align:center'>
+			<div class="progress yellow">
+				<span class="progress-left">
+					<span class="progress-bar"></span>
+				</span>
+				<span class="progress-right">
+					<span class="progress-bar"></span>
+				</span>
+				<div class="progress-value"><?= date('M',mktime(0,0,0,$month_before_php,0,$year)) ?></div>
+			</div>
+			<h5><strong>Rp. <?= number_format($sales_month_before,2) ?></strong></h5>
+		</div>
+		<div class="col-sm-3" style='text-align:center'>
+			<div class="progress pink">
+				<span class="progress-left">
+					<span class="progress-bar"></span>
+				</span>
+				<span class="progress-right">
+					<span class="progress-bar"></span>
+				</span>
+				<div class="progress-value"><?= date('M',mktime(0,0,0,$month_last_php,0,$year)) ?></div>
+			</div>
+			<h5><strong>Rp. <?= number_format($sales_month_last,2) ?></strong></h5>
+		</div>
+		<div class="col-sm-3" style='text-align:center'>
+			<div class="progress green">
+				<span class="progress-left">
+					<span class="progress-bar"></span>
+				</span>
+				<span class="progress-right">
+					<span class="progress-bar"></span>
+				</span>
+				<div class="progress-value"><?= $year ?></div>
+			</div>
+			<h5><strong>Rp. <?= number_format($sales_annual,2) ?></strong></h5>
+		</div>
+	</div>
 				<?php
-					$sql_pending_so = "SELECT COUNT(DISTINCT(so_id)) AS jumlah_so FROM sales_order_sent WHERE status = '0'";
-					$result_pending_so = $conn->query($sql_pending_so);
-					$row_pending_so = $result_pending_so->fetch_assoc();
-					echo ('<h1>' . $row_pending_so['jumlah_so'] . '</h1>');
-					echo ('<h3>Pending Sales Order</h3>');
+					
 				?>
 				</div>
 			</div>
 		</div>
 	</div>
-<script>
-function toggle_pending_so(){
-	$('#pending_so').fadeIn();
-}
-</script>
-	<div class='row' id='pending_so' style='display:none'>
-		<h2>Pending sales order</h2>
-		<table class='table'>
-			<tr style='background-color:#2c3e50;color:white;font-family:Verdana'>
-				<th style="width:20%;font-size:1em">Date</th>
-				<th style="width:30%;font-size:1em">SO Number</th>
-				<th style="width:30%;font-size:1em">Customer</th>
-				<th></th>
-			</tr>
-	<?php	
-	$sql = "SELECT DISTINCT(so_id) FROM sales_order_sent WHERE status = '0'";
-	$result = $conn->query($sql);
-	while($row = $result->fetch_assoc()){
-		$so_id = $row['so_id'];
-		$sql_name = "SELECT * FROM code_salesorder WHERE id = '" . $so_id . "'";
-		$result_name = $conn->query($sql_name);
-		while($row_name = $result_name->fetch_assoc()){
-			$so_name = $row_name['name'];
-			$customer_id = $row_name['customer_id'];
-			$so_date = $row_name['date'];
-		}
-		$sql_customer = "SELECT * FROM customer WHERE id = '" . $customer_id . "'";
-		$result_customer = $conn->query($sql_customer);
-		while($row_customer = $result_customer->fetch_assoc()){
-			$customer_name = $row_customer['name'];
-		}
-	?>
-			<tr>
-				<td><strong><?= date('d M Y',strtotime($so_date)) ?></strong></td>
-				<td><?= $so_name ?></td>
-				<td><?= $customer_name ?></td>
-				<td style="width:50%">
-					<button type='button' class="btn btn-default" onclick='showdetailso(<?= $so_id ?>)' id="more_detail_so<?= $so_id ?>">+</button>
-					<button type='button' class="btn btn-warning" onclick='lessdetailso(<?= $so_id ?>)' id="less_detail_so<?= $so_id ?>" style="display:none" >-</button>			
-				</td style="width:50%">
-			</tr>		
-			<tbody id='so<?= $so_id ?>' style='display:none'>
-	<?php
-		$sql_child = "SELECT sales_order.id, sales_order_sent.id, sales_order.quantity AS quantity_ordered,sales_order_sent.reference, sales_order_sent.status, sales_order.reference, sales_order_sent.quantity AS quantity_sent 
-		FROM sales_order_sent INNER JOIN sales_order ON sales_order.id = sales_order_sent.id
-		WHERE sales_order_sent.status = '0' AND sales_order_sent.so_id = '" . $so_id . "'";
-		$result_child = $conn->query($sql_child);
-		$i = 1;
-		while($row_child = $result_child->fetch_assoc()){
-			$reference = $row_child['reference'];
-			$quantity_sent = $row_child['quantity_sent'];
-			$quantity_ordered = $row_child['quantity_ordered'];
-			$quantity = $quantity_ordered - $quantity_sent;
-	?>
-				<tr>
-					<td><?= $reference ?></td>
-					<td><?php
-						$sql_item_so = "SELECT description FROM itemlist WHERE reference = '" . $reference . "'";
-						$result_item_so = $conn->query($sql_item_so);
-						$row_item_so = $result_item_so->fetch_assoc();
-						echo $row_item_so['description'];
-					?></td>
-					<td><?= $quantity . ' out of ' . $quantity_ordered . ' uncompleted' ?></td>
-				</tr>
-	<?php
-			}
-	?>
-			</tbody>
-	<?php
-		}
-	?>
-		</table>
-	</div>
-		<h2 style='font-family:bebasneue'>Daily Sales</h2>
-	<label>End date</label>
-	<input type='date' class='form-control' style='width:30%' onchange='update_date()' id='end_date'>
-	<hr>
-	<div id='chart'>
-	</div>
-<script>
-	$(document).ready(function(){
-		$.ajax({
-			url:'sales_chart.php',
-			data:{
-				date:"<?= date('Y-m-d')?>"
-			},
-			type:'POST',
-			success:function(response){
-				$('#chart').html(response);
-			},
-		})
-	});
-	function update_date(){
-		$.ajax({
-			url:'sales_chart.php',
-			data:{
-				date:$('#end_date').val()
-			},
-			type:'POST',
-			success:function(response){
-				$('#chart').html(response);
-			},
-		})
-	};
-</script>
-</div>
-<script>
-	function showdetailso(n){
-		$('#more_detail_so' + n).hide();
-		$('#less_detail_so' + n).show();
-		$('#so' + n).show();
-	}
-	function lessdetailso(n){
-		$('#more_detail_so' + n).show();
-		$('#less_detail_so' + n).hide();
-		$('#so' + n).hide();
-	}
-</script>

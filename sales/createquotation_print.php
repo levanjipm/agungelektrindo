@@ -187,7 +187,6 @@
 		</div>
 	</div>
 </body>
-
 <script>
 function printing(divName) {
      var printContents = document.getElementById(divName).innerHTML;

@@ -1,5 +1,6 @@
 <?php
 	include("accountingheader.php");
+	
 	$sql_30 = "SELECT SUM(value) AS less_than_30 FROM invoices 
 	WHERE isdone = '0' AND date >= '" . date('Y-m-d',strtotime('-30 days')) . "'";
 	$result_30 = $conn->query($sql_30);

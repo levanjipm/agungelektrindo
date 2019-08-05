@@ -28,7 +28,7 @@ $( function() {
 						<option id="customer_one" value="">Please select a customer--</option>
 						<option value='0'>Retail</option>
 							<?php
-								$sql = "SELECT id,name FROM customer";
+								$sql = "SELECT id,name FROM customer ORDER BY name ASC";
 								$result = $conn->query($sql);
 								if ($result->num_rows > 0) {
 									while($row = mysqli_fetch_array($result)) {

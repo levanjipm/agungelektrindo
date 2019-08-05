@@ -87,6 +87,15 @@ if(mysqli_num_rows($result_otorisasi) > 0){
 		<a href='purchase_archive.php'>
 			<p>Archives</p>
 		</a>
+<?php
+	if($role == 'superadmin'){
+?>
+		<a href='random_debt_document.php'>
+			<p>Input random</p>
+		</a>
+<?php
+	}
+?>
 	</div>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-code" aria-hidden="true"></i>
@@ -101,7 +110,7 @@ if(mysqli_num_rows($result_otorisasi) > 0){
 		</a>
 	</div>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
-		<i class="fa fa-undo" aria-hidden="true"></i>
+		<i class="fa fa-bookmark" aria-hidden="true"></i>
 		Journals
 	</button>
 	<div class="dropdown-container">
@@ -116,7 +125,7 @@ if(mysqli_num_rows($result_otorisasi) > 0){
 		</a>
 	</div>
 	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
-		<i class="fa fa-undo" aria-hidden="true"></i>
+		<i class="fa fa-credit-card-alt" aria-hidden="true"></i>
 		Receivable
 	</button>
 	<div class="dropdown-container">
@@ -129,7 +138,7 @@ if(mysqli_num_rows($result_otorisasi) > 0){
 	</div>
 	<a href='payable_dashboard.php'>
 		<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
-			<i class="fa fa-file-o" aria-hidden="true"></i>
+			<i class="fa fa-credit-card" aria-hidden="true"></i>
 			Payable
 		</button>
 	</a>
@@ -184,20 +193,14 @@ if(mysqli_num_rows($result_otorisasi) > 0){
 		<i class="fa fa-eercast" aria-hidden="true"></i>Accounting Department
 	</a>
 	<script>
-	var dropdown = document.getElementsByClassName("dropdown-btn");
-	var i;
-
-	for (i = 0; i < dropdown.length; i++) {
-	dropdown[i].addEventListener("click", function() {
-	this.classList.toggle("active");
-	var dropdownContent = this.nextElementSibling;
-	if (dropdownContent.style.display === "block") {
-	dropdownContent.style.display = "none";
-	} else {
-	dropdownContent.style.display = "block";
-	}
+	$('.dropdown-btn').click(function(){
+		if($(this).next().is(':visible')){
+			$(this).css('color','white');
+		} else {
+			$(this).css('color','#00ccff');
+		}
+		$(this).next().toggle(350);
 	});
-	}
 	</script>
 </div>
 <?php

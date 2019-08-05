@@ -24,20 +24,12 @@
 	$sql_customer = "SELECT name,city FROM customer WHERE id = '" . $initial['customer_id'] . "'";
 	$result_customer = $conn->query($sql_customer);
 	$customer = $result_customer->fetch_assoc();
-	
-	if($initial['method'] == 1){
-		$methods = "reduction in receivables";
-	} else if($initial['method'] == 2){
-		$methods = "convert to payable";
-	}
 ?>
 	<div class='main'>
 	<h2><?= $do['name'] ?></h2>
 	<p><strong><?= $customer['name'] ?></strong></p>
 	<p><?= $customer['city'] ?></p>
 	<hr>
-	<label>Method</label>
-	<p><?= $methods ?></p>
 	<table class='table table-hover'>
 		<tr>
 			<th>Item name</th>
@@ -79,7 +71,10 @@
 		</tr>
 <?php
 	$i = 1;
-	$sql = "SELECT * FROM invoices WHERE isdone = '0' AND customer_id = '" . $initial['customer_id'] . "'";
+	$sql = "SELECT invoices.id, invoices.date, invoices.name, invoices.value FROM invoices
+	JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
+	WHERE invoices.isdone = '0' 
+	AND code_delivery_order.customer_id = '" . $initial['customer_id'] . "'";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){
 		$invoice_id = $row['id'];
@@ -101,12 +96,12 @@
 	$i++;
 	}
 ?>
-	<table>
+	</table>
 	<input type='hidden' value='<?= $harga_total ?>' name='harga_total'>
 	<input type='hidden' value='<?= $return_id ?>' name='return_id'>
 	<input type='hidden' value='<?= $i ?>' name='i'>
-	<button type='submit'>Next</button>
-</div>
+	<button type='submit' class='btn btn-default'>Next</button>
+	</form>
 </div>
 <?php
 	}

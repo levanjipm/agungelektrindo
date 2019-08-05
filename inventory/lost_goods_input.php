@@ -32,8 +32,8 @@
 		
 		$event_name = 'LOS' . $jumlah;
 		
-		$sql = "INSERT INTO code_adjustment_event (date,event_id,created_by)
-		VALUES ('$date','$event_name','$user_id')";
+		$sql = "INSERT INTO code_adjustment_event (date,event_id,event_name,created_by)
+		VALUES ('$date','1','$event_name','$user_id')";
 		$result = $conn->query($sql);
 		if($result){
 			$sql_get_id = "SELECT id FROM code_adjustment_event ORDER BY id DESC LIMIT 1";

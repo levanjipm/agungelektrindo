@@ -76,6 +76,53 @@
 <?php
 	}
 ?>
+<style>
+	.notification_large{
+		position:fixed;
+		top:0;
+		left:0;
+		background-color:rgba(51,51,51,0.3);
+		width:100%;
+		text-align:center;
+		height:100%;
+		display:none;
+		z-index:20;
+	}
+	.notification_large .notification_box{
+		position:relative;
+		background-color:#fff;
+		padding:30px;
+		width:100%;
+		top:30%;
+		box-shadow: 3px 4px 3px 4px #ddd;
+	}
+	.btn-confirm{
+		background-color:#2bf076;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	.btn-delete{
+		background-color:red;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	.btn-back{
+		background-color:#777;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	.btn-x{
+		background-color:transparent;
+		border:none;
+		outline:0!important;
+	}
+	.btn-x:focus{
+		outline: 0!important;
+	}
+</style>
 	<!-- Side bar, user data -->
 	<div class="sidenav">
 		<div class='row'>
@@ -102,9 +149,10 @@
 			$result_dept = $conn->query($sql_dept);
 			$row_dept = $result_dept->fetch_assoc();
 			$department = $row_dept['department'];
+			
 		?>
 			<a href='../<?= $department ?>/<?= $department ?>.php' style='color:white;text-decoration:none'>
-				<?= $department ?>
+				<?php $department_name = ($department == 'human_resource')? 'Human resource' : $department; echo $department_name; ?>
 			</a>
 			<br>
 		<?php
@@ -116,7 +164,7 @@
 			Create
 		</button>
 		<div class='dropdown-container'>
-			<button type='button' style='background-color:transparent;border:none;color:white;text-decoration:none' id='create_events'>Create event</button>
+			<button type='button' style='background-color:transparent;border:none;color:white;text-decoration:none' id='create_news'>Create event</button>
 			<br>
 			<button type='button' style='background-color:transparent;border:none;color:white;text-decoration:none' id='create_anon'>Create announcement</button>
 		</div>
@@ -133,51 +181,38 @@
 			</button>
 		</a>
 		<script>
-		var dropdown = document.getElementsByClassName("dropdown-btn");
-		var i;
-
-		for (i = 0; i < dropdown.length; i++) {
-		dropdown[i].addEventListener("click", function() {
-		this.classList.toggle("active");
-		var dropdownContent = this.nextElementSibling;
-		if (dropdownContent.style.display === "block") {
-		dropdownContent.style.display = "none";
-		} else {
-		dropdownContent.style.display = "block";
-		}
+		$('.dropdown-btn').click(function(){
+			if($(this).next().is(':visible')){
+				$(this).css('color','white');
+			} else {
+				$(this).css('color','#00ccff');
+			}
+			$(this).next().toggle(350);
 		});
-		}
 		</script>
 	</div>
-	<div id="myModal" class="modal">
-			<div class="modal-content">
-			<span class="close" id='close_anon'>&times;</span>
-			<form action='create_announcement.php' method='POST'>
-				<h2>Create new Announcement</h2>
-				<label>Date</label>
-				<input type='date' class='form-control' name='announcement_date' required min='<?= date('Y-m-d') ?>'>
-				<label>Event name</label>
-				<input type='text' class='form-control' name='event' required>
-				<br><br>
-				<button type='submit' class='btn btn-success'>Submit</button>
-			</form>
-			</div>
-	</div>
-	<div id="modal_events" class="modal">
-		<div class="modal-content">
-		<span class="close" id='close_remind'>&times;</span>
-		<form action='add_calendar.php' method='POST' id='form_calendar'>
-			<h2>Create reminder</h2>
-			<input type='hidden' value="<?= $_SESSION['user_id'] ?>" name='maker'>
+	<div class='notification_large' id='announcement_notification'>
+		<div class='notification_box'>
+			<h2 style='font-family:bebasneue'>Create new Announcement</h2>
 			<label>Date</label>
-			<input type='date' class='form-control' required min='<?= date('Y-m-d') ?>' name='event_date'>
+			<input type='date' class='form-control' name='announcement_date' min='<?= date('Y-m-d') ?>'>
 			<label>Event name</label>
-			<input type='text' class='form-control' required name='event_name'>
-			<label>Event Description</label>
-			<textarea id="form7" class="md-textarea form-control" rows="3" name='description'></textarea>
+			<input type='text' class='form-control' name='event' required>
+			<br><br>
+			<button type='button' class='btn btn-back'>Back</button>
+			<button type='button' class='btn btn-confirm' id='confirm_button_announcement'>Confirm</button>
+		</div>
+	</div>
+	<div class='notification_large' id='news_notification'>
+		<div class='notification_box'>
+			<h2 style='font-family:bebasneue'>Create new News</h2>
+			<label>Date</label>
+			<input type='date' class='form-control' name='announcement_date' min='<?= date('Y-m-d') ?>'>
+			<label>News name</label>
+			<input type='text' class='form-control' name='event' required>
 			<br><br>
 			<label>Tag</label>
-			<input id="example" name="example" type="text">
+			<input id="tag" name="example" type="text">
 			<?php
 				$tag = '';
 				$sql_tag = "SELECT name FROM users";
@@ -187,7 +222,7 @@
 			?>
 			<input type='hidden' id='tags' name='tags'>
 			<script>
-			$('#example').tagsInput({
+			$('#tag').tagsInput({
 				interactive: true,
 				placeholder: 'Add a tag',
 				minChars: 0,
@@ -200,46 +235,29 @@
 				}
 			});
 			</script>
+			<button type='button' class='btn btn-back'>Back</button>
+			<button type='button' class='btn btn-confirm' id='confirm_button_announcement'>Confirm</button>
 			<input type='hidden' id='words' name='x'>
 			<button type='button' class='btn btn-success' onclick='convert()'>Submit</button>
 		</form>
 		</div>
 	</div>
 	<script>
+		$('#create_anon').click(function(){
+			$('#announcement_notification').fadeIn();
+		});
+		$('#create_news').click(function(){
+			$('#news_notification').fadeIn();
+		});
+		$('.btn-back').click(function(){
+			$('.notification_large').fadeOut();
+		});
 		function convert(){
-			$('#tags').val($('#example').val());
-			var value = $('#example').val().replace(" ", "");
+			$('#tags').val($('#tag').val());
+			var value = $('#tag').val().replace(" ", "");
 			var words = value.split(",");
 			$('#words').val(words.length);
 			$('#form_calendar').submit();
-		}
-		var modal = document.getElementById('myModal');
-		var btn = document.getElementById("create_anon");
-		var span_modal = document.getElementById("close_anon");
-		btn.onclick = function() {
-		  modal.style.display = "block";
-		}
-		span_modal.onclick = function() {
-		  modal.style.display = "none";
-		}
-		window.onclick = function(event) {
-		  if (event.target == modal) {
-			modal.style.display = "none";
-		  }
-		}
-		var modalbaru = document.getElementById('modal_events');
-		var tombol = document.getElementById("create_events");
-		var silang = document.getElementById("close_remind");
-		tombol.onclick = function() {
-		  modalbaru.style.display = "block";
-		}
-		silang.onclick = function() {
-		  modalbaru.style.display = "none";
-		}
-		window.onclick = function(event) {
-		  if (event.target == modalbaru) {
-			modalbaru.style.display = "none";
-		  }
 		}
 		</script>
 	<style>
@@ -608,86 +626,8 @@
 		}
 	</script>
 <?php
-	if($privilege == 1){
-		$sql_absent ="SELECT id,name FROM users";
-		$result_absent = $conn->query($sql_absent);
-?>
-	<h2>Attendence</h2>
-		<hr>
-		<table class='table table-hover'>
-			<tr>
-				<th>Name</th>
-				<th></th>
-				<th></th>
-				<th></th>
-			</tr>
-<?php
-		while($absent = $result_absent->fetch_assoc()){
-			$sql_absensi = "SELECT COUNT(id) AS exist FROM absentee_list WHERE user_id = '" . $absent['id'] . "' AND date = '" . date('Y-m-d') . "'";
-			$result_absensi = $conn->query($sql_absensi);
-			$absensi = $result_absensi->fetch_assoc();
-			if($absensi['exist'] == 0){
-?>
-			<tr id='barisan<?= $absent['id'] ?>'>
-				<td><?= $absent['name'] ?></td>
-				<td>
-					<button type='button' class='btn btn-success' onclick='absen_ok(<?= $absent['id'] ?>)' id='plus<?= $absent['id'] ?>'>Time!</button>
-				</td>
-				<td>
-					<button type='button' class='btn btn-default' onclick='absen_bolong(<?= $absent['id'] ?>)' id='minus<?= $absent['id'] ?>'>&times</button>
-				</td>
-				<td id='<?= $absent['id'] ?>'></td>
-			</tr>
-<?php
-			}
-		}
-?>
-		</table>
-		<script>
-			function absen_ok(n){
-				var d = new Date();
-				var hours = ("0"+d.getHours()).slice(-2);
-				var minutes = ("0"+d.getMinutes()).slice(-2);
-				var second = ("0"+d.getSeconds()).slice(-2);
-				var time_string = hours + ":" + minutes + ":" + second;
-				$('#' + n).html(time_string);
-				$.ajax({
-					url:"absenin.php",
-					data:{
-						time:time_string,
-						date:"<?= date('Y-m-d') ?>",
-						user_id: n,
-						tipe:"1",
-					},
-					type:"POST",
-					success:function(){
-						$('#barisan' + n).hide();
-					}
-				})
-			}
-			function absen_bolong(n){
-				var d = new Date();
-				var hours = ("0"+d.getHours()).slice(-2);
-				var minutes = ("0"+d.getMinutes()).slice(-2);
-				var second = ("0"+d.getSeconds()).slice(-2);
-				var time_string = hours + ":" + minutes + ":" + second;
-				$('#barisan' + n).hide();
-				$.ajax({
-					url:"absenin.php",
-					data:{
-						time:time_string,
-						date:"<?= date('Y-m-d') ?>",
-						user_id: n,
-						tipe:"2",
-					},
-					type:"POST",
-					success:function(){
-						$('#barisan' + n).hide();
-					}
-				})
-			}
-		</script>
-<?php
-	}
+if($privilege == 1){
+	include('calendar_absent.php');
+}
 ?>
 </div>

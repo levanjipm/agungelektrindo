@@ -35,7 +35,18 @@
 	<form action="check_stock_file.php" method="post" enctype="multipart/form-data">
 		<input type="file" class="custom-file-input">
 	</form>
-	<input type="text" id="myInput" placeholder="Search for reference or description" class="form-control">
+	<input type="text" id="myInput" placeholder="Search..">
+	<style>
+		input[type=text] {
+			padding:10px;
+			width: 130px;
+			-webkit-transition: width 0.4s ease-in-out;
+			transition: width 0.4s ease-in-out;
+		}
+		input[type=text]:focus {
+			width: 100%;
+		}
+	</style>
 	<hr>
 	<div class="row" style="text-align:center">
 		<div class="col-lg-3">

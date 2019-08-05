@@ -3,7 +3,10 @@
 	$month = $_POST['month'];
 	$year = $_POST['year'];
 	
-	$sql_search = "SELECT * FROM invoices WHERE MONTH(date) = '" . $month . "' AND YEAR(date) = '" . $year . "' AND isconfirm = '1'";
+	$sql_search = "SELECT invoices.id, invoices.value, invoices.ongkir, invoices.name, invoices.date, invoices.faktur, code_delivery_order.customer_id
+	FROM invoices
+	JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
+	WHERE MONTH(invoices.date) = '" . $month . "' AND YEAR(invoices.date) = '" . $year . "' AND invoices.isconfirm = '1'";
 	$result_search = $conn->query($sql_search);
 	while($row_search = $result_search->fetch_object()){
 ?>

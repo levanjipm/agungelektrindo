@@ -26,14 +26,24 @@
 	$result_stock = $conn->query($sql_stock);
 	while($stock = $result_stock->fetch_assoc()){
 		if($stock['transaction'] == 'IN'){
+			if($stock['supplier_id'] == 0 && $stock['customer_id'] != 0){
+				$sql_name = "SELECT name FROM customer WHERE id = '" . $stock['customer_id'] . "'";
+			} else if($stock['supplier_id'] != 0 && $stock['customer_id'] == 0){
+				$sql_name = "SELECT name FROM supplier WHERE id = '" . $stock['supplier_id'] . "'";
+			} else {
+				$sql_name = "";
+			}
 ?>
 			<tr>
 				<td><?= date('d M Y',strtotime($stock['date'])) ?></td>
 				<td><?php
-					$sql_supplier = "SELECT name FROM supplier WHERE id = '" . $stock['supplier_id'] . "'";
-					$result_supplier = $conn->query($sql_supplier);
-					$supplier = $result_supplier->fetch_assoc();
-					echo $supplier['name']; 
+					if($sql_name == ""){
+						echo ('Internal transaction');
+					} else {
+						$result_name = $conn->query($sql_name);
+						$name = $result_name->fetch_assoc();
+						echo $name['name'];
+					}
 				?></td>
 				<td><?= $stock['document']; ?></td>
 				<td><?= $stock['quantity'] ?></td>

@@ -198,18 +198,12 @@ Sales Department
 	}
 ?>
 <script>
-	var dropdown = document.getElementsByClassName("dropdown-btn");
-	var i;
-
-	for (i = 0; i < dropdown.length; i++) {
-	dropdown[i].addEventListener("click", function() {
-	this.classList.toggle("active");
-	var dropdownContent = this.nextElementSibling;
-	if (dropdownContent.style.display === "block") {
-	dropdownContent.style.display = "none";
+$('.dropdown-btn').click(function(){
+	if($(this).next().is(':visible')){
+		$(this).css('color','white');
 	} else {
-	dropdownContent.style.display = "block";
+		$(this).css('color','#00ccff');
 	}
-	});
-	}
+	$(this).next().toggle(350);
+});
 </script>
