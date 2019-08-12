@@ -43,7 +43,10 @@
 			<td><?= date('d M Y',strtotime($row['date'])) ?></td>
 			<td><?= $selector['name'] ?></td>
 			<td>Rp. <?= number_format($row['value'],2) ?></td>
-			<td><button type='button' class='btn btn-default' onclick='pass(<?= $row['id'] ?>)'>Assign as payment</button></td>
+			<td><button type='button' class='btn btn-default' onclick='assign_debit(<?= $row['id'] ?>)'>Assign as payment</button></td>
+			<form action='assign_bank_assign.php' method='POST' id='form_assign_debit<?= $row['id'] ?>'>
+				<input type='hidden' value='<?= $row['id'] ?>' name='id'>
+			</form>
 			<td><button type='button' class='btn btn-primary' onclick='other(<?= $row['id'] ?>)'>Assign as other</button></td>
 			<form action='assign_bank_other.php' method='POST' id='other_form<?= $row['id'] ?>'>
 				<input type='hidden' value='<?= $row['id'] ?>' name='id'>
@@ -111,5 +114,9 @@
 	function pass(n){
 		var id = n;
 		$('#form' + id).submit();
+	}
+	function assign_debit(n){
+		var id = n;
+		$('#form_assign_debit' + id).submit();
 	}
 </script>
