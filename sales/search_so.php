@@ -24,31 +24,30 @@ $( function() {
 </style>		
 <?php
 	$badge1 = 0;
-	$search = $_POST['search'];
-	$sql_init1 = "SELECT id FROM customer WHERE name LIKE '%" . $search . "%'";
-	$result_init1 = $conn->query($sql_init1);
+	$term 			= $_POST['search'];
+	$sql_init1 		= "SELECT id FROM customer WHERE name LIKE '%" . $term . "%'";
+	$result_init1 	= $conn->query($sql_init1);
 	while($row_init1 = $result_init1->fetch_assoc()){
-		$parameter = $row_init1['id'];
-		$sql_badge = 'SELECT COUNT(*) AS jumlah FROM code_salesorder WHERE customer_id = "' . $parameter . '"';
-		$result_badge = $conn->query($sql_badge);
-		$row_badge_1 = $result_badge->fetch_assoc();
+		$parameter 		= $row_init1['id'];
+		$sql_badge 		= 'SELECT COUNT(*) AS jumlah FROM code_salesorder WHERE customer_id = "' . $parameter . '"';
+		$result_badge 	= $conn->query($sql_badge);
+		$row_badge_1 	= $result_badge->fetch_assoc();
 		if($row_badge_1['jumlah'] > 0){
-			$badge1 = $badge1 + mysqli_num_rows($result_badge);
+			$badge1 	= $badge1 + mysqli_num_rows($result_badge);
 		}
 	}
-	$sql_init2 = "SELECT * FROM sales_order WHERE reference LIKE '%" . $search . "%'";
-	$result_init2 = $conn->query($sql_init2);
-	$badge2 = mysqli_num_rows($result_init2);
+	$sql_init2 			= "SELECT * FROM sales_order WHERE reference LIKE '%" . $term . "%'";
+	$result_init2 		= $conn->query($sql_init2);
+	$badge2 			= mysqli_num_rows($result_init2);
 ?>
 <div class="main">
-	<div class="container">
-		<h3>Search result for</h3>
-		<p><?= $search ?></p>
+		<h3 style='font-family:bebasneue'>Search result for</h3>
+		<p><?= $term ?></p>
 		<div class="row">
-			<div class="col-lg-3">
+			<div class="col-sm-3">
 				<button type="button" class="btn btn-search picked" onclick='pick(1)' id="button1">Based on customer<span class="badge"><?= $badge1 ?></span></button>
 			</div>
-			<div class="col-lg-3">
+			<div class="col-sm-3">
 				<button type="button" class="btn btn-search" onclick='pick(2)' id="button2">Based on reference<span class="badge"><?= $badge2 ?></span></button>
 			</div>
 		</div>
@@ -56,7 +55,7 @@ $( function() {
 	<br><br>
 	<div class="container" id='search1'>
 <?php
-	$sql_customer = "SELECT name,id FROM customer WHERE name LIKE '%" . $search . "%'";
+	$sql_customer = "SELECT name,id FROM customer WHERE name LIKE '%" . $term . "%'";
 	$r = $conn->query($sql_customer);
 	while($rows = $r->fetch_assoc()){
 		$id = $rows['id'];
@@ -70,7 +69,7 @@ $( function() {
 			$date = $code['date'];
 ?>
 		<div class="row">
-			<div class="col-lg-8">
+			<div class="col-sm-8">
 				<div class="container" style="padding:20px">
 					<strong>
 						<?= $customer_name ?>,
@@ -80,7 +79,7 @@ $( function() {
 					<?= $date ?>
 				</div>
 			</div>
-			<div class='col-lg-4'>
+			<div class='col-sm-4'>
 				<button type='button' onclick='edit(<?= $so_id ?>)' class='btn btn-success'>
 					Edit Sales Order
 				</button>
@@ -103,7 +102,7 @@ $( function() {
 	</div>
 	<div class="container" id='search2' style='display:none'>
 <?php
-	$sql_reference = "SELECT * FROM sales_order WHERE reference LIKE '%" . $search . "%'";
+	$sql_reference = "SELECT * FROM sales_order WHERE reference LIKE '%" . $term . "%'";
 	$result_reference = $conn->query($sql_reference);
 	while($row_reference = $result_reference->fetch_assoc()){
 		$so_id = $row_reference['so_id'];
@@ -120,7 +119,7 @@ $( function() {
 			if ($num_rows > 0){
 ?>
 		<div class="row">
-			<div class="col-lg-8">
+			<div class="col-sm-8">
 				<div class="container" style="padding:20px">
 					<a href="editquotation.php?id=<?= $row['id']?>" style="text-decoration:none;color:black">
 						<strong>
@@ -132,7 +131,7 @@ $( function() {
 						<?= $row['date'] ?>
 				</div>
 			</div>
-			<div class="col-lg-4">
+			<div class="col-sm-4">
 				<button type="button" class="btn btn-copy">Copy quotation</button>
 			</div>
 		</div>

@@ -99,7 +99,7 @@ $selector = $result_selector->fetch_assoc();
 			</td>
 			<td>
 				Rp. <span id='remain-<?= $i ?>'><?= number_format(($invoices['value'] + $invoices['ongkir'] - $received),2) ?></span>
-				<input type='hidden' value='<?= ($invoices['value'] + $invoices['ongkir']) ?>' id='remaining-<?= $i ?>' name='remaining<?= $i ?>' readonly>
+				<input type='hidden' value='<?= ($invoices['value'] + $invoices['ongkir'] - $received) ?>' id='remaining-<?= $i ?>' name='remaining<?= $i ?>' readonly>
 			</td>
 		</tr>
 <?php

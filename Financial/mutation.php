@@ -2,10 +2,11 @@
 	include('../codes/connect.php');	
 	$start_date = $_POST['start_date'];
 	$end_date = $_POST['end_date'];
-	$sql_initial1 = "SELECT SUM(value) AS saldo_awal_debit FROM code_bank WHERE date < '" . $start_date . "' AND transaction = '1'";
+	
+	$sql_initial1 = "SELECT SUM(value) AS saldo_awal_debit FROM code_bank WHERE date < '" . $start_date . "' AND transaction = '1' AND isdelete ='0'";
 	$result_initial1 = $conn->query($sql_initial1);
 	$initial1 = $result_initial1->fetch_assoc();
-	$sql_initial2 = "SELECT SUM(value) AS saldo_awal_credit FROM code_bank WHERE date < '" . $start_date . "' AND transaction = '2'";
+	$sql_initial2 = "SELECT SUM(value) AS saldo_awal_credit FROM code_bank WHERE date < '" . $start_date . "' AND transaction = '2' AND isdelete ='0'";
 	$result_initial2 = $conn->query($sql_initial2);
 	$initial2 = $result_initial2->fetch_assoc();
 	
@@ -22,7 +23,7 @@
 			<th>Balance</th>
 		</tr>
 <?php
-	$sql_table = "SELECT id,bank_opponent_id,label,value,transaction,date FROM code_bank WHERE date >= '" . $start_date . "' AND date <= '" . $end_date . "'";
+	$sql_table = "SELECT id,bank_opponent_id,label,value,transaction,date FROM code_bank WHERE date >= '" . $start_date . "' AND date <= '" . $end_date . "' AND isdelete = '0'";
 	$result_table = $conn->query($sql_table);
 	while($table = $result_table->fetch_assoc()){
 		$label = $table['label'];

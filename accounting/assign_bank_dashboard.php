@@ -42,6 +42,7 @@
 		<tr>
 			<td><?= date('d M Y',strtotime($row['date'])) ?></td>
 			<td><?= $selector['name'] ?></td>
+			<td>Rp. <?= number_format($row['value'],2) ?></td>
 			<td><button type='button' class='btn btn-default' onclick='pass(<?= $row['id'] ?>)'>Assign as payment</button></td>
 			<td><button type='button' class='btn btn-primary' onclick='other(<?= $row['id'] ?>)'>Assign as other</button></td>
 			<form action='assign_bank_other.php' method='POST' id='other_form<?= $row['id'] ?>'>

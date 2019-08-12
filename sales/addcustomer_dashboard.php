@@ -188,6 +188,7 @@ function proceed(){
 				setTimeout(function(){
 					$('#alert_success').fadeOut();
 				},1000);
+				$('input').val('');
 			} else if(response == 2){
 				$('#close_modal').click();
 				$('#alert_failed').fadeIn();

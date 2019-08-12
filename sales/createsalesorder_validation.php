@@ -10,42 +10,28 @@
 	<link rel="stylesheet" href="salesstyle.css">
 </head>
 <?php
-$so_date = $_POST['today'];
-$taxing = $_POST['taxing'];
-$po_number = mysqli_real_escape_string($conn,$_POST['purchaseordernumber']);
-$customer = $_POST['select_customer'];
-$total_so = $_POST['total'];
+$so_date		= $_POST['today'];
+$taxing 		= $_POST['taxing'];
+$po_number 		= mysqli_real_escape_string($conn,$_POST['purchaseordernumber']);
+$customer 		= $_POST['select_customer'];
+$total_so		= $_POST['total'];
 if($customer == 0){
-	$address = $_POST['retail_address'];
-	$city = $_POST['retail_city'];
-	$phone = $_POST['retail_phone'];
-	$name = $_POST['retail_name'];
+	$address 	= $_POST['retail_address'];
+	$city 		= $_POST['retail_city'];
+	$phone 		= $_POST['retail_phone'];
+	$name 		= $_POST['retail_name'];
 } else {
-	$address = '';
-	$city = '';
-	$phone = '';
-	$name = '';
+	$address 	= '';
+	$city 		= '';
+	$phone 		= '';
+	$name 		= '';
 }
-
-$sql = " SELECT COUNT(*) AS jumlah FROM code_salesorder WHERE MONTH(date) = MONTH('" . $so_date . "') 
-AND YEAR(date) = YEAR('" . $so_date . "')";
-$result = $conn->query($sql);
-if($result){	
-	$row = $result->fetch_assoc();
-   $jumlah = $row['jumlah'];
-} else {
-	$jumlah = 0;
-}
-
-$jumlah++;
-
-$so_number = "" . date("y",strtotime($so_date)) . date("m",strtotime($so_date)) . "-SO-" . str_pad($jumlah,3,"0",STR_PAD_LEFT);
-$sql_customer = "SELECT * FROM customer WHERE id = '" . $customer . "'";
-$r = $conn->query($sql_customer);
-$rows = $r->fetch_assoc();
-$customer_name = $rows['name'];
+$sql_customer 		= "SELECT name FROM customer WHERE id = '" . $customer . "'";
+$result_customer 	= $conn->query($sql_customer);
+$customer			= $result_customer->fetch_assoc();
+$customer_name 		= $customer['name'];
 ?>
-<body style="height:100%;overflow-x:hidden;">
+<body style='overflow-x:hidden'>
 	<form action="createsalesorder_input.php" method="POST" name="salesorder_validate">
 		<div class="row">
 			<div class='col-sm-1' style='background-color:#333'>
@@ -54,165 +40,130 @@ $customer_name = $rows['name'];
 				<h2 style='font-family:bebasneue'>Sales Order</h2>
 				<p>Validate Sales Order</p>
 				<hr>
-				<h3 style="text-align:center;font-family:bebasneue"><?= $so_number?></h3>
 				<input type='hidden' value='<?= $address ?>' name='retail_address'>
 				<input type='hidden' value='<?= $city ?>' name='retail_city'>
 				<input type='hidden' value='<?= $phone ?>' name='retail_phone'>
 				<input type='hidden' value='<?= $name ?>' name='retail_name'>
 				
-				
-				<input type="hidden" value="<?= $so_number ?>" name="so_number">
-				<input type="hidden" value="<?= $so_date ?>" class="form-control" readonly>
-				<input type="hidden" value="<?= $so_date ?>" name="today">
-				<br><br>
-				<div class="row">
-					<div class="col-sm-6 offset-sm-3">
-						<label for="customer_name">Customer name: </label>
-						<input type="hidden" value=<?= $customer?>" name="customer">
+				<input type='hidden' value="<?= $so_date ?>" class="form-control" readonly>
+				<input type='hidden' value="<?= $so_date ?>" name="today">
+				<input type='hidden' value="<?= $customer?>" name="customer">
 <?php
 				if($customer == 0){
 ?>
-				<p>Retail</p>
+				<h3 style="font-family:bebasneue">Retail</h3>
 <?php
 				} else {
 ?>
-				<p><?= $customer_name ?></p>
+				<h3 style="font-family:bebasneue"><?= $customer_name ?></h3>
 <?php
 				}
-?>				
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6 offset-sm-3">
-				<label>Delivery Address</label>
-			<?php
-			if($customer != 0){
-			?>
-				<select class="form-control" name="delivery_address">
-			<?php
-				$sql_delivery = "SELECT * FROM customer_deliveryaddress WHERE customer_id = '" . $customer . "'";
-				$res = $conn->query($sql_delivery);
-				while($rows = $res->fetch_assoc()) { 
-			?>
-					<option value="<?= $rows['id'] ?>"><?= $rows['address']?></option>
-			<?php
-				}
-			?>
-				</select>
-			<?php
-			} else {
-				if($address == '' || $city == ''){
-			?>
-				<p>Data unavailable</p>
-			<?Php
-				} else {
-			?>
+			if($customer == 0){
+?>
 				<p><?= $address ?></p>
 				<p><?= $city ?></p>
 				<p><?= $phone ?></p>
-			<?php
-				}
+<?php
 			}
-			?>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6 offset-sm-3">
-				<label>Purchase Order number:</label>
-				<input type="text" class="form-control" value="<?= $po_number ?>" readonly name="purchaseordernumber">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6 offset-sm-3">
-				<label>Taxing (1 for yes, 0 for no):</label>
+?>
+				<p>Purchase order number: <?= $po_number ?></p>
+				<input type="hidden" class="form-control" value="<?= $po_number ?>" readonly name="purchaseordernumber">
+				<label>Taxing Option</label>
 <?php
 				if($customer == 0){
 ?>
 				<p>Retail may not receive tax document</p>
-				<input type="text" class="form-control" value="0" readonly name="taxing" style='display:none'>
+				<input type="hidden" class="form-control" value="0" readonly name="taxing" style='display:none'>
 <?php
 				} else {
+					if($taxing == 1){
 ?>
-				<input type="text" class="form-control" value="<?= $taxing ?>" readonly name="taxing">
+				<p><strong>Taxable</strong> sales</p>
+<?php
+					} else {
+?>
+				<p><strong>Untaxable</strong> sales</p>
+<?php
+					}
+?>
+				<input type="hidden" class="form-control" value="<?= $taxing ?>" readonly name="taxing">
 <?php
 				}
 ?>
+				<div class="row">
+					<div class="col-sm-12">
+						<table class="table">
+							<thead>
+								<tr style="text-align:center">
+									<th>Reference</th>
+									<th>V.A.T.</th>
+									<th>Discount</th>
+									<th>Quantity</th>
+									<th>Price List</th>
+									<th>Total price</th>
+								</tr>
+							</thead>	
+							<tbody>
+						<?php
+							$x = $_POST['jumlah_barang'];
+						?>
+							<input type='hidden' name="jumlah_barang" value=" <?= $x ?>">
+						<?php
+							$i = 1;
+							for ($i = 1; $i <= $x; $i++){
+								$ref		= $_POST["reference" . $i ];
+								$vat 		= $_POST["vat" . $i ];
+								$disc 		= $_POST["disc" . $i ];
+								$qty 		= $_POST["qty" . $i ];
+								$pl 		= $_POST["pl" . $i ];
+								$totprice 	= $_POST["total" . $i];
+								
+								$sql 		= "SELECT description FROM itemlist WHERE reference='" . $ref . "'";
+								$result 	= $conn->query($sql) or die($conn->error);
+								$row 		= $result->fetch_assoc();
+								
+								if($row == false){
+									$desc = " ";
+								} else {
+									$desc = $row['description'];
+								}
+						?>
+							<tr>	
+								<td style="text-align:center"><?= $ref ?></td>						
+								<td style="text-align:center">Rp. <?= number_format($vat,2) ?></td>
+								<td style="text-align:center"><?= $disc . '%' ?></td>
+								<td style="text-align:center"><?= $qty ?></td>
+								<td style="text-align:center">Rp. <?= number_format($pl,2) ?></td>
+								<td style="text-align:center">Rp. <?= number_format($totprice,2) ?></td>
+							</tr>
+							<input type='hidden' value="<?= $ref ?>" 	name="reference[<?=$i?>]">
+							<input type='hidden' value="<?= $vat ?>" 	name="value_after_tax[<?=$i?>]">
+							<input type='hidden' value="<?= $disc ?>" 	name="discount[<?=$i?>]">
+							<input type='hidden' value="<?= $qty ?>" 	name="quantity[<?=$i?>]">
+							<input type='hidden' value="<?= $pl ?>" 	name="price_list[<?=$i?>]">
+						<?php
+							}
+						?>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td style="border:none" colspan='4'></td>
+									<td style="padding-left:50px"><b>Grand Total</b></td>
+									<td style="text-align:center">
+										Rp. <?= number_format($total_so,2)?>
+										<input type='hidden' value="<?= $total_so ?>" name="total_so">
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+				<br><br>
+				<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Approve</button>
 			</div>
+			<div class='col-sm-1' style='background-color:#333'>
 		</div>
-		<br><br><br>
-		<div class="row">
-			<div class="col-sm-12">
-				<table class="table">
-					<thead>
-						<th style="text-align:center">Reference</th>
-						<th style="text-align:center">V.A.T.</th>
-						<th style="text-align:center">Discount</th>
-						<th style="text-align:center">Quantity</th>
-						<th style="text-align:center">Price List</th>
-						<th style="text-align:center">Total price</th>
-					</thead>	
-					<tbody>
-				<?php
-					$x = $_POST['jumlah_barang'];
-				?>
-					<input type="hidden" name="jumlah_barang" value=" <?= $x ?>">
-				<?php
-					$i = 1;
-					for ($i = 1; $i <= $x; $i++){
-						$ref = $_POST["reference" . $i ];
-						$vat = $_POST["vat" . $i ];
-						$disc = $_POST["disc" . $i ];
-						$qty = $_POST["qty" . $i ];
-						$pl = $_POST["pl" . $i ];
-						$totprice = $_POST["total" . $i];
-						$sql = "SELECT * FROM itemlist WHERE reference='" . $ref . "'";
-						$result = $conn->query($sql) or die($conn->error);
-						$row = $result->fetch_assoc();
-						if($row == false){
-							$desc = " ";
-						} else { 
-							$item_id = $row['id'];
-							$desc = $row['description'];
-						}
-				?>
-					<tr>	
-						<td style="text-align:center"><?= $ref ?></td>						
-						<td style="text-align:center">Rp. <?= number_format($vat,2) ?></td>
-						<td style="text-align:center"><?= $disc . '%' ?></td>
-						<td style="text-align:center"><?= $qty ?></td>
-						<td style="text-align:center">Rp. <?= number_format($pl,2) ?></td>
-						<td style="text-align:center">Rp. <?= number_format($totprice,2) ?></td>
-					</tr>
-					<input type="hidden" value="<?= $ref ?>" name="ref<?=$i?>">
-					<input type="hidden" value="<?= $vat ?>" name="vat<?=$i?>">
-					<input type="hidden" value="<?= $disc ?>" name="disc<?=$i?>">
-					<input type="hidden" value="<?= $qty ?>" name="qty<?=$i?>">
-					<input type="hidden" value="<?= $pl ?>" name="pl<?=$i?>">
-					<input type="hidden" value="<?= $totprice ?>" name="totprice<?=$i?>">
-				<?php
-					}
-				?>
-					</tbody>
-					<tfoot>
-						<tr>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="padding-left:50px"><b>Grand Total</b></td>
-							<td style="text-align:center">
-								Rp. <?= number_format($total_so,2)?>
-								<input type="hidden" value="<?= $total_so ?>" name="total_so">
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
 		</div>
-		<br>
-		<div class="row" style="top:50px;padding-left:50px">
-			<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Approve</button>
-		</div>				
 		<div id="myModal" class="modal" role="dialog">
 			<div class="modal-dialog">	
 				<div class="modal-content">
@@ -233,4 +184,4 @@ $customer_name = $rows['name'];
 			</div>
 		</div>
 	</form>
-</div>
+</body>

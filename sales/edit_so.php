@@ -30,7 +30,7 @@ $( function() {
 		<h3 style='font-family:bebasneue'><?= $customer['name'] ?></h3>
 		<p><?= $row_initial['name'] ?></p>
 		<label>Purchase Order Number</label>
-		<input type='text' class='form-control' value='<?= $row_initial['po_number']; ?>' style='width:50%'>
+		<input type='text' class='form-control' value='<?= $row_initial['po_number']; ?>' style='width:50%' name='po_number'>
 		<hr>
 		<div class='row' style='text-align:center'>
 			<div class='col-sm-2'>Reference</div>

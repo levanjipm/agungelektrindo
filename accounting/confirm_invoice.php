@@ -90,7 +90,7 @@
 <?php
 	if($project_id == NULL){
 ?>
-		<table class='table'>
+		<table class='table table-hover'>
 			<tr>
 				<th>Reference</th>
 				<th>Description</th>
@@ -150,8 +150,6 @@
 <?php
 				$value += $quantity * $price;
 				}
-			}
-				
 				if($taxing == 1){
 ?>
 			<tr>
@@ -189,6 +187,44 @@
 				<td>Total</td>
 				<td><?= 'Rp. ' . number_format($value + $ongkir,2)?></td>
 			</tr>
+		</table>
+<?php
+			} else {
+				$sql_project = "SELECT * FROM code_project WHERE id = '" . $project_id . "'";
+				$result_project = $conn->query($sql_project);
+				$project = $result_project->fetch_assoc();
+				
+				$sql_invoice = "SELECT value FROM invoices WHERE id = '" . $invoice_id . "'";
+				$result_invoice = $conn->query($sql_invoice);
+				$invoice = $result_invoice->fetch_assoc();
+				
+				$value = $invoice['value'];
+				
+				$project_name			= $project['project_name'];
+				$project_description	= $project['description'];
+?>
+		<table class='table table-hover'>
+			<tr>
+				<th colspan='2'>Project</th>
+				<th>Price</th>
+			</tr>
+			<tr>
+				<td colspan='2'><?= $project_name . " - " . $project_description ?></td>
+				<td>Rp. <?= number_format($value,2) ?></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>Total</td>
+				<td>Rp. <?= number_format($value,2) ?></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>Delivery Fee</td>
+				<td><input type='number' class='form-control' name='delivery_fee'></td>
+			</tr>
+<?php
+			}
+?>
 		</table>
 		<br><br>
 		<button type='button' class='btn btn-default' id='confirm_button'>Confirm</button>

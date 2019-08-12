@@ -7,23 +7,23 @@
 <script src="../jquery-ui.js"></script>
 <script type="text/javascript" src="scripts/createsalesorder.js"></script>
 <div class='main'>
-	<div class="container">
-		<h2>Quotataion</h2>
-		<p>Edit quotataion</p>
-		<hr>
-	</div>
+	<h2 style='font-family:bebasneue'>Quotataion</h2>
+	<p>Edit quotataion</p>
+	<hr>
 <br><br>
 <?php
 	$id = $_POST['id'];
-	$sql_customer = "SELECT * FROM code_quotation WHERE id = '" . $id . "'";
-	$r = $conn->query($sql_customer);
-	$rows = $r->fetch_assoc();
-	$date = $rows['date'];
-	$customer_id = $rows['customer_id'];
-	$terms = $rows['payment_id'];
-	$dp = $rows['down_payment'];
-	$lunas = $rows['repayment'];
-	$note = $rows['note'];
+	$sql_quotation = "SELECT * FROM code_quotation WHERE id = '" . $id . "'";
+	$result_quotation = $conn->query($sql_quotation);
+	$quotation = $result_quotation->fetch_assoc();
+	
+	$quotation_name = $quotation['name'];
+	$date 			= $quotation['date'];
+	$customer_id 	= $quotation['customer_id'];
+	$terms			= $quotation['payment_id'];
+	$dp 			= $quotation['down_payment'];
+	$lunas			= $quotation['repayment'];
+	$note 			= $quotation['note'];
 	
 	$sql_customername = "SELECT name FROM customer WHERE id = '" . $customer_id . "'";
 	$result_customername = $conn->query($sql_customername);
@@ -31,20 +31,16 @@
 	$customer_name = $customer_naming['name'];	
 ?>
 <a href="#" id="folder" title="Add new item"><i class="fa fa-folder"></i></a>
-<div class="container">
 	<form name="quotation" id="quotation_edit" class="form" method="POST" action="quotation_edit_input.php">
 		<input type="hidden" value="<?= $id ?>" name="id">
 		<div class="row">
 			<div class="col-sm-6">
-				<label>Customer name</label>
-				<input type="text" class="form-control" readonly value="<?= $customer_name ?>">
-			</div>
-			<div class="col-sm-2 offset-lg-2">
-				<input id="today" type="date" class="form-control" value="<?= $date ?>" name="today" readonly>
+				<h2 style='font-family:bebasneue'><?= $quotation_name ?></h2><p><?= date('d M Y',strtotime($date)) ?></p>
+				<h3 style='font-family:bebasneue'><?= $customer_name ?></h3>
 			</div>
 		</div>
 		<div class="row" id="headerlist" style="border-radius:10px;padding-top:25px">
-			<div class="col-sm-2" style="background-color:#ccc">
+			<div class="col-sm-3" style="background-color:#ccc">
 				Refference
 			</div>
 			<div class="col-sm-2" style="background-color:#aaa">
@@ -71,7 +67,7 @@
 	
 	?>	
 		<div class="row" id="barisan<?= $a ?>" style="padding-top:10px;">
-			<div class="col-sm-2">
+			<div class="col-sm-3">
 				<input id="reference<?=$a?>" class="form-control" name="reference<?=$a?>" style="width:100%" value="<?= $row['reference']?>">
 			</div>
 			<div class="col-sm-2">
@@ -87,7 +83,7 @@
 				<input class="nomor" id="unitprice<?=$a?>" name="unitprice<?=$a?>" readonly value="<?= $row['net_price']?>"></input>
 			</div>
 			<div class="col-sm-2">
-				<input class="nomor" id="totalprice<?=$a?>" name="totalprice<?=$a?>" readonly value="<?= $row['total_price']?>"></input>
+				<input class="nomor" id="totalprice<?=$a?>" name="totalprice<?=$a?>" readonly value="<?= $row['net_price'] * $row['quantity']?>"></input>
 			</div>
 			<div class="col-sm-1">
 				<button type="button" id="close<?= $a ?>" onclick="delete_row(<?= $a ?>)" class="btn btn-danger">X</button>
@@ -113,18 +109,17 @@
 				<input type="hidden" class="form-control" id="jumlah_barang" name="jumlah_barang"></input>
 			</div>	
 		</div>
-		<div class="container" style="background-color:#eee">
-			<div class="row" style="padding:20px">
-				<h3><b>Note</b></h3>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
+		<div style="padding:20px;background-color:#eee">
+			<div class='row'>
+				<div class='col-sm-6'>
+					<h3 style='font-family:bebasneue'>Note</h3>
 					<p><b>1. Payment term</b></p>
 				</div>
+				<hr>
 			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<select id="terms" name="terms" class="form-control" style="width:100%" onchange="payment_js()">
+			<div class='row'>
+				<div class='col-sm-6'>
+					<select id="terms" name="terms" class="form-control" onchange="payment_js()">
 					<?php
 						$sql_payment = "SELECT * FROM payment";
 						$result = $conn->query($sql_payment);
@@ -139,7 +134,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="row" style="padding:5px">
+			<div class='row'>
 				<div class="col-sm-6" style="padding:5px">
 					<div class="col-sm-6" style="padding:5px">
 						<div class="form-group">
@@ -159,21 +154,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-sm-6">
+			<div class='row'>
+				<div class='col-sm-12'>
 					<p><b>2. </b>Prices and availability are subject to change at any time without prior notice.</p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
 					<p><b>3. </b>Prices mentioned above are tax-included.</p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-						<textarea class="form-control" name="comment" rows="10" form="quotation_edit"><?= $note ?></textarea>
-					</div>
+					<textarea class="form-control" name="comment" rows="10" form="quotation_edit"><?= $note ?></textarea>
 				</div>
 			</div>
 		</div>
@@ -206,7 +191,7 @@ function delete_row(x_men){
 $("#folder").click(function (){	
 	$("#input_list").append(
 	'<div class="row" style="padding-top:10px" id="barisan'+a+'">'+
-	'<div class="col-sm-2"><input id="reference'+a+'" name="reference'+a+'" class="form-control" style="width:100%"></div>'+
+	'<div class="col-sm-3"><input id="reference'+a+'" name="reference'+a+'" class="form-control" style="width:100%"></div>'+
 	'<div class="col-sm-2"><input style="overflow-x:hidden" id="price'+a+'" name="price'+a+'" class="form-control" style="width:100%"></div>'+
 	'<div class="col-sm-1">'+'<input id="discount'+a+'" name="discount'+a+'" class="form-control" style="width:100%"></div>'+
 	'<div class="col-sm-1">'+'<input id="quantity'+a+'" name="quantity'+a+'" class="form-control" style="width:100%"></div>'+

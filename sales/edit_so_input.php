@@ -2,6 +2,10 @@
 	include('../codes/connect.php');
 	$nilai = 1;
 	$id_so = $_POST['id_so'];
+	$po_number = $_POST['po_number'];
+	$sql = "UPDATE code_salesorder SET po_number = '" . $po_number . "' WHERE id = '" . $id_so . "'";
+	$result = $conn->query($sql);
+	
 	for($tt = 1; $tt< $_POST['tt']; $tt++){
 		//Ambil id so nya//
 		$so_id = $_POST['id_' . $tt];

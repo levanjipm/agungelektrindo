@@ -1,54 +1,54 @@
 <?php
 	include ("../codes/connect.php");
 	session_start();
+	$created_by = $_SESSION['user_id'];
 	
-	$do_date = mysqli_real_escape_string($conn,$_POST['do_date']);
-	$customer = mysqli_real_escape_string($conn,$_POST['customer']);
-	$do_number = mysqli_real_escape_string($conn,$_POST['do_number']);
-	$tax = mysqli_real_escape_string($conn,$_POST['tax']);
-	$s = mysqli_real_escape_string($conn,$_POST['jumlah']);
-	$do_name = mysqli_real_escape_string($conn,$_POST['do_name']);
-	$so_id = mysqli_real_escape_string($conn,$_POST['so_id']);
+	$do_date 		= mysqli_real_escape_string($conn,$_POST['do_date']);
+	$customer 		= mysqli_real_escape_string($conn,$_POST['customer']);
+	$do_number 		= mysqli_real_escape_string($conn,$_POST['do_number']);
+	$tax 			= mysqli_real_escape_string($conn,$_POST['tax']);
+	$do_name 		= mysqli_real_escape_string($conn,$_POST['do_name']);
+	$so_id 			= mysqli_real_escape_string($conn,$_POST['so_id']);
 
-	$sql_insert = "INSERT INTO code_delivery_order (date,number,tax,name,customer_id,sent,isdelete,so_id,created_by,created_date) 
-	VALUES ('$do_date','$do_number','$tax','$do_name','$customer','0','0','$so_id','" . $_SESSION['user_id'] . "',CURDATE())";
-	$r = $conn->query($sql_insert);	
-	$sql_call = "SELECT * FROM code_delivery_order WHERE name = '" . $do_name . "'";
-	$o = $conn->query($sql_call);
-	$row_do = $o->fetch_assoc();
-	$do_id = $row_do['id'];
-	for($i = 1; $i <= $s; $i++){
-		$item = $_POST['item' . $i];
-		$qty = $_POST['qty' . $i];
-		if($qty == '' || $qty == 0){
+	$sql_insert 	= "INSERT INTO code_delivery_order (date,number,tax,name,customer_id,sent,isdelete,so_id,created_by,created_date) 
+					VALUES ('$do_date','$do_number','$tax','$do_name','$customer','0','0','$so_id','$created_by',CURDATE())";
+	$conn->query($sql_insert);	
+	
+	$sql_get_id			= "SELECT id FROM code_delivery_order WHERE name = '" . $do_name . "'";
+	$result_get_id		= $conn->query($sql_get_id);
+	$get_id				= $result_get_id->fetch_assoc();
+	
+	$do_id				= $get_id['id'];
+	
+	$reference_array	= $_POST['reference'];
+	$quantity_array 	= $_POST['quantity'];
+	
+	foreach($reference_array as $reference){
+		$key = key($reference_array);
+		$quantity = $quantity_array[$key];
+		
+		if($quantity == '' || $quantity == 0){
 		} else {
-			$sql_insert_to = "INSERT INTO delivery_order (reference,quantity,do_id) VALUES ('$item','$qty','$do_id')";
-			$result = $conn->query($sql_insert_to);
+			$sql_insert_delivery_order 		= "INSERT INTO delivery_order (reference,quantity,do_id) VALUES ('$reference','$quantity','$do_id')";
+			$conn->query($sql_insert_delivery_order);
 			
-			$sql_sent = "SELECT * FROM sales_order_sent WHERE so_id = '" . $so_id . "' AND reference = '" . $item . "'";
-			$results = $conn->query($sql_sent);	
+			$sql_sales_order 				= "SELECT * FROM sales_order WHERE id = '" . $key . "'";
+			$result_sales_order				= $conn->query($sql_sales_order);	
+			$sales_order					= $result_sales_order->fetch_assoc();
 			
-			$row_sent = $results->fetch_assoc();
+			$ordered_quantity				= $sales_order['quantity'];
+			$sent_quantity_before			= $sales_order['sent_quantity'];
+			$sent_quantity_updated			= $sent_quantity_before + $quantity;
 			
-			$sent = $row_sent['quantity'];
-			$sent_new = $sent + $qty;
-			$sql_update = "UPDATE sales_order_sent SET quantity = '" . $sent_new . "' WHERE so_id = '" . $so_id . "' AND reference = '" . $item . "'";
-			$updated_results = $conn->query($sql_update);	
+			$sql_update 					= "UPDATE sales_order SET sent_quantity = '" . $sent_quantity_updated . "' WHERE id = '" . $key . "'";
+			$conn->query($sql_update);
 			
-			$sql_ordered = "SELECT * FROM sales_order WHERE so_id = '" . $so_id . "' AND reference = '" . $item . "'";
-			$result_status_one = $conn->query($sql_ordered);
-			
-			$row_o = $result_status_one->fetch_assoc();
-			$quantity_one = $row_o['quantity'];
-			$sql_sent = "SELECT * FROM sales_order_sent WHERE so_id = '" . $so_id . "'AND reference = '" . $item . "'";
-			$result_status_two = $conn->query($sql_sent);
-			$row_s = $result_status_two->fetch_assoc();
-			$quantity_two = $row_s['quantity'];
-			if ($quantity_one == $quantity_two){
-				$sql_update_status = "UPDATE sales_order_sent SET status = '1' WHERE so_id = '" . $so_id . "' AND reference = '" . $item . "'";
-				$result_udpate_status = $conn->query($sql_update_status);
-			};
+			if($sent_quantity_updated == $ordered_quantity){
+				$sql_update					= "UPDATE sales_order SET status = '1' WHERE id = '" . $key . "'";
+				$conn->query($sql_update);
+			}
 		}
+		next($reference_array);
 	};
 ?>
 <script src='../universal/Jquery/jquery-3.3.0.min.js'></script>

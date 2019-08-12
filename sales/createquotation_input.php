@@ -7,20 +7,20 @@
 </head>
 <?php
 	include('../codes/connect.php');
-	print_r($_POST);
-	$item_array = $_POST['item'];
-	$price_array = $_POST['price'];
-	$discount_array = $_POST['disc'];
-	$netprice_array = $_POST['netprice'];
-	$quantity_array = $_POST['qty'];
 	session_start();
-	$user_id = $_SESSION['user_id'];
 	
-	$q_date = $_POST['today'];
-	$dp = $_POST['dp'];
-	$lunas = $_POST['lunas'];
-	$terms = $_POST['terms'];
-	$add_discount = $_POST['add_discount'];
+	$item_array 		= $_POST['item'];
+	$price_array 		= $_POST['price'];
+	$discount_array 	= $_POST['disc'];
+	$netprice_array 	= $_POST['netprice'];
+	$quantity_array 	= $_POST['qty'];
+	$user_id 			= $_SESSION['user_id'];
+	
+	$q_date 			= $_POST['today'];
+	$dp 				= $_POST['dp'];
+	$lunas 				= $_POST['lunas'];
+	$terms 				= $_POST['terms'];
+	$add_discount 		= $_POST['add_discount'];
 	
 	if (date('m',strtotime($q_date)) == '01'){
 		$month = 'I';
@@ -48,8 +48,8 @@
 		$month = 'XII';
 	};
 	
-	$sql = " SELECT COUNT(*) AS jumlah FROM code_quotation WHERE MONTH(date) = MONTH('" . $q_date . "') 
-	AND YEAR(date) = YEAR('" . $q_date . "')";
+	$sql 			= " SELECT COUNT(*) AS jumlah FROM code_quotation WHERE MONTH(date) = MONTH('" . $q_date . "') 
+					AND YEAR(date) = YEAR('" . $q_date . "')";
 	$result = $conn->query($sql);
 	if($result){	
 			while($row = $result->fetch_assoc()) { 
@@ -63,24 +63,22 @@
 	$customer = $_POST['customer'];
 	$comment = $conn->real_escape_string($_POST['comment']);
 	
-	$sql_insert = "INSERT INTO code_quotation (name,customer_id,date,additional_discount,payment_id,down_payment,repayment,note,created_by) 
-	VALUES ('$q_number','$customer','$q_date','$add_discount','$terms','$dp','$lunas','$comment','$user_id')";
-	$r = $conn->query($sql_insert);
-
-	$i = 1;
+	$sql_insert		= "INSERT INTO code_quotation (name,customer_id,date,additional_discount,payment_id,down_payment,repayment,note,created_by) 
+				VALUES ('$q_number','$customer','$q_date','$add_discount','$terms','$dp','$lunas','$comment','$user_id')";
+	$conn->query($sql_insert);
 	$sql_first= "SELECT id FROM code_quotation WHERE name = '" . $q_number . "'"; 
 	$result = $conn->query($sql_first);	
 	$rows = $result->fetch_assoc();
 	$quotation_id = $rows['id'];
 	foreach($item_array AS $item){
-		$key = key($item_array);
-		$price = $price_array[$key];
-		$discount = $discount_array[$key];
-		$netprice = $netprice_array[$key];
-		$quantity = $quantity_array[$key];
+		$key 		= key($item_array);
+		$price 		= $price_array[$key];
+		$discount 	= $discount_array[$key];
+		$netprice 	= $netprice_array[$key];
+		$quantity 	= $quantity_array[$key];
 		$sql_second = "INSERT INTO quotation (reference,price_list,discount,net_price,quantity,quotation_code) 
-		VALUES ('$item','$price','$discount','$netprice','$quantity','$quotation_id')";
-		$result = $conn->query($sql_second);
+					VALUES ('$item','$price','$discount','$netprice','$quantity','$quotation_id')";
+		$result 	= $conn->query($sql_second);
 		next($item_array);
 	};
 	if($result){

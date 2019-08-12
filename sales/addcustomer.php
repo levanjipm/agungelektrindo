@@ -1,7 +1,6 @@
 <?php
 	include("../codes/Connect.php");
 	session_start();
-	print_r($_POST);
 	
 	$name= mysqli_real_escape_string($conn,$_POST['namaperusahaan']);
 	$address = mysqli_real_escape_string($conn,$_POST['alamat']) . " Blok " . mysqli_real_escape_string($conn,$_POST['blok']) . " no." . mysqli_real_escape_string($conn,$_POST['nomor'])
@@ -23,10 +22,10 @@
 	}
 	
 	
-	$phone = mysqli_real_escape_string($conn,$_POST['phone']);
-	$city = mysqli_real_escape_string($conn,$_POST['city']);
-	$prefix = mysqli_real_escape_string($conn,$_POST['prefix']);
-	$pic = mysqli_real_escape_string($conn,$_POST['pic']);
+	$phone 		= mysqli_real_escape_string($conn,$_POST['phone']);
+	$city 		= mysqli_real_escape_string($conn,$_POST['city']);
+	$prefix 	= mysqli_real_escape_string($conn,$_POST['prefix']);
+	$pic 		= mysqli_real_escape_string($conn,$_POST['pic']);
 	
 	if($jumlah_satu > 0 || $jumlah_dua > 0){
 		echo ('0'); //Customer already exist//

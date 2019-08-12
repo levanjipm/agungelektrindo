@@ -58,26 +58,26 @@
 	$results = $conn->query($sql);
 	if ($results->num_rows > 0){
 		while($row_do = $results->fetch_assoc()){
-			$sql_sales_order = "SELECT type FROM code_salesorder WHERE id = '" . $row_do['so_id'] . "'";
-			$result_sales_order = $conn->query($sql_sales_order);
-			$sales_order = $result_sales_order ->fetch_assoc();
-			$type = $sales_order['type'];
+			$sql_sales_order 		= "SELECT type FROM code_salesorder WHERE id = '" . $row_do['so_id'] . "'";
+			$result_sales_order 	= $conn->query($sql_sales_order);
+			$sales_order 			= $result_sales_order ->fetch_assoc();
+			$type 					= $sales_order['type'];
 			
-			$project_id = $row_do['project_id'];
-			$customer_id = $row_do['customer_id'];
+			$project_id 			= $row_do['project_id'];
+			$customer_id 			= $row_do['customer_id'];
 			if($customer_id != 0){
-				$sql_customer = "SELECT name FROM customer WHERE id = '" . $customer_id . "'";
-				$result_customer = $conn->query($sql_customer);
-				$row_customer = $result_customer->fetch_assoc();
-				$customer_name = $row_customer['name'];
+				$sql_customer 		= "SELECT name FROM customer WHERE id = '" . $customer_id . "'";
+				$result_customer 	= $conn->query($sql_customer);
+				$row_customer 		= $result_customer->fetch_assoc();
+				$customer_name 		= $row_customer['name'];
 			} else {
 				$sql = "SELECT code_salesorder.retail_address, code_salesorder.retail_name, code_salesorder.retail_phone, code_salesorder.retail_phone
 				FROM code_salesorder
 				JOIN code_delivery_order ON code_salesorder.id = code_delivery_order.so_id
 				WHERE code_delivery_order.id = '" . $row_do['id'] . "'";
-				$result = $conn->query($sql);
-				$customer = $result->fetch_assoc();
-				$customer_name = $customer['retail_name'];
+				$result 			= $conn->query($sql);
+				$customer 			= $result->fetch_assoc();
+				$customer_name 		= $customer['retail_name'];
 			}
 ?>
 				<div class="col-sm-3">

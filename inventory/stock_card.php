@@ -22,7 +22,7 @@
 				<th>Stock</th>
 			</tr>
 <?php
-	$sql_stock = "SELECT * FROM stock WHERE reference = '" . $reference . "' ORDER BY id ASC LIMIT 20";
+	$sql_stock = "SELECT * FROM stock WHERE reference = '" . $reference . "' ORDER BY id ASC";
 	$result_stock = $conn->query($sql_stock);
 	while($stock = $result_stock->fetch_assoc()){
 		if($stock['transaction'] == 'IN'){

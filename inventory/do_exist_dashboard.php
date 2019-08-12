@@ -6,9 +6,10 @@
 	<p>Create new delivery order</p>
 	<hr>
 <?php
-	$so_id = $_POST['id'];
-	$sql = "SELECT * FROM code_salesorder WHERE id = '" . $so_id . "'";
-	$result = $conn->query($sql);
+	$so_id 		= $_POST['id'];
+	$sql 		= "SELECT * FROM code_salesorder WHERE id = '" . $so_id . "'";
+	$result 	= $conn->query($sql);
+	$row 		= $result->fetch_assoc();
 	if(mysqli_num_rows($result) == 0){
 ?>
 		<script>
@@ -16,16 +17,14 @@
 		</script>
 <?php
 	} else {
-		$row = $result->fetch_assoc();
-		$so_id = $row['id'];
-		$po_number = $row['po_number'];
-		$taxing = $row['taxing'];
-		$customer_id = $row['customer_id'];
-		$delivery_id = $row['delivery_id'];
-		
-		$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $customer_id . "'";
-		$result_customer = $conn->query($sql_customer);
-		$customer = $result_customer->fetch_assoc();
+		$so_id 				= $row['id'];
+		$po_number 			= $row['po_number'];
+		$taxing 			= $row['taxing'];
+		$customer_id 		= $row['customer_id'];
+			
+		$sql_customer 		= "SELECT name,address,city FROM customer WHERE id = '" . $customer_id . "'";
+		$result_customer 	= $conn->query($sql_customer);
+		$customer 			= $result_customer->fetch_assoc();
 ?>
 		<form method="POST" action="do_validation.php" id="do_validate">
 			<div class="row">
@@ -55,41 +54,38 @@
 				<?php
 					$total_qty = 0;
 					$i = 1;
-					$sql_so = "SELECT * FROM sales_order WHERE so_id = '" . $so_id . "'";
-					$r = $conn->query($sql_so);
-					while($rows = $r->fetch_assoc()){
-						$ref = $rows['reference'];
-						$qty = $rows['quantity'];
-						$sql_sent = "SELECT * FROM sales_order_sent WHERE so_id = '" . $so_id . "' AND reference = '" . $ref . "' LIMIT 1";
-						$results = $conn->query($sql_sent);
-						while($row_sent = $results->fetch_assoc()){
-							$sent_qty = $row_sent['quantity'];
-						}
-						$max_qty = $qty - $sent_qty;
-						if ($sent_qty == $qty){
-						} else{
+					$sql_so 		= "SELECT * FROM sales_order WHERE so_id = '" . $so_id . "'";
+					$result_so 		= $conn->query($sql_so);
+					while($sales_order = $result_so->fetch_assoc()){
+						$id					= $sales_order['id'];
+						$reference 			= $sales_order['reference'];
+						$quantity			= $sales_order['quantity'];
+						$sent_quantity		= $sales_order['sent_quantity'];
+						
+						$maximum_quantity 	= $quantity - $sent_quantity;
+						if ($sent_quantity != $quantity){
 				?>
 					<tr>
 						<td>
-							<?= $ref ?>
-							<input type='hidden' value="<?= $ref ?>" name="ref<?= $i ?>" readonly tabindex="-1">
+							<?= $reference ?>
+							<input type='hidden' value="<?= $reference ?>" name="reference[<?= $id ?>]" readonly tabindex="-1">
 						</td>
 						<td>
-							<?= $sent_qty ?>
-							<input type='hidden' value="<?= $sent_qty?>" id="sent<?= $i ?>" readonly tabindex="-1">
+							<?= $sent_quantity ?>
+							<input type='hidden' value="<?= $sent_quantity ?>" id="sent<?= $i ?>" readonly tabindex="-1">
 						</td>
 						<td>
-							<?= $qty ?>
-							<input type='hidden' value="<?= $qty ?>" id="qty<?= $i ?>" readonly tabindex="-1">
+							<?= $quantity ?>
+							<input type='hidden' value="<?= $quantity ?>" id="qty<?= $i ?>" readonly tabindex="-1">
 						</td>
 						<td>
-							<input class="form-control" type="number" id = "qty_send<?= $i ?>" name="qty_send<?= $i ?>" min="0">
+							<input class="form-control" type="number" id = "qty_send<?= $i ?>" name="quantity[<?= $id ?>]" min="0">
 						</td>
 						<td><?php
-							$sql_stock = "SELECT stock FROM stock WHERE reference = '" . $ref . "' ORDER BY id DESC";
-							$result_stock = $conn->query($sql_stock);
-							$stock = $result_stock->fetch_assoc();
-							if($stock == NULL){
+							$sql_stock 			= "SELECT stock FROM stock WHERE reference = '" . $reference . "' ORDER BY id DESC";
+							$result_stock 		= $conn->query($sql_stock);
+							$stock 				= $result_stock->fetch_assoc();
+							if($stock == NULL || $stock == 0){
 								echo ('0');
 							} else {
 								echo $stock['stock'];
@@ -97,7 +93,7 @@
 						?></td>
 					</tr>
 				<?php
-					$maximum[$i] = $max_qty;
+					$maximum[$i] = $maximum_quantity;
 					$i++;
 						}
 					}

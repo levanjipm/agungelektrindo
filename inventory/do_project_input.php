@@ -86,7 +86,7 @@
 	$result = $conn->query($sql);
 	$row = $result->fetch_assoc();
 ?>
-	<form method='POST' action='do_print.php' id='do_print_form' target='_blank'>
+	<form method='POST' action='do_project_print.php' id='do_print_form' target='_blank'>
 		<input type='hidden' value='<?= $row['id'] ?>' name='id'>
 	</form>
 	<script>

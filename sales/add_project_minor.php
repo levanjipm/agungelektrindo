@@ -3,10 +3,10 @@
 	if(empty($_POST['project_major']) || empty($_POST['date_exist_date']) || empty($_POST['name_exist_date'])){
 		header('location:add_project_dashboard.php');
 	} else {
-		$major_id = $_POST['project_major'];
-		$start_project = $_POST['date_exist_date'];
-		$name_project = $_POST['name_exist_date'];
-		$project_description = mysqli_real_escape_string($conn,$_POST['description']);
+		$major_id 				= $_POST['project_major'];
+		$start_project 			= $_POST['date_exist_date'];
+		$name_project 			= $_POST['name_exist_date'];
+		$project_description 	= mysqli_real_escape_string($conn,$_POST['description']);
 	}
 	$sql_initial = "SELECT customer_id FROM code_project WHERE id = '".  $major_id . "'";
 	$result_initial = $conn->query($sql_initial);

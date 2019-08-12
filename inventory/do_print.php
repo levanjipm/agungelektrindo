@@ -18,16 +18,16 @@
 	$po_name = $po['po_number'];
 	
 	if($customer_id != 0){
-		$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $customer_id . "'";
-		$result_customer = $conn->query($sql_customer);
-		$customer = $result_customer->fetch_assoc();
-		$name = $customer['name'];
-		$address = $customer['address'];
-		$city = $customer['city'];
+		$sql_customer 		= "SELECT name,address,city FROM customer WHERE id = '" . $customer_id . "'";
+		$result_customer 	= $conn->query($sql_customer);
+		$customer 			= $result_customer->fetch_assoc();
+		$name 				= $customer['name'];
+		$address 			= $customer['address'];
+		$city 				= $customer['city'];
 	} else {
-		$name = $po['retail_name'];
-		$address = $po['retail_address'];
-		$city = $po['retail_city'];
+		$name 				= $po['retail_name'];
+		$address 			= $po['retail_address'];
+		$city 				= $po['retail_city'];
 	}
 ?>
 <head>
@@ -142,7 +142,7 @@
 		font-family: "Calibri";
 		margin: 0;
 	}
-
+	
 	@page {
 	  size: 21.59cm 13.97cm;
 	}

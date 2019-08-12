@@ -1,33 +1,30 @@
 <?php
 	include('accountingheader.php');
-	$supplier_id = $_POST['supplier'];
-	$date = $_POST['date'];
-	$x = $_POST['x'];
+	$supplier_id 	= $_POST['supplier'];
+	$date 			= $_POST['date'];
 	//Checking the document//
-	$check_invoice = 1;
-	$check_po = 1;
-	$i = 1;
-	for($i = 1; $i < $x; $i++){
-		$document = $_POST['document' . $i];
-		$sql = "SELECT isinvoiced,po_id FROM code_goodreceipt WHERE id = '" . $document . "'";
-		$result = $conn->query($sql);
-		$row = $result->fetch_assoc();
-		if($row['isinvoiced'] == 1){
-			$check_invoice++;
-			break;
-		}
-		if($i == 1){
-			$po_id = $row['po_id'];
-		} else {
-			if($po_id == $row['po_id']){
-			} else {
-				$check_po++;
-				break;
-			}
-		}
+	$check_invoice 	= 1;
+	$check_po 		= 1;
+	$document_array	= $_POST['document'];
+	$po_array		= array();
+	
+	foreach($document_array as $document){
+		$sql 		= "SELECT isinvoiced,po_id FROM code_goodreceipt WHERE id = '" . $document . "'";
+		$result 	= $conn->query($sql);
+		$row 		= $result->fetch_assoc();
+		$po_id		= $row['po_id'];
+		
+		if($row['isinvoiced'] == 1){ $check_invoice++; };
+		if(in_array($po_id,$po_array)){} else {array_push($po_array,$po_id); };
 	}
-	if($check_invoice > 1 || $check_po > 1){
-		header('location:debt_document_dashboard.php');
+	
+	$po_quantity	= count($po_array);
+	if($check_invoice > 1 || $po_quantity > 1){
+?>
+<script>
+	window.location.href = 'accounting.php';
+</script>
+<?php
 	}
 	$sql_po = "SELECT taxing FROM code_purchaseorder WHERE id = '" . $po_id . "'";
 	$result_po = $conn->query($sql_po);
@@ -108,24 +105,24 @@
 <?php
 	$i = 1;
 	$b = 1;
-	for($i = 1; $i < $x; $i++){
-		$document = $_POST['document' . $i];
-		$sql_upper = "SELECT id FROM code_goodreceipt WHERE id = '" . $document . "'";
-		$result_upper = $conn->query($sql_upper);
-		$upper = $result_upper->fetch_assoc();
+	foreach($document_array as $document){
+		$sql_upper 		= "SELECT id FROM code_goodreceipt WHERE id = '" . $document . "'";
+		$result_upper 	= $conn->query($sql_upper);
+		$upper 			= $result_upper->fetch_assoc();
 ?>
 		<input type='hidden' value='<?= $document ?>' name='gr<?= $i ?>'>
 <?php
-		$sql_general = "SELECT purchaseorder.id AS po_detail_id, purchaseorder.reference,purchaseorder.price_list,purchaseorder.discount,purchaseorder.unitprice, 
-		goodreceipt.id,goodreceipt.quantity FROM goodreceipt 
-		INNER JOIN purchaseorder 
-		ON purchaseorder.id = goodreceipt.received_id 
-		WHERE goodreceipt.gr_id = '" . $upper['id'] . "'";
-		$result_general = $conn->query($sql_general);
-		while($general = $result_general->fetch_assoc()){
-			$sql_item = "SELECT description FROM itemlist WHERE reference = '" . $general['reference'] . "'";
-			$result_item = $conn->query($sql_item);
-			$item = $result_item->fetch_assoc();
+		$sql_general 		= "SELECT purchaseorder.id AS po_detail_id, purchaseorder.reference,purchaseorder.price_list,purchaseorder.discount,purchaseorder.unitprice, 
+							goodreceipt.id,goodreceipt.quantity FROM goodreceipt 
+							INNER JOIN purchaseorder 
+							ON purchaseorder.id = goodreceipt.received_id 
+							WHERE goodreceipt.gr_id = '" . $upper['id'] . "'";
+		$result_general 	= $conn->query($sql_general);
+		while($general 		= $result_general->fetch_assoc()){
+			$sql_item 		= "SELECT description FROM itemlist WHERE reference = '" . $general['reference'] . "'";
+			$result_item 	= $conn->query($sql_item);
+			$item 			= $result_item->fetch_assoc();
+			$id_po_detail	= $general['po_detail_id'];
 ?>
 		<tr>
 			<td><?= $general['reference'] . " - " . $item['description'] ?></td>
@@ -149,8 +146,6 @@
 	}
 ?>
 	</table>
-	<input type='hidden' value='<?= $x ?>' name='x'>
-	<input type='hidden' value='<?= $b ?>' name='b'>
 	</form>
 	<button type='button' class='btn btn-default' onclick='hitungin()'>Calculate</button>
 	<div class='notification_large' style='display:none' id='confirm_notification'>
@@ -164,6 +159,7 @@
 			<button type='button' class='btn btn-confirm' id='confirm_button'>Confirm</button>
 		</div>
 	</div>
+	
 <script>
 	var total;
 	$("#fp").inputmask("999.999.99-99999999");
@@ -196,8 +192,6 @@
 				var parent_sibling = parent.siblings();
 				var quantity = parent_sibling.find($('input[id^="quantity"]'));
 				var quantity_val = quantity.val();
-				console.log(quantity_val);
-				console.log(price);
 				total = total + (quantity_val * price);
 			});
 			$('#total_display').html('Rp. ' + numeral(total).format('0,0.00'));

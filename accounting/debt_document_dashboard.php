@@ -13,10 +13,10 @@ $( function() {
 </script>
 <div class='main' style='padding-top:0'>
 	<div class='row'>
-		<div class='col-sm-1' style='background-color:#ddd'>
+		<div class='col-sm-1' style='background-color:#333'>
 		</div>
 		<div class='col-sm-10'>
-			<form method='POST' action='debt_document_validation.php' id='myForm'>
+			<form method='POST' action='debt_document_validation.php' id='debt_select_form'>
 				<h3>Debt</h3>
 				<p>Input debt document</p>
 				<hr>
@@ -26,9 +26,9 @@ $( function() {
 				<select class='form-control' placeholder='Insert vendor name here' name='supplier' id='supplier'>
 					<option value='0'>Please select a supplier</option>
 <?php
-			$sql_supplier = "SELECT name,id FROM supplier";
-			$result_supplier = $conn->query($sql_supplier);
-			while($supplier = $result_supplier->fetch_assoc()){
+			$sql_supplier 		= "SELECT name,id FROM supplier";
+			$result_supplier 	= $conn->query($sql_supplier);
+			while($supplier 	= $result_supplier->fetch_assoc()){
 ?>
 					<option value='<?= $supplier['id'] ?>'><?= $supplier['name'] ?></option>
 <?php
@@ -43,16 +43,13 @@ $( function() {
 			</form>
 		</div>
 		<div id='inputs'></div>
-		<div class='col-sm-1' style='background-color:#ddd'>
+		<div class='col-sm-1' style='background-color:#333'>
 		</div>
 	</div>
 </div>
 <script>
 	function search_document(){
-		if($('#date').val() == ''){
-			alert('Cannot insert empty date!');
-			return false;
-		} else if($('#supplier').val() == 0){
+		if($('#supplier').val() == 0){
 			alert('Insert correct supplier!');
 			return false;
 		} else {

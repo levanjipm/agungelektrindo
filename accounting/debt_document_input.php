@@ -38,14 +38,14 @@
 		$result = $conn->query($sql);
 	}
 	
-	$invoice_document = $_POST['invoice_doc'];
-	$tax_document = $_POST['tax_doc'];
-	$sql_insert = "INSERT INTO purchases (date,name,faktur,supplier_id,value,created_by)
-	VALUES ('$date','$invoice_document','$tax_document','$supplier_id','$total','$user_id')";
-	$result_insert = $conn->query($sql_insert);
-	$sql_get_id = "SELECT id FROM purchases ORDER BY id DESC LIMIT 1";
-	$result_get_id = $conn->query($sql_get_id);
-	$get_id = $result_get_id->fetch_assoc();
+	$invoice_document 	= $_POST['invoice_doc'];
+	$tax_document 		= $_POST['tax_doc'];
+	$sql_insert 		= "INSERT INTO purchases (date,name,faktur,supplier_id,value,created_by)
+						VALUES ('$date','$invoice_document','$tax_document','$supplier_id','$total','$user_id')";
+	$result_insert 		= $conn->query($sql_insert);
+	$sql_get_id 		= "SELECT id FROM purchases ORDER BY id DESC LIMIT 1";
+	$result_get_id 		= $conn->query($sql_get_id);
+	$get_id 			= $result_get_id->fetch_assoc();
 	$purchase_id = $get_id['id'];
 	for($y = 1; $y < $x; $y++){
 		$gr = $_POST['gr' . $y];

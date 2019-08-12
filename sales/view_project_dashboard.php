@@ -16,6 +16,7 @@
 		<tr>
 			<th>Date Start</th>
 			<th>Project name</th>
+			<th>Project description</th>
 			<th>Customer name</th>
 			<th></th>
 		</tr>
@@ -25,6 +26,7 @@
 		<tr>
 			<td><?= date('d M Y',strtotime($code['start_date'])) ?></td>
 			<td><?= $code['project_name'] ?></td>
+			<td><?= $code['description'] ?></td>
 			<td><?php
 				$sql_customer = "SELECT name FROM customer WHERE id = '" . $code['customer_id'] . "'";
 				$result_customer = $conn->query($sql_customer);

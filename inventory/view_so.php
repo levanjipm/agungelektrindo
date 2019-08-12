@@ -13,9 +13,8 @@
 			<th>Sent</th>
 		</tr>
 <?php
-	$sql = "SELECT sales_order.reference, sales_order.quantity, sales_order_sent.quantity AS sent_quantity, sales_order_sent.status 
-	FROM sales_order JOIN sales_order_sent
-	ON sales_order.id = sales_order_sent.id
+	$sql = "SELECT sales_order.reference, sales_order.quantity, sales_order.sent_quantity, sales_order.status 
+	FROM sales_order
 	WHERE sales_order.so_id = '" . $id . "'";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){

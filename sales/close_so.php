@@ -1,6 +1,7 @@
 <?php
 	include('../codes/connect.php');
 	session_start();
+	
 	$sql_pin = "SELECT pin FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
 	$result_pin = $conn->query($sql_pin);
 	if(!$result_pin || empty($_POST['id'])){

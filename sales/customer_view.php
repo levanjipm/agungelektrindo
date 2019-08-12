@@ -1,15 +1,18 @@
 <?php
 	include('salesheader.php');
-	if(empty($_POST['customer']) || $_POST['customer'] == 0){
+	$customer_id		= $customer_id;
+	
+	if(empty($customer_id) || $customer_id == 0){
 		header('location:receivable_dashboard.php');
 	}
-	$sql_customer = "SELECT * FROM customer WHERE id = '" . $_POST['customer'] . "'";
-	$result_customer = $conn->query($sql_customer);
-	$customer = $result_customer->fetch_assoc();
 	
-	$sql_invoice = "SELECT SUM(value) AS jumlah FROM invoices WHERE customer_id = '" . $_POST['customer'] . "'";
-	$result_invoice = $conn->query($sql_invoice);
-	$invoice = $result_invoice->fetch_assoc();
+	$sql_customer 		= "SELECT * FROM customer WHERE id = '" . $customer_id . "'";
+	$result_customer 	= $conn->query($sql_customer);
+	$customer 			= $result_customer->fetch_assoc();
+	
+	$sql_invoice 		= "SELECT SUM(value) AS jumlah FROM invoices WHERE customer_id = '" . $customer_id . "'";
+	$result_invoice 	= $conn->query($sql_invoice);
+	$invoice 			= $result_invoice->fetch_assoc();
 ?>
 <div class='main'>
 	<div class='row'>
@@ -58,10 +61,10 @@
 ?>
 				</tr>
 <?php
-	$sql_invoice_detail = "SELECT invoices.id, invoices.date, invoices.name AS invoice_name, invoices.value, invoices.ongkir FROM invoices
-	WHERE invoices.customer_id = '" . $_POST['customer'] . "' AND invoices.isdone = '0'";
-	$result_invoice_detail = $conn->query($sql_invoice_detail);
-	while($invoice_detail = $result_invoice_detail->fetch_assoc()){
+	$sql_invoice_detail 	= "SELECT invoices.id, invoices.date, invoices.name AS invoice_name, invoices.value, invoices.ongkir FROM invoices
+							WHERE invoices.customer_id = '" . $customer_id . "' AND invoices.isdone = '0'";
+	$result_invoice_detail 	= $conn->query($sql_invoice_detail);
+	while($invoice_detail 	= $result_invoice_detail->fetch_assoc()){
 ?>
 				<tr>
 					<td><?= date('d M Y',strtotime($invoice_detail['date'])) ?></td>

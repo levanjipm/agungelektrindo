@@ -4,7 +4,7 @@
 	$date = $_POST['date'];
 	$nilai = 1;
 	for($i = 1; $i <= $jumlah; $i++){
-		$sql_check = "SELECT stock FROM stock WHERE reference = '" . $_POST['reference' . $i] . "' ORDER BY id LIMIT 1";
+		$sql_check = "SELECT stock FROM stock WHERE reference = '" . $_POST['reference' . $i] . "' ORDER BY id DESC LIMIT 1";
 		$result_check = $conn->query($sql_check);
 		if(mysqli_num_rows($result_check)){
 			$check = $result_check->fetch_assoc();
