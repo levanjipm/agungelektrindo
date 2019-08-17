@@ -57,7 +57,7 @@ $selector = $result_selector->fetch_assoc();
 ?>
 		<tr>
 			<input type='hidden' value='<?= $invoices['id'] ?>' name='id<?= $i ?>'>
-			<td><?= $invoices['date'] ?></td>
+			<td><?= date('d M Y',strtotime($invoices['date'])) ?></td>
 			<td><?= $invoices['name']; ?></td>
 			<td><?= number_format(($invoices['value'] - $received),2) ?></td>
 			<td>

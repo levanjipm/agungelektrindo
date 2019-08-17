@@ -28,8 +28,8 @@ if($customer == 0){
 }
 $sql_customer 		= "SELECT name FROM customer WHERE id = '" . $customer . "'";
 $result_customer 	= $conn->query($sql_customer);
-$customer			= $result_customer->fetch_assoc();
-$customer_name 		= $customer['name'];
+$customer_row		= $result_customer->fetch_assoc();
+$customer_name 		= $customer_row['name'];
 ?>
 <body style='overflow-x:hidden'>
 	<form action="createsalesorder_input.php" method="POST" name="salesorder_validate">

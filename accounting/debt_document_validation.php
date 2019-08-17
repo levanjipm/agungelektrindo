@@ -94,6 +94,8 @@
 	<input type='text' class='form-control' name='tax_doc' id='fp'>
 <?php
 	}
+	
+	$i = 1;
 ?>
 	<table class='table'>
 		<tr>
@@ -103,14 +105,12 @@
 			<th style='width:20%'></th>
 		</tr>
 <?php
-	$i = 1;
-	$b = 1;
 	foreach($document_array as $document){
 		$sql_upper 		= "SELECT id FROM code_goodreceipt WHERE id = '" . $document . "'";
 		$result_upper 	= $conn->query($sql_upper);
 		$upper 			= $result_upper->fetch_assoc();
 ?>
-		<input type='hidden' value='<?= $document ?>' name='gr<?= $i ?>'>
+		<input type='hidden' value='<?= $document ?>' name='gr[<?= $i ?>]'>
 <?php
 		$sql_general 		= "SELECT purchaseorder.id AS po_detail_id, purchaseorder.reference,purchaseorder.price_list,purchaseorder.discount,purchaseorder.unitprice, 
 							goodreceipt.id,goodreceipt.quantity FROM goodreceipt 
@@ -128,21 +128,20 @@
 			<td><?= $general['reference'] . " - " . $item['description'] ?></td>
 			<td>
 				<?= $general['quantity'] ?>
-				<input type='hidden' value='<?= $general['quantity'] ?>' name='quantity<?= $b ?>' id='quantity<?= $b ?>'>
+				<input type='hidden' value='<?= $general['quantity'] ?>' name='quantity[<?= $id_po_detail ?>]' id='quantity<?= $id_po_detail ?>'>
 				<input type='hidden' value='<?= $general['id'] ?>' name='id<?= $b ?>'>
 			</td>
 			<td>
-				<button type='button' style='background-color:transparent;border:none' onclick='show(<?= $b ?>)' id='button-<?= $b ?>'>Rp. <?= number_format($general['unitprice'],2) ?></button>
-				<input type='number' value='<?= $general['unitprice'] ?>' id='input<?= $b ?>' style='display:none' onfocusout='hide(<?= $b ?>)' class='form-control' name='input<?= $b ?>'>
-				<input type='hidden' value='<?= $general['po_detail_id'] ?>' name='po_detail_id<?= $b ?>' id='po_detail_id<?= $b ?>' readonly>
+				<button type='button' style='background-color:transparent;border:none' onclick='show(<?= $id_po_detail ?>)' id='button-<?= $id_po_detail ?>'>Rp. <?= number_format($general['unitprice'],2) ?></button>
+				<input type='number' value='<?= $general['unitprice'] ?>' id='input<?= $id_po_detail ?>' style='display:none' onfocusout='hide(<?= $id_po_detail ?>)' class='form-control' name='input[<?= $id_po_detail ?>]'>
 			</td>
 			<td>
 				<input type="checkbox" class='checkbox'>
 			</td>
 		</tr>
 <?php
-		$b++;
-		}	
+		}
+	$i++;
 	}
 ?>
 	</table>

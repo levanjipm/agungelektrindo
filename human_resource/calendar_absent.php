@@ -158,7 +158,7 @@
 <div class='calendar_action'>
 	<h2 style='font-family:bebasneue'>Absentee</h2>
 <?php
-	$sql_user_absen = "SELECT id,name FROM users";
+	$sql_user_absen = "SELECT id,name FROM users WHERE isactive = '1'";
 	$result_user_absen = $conn->query($sql_user_absen);
 	while($user_absen = $result_user_absen->fetch_assoc()){
 		$sql_absen = "SELECT * FROM absentee_list WHERE date = '" . date('Y-m-d') . "' AND user_id = '" . $user_absen['id'] . "'";
@@ -222,6 +222,7 @@
 				type:'POST',
 				success:function(response){
 					$('.calendar_action').html(response);
+					$('.btn-back').click();
 				},
 			});
 		}

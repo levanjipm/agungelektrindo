@@ -30,8 +30,8 @@
 		$city = mysqli_real_escape_string($conn,$_POST['retail_city']);
 		$phone = mysqli_real_escape_string($conn,$_POST['retail_phone']);
 		
-		$sql = "INSERT INTO code_salesorder (name,created_by,date,po_number,taxing,customer_id,delivery_id,value,retail_name,retail_address,retail_city,retail_phone) 
-		VALUES ('$so_number','$created_by','$so_date','$po_number','$taxing','$customer','','$value','$name','$address','$city','$phone')";
+		$sql = "INSERT INTO code_salesorder (name,created_by,date,po_number,taxing,customer_id,value,retail_name,retail_address,retail_city,retail_phone) 
+		VALUES ('$so_number','$created_by','$so_date','$po_number','$taxing','0','$value','$name','$address','$city','$phone')";
 	}
 	$conn->query($sql);
 	

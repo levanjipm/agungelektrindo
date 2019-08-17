@@ -25,7 +25,11 @@
 		<hr>
 <?php	
 	if(empty($_POST['id'])){
-		header('confirm_invoice_dashboard.php');
+?>
+	<script>
+		window.location.href="accounting.php";
+	</script>
+<?php
 	} else {
 		$invoice_id = $_POST['id'];
 		$sql = "SELECT name,faktur,supplier_id FROM purchases WHERE id = '" . $invoice_id . "'";
@@ -56,6 +60,7 @@
 			<?php
 				$total = 0;
 				$sql_gr = "SELECT * FROM code_goodreceipt WHERE invoice_id = '" . $invoice_id . "'";
+				echo $sql_gr;
 				$result_gr = $conn->query($sql_gr);
 				while($gr = $result_gr->fetch_assoc()){
 					$gr_id = $gr['id'];

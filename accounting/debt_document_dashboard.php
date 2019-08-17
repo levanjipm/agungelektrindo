@@ -17,7 +17,7 @@ $( function() {
 		</div>
 		<div class='col-sm-10'>
 			<form method='POST' action='debt_document_validation.php' id='debt_select_form'>
-				<h3>Debt</h3>
+				<h2 style='font-family:bebasneue'>Debt</h3>
 				<p>Input debt document</p>
 				<hr>
 				<label>Date</label>

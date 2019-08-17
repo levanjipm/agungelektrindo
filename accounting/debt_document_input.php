@@ -3,18 +3,17 @@
 	session_start();
 	$user_id = $_SESSION['user_id'];
 	$date = $_POST['date'];
-	$b = $_POST['b'];
-	$x = $_POST['x'];
 	$total = 0;
-	
+	$gr_array	= $_POST['gr'];
+	print_r($_POST);
 	$supplier_id = mysqli_real_escape_string($conn,$_POST['supplier']);
 	
 	for($i = 1; $i < $b; $i++){
-		$id = mysqli_real_escape_string($conn,$_POST['id' . $i]);
-		$code_gr = mysqli_real_escape_string($conn,$_POST['gr' . $i]);
-		$quantity = $_POST['quantity' . $i];
-		$input = mysqli_real_escape_string($conn,$_POST['input' . $i]);
-		$po_detail_id = $_POST['po_detail_id' . $i];
+		$id 			= mysqli_real_escape_string($conn,$_POST['id' . $i]);
+		$code_gr 		= mysqli_real_escape_string($conn,$_POST['gr' . $i]);
+		$quantity 		= $_POST['quantity' . $i];
+		$input 			= mysqli_real_escape_string($conn,$_POST['input' . $i]);
+		$po_detail_id 	= $_POST['po_detail_id' . $i];
 		
 		$total = $total + $quantity * $input;
 		$sql_po = "SELECT reference FROM purchaseorder WHERE id = '" . $po_detail_id . "'";
@@ -47,10 +46,9 @@
 	$result_get_id 		= $conn->query($sql_get_id);
 	$get_id 			= $result_get_id->fetch_assoc();
 	$purchase_id = $get_id['id'];
-	for($y = 1; $y < $x; $y++){
-		$gr = $_POST['gr' . $y];
+	foreach($gr_array as $gr){
 		$sql_update = "UPDATE code_goodreceipt SET isinvoiced = '1', invoice_id = '"  . $purchase_id . "' WHERE id = '" . $gr . "'";
 		$result_update = $conn->query($sql_update);
 	}
-	header('location:accounting.php');
+	// header('location:accounting.php');
 ?>			

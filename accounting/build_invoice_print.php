@@ -15,43 +15,54 @@
 <?php
 	include('../codes/connect.php');
 	
-	$id = $_POST['id'];
+	$id 			= $_POST['id'];
 	
-	$sql = "SELECT invoices.faktur,invoices.value,invoices.ongkir,invoices.name,invoices.date, code_delivery_order.customer_id
-	FROM invoices 
-	JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
-	WHERE invoices.id = '" . $id . "'";
-	$result = $conn->query($sql);
-	$row = $result->fetch_assoc();
+	$sql_invoice	= "SELECT invoices.faktur,invoices.value,invoices.ongkir,invoices.name,invoices.date, code_delivery_order.customer_id, code_salesorder.id as sales_order_id
+					FROM invoices 
+					JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+					JOIN code_salesorder ON code_salesorder.id = code_delivery_order.so_id
+					WHERE invoices.id = '" . $id . "'";
+	$result_invoice	= $conn->query($sql_invoice);
+	$invoice		= $result_invoice->fetch_assoc();
 	
-	$ongkir = $row['ongkir'];
-	$value = $row['value'];
-	$name = $row['name'];
-	$date = $row['date'];
-	$customer_id = $row['customer_id'];
-	$faktur = $row['faktur'];
+	$ongkir 		= $invoice['ongkir'];
+	$value 			= $invoice['value'];
+	$name 			= $invoice['name'];
+	$date 			= $invoice['date'];
+	$customer_id 	= $invoice['customer_id'];
+	$faktur 		= $invoice['faktur'];
+	$sales_order_id	= $invoice['sales_order_id'];
 	
 	$do_name = 'SJ-AE-' . substr($name,6,100);
+	if($customer_id != 0){
+		$sql_customer 		= "SELECT name, address, city FROM customer WHERE id = '" . $customer_id . "'";
+		$result_customer 	= $conn->query($sql_customer);
+		$row_customer 		= $result_customer->fetch_assoc();
+		
+		$customer_name 		= $row_customer['name'];
+		$customer_address 	= $row_customer['address'];
+		$customer_city 		= $row_customer['city'];
+	} else {
+		$sql_customer_so	= "SELECT retail_name, retail_address, retail_city FROM code_salesorder WHERE id = '" . $sales_order_id . "'";
+		$result_customer_so	= $conn->query($sql_customer_so);
+		$customer_so		= $result_customer_so->fetch_assoc();
+		
+		$customer_name 		= $row_customer['retail_name'];
+		$customer_address 	= $row_customer['retail_address'];
+		$customer_city 		= $row_customer['retail_city'];
+	}
 	
-	$sql_customer = "SELECT name, address, city FROM customer WHERE id = '" . $customer_id . "'";
-	$result_customer = $conn->query($sql_customer);
-	$row_customer = $result_customer->fetch_assoc();
+	$sql_do 		= "SELECT so_id,id FROM code_delivery_order WHERE name = '" . $do_name . "'";
+	$result_do 		= $conn->query($sql_do);
+	$row_do 		= $result_do->fetch_assoc();
+	$do_id 			= $row_do['id'];
+	$so_id 			= $row_do['so_id'];
 	
-	$customer_name = $row_customer['name'];
-	$customer_address = $row_customer['address'];
-	$customer_city = $row_customer['city'];
-	
-	$sql_do = "SELECT so_id,id FROM code_delivery_order WHERE name = '" . $do_name . "'";
-	$result_do = $conn->query($sql_do);
-	$row_do = $result_do->fetch_assoc();
-	$do_id = $row_do['id'];
-	$so_id = $row_do['so_id'];
-	
-	$sql_so = "SELECT po_number,taxing FROM code_salesorder WHERE id = '" . $so_id . "'";
-	$result_so = $conn->query($sql_so);
-	$row_so = $result_so->fetch_assoc();
-	$taxing = $row_so['taxing'];
-	$po_number = $row_so['po_number'];
+	$sql_so 		= "SELECT po_number,taxing FROM code_salesorder WHERE id = '" . $so_id . "'";
+	$result_so 		= $conn->query($sql_so);
+	$row_so 		= $result_so->fetch_assoc();
+	$taxing 		= $row_so['taxing'];
+	$po_number 		= $row_so['po_number'];
 ?>
 <div class='row'>
 	<div class='col-sm-1' style='background-color:#ddd'>
@@ -80,28 +91,24 @@
 		<hr><br><br>
 		<table class='table' style='text-align:center'>
 			<tr>
-				<th style='width:5%;text-align:center'>Nomor</th>
-				<th style='width:30%;text-align:center'>Barang</th>
-				<th style='width:15%;text-align:center'>Jumlah</th>
-				<th style='width:25%;text-align:center'>Harga satuan</th>
-				<th style='width:25%;text-align:center'>Harga</th>
+				<th style='width:5%'>Nomor</th>
+				<th style='width:30%'>Barang</th>
+				<th style='width:15%'>Jumlah</th>
+				<th style='width:25%'>Harga satuan</th>
+				<th style='width:25%'>Harga</th>
 			</tr>
 <?php
 		$i = 1;
-		$sql_count = "SELECT COUNT(*) AS counter FROM delivery_order WHERE do_id = '" . $do_id . "'";
-		$result_count = $conn->query($sql_count);
-		$row_count = $result_count->fetch_assoc();
-		$counting = $row_count['counter'];
-		if($counting <= 10){
-			$max = 10;
-		} else {
-			$max = $counting;
-		}
+		$sql_count 		= "SELECT COUNT(*) AS counter FROM delivery_order WHERE do_id = '" . $do_id . "'";
+		$result_count 	= $conn->query($sql_count);
+		$row_count 		= $result_count->fetch_assoc();
+		$counting 		= $row_count['counter'];
+		$max = ($counting <= 10)? 10: $counting;
 		$value = 0;
 			for($i = 1; $i <= $max; $i++){
-				$sql_table = "SELECT * FROM delivery_order WHERE do_id = '" . $do_id . "' LIMIT 1 OFFSET " . ($i - 1);
-				$result_table = $conn->query($sql_table);
-				$row_table = $result_table->fetch_assoc();
+				$sql_table 		= "SELECT * FROM delivery_order WHERE do_id = '" . $do_id . "' LIMIT 1 OFFSET " . ($i - 1);
+				$result_table 	= $conn->query($sql_table);
+				$row_table 		= $result_table->fetch_assoc();
 				if(empty($row_table['reference'])){
 ?>
 			<tr style='height:40px'>
@@ -117,9 +124,9 @@
 			<tr style='height:40px'>
 				<td><?= $i . '.' ?></td>
 				<td><?php
-					$sql_item = "SELECT description FROM itemlist WHERE reference = '" . $row_table['reference'] . "'";
-					$result_item = $conn->query($sql_item);
-					$row_item = $result_item->fetch_assoc();
+					$sql_item 		= "SELECT description FROM itemlist WHERE reference = '" . $row_table['reference'] . "'";
+					$result_item 	= $conn->query($sql_item);
+					$row_item 		= $result_item->fetch_assoc();
 					echo $row_item['description'] . ' - ' . $row_table['reference'];
 				?></td>
 				<td><?= $row_table['quantity']; ?></td>

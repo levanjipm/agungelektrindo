@@ -1,6 +1,51 @@
 <?php
 	include('salesheader.php');
 ?>
+<style>
+	.notification_large{
+		position:fixed;
+		top:0;
+		left:0;
+		background-color:rgba(51,51,51,0.3);
+		width:100%;
+		text-align:center;
+		height:100%;
+	}
+	.notification_large .notification_box{
+		position:relative;
+		background-color:#fff;
+		padding:30px;
+		width:100%;
+		top:30%;
+		box-shadow: 3px 4px 3px 4px #ddd;
+	}
+	.btn-confirm{
+		background-color:#2bf076;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	.btn-delete{
+		background-color:red;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	.btn-back{
+		background-color:#777;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	.btn-x{
+		background-color:transparent;
+		border:none;
+		outline:0!important;
+	}
+	.btn-x:focus{
+		outline: 0!important;
+	}
+</style>
 <div class='main'>
 <?php
 	if(empty($_GET['alert'])){
@@ -56,7 +101,7 @@
 				<td><?= $so['name'] ?></td>
 				<td>
 					<button type='button' class='btn btn-default' onclick='submit(<?= $so['id'] ?>)'>Confirm SO</button>
-					<button type='button' class='btn btn-danger'>Delete SO</button>
+					<button type='button' class='btn btn-danger' onclick='delete_sales_order(<?= $so['id'] ?>)'>Delete SO</button>
 					<form action='confirmsalesorder.php' method='POST' id='form<?= $so['id'] ?>'>
 						<input type='hidden' value='<?= $so['id'] ?>' name='id'>
 					</form>
@@ -68,7 +113,39 @@
 		</table>
 	</div>
 </div>
+<div class='notification_large' style='display:none' id='delete_notification'>
+	<div class='notification_box'>
+		<h1 style='font-size:3em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h1>
+		<h2 style='font-family:bebasneue'>Are you sure to delete this sales order</h2>
+		<br>
+		<button type='button' class='btn btn-back'>Back</button>
+		<button type='button' class='btn btn-delete' id='delete_sales_order_button'>Delete</button>
+		<input type='hidden' value='0' id='delete_id'>
+	</div>
+</div>
 <script>
+	function delete_sales_order(n){
+		$('#delete_notification').fadeIn();
+		$('#delete_id').val(n);
+	};
+	
+	$('.btn-back').click(function(){
+		$('#delete_notification').fadeOut();
+	});
+	
+	$('#delete_sales_order_button').click(function(){
+		$.ajax({
+			url		:"delete_salesorder.php",
+			data	:{
+				id 	: $('#delete_id').val(),
+			},
+			type	:"POST",
+			success:function(){
+				location.reload();
+			},
+		});
+	});
+	
 	function submit(n){
 		$('#form' + n).submit();
 	}
