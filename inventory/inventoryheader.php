@@ -13,11 +13,11 @@
 	if($_SESSION['user_id'] === NULL){
 		header('location:../landing_page.php');
 	}
-	$sql_user = "SELECT name,role FROM users WHERE id = " . $_SESSION['user_id'];
-	$result_user = $conn->query($sql_user);
-	$row_user = $result_user->fetch_assoc();
-	$role = $row_user['role'];
-	$user_name = $row_user['name'];
+	$sql_user 		= "SELECT name,role FROM users WHERE id = " . $_SESSION['user_id'];
+	$result_user 	= $conn->query($sql_user);
+	$row_user 		= $result_user->fetch_assoc();
+	$role 			= $row_user['role'];
+	$user_name 		= $row_user['name'];
 	if(mysqli_num_rows($result_user) == 0){
 		header('location:../landing_page.php');
 	}
@@ -216,6 +216,6 @@
 </div>
 <?php
 } else{
-	// header('location:../landing_page.php');
+	header('location:../landing_page.php');
 };
 ?>

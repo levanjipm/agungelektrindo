@@ -9,35 +9,44 @@
 		top:20px;
 		z-index:105;
 	}
-.notification_large{
-	position:fixed;
-	top:0;
-	left:0;
-	background-color:rgba(51,51,51,0.3);
-	width:100%;
-	text-align:center;
-	height:100%;
-}
-.notification_large .notification_box{
-	position:relative;
-	background-color:#fff;
-	padding:30px;
-	width:100%;
-	top:30%;
-	box-shadow: 3px 4px 3px 4px #ddd;
-}
-.btn-delete{
-	background-color:red;
-	font-family:bebasneue;
-	color:white;
-	font-size:1.5em;
-}
-.btn-back{
-	background-color:#777;
-	font-family:bebasneue;
-	color:white;
-	font-size:1.5em;
-}
+	.notification_large{
+		position:fixed;
+		top:0;
+		left:0;
+		background-color:rgba(51,51,51,0.3);
+		width:100%;
+		text-align:center;
+		height:100%;
+	}
+	.notification_large .notification_box{
+		position:relative;
+		background-color:#fff;
+		padding:30px;
+		width:100%;
+		top:30%;
+		box-shadow: 3px 4px 3px 4px #ddd;
+	}
+	.btn-delete{
+		background-color:red;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	.btn-back{
+		background-color:#777;
+		font-family:bebasneue;
+		color:white;
+		font-size:1.5em;
+	}
+	input[type=text] {
+		padding:10px;
+		width: 130px;
+		-webkit-transition: width 0.4s ease-in-out;
+		transition: width 0.4s ease-in-out;
+	}
+	input[type=text]:focus {
+		width: 100%;
+	}
 </style>
 	<div class='alert_wrapper'>
 		<div class="alert alert-success" id='alert_change' style='display:none'>
@@ -58,7 +67,8 @@
 			<p>Edit customer data</p>
 			<hr>
 			<label>Search</label>
-			<input type='text' class='form-control' id='customer_filter' placeholder='Search customer here'>
+			<br>
+			<input type='text' id='customer_filter' placeholder='Search customer here'>
 			<script>
 				$(document).ready(function(){
 					$("#customer_filter").on("keyup", function() {

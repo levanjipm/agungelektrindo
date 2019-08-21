@@ -2,27 +2,25 @@
 	include ("salesheader.php");
 ?>
 <script type="text/javascript" src="scripts/createquotation.js"></script>
+<style>
+	input[type=text] {
+		padding:10px;
+		width: 130px;
+		-webkit-transition: width 0.4s ease-in-out;
+		transition: width 0.4s ease-in-out;
+	}
+	input[type=text]:focus {
+		width: 100%;
+	}
+</style>
 <body>
 <div class="main">
-	<div class='container'>
-		<h2 style='font-family:bebasneue'>Quotation</h2>
-		<h4 style="color:#444">Edit or Print Quotation</h4>
-		<hr>
-	</div>
-	<div class='row'>
-		<div class='col-sm-4 col-sm-offset-4'>
-			<div class="input-group">
-				<span class="input-group-addon">
-					<button type='button' class='btn btn-default' style='width:100%;padding:0;background-color:transparent;border:none'
-					onclick='search_quotation()'>
-						<i class="fa fa-search" aria-hidden="true"></i>
-					</button>
-				</span>
-				<input type="text" id="search" name="search" class="form-control" placeholder="Search here">
-			</div>
-			<hr>
-		</div>	
-	</div>
+	<h2 style='font-family:bebasneue'>Quotation</h2>
+	<p>Edit or Print Quotation</p>
+	<hr>
+	<input type="text" id="search" name="search" placeholder="Search here" onchange="search_quotation()">
+	<br>
+	<br>
 	<div id='quotation_result'>
 		<div class='container'>
 			<h3 style='font-family:bebasneue'>Latest Quotations</h3>
@@ -35,7 +33,7 @@
 	while($quotation = $result_quotation->fetch_assoc()){
 ?>
 				<div class='row' style='padding:20px;background-color:#ddd;margin-top:5px' id='row-<?= $quotation['id'] ?>'>
-					<div class='col-sm-6'>
+					<div class='col-sm-5'>
 						<strong><?= $quotation['name'] ?></strong><br>
 						<p><?php
 							$sql_customer = "SELECT name FROM customer WHERE id = '" . $quotation['customer_id'] . "'";
@@ -44,16 +42,12 @@
 							echo $customer['name'];
 						?></p>
 					</div>
-					<div class='col-sm-6'>
+					<div class='col-sm-7'>
 						<button type='button' class='btn btn-default' style='border:none;background-color:transparent' onclick='view_pane(<?= $quotation['id'] ?>)'>
 							<i class="fa fa-eye" aria-hidden="true"></i>
 						</button>
-						<br>
 						<button type='button' class='btn btn-success' onclick='edit_form(<?= $quotation['id'] ?>)'>
 							<i class="fa fa-pencil" aria-hidden="true"></i>
-							<form id='editing<?= $quotation['id'] ?>' action='editquotation.php' method='POST'>
-								<input type='hidden' value='<?= $quotation['id'] ?>' name='id'>
-							</form>
 						</button>
 						<button type='button' class='btn btn-warning' onclick='submit_form(<?= $quotation['id']?>)'>
 							<i class="fa fa-print" aria-hidden="true"></i>
@@ -61,6 +55,9 @@
 								<input type='hidden' value='<?= $quotation['id'] ?>' name='id'>
 							</form>
 						</button>
+						<form id='editing<?= $quotation['id'] ?>' action='editquotation.php' method='POST'>
+							<input type='hidden' value='<?= $quotation['id'] ?>' name='id'>
+						</form>
 					</div>
 					<hr>
 				</div>

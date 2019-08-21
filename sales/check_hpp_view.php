@@ -56,3 +56,11 @@
 <?php
 	}
 ?>
+<br><br>
+	<div class='row'>
+		<div class='col-xs-12'>
+			<a href='check_hpp_dashboard.php' style=text-decoration:none'>
+				<button type='button' class='btn btn-default'>Back</button>
+			</a>
+		</div>
+	</div>

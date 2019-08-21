@@ -110,11 +110,11 @@
 		$result_upper 	= $conn->query($sql_upper);
 		$upper 			= $result_upper->fetch_assoc();
 ?>
-		<input type='hidden' value='<?= $document ?>' name='gr[<?= $i ?>]'>
+		<input type='hidden' value='<?= $document ?>' name='code_gr[<?= $i ?>]'>
 <?php
-		$sql_general 		= "SELECT purchaseorder.id AS po_detail_id, purchaseorder.reference,purchaseorder.price_list,purchaseorder.discount,purchaseorder.unitprice, 
-							goodreceipt.id,goodreceipt.quantity FROM goodreceipt 
-							INNER JOIN purchaseorder 
+		$sql_general 		= "SELECT purchaseorder.id AS po_detail_id, purchaseorder.reference, purchaseorder.unitprice, goodreceipt.id, goodreceipt.quantity 
+							FROM goodreceipt 
+							JOIN purchaseorder 
 							ON purchaseorder.id = goodreceipt.received_id 
 							WHERE goodreceipt.gr_id = '" . $upper['id'] . "'";
 		$result_general 	= $conn->query($sql_general);
@@ -128,8 +128,7 @@
 			<td><?= $general['reference'] . " - " . $item['description'] ?></td>
 			<td>
 				<?= $general['quantity'] ?>
-				<input type='hidden' value='<?= $general['quantity'] ?>' name='quantity[<?= $id_po_detail ?>]' id='quantity<?= $id_po_detail ?>'>
-				<input type='hidden' value='<?= $general['id'] ?>' name='id<?= $b ?>'>
+				<input type='hidden' value='<?= $general['id'] ?>' name='po_gr[<?= $general['po_detail_id'] ?>]'>
 			</td>
 			<td>
 				<button type='button' style='background-color:transparent;border:none' onclick='show(<?= $id_po_detail ?>)' id='button-<?= $id_po_detail ?>'>Rp. <?= number_format($general['unitprice'],2) ?></button>
@@ -141,7 +140,7 @@
 		</tr>
 <?php
 		}
-	$i++;
+	 next($document_array);
 	}
 ?>
 	</table>

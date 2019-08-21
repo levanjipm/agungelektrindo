@@ -81,6 +81,8 @@
 	$pembagi = max($sales_this_month, $sales_month_before, $sales_month_last);
 	
 	$sales_annual = $sales_annual == '' ? 0 : $sales_annual;
+	
+	if($_SESSION['user_id'] == 1 || $_SESSION['user_id'] == 3 || $_SESSION['user_id'] == 7){ 
 ?>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales</h2>
@@ -345,3 +347,6 @@
 			</div>
 		</div>
 	</div>
+<?php
+	}
+?>

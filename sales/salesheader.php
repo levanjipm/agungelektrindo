@@ -28,17 +28,15 @@ Sales Department
 ?>
 </head>
 <body>
+<div class='top_navigation_bar'>
+	<div class='col-lg-4 col-md-5 col-sm-6 col-xs-8'>
+		<img src='../universal/images/agungelektrindo_header.png' style='height:50px;'>
+	</div>
+	<div class='col-lg-2 col-md-3 col-sm-4 col-xs-4 col-lg-offset-6 col-md-offset-4 col-sm-offset-2 col-xs-offset-0'>
+		<p><?= $name ?></p>
+	</div>
+</div>
 <div class="sidenav">
-	<div class='row'>
-		<div class='col-sm-12 col-md-6'>
-			<img src='../human_resource/images/users/users.png' style='width:100%; border-radius:50%'>
-		</div>
-		<div class='col-sm-12 col-md-6' style='color:white'>
-			<strong>Welcome</strong>
-			<p><?= $name ?></p>
-		</div>
-	</div>				
-	<hr>
 	<style>
 		.btn-badge{
 			background-color:transparent;
@@ -75,9 +73,6 @@ Sales Department
 		</a>
 		<a href="editcustomer_dashboard.php">
 			<p>Edit Customer</p>
-		</a>
-		<a href='#'>
-			<p>Delivery</p>
 		</a>
 	</div>
 	<button class="btn btn-badge dropdown-btn" style='color:white'>
@@ -175,7 +170,7 @@ Sales Department
 	}
 ?>
 	<hr>
-	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+	<button type='button' class='btn btn-badge' style='color:white'>
 		<a href='../human_resource/user_dashboard.php' style='color:white;text-decoration:none'>
 			<i class="fa fa-home" aria-hidden="true"></i>
 			Back to home

@@ -260,7 +260,7 @@
 <div class='notification_large' style='display:none' id='confirm_notification'>
 	<div class='notification_box'>
 		<h1 style='font-size:3em;color:#2bf076'><i class="fa fa-check" aria-hidden="true"></i></h1>
-		<h2 style='font-family:bebasneue'>Are you sure to confirm this delivery order</h2>
+		<h2 style='font-family:bebasneue'>Are you sure to confirm this purchase order</h2>
 		<br>
 		<button type='button' class='btn btn-back'>Back</button>
 		<button type='button' class='btn btn-confirm' id='confirm_button'>Confirm</button>

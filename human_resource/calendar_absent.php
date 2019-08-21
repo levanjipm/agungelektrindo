@@ -71,17 +71,52 @@
 		right:0%;
 	}
 	.calendar_absent{
-		width:80%;
+		width:100%;
 		display:inline-block;
 	}
 	.calendar_action{
-		width:18%;
+		width:100%;
 		border:2px solid #eee;
 		padding:20px;
 		display:inline-block;
 		margin-top:0;
 	}
 </style>
+<div class='calendar_action'>
+	<h2 style='font-family:bebasneue'>Absentee</h2>
+	<button type='button' class='btn btn-default' id='view_calendar_button'>View</button>
+	<br>
+	<br>
+	<table class='table table-bordered' id='table_to_absent'>
+		<tr>
+			<th>Name</th>
+			<th colspan='2'></th>
+		</tr>
+		<tbody id='table_body_absent'>
+<?php
+	$sql_user_absen = "SELECT id,name FROM users WHERE isactive = '1'";
+	$result_user_absen = $conn->query($sql_user_absen);
+	while($user_absen = $result_user_absen->fetch_assoc()){
+		$sql_absen = "SELECT * FROM absentee_list WHERE date = '" . date('Y-m-d') . "' AND user_id = '" . $user_absen['id'] . "'";
+		$result_absen = $conn->query($sql_absen);
+		if(mysqli_num_rows($result_absen) == 0){
+?>
+			<tr>
+				<td><?= $user_absen['name'] ?></td>
+				<td><button type='button' class='btn btn-default' onclick='absent(<?= $user_absen['id'] ?>)'><i class="fa fa-check" aria-hidden="true"></i></button></td>
+				<td><button type='button' class='btn btn-danger' onclick='confirm_delete(<?= $user_absen['id'] ?>)'>X</button></td>
+			</tr>
+<?php
+		}
+	}
+?>
+		</tbody>
+	</table>
+<script>
+	$('#view_calendar_button').click(function(){
+		$('#calendar_absent_view').toggle(300);
+	});
+</script>
 <?php
 	$month = date('m');
 	$year = date('Y');
@@ -91,88 +126,72 @@
 	$user = $result_user->fetch_assoc();
 	$total = $user['user_in_total'];
 ?>
-<h2 style='font-family:bebasneue'><?= date('F',mktime(0,0,0,$month + 1,0,$year)); ?></h2>
-<div class='calendar_absent'>
-	<div class='row'>
-		<div class='day_wrapper_calendar'>
-			Sun
-		</div>
-		<div class='day_wrapper_calendar'>
-			Mon
-		</div>
-		<div class='day_wrapper_calendar'>
-			Tue
-		</div>
-		<div class='day_wrapper_calendar'>
-			Wed
-		</div>
-		<div class='day_wrapper_calendar'>
-			Thu
-		</div>
-		<div class='day_wrapper_calendar'>
-			Fri
-		</div>
-		<div class='day_wrapper_calendar'>
-			Sat
+	<div id="calendar_absent_view" style='display:none'>
+		<h2 style='font-family:bebasneue'><?= date('F',mktime(0,0,0,$month + 1,0,$year)); ?></h2>
+		<div class='calendar_absent'>
+			<div class='row'>
+				<div class='day_wrapper_calendar'>
+					Sun
+				</div>
+				<div class='day_wrapper_calendar'>
+					Mon
+				</div>
+				<div class='day_wrapper_calendar'>
+					Tue
+				</div>
+				<div class='day_wrapper_calendar'>
+					Wed
+				</div>
+				<div class='day_wrapper_calendar'>
+					Thu
+				</div>
+				<div class='day_wrapper_calendar'>
+					Fri
+				</div>
+				<div class='day_wrapper_calendar'>
+					Sat
+				</div>
+			</div>
+			<br>
+		<?php
+			$d = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+			$w = date('w',mktime(0,0,0,$month,1,$year));
+			for($i = 0; $i < $w; $i++){
+		?>
+			<div class='box_wrapper'>
+				<div class='box_kosong'>
+				</div>
+			</div>
+		<?php
+			}	
+			for($i = 1; $i <= $d; $i++){
+				$date = date('Y-m-d',mktime(0,0,0,$month,$i,$year));
+				$sql = "SELECT COUNT(id) AS total FROM absentee_list WHERE date = '$date'";
+				$result = $conn->query($sql);
+				$row = $result->fetch_assoc();
+		?>
+			<div class='box_wrapper'>
+				<div class='box' style='background-color:rgba(46, 92, 184, <?= max(0.2,($row['total'] / $total)) ?>)' id='<?= $date ?>'>
+				</div>
+			</div>
+		<?php
+			$w = date('w',mktime(0,0,0,$month,$i,$year));
+				if($w == 6){
+					echo ('<br>');
+				}
+			}
+			
+			$sql = "SELECT * FROM absentee_list WHERE MONTH(date) = '$month' AND YEAR(date) = '$year'";
+			$result = $conn->query($sql);
+		?>
+		<style>
+			.btn-absent{
+				background-color:transparent;
+				border: 1px solid #ccc;
+			}
+		</style>	
 		</div>
 	</div>
-	<br>
-<?php
-	$d = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-	$w = date('w',mktime(0,0,0,$month,1,$year));
-	for($i = 0; $i < $w; $i++){
-?>
-	<div class='box_wrapper'>
-		<div class='box_kosong'>
-		</div>
-	</div>
-<?php
-	}	
-	for($i = 1; $i <= $d; $i++){
-		$date = date('Y-m-d',mktime(0,0,0,$month,$i,$year));
-		$sql = "SELECT COUNT(id) AS total FROM absentee_list WHERE date = '$date'";
-		$result = $conn->query($sql);
-		$row = $result->fetch_assoc();
-?>
-	<div class='box_wrapper'>
-		<div class='box' style='background-color:rgba(46, 92, 184, <?= max(0.2,($row['total'] / $total)) ?>)' id='<?= $date ?>'>
-		</div>
-	</div>
-<?php
-	$w = date('w',mktime(0,0,0,$month,$i,$year));
-		if($w == 6){
-			echo ('<br>');
-		}
-	}
-	
-	$sql = "SELECT * FROM absentee_list WHERE MONTH(date) = '$month' AND YEAR(date) = '$year'";
-	$result = $conn->query($sql);
-?>
-<style>
-	.btn-absent{
-		background-color:transparent;
-		border: 1px solid #ccc;
-	}
-</style>	
-</div>
-<div class='calendar_action'>
-	<h2 style='font-family:bebasneue'>Absentee</h2>
-<?php
-	$sql_user_absen = "SELECT id,name FROM users WHERE isactive = '1'";
-	$result_user_absen = $conn->query($sql_user_absen);
-	while($user_absen = $result_user_absen->fetch_assoc()){
-		$sql_absen = "SELECT * FROM absentee_list WHERE date = '" . date('Y-m-d') . "' AND user_id = '" . $user_absen['id'] . "'";
-		$result_absen = $conn->query($sql_absen);
-		if(mysqli_num_rows($result_absen) == 0){
-?>
-		<button type='button' class='btn btn-absent' onclick='absent(<?= $user_absen['id'] ?>)'><?= $user_absen['name'] ?></button>
-		<button type='button' class='btn btn-danger' onclick='confirm_delete(<?= $user_absen['id'] ?>)'>X</button>
-		<br>
-		<br>
-<?php
-		}
-	}
-?>
 </div>
 <div class='notification_large' style='display:none' id='delete_absentee'>
 	<div class='notification_box'>
@@ -185,6 +204,12 @@
 	</div>
 </div>
 <script>
+	$(document).ready(function(){
+		var Number_of_row = $('#table_body_absent tr').length;
+		if(Number_of_row == 0){
+			$('#table_to_absent').hide();
+		};
+	});
 	function absent(n){
 		$.ajax({
 			url:'absenin.php',
@@ -195,9 +220,13 @@
 			},
 			type:'POST',
 			success:function(response){
-				$('.calendar_action').html(response);
+				$('#table_body_absent').html(response);
 			},
 		});
+		var Number_of_row = $('#table_body_absent tr').length;
+		if(Number_of_row == 0){
+			$('#table_to_absent').hide();
+		};
 	};
 	$('.btn-back').click(function(){
 		$('#delete_absentee').fadeOut();
@@ -221,10 +250,14 @@
 				},
 				type:'POST',
 				success:function(response){
-					$('.calendar_action').html(response);
+					$('#table_body_absent').html(response);
 					$('.btn-back').click();
 				},
 			});
 		}
+		var Number_of_row = $('#table_body_absent tr').length;
+		if(Number_of_row == 0){
+			$('#table_to_absent').hide();
+		};
 	});
 </script>

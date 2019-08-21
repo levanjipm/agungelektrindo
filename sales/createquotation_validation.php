@@ -10,18 +10,18 @@
 	<link rel="stylesheet" href="salesstyle.css">
 </head>
 <?php
-$q_date = $_POST['today'];
-$dp = $_POST['dp'];
-$lunas = $_POST['lunas'];
-$terms = $_POST['terms'];
+$q_date 	= $_POST['today'];
+$dp 		= $_POST['dp'];
+$lunas 		= $_POST['lunas'];
+$terms 		= $_POST['terms'];
 
-$total = $_POST['total'];
-$comment = $_POST['comment'];
-$customer = $_POST['quote_person'];
-$sql_customer = "SELECT * FROM customer WHERE id='" . $customer . "'";
-$result = $conn->query($sql_customer);
-$row = $result->fetch_assoc();
-$customer_name = $row['name'];
+$total 			= $_POST['total'];
+$comment 		= $_POST['comment'];
+$customer 		= $_POST['quote_person'];
+$sql_customer 	= "SELECT * FROM customer WHERE id='" . $customer . "'";
+$result 		= $conn->query($sql_customer);
+$row 			= $result->fetch_assoc();
+$customer_name 	= $row['name'];
 
 if ($terms == 1){
 	$note = "Payment must be done before delivery";

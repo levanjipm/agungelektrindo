@@ -279,10 +279,14 @@ $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip(); 
 });
 $("#back").click(function () {
-	for (z = 1; z < a; z++){
-		$('#vat'+ z).attr('readonly',false);
-		$('#pl'+ z).attr('readonly',false);
-		}
+	$('input[id^="disc"]').each(function(){
+		$(this).attr('readonly',false);
+		var parent = $(this).parent().parent();
+		var other_input = parent.find('input');
+		other_input.each(function(){
+			$(this).attr('readonly',false);
+		})
+	});
 	$('#submitbtn').hide();
 	$('#back').hide();
 	$('#calculate').show();

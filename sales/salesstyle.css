@@ -2,6 +2,17 @@
   font-family: Bebasneue;
   src: url(../Universal/Font/Bebasneue/BebasNeue.woff);
 }
+
+.top_navigation_bar{
+	position:fixed;
+	top:0;
+	background-color:#2B3940;
+	width:100%;
+	color:white;
+	height:70px;
+	padding-top:10px;
+	z-index:25;
+}
 .btn:focus {
 	outline-color: transparent;
 	outline-style: none;
@@ -26,11 +37,11 @@
 	box-shadow:2px 5px 3px #999;
 }
 .sidenav{
-	background-color:#333;
+	background-color:#2B3940;
 	padding:20px;
 	height:100%;
-	top:0;
 	left:0;
+	top:70px;
 	width:200px;
 	position:fixed;
 	overflow-y:scroll;
@@ -39,9 +50,25 @@
 	color:white;
 	text-decoration:none;
 }
+
+.sidenav::-webkit-scrollbar {
+    width: 12px;
+}
+
+.sidenav::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+
+.sidenav::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
 .main{
 	margin-left:200px;
 	padding:20px;
+	padding-top:70px;
 }
 .dropdown-container {
     display: none;
@@ -138,4 +165,8 @@ tr:nth-child(even) {
 	border-radius:8px;
 	text-align:center;
 	color:red;
+}
+
+.form-control{
+	border-radius:0;
 }

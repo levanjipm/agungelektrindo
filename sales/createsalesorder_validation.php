@@ -66,7 +66,8 @@ $customer_name 		= $customer_row['name'];
 <?php
 			}
 ?>
-				<p>Purchase order number: <?= $po_number ?></p>
+				<p><strong>Purchase order number</strong></p>
+				<p><?= $po_number ?></p>
 				<input type="hidden" class="form-control" value="<?= $po_number ?>" readonly name="purchaseordernumber">
 				<label>Taxing Option</label>
 <?php
@@ -82,7 +83,7 @@ $customer_name 		= $customer_row['name'];
 <?php
 					} else {
 ?>
-				<p><strong>Untaxable</strong> sales</p>
+				<p>Untaxable sales</p>
 <?php
 					}
 ?>
@@ -156,10 +157,14 @@ $customer_name 		= $customer_row['name'];
 								</tr>
 							</tfoot>
 						</table>
+						<label>Note</label>
+						<textarea name="sales_order_note" class='form-control' style='resize:none' rows='5'></textarea>
 					</div>
 				</div>
 				<br><br>
 				<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Approve</button>
+				<br>
+				<br>
 			</div>
 			<div class='col-sm-1' style='background-color:#333'>
 		</div>

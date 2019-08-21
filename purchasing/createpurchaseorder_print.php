@@ -42,30 +42,30 @@
 			</div>
 			<br><br>
 	<?php
-		$sql = "SELECT * FROM code_purchaseorder WHERE id = '" . $po_id . "'";
-		$result = $conn->query($sql);
-		$row = $result->fetch_assoc();
-		$po_name = $row['name'];
-		$vendor = $row['supplier_id'];
-		$po_date = $row['date'];
-		$top = $row['top'];
-		$tax = $row['taxing'];
-		$promo = $row['promo_code'];
-		$value = $row['value'];
-		$send_date = $row['send_date'];
-		$dropship_name = $row['dropship_name'];
-		$dropship_address = $row['dropship_address'];
-		$dropship_city = $row['dropship_city'];
-		$dropship_phone = $row['dropship_phone'];
-		$status = $row['status'];
+		$sql 		= "SELECT * FROM code_purchaseorder WHERE id = '" . $po_id . "'";
+		$result 	= $conn->query($sql);
+		$row 		= $result->fetch_assoc();
+		$po_name 	= $row['name'];
+		$vendor 	= $row['supplier_id'];
+		$po_date 	= $row['date'];
+		$top 		= $row['top'];
+		$tax 		= $row['taxing'];
+		$promo 		= $row['promo_code'];
+		$value 		= $row['value'];
+		$send_date 	= $row['send_date'];
+		$dropship_name 		= $row['dropship_name'];
+		$dropship_address 	= $row['dropship_address'];
+		$dropship_city 		= $row['dropship_city'];
+		$dropship_phone 	= $row['dropship_phone'];
+		$status 	= $row['status'];
 		
-		$sql_vendor = "SELECT * FROM supplier WHERE id = '" . $vendor . "'";
-		$result = $conn->query($sql_vendor);
-		$row = $result->fetch_assoc();
-		$vendor_name = $row['name'];
-		$vendor_address = $row['address'];
-		$vendor_city = $row['city'];
-		$vendor_phone = $row['phone'];	
+		$sql_vendor 		= "SELECT * FROM supplier WHERE id = '" . $vendor . "'";
+		$result 			= $conn->query($sql_vendor);
+		$row 				= $result->fetch_assoc();
+		$vendor_name 		= $row['name'];
+		$vendor_address 	= $row['address'];
+		$vendor_city 		= $row['city'];
+		$vendor_phone 		= $row['phone'];	
 	?>
 			<div class="row">
 				<div class="col-sm-5 offset-sm-1">
@@ -91,7 +91,7 @@
 						<b>Purchase order date</b>
 					</div>
 					<div class="col-sm-7">
-						<?= $po_date?>
+						<?= date('d M Y',strtotime($po_date)) ?>
 					</div>
 				</div>
 				<div class="col-sm-5">

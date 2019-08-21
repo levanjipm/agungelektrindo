@@ -3,19 +3,16 @@
 	include('purchasingheader.php');
 ?>
 <div class="main">
-	<div class="container" style="right:50px">
-		<h2>Purchase order</h2>
-		<h4 style="color:#444">Editing purchase order</h4>
-		<hr>
-		<br>
-	</div>
+	<h2 style='font-family:bebasneue'>Purchase order</h2>
+	<p>Editing purchase order</p>
+	<hr>
 	<table class="table">
 		<thead>
 			<tr>
 				<th>Date</th>
 				<th>Supplier</th>
 				<th>Purchase Order</th>
-				<th>Properties</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -45,7 +42,7 @@
 			?>
 			</td>			
 			<td>
-				<button type="submit" class="btn btn-danger" onclick='submit_this(<?= $po_id ?>)'>Close this PO</button>
+				<button type="submit" class="btn btn-danger" onclick='submit_this(<?= $po_id ?>)'>X</button>
 				<form action='close_purchaseorder_validation.php' method='POST' id='form<?= $po_id ?>'>
 					<input type='hidden' value='<?= $po_id ?>' name='po_id'>
 				</form>

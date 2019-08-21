@@ -5,6 +5,7 @@
 	$result = $conn->query($sql);
 	$code = $result->fetch_assoc();
 	$additional_discount = $code['additional_discount'];
+	$note = $code['note'];
 ?>
 	<h2><?= $code['name'] ?></h2>
 	<p><?php
@@ -78,3 +79,5 @@
 	}
 ?>
 	</table>
+	<strong>Keterangan</strong>
+	<p><?= $note ?></p>
