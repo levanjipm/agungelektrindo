@@ -59,8 +59,9 @@
 	<p><?= $po_name ?></p>
 	<br><br>
 <?php
-	$sql = "SELECT purchaseorder.reference, purchaseorder.purchaseorder_id,purchaseorder_received.id, purchaseorder.quantity, purchaseorder_received.quantity AS received, purchaseorder_received.status, purchaseorder.id 
-	FROM purchaseorder_received INNER JOIN purchaseorder ON purchaseorder_received.id = purchaseorder.id WHERE purchaseorder_received.status = '0' AND purchaseorder.purchaseorder_id = '" . $po_id . "'";
+	$sql = "SELECT reference, quantity, quantity_received, status, purchaseorder.id 
+	FROM purchaseorder
+	WHERE status = '0' AND purchaseorder_id = '" . $po_id . "'";
 	$result = $conn->query($sql);
 ?>
 	<form action="goodreceipt_validation.php" method="POST" id="goodreceipt_form">
@@ -85,7 +86,7 @@
 				<td><?= $row['reference'] ?>
 				</td>
 				<td><?= $row['quantity']; ?></td>
-				<td><?= $row['received']; ?></td>
+				<td><?= $row['quantity_received']; ?></td>
 				<td>
 					<input type="hidden" name="date" value="<?= $date ?>">
 					<input type="hidden" name="id<?= $x?>" value="<?= $row['id']?>">

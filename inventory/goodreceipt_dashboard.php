@@ -22,8 +22,6 @@
 		while($row = mysqli_fetch_array($result)) {
 		echo '<option value="' . $row["id"] . '">'. $row["name"].'</option> ';
 		}
-	} else {
-		echo "0 results";
 	}
 ?>
 						</select>

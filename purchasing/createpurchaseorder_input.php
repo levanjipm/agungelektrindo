@@ -18,17 +18,16 @@
 }
 </style>
 <?php
-	print_r($_POST);
-	$po_number = mysqli_real_escape_string($conn,$_POST['po_number']);
-	$vendor_id = mysqli_real_escape_string($conn,$_POST['vendor']);
-	$top = mysqli_real_escape_string($conn,$_POST['top']);
-	$date = mysqli_real_escape_string($conn,$_POST['po_date']);
-	$tax = mysqli_real_escape_string($conn,$_POST['taxing']);
-	$total = mysqli_real_escape_string($conn,$_POST['total']);
+	$po_number 	= mysqli_real_escape_string($conn,$_POST['po_number']);
+	$vendor_id 	= mysqli_real_escape_string($conn,$_POST['vendor']);
+	$top 		= mysqli_real_escape_string($conn,$_POST['top']);
+	$date 		= mysqli_real_escape_string($conn,$_POST['po_date']);
+	$tax 		= mysqli_real_escape_string($conn,$_POST['taxing']);
+	$total 		= mysqli_real_escape_string($conn,$_POST['total']);
 	$code_promo = mysqli_real_escape_string($conn,$_POST['code_promo']);
 	$address_choice = mysqli_real_escape_string($conn,$_POST['address_choice']);
-	$delivery_date = mysqli_real_escape_string($conn,$_POST['delivery_date']);
-	$sent_date = mysqli_real_escape_string($conn,$_POST['sent_date']);
+	$delivery_date 	= mysqli_real_escape_string($conn,$_POST['delivery_date']);
+	$sent_date 	= mysqli_real_escape_string($conn,$_POST['sent_date']);
 	
 	if($address_choice == 1){
 		if($delivery_date == 2){
@@ -42,10 +41,10 @@
 			VALUES ('$po_number','$vendor_id','$date','$top','$total','$tax','$sent_date','','$code_promo','" . $_SESSION[user_id] . "')";
 		}
 	} else if($address_choice == 2){
-		$dropship_name = mysqli_real_escape_string($conn,$_POST['dropship_name']);
-		$dropship_address = mysqli_real_escape_string($conn,$_POST['dropship_address']);
-		$dropship_city = mysqli_real_escape_string($conn,$_POST['dropship_city']);
-		$dropship_phone = mysqli_real_escape_string($conn,$_POST['dropship_phone']);
+		$dropship_name 		= mysqli_real_escape_string($conn,$_POST['dropship_name']);
+		$dropship_address 	= mysqli_real_escape_string($conn,$_POST['dropship_address']);
+		$dropship_city 		= mysqli_real_escape_string($conn,$_POST['dropship_city']);
+		$dropship_phone 	= mysqli_real_escape_string($conn,$_POST['dropship_phone']);
 		if($delivery_date == 2){
 			$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,value,taxing,send_date,status,promo_code,created_by,dropship_name,dropship_address,dropship_city,dropship_phone) 
 			VALUES ('$po_number','$vendor_id','$date','$top','$total','$tax','','','$code_promo','" . $_SESSION[user_id] . "','$dropship_name','$dropship_address','$dropship_city','$dropship_phone')";
@@ -64,9 +63,9 @@
 	$i = 1;
 	$sql_first= "SELECT id FROM code_purchaseorder WHERE name = '" . $po_number . "'"; 
 	$result = $conn->query($sql_first);	
-	while($row = $result->fetch_assoc()){
-		$po_id =  $row['id'];
-	}
+	$row = $result->fetch_assoc();
+	$po_id =  $row['id'];
+	
 	for ($i = 1; $i <= $x; $i++){
 		$item = $_POST["item" . $i ];
 		$price = $_POST["price" . $i ];
@@ -74,11 +73,9 @@
 		$qty = $_POST["quantity" . $i ];
 		$netprice = $_POST["netprice" . $i ];
 		
-		$sql_second = "INSERT INTO purchaseorder (reference,price_list,discount,unitprice,quantity,billed_price,purchaseorder_id) 
-		VALUES ('$item','$price','$disc','$netprice','$qty','$netprice','$po_id')";
+		$sql_second = "INSERT INTO purchaseorder (reference,price_list,discount,unitprice,quantity,purchaseorder_id,quantity_received) 
+		VALUES ('$item','$price','$disc','$netprice','$qty','$po_id','0')";
 		$result = $conn->query($sql_second);
-		$sql_pending = "INSERT INTO purchaseorder_received (purchaseorder_id,reference,quantity,status) VALUES ('$po_id','$item','0','0')";
-		$result = $conn->query($sql_pending);
 	}
 ?>
 <body>
