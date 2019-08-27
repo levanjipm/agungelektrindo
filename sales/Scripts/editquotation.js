@@ -18,15 +18,7 @@ function payment_js(){
 		$('#lunas').attr('readonly',false);
 	}
 };
-$("#close").click(function () {
-	if(a > 2){
-		a--;
-		x = 'barisan' + a;
-		$("#"+x).remove();
-	} else {
-		return false;
-	}
-});	
+
 function hitung(){
 	$('#danieltri').val('benar');
 	var payment_term = $('#terms').val();

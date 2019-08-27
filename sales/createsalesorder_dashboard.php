@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="../jquery-ui.css">
 <link rel="stylesheet" href="css/create_quotation.css">
 <script src="../jquery-ui.js"></script>
+<script src="../universal/Numeral-js-master/numeral.js"></script>
 <script>
 $( function() {
 	$('#reference1').autocomplete({
@@ -83,10 +84,10 @@ $( function() {
 					</tr>
 					<tbody id='sales_order_table'>
 						<tr id='tr-1'>
-							<td><input id='reference1' class='form-control' name='reference1'></td>
-							<td><input id='qty1' name='qty1' class='form-control'></td>
-							<td><input id='vat1' name='vat1' class='form-control'></td>
-							<td><input id='pl1' name='pl1' class='form-control'></td>
+							<td><input id='reference1' class='form-control' name='reference[1]'></td>
+							<td><input id='qty1' name='quantity[1]' class='form-control'></td>
+							<td><input id='vat1' name='vat[1]' class='form-control'></td>
+							<td><input id='pl1' name='pl[1]' class='form-control'></td>
 							<td><input id='disc1' class='nomor' readonly></td>
 							<td><input id='total1' class='nomor' readonly></td>
 							<td></td>
@@ -96,7 +97,9 @@ $( function() {
 						<tr>
 							<td style='border:none;' colspan='4'></td>
 							<td>Total</td>
-							<td><input type="text" class="form-control" id="total" readonly name="total"></td>
+							<td id="total">
+							</td>
+							<input type='hidden' id='total_number'/>
 						</tr>
 					</tfoot>
 				</table>
@@ -125,8 +128,12 @@ $( function() {
 </div>
 <input type='hidden' id='check_available_input' value='true'>
 <script>
-var i;
 var a=2;
+
+function evaluate_organic(x){
+	var to_be_evaluated = $('#' + x).val();
+	return eval(to_be_evaluated);
+}
 
 $("#add_item_button").click(function (){	
 	$("#sales_order_table").append(
@@ -136,7 +143,7 @@ $("#add_item_button").click(function (){
 	"<td><input type='text' id='vat" + a + "' name='vat[" + a + "]'' class='form-control'></td>"+
 	"<td><input type='text' id='pl" + a + "' name='pl[" + a + "]'' class='form-control'></td>"+
 	"<td><input id='disc" + a + "' class='nomor' readonly></td>"+
-	"<td><input id='total1" + a + " class='nomor' readonly></td>"+
+	"<td><input id='total" + a + " class='nomor' readonly></td>"+
 	"<td><button type='button' class='button_delete_row' onclick='delete_row(" + a + ")'>X</button></td>"+
 	"</tr>").find("input").each(function () {
 		});
@@ -200,28 +207,31 @@ function confirm_sales_order(){
 		
 	var calculated_total = 0;
 	$('input[id^="vat"]').each(function(){
+		var input_id = $(this).attr('id');
+		var vat			= $(this).val();
+		var calculated_vat = evaluate_organic(input_id);
+		var uid 		= input_id.substring(3,6);
+		var pricelist 	= parseFloat($('#pl' + uid).val());
+		var quantity	= parseFloat($('#qty' + uid).val());
 		
-		var raw_price = document.getElementById('vat'+z).value;
-		var calculated_vat = eval(raw_price);
-		document.getElementById('vat'+ z).value = round(calculated_vat,2);
-		var price = document.getElementById('vat'+z).value;
-		var price_list = document.getElementById('pl'+z).value;
-		var calculated_pl = eval(price_list);
-		var qty = document.getElementById('qty'+z).value;
-		var calculated_totalunitprice = qty * calculated_vat;
-		document.getElementById('total' + z).value = round(calculated_totalunitprice);
-		document.getElementById('pl' + z).value = round(calculated_pl);
-		var calculated_discount = (1 - price / calculated_pl) * 100;
-		document.getElementById('disc'+z).value = round(calculated_discount,2);
-		calculated_total = calculated_total + calculated_totalunitprice;
-	
-	}
-	document.getElementById('total').value = round(calculated_total,2);
-	document.getElementById('jumlah_barang').value = z - 1;
+		var total_price	= parseFloat(vat * quantity);
+		
+		var discount 	= calculated_vat * 100 / pricelist;
+		$('#disc' + uid).val(discount.toFixed(2));
+		$('#total' + uid).val(numeral(total_price).format('0,0.00'));
+		calculated_total += total_price; 
+		console.log(calculated_total);
+	})
+	$('#total_number').val(calculated_total);
+	$('#total').html(numeral(calculated_total).format('0,0.00'));
 }};
 
 function validate_sales_order(){
-	if (isNaN($('#total').val())){
+	console.log($('#total_number').val());
+	if($('#check_available_input').val() == 'false'){
+		alert('One or more reference is not defined');
+		return false;
+	} else if (isNaN($('#total_number').val())){
 		alert("insert correct price");
 		$('input').each(function(){
 			$(this).attr('readonly',false);
@@ -235,12 +245,11 @@ function validate_sales_order(){
 		$('#total').val('');
 		$('#submitbtn').hide();
 		$('#back').hide();
-		$('#calculate').show();
-		$('#folder').show();
-		$('#close').show();		
-	} else{
+		$('#calculate').show();	
+	} else {
 		$("#sales_order").submit();
-}};
+	}
+};
 
 function round(value, precision) {
     var multiplier = Math.pow(10, precision || 0);

@@ -10,11 +10,15 @@
 	<link rel="stylesheet" href="salesstyle.css">
 </head>
 <?php
+$reference_array	= $_POST['reference'];
+$quantity_array		= $_POST['quantity'];
+$vat_array			= $_POST['vat'];
+$pl_array			= $_POST['pl'];
+
 $so_date		= $_POST['today'];
 $taxing 		= $_POST['taxing'];
 $po_number 		= mysqli_real_escape_string($conn,$_POST['purchaseordernumber']);
 $customer 		= $_POST['select_customer'];
-$total_so		= $_POST['total'];
 if($customer == 0){
 	$address 	= $_POST['retail_address'];
 	$city 		= $_POST['retail_city'];
@@ -93,7 +97,7 @@ $customer_name 		= $customer_row['name'];
 ?>
 				<div class="row">
 					<div class="col-sm-12">
-						<table class="table">
+						<table class="table table-bordered">
 							<thead>
 								<tr style="text-align:center">
 									<th>Reference</th>
@@ -106,43 +110,33 @@ $customer_name 		= $customer_row['name'];
 							</thead>	
 							<tbody>
 						<?php
-							$x = $_POST['jumlah_barang'];
-						?>
-							<input type='hidden' name="jumlah_barang" value=" <?= $x ?>">
-						<?php
 							$i = 1;
-							for ($i = 1; $i <= $x; $i++){
-								$ref		= $_POST["reference" . $i ];
-								$vat 		= $_POST["vat" . $i ];
-								$disc 		= $_POST["disc" . $i ];
-								$qty 		= $_POST["qty" . $i ];
-								$pl 		= $_POST["pl" . $i ];
-								$totprice 	= $_POST["total" . $i];
+							$total_sales_order = 0;
+							foreach($reference_array as $reference){
+								$key = key($reference_array);
+								$quantity = $quantity_array[$key];
+								$vat = $vat_array[$key];
+								$pl = $pl_array[$key];
 								
-								$sql 		= "SELECT description FROM itemlist WHERE reference='" . $ref . "'";
-								$result 	= $conn->query($sql) or die($conn->error);
-								$row 		= $result->fetch_assoc();
-								
-								if($row == false){
-									$desc = " ";
-								} else {
-									$desc = $row['description'];
-								}
+								$discount	= $vat/$pl;
+								$total_price = $vat * $quantity;
 						?>
 							<tr>	
-								<td style="text-align:center"><?= $ref ?></td>						
+								<td style="text-align:center"><?= $reference ?></td>						
 								<td style="text-align:center">Rp. <?= number_format($vat,2) ?></td>
-								<td style="text-align:center"><?= $disc . '%' ?></td>
-								<td style="text-align:center"><?= $qty ?></td>
+								<td style="text-align:center"><?= $discount . '%' ?></td>
+								<td style="text-align:center"><?= $quantity ?></td>
 								<td style="text-align:center">Rp. <?= number_format($pl,2) ?></td>
-								<td style="text-align:center">Rp. <?= number_format($totprice,2) ?></td>
+								<td style="text-align:center">Rp. <?= number_format($total_price,2) ?></td>
 							</tr>
-							<input type='hidden' value="<?= $ref ?>" 	name="reference[<?=$i?>]">
-							<input type='hidden' value="<?= $vat ?>" 	name="value_after_tax[<?=$i?>]">
-							<input type='hidden' value="<?= $disc ?>" 	name="discount[<?=$i?>]">
-							<input type='hidden' value="<?= $qty ?>" 	name="quantity[<?=$i?>]">
-							<input type='hidden' value="<?= $pl ?>" 	name="price_list[<?=$i?>]">
+							<input type='hidden' value="<?= $reference ?>" 	name="reference[<?=$i?>]">
+							<input type='hidden' value="<?= $vat ?>" 		name="value_after_tax[<?=$i?>]">
+							<input type='hidden' value="<?= $quantity ?>" 	name="quantity[<?=$i?>]">
+							<input type='hidden' value="<?= $pl ?>" 		name="price_list[<?=$i?>]">
 						<?php
+								$i++;
+								$total_sales_order += $total_price;
+								next($reference_array);
 							}
 						?>
 							</tbody>
@@ -151,8 +145,7 @@ $customer_name 		= $customer_row['name'];
 									<td style="border:none" colspan='4'></td>
 									<td style="padding-left:50px"><b>Grand Total</b></td>
 									<td style="text-align:center">
-										Rp. <?= number_format($total_so,2)?>
-										<input type='hidden' value="<?= $total_so ?>" name="total_so">
+										Rp. <?= number_format($total_sales_order,2)?>
 									</td>
 								</tr>
 							</tfoot>

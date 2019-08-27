@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="../jquery-ui.css">
 <link rel="stylesheet" href="css/create_quotation.css">
 <script src="../jquery-ui.js"></script>
+<script src="../universal/Numeral-js-master/numeral.js"></script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Quotataion</h2>
 	<p>Edit quotataion</p>
@@ -61,8 +62,8 @@
 					<td><input style='overflow-x:hidden' id='price<?=$a?>' name='price[<?=$a?>]' class='form-control' style='width:100%' value='<?= $row['price_list']?>'></td>
 					<td><input id='discount<?=$a?>' class='form-control' name='discount[<?=$a?>]' value='<?= $row['discount']?>'></td>
 					<td><input id='quantity<?=$a?>' class='form-control' name='quantity[<?=$a?>]' value='<?= $row['quantity']?>'></td>
-					<td><input class='nomor' id='unitprice<?=$a?>' readonly value='<?= $row['net_price']?>'></td>
-					<td><input class='nomor' id='totalprice<?=$a?>' readonly value='<?= $row['net_price'] * $row['quantity']?>'></input></td>
+					<td id='netprice_numeral<?= $a ?>'></td>
+					<td id='total_price_numeral<?= $a ?>'></td>
 					<td><button class='button_delete_row' type='button' id='close<?= $a ?>' onclick='delete_row(<?= $a ?>)'>X</button></td>
 				</tr>
 <?php
@@ -159,6 +160,12 @@
 </div>
 <script>
 var a = "<?= $a ?>";
+
+function evaluate_organic(x){
+	var to_be_evaluated = $('#' + x).val();
+	return eval(to_be_evaluated);
+}
+
 function delete_row(x_men){
 	console.log(($('button[id^=close]')).length);
 	if(($('button[id^=close]')).length > 1){
@@ -169,13 +176,13 @@ function delete_row(x_men){
 $("#add_item_button").click(function (){	
 	$("#detail_quotation").append(
 		"<tr id='tr-" + a + "'>"+
-		"<td><input id='reference<?= $a ?>' class='form-control' name='reference[<?=$a?>]' style='width:100%' value='<?= $row['reference']?>'></td>"+
-		"<td><input style='overflow-x:hidden' id='price<?=$a?>' name='price[<?=$a?>]' class='form-control' style='width:100%' value='<?= $row['price_list']?>'></td>"+
-		"<td><input id='discount<?=$a?>' class='form-control' name='discount[<?=$a?>]' value='<?= $row['discount']?>'></td>"+
-		"<td><input id='quantity<?=$a?>' class='form-control' name='quantity[<?=$a?>]' value='<?= $row['quantity']?>'></td>"+
-		"<td><input class='nomor' id='unitprice<?=$a?>' readonly value='<?= $row['net_price']?>'></td>"+
-		"<td><input class='nomor' id='totalprice<?=$a?>' readonly value='<?= $row['net_price'] * $row['quantity']?>'></input></td>"+
-		"<td><button class='button_delete_row' type='button' id='close<?= $a ?>' onclick='delete_row(<?= $a ?>)'>X</button></td>"+
+		"<td><input id='reference" + a + "' class='form-control' name='reference[" + a + "]'></td>"+
+		"<td><input style='overflow-x:hidden' id='price" + a + "' name='price[" + a + "]' class='form-control'></td>"+
+		"<td><input id='discount" + a + "' class='form-control' name='discount[" + a + "]'></td>"+
+		"<td><input id='quantity" + a + "' class='form-control' name='quantity[" + a + "]'></td>"+
+		"<td id='netprice_numeral" + a + "'></td>"+
+		"<td id='total_price_numeral" + a + "'</td>"+
+		"<td><button class='button_delete_row' type='button' id='close" + a + "' onclick='delete_row(" + a + ")'>X</button></td>"+
 		"</tr>");
 		
 	$("#reference" + a).autocomplete({
@@ -183,5 +190,143 @@ $("#add_item_button").click(function (){
 	 });
 	a++;
 });
+function payment_js(){
+	var payment_term = $('#terms').val();
+	if (payment_term == 1) {
+		$('#dp').val(0);
+		$('#lunas').val(0);
+		$('#dp').attr('readonly',true);
+		$('#lunas').attr('readonly',true);
+	} else if (payment_term == 2) {
+		$('#dp').val(0);
+		$('#dp').attr('readonly',true);
+		$('#lunas').attr('readonly',false);
+	} else if (payment_term == 3) {
+		$('#dp').val(0);
+		$('#dp').attr('readonly',true);
+		$('#lunas').attr('readonly',false);
+	} else if (payment_term == 4) {
+		$('#dp').attr('readonly',false);
+		$('#lunas').attr('readonly',false);
+	}
+};
+
+function hitung(){
+	$('#danieltri').val('benar');
+	var payment_term = $('#terms').val();
+	$('input[id^=reference]').each(function(){
+		$.ajax({
+        url: "ajax/check_item_available.php",
+        data: {
+            reference: $(this).val(),
+        },
+        type: "POST",
+        dataType: "html",
+        success: function (response) {
+			if((response == 1)){
+				$('#danieltri').val('salah');
+			} else {
+			}
+        },
+        error: function (xhr, status) {
+            alert("Sorry, there was a problem!");
+        }
+		})
+	});
+	var angka = true;
+	$('input[id^=discount]').each(function(){
+		if($(this).val() > 75 || $(this).val() == ''){
+			angka = false;
+		}
+	});
+	console.log(angka);
+	if($('#quote_person').val() == 0){
+		alert("Please insert a customer");
+		return false;
+	} else if($('#terms').val() == 0) {
+		alert("Please insert correct payment term")
+	} if(angka == false){
+		alert('Please insert correct discount!');
+		return false;
+	} else {
+		$('#terms').attr('readonly',true);
+		$('button[id^=close]').hide();
+		$('#dp').attr('readonly',true);
+		$('#lunas').attr('readonly',true);
+		$('input[id^=reference]').attr('readonly',true);
+		$('input[id^=quantity]').attr('readonly',true);
+		$('input[id^=price]').attr('readonly',true);
+		$('input[id^=discount]').attr('readonly',true);
+		$('#submitbtn').show();
+		$('#back').show();
+		$('#calculate').hide();
+		$('#folder').hide();
+		$('#close').hide();
+		var calculated_total = 0;
+		$('input[id^="price"]').each(function(){
+			var input_id = $(this).attr('id');
+			var calculated_pricelist = evaluate_organic(input_id);
+			$(this).val(evaluate_organic(input_id));
+			
+			var uid 		= input_id.substring(5,8);
+			var discount 	= $('#discount' + uid).val();
+			var netprice 	= parseFloat(calculated_pricelist * (1 - discount*0.01));
+			var totalprice 	= parseFloat(netprice * $('#quantity' + uid).val());
+			
+			$('#netprice_numeral' + uid).html(numeral(netprice).format('0,0.00'));
+			$('#total_price_numeral' + uid).html(numeral($('#quantity' + uid).val() * netprice,2).format('0,0.00'));
+			calculated_total = parseFloat(calculated_total + totalprice);
+		});
+		
+		$('#total').val(numeral(calculated_total).format('0,0.00'));
+		if(isNaN(calculated_total)){
+			alert('Insert correct price!');
+			return false;
+		} else {
+			$(':input').attr('readonly',true);
+			$('#button_validate').show();
+			$('#back').show();
+			$('#calculate').hide();
+			$('#folder').hide();
+			$('#close').hide();
+		}
+	}
+};
+function round(value, precision) {
+    var multiplier = Math.pow(10, precision || 0);
+    return Math.round(value * multiplier) / multiplier;
+}
+$("#back").click(function () {
+	$('input[id^=reference]').attr('readonly',false);
+	$('input[id^=price]').attr('readonly',false);
+	$('input[id^=discount]').attr('readonly',false);
+	$('input[id^=quantity]').attr('readonly',false);
+	$('#submitbtn').hide();
+	$('#back').hide();
+	$('#calculate').show();
+	$('#folder').show();
+	$('#close').show();
+	$('button[id^=close]').show();
+});
+function validate(){
+	if($('#danieltri').val() == 'salah'){
+		alert('Please insert correct reference!');
+		$('#terms').attr('readonly',false);
+		$('#dp').attr('readonly',false);
+		$('#lunas').attr('readonly',false);
+		$('input[id^=reference]').attr('readonly',false);
+		$('input[id^=price]').attr('readonly',false);
+		$('input[id^=discount]').attr('readonly',false);
+		$('input[id^=quantity]').attr('readonly',false);
+		$('#submitbtn').hide();
+		$('#back').hide();
+		$('#calculate').show();
+		$('#folder').show();
+		$('#close').show();
+		$('button[id^=close]').show();
+		return false;
+	} else {
+		$('#quotation_edit').submit();
+	}
+};
 </script>
-<script type="text/javascript" src="Scripts/editquotation.js"></script>
