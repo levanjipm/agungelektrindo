@@ -1,23 +1,22 @@
 <head>
-<title>Account Control</title>
-<script src='../universal/jquery/jquery-3.3.0.min.js'></script>
-<script src='../universal/jquery/typeahead.bundle.js'></script>
-<link rel="stylesheet" href="../universal/bootstrap/4.1.3/css/bootstrap.min.css">
-<script src="../universal/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="../universal/fontawesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="../universal/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src='../universal/Jquery/jquery-tagsinput-revisited-master/src/jquery.tagsinput-revisited.js'></script>
-<link rel="stylesheet" href="../universal/Jquery/jquery-tagsinput-revisited-master/src/jquery.tagsinput-revisited.css">
-<script src='../jquery-ui.js'></script>
-<link rel='stylesheet' href='../jquery-ui.css'>
-<link rel="stylesheet" href="user_dashboard.css">
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<title>Account Control</title>
+	<script src='../universal/jquery/jquery-3.3.0.min.js'></script>
+	<script src='../universal/jquery/typeahead.bundle.js'></script>
+	<link rel="stylesheet" href="../universal/bootstrap/4.1.3/css/bootstrap.min.css">
+	<script src="../universal/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../universal/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../universal/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src='../universal/Jquery/jquery-tagsinput-revisited-master/src/jquery.tagsinput-revisited.js'></script>
+	<link rel="stylesheet" href="../universal/Jquery/jquery-tagsinput-revisited-master/src/jquery.tagsinput-revisited.css">
+	<script src='../jquery-ui.js'></script>
+	<link rel='stylesheet' href='../jquery-ui.css'>
+	<link rel="stylesheet" href="user_dashboard.css">
 </head>
 <body>
 <?php
-	//User dashboard :D//
 	include('../Codes/connect.php');
 	session_start();
+	
 	$animation = $_GET['style'] ?? "";
 	ini_set('date.timezone', 'Asia/Jakarta');
 	
@@ -49,13 +48,13 @@
 		}
 		$(document).ready(function(){
 			setTimeout(function() {
-			$('.welcome_wrapper').fadeOut(1000);
+			$('.welcome_wrapper').fadeOut(500);
 			},1500);
 		});
 		$(document).ready(function(){
 			setTimeout(function() {
-			$('#dept').fadeIn(1000);
-			},3000);
+			$('#dept').fadeIn(500);
+			},2000);
 		});
 	</script>
 <?php
@@ -76,106 +75,65 @@
 <?php
 	}
 ?>
-<style>
-	.notification_large{
-		position:fixed;
-		top:0;
-		left:0;
-		background-color:rgba(51,51,51,0.3);
-		width:100%;
-		text-align:center;
-		height:100%;
-		display:none;
-		z-index:20;
-	}
-	.notification_large .notification_box{
-		position:relative;
-		background-color:#fff;
-		padding:30px;
-		width:100%;
-		top:30%;
-		box-shadow: 3px 4px 3px 4px #ddd;
-	}
-	.btn-confirm{
-		background-color:#2bf076;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	.btn-delete{
-		background-color:red;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	.btn-back{
-		background-color:#777;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	.btn-x{
-		background-color:transparent;
-		border:none;
-		outline:0!important;
-	}
-	.btn-x:focus{
-		outline: 0!important;
-	}
-</style>
+<div class='top_navigation_bar'>
+	<div class='col-lg-4 col-md-5 col-sm-6 col-xs-8'>
+		<a href='../human_resource/user_dashboard.php' style='text-decoration:none'>
+			<img src='../universal/images/agungelektrindo_header.png' style='height:50px;'>
+		</a>
+	</div>
+	<div class='col-lg-2 col-md-3 col-sm-4 col-xs-4 col-lg-offset-6 col-md-offset-4 col-sm-offset-2 col-xs-offset-0' style='text-align:right'>
+		<h3 style='font-family:Bebasneue'><?= $name ?> 
+			<span style='display:inline-block'>
+				<a href='../codes/logout.php' style='padding-left:10px;text-decoration:none;color:white;' title='log out'>
+					 <i class="fa fa-sign-out" aria-hidden="true"></i>
+				</a>
+			</span>
+		</h3>
+	</div>
+</div>
 	<!-- Side bar, user data -->
-	<div class="sidenav">
-		<div class='row'>
-			<div class='col-sm-12 col-md-6'>
-				<img src='images/users/users.png' style='width:100%; border-radius:50%'>
-			</div>
-			<div class='col-sm-12 col-md-6' style='color:white'>
-				<strong>Welcome</strong>
-				<p><?= $name ?></p>
-			</div>
-		</div>				
-		<hr>
-		<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+	<div class="sidenav">				
+		<button type='button' class='btn-badge dropdown-btn' style='color:white'>
 			<i class="fa fa-id-badge" aria-hidden="true"></i>
 			Departments
 		</button>
 		<div class="dropdown-container">
-		<?php
-		$sql_super = "SELECT * FROM authorization WHERE user_id = '" . $user_id . "'";
-		$result_super = $conn->query($sql_super);
-		while($row_super = $result_super->fetch_assoc()){
-			$department = $row_super['department_id'];
-			$sql_dept = "SELECT department FROM departments WHERE id = '" . $department . "'";
-			$result_dept = $conn->query($sql_dept);
-			$row_dept = $result_dept->fetch_assoc();
-			$department = $row_dept['department'];
+<?php
+		$sql_super 		= "SELECT * FROM authorization WHERE user_id = '" . $user_id . "'";
+		$result_super 	= $conn->query($sql_super);
+		while($row_super 	= $result_super->fetch_assoc()){
+			$department 	= $row_super['department_id'];
+			$sql_dept 		= "SELECT department FROM departments WHERE id = '" . $department . "'";
+			$result_dept 	= $conn->query($sql_dept);
+			$row_dept 		= $result_dept->fetch_assoc();
+			$department 	= $row_dept['department'];
 			
-		?>
-			<a href='../<?= $department ?>/<?= $department ?>.php' style='color:white;text-decoration:none'>
+?>
+			<a href='../<?= $department ?>/<?= $department ?>' style='color:white;text-decoration:none'>
 				<?php $department_name = ($department == 'human_resource')? 'Human resource' : $department; echo $department_name; ?>
 			</a>
 			<br>
-		<?php
+<?php
 			}
-		?>
+?>
 		</div>
-		<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+		<button type='button' class='btn-badge dropdown-btn' style='color:white'>
 			<i class="fa fa-plus-circle" aria-hidden="true"></i>
 			Create
 		</button>
 		<div class='dropdown-container'>
-			<button type='button' style='background-color:transparent;border:none;color:white;text-decoration:none' id='create_news'>Create event</button>
+			<button type='button' class='btn-badge' id='create_news'>Create event</button>
 			<br>
-			<button type='button' style='background-color:transparent;border:none;color:white;text-decoration:none' id='create_anon'>Create announcement</button>
+			<button type='button' class='btn-badge' id='create_anon'>Create announcement</button>
 		</div>
 		<a href='../guide/tutorial.php'>
-			<button type='button' class='btn btn-badge' style='color:white'>
+			<button type='button' class='btn-badge' style='color:white'>
 			<i class="fa fa-graduation-cap" aria-hidden="true"></i>
 			Read Tutorial
 			</button>
 		</a>
 		<a href='../codes/logout.php'>
-			<button type='button' class='btn btn-badge' style='color:white'>
+			<button type='button' class='btn-badge' style='color:white'>
 			<i class="fa fa-sign-out" aria-hidden="true"></i>
 			Log Out
 			</button>
@@ -198,9 +156,9 @@
 			<input type='date' class='form-control' name='announcement_date' min='<?= date('Y-m-d') ?>'>
 			<label>Event name</label>
 			<input type='text' class='form-control' name='event' required>
-			<br><br>
-			<button type='button' class='btn btn-back'>Back</button>
-			<button type='button' class='btn btn-confirm' id='confirm_button_announcement'>Confirm</button>
+			<br>
+			<button type='button' class='btn-back'>Back</button>
+			<button type='button' class='btn-confirm' id='confirm_button_announcement'>Confirm</button>
 		</div>
 	</div>
 	<div class='notification_large' id='news_notification'>
@@ -215,7 +173,7 @@
 			<input id="tag" name="example" type="text">
 			<?php
 				$tag = '';
-				$sql_tag = "SELECT name FROM users";
+				$sql_tag = "SELECT name FROM users WHERE isactive = '1'";
 				$result_tag = $conn->query($sql_tag);
 				$row_tag = $result_tag->fetch_assoc();
 				$tag = $tag . ',"' . $row_tag['name'] . '"';
@@ -235,10 +193,9 @@
 				}
 			});
 			</script>
-			<button type='button' class='btn btn-back'>Back</button>
-			<button type='button' class='btn btn-confirm' id='confirm_button_announcement'>Confirm</button>
+			<button type='button' class='btn-back'>Back</button>
+			<button type='button' class='btn-confirm' id='confirm_button_announcement'>Confirm</button>
 			<input type='hidden' id='words' name='x'>
-			<button type='button' class='btn btn-success' onclick='convert()'>Submit</button>
 		</form>
 		</div>
 	</div>
@@ -260,20 +217,6 @@
 			$('#form_calendar').submit();
 		}
 		</script>
-	<style>
-		.departments{
-			padding:20px;
-			background-color:#666;
-			margin:10px;
-			border-radius:10px;
-			transition:0.3s all ease;
-			cursor:pointer;
-		}
-		.departments:hover{
-			opacity:0.8;
-			width:80%;
-		}
-	</style>
 	<script>
 	function buka_kal(){
 		$('#calendar').fadeIn(500);
@@ -308,44 +251,9 @@
 				<option value='<?= $year ?>'><?= $year ?></option>
 				<option value='<?= $year - 1 ?>'><?= $year - 1 ?></option>
 			</select><br>
-			<button type='submit' class='btn btn-primary'>View</button>
+			<button type='submit' class='btn-primary'>View</button>
 		</form>
 	</div>
-	<style>
-		#menus{
-			display:block;
-		}
-		#menus_small {
-			top:0px;
-			display:none;
-			width: 100%;
-			background-color: #555;
-			overflow: auto;
-		}
-		#menus_small button {
-			float: left;
-			padding: 12px;
-			color: white;
-			text-decoration: none;
-			font-size: 17px;
-			width: 25%;
-			text-align: center;
-			background-color:transparent;
-			transition:0.3s all ease;
-			border:none;
-		}
-		#menus_small button:hover {
-			background-color: #000;
-		}
-		@media only screen and (max-width:780px){
-			#menus{
-				display:none;
-			}
-			#menus_small{
-				display:block;
-			}
-		}
-	</style>
 	<div class='main' id='dept' style='display:none'>
 	<?php
 	if(empty($_GET['alert'])){
@@ -448,23 +356,17 @@
 				<div class='row' style='padding:5px'>
 					<div class='col-xs-6'>						
 						<a href="edit_user_dashboard.php">
-							<button type='button' class='btn btn_notif'>
+							<button type='button' class='btn_notif'>
 								Edit profile
 							</button>
 						</a>
 					</div>
 					<div class='col-xs-6'>
-						<button type='button' class='btn btn_notif' onclick='open_salary_side()'><p>Print salary <br>slilp</p></button>
+						<button type='button' class='btn_notif' onclick='open_salary_side()'><p>Print salary <br>slilp</p></button>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class='row' id='menus_small' style='width:100%;background-color: #555;'>
-		<button type='button' onclick='toggle_events()'>Events</button>
-		<button type='button' onclick='toggle_news()'>News</button>
-		<button type='button'>Profile</button>
-		<button type='button' onclick='open_salary_side()'>Salary Slip</button>
 	</div>
 	<hr>
 	<?php
@@ -513,8 +415,8 @@
 			<strong><?= $events['event']; ?></strong>
 		</div>
 		<div class='col-md-1 col-sm-1'>
-			<button type='button' class='btn btn-default' onclick='showdetail(<?= $events['id'] ?>)' id='showdet<?= $events['id'] ?>'>+</button>
-			<button type='button' class='btn btn-default' onclick='hidedetail(<?= $events['id'] ?>)' id='hidedet<?= $events['id'] ?>' style='display:none'>-</button>
+			<button type='button' class='btn-default' onclick='showdetail(<?= $events['id'] ?>)' id='showdet<?= $events['id'] ?>'>+</button>
+			<button type='button' class='btn-default' onclick='hidedetail(<?= $events['id'] ?>)' id='hidedet<?= $events['id'] ?>' style='display:none'>-</button>
 		</div>
 		<div class='col-md-12' id='detail<?= $events['id'] ?>' style='display:none'>
 			<?= $events['description'] ?>
@@ -558,8 +460,8 @@
 			You are tagged by <strong><?= $ourname['name'] ?></strong>
 		</div>
 		<div class='col-md-1 col-sm-1'>
-			<button type='button' class='btn btn-default' onclick='showi(<?= $rowi['id'] ?>)' id='show_tag<?= $rowi['id'] ?>'>+</button>
-			<button type='button' class='btn btn-default' onclick='hidi(<?= $rowi['id'] ?>)' id='hide_tag<?= $rowi['id'] ?>' style='display:none'>-</button>
+			<button type='button' class='btn-default' onclick='showi(<?= $rowi['id'] ?>)' id='show_tag<?= $rowi['id'] ?>'>+</button>
+			<button type='button' class='btn-default' onclick='hidi(<?= $rowi['id'] ?>)' id='hide_tag<?= $rowi['id'] ?>' style='display:none'>-</button>
 		</div>
 		<div class='col-sm-12' id='detaili<?= $rowi['id'] ?>' style='display:none'>
 			<?= $rowi['description']; ?>
@@ -613,7 +515,7 @@
 				?>
 				</select>
 				<br><br>
-				<button type='submit' class='btn btn_submit_salary'>Submit</button>
+				<button type='submit' class='btn_submit_salary'>Submit</button>
 			</form>
 		</div>
 	</div>

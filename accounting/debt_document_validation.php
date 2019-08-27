@@ -16,6 +16,7 @@
 		
 		if($row['isinvoiced'] == 1){ $check_invoice++; };
 		if(in_array($po_id,$po_array)){} else {array_push($po_array,$po_id); };
+		next($document_array);
 	}
 	
 	$po_quantity	= count($po_array);
@@ -96,6 +97,7 @@
 	}
 	
 	$i = 1;
+	$j = 1;
 ?>
 	<table class='table'>
 		<tr>
@@ -106,9 +108,6 @@
 		</tr>
 <?php
 	foreach($document_array as $document){
-		$sql_upper 		= "SELECT id FROM code_goodreceipt WHERE id = '" . $document . "'";
-		$result_upper 	= $conn->query($sql_upper);
-		$upper 			= $result_upper->fetch_assoc();
 ?>
 		<input type='hidden' value='<?= $document ?>' name='code_gr[<?= $i ?>]'>
 <?php
@@ -116,7 +115,7 @@
 							FROM goodreceipt 
 							JOIN purchaseorder 
 							ON purchaseorder.id = goodreceipt.received_id 
-							WHERE goodreceipt.gr_id = '" . $upper['id'] . "'";
+							WHERE goodreceipt.gr_id = '" . $document . "'";
 		$result_general 	= $conn->query($sql_general);
 		while($general 		= $result_general->fetch_assoc()){
 			$sql_item 		= "SELECT description FROM itemlist WHERE reference = '" . $general['reference'] . "'";
@@ -131,16 +130,18 @@
 				<input type='hidden' value='<?= $general['id'] ?>' name='po_gr[<?= $general['po_detail_id'] ?>]'>
 			</td>
 			<td>
-				<button type='button' style='background-color:transparent;border:none' onclick='show(<?= $id_po_detail ?>)' id='button-<?= $id_po_detail ?>'>Rp. <?= number_format($general['unitprice'],2) ?></button>
-				<input type='number' value='<?= $general['unitprice'] ?>' id='input<?= $id_po_detail ?>' style='display:none' onfocusout='hide(<?= $id_po_detail ?>)' class='form-control' name='input[<?= $id_po_detail ?>]'>
+				<button type='button' style='background-color:transparent;border:none' onclick='show(<?= $j ?>)' id='button-<?= $j ?>'>Rp. <?= number_format($general['unitprice'],2) ?></button>
+				<input type='number' value='<?= $general['unitprice'] ?>' id='input<?= $j ?>' style='display:none' onfocusout='hide(<?= $j ?>)' class='form-control' name='input[<?= $id_po_detail ?>]'>
 			</td>
 			<td>
 				<input type="checkbox" class='checkbox'>
 			</td>
 		</tr>
 <?php
+			$j++;
 		}
-	 next($document_array);
+		$i++;
+		next($document_array);
 	}
 ?>
 	</table>

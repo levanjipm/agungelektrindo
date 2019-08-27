@@ -8,8 +8,8 @@
 	$po_gr_array		= $_POST['po_gr'];
 	$code_gr_array		= $_POST['code_gr'];
 	$input_array		= $_POST['input'];
-	print_r($_POST);
-	
+	echo '<br>';
+	echo '<br>';
 	$supplier_id = mysqli_real_escape_string($conn,$_POST['supplier']);
 	
 	foreach($po_gr_array as $gr){
@@ -30,8 +30,10 @@
 		$sql = "UPDATE stock_value_in SET price = '" . $input . "' WHERE gr_id = '" . $gr . "' AND reference = '" . $reference . "'";
 		$result = $conn->query($sql);
 		
-		$sql = "UPDATE purchaseorder SET billed_price = '" . $input . "' WHERE id = '" .  $po . "'";
+		$sql = "UPDATE goodreceipt SET billed_price = '" . $input . "' WHERE id = '" .  $gr . "'";
 		$result = $conn->query($sql);
+		
+		next($po_gr_array);
 	}
 	
 	$invoice_document 	= $_POST['invoice_doc'];
@@ -47,7 +49,8 @@
 	
 	foreach($code_gr_array as $code_gr){
 		$sql_update 	= "UPDATE code_goodreceipt SET isinvoiced = '1', invoice_id = '"  . $purchase_id . "' WHERE id = '" . $code_gr . "'";
-		// $result_update 	= $conn->query($sql_update);
+		echo $sql_update;
+		$conn->query($sql_update);
 		next($code_gr_array);
 	}
 	header('location:accounting.php');

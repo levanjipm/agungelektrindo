@@ -5,5 +5,5 @@
 	if ( isset( $_SESSION['user_id'] )){
 		session_destroy();
 	}
-	header('location:../landing_page.php');
+	header('location:../landing_page');
 ?>

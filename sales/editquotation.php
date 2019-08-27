@@ -4,13 +4,12 @@
 ?>
 <body>
 <link rel="stylesheet" href="../jquery-ui.css">
+<link rel="stylesheet" href="css/create_quotation.css">
 <script src="../jquery-ui.js"></script>
-<script type="text/javascript" src="scripts/createsalesorder.js"></script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Quotataion</h2>
 	<p>Edit quotataion</p>
 	<hr>
-<br><br>
 <?php
 	$id = $_POST['id'];
 	$sql_quotation = "SELECT * FROM code_quotation WHERE id = '" . $id . "'";
@@ -30,69 +29,48 @@
 	$customer_naming = $result_customername->fetch_assoc();
 	$customer_name = $customer_naming['name'];	
 ?>
-<a href="#" id="folder" title="Add new item"><i class="fa fa-folder"></i></a>
 	<form name="quotation" id="quotation_edit" class="form" method="POST" action="quotation_edit_input.php">
 		<input type="hidden" value="<?= $id ?>" name="id">
 		<div class="row">
 			<div class="col-sm-6">
+				<h2 style='font-family:bebasneue'><?= $customer_name ?></h2>
 				<h2 style='font-family:bebasneue'><?= $quotation_name ?></h2><p><?= date('d M Y',strtotime($date)) ?></p>
-				<h3 style='font-family:bebasneue'><?= $customer_name ?></h3>
 			</div>
 		</div>
-		<div class="row" id="headerlist" style="border-radius:10px;padding-top:25px">
-			<div class="col-sm-3" style="background-color:#ccc">
-				Refference
-			</div>
-			<div class="col-sm-2" style="background-color:#aaa">
-				Price
-			</div>
-			<div class="col-sm-1" style="background-color:#ccc">
-				Discount
-			</div>
-			<div class="col-sm-1" style="background-color:#ccc">
-				Quantity
-			</div>
-			<div class="col-sm-2" style="background-color:#aaa">
-				Nett Unit Price
-			</div>
-			<div class="col-sm-2" style="background-color:#ccc">
-				Total Price
-			</div>
-		</div>
+		<br>
+		<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
+		<button type='button' class='button_add_row' id='add_item_button' style='display:inline-block'>Add item</button>
+		<table class='table table-bordered'>
+			<tr>
+				<th>Reference</th>
+				<th>Price</th>
+				<th>Discount</th>
+				<th>Quantity</th>
+				<th>Net price</th>
+				<th>Total price</th>
+			</tr>
+			<tbody id='detail_quotation'>
 <?php
 	$sql = "SELECT * FROM quotation WHERE quotation_code = '" . $id . "'";
 	$result = $conn->query($sql);
 	$a = 1;
 	while($row = $result->fetch_assoc()){
-	
-	?>	
-		<div class="row" id="barisan<?= $a ?>" style="padding-top:10px;">
-			<div class="col-sm-3">
-				<input id="reference<?=$a?>" class="form-control" name="reference<?=$a?>" style="width:100%" value="<?= $row['reference']?>">
-			</div>
-			<div class="col-sm-2">
-				<input style="overflow-x:hidden" id="price<?=$a?>" name="price<?=$a?>" class="form-control" style="width:100%" value="<?= $row['price_list']?>">
-			</div>
-			<div class="col-sm-1">
-				<input id="discount<?=$a?>" class="form-control" style="width:100%" name="discount<?=$a?>" value="<?= $row['discount']?>">
-			</div>
-			<div class="col-sm-1">
-				<input id="quantity<?=$a?>" class="form-control" style="width:100%" name="quantity<?=$a?>" value="<?= $row['quantity']?>">
-			</div>
-			<div class="col-sm-2">
-				<input class="nomor" id="unitprice<?=$a?>" name="unitprice<?=$a?>" readonly value="<?= $row['net_price']?>"></input>
-			</div>
-			<div class="col-sm-2">
-				<input class="nomor" id="totalprice<?=$a?>" name="totalprice<?=$a?>" readonly value="<?= $row['net_price'] * $row['quantity']?>"></input>
-			</div>
-			<div class="col-sm-1">
-				<button type="button" id="close<?= $a ?>" onclick="delete_row(<?= $a ?>)" class="btn btn-danger">X</button>
-			</div>
-		</div>
+?>	
+				<tr id='tr-<?= $a ?>'>
+					<td><input id='reference<?= $a ?>' class='form-control' name='reference[<?=$a?>]' style='width:100%' value='<?= $row['reference']?>'></td>
+					<td><input style='overflow-x:hidden' id='price<?=$a?>' name='price[<?=$a?>]' class='form-control' style='width:100%' value='<?= $row['price_list']?>'></td>
+					<td><input id='discount<?=$a?>' class='form-control' name='discount[<?=$a?>]' value='<?= $row['discount']?>'></td>
+					<td><input id='quantity<?=$a?>' class='form-control' name='quantity[<?=$a?>]' value='<?= $row['quantity']?>'></td>
+					<td><input class='nomor' id='unitprice<?=$a?>' readonly value='<?= $row['net_price']?>'></td>
+					<td><input class='nomor' id='totalprice<?=$a?>' readonly value='<?= $row['net_price'] * $row['quantity']?>'></input></td>
+					<td><button class='button_delete_row' type='button' id='close<?= $a ?>' onclick='delete_row(<?= $a ?>)'>X</button></td>
+				</tr>
 <?php
-	$a++;
+		$a++;
 	}
-	?>
+?>
+			</tbody>
+		</table>
 		<div id="input_list">
 		</div>
 		<hr>
@@ -165,7 +143,7 @@
 		<br>
 		<div class="row">
 			<div class="col-sm-2">
-				<button type="button" class="btn btn-primary" onclick="hitung()" id="calculate">Calculate</button>
+				<button type="button" class="button_add_row" onclick="hitung()" id="calculate">Calculate</button>
 			</div>
 		</div>
 		<div class="row">
@@ -188,18 +166,18 @@ function delete_row(x_men){
 		$("#"+x).remove();
 	}
 };
-$("#folder").click(function (){	
-	$("#input_list").append(
-	'<div class="row" style="padding-top:10px" id="barisan'+a+'">'+
-	'<div class="col-sm-3"><input id="reference'+a+'" name="reference'+a+'" class="form-control" style="width:100%"></div>'+
-	'<div class="col-sm-2"><input style="overflow-x:hidden" id="price'+a+'" name="price'+a+'" class="form-control" style="width:100%"></div>'+
-	'<div class="col-sm-1">'+'<input id="discount'+a+'" name="discount'+a+'" class="form-control" style="width:100%"></div>'+
-	'<div class="col-sm-1">'+'<input id="quantity'+a+'" name="quantity'+a+'" class="form-control" style="width:100%"></div>'+
-	'<div class="col-sm-2">'+'<input class="nomor" id="unitprice'+a+'" name="unitprice'+a+'"></input></div>'+
-	'<div class="col-sm-2">'+'<input class="nomor" id="totalprice'+a+'" name="totalprice'+a+'" ></input></div>'+
-	'<div class="col-sm-1"><button type="button" id="close'+a+'" class="btn btn-danger" onclick="delete_row('+a+')">X</button></div>'+
-	'</div>').find("input").each(function () {
-		});
+$("#add_item_button").click(function (){	
+	$("#detail_quotation").append(
+		"<tr id='tr-" + a + "'>"+
+		"<td><input id='reference<?= $a ?>' class='form-control' name='reference[<?=$a?>]' style='width:100%' value='<?= $row['reference']?>'></td>"+
+		"<td><input style='overflow-x:hidden' id='price<?=$a?>' name='price[<?=$a?>]' class='form-control' style='width:100%' value='<?= $row['price_list']?>'></td>"+
+		"<td><input id='discount<?=$a?>' class='form-control' name='discount[<?=$a?>]' value='<?= $row['discount']?>'></td>"+
+		"<td><input id='quantity<?=$a?>' class='form-control' name='quantity[<?=$a?>]' value='<?= $row['quantity']?>'></td>"+
+		"<td><input class='nomor' id='unitprice<?=$a?>' readonly value='<?= $row['net_price']?>'></td>"+
+		"<td><input class='nomor' id='totalprice<?=$a?>' readonly value='<?= $row['net_price'] * $row['quantity']?>'></input></td>"+
+		"<td><button class='button_delete_row' type='button' id='close<?= $a ?>' onclick='delete_row(<?= $a ?>)'>X</button></td>"+
+		"</tr>");
+		
 	$("#reference" + a).autocomplete({
 		source: "search_item.php"
 	 });

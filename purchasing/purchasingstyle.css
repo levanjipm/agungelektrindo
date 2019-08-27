@@ -2,6 +2,11 @@
   font-family: Bebasneue;
   src: url(../Universal/Font/Bebasneue/BebasNeue.woff);
 }
+
+.form-control{
+	border-radius:0;
+}
+
 .dropdown-container a{
 	color:white;
 	text-decoration:none;

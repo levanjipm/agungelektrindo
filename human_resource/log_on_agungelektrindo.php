@@ -4,7 +4,6 @@
 	$raw_password = $_POST['password'];
 	$password = md5($raw_password);
 	$date = $_POST['date'];
-	echo $password;
 	$sql = "SELECT * FROM users WHERE username = '" . $user_name . "' AND password = '" . $password . "'";
 	$results = $conn->query($sql);
 	if ($results->num_rows > 0){
@@ -25,9 +24,9 @@
 			</div>
 		</div>
 <?php
-		header("Refresh:5; url=dashboard.php");
+		header("Refresh:5; url=dashboard");
 	} else {
-		header("location:dashboard.php");
+		header("location:dashboard");
 	};
 ?>
 	

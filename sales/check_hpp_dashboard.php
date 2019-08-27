@@ -15,6 +15,12 @@ $( function() {
 <a href="#" id="close"><i class="fa fa-close"></i></a>
 	<h2 style='font-family:bebasneue'>Cost of Goods Sold</h2>
 	<hr>
+	<table class='table table-bordered'>
+		<tr>
+			<th>Reference</th>
+			<th></th>
+		</tr>
+		<tbody>
 	<div class='row' style='text-align:center'>
 		<div class='col-sm-1'>
 			No.

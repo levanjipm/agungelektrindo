@@ -59,7 +59,7 @@
 	<p><?= $po_name ?></p>
 	<br><br>
 <?php
-	$sql = "SELECT reference, quantity, quantity_received, status, purchaseorder.id 
+	$sql = "SELECT id, reference, quantity, received_quantity, status
 	FROM purchaseorder
 	WHERE status = '0' AND purchaseorder_id = '" . $po_id . "'";
 	$result = $conn->query($sql);
@@ -86,11 +86,11 @@
 				<td><?= $row['reference'] ?>
 				</td>
 				<td><?= $row['quantity']; ?></td>
-				<td><?= $row['quantity_received']; ?></td>
+				<td><?= $row['received_quantity']; ?></td>
 				<td>
 					<input type="hidden" name="date" value="<?= $date ?>">
 					<input type="hidden" name="id<?= $x?>" value="<?= $row['id']?>">
-					<input class="form-control" type="number" name="qty_receive<?= $x?>" id="qty_receive<?= $x?>" max="<?= $row['quantity'] -$row['received']?>" min='0' value='0'>
+					<input class="form-control" type="number" name="qty_receive<?= $x?>" id="qty_receive<?= $x?>" max="<?= $row['quantity'] -$row['received_quantity']?>" min='0' value='0'>
 				</td>
 			</tr>
 				<?php

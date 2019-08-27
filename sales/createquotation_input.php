@@ -6,14 +6,14 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <?php
+	print_r($_POST);
 	include('../codes/connect.php');
 	session_start();
 	
-	$item_array 		= $_POST['item'];
+	$reference_array	= $_POST['reference'];
 	$price_array 		= $_POST['price'];
-	$discount_array 	= $_POST['disc'];
-	$netprice_array 	= $_POST['netprice'];
-	$quantity_array 	= $_POST['qty'];
+	$discount_array 	= $_POST['discount'];
+	$quantity_array 	= $_POST['quantity'];
 	$user_id 			= $_SESSION['user_id'];
 	
 	$q_date 			= $_POST['today'];
@@ -67,19 +67,20 @@
 				VALUES ('$q_number','$customer','$q_date','$add_discount','$terms','$dp','$lunas','$comment','$user_id')";
 	$conn->query($sql_insert);
 	$sql_first= "SELECT id FROM code_quotation WHERE name = '" . $q_number . "'"; 
-	$result = $conn->query($sql_first);	
+	$result = $conn->query($sql_first);
 	$rows = $result->fetch_assoc();
 	$quotation_id = $rows['id'];
-	foreach($item_array AS $item){
-		$key 		= key($item_array);
-		$price 		= $price_array[$key];
-		$discount 	= $discount_array[$key];
-		$netprice 	= $netprice_array[$key];
-		$quantity 	= $quantity_array[$key];
-		$sql_second = "INSERT INTO quotation (reference,price_list,discount,net_price,quantity,quotation_code) 
-					VALUES ('$item','$price','$discount','$netprice','$quantity','$quotation_id')";
-		$result 	= $conn->query($sql_second);
-		next($item_array);
+	foreach($reference_array AS $reference){
+		$key 				= key($reference_array);
+		$reference_escaped 	= mysqli_real_escape_string($conn,$reference);
+		$price 				= $price_array[$key];
+		$discount 			= (float)$discount_array[$key];
+		$quantity 			= $quantity_array[$key];
+		$netprice			= $price * (1 - $discount * 0.01);
+		$sql_second 		= "INSERT INTO quotation (reference,price_list,discount,net_price,quantity,quotation_code) 
+							VALUES ('$reference_escaped','$price','$discount','$netprice','$quantity','$quotation_id')";	
+		$conn->query($sql_second);
+		next($reference_array);
 	};
 	if($result){
 ?>

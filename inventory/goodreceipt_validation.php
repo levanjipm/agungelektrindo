@@ -19,7 +19,7 @@
 		$id = $_POST['id' . $i];
 		$quantity_received = $_POST['qty_receive' . $i];
 		if($quantity_received > 0){
-			$sql_receive = "SELECT id,quantity,status FROM purchaseorder_received WHERE id = '" . $id . "'";
+			$sql_receive = "SELECT id,quantity,status FROM purchaseorder WHERE id = '" . $id . "'";
 			$result_receive = $conn->query($sql_receive);
 			while($row_receive = $result_receive->fetch_assoc()){
 				$status = $row_receive['status'];
@@ -40,12 +40,12 @@
 			if ($status == 0){
 				if ($quantity + $quantity_received == $quantity_ordered){
 					$final_quantity = $quantity_received + $quantity;
-					$sql = "UPDATE purchaseorder_received SET quantity = '" . $final_quantity . "', status = '1' 
+					$sql = "UPDATE purchaseorder SET received_quantity = '" . $final_quantity . "', status = '1' 
 					WHERE id = '" . $id . "'";
 					$result = $conn->query($sql);
 				} else {
 					$final_quantity = $quantity_received + $quantity;
-					$sql = "UPDATE purchaseorder_received SET quantity = '" . ($quantity_received + $quantity) . "' WHERE id = '" . $id . "'";
+					$sql = "UPDATE purchaseorder SET received_quantity = '" . ($quantity_received + $quantity) . "' WHERE id = '" . $id . "'";
 					$result = $conn->query($sql);
 				}
 			} else {

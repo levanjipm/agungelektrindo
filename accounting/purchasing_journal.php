@@ -1,5 +1,5 @@
 <?php
-	//Sales journal//
+	//Purchasing journal//
 	include('accountingheader.php');
 ?>
 <script src='../universal/Numeral-js-master/numeral.js'></script>

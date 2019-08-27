@@ -2,10 +2,11 @@
 	include('salesheader.php');
 ?>
 <script src='../jquery-ui.js'></script>
+<link rel='stylesheet' href='css/create_sample.css'></script>
 <link rel='stylesheet' href='../jquery-ui.css'>
 <script>
 $( function() {
-	$('input[id^="reference"]').autocomplete({
+	$('reference1').autocomplete({
 		source: "ajax/search_item.php"
 	 })
 });
@@ -28,39 +29,22 @@ $( function() {
 	}
 ?>
 	</select>
-	<hr>
-	<div class='row'>
-		<div class='col-sm-1'>
-			No.
-		</div>
-		<div class='col-sm-3'>
-			Reference
-		</div>
-		<div class='col-sm-3'>
-			Quantity
-		</div>
-	</div>
-	<hr>
-<?php
-	for($i=  1; $i <= 3; $i++){
-?>
-	<div class='row'>
-		<div class='col-sm-1'>
-			<?= $i ?>
-		</div>
-		<div class='col-sm-3'>
-			<input type='text' class='form-control' id='reference<?= $i ?>' name='reference<?= $i ?>'>
-		</div>
-		<div class='col-sm-3'>
-			<input type='number' class='form-control' name='quantity<?= $i ?>'>
-		</div>
-		<div class='col-sm-2' id='checking<?= $i ?>'>
-		</div>
-	</div>
 	<br>
-<?php
-	}
-?>
+	<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
+	<button type='button' class='button_add_row' id='add_item_button' style='display:inline-block'>Add item</button>
+	<table class='table table-bordered'>
+		<tr>
+			<th>Reference</th>
+			<th>Quantity</th>
+		</tr>
+		<tbody id='sample_detail'>
+			<tr>
+				<td><input type='text' class='form-control' id='reference<?= $i ?>' name='reference<?= $i ?>'></td>
+				<td><input type='number' class='form-control' name='quantity<?= $i ?>'></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
 	</form>
 	<hr>
 	<button type='button' class='btn btn-default' onclick='submiting()'>

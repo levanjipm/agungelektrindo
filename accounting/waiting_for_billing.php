@@ -5,7 +5,7 @@
 	$result = $conn->query($sql);
 ?>
 <div class='main'>
-	<h2>Purchase Invoice</h2>
+	<h2 style='font-family:bebasneue'>Purchase Invoice</h2>
 	<p>Waiting for billing</p>
 	<div id='naming'></div>
 	<hr>
@@ -17,7 +17,7 @@
 			<th>Value</th>
 		</tr>
 <?php
-	$total_buat = 0;
+	$uninvoiced_value = 0;
 	while($row = $result->fetch_assoc()){
 ?>
 		<tr>
@@ -53,7 +53,7 @@
 				?>
 			</td>
 			<?php
-			$total_buat = $total_buat + $total;
+			$uninvoiced_value += $total;
 			}
 			?>
 		</tr>
@@ -62,8 +62,7 @@
 <script src='../universal/Numeral-js-master/numeral.js'></script>
 <script>
 	$(document).ready(function(){
-		var name_tot = numeral(<?= $total_buat?>).format('0,0.00');
-		console.log(name_tot);
-		$('#naming').text('Rp. ' + name_tot);
+		var uninvoiced_value = numeral(<?= $uninvoiced_value?>).format('0,0.00');
+		$('#naming').text('Rp. ' + uninvoiced_value);
 	});
 </script>

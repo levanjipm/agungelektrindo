@@ -5,6 +5,7 @@
 	//Change status on 'isconfirm' to 1 from 0//
 	$sql_status = "UPDATE code_goodreceipt SET isconfirm = '1' WHERE id = '" . $good_receipt_id . "'";
 	$result_status = $conn->query($sql_status);
+	
 	$sql_get_status = "SELECT date,supplier_id,document FROM code_goodreceipt WHERE id = '" . $good_receipt_id . "'";
 	$result_get_status = $conn->query($sql_get_status);
 	$row_get_status = $result_get_status->fetch_assoc();
@@ -21,7 +22,7 @@
 		$quantity = $row_detail['quantity'];
 		if ($quantity == 0){
 		} else {
-			$sql_received = "SELECT reference FROM purchaseorder_received WHERE id = '" . $received_id . "'";
+			$sql_received = "SELECT reference FROM purchaseorder WHERE id = '" . $received_id . "'";
 			$result_received = $conn->query($sql_received);
 			$row_received = $result_received->fetch_assoc();
 			$reference = $row_received['reference'];
@@ -40,7 +41,9 @@
 			$final_stock = $stock_initial + $quantity;
 			$sql_stock = "INSERT INTO stock (date,reference,transaction,quantity,stock,supplier_id,customer_id,document) 
 			VALUES ('$date','$reference','IN','$quantity','$final_stock','$supplier_id','0','$document')";
+			
 			$result_stock = $conn->query($sql_stock);
+			
 			$sql_price = "SELECT * FROM purchaseorder WHERE id = '" . $received_id . "'";
 			$result_price = $conn->query($sql_price);
 			while($row_price = $result_price->fetch_assoc()){

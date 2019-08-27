@@ -1,8 +1,10 @@
 <?php
 	include("salesheader.php");
 ?>
+<link rel="stylesheet" href="css/create_quotation.css">
 <link rel="stylesheet" href="../jquery-ui.css">
 <script src="../jquery-ui.js"></script>
+<script src="../universal/Numeral-js-master/numeral.js"></script>
 <script>
 $( function() {
 	$('#reference1').autocomplete({
@@ -10,20 +12,11 @@ $( function() {
 	 })
 });
 </script>
-<style>
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
-}
-</style>
 <div class="main">
-<a href="#" id="folder"><i class="fa fa-folder"></i></a>
-<a href="#" id="close"><i class="fa fa-close"></i></a>
-	<div class='col-sm-11'>
-	<h2 style='font-family:bebasneue'>Quotation</h2>
-	<h4 style="color:#444">Create new quotation</h4>
-	<hr>
+	<div class='col-sm-12'>
+		<h2 style='font-family:bebasneue'>Quotation</h2>
+		<h4 style="color:#444">Create new quotation</h4>
+		<hr>
 		<form name="quotation" id="quotation" class="form" method="POST" action="createquotation_validation.php">
 			<div class="row">
 				<div class="col-sm-6">
@@ -44,88 +37,58 @@ input[type=number]::-webkit-outer-spin-button {
 						?>
 					</select>
 				</div>
-				<div class="col-sm-2 offset-lg-2">
+				<div class="col-sm-2 offset-sm-2">
 					<label for="date">Date</label>
-					<input id="today" type="date" class="form-control" value="<?php echo date('Y-m-d');?>" name="today">
+					<input id="today" type="date" class="form-control" value="<?php echo date('Y-m-d');?>" name="quotation_date">
 				</div>
 			</div>
-			<div class="row" id="headerlist" style="border-radius:10px;padding-top:25px">
-				<div class="col-sm-1">
-					Nomor
-				</div>
-				<div class="col-sm-2">
-					Refference
-				</div>
-				<div class="col-sm-2">
-					Price
-				</div>
-				<div class="col-sm-1">
-					Discount
-				</div>
-				<div class="col-sm-1">
-					Quantity
-				</div>
-				<div class="col-sm-2">
-					Nett Unit Price
-				</div>
-				<div class="col-sm-2">
-					Total Price
-				</div>
-			</div>
+			<br>
+			<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
+			<button type='button' class='button_add_row' id='add_item_button' style='display:inline-block'>Add item</button>
+			<br>
+			<br>
+			<table class='table table-bordered'>
+				<tr>
+					<th style='width:25%'>Reference</th>
+					<th style='width:20%'>Price (Rp.)</th>
+					<th style='width:10%'>Discount</th>
+					<th style='width:15%'>Quantity</th>
+					<th style='width:20%'>Net Price (Rp.)</th>
+					<th style='width:20%'>Total Price (Rp.)</th>
+				</tr>
+				<tbody id='quotation_detail'>
+					<tr id='tr-1'>
+						<td><input type='text' class='form-control' name='reference[1]' id='reference1'></td>
+						<td><input type='text' class='form-control' name='price[1]' id='price1' step='0.01'></td>
+						<td><input type='text' class='form-control' name='discount[1]' id='discount1'></td>
+						<td><input type='text' class='form-control' name='quantity[1]' id='quantity1'></td>
+						<td><input type='text' class='nomor' id='unitprice1'></td>
+						<td><input type='text' class='nomor' id='totalprice1'></td>
+						<td></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan='3'></td>
+						<td>Total</td>
+						<td colspan='2' style='width:40%'><input class="nomor" id="total" name="total" readonly></td>
+					</tr>
+					<tr>
+						<td colspan='3'></td>
+						<td>Ad. Discount</td>
+						<td colspan='2' style='width:40%'><input type='number' class="form-control" id="add_discount" name="add_discount" step='0.001'></td>
+					</tr>
+			</table>
 			<hr>
-			<div class="row" style="padding-top:10px;">
-				<div class="col-sm-1">
-					<input class="nomor" id="no1" style="width:40%" value="1" disabled></input>
-				</div>
-				<div class="col-sm-2">
-					<input id="reference1" class="form-control" name="reference1" style="width:100%">
-				</div>
-				<div class="col-sm-2">
-					<input style="overflow-x:hidden" id="price1" name="price1" class="form-control" style="width:100%">
-				</div>
-				<div class="col-sm-1">
-					<input type='number' id="discount1" name="discount1"class="form-control" style="width:100%" name="discount1">
-				</div>
-				<div class="col-sm-1">
-					<input id="quantity1" name="quantity1" class="form-control" style="width:100%" name="quantity1">
-				</div>
-				<div class="col-sm-2">
-					<input class="nomor" id="unitprice1" name="unitprice1" readonly>
-				</div>
-				<div class="col-sm-2">
-					<input class="nomor" id="totalprice1" name="totalprice1" readonly>
-				</div>
-				<div class="col-sm-2">
-				</div>
-			</div>
-			<div id="input_list">
-			</div>
-			<hr>
-			<div class="row">
-				<div class="col-sm-2 offset-lg-7">
-					<label for="total">Total</label>
-				</div>
-				<div class="col-sm-2">
-					<input class="nomor" id="total" name="total" readonly>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-2 offset-lg-7">
-					<label for="total">Additional discount</label>
-				</div>
-				<div class="col-sm-2">
-					<input type='number' class="form-control" id="add_discount" name="add_discount" step='0.001'>
-				</div>
-			</div>
-			<div class="row" style="padding-top:20px">
-				<div class="col-sm-2">
-					<input type="hidden" class="form-control" id="jumlah_barang" name="jumlah_barang">
-				</div>	
-			</div>
-			<div style="background-color:#eee;padding:30px">
-				<div class="row" style="padding:20px">
-					<h3><b>Note</b></h3>
-				</div>
+			<button type='button' class='hide_note_button' id='toggle_note_button'>Toggle note</button>
+			<br><br>
+			<script>
+				$('#toggle_note_button').click(function(){
+					$('#note_wrapper').toggle(300);
+				});
+			</script>
+			<div id='note_wrapper'>
+				<h3><b>Note</b></h3>
 				<div class="row">
 					<div class="col-sm-6">
 						<p><b>1. Payment term</b></p>
@@ -150,7 +113,7 @@ input[type=number]::-webkit-outer-spin-button {
 						</select>
 					</div>
 				</div>
-				<input type='hidden' id='danieltri' value='benar'>
+				<input type='hidden' id='check_available_input' value='true'>
 				<div class="row" style="padding:5px">
 					<div class="col-sm-6" style="padding:5px">
 						<div class="col-sm-6" style="padding:5px">
@@ -184,20 +147,19 @@ input[type=number]::-webkit-outer-spin-button {
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="form-group">
-							<textarea class="form-control" name="comment" rows="3" form="quotation"></textarea>
+							<textarea class="form-control" name="comment" rows="3" form="quotation" style='resize:none'></textarea>
 						</div>
 					</div>
 				</div>
 			</div>
-			<br>
 			<div class="row">
 				<div class="col-sm-2">
-					<button type="button" class="btn btn-primary" onclick="hitung()" id="calculate">Calculate</button>
+					<button type="button" class="button_confirm" onclick="hitung()" id="calculate">Calculate</button>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-2">
-					<button type="button" id='tombolku' class="btn btn-success" style="display:none" onclick='validate()'>Submit</button>
+					<button type="button" id='button_validate' class="btn btn-success" style="display:none" onclick='validate()'>Submit</button>
 				</div>
 				<div class="col-sm-2">
 					<button type="button" id="back" class="btn btn-primary" style="display:none">Back</button>
@@ -208,34 +170,41 @@ input[type=number]::-webkit-outer-spin-button {
 	<div class='col-sm-1'></div>
 </div>
 <script>
+var a = 2;
+
+function evaluate_organic(x){
+	var to_be_evaluated = $('#' + x).val();
+	return eval(to_be_evaluated);
+}
+
 function hitung(){
+	$('#check_available_input').val('true');
+	var payment_term = $('#terms').val();
+	
 	if($('#add_discount').val() == ''){
 		$('#add_discount').val(0);
 	}
-	$('#danieltri').val('benar');
-	var payment_term = $('#terms').val();
 	$('input[id^=reference]').each(function(){
 		$.ajax({
-        url: "ajax/check_item_available.php",
-        data: {
-            reference: $(this).val(),
-        },
-        type: "POST",
-        dataType: "html",
-        success: function (response) {
-			if((response == 1)){
-				$('#danieltri').val('salah');
-			} else {
-			}
-        },
-        error: function (xhr, status) {
-            alert("Sorry, there was a problem!");
-        }
+			url: "ajax/check_item_available.php",
+			data: {
+				reference: $(this).val(),
+			},
+			type: "POST",
+			dataType: "html",
+			success: function (response) {
+				if((response == 1)){
+					alert('Reference not found');
+					$('#check_available_input').val('false');
+					return false;
+				} else {
+				}
+			},
 		})
 	});
 	var angka = true;
 	$('input[id^=discount]').each(function(){
-		if($(this).val() > 75 || $(this).val() == ''){
+		if($(this).val() > 80 || $(this).val() == ''){
 			angka = false;
 		}
 	});
@@ -247,34 +216,34 @@ function hitung(){
 		return false;
 	} else if(payment_term == 0) {
 		alert("Please insert correct payment term");
+		$('#note_wrapper').show();
 		return false;
 	} else if(angka == false){
 		alert('Please insert correct discount!');
 		return false;
 	} else {
 		var calculated_total = 0;
-		for (z = 1; z < a; z++){
-			var raw_price = document.getElementById('price'+z).value;
-			var calculated_pricelist = eval(raw_price);
-			document.getElementById('price'+z).value = round(calculated_pricelist,2);
-			var raw_discount = document.getElementById('discount'+z).value;
-			var discount = raw_discount/100;
-			var netprice = calculated_pricelist * (1-discount);
-			document.getElementById('unitprice'+z).value = round(netprice,2);
-			var qty = document.getElementById('quantity'+z).value;
-			var calculated_totalunitprice = qty * netprice;
-			var calculated_price = round(calculated_totalunitprice,2);
-			document.getElementById('totalprice'+z).value = calculated_price;
-			calculated_total = calculated_total +calculated_price;
-		}
-		document.getElementById('total').value = round(calculated_total,2);
-		document.getElementById('jumlah_barang').value = z - 1;
-		if(isNaN($('#total').val())){
+		$('input[id^=price]').each(function(){
+			var input_id = $(this).attr('id');
+			var calculated_pricelist = evaluate_organic(input_id);
+			$(this).val(evaluate_organic(input_id));
+			
+			var uid 		= input_id.substring(5,8);
+			var discount 	= $('#discount' + uid).val();
+			var netprice 	= parseFloat(calculated_pricelist * (1 - discount*0.01));
+			var totalprice 	= parseFloat(netprice * $('#quantity' + uid).val());
+			
+			$('#unitprice' + uid).val(numeral(netprice).format('0,0.00'));
+			$('#totalprice' + uid).val(numeral($('#quantity' + uid).val() * netprice,2).format('0,0.00'));
+			calculated_total = parseFloat(calculated_total + totalprice);
+		});
+		$('#total').val(numeral(calculated_total).format('0,0.00'));
+		if(isNaN(calculated_total)){
 			alert('Insert correct price!');
 			return false;
 		} else {
 			$(':input').attr('readonly',true);
-			$('#tombolku').show();
+			$('#button_validate').show();
 			$('#back').show();
 			$('#calculate').hide();
 			$('#folder').hide();
@@ -284,20 +253,8 @@ function hitung(){
 };
 function validate(){
 	var payment_term = $('#terms').val();
-	if($('#danieltri').val() == 'salah'){
+	if($('#check_available_input').val() == 'false'){
 		alert('One or more reference does not exist on database!');
-		$('#quote_person').attr('readonly',false);
-		$('input[id^=reference]').attr('readonly',false);
-		$('input[id^=discount]').attr('readonly',false);
-		$('input[id^=price]').attr('readonly',false);
-		$('input[id^=quantity]').attr('readonly',false);	
-		$('#terms').attr('readonly',false);
-		$('#today').attr('readonly',false);
-		$('#tombolku').hide();
-		$('#back').hide();
-		$('#calculate').show();
-		$('#folder').show();
-		$('#close').show();
 		return false;
 	} else if(payment_term == 2 && $('#lunas').val() == '') {
 		alert('Please insert correct payement detail!');
@@ -321,7 +278,7 @@ $("#back").click(function (){
 	$('#terms').attr('readonly',false);
 	$('#add_discount').attr('readonly',false);
 	$('#today').attr('readonly',false);
-	$('#tombolku').hide();
+	$('#button_validate').hide();
 	$('#back').hide();
 	$('#calculate').show();
 	$('#folder').show();
@@ -345,26 +302,22 @@ function payment_js(){
 		$('#lunas').attr('readonly',false);
 	}
 }
-	var i;
-	var a = 2;
 	function disable(){
 		document.getElementById("kosong").disabled = true;
 	}
 	function disable_two(){
 		document.getElementById("kosongan").disabled = true;
 	}
-	$("#folder").click(function (){	
-		$("#input_list").append(
-		'<div class="row" style="padding-top:10px" id="barisan'+a+'">'+
-		'<div class="col-sm-1"><input class="nomor" value="'+a+'" style="width:40%" style="text-align:center"></div>'+
-		'<div class="col-sm-2"><input id="reference'+a+'" name="reference'+a+'" class="form-control" style="width:100%"></div>'+
-		'<div class="col-sm-2"><input style="overflow-x:hidden" id="price'+a+'" name="price'+a+'" class="form-control" style="width:100%"></div>'+
-		'<div class="col-sm-1">'+'<input type="number" id="discount'+a+'" name="discount'+a+'" class="form-control" style="width:100%"></div>'+
-		'<div class="col-sm-1">'+'<input id="quantity'+a+'" name="quantity'+a+'" class="form-control" style="width:100%"></div>'+
-		'<div class="col-sm-2">'+'<input class="nomor" id="unitprice'+a+'" name="unitprice'+a+'"></div>'+
-		'<div class="col-sm-2">'+'<input class="nomor" id="totalprice'+a+'" name="totalprice'+a+'" ></div>'+
-		'<div class="col-sm-2"></div>'+
-		'</div>').find("input").each(function () {
+	$("#add_item_button").click(function (){	
+		$("#quotation_detail").append(
+		"<tr id='tr-" + a + "'>"+
+		"<td><input type='text' class='form-control' name='reference[" + a + "]' id='reference" + a + "'></td>"+
+		"<td><input type='text' class='form-control' name='price[" + a + "]' id='price" + a + "' step='0.01'></td>"+
+		"<td><input type='text' class='form-control' name='discount[" + a + "]' id='discount" + a + "'></td>"+
+		"<td><input type='text' class='form-control' name='quantity[" + a + "]' id='quantity" + a + "'></td>"+
+		"<td><input type='text' class='nomor' id='unitprice" + a + "'></td>"+
+		"<td><input type='text' class='nomor' id='totalprice" + a + "'></td>"+
+		"<td><button type='button' class='button_delete_row' onclick='delete_row(" + a + ")'>X</button></td></tr>").find("input").each(function () {
 			});
 		$("#reference" + a).autocomplete({
 			source: "../codes/search_item.php"
@@ -372,15 +325,9 @@ function payment_js(){
 		a++;
 	});
 
-	$("#close").click(function () {
-		if(a>2){
-		a--;
-		x = 'barisan' + a;
-		$("#"+x).remove();
-		} else {
-			return false;
-		}
-	});
+	function delete_row(n){
+		$('#tr-' + n).remove();
+	};
 	function round(value, precision) {
 		var multiplier = Math.pow(10, precision || 0);
 		return Math.round(value * multiplier) / multiplier;

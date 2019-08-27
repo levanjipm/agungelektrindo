@@ -60,16 +60,14 @@
 			<?php
 				$total = 0;
 				$sql_gr = "SELECT * FROM code_goodreceipt WHERE invoice_id = '" . $invoice_id . "'";
-				echo $sql_gr;
 				$result_gr = $conn->query($sql_gr);
 				while($gr = $result_gr->fetch_assoc()){
 					$gr_id = $gr['id'];
 					$sql = "SELECT * FROM goodreceipt WHERE gr_id = '" . $gr_id . "'";
 					$result = $conn->query($sql);
 					while($row = $result->fetch_assoc()){
-						$sql_received = "SELECT purchaseorder.billed_price, purchaseorder_received.reference FROM purchaseorder_received 
-						JOIN purchaseorder ON purchaseorder.id = purchaseorder_received.id
-						WHERE purchaseorder_received.id = '" . $row['received_id'] . "'";
+						$sql_received = "SELECT purchaseorder.billed_price, purchaseorder.reference FROM purchaseorder 
+						WHERE purchaseorder.id = '" . $row['received_id'] . "'";
 						$result_received = $conn->query($sql_received);
 						$received = $result_received->fetch_assoc();
 						$total = $total + $row['quantity'] * $received['billed_price'];

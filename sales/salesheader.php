@@ -14,106 +14,101 @@ Sales Department
 <?php
 	include("../codes/connect.php");
 	session_start();
-	$sql_user = "SELECT name,role,hpp FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
+	$sql_user = "SELECT isactive,name,role,hpp FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
 	$result_user = $conn->query($sql_user);
 	$row_user = $result_user->fetch_assoc();
 	$name = $row_user['name'];
 	$role = $row_user['role'];
 	$hpp = $row_user['hpp'];
+	$isactive = $row_user['isactive'];
 	
 	$sql_otorisasi = "SELECT COUNT(*) AS jumlah_otorisasi FROM authorization WHERE department_id = '1' AND user_id = '" . $_SESSION['user_id'] . "'";
 	$result_otorisasi = $conn->query($sql_otorisasi);
 	$otorisasi = $result_otorisasi->fetch_assoc();
-	if ($otorisasi['jumlah_otorisasi'] == 1) {
+	if ($otorisasi['jumlah_otorisasi'] == 1 && $isactive == 1) {
 ?>
 </head>
 <body>
 <div class='top_navigation_bar'>
 	<div class='col-lg-4 col-md-5 col-sm-6 col-xs-8'>
-		<img src='../universal/images/agungelektrindo_header.png' style='height:50px;'>
+		<a href='../human_resource/user_dashboard' style='text-decoration:none;display:inline-block'>
+			<img src='../universal/images/agungelektrindo_header.png' style='height:50px;'>
+		</a>
 	</div>
-	<div class='col-lg-2 col-md-3 col-sm-4 col-xs-4 col-lg-offset-6 col-md-offset-4 col-sm-offset-2 col-xs-offset-0'>
-		<p><?= $name ?></p>
+	<div class='col-lg-2 col-md-4 col-sm-4 col-xs-4 col-lg-offset-6 col-md-offset-3 col-sm-offset-1 col-xs-offset-0' style='text-align:right'>
+		<h3 style='font-family:Bebasneue'><?= $name ?> 
+			<span style='display:inline-block'>
+				<a href='../codes/logout' style='padding-left:10px;text-decoration:none;color:white;' title='log out'>
+					 <i class="fa fa-sign-out" aria-hidden="true"></i>
+				</a>
+			</span>
+		</h3>
 	</div>
 </div>
 <div class="sidenav">
-	<style>
-		.btn-badge{
-			background-color:transparent;
-			color:white;
-			width:100%;
-			text-align:left;
-		}
-		.dropdown-container {
-			display: none;
-			background-color: #262626;
-			padding-left: 8px;
-			line-height:2.5;
-		}
-	</style>
-	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-id-badge" aria-hidden="true"></i>
 		Quotations
 	</button>
 	<div class="dropdown-container">
-		<a href="createquotation_dashboard.php">
+		<a href="createquotation_dashboard">
 			<p>Create a quotation</p>
 		</a>
-		<a href="editquotation_dashboard.php">
+		<a href="editquotation_dashboard">
 			<p>Print or edit a quotation</p>
 		</a>
 	</div>
-	<button class="btn btn-badge dropdown-btn" style='color:white'>
+	<button class="btn-badge dropdown-btn" style='color:white'>
 		<i class="fa fa-users" aria-hidden="true"></i>
 		Customers
 	</button>
 	<div class="dropdown-container">
-		<a href="addcustomer_dashboard.php">
+		<a href="addcustomer_dashboard">
 			<p>Add Customer</p>
 		</a>
-		<a href="editcustomer_dashboard.php">
+		<a href="editcustomer_dashboard">
 			<p>Edit Customer</p>
 		</a>
 	</div>
-	<button class="btn btn-badge dropdown-btn" style='color:white'>
+	<button class="btn-badge dropdown-btn" style='color:white'>
 		<i class="fa fa-file-text" aria-hidden="true"></i>
 		Sales Order
 	</button>
 	<div class="dropdown-container">
-		<a href="createsalesorder_dashboard.php">
+		<a href="createsalesorder_dashboard">
 			<p>Create sales order</p>
 		</a>
-		<a href="service_sales_order_dashboard.php">
+		<a href="service_sales_order_dashboard">
 			<p>Services SO</p>
 		</a>
-		<a href="confirmsalesorder_dashboard.php">
+		<a href="confirmsalesorder_dashboard">
 			<p>Confirm sales order</p>
 		</a>
-		<a href="editsalesorder_dashboard.php">
+		<a href="editsalesorder_dashboard">
 			<p>Edit sales order</p>
 		</a>
 	</div>
-	<a href="check_stock.php">
-		<button type='button' class='btn btn-badge'>
+	<a href="check_stock">
+		<button type='button' class='btn-badge'>
 			<i class="fa fa-archive" aria-hidden="true"></i>
 			Check Stock
 		</button>
 	</a>
-	<button class="btn btn-badge dropdown-btn" style='color:white'>
+	<button class="btn-badge dropdown-btn" style='color:white'>
 		<i class="fa fa-undo" aria-hidden="true"></i>
 		Return
 	</button>
 	<div class="dropdown-container">
-		<a href="return_dashboard.php">
-			<button type='button' class='btn btn-badge'>
+		<a href="return_dashboard">
+			<button type='button' class='btn-badge'>
 				Create return
 			</button>
 		</a>
 <?php
 	if($role == 'superadmin'){
 ?>	
-		<a href="confirm_return_dashboard.php">
-			<button type='button' class='btn btn-badge'>
+		<a href="confirm_return_dashboard">
+			<button type='button' class='btn-badge'>
 				Confirm return
 			</button>
 		</a>
@@ -121,39 +116,39 @@ Sales Department
 	}
 ?>
 	</div>
-	<button class="btn btn-badge dropdown-btn" style='color:white'>
+	<button class="btn-badge dropdown-btn" style='color:white'>
 		<i class="fa fa-building" aria-hidden="true"></i>
 		Project
 	</button>
 	<div class="dropdown-container">
-		<a href="add_project_dashboard.php">
-			<button type='button' class='btn btn-badge'>
+		<a href="add_project_dashboard">
+			<button type='button' class='btn-badge'>
 				Add project
 			</button>
 		</a>
-		<a href="edit_project_dashboard.php">
-			<button type='button' class='btn btn-badge'>
+		<a href="edit_project_dashboard">
+			<button type='button' class='btn-badge'>
 				Edit project
 			</button>
 		</a>
-		<a href="view_project_dashboard.php">
-			<button type='button' class='btn btn-badge'>
+		<a href="view_project_dashboard">
+			<button type='button' class='btn-badge'>
 				View project
 			</button>
 		</a>
 	</div>
-	<button class="btn btn-badge dropdown-btn" style='color:white'>
+	<button class="btn-badge dropdown-btn" style='color:white'>
 		<i class="fa fa-clock-o" aria-hidden="true"></i>
 		Samples
 	</button>
 	<div class="dropdown-container">
-		<a href="add_sampling_dashboard.php">
-			<button type='button' class='btn btn-badge'>
+		<a href="add_sampling_dashboard">
+			<button type='button' class='btn-badge'>
 				Add sampling
 			</button>
 		</a>
-		<a href="confirm_sampling_dashboard.php">
-			<button type='button' class='btn btn-badge'>
+		<a href="confirm_sampling_dashboard">
+			<button type='button' class='btn-badge'>
 				Confirm
 			</button>
 		</a>
@@ -161,7 +156,7 @@ Sales Department
 <?php
 	if($hpp == 1){
 ?>
-	<a href="check_hpp_dashboard.php">
+	<a href="check_hpp_dashboard">
 		<button type='button' class='btn btn-badge'>
 			<i class="fa fa-money" aria-hidden="true"></i>Check value
 		</button>
@@ -170,26 +165,13 @@ Sales Department
 	}
 ?>
 	<hr>
-	<button type='button' class='btn btn-badge' style='color:white'>
-		<a href='../human_resource/user_dashboard.php' style='color:white;text-decoration:none'>
-			<i class="fa fa-home" aria-hidden="true"></i>
-			Back to home
-		</a>
-	</button>
-	<a href='../codes/logout.php'>
-		<button type='button' class='btn btn-badge' style='color:white'>
-		<i class="fa fa-sign-out" aria-hidden="true"></i>
-		Log Out
-		</button>
-	</a>
-	<hr>
 	<a href='sales.php' style='color:#1ac6ff;text-decoration:none'>
 		<i class="fa fa-eercast" aria-hidden="true"></i>Sales Department
 	</a>
 </div>
 <?php
 	} else {
-		header('location:../landing_page.php');
+		header('location:../landing_page');
 	}
 ?>
 <script>

@@ -60,8 +60,6 @@
 		</div>
 	</div>
 	<div class='row' style='top:0'>
-		<div class='col-sm-1' style='background-color:#fff'>
-		</div>
 		<div class='col-sm-10'>
 			<h2 style='font-family:bebasneue'>Customer</h2>
 			<p>Edit customer data</p>
