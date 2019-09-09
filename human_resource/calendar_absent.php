@@ -1,39 +1,7 @@
+<?php
+	include('../codes/connect.php');
+?>
 <style>
-	.notification_large{
-		position:fixed;
-		top:0;
-		left:0;
-		background-color:rgba(51,51,51,0.3);
-		width:100%;
-		text-align:center;
-		height:100%;
-	}
-	.notification_large .notification_box{
-		position:relative;
-		background-color:#fff;
-		padding:30px;
-		width:100%;
-		top:30%;
-		box-shadow: 3px 4px 3px 4px #ddd;
-	}
-	.btn-confirm{
-		background-color:#2bf076;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	.btn-delete{
-		background-color:red;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	.btn-back{
-		background-color:#777;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
 	.btn-x{
 		background-color:transparent;
 		border:none;
@@ -44,7 +12,7 @@
 	}
 	.box{
 		width:30px;
-		border:1px solid #ccc;
+		border:none;
 		height:30px;
 		margin: auto;
 		width: 50%;
@@ -76,7 +44,7 @@
 	}
 	.calendar_action{
 		width:100%;
-		border:2px solid #eee;
+		border:2px solid white;
 		padding:20px;
 		display:inline-block;
 		margin-top:0;
@@ -84,7 +52,7 @@
 </style>
 <div class='calendar_action'>
 	<h2 style='font-family:bebasneue'>Absentee</h2>
-	<button type='button' class='btn btn-default' id='view_calendar_button'>View</button>
+	<button type='button' class='button_default_dark' id='view_calendar_button'>View</button>
 	<br>
 	<br>
 	<table class='table table-bordered' id='table_to_absent'>
@@ -121,10 +89,10 @@
 	$month = date('m');
 	$year = date('Y');
 	
-	$sql_user = "SELECT COUNT(*) AS user_in_total FROM users";
-	$result_user = $conn->query($sql_user);
-	$user = $result_user->fetch_assoc();
-	$total = $user['user_in_total'];
+	$sql_user 		= "SELECT COUNT(*) AS user_in_total FROM users";
+	$result_user 	= $conn->query($sql_user);
+	$user 			= $result_user->fetch_assoc();
+	$total 			= $user['user_in_total'];
 ?>
 	<div id="calendar_absent_view" style='display:none'>
 		<h2 style='font-family:bebasneue'><?= date('F',mktime(0,0,0,$month + 1,0,$year)); ?></h2>
@@ -166,7 +134,7 @@
 			}	
 			for($i = 1; $i <= $d; $i++){
 				$date = date('Y-m-d',mktime(0,0,0,$month,$i,$year));
-				$sql = "SELECT COUNT(id) AS total FROM absentee_list WHERE date = '$date'";
+				$sql = "SELECT COUNT(id) AS total FROM absentee_list WHERE date = '$date' AND isdelete = '0'";
 				$result = $conn->query($sql);
 				$row = $result->fetch_assoc();
 		?>

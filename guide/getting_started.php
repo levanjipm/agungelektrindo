@@ -8,7 +8,7 @@
 	<p>Selamat datang di <strong>Agung Elektrindo</strong>. Sistem ini merupakan perangkat lunak yang membantu mengerjakan tugas sehari - hari kalian.</p>
 	<p>Sistem ini dibagi menjadi beberapa <i>"Departemen"</i> yang memilki fungsi masing - masing sesuai tabel di bawah ini.</p>
 	<br>
-	<table class='table table-hover'>
+	<table class='table table-bordered'>
 		<tr>
 			<th>Departemen</th>
 			<th>Deskripsi</th>
@@ -16,13 +16,13 @@
 		</tr>
 		<tr>
 			<td>
-				<a href='sales_dashboard.php' style='text-decoration:none'>
+				<a href='sales_dashboard.php' style='text-decoration:none;color:black'>
 				<p>Departemen Penjualan</p>
 				<p><i>Sales Department</i></p>
 				</a>
 			</td>
 			<td>Departemen penjualan bertugas untuk melayani transaksi penjualan dari CV Agung Elektrindo ke pelanggan.</td>
-			<td>
+			<td style='text-align:left'>
 				<ul>
 					<li>Membuat penawaran harga -- <i>Quotation</i></li>
 					<li>Membuat order penjualan -- <i>Sales order</i></li>
@@ -40,7 +40,7 @@
 				<p><i>Purchasing Department</i></p>
 			</td>
 			<td>Departemen pembelian bertugas untuk membeli barang dari supplier untuk CV Agung Elektrindo</td>
-			<td>
+			<td style='text-align:left'>
 				<ul>
 					<li>Membuat order pembelian -- <i>Purchase order</i></li>
 					<li>Tambah dan sunting data supplier</li>
@@ -56,7 +56,7 @@
 				<p><i>Inventory Department</i></p>
 			</td>
 			<td>Departemen gudang bertugas untuk menerima, mengirim, dan menjaga keutuhan barang</td>
-			<td>
+			<td style='text-align:left'>
 				<ul>
 					<li>Membuat surat jalan -- <i>Delivery order</i></li>
 					<li>Membuat penerimaan barang -- <i>Goods receipt</i></li>
@@ -73,7 +73,7 @@
 				<p><i>Accounting Department</i></p>
 			</td>
 			<td>Departemen akuntansi bertugas untuk melakukan pencatatan terhadap data penjualan, pembelian, nilai asset perusahaan.</td>
-			<td>
+			<td style='text-align:left'>
 				<ul>
 					<li>Membuat dan menyunting bon penjualan</li>
 					<li>Membuat dan menyunting bon pembelian</li>

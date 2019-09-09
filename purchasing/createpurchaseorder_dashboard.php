@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="../jquery-ui.css">
 <link rel="stylesheet" href="css/create_purchase_order.css">
 <script src="../jquery-ui.js"></script>
-<script type='text/javascript' src="../universal/Jquery/jquery.inputmask.bundle.js"></script>
+<script src="../universal/Numeral-js-master/numeral.js"></script>
 <script>
 $( function() {
 	$('#reference1').autocomplete({
@@ -12,28 +12,18 @@ $( function() {
 	 })
 });
 </script>
-<style>
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
-}
-</style>
 <div class="main">
-	<a href="#" id="folder"><i class="fa fa-folder"></i></a>
-	<a href="#" id="close"><i class="fa fa-close"></i></a>
 	<h2 style='font-family:bebasneue'>Purchase order</h2>
 	<p>Creating new purchase order</p>
 	<hr>
 	<br>
-	<form name="purchaseorder" id="purchaseorder" method="POST" action="createpurchaseorder_validation.php" style="font-family:sans-serif">
+	<form id="purchaseorder" method="POST" action="createpurchaseorder_validation.php" style="font-family:sans-serif">
 		<div class="row">
 			<div class="col-sm-5">
 				<label for="name">Order to</label>
 				<select class="form-control" id="selectsupplier" name="selectsupplier"  onclick="disable()">
 				<option id="kosong" value="">--Please Select a supplier--</option>
 					<?php
-						include("connect.php");
 						$sql = "SELECT id,name,address FROM supplier ORDER BY name";
 						$result = $conn->query($sql);
 						if ($result->num_rows > 0) {
@@ -49,51 +39,104 @@ input[type=number]::-webkit-outer-spin-button {
 				<input class="form-control" id="top" value="30" name="top" style='width:75%;display:inline-block;' required>
 				<span style='width:20%;display:inline-block;'>Days</span>	
 			</div>
+			<style>
+			.form-radio
+			{
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				appearance: none;
+				display: inline-block;
+				position: relative;
+				background-color: #f1f1f1;
+				color: #666;
+				top: 10px;
+				height: 30px;
+				width: 30px;
+				border: 0;
+				border-radius: 50px;
+				cursor: pointer;     
+				margin-right: 7px;
+				outline: none;
+				transition:0.3s all ease;
+			}
+			
+			.form-radio:checked::before{
+				position: absolute;
+				font: 13px/1 'Open Sans', sans-serif;
+				left: 11px;
+				top: 7px;
+				content: '\02143';
+				transform: rotate(40deg);
+				outline:none;
+			}
+			
+			.form-radio:hover{
+				background-color: #ddd;
+			}
+			
+			.form-radio:checked{
+				background-color: #f1f1f1;
+			}
+			
+			.check_box_wrapper label{
+				font: 13px/1.7 'Open Sans', sans-serif;
+				color: #333;
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+				cursor: pointer;
+				padding-right:20px;
+			}
+		</style>
 			<div class="col-sm-5 col-sm-offset-1">
 				<label for="date">Date</label>
 				<input id="today" name="today" type="date" class="form-control" value="<?= date('Y-m-d');?>">
 				<label>Send date</label>
 				<input type='date' class='form-control' name='sent_date' id='sent_date'>
-				<div class="checkbox">
-					<label class="radio-inline"><input type="radio" name="delivery_date" checked value='1'>Insert date</label>
-					<label class="radio-inline"><input type="radio" name="delivery_date" value='2'>Unknown date</label>
-					<label class="radio-inline"><input type="radio" name="delivery_date" value='3'>Urgent delivery</label>
+				<div class='check_box_wrapper'>
+					<input type="radio" name="delivery_date" checked value='1' class='form-radio'><label>Insert date</label>
+					<input type="radio" name="delivery_date" value='2' class='form-radio'><label>Unknown date</label>
+					<input type="radio" name="delivery_date" value='3' class='form-radio'><label>Urgent delivery</label>
 				</div>
 			</div>
 		</div>
+		<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
+		<button type='button' class='button_add_row' id='add_item_button' style='display:inline-block'>Add item</button>
+		<br>
+		<br>
 		<table class='table table-bordered'>
 			<tr>
-				<th>Reference</th>
-				<th>Price</th>
-				<th>Discount</th>
-				<th>Quantity</th>
+				<th style='width:20%'>Reference</th>
+				<th style='width:20%'>Price</th>
+				<th style='width:10%'>Discount</th>
+				<th style='width:10%'>Quantity</th>
 				<th>Net price</th>
 				<th>Total price</th>
 			</tr>
 			<tbody id='purchaseorder_tbody'>
 				<tr id='tr-1'>
-					<td><input id="reference1" class="form-control ref" name="reference1" required></td>
-					<td><input type='text' id="price1" name="price1" class="form-control" required step=".001"></td>
-					<td><input type='number' id="discount1" class="form-control" name="discount1" required step=".001"></td>
-					<td><input type='number' id="quantity1" class="form-control" name="quantity1" required></input></td>
-					<td><input type='number' class="nomor" id="unitprice1" name="unitprice1" readonly step=".001"></input></td>
-					<td><input type='number' class="nomor" id="totalprice1" name="totalprice1" readonly step=".001"></input></td>
+					<td><input id="reference1" class="form-control ref" name="reference[1]"></td>
+					<td><input type='text' id="price1" name="price[1]" class="form-control" step=".001"></td>
+					<td><input type='number' id="discount1" class="form-control" name="discount[1]" step=".001"></td>
+					<td><input type='number' id="quantity1" class="form-control" name="quantity[1]"></input></td>
+					<td id='net_price-1'></td>
+					<td id='total_price-1'></td>
+					<td>
 				</tr>
 			</tbody>
+			<tfoot>
+				<tr>
+					<td style='border:none' colspan='4'></td>
+					<td>Total</td>
+					<td id='total_number'></td>
+					<input type='hidden' id="grand_total" readonly></input>
+				</tr>
 		</table>
-		<hr>
-		<div class="row">
-			<div class="col-sm-2 offset-lg-7">
-				<label for="total">Total</label>
-			</div>
-			<div class="col-sm-2">
-				<input class="nomor" id="total" name="total" readonly></input>
-			</div>
-		</div>
 		<div class='row'>
 			<div class='col-sm-8'>
-				<label class="radio-inline"><input type="radio" name="optradio" checked value='1' onchange='delivery_option()'>Default</label>
-				<label class="radio-inline"><input type="radio" name="optradio" value='2' onchange='delivery_option()'>As dropshiper</label>
+				<div class='check_box_wrapper'>
+					<input type="radio" name="optradio" checked value='1' 	onchange='delivery_option()' class='form-radio'><label>Default</label>
+					<input type="radio" name="optradio" value='2' 			onchange='delivery_option()' class='form-radio'><label>As dropshiper</label>
+				</div>
 				<br><br>
 				<div id='dropshiper_delivery' style='display:none'>
 					<label>Name</label>
@@ -118,19 +161,22 @@ input[type=number]::-webkit-outer-spin-button {
 		</div>
 		<div class='row' style='padding:20px'>
 			<label>Note</label>
-			<textarea class="form-control" rows="5" form="purchaseorder" name='note'></textarea>
+			<textarea class="form-control" rows="5" form="purchaseorder" name='note' style='resize:none'></textarea>
 		</div>
 		<br><br>
 		<div class="row">
 			<div class="col-sm-2">
-				<button type="button" class="btn btn-default" onclick="hitung()" id="calculate">Calculate</button>
+				<button type="button" class="button_default_dark" onclick="hitung()" id="calculate">Calculate</button>
+				<input type='hidden' value='false' id='input_duplicate'>
+				<input type='hidden' value='false' id='input_discount'>
+				<input type='hidden' value='false' id='input_quantity'>
+				<input type='hidden' value='false' id='input_reference'>
 			</div>
 		</div>
 		<div class="row" style="padding-top:20px">
 			<div class="col-sm-6">
-				<button type="button" id="back" class="btn btn-danger" style="display:none">Back</button>
-				<button id="submitbtn" class="btn btn-success" style='display:none'>Submit</button>
-				<input type="hidden" class="form-control" id="jumlah_barang" name="jumlah_barang">
+				<button type='button' class="button_danger_dark" 	id="back" 		style="display:none">Back</button>
+				<button type='button' class="button_success_dark"	id="submitbtn" 	style='display:none'>Submit</button>
 			</div>
 		</div>
 	</form>
@@ -138,21 +184,26 @@ input[type=number]::-webkit-outer-spin-button {
 <script>
 var i;
 var a=2;
-var z;
+
+function evaluate_organic(x){
+	var to_be_evaluated = $('#' + x).val();
+	return eval(to_be_evaluated);
+}
+
 function disable(){
 	document.getElementById("kosong").disabled = true;
 }
-$("#folder").click(function (){	
-	$("#input_list").append(
-	'<div class="row" style="padding-top:10px" id="barisan'+a+'">'+
-	'<div class="col-lg-1">'+a+'</div>'+
-	'<div class="col-lg-2"><input id="reference'+a+'" class="form-control ref" style="width:100%" name="reference'+a+'" required></div>'+
-	'<div class="col-lg-2"><input style="overflow-x:hidden" id="price'+a+'"" class="form-control" style="width:100%" name="price'+a+'" step=".001"></div>'+
-	'<div class="col-lg-1">'+'<input id="discount'+a+'"" class="form-control" style="width:100%" name="discount'+a+'" step=".001"></div>'+
-	'<div class="col-lg-1">'+'<input class="form-control" id="quantity'+a+'"" name="quantity'+a+'"></div>'+
-	'<div class="col-lg-2">'+'<input class="nomor" id="unitprice'+a+'"" name="unitprice'+a+'" readonly step=".001"></div>'+
-	'<div class="col-lg-2">'+'<input class="nomor" id="totalprice'+a+'"" name="totalprice'+a+'" readonly step=".001"></div>'+
-	'</div>').find("input").each(function () {
+$("#add_item_button").click(function (){	
+	$("#purchaseorder_tbody").append(
+	"<tr id='tr-" + a + "'>"+
+	"<td><input id='reference" + a + "' class='form-control' name='reference[" + a + "]'></td>"+
+	"<td><input type='text' id='price" + a + "' class='form-control' name='price[" + a + "]'></td>"+
+	"<td><input type='number' id='discount" + a + "' class='form-control' name='discount[" + a + "]'></td>"+
+	"<td><input type='number' id='quantity" + a + "' class='form-control' name='quantity[" + a + "]'></td>"+
+	"<td id='net_price-" + a + "'></td>"+
+	"<td id='total_price-" + a + "'></td>"+
+	"<td><button type='button' class='button_delete_row' onclick='delete_row(" + a + ")'>X</button></td>"+
+	'</tr>').find("input").each(function () {
 		});
 	$("#reference" + a).autocomplete({
 		source: "../codes/search_item.php"
@@ -160,55 +211,80 @@ $("#folder").click(function (){
 	a++;
 });
 
-$("#close").click(function () {
-	if(a>2){
-	a--;
-	x = 'barisan' + a;
-	$("#"+x).remove();
-	} else {
-		return false;
-	}
-});
-function round(value, precision) {
-    var multiplier = Math.pow(10, precision || 0);
-    return Math.round(value * multiplier) / multiplier;
-}
+function delete_row(n){
+	$('#tr-' + n).remove();
+};
+
 function hitung(){
-	var kosongan = false;
-	var duplicate = false;
-	var failed = false;
-	$('input[id^=reference]').each(function(){
-		var $this = $(this);
-		if ($this.val()===''){ return;};
-		$('input[id^=reference]').not($this).each(function(){
-			if ( $(this).val()==$this.val()) {duplicate=true;}
-		});
-		if ($this.val().trim() == ''){
-			kosongan = true;
-		};
-	});
+	var reference_array = [];
 	var calculated_total = 0;
-	for (z = 1; z < a; z++){
-		var raw_price = document.getElementById('price'+z).value;
-		var calculated_pricelist = eval(raw_price);
-		document.getElementById('price'+z).value = round(calculated_pricelist,2);
+	$('#input_duplicate').val('false');
+	$('#input_discount').val('false');
+	$('#input_quantity').val('false');
+	$('#input_reference').val('false');
+	
+	$('input[id^="reference"]').each(function(){
+		$.ajax({
+			url:"../codes/check_item_availability.php",
+			data:{
+				reference: $(this).val()
+			},
+			success:function(response){
+				if(response == 0){
+					$('#input_reference').val('true');
+				}
+			},
+			type:'POST'
+		});
 		
-		var raw_discount = document.getElementById('discount'+z).value;
-		var discount = raw_discount/100;
-		var netprice = calculated_pricelist * (1-discount);
-		document.getElementById('unitprice'+z).value = round(netprice,2);
-		var qty = document.getElementById('quantity'+z).value;
-		var calculated_totalunitprice = qty * netprice;
-		var calculated_price = round(calculated_totalunitprice,2);
-		document.getElementById('totalprice'+z).value = calculated_price;
-		calculated_total = calculated_total +calculated_price;
+		var reference_value = $(this).val();
+		if (reference_array.indexOf(reference_value) == -1){
+			reference_array.push(reference_value);
+		} else {
+			$('#input_duplicate').val('true');
+		}
+	});
+	
+	$('input[id^="discount"]').each(function(){
+		var discount_value = $(this).val();
+		if (discount_value == '' || discount_value > 100){
+			$('#input_discount').val('true');
+		}
+	});
+	
+	$('input[id^="quantity"]').each(function(){
+		var quantity_value = $(this).val();
+		if (quantity_value == '' || quantity_value <= 0){
+			$('#input_quantity').val('true');
+		}
+	});
+
+	$('input[id^=price]').each(function(){
+		var input_id = $(this).attr('id');
+		var calculated_pricelist = evaluate_organic(input_id);
+		$(this).val(evaluate_organic(input_id));
 		
-	};
-	document.getElementById('total').value = calculated_total;
-	document.getElementById('jumlah_barang').value = z - 1;
+		var uid 		= input_id.substring(5,8);
+		
+		if($('#discount' + uid).val() == ''){
+			var discount = 0;
+		} else {
+			var discount = $('#discount' + uid).val();
+		}
+		
+		var netprice 	= parseFloat(calculated_pricelist * (1 - discount*0.01));
+		var totalprice 	= parseFloat(netprice * $('#quantity' + uid).val());
+		
+		$('#net_price-' + uid).html(numeral(netprice).format('0,0.00'));
+		$('#total_price-' + uid).html(numeral($('#quantity' + uid).val() * netprice).format('0,0.00'));
+		calculated_total = parseFloat(calculated_total + totalprice);
+	});
+	
+	$('#grand_total').val(calculated_total);
+	$('#total_number').html(numeral(calculated_total).format('0,0.00'));
 	if($('#selectsupplier').val() == 0){
 		alert("Please insert a supplier");
-	} else if(isNaN ($('#total').val())){
+	} else if(isNaN ($('#grand_total').val())){
 		alert("Insert correct price");
 		return false;
 	} else if($('input[name=optradio]:checked').val() == 2 && $('#dropship_address').val() == '' && $('#dropship_phone').val() == '' && $('#dropship_name').val() == '' && $('#dropship_city').val() == ''){
@@ -217,38 +293,37 @@ function hitung(){
 	} else if($('input[name=delivery_date]:checked').val() == 1 && ($('#sent_date').val() == '' || $('#today').val() == '')){
 		alert('Please insert date!');
 		return false;
-	} else if(duplicate){
-		alert('May not duplicate input!');
-		return false;
-	} else if(kosongan){
-		alert('There are empty inputs!');
-		return false;
 	} else{
 		$('#submitbtn').show();
 		$('#back').show();
-		$('#dropship_address').attr('readonly',true);
-		$('#dropship_phone').attr('readonly',true);
-		$('#dropship_name').attr('readonly',true);
-		$('#dropship_city').attr('readonly',true);
 		$('#calculate').hide();
 		$('#folder').hide();
 		$('#close').hide();
-		for (z = 1; z < a; z++){
-			$('#quantity'+ z).attr('readonly',true);
-			$('#reference'+ z).attr('readonly',true);
-			$('#price'+ z).attr('readonly',true);
-			$('#discount'+ z).attr('readonly',true);
-		}
+		
+		$('input').attr('readonly',true);
 	}
 };
 
-$("#back").click(function () {
-	for (z = 1; z < a; z++){
-		$('#price'+ z).attr('readonly',false);
-		$('#discount'+ z).attr('readonly',false);
-		$('#quantity'+ z).attr('readonly',false);
-		$('#reference'+ z).attr('readonly',false);
+$('#submitbtn').click(function(){
+	if($('#input_duplicate').val() == 'true'){
+		alert('We found a duplicate reference');
+		$('#back').click();
+	} else if($('#input_quantity').val() == 'true'){
+		alert('Error on quantity');
+		$('#back').click();
+	} else if($('#input_discount').val() == 'true'){
+		alert('Error on discount value');
+		$('#back').click();
+	} else if($('#input_reference').val() == 'true'){
+		alert('One or more reference not found!');
+		$('#back').click();
+	} else {
+		$('#purchaseorder').submit();
 	}
+});
+
+$("#back").click(function () {
+	$('input').attr('readonly',false);
 	$('#submitbtn').hide();
 	$('#back').hide();
 	$('#calculate').show();

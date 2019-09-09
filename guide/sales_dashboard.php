@@ -1,17 +1,6 @@
 <?php
 	include('tutorial_header.php');
 ?>
-<style>
-.box{
-	border:1px solid rgba(255, 79, 66,1);;
-	text-align:center;
-	padding:10px 30px;
-	width:100%;
-	display:inline-block;
-	background-color:rgba(255, 91, 79,0.8);
-	cursor:pointer;
-}
-</style>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Tutorial</h2>
 	<hr>

@@ -32,7 +32,7 @@ $( function() {
 ?>
 		</select>
 		<br>
-		<button type='button' class='btn btn-default' onclick='search_document()'>Search Document</button>
+		<button type='button' class='button_default_dark' onclick='search_document()'>Search Document</button>
 		<br><br>
 		<button type='button' class='btn btn-primary' style='display:none'>Proceed</button>
 		<div id='inputs'></div>

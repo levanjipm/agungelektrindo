@@ -18,109 +18,93 @@
 }
 </style>
 <?php
-	$po_number 	= mysqli_real_escape_string($conn,$_POST['po_number']);
-	$vendor_id 	= mysqli_real_escape_string($conn,$_POST['vendor']);
-	$top 		= mysqli_real_escape_string($conn,$_POST['top']);
-	$date 		= mysqli_real_escape_string($conn,$_POST['po_date']);
-	$tax 		= mysqli_real_escape_string($conn,$_POST['taxing']);
-	$total 		= mysqli_real_escape_string($conn,$_POST['total']);
-	$code_promo = mysqli_real_escape_string($conn,$_POST['code_promo']);
+	$po_number 		= mysqli_real_escape_string($conn,$_POST['po_number']);
+	$vendor_id 		= mysqli_real_escape_string($conn,$_POST['vendor']);
+	$top 			= mysqli_real_escape_string($conn,$_POST['top']);
+	$date 			= mysqli_real_escape_string($conn,$_POST['po_date']);
+	$tax 			= mysqli_real_escape_string($conn,$_POST['taxing']);
+	$code_promo 	= mysqli_real_escape_string($conn,$_POST['code_promo']);
 	$address_choice = mysqli_real_escape_string($conn,$_POST['address_choice']);
 	$delivery_date 	= mysqli_real_escape_string($conn,$_POST['delivery_date']);
-	$sent_date 	= mysqli_real_escape_string($conn,$_POST['sent_date']);
+	$sent_date 		= mysqli_real_escape_string($conn,$_POST['sent_date']);
 	
-	if($address_choice == 1){
-		if($delivery_date == 2){
-			$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,value,taxing,send_date,status,promo_code,created_by) 
-			VALUES ('$po_number','$vendor_id','$date','$top','$total','$tax','','','$code_promo','" . $_SESSION[user_id] . "')";
-		} else if($delivery_date == 3){
-			$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,value,taxing,send_date,status,promo_code,created_by) 
-			VALUES ('$po_number','$vendor_id','$date','$top','$total','$tax','','URGENT','$code_promo','" . $_SESSION[user_id] . "')";
-		} else if($delivery_date == 1){
-			$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,value,taxing,send_date,status,promo_code,created_by) 
-			VALUES ('$po_number','$vendor_id','$date','$top','$total','$tax','$sent_date','','$code_promo','" . $_SESSION[user_id] . "')";
-		}
-	} else if($address_choice == 2){
-		$dropship_name 		= mysqli_real_escape_string($conn,$_POST['dropship_name']);
-		$dropship_address 	= mysqli_real_escape_string($conn,$_POST['dropship_address']);
-		$dropship_city 		= mysqli_real_escape_string($conn,$_POST['dropship_city']);
-		$dropship_phone 	= mysqli_real_escape_string($conn,$_POST['dropship_phone']);
-		if($delivery_date == 2){
-			$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,value,taxing,send_date,status,promo_code,created_by,dropship_name,dropship_address,dropship_city,dropship_phone) 
-			VALUES ('$po_number','$vendor_id','$date','$top','$total','$tax','','','$code_promo','" . $_SESSION[user_id] . "','$dropship_name','$dropship_address','$dropship_city','$dropship_phone')";
-		} else if($delivery_date == 3){
-			$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,value,taxing,send_date,status,promo_code,created_by,dropship_name,dropship_address,dropship_city,dropship_phone) 
-			VALUES ('$po_number','$vendor_id','$date','$top','$total','$tax','','URGENT','$code_promo','" . $_SESSION[user_id] . "','$dropship_name','$dropship_address','$dropship_city','$dropship_phone')";
-		} else if($delivery_date == 1){
-			$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,value,taxing,send_date,status,promo_code,created_by,dropship_name,dropship_address,dropship_city,dropship_phone) 
-			VALUES ('$po_number','$vendor_id','$date','$top','$total','$tax','$sent_date','','$code_promo','" . $_SESSION[user_id] . "','$dropship_name','$dropship_address','$dropship_city','$dropship_phone')";
-		}
-	}
+	$guid			= $_POST['guid'];
 	
-	$result = $conn->query($sql);
+	$sql_check_guid		= "SELECT id FROM code_purchaseorder WHERE guid = '$guid'";
+	$result_check_guid	= $conn->query($sql_check_guid);
 	
-	$x = $_POST['jumlah_barang'];
-	$i = 1;
-	$sql_first= "SELECT id FROM code_purchaseorder WHERE name = '" . $po_number . "'"; 
-	$result = $conn->query($sql_first);	
-	$row = $result->fetch_assoc();
-	$po_id =  $row['id'];
-	
-	for ($i = 1; $i <= $x; $i++){
-		$item = $_POST["item" . $i ];
-		$price = $_POST["price" . $i ];
-		$disc = $_POST["discount" . $i ];
-		$qty = $_POST["quantity" . $i ];
-		$netprice = $_POST["netprice" . $i ];
-		
-		$sql_second = "INSERT INTO purchaseorder (reference,price_list,discount,unitprice,quantity,purchaseorder_id,quantity_received) 
-		VALUES ('$item','$price','$disc','$netprice','$qty','$po_id','0')";
-		$result = $conn->query($sql_second);
-	}
+		if(mysqli_num_rows($result_check_guid) != 0){
+			header('location:purchasing');
+		} else {
+			if($address_choice == 1){
+				if($delivery_date == 2){
+					$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,taxing,send_date,status,promo_code,created_by,guid) 
+					VALUES ('$po_number','$vendor_id','$date','$top','$tax','','','$code_promo','" . $_SESSION['user_id'] . "','$guid')";
+				} else if($delivery_date == 3){
+					$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,taxing,send_date,status,promo_code,created_by,guid) 
+					VALUES ('$po_number','$vendor_id','$date','$top','$tax','','URGENT','$code_promo','" . $_SESSION['user_id'] . "','$guid')";
+				} else if($delivery_date == 1){
+					$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,taxing,send_date,status,promo_code,created_by,guid) 
+					VALUES ('$po_number','$vendor_id','$date','$top','$tax','$sent_date','','$code_promo','" . $_SESSION['user_id'] . "','$guid')";
+				}
+			} else if($address_choice == 2){
+				$dropship_name 		= mysqli_real_escape_string($conn,$_POST['dropship_name']);
+				$dropship_address 	= mysqli_real_escape_string($conn,$_POST['dropship_address']);
+				$dropship_city 		= mysqli_real_escape_string($conn,$_POST['dropship_city']);
+				$dropship_phone 	= mysqli_real_escape_string($conn,$_POST['dropship_phone']);
+				if($delivery_date == 2){
+					$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,taxing,send_date,status,promo_code,created_by,dropship_name,dropship_address,dropship_city,dropship_phone,guid) 
+					VALUES ('$po_number','$vendor_id','$date','$top','$tax','','','$code_promo','" . $_SESSION[user_id] . "','$dropship_name','$dropship_address','$dropship_city','$dropship_phone','$guid')";
+				} else if($delivery_date == 3){
+					$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,taxing,send_date,status,promo_code,created_by,dropship_name,dropship_address,dropship_city,dropship_phone,guid) 
+					VALUES ('$po_number','$vendor_id','$date','$top','$tax','','URGENT','$code_promo','" . $_SESSION[user_id] . "','$dropship_name','$dropship_address','$dropship_city','$dropship_phone','$guid')";
+				} else if($delivery_date == 1){
+					$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,taxing,send_date,status,promo_code,created_by,dropship_name,dropship_address,dropship_city,dropship_phone,guid) 
+					VALUES ('$po_number','$vendor_id','$date','$top','$tax','$sent_date','','$code_promo','" . $_SESSION[user_id] . "','$dropship_name','$dropship_address','$dropship_city','$dropship_phone','$guid')";
+				}
+			}	
+			$conn->query($sql);
+			
+			$sql_first	= "SELECT id FROM code_purchaseorder WHERE name = '" . $po_number . "'"; 
+			$result 	= $conn->query($sql_first);	
+			$row 		= $result->fetch_assoc();
+			$po_id 		=  $row['id'];
+			
+			$reference_array 	= $_POST['reference'];
+			$price_array		= $_POST['price'];
+			$discount_array		= $_POST['discount'];
+			$quantity_array		= $_POST['quantity'];
+			
+			foreach($reference_array as $reference){
+				$key		= key($reference_array);
+				$price		= $price_array[$key];
+				$discount	= $discount_array[$key];
+				$quantity	= $quantity_array[$key];
+				
+				$net_price	= $price * (100 - $discount) * 0.01;
+				
+				$sql = "INSERT INTO purchaseorder (reference,price_list,discount,unitprice,quantity,purchaseorder_id) VALUES
+						('$reference','$price','$discount','$net_price','$quantity','$po_id')";
+				$conn->query($sql);
+				
+				next($reference_array);
+			}
 ?>
 <body>
-<form method="POST" id="po_id" action="createpurchaseorder_print.php" target="_blank">
-	<input type='hidden' name="id" value="<?= $po_id?>">
-</form>
-<!--<div class="loader"></div>
-<div class="row" id="text-holder">
-	<h4 id="text" style="text-align:center">Inputting database</h4>
-</div>-->
+	<form method="POST" id="po_id" action="createpurchaseorder_print.php" target="_blank">
+		<input type='hidden' name="id" value="<?= $po_id?>">
+	</form>
+	<script>
+		$(document).ready(function () {
+			window.setTimeout(function () {
+				$('#po_id').submit();
+
+			}, 125);
+			window.setTimeout("location = ('purchasing.php');",150);
+		});
+	</script>
 </body>
-<style>
-.loader {
-	position:absolute;
-	border: 16px solid #f3f3f3; /* Light grey */
-	border-top: 16px solid #3498db; /* Blue */
-	border-radius: 50%;
-	width: 120px;
-	height: 120px;
-	animation: spin 2s linear infinite;
-	left:50%;
-	top:10%;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-#text-holder {
-	position:absolute;
-	top:40%;
-	left:50%;
-	text-align:center;
-}
-</style>
-<script>
-$(document).ready(function () {
-    window.setTimeout(function () {
-		$('#po_id').submit();
-
-	}, 125);
-	window.setTimeout("location = ('purchasing.php');",150);
-});
-</script>
 <?php
+		}
 	}
 ?>

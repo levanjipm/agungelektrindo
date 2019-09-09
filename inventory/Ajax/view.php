@@ -24,7 +24,7 @@
 ?>
 			<tr>
 				<td><?php
-					$sql_receive = "SELECT reference FROM purchaseorder_received WHERE id = '" . $rows->received_id . "'";
+					$sql_receive = "SELECT reference FROM purchaseorder WHERE id = '" . $rows->received_id . "'";
 					$result_receive = $conn->query($sql_receive);
 					while ($row = $result_receive->fetch_assoc()){
 						echo $row['reference'];

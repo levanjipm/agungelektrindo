@@ -24,7 +24,7 @@
 			<strong>Warning!</strong> Cannot 
 		</div>
 	</div>
-	<h2>Sample</h2>
+	<h2 style='font-family:bebasneue'>Sample</h2>
 	<p>Confirm or cancel sampling</p>
 	<hr>
 	<script>
@@ -32,12 +32,11 @@
 		$('[data-toggle="tooltip"]').tooltip()
 	})
 	</script>
-	<table class='table table-hover'>
+	<table class='table table-bordered'>
 		<tr>
 			<th>Date submited</th>
 			<th>Submited by</th>
 			<th>Customer name</th>
-			<th></th>
 			<th></th>
 		</tr>
 <?php
@@ -59,15 +58,9 @@
 				$customer = $result_customer->fetch_assoc();
 				echo $customer['name'];
 			?></td>
-			<td><?php
-				if($code['isconfirm'] == 1){
-					echo ('Confirmed');
-				} else {
-				}
-			?></td>
 			<td>
-	<button type='button' class='btn btn-default' title="Confirm sample" onclick='confirm(<?= $code['id'] ?>)' <?php if($code['isconfirm'] == 1){ echo 'disabled'; } ?>><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
-				<button type='button' class='btn btn-secondary' title="Cancel sample" onclick='cancel(<?= $code['id'] ?>)'><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button>
+				<button type='button' class='button_default_dark' title="Confirm sample" onclick='confirm(<?= $code['id'] ?>)' <?php if($code['isconfirm'] == 1){ echo 'disabled'; } ?>><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>
+				<button type='button' class='button_danger_dark' title="Cancel sample" onclick='cancel(<?= $code['id'] ?>)'><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button>
 			</td>
 		</tr>
 <?php
@@ -84,7 +77,6 @@
 					echo $item['description'];
 				?></td>
 				<td><?= $detail['quantity'] ?></td>
-				<td></td>
 				<td></td>
 			</tr>
 <?php

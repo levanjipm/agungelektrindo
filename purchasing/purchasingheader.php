@@ -23,37 +23,29 @@
 		$sql_users = "SELECT name,role FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
 		$result_users = $conn->query($sql_users);
 		$row_users = $result_users->fetch_assoc();
-		$user_name = $row_users['name'];
+		$name = $row_users['name'];
 		$role = $row_users['role'];
 ?>
 </head>
 <body>
+<div class='top_navigation_bar'>
+	<div class='col-lg-4 col-md-5 col-sm-6 col-xs-8'>
+		<a href='../human_resource/user_dashboard' style='text-decoration:none;display:inline-block'>
+			<img src='../universal/images/agungelektrindo_header.png' style='height:50px;'>
+		</a>
+	</div>
+	<div class='col-lg-2 col-md-4 col-sm-4 col-xs-4 col-lg-offset-6 col-md-offset-3 col-sm-offset-1 col-xs-offset-0' style='text-align:right'>
+		<h3 style='font-family:Bebasneue'><?= $name ?> 
+			<span style='display:inline-block'>
+				<a href='../codes/logout' style='padding-left:10px;text-decoration:none;color:white;' title='log out'>
+					 <i class="fa fa-sign-out" aria-hidden="true"></i>
+				</a>
+			</span>
+		</h3>
+	</div>
+</div>
 <div class="sidenav">
-	<div class='row'>
-		<div class='col-md-6'>
-			<img src='../human_resource/images/users/users.png' style='width:100%; border-radius:50%'>
-		</div>
-		<div class='col-md-6' style='color:white'>
-			<strong>Welcome</strong>
-			<p><?= $user_name ?></p>
-		</div>
-	</div>				
-	<hr>
-	<style>
-		.btn-badge{
-			background-color:transparent;
-			color:white;
-			width:100%;
-			text-align:left;
-		}
-		.dropdown-container {
-			display: none;
-			background-color: #262626;
-			padding-left: 8px;
-			line-height:2.5;
-		}
-	</style>
-	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-file-o" aria-hidden="true"></i>
 		Purchase Order
 	</button>
@@ -72,7 +64,7 @@
 		<br>
 		<a href='archive_view.php'>PO archives</a>
 	</div>
-	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-briefcase" aria-hidden="true"></i>
 		Supplier
 	</button>
@@ -90,7 +82,7 @@
 	};
 ?>
 	</div>
-	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-list" aria-hidden="true"></i>
 		Item list
 	</button>
@@ -105,7 +97,7 @@
 			<p>Add or edit item list</p>
 		</a>
 	</div>
-	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-undo" aria-hidden="true"></i>
 		Return
 	</button>
@@ -118,22 +110,9 @@
 		</a>
 	</div>
 	<a href='purchasing_report_dashboard.php'>
-		<button class='btn btn-badge' style='text-decoration:none'>
+		<button class='btn-badge' style='text-decoration:none'>
 			<i class="fa fa-flag-checkered" aria-hidden="true"></i>
 			Purchase Report
-		</button>
-	</a>
-	<hr>
-	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
-		<a href='../human_resource/user_dashboard.php' style='color:white;text-decoration:none'>
-			<i class="fa fa-home" aria-hidden="true"></i>
-			Back to home
-		</a>
-	</button>
-	<a href='../codes/logout.php'>
-		<button type='button' class='btn btn-badge' style='color:white'>
-		<i class="fa fa-sign-out" aria-hidden="true"></i>
-		Log Out
 		</button>
 	</a>
 	<hr>

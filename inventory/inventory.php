@@ -1,73 +1,132 @@
 <?php
 	include("inventoryheader.php")
 ?>
+<style>
+
+.box{
+	padding:10px;
+	background-color:#024769;
+	-moz-box-shadow:inset 0 0 5px #01141e;
+	-webkit-box-shadow: inset 0 0 5px #01141e;
+	box-shadow:inset 0 0 5px #01141e;
+	color:white;
+	text-align:center;
+	cursor:pointer;
+}
+
+.bar_wrapper{
+	position:relative;
+	background-color:#fff;
+	width:100%;
+	height:5px;
+}
+
+.bar{
+	position:absolute;
+	top:0;
+	height:100%;
+	background-color:#aaa;
+	transition:0.5s all ease;
+}
+</style>
 <div class='main'>
 	<div class='row'>
-		<div class='col-md-4 col-sm-4'>
-			<div class='row box_notif'>
-				<div class='col-md-5' style='background-color:#95a5a6;padding-top:20px'>
-					<button class='btn' type='button' style='background-color:transparent' onclick='toggle_delivery()'>
-						<img src='../universal/images/truck.png' style='width:100%'>
-					</button>
+		<div class='col-sm-3 col-xs-4' style='padding:20px;padding-top:0'>
+			<a href='#' style='text-decoration:none;color:#333;'>
+				<div class='row'>
+					<div class='col-sm-12 box'>
+					<?php
+						$sql_pending_po = "SELECT COUNT(DISTINCT(purchaseorder_id)) AS incomplete_po FROM purchaseorder WHERE status = '0'";
+						$result_pending_po = $conn->query($sql_pending_po);
+						$row_pending_po = $result_pending_po->fetch_assoc();
+						
+						if($row_pending_po['incomplete_po'] > 50){
+							$bar_width = 50;
+						} else {
+							$bar_width = $row_pending_po['incomplete_po'];
+						}
+						
+						echo ('<h1>' . $row_pending_po['incomplete_po'] . '</h1>');
+						echo ('<h3>Pending PO</h3>');
+					?>
+						<div class='bar_wrapper'>
+							<div class='bar' id='pending_purchaseorder_bar'></div>
+						</div>
+					</div>
 				</div>
-				<div class='col-md-7'>
-				<?php
-					$sql_calendar = "SELECT COUNT(*) AS delivery FROM code_delivery_order WHERE date = '" . date('Y-m-d') . "' AND sent = '0'";
-					$result_calendar = $conn->query($sql_calendar);
-					$row = $result_calendar->fetch_assoc();
-					echo ('<h1>' . $row['delivery'] . '</h1>');
-					echo ('<h3>Delivery is on Process</h3>');
-				?>
-				</div>
-			</div>
+			</a>
 		</div>
-		<div class='col-md-4 col-sm-4'>
-			<div class='row box_notif'>
-				<div class='col-md-5' style='background-color:#34495e;padding-top:20px'>
-					<button class='btn' type='button' style='background-color:transparent' onclick='toggle_pending_po()'>
-						<img src='../universal/images/po.png' style='width:100%'>
-					</button>
+		<script>
+			$(document).ready(function(){
+				$('#pending_purchaseorder_bar').animate({
+					width: "<?= max(40, (2 * $bar_width)) ?>%"
+				},300)
+			})
+		</script>
+		<div class='col-sm-3 col-xs-4' style='padding:20px;padding-top:0'>
+			<a href='#' style='text-decoration:none;color:#333;'>
+				<div class='row'>
+					<div class='col-sm-12 box'>
+					<?php
+						$sql_calendar = "SELECT COUNT(*) AS delivery FROM code_delivery_order WHERE date = '" . date('Y-m-d') . "' AND sent = '0'";
+						$result_calendar = $conn->query($sql_calendar);
+						$row = $result_calendar->fetch_assoc();
+					
+						if($row['delivery'] > 20){
+							$bar_width = 20;
+						} else {
+							$bar_width = $row['delivery'];
+						}
+						
+						echo ('<h1>' . $row['delivery'] . '</h1>');
+						echo ('<h3>Delivery on process</h3>');
+					?>
+						<div class='bar_wrapper'>
+							<div class='bar' id='delivery_bar'></div>
+						</div>
+					</div>
 				</div>
-				<div class='col-md-7'>
-				<?php
-					$sql_pending_po = "SELECT COUNT(DISTINCT(purchaseorder_id)) AS po_id FROM purchaseorder_received WHERE status = '0'";
-					$result_pending_po = $conn->query($sql_pending_po);
-					$row_pending_po = $result_pending_po->fetch_assoc();
-					echo ('<h1>' . $row_pending_po['po_id'] . '</h1>');
-					echo ('<h3>Pending Purchase Order</h3>');
-				?>
-				</div>
-			</div>
+			</a>
 		</div>
-		<div class='col-md-4 col-sm-4'>
-			<div class='row box_notif'>
-				<div class='col-md-5' style='background-color:#2c3e50;padding-top:20px'>
-					<button class='btn' type='button' style='background-color:transparent' onclick='toggle_pending_so()'>
-						<img src='../universal/images/so.png' style='width:100%'>
-					</button>
+		<script>
+			$(document).ready(function(){
+				$('#delivery_bar').animate({
+					width: "<?= max(30, (5 * $bar_width)) ?>%"
+				},300)
+			})
+		</script>
+		<div class='col-sm-3 col-xs-4' style='padding:20px;padding-top:0'>
+			<a href='#' style='text-decoration:none;color:#333;'>
+				<div class='row'>
+					<div class='col-sm-12 box'>
+					<?php
+						$sql_pending_so = "SELECT COUNT(DISTINCT(so_id)) AS jumlah_so FROM sales_order_sent WHERE status = '0'";
+						$result_pending_so = $conn->query($sql_pending_so);
+						$row_pending_so = $result_pending_so->fetch_assoc();					
+						if($row_pending_so['jumlah_so'] > 50){
+							$bar_width = 50;
+						} else {
+							$bar_width = $row_pending_so['jumlah_so'];
+						}
+						
+						echo ('<h1>' . $row_pending_so['jumlah_so'] . '</h1>');
+						echo ('<h3>Delivery on process</h3>');
+					?>
+						<div class='bar_wrapper'>
+							<div class='bar' id='pending_so_bar'></div>
+						</div>
+					</div>
 				</div>
-				<div class='col-md-7'>
-				<?php
-					$sql_pending_so = "SELECT COUNT(DISTINCT(so_id)) AS jumlah_so FROM sales_order_sent WHERE status = '0'";
-					$result_pending_so = $conn->query($sql_pending_so);
-					$row_pending_so = $result_pending_so->fetch_assoc();
-					echo ('<h1>' . $row_pending_so['jumlah_so'] . '</h1>');
-					echo ('<h3>Pending Sales Order</h3>');
-				?>
-				</div>
-			</div>
+			</a>
 		</div>
+		<script>
+			$(document).ready(function(){
+				$('#pending_so_bar').animate({
+					width: "<?= max(30, (2 * $bar_width)) ?>%"
+				},300)
+			})
+		</script>
 	</div>
-	<script>
-		function toggle_pending_po(){
-			$('#pending_so').fadeOut();
-			$('#pending_po').fadeIn();
-		}
-		function toggle_pending_so(){
-			$('#pending_so').fadeIn();
-			$('#pending_po').fadeOut();
-		}
-	</script>
 	<hr>
 	<div class='row' id='pending_po' style='display:none'>
 		<h2>Pending purchase order</h2>

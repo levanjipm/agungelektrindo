@@ -46,6 +46,9 @@ Sales Department
 	</div>
 </div>
 <div class="sidenav">
+	<button type='button' class='btn-badge' style='text-align:right' id='hide_side_button'>
+		<i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i>
+	</button>
 	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-id-badge" aria-hidden="true"></i>
 		Quotations
@@ -157,8 +160,8 @@ Sales Department
 	if($hpp == 1){
 ?>
 	<a href="check_hpp_dashboard">
-		<button type='button' class='btn btn-badge'>
-			<i class="fa fa-money" aria-hidden="true"></i>Check value
+		<button type='button' class='btn-badge'>
+			<i class="fa fa-money" aria-hidden="true"></i> Check value
 		</button>
 	</a>
 <?php
@@ -174,6 +177,12 @@ Sales Department
 		header('location:../landing_page');
 	}
 ?>
+<style>
+	
+</style>
+<button type='button' class='btn-show' id='show_side_button' title='Show side navigation bar'>
+	<i class="fa fa-chevron-right" aria-hidden="true"></i><i class="fa fa-chevron-right" aria-hidden="true"></i>
+</button>
 <script>
 $('.dropdown-btn').click(function(){
 	if($(this).next().is(':visible')){
@@ -182,5 +191,21 @@ $('.dropdown-btn').click(function(){
 		$(this).css('color','#00ccff');
 	}
 	$(this).next().toggle(350);
+});
+
+$('#hide_side_button').click(function(){
+	$('.sidenav').toggle(200);
+	$('#show_side_button').fadeIn();
+	$('.main').animate({
+		'margin-left':'0px'
+	},200);
+});
+
+$('#show_side_button').click(function(){
+	$('.main').animate({
+		'margin-left':'200px'
+	},200);
+	$('.sidenav').toggle(200);
+	$('#show_side_button').hide();
 });
 </script>

@@ -17,10 +17,10 @@
 	}
 	$sql_user = "SELECT name, role FROM users WHERE id = " . $_SESSION['user_id'];
 	$result_user = $conn->query($sql_user);
-	while($row_user = $result_user->fetch_assoc()){
-		$role = $row_user['role'];
-		$user_name = $row_user['name'];
-	};
+	$row_user = $result_user->fetch_assoc();
+	$role = $row_user['role'];
+	$name = $row_user['name'];
+	
 	if(mysqli_num_rows($result_user) == 0){
 		header('location:../landing_page.php');
 	}
@@ -31,43 +31,28 @@
 	}
 ?>
 <body>
-<div class="sidenav">
-		<div class='row'>
-			<div class='col-sm-12 col-md-6'>
-				<img src='images/users/users.png' style='width:100%; border-radius:50%'>
-			</div>
-			<div class='col-sm-12 col-md-6' style='color:white'>
-				<strong>Welcome</strong>
-				<p><?= $user_name ?></p>
-			</div>
-		</div>				
-		<hr>
-		<style>
-			.btn-badge{
-				background-color:transparent;
-				color:white;
-				width:100%;
-				text-align:left;
-			}
-			.dropdown-container {
-				display: none;
-				background-color: #262626;
-				padding-left: 8px;
-			}
-		</style>
-	<script>
-		function show_menu_user(){
-			$('.dropdown-content').show();
-		}
-		function close_menu_user(){
-			$('.dropdown-content').hide();
-		}
-	</script>
-	<button class="btn btn-badge dropdown-btn" style='color:white'>
+<div class='top_navigation_bar'>
+	<div class='col-lg-4 col-md-5 col-sm-6 col-xs-8'>
+		<a href='../human_resource/user_dashboard' style='text-decoration:none'>
+			<img src='../universal/images/agungelektrindo_header.png' style='height:50px;'>
+		</a>
+	</div>
+	<div class='col-lg-2 col-md-3 col-sm-4 col-xs-4 col-lg-offset-6 col-md-offset-4 col-sm-offset-2 col-xs-offset-0' style='text-align:right'>
+		<h3 style='font-family:Bebasneue'><?= $name ?> 
+			<span style='display:inline-block'>
+				<a href='../codes/logout' style='padding-left:10px;text-decoration:none;color:white;' title='log out'>
+					 <i class="fa fa-sign-out" aria-hidden="true"></i>
+				</a>
+			</span>
+		</h3>
+	</div>
+</div>
+<div class="sidenav">			
+	<button class="btn-badge dropdown-btn" style='color:white'>
 		<i class="fa fa-users" aria-hidden="true"></i>
 		Manage users
 	</button>
-	<div class="dropdown-content">
+	<div class="dropdown-container">
 		<a href="add_user.php">
 			<p>Add a user</p>
 		</a>
@@ -79,20 +64,8 @@
 		</a>
 	</div>
 	<a href="create_salary_slip_dashboard.php">
-		<button class='btn btn-badge' style='color:white;pointer:cursor'>
-			Create salary slip
-		</button>
-	</a><hr>
-	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
-		<a href='../human_resource/user_dashboard.php' style='color:white;text-decoration:none'>
-			<i class="fa fa-home" aria-hidden="true"></i>
-			Back to home
-		</a>
-	</button>
-	<a href='../codes/logout.php'>
-		<button type='button' class='btn btn-badge' style='color:white'>
-		<i class="fa fa-sign-out" aria-hidden="true"></i>
-		Log Out
+		<button class='btn-badge' style='color:white;pointer:cursor'>
+			Salary slip
 		</button>
 	</a>
 	<hr>
@@ -100,13 +73,13 @@
 		<i class="fa fa-eercast" aria-hidden="true"></i>Human Resource Department
 	</a>
 </div>
-<script>
-$('.dropdown-btn').click(function(){
-	if($(this).next().is(':visible')){
-		$(this).css('color','white');
-	} else {
-		$(this).css('color','#00ccff');
-	}
-	$(this).next().toggle(350);
-});
-</script>
+	<script>
+	$('.dropdown-btn').click(function(){
+		if($(this).next().is(':visible')){
+			$(this).css('color','white');
+		} else {
+			$(this).css('color','#00ccff');
+		}
+		$(this).next().toggle(350);
+	});
+	</script>

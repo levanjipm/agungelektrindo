@@ -1,29 +1,12 @@
 <?php	
 	include('salesheader.php');
-	for($i = 1; $i <= 3; $i++){
-		if($_POST['reference1'] == '' || $_POST['quantity1'] == '' || $_POST['quantity1'] == 0){
-?>
-		<script>
-			window.history.back();
-		</script>			
-<?php
-		}
-		if($_POST['reference' . $i] != ''){
-			$sql_check = "SELECT COUNT(id) AS jumlah FROM itemlist WHERE reference = '" . $_POST['reference' . $i] . "'";
-			$result_check = $conn->query($sql_check);
-			$check = $result_check->fetch_assoc();
-			if($check['jumlah'] == 0){
-				break;
-?>
-		<script>
-			window.history.back();
-		</script>	
-<?php
-			}
-		}
-	}
+	$reference_array	= $_POST['reference'];
+	$quantity_array		= $_POST['quantity'];
 ?>
 <div class='main'>
+	<h2 style='font-family:bebasneue'>Sampling</h2>
+	<p>Add sampling</p>
+	<hr>
 	<h2><?php 
 		$sql_customer = "SELECT name,address FROM customer WHERE id = '" . $_POST['customer'] . "'";
 		$result_customer = $conn->query($sql_customer);
@@ -31,10 +14,9 @@
 		echo $customer['name']
 	?></h2>
 	<p><?= $customer['address'] ?></p>
-	<hr>
 	<form action='add_sampling_input.php' method='POST' id='submit_form'>
 	<input type='hidden' value='<?= $_POST['customer'] ?>' name='customer' readonly>
-		<table class='table table-hover'>
+		<table class='table table-bordered'>
 			<tr>
 				<th>No.</th>
 				<th>Reference</th>
@@ -42,41 +24,37 @@
 				<th>Quantity</th>
 			</tr>
 <?php
-	for($i = 1; $i <= 3; $i++){
-		if($_POST['reference' . $i] == ''){
-?>
-			<tr style='display:none'>
-<?Php
-		} else {
+		$i = 1;
+		foreach($reference_array as $reference){
+			$key		= key($reference_array);
+			$quantity	= $quantity_array[$key];
 ?>
 			<tr>
-<?php
-		}
-?>
-		
 				<td><?= $i ?></td>
 				<td>
-					<?= $_POST['reference' . $i ] ?>
-					<input type='hidden' value='<?= $_POST['reference' . $i ] ?>' name='reference<?= $i ?>' readonly>
+					<?= $reference ?>
+					<input type='hidden' value='<?= mysqli_real_escape_string($conn,$reference) ?>' name='reference[<?= $i ?>]' readonly>
 				</td>
 				<td><?php
-					$sql_item = "SELECT description FROM itemlist WHERE reference = '" . $_POST['reference' . $i] . "'";
+					$sql_item = "SELECT description FROM itemlist WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "'";
 					$result_item = $conn->query($sql_item);
 					$item = $result_item->fetch_assoc();
 					echo $item['description'];
 				?></td>
 				<td>
-					<?= $_POST['quantity' . $i ] ?>
-					<input type='hidden' value='<?= $_POST['quantity' . $i ] ?>' name='quantity<?= $i ?>' readonly'>
+					<?= $quantity ?>
+					<input type='hidden' value='<?= $quantity ?>' name='quantity[<?= $i ?>]' readonly'>
 				</td>
 			</tr>
 <?php
-	}
+			$i++;
+			next($reference_array);
+		}
 ?>
 		</table>
 	</form>
 	<hr>
-	<button type='button' class='btn btn-default' onclick='submiting()'>
+	<button type='button' class='button_default_dark' onclick='submiting()'>
 		Submit
 	</button>
 	<script>

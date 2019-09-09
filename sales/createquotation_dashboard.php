@@ -13,161 +13,157 @@ $( function() {
 });
 </script>
 <div class="main">
-	<div class='col-sm-12'>
-		<h2 style='font-family:bebasneue'>Quotation</h2>
-		<h4 style="color:#444">Create new quotation</h4>
+	<h2 style='font-family:bebasneue'>Quotation</h2>
+	<h4 style="color:#444">Create new quotation</h4>
+	<hr>
+	<form name="quotation" id="quotation" class="form" method="POST" action="createquotation_validation.php">
+		<div class="row">
+			<div class="col-sm-6">
+				<label for="name">Quote to:</label>
+				<select class="form-control" id="quote_person" name="quote_person"  onclick="disable()">
+				<option id="kosong" value="0">Please Select a customer--</option>
+					<?php
+						$sql = "SELECT id,name,address FROM customer ORDER BY name ASC";
+						$result = $conn->query($sql);
+						if ($result->num_rows > 0) {
+							while($row = mysqli_fetch_array($result)) {
+							echo '<option id="pilih" value="' . $row["id"] . '">'. $row["name"].'</option> ';
+							}
+						} else {
+							echo "0 results";
+						}
+					?>
+				</select>
+			</div>
+			<div class="col-sm-2 offset-sm-2">
+				<label for="date">Date</label>
+				<input id="today" type="date" class="form-control" value="<?php echo date('Y-m-d');?>" name="quotation_date">
+			</div>
+		</div>
+		<br>
+		<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
+		<button type='button' class='button_add_row' id='add_item_button' style='display:inline-block'>Add item</button>
+		<br>
+		<br>
+		<table class='table table-bordered'>
+			<tr>
+				<th style='width:25%'>Reference</th>
+				<th style='width:20%'>Price (Rp.)</th>
+				<th style='width:10%'>Discount</th>
+				<th style='width:15%'>Quantity</th>
+				<th style='width:20%'>Net Price (Rp.)</th>
+				<th style='width:20%'>Total Price (Rp.)</th>
+			</tr>
+			<tbody id='quotation_detail'>
+				<tr id='tr-1'>
+					<td><input type='text' class='form-control' name='reference[1]' id='reference1'></td>
+					<td><input type='text' class='form-control' name='price[1]' id='price1' step='0.01'></td>
+					<td><input type='text' class='form-control' name='discount[1]' id='discount1'></td>
+					<td><input type='text' class='form-control' name='quantity[1]' id='quantity1'></td>
+					<td id='unitprice1'></td>
+					<td id='totalprice1'></td>
+					<td></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan='3'></td>
+					<td>Total</td>
+					<td colspan='2' style='width:40%'><input class="nomor" id="total" name="total" readonly></td>
+				</tr>
+				<tr>
+					<td colspan='3'></td>
+					<td>Ad. Discount</td>
+					<td colspan='2' style='width:40%'><input type='number' class="form-control" id="add_discount" name="add_discount" step='0.001'></td>
+				</tr>
+		</table>
 		<hr>
-		<form name="quotation" id="quotation" class="form" method="POST" action="createquotation_validation.php">
+		<button type='button' class='hide_note_button' id='toggle_note_button'>Toggle note</button>
+		<br><br>
+		<script>
+			$('#toggle_note_button').click(function(){
+				$('#note_wrapper').toggle(300);
+			});
+		</script>
+		<div id='note_wrapper'>
+			<h3><b>Note</b></h3>
 			<div class="row">
 				<div class="col-sm-6">
-					<label for="name">Quote to:</label>
-					<select class="form-control" id="quote_person" name="quote_person"  onclick="disable()">
-					<option id="kosong" value="0">Please Select a customer--</option>
-						<?php
-							include("connect.php");
-							$sql = "SELECT id,name,address FROM customer ORDER BY name ASC";
-							$result = $conn->query($sql);
-							if ($result->num_rows > 0) {
-								while($row = mysqli_fetch_array($result)) {
-								echo '<option id="pilih" value="' . $row["id"] . '">'. $row["name"].'</option> ';
-								}
-							} else {
-								echo "0 results";
+					<p><b>1. Payment term</b></p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<select id="terms" name="terms" class="form-control" style="width:100%" onchange="payment_js()" onclick="disable_two()">
+					<option value='0' id="kosongan">--Please select payment terms--</option>
+					<?php
+						include("connect.php");
+						$sql_payment = "SELECT * FROM payment";
+						$result = $conn->query($sql_payment);
+						if ($result->num_rows > 0) {
+							while($rows = mysqli_fetch_array($result)) {
+							echo '<option value="' . $rows["id"] . '">'. $rows["payment_term"].'</option> ';
 							}
-						?>
+						} else {
+							echo "0 results";
+						}
+					?>
 					</select>
 				</div>
-				<div class="col-sm-2 offset-sm-2">
-					<label for="date">Date</label>
-					<input id="today" type="date" class="form-control" value="<?php echo date('Y-m-d');?>" name="quotation_date">
-				</div>
 			</div>
-			<br>
-			<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
-			<button type='button' class='button_add_row' id='add_item_button' style='display:inline-block'>Add item</button>
-			<br>
-			<br>
-			<table class='table table-bordered'>
-				<tr>
-					<th style='width:25%'>Reference</th>
-					<th style='width:20%'>Price (Rp.)</th>
-					<th style='width:10%'>Discount</th>
-					<th style='width:15%'>Quantity</th>
-					<th style='width:20%'>Net Price (Rp.)</th>
-					<th style='width:20%'>Total Price (Rp.)</th>
-				</tr>
-				<tbody id='quotation_detail'>
-					<tr id='tr-1'>
-						<td><input type='text' class='form-control' name='reference[1]' id='reference1'></td>
-						<td><input type='text' class='form-control' name='price[1]' id='price1' step='0.01'></td>
-						<td><input type='text' class='form-control' name='discount[1]' id='discount1'></td>
-						<td><input type='text' class='form-control' name='quantity[1]' id='quantity1'></td>
-						<td><input type='text' class='nomor' id='unitprice1'></td>
-						<td><input type='text' class='nomor' id='totalprice1'></td>
-						<td></td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan='3'></td>
-						<td>Total</td>
-						<td colspan='2' style='width:40%'><input class="nomor" id="total" name="total" readonly></td>
-					</tr>
-					<tr>
-						<td colspan='3'></td>
-						<td>Ad. Discount</td>
-						<td colspan='2' style='width:40%'><input type='number' class="form-control" id="add_discount" name="add_discount" step='0.001'></td>
-					</tr>
-			</table>
-			<hr>
-			<button type='button' class='hide_note_button' id='toggle_note_button'>Toggle note</button>
-			<br><br>
-			<script>
-				$('#toggle_note_button').click(function(){
-					$('#note_wrapper').toggle(300);
-				});
-			</script>
-			<div id='note_wrapper'>
-				<h3><b>Note</b></h3>
-				<div class="row">
-					<div class="col-sm-6">
-						<p><b>1. Payment term</b></p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-6">
-						<select id="terms" name="terms" class="form-control" style="width:100%" onchange="payment_js()" onclick="disable_two()">
-						<option value='0' id="kosongan">--Please select payment terms--</option>
-						<?php
-							include("connect.php");
-							$sql_payment = "SELECT * FROM payment";
-							$result = $conn->query($sql_payment);
-							if ($result->num_rows > 0) {
-								while($rows = mysqli_fetch_array($result)) {
-								echo '<option value="' . $rows["id"] . '">'. $rows["payment_term"].'</option> ';
-								}
-							} else {
-								echo "0 results";
-							}
-						?>
-						</select>
-					</div>
-				</div>
-				<input type='hidden' id='check_available_input' value='true'>
-				<div class="row" style="padding:5px">
+			<input type='hidden' id='check_available_input' value='true'>
+			<div class="row" style="padding:5px">
+				<div class="col-sm-6" style="padding:5px">
 					<div class="col-sm-6" style="padding:5px">
-						<div class="col-sm-6" style="padding:5px">
-							<div class="form-group">
-								<div class="input-group">
-									<input class="form-control" id="dp" name="dp" readonly maxlength='2'>
-									<span class="input-group-addon" style="font-size:12px">%</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-6" style="padding:5px">
-							<div class="form-group">
-								<div class="input-group">
-									<input class="form-control" id="lunas" name="lunas" readonly maxlength='2'>
-									<span class="input-group-addon" style="font-size:12px">days</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-6">
-						<p><b>2. </b>Prices and availability are subject to change at any time without prior notice.</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-6">
-						<p><b>3. </b>Prices mentioned above are tax-included.</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-6">
 						<div class="form-group">
-							<textarea class="form-control" name="comment" rows="3" form="quotation" style='resize:none'></textarea>
+							<div class="input-group">
+								<input class="form-control" id="dp" name="dp" readonly maxlength='2'>
+								<span class="input-group-addon" style="font-size:12px">%</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6" style="padding:5px">
+						<div class="form-group">
+							<div class="input-group">
+								<input class="form-control" id="lunas" name="lunas" readonly maxlength='2'>
+								<span class="input-group-addon" style="font-size:12px">days</span>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-2">
-					<button type="button" class="button_confirm" onclick="hitung()" id="calculate">Calculate</button>
+				<div class="col-sm-6">
+					<p><b>2. </b>Prices and availability are subject to change at any time without prior notice.</p>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-2">
-					<button type="button" id='button_validate' class="btn btn-success" style="display:none" onclick='validate()'>Submit</button>
-				</div>
-				<div class="col-sm-2">
-					<button type="button" id="back" class="btn btn-primary" style="display:none">Back</button>
+				<div class="col-sm-6">
+					<p><b>3. </b>Prices mentioned above are tax-included.</p>
 				</div>
 			</div>
-		</form>
-	</div>
-	<div class='col-sm-1'></div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<textarea class="form-control" name="comment" rows="3" form="quotation" style='resize:none'></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-2">
+				<button type="button" class="button_confirm" onclick="hitung()" id="calculate">Calculate</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-2">
+				<button type="button" id='button_validate' class="btn btn-success" style="display:none" onclick='validate()'>Submit</button>
+			</div>
+			<div class="col-sm-2">
+				<button type="button" id="back" class="btn btn-primary" style="display:none">Back</button>
+			</div>
+		</div>
+	</form>
 </div>
 <script>
 var a = 2;
@@ -197,7 +193,6 @@ function hitung(){
 					alert('Reference not found');
 					$('#check_available_input').val('false');
 					return false;
-				} else {
 				}
 			},
 		})
@@ -233,8 +228,8 @@ function hitung(){
 			var netprice 	= parseFloat(calculated_pricelist * (1 - discount*0.01));
 			var totalprice 	= parseFloat(netprice * $('#quantity' + uid).val());
 			
-			$('#unitprice' + uid).val(numeral(netprice).format('0,0.00'));
-			$('#totalprice' + uid).val(numeral($('#quantity' + uid).val() * netprice,2).format('0,0.00'));
+			$('#unitprice' + uid).html(numeral(netprice).format('0,0.00'));
+			$('#totalprice' + uid).html(numeral($('#quantity' + uid).val() * netprice,2).format('0,0.00'));
 			calculated_total = parseFloat(calculated_total + totalprice);
 		});
 		$('#total').val(numeral(calculated_total).format('0,0.00'));
@@ -310,14 +305,14 @@ function payment_js(){
 	}
 	$("#add_item_button").click(function (){	
 		$("#quotation_detail").append(
-		"<tr id='tr-" + a + "'>"+
-		"<td><input type='text' class='form-control' name='reference[" + a + "]' id='reference" + a + "'></td>"+
-		"<td><input type='text' class='form-control' name='price[" + a + "]' id='price" + a + "' step='0.01'></td>"+
-		"<td><input type='text' class='form-control' name='discount[" + a + "]' id='discount" + a + "'></td>"+
-		"<td><input type='text' class='form-control' name='quantity[" + a + "]' id='quantity" + a + "'></td>"+
-		"<td><input type='text' class='nomor' id='unitprice" + a + "'></td>"+
-		"<td><input type='text' class='nomor' id='totalprice" + a + "'></td>"+
-		"<td><button type='button' class='button_delete_row' onclick='delete_row(" + a + ")'>X</button></td></tr>").find("input").each(function () {
+			"<tr id='tr-" + a + "'>"+
+			"<td><input type='text' class='form-control' name='reference[" + a + "]' id='reference" + a + "'></td>"+
+			"<td><input type='text' class='form-control' name='price[" + a + "]' id='price" + a + "' step='0.01'></td>"+
+			"<td><input type='text' class='form-control' name='discount[" + a + "]' id='discount" + a + "'></td>"+
+			"<td><input type='text' class='form-control' name='quantity[" + a + "]' id='quantity" + a + "'></td>"+
+			"<td id='unitprice" + a + "'></td>"+
+			"<td id='totalprice" + a + "'></td>"+
+			"<td><button type='button' class='button_delete_row' onclick='delete_row(" + a + ")'>X</button></td></tr>").find("input").each(function () {
 			});
 		$("#reference" + a).autocomplete({
 			source: "../codes/search_item.php"
@@ -328,8 +323,4 @@ function payment_js(){
 	function delete_row(n){
 		$('#tr-' + n).remove();
 	};
-	function round(value, precision) {
-		var multiplier = Math.pow(10, precision || 0);
-		return Math.round(value * multiplier) / multiplier;
-	}
 </script>

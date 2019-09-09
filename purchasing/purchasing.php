@@ -3,35 +3,42 @@
 ?>
 <div class='main'>
 	<div class='row row-eq-height'>
-		<div class='col-sm-4'>
-			<a href='view_incomplete_po.php' style='text-decoration:none'>
-				<div class='row box_notif'>
-					<div class='col-md-4' style='background-color:#34495e;padding-top:20px'>
-						<button class='btn' type='button' style='background-color:transparent' onclick='toggle_pending_po()'>
-							<img src='../universal/images/po.png' style='width:100%'>
-						</button>
-					</div>
-					<div class='col-sm-8'>
+		<div class='col-sm-3 col-xs-4' style='padding:20px;padding-top:0'>
+			<a href='view_incomplete_po.php' style='text-decoration:none;color:#333;'>
+				<div class='row'>
+					<div class='col-sm-12 box'>
 					<?php
-						$sql_pending_po = "SELECT COUNT(DISTINCT(purchaseorder_id)) AS po_id FROM purchaseorder_received WHERE status = '0'";
+						$sql_pending_po = "SELECT COUNT(DISTINCT(purchaseorder_id)) AS incomplete_po FROM purchaseorder_received WHERE status = '0'";
 						$result_pending_po = $conn->query($sql_pending_po);
 						$row_pending_po = $result_pending_po->fetch_assoc();
-						echo ('<h1>' . $row_pending_po['po_id'] . '</h1>');
+						
+						if($row_pending_po['incomplete_po'] > 50){
+							$bar_width = 50;
+						} else {
+							$bar_width = $row_pending_po['incomplete_po'];
+						}
+						
+						echo ('<h1>' . $row_pending_po['incomplete_po'] . '</h1>');
 						echo ('<h3>Pending Purchase Order</h3>');
 					?>
+						<div class='bar_wrapper'>
+							<div class='bar' id='pending_purchaseorder_bar'></div>
+						</div>
 					</div>
 				</div>
 			</a>
 		</div>
-		<div class='col-sm-4'>
-			<div class='row box_notif'>
-				<div class='col-sm-4' style='background-color:#56706f;padding-top:20px'>
-					<button class='btn' type='button' style='background-color:transparent' onclick='toggle_pending_so()'>
-						<img src='../universal/images/pending.png' style='width:100%'>
-					</button>
-				</div>
-				<div class='col-md-8'>
-				<?php
+		<script>
+			$(document).ready(function(){
+				$('#pending_purchaseorder_bar').animate({
+					width: "<?= max(40, (2 * $bar_width)) ?>%"
+				},300)
+			})
+		</script>
+		<div class='col-sm-3 col-xs-4' style='padding:20px;padding-top:0'>
+			<div class='row'>
+				<div class='col-xs-12 box' id='sales_order_view_button'>
+<?php
 					$point = 0;
 					$sql_pending_so = "SELECT * FROM sales_order_sent WHERE status = '0'";
 					$result_pending_so = $conn->query($sql_pending_so);
@@ -51,29 +58,44 @@
 						} else {
 							$point++;
 						}
+						
+						
+						if($point > 100){
+							$bar_width = 50;
+						} else {
+							$bar_width = $point;
+						}
 					}
 					echo ('<h1>' . $point . '</h1>');
 					echo ('<h3>Items need to be bought</h3>');
-				?>
+?>			
+					<div class='bar_wrapper'>
+						<div class='bar' id='pending_sales_order_bar'></div>
+					</div>
 				</div>
 			</div>
 		</div>
+		<script>
+			$(document).ready(function(){
+				$('#pending_sales_order_bar').animate({
+					width: "<?= max(20, ($bar_width)) ?>%"
+				},300)
+			})
+			$('#sales_order_view_button').click(function(){
+				$('#pending_so').fadeIn();
+				$('#pending_po').fadeOut();
+			});
+		</script>
 	</div>
-	<script>
-		function toggle_pending_so(){
-			$('#pending_so').fadeIn();
-			$('#pending_po').fadeOut();
-		}
-	</script>
-	<hr>
 	<div class='row' id='pending_so' style='display:none'>
-		<h2>Pending items</h2>
-		<table class="table">
-			<tr style='background-color:#333;color:white;font-family:Verdana'>
-				<th style="width:20%;font-size:1em">Reference</th>
-				<th style="width:30%;font-size:1em">Quantity needs to be ordered</th>
-			</tr>
-			<form method='POST' action='createpurchaseorder_dashboard_list.php'>
+		<div class='col-xs-12'>
+			<h2 style='font-family:bebasneue'>Pending items</h2>
+			<table class="table table-hover">
+				<tr'>
+					<th style="width:20%;font-size:1em">Reference</th>
+					<th style="width:30%;font-size:1em">Quantity needs to be ordered</th>
+				</tr>
+				<form method='POST' action='createpurchaseorder_dashboard_list.php'>
 <?php
 		$x = 1;
 		$sql_pending_so = "SELECT * FROM sales_order_sent WHERE status = '0'";
@@ -94,22 +116,22 @@
 			} else {
 				$quantity_so = $quantity_ordered - $quantity_sent - $stock;
 ?>
-			<tr>
-				<td>
-					<?= $reference_so ?>
-					<input type='hidden' value='<?= $reference_so ?>' name='reference<?= $x ?>'>
-				</td>
-				<td>
-					<?= $quantity_so ?>
-					<input type='hidden' value='<?= $quantity_so ?>' name='quantity<?= $x ?>'>
-				</td>
-			</tr>
+					<tr>
+						<td>
+							<?= $reference_so ?>
+							<input type='hidden' value='<?= $reference_so ?>' name='reference<?= $x ?>'>
+						</td>
+						<td>
+							<?= $quantity_so ?>
+							<input type='hidden' value='<?= $quantity_so ?>' name='quantity<?= $x ?>'>
+						</td>
+					</tr>
 <?php
 			}
 		}
 ?>
-			</tbody>
-		</table>
+				</tbody>
+			</table>
 		<br><br>
 		<input type='hidden' value='<?= $x ?>' name='x'>
 		<button type='submit' class='btn btn-default'>Create purchase order from list</button>

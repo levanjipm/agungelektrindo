@@ -89,7 +89,7 @@
 					<p style="text-align:center"><?= $row_do['name'];?></p>
 					<p style="text-align:center"><b><?= $customer_name?></b></p>	
 					<p style="text-align:center">
-						<button type="button" class="btn btn-primary" onclick='<?php if($project_id != NULL){ echo('confirm_validate_project'); } else if($type == 'SRVC'){ echo ('confirm_validate_service'); } else  { echo ('confirm_validate'); } ?>(<?= $row_do['id'] ?>)'>Confirm</button>
+						<button type="button" class="button_default_dark" onclick='<?php if($project_id != NULL){ echo('confirm_validate_project'); } else if($type == 'SRVC'){ echo ('confirm_validate_service'); } else  { echo ('confirm_validate'); } ?>(<?= $row_do['id'] ?>)'>Confirm</button>
 					</p>
 				</div>
 <?php

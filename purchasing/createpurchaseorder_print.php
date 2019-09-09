@@ -25,12 +25,24 @@
 	tr{
 		font-size:1.2em;
 	}
+	
+	.table-bordered{
+		border-left:none!important;
+		border-bottom:none!important;
+	}
+	
+	@media print {
+		.table-bordered{
+			border-left:none!important;
+			border-bottom:none!important;
+		}
+	}
 </style>
 <?php
 	$po_id = $_POST['id'];
 ?>
 
-<body>
+<body style='width:100%;overflow-x:hidden'>
 	<div class='row'>
 		<div class='col-sm-1' style='background-color:#ddd'>
 		</div>
@@ -42,22 +54,21 @@
 			</div>
 			<br><br>
 	<?php
-		$sql 		= "SELECT * FROM code_purchaseorder WHERE id = '" . $po_id . "'";
-		$result 	= $conn->query($sql);
-		$row 		= $result->fetch_assoc();
-		$po_name 	= $row['name'];
-		$vendor 	= $row['supplier_id'];
-		$po_date 	= $row['date'];
-		$top 		= $row['top'];
-		$tax 		= $row['taxing'];
-		$promo 		= $row['promo_code'];
-		$value 		= $row['value'];
-		$send_date 	= $row['send_date'];
+		$sql 				= "SELECT * FROM code_purchaseorder WHERE id = '" . $po_id . "'";
+		$result 			= $conn->query($sql);
+		$row 				= $result->fetch_assoc();
+		$po_name 			= $row['name'];
+		$vendor 			= $row['supplier_id'];
+		$po_date 			= $row['date'];
+		$top 				= $row['top'];
+		$tax 				= $row['taxing'];
+		$promo 				= $row['promo_code'];
+		$send_date 			= $row['send_date'];
 		$dropship_name 		= $row['dropship_name'];
 		$dropship_address 	= $row['dropship_address'];
 		$dropship_city 		= $row['dropship_city'];
 		$dropship_phone 	= $row['dropship_phone'];
-		$status 	= $row['status'];
+		$status 			= $row['status'];
 		
 		$sql_vendor 		= "SELECT * FROM supplier WHERE id = '" . $vendor . "'";
 		$result 			= $conn->query($sql_vendor);
@@ -179,7 +190,7 @@
 				<p>Please supply/manufacture and deliver the following items in accordance with the terms and conditions 
 				of Purchase Order attached.</p>
 				<br>
-				<table class="table" style="text-align:center;font-size:0.9em;">
+				<table class="table table-bordered" style="text-align:center;font-size:0.9em;border-bottom:none;border-left:none;">
 					<thead>	
 						<th style="width:25%;text-align:center">Item Description</th>
 						<th style="width:15%;text-align:center">Reference</th>
@@ -196,13 +207,17 @@
 						
 						$result = $conn->query($sql_item);
 						$i = 0;
+						$value = 0;
 						while($row = $result->fetch_assoc()){
 							$disc[$i] = $row['discount'];
 							$ref[$i] = $row['reference'];
 							$price_list[$i] = $row['price_list'];
 							$unitprice[$i] = $row['unitprice'];
 							$quantity[$i] = $row['quantity'];
-							$totprice[$i] = $row['unitprice'] * $row['quantity'];				
+							$totprice[$i] = $row['unitprice'] * $row['quantity'];	
+
+							$value += $unitprice[$i] * $quantity[$i];
+							
 							$sql_desc = "SELECT description FROM itemlist WHERE reference = '" . $ref[$i] . "'";
 							$r = $conn->query($sql_desc);
 							$row = $r->fetch_assoc();
@@ -241,29 +256,17 @@
 	if($tax == 1){
 ?>
 						<tr>
-							<td style="border-left:none;border-right:none;border-bottom:none"></td>
-							<td style="border-left:none;border-right:none;border-bottom:none"></td>
-							<td style="border-left:none;border-right:none;border-bottom:none"></td>
-							<td style="border-left:none;border-right:none;border-bottom:none"></td>
-							<td style="border-left:none;border-right:none;border-bottom:none"></td>
+							<td style="border-left:none;border-right:none;border-bottom:none" colspan='5'></td>
 							<td style="text-align:left">Sub Total</td>
 							<td style="text-align:left">Rp.<?= number_format($value * 10/11,2) ?></td>
 						</tr>
 						<tr>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
+							<td style="border:none" colspan='5'></td>
 							<td style="text-align:left">Tax</td>
 							<td style="text-align:left">Rp.<?= number_format($value - $value * 10/11,2) ?></td>
 						</tr>
 						<tr>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
+							<td style="border:none" colspan='5'></td>
 							<td style="text-align:left">Grand Total</td>
 							<td style="text-align:left">Rp.<?= number_format($value,2) ?></td>
 						</tr>
@@ -271,11 +274,7 @@
 	} else {
 ?>
 						<tr>
-							<td style="border-left:none;border-right:none;border-bottom:none"></td>
-							<td style="border-left:none;border-right:none;border-bottom:none"></td>
-							<td style="border-left:none;border-right:none;border-bottom:none"></td>
-							<td style="border-left:none;border-right:none;border-bottom:none"></td>
-							<td style="border-left:none;border-right:none;border-bottom:none"></td>
+							<td style="border-left:none;border-right:none;border-bottom:none" colspan='5'></td>
 							<td style="text-align:left">Sub Total</td>
 							<td style="text-align:left">Rp.<?= number_format($value,2) ?></td>
 						</tr>

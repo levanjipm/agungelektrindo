@@ -6,8 +6,8 @@
 <link rel='stylesheet' href='../jquery-ui.css'>
 <script>
 $( function() {
-	$('reference1').autocomplete({
-		source: "ajax/search_item.php"
+	$('#reference1').autocomplete({
+		source: "../codes/search_item.php"
 	 })
 });
 </script>
@@ -39,8 +39,8 @@ $( function() {
 		</tr>
 		<tbody id='sample_detail'>
 			<tr>
-				<td><input type='text' class='form-control' id='reference<?= $i ?>' name='reference<?= $i ?>'></td>
-				<td><input type='number' class='form-control' name='quantity<?= $i ?>'></td>
+				<td><input type='text' class='form-control' id='reference1' name='reference[1]'></td>
+				<td><input type='number' class='form-control' name='quantity[1]'></td>
 				<td></td>
 			</tr>
 		</tbody>
@@ -52,13 +52,32 @@ $( function() {
 	</button>
 </div>
 <script>
-	function submiting(){
-		if($('#customer').val() == 0){
-			alert('Please insert a customer!');
-			$('#customer').focus();
-			return false;
-		} else {
-			$('#add_sample_form').submit();
-		}
+var a = 2;
+$('#add_item_button').click(function(){
+	$('#sample_detail').append(
+		"<tr id='tr-" + a + "'>" +
+		"<td><input type='text' class='form-control' id='reference" + a + "' name='reference[" + a + "]'></td>"+
+		"<td><input type='number' class='form-control' name='quantity[" + a + "]'></td>"+
+		"<td><button type='button' class='button_danger_dark' onclick='remove_row(" + a + ")'>X</button></td>"+
+		"</tr>"
+	);
+	$('#reference' + a).autocomplete({
+		source: "../codes/search_item.php"
+	 })
+	a++;
+});
+
+function remove_row(n){
+	$('#tr-' + n).remove();
+}
+
+function submiting(){
+	if($('#customer').val() == 0){
+		alert('Please insert a customer!');
+		$('#customer').focus();
+		return false;
+	} else {
+		$('#add_sample_form').submit();
 	}
+}
 </script>

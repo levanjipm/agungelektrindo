@@ -168,7 +168,7 @@
 			<tr>
 				<td style='border-top:1px solid #ddd;background-color:white' colspan='3'></td>
 				<td>Total</td>
-				<td><?= 'Rp. ' . number_format($value *10 / 11,2)?></td>
+				<td><?= 'Rp. ' . number_format($value)?></td>
 			</tr>
 <?php
 			};
@@ -227,8 +227,8 @@
 ?>
 		</table>
 		<br><br>
-		<button type='button' class='btn btn-default' id='confirm_button'>Confirm</button>
-		<button type='butotn' class='btn btn-danger' id='cancel_button'>Cancel</button>
+		<button type='butotn' class='button_danger_dark' id='cancel_button'>Cancel</button>
+		<button type='button' class='button_default_dark' id='confirm_button'>Confirm</button>
 	</div>
 	<div class='notification_large' style='display:none' id='confirm_notification'>
 		<div class='notification_box'>
@@ -275,7 +275,7 @@
 <?php
 	} else {
 ?>
-	<button type='submit' class='btn btn-success' onclick='submit_form()'>Check</button>
+	<button type='submit' class='button_success_dark' onclick='submit_form()'>Check</button>
 	<script>
 		function submit_form(){
 			$('#input').submit();

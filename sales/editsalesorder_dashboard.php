@@ -10,46 +10,6 @@ function disable_year(){
 	buka();
 }
 </script>
-<style>
-.inactive{
-	display:none;
-}
-.notification_large{
-	position:fixed;
-	top:0;
-	left:0;
-	background-color:rgba(51,51,51,0.3);
-	width:100%;
-	text-align:center;
-	height:100%;
-}
-.notification_large .notification_box{
-	position:relative;
-	background-color:#fff;
-	padding:30px;
-	width:100%;
-	top:30%;
-	box-shadow: 3px 4px 3px 4px #ddd;
-}
-.btn-delete{
-	background-color:red;
-	font-family:bebasneue;
-	color:white;
-	font-size:1.5em;
-}
-.btn-back{
-	background-color:#777;
-	font-family:bebasneue;
-	color:white;
-	font-size:1.5em;
-}
-.btn-confirm{
-	background-color:green;
-	font-family:bebasneue;
-	color:white;
-	font-size:1.5em;
-}
-</style>
 <body>
 <div class="main">
 	<h2 style='font-family:bebasneue'>Sales Order</h2>
@@ -68,154 +28,74 @@ function disable_year(){
 			<hr>
 		</div>	
 	</div>
-	<style>
-		#pin{
-			-webkit-text-security: disc;
-		}
-		input[type=number]::-webkit-inner-spin-button, 
-		input[type=number]::-webkit-outer-spin-button { 
-			-webkit-appearance: none; 
-			margin: 0; 
-		}
-	</style>
-	<div id='quotation_result'>
-		<div class='container'>
-			<h3>Incomplete Sales Order</h3>
-		</div>
-		<div class='row' id='wrapping'>
-			<div class='col-sm-4'>
+	<table class='table table-bordered'>
+		<tr>
+			<th>Date</th>
+			<th>Name</th>
+			<th>Customer</th>
+			<th>Note</th>
 <?php
-	$sql_initial = "SELECT DISTINCT(so_id) AS so_id FROM sales_order_sent WHERE status = '0'";
+	if($role == 'superadmin'){
+?>
+			<th></th>
+<?php
+	}
+?>
+		</tr>
+		<tbody id='edit_sales_order_table'>
+<?php
+	$sql_initial = "SELECT DISTINCT(so_id) AS so_id FROM sales_order WHERE status = '0'";
 	$result_initial = $conn->query($sql_initial);
 	if(mysqli_num_rows($result_initial) > 0){
 		while($initial = $result_initial->fetch_assoc()){
 			$sql_code = "SELECT * FROM code_salesorder WHERE id = '" . $initial['so_id'] . "'";
 			$result_code = $conn->query($sql_code);
 			$code = $result_code->fetch_assoc();
+			if($code['customer_id'] == 0){
+				$customer_name	= $code['retail_name'];
+			} else {
+				$sql_customer = "SELECT name FROM customer WHERE id = '" . $code['customer_id'] . "'";
+				$result_customer	= $conn->query($sql_customer);
+				$customer			= $result_customer->fetch_assoc();
+				$customer_name		= $customer['name'];
+			}
 ?>
-				<div class='row' style='padding:20px;background-color:#ddd;margin-top:5px' id='row-<?= $code['id'] ?>'>
-					<div class='col-sm-6'>
-						<strong><?= $code['name'] ?></strong><br>
-						<p><?php
-							$sql_customer = "SELECT name FROM customer WHERE id = '" . $code['customer_id'] . "'";
-							$result_customer = $conn->query($sql_customer);
-							$customer = $result_customer->fetch_assoc();
-							echo $customer['name'];
-						?></p>
-					</div>
-					<div class='col-sm-6'>
-						<button type='button' class='btn btn-default' style='border:none;background-color:#777' onclick='view_pane(<?= $code['id'] ?>)'>
-							<i class="fa fa-eye" aria-hidden="true"></i>
-						</button>
+			<tr>
+				<td><?= date('d M Y',strtotime($code['date'])) ?></td>
+				<td><?= $code['name'] ?></td>
+				<td><?= $customer_name ?></td>
+				<td><?= $code['note'] ?></td>
 <?php
 	if($role == 'superadmin'){
 ?>
-						<button type='button' class='btn btn-success' onclick='editing(<?= $code['id'] ?>)'>
-							<i class="fa fa-pencil" aria-hidden="true"></i>
-						</button>
-						<form id='edit_form<?= $code['id'] ?>' method='POST' action='edit_so.php'>
-							<input type='hidden' value='<?= $code['id'] ?>' name='id'>
-						</form>
-						<script>
-							function editing(n){
-								$('#edit_form' + n).submit();
-							}
-						</script>
-						<button type='button' class='btn btn-danger' onclick='closing(<?= $code['id'] ?>)'>
-							<i class="fa fa-ban" aria-hidden="true"></i>
-						</button>
+				<td><button type='button' class='button_danger_dark' onclick='submit_form_edit(<?= $initial['so_id'] ?>)'>Edit</button></td>
+				<form id='form_edit_sales_order-<?= $initial['so_id'] ?>' action='edit_so' method='POST'>
+					<input type='hidden' value='<?= $initial['so_id'] ?>' name='id'>
+				</form>
 <?php
 	}
+?>		
+			</tr>
+<?php
+		}
 ?>
+		</tbody>
+	</table>
 					</div>
 					<hr>
 				</div>
-<?php
-	}
-?>
 			</div>
 			<div class='col-sm-8' id='viewpane'>
 			</div>
-<?php
-	if($role == 'superadmin'){
-?>
-			<div class='notification_large' style='display:none'>
-				<div class='notification_box' id='box_display'>
-					<h1 style='font-size:3em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h1>
-					<h2 style='font-family:bebasneue'>Are you sure to close this sales order?</h2>
-					<br>
-					<button type='button' class='btn btn-back'>Back</button>
-					<button type='button' class='btn btn-delete' id='button_show_pin'>Close</button>
-					<form action='close_so.php' method='POST' id='close_so_form'>
-						<input type='hidden' value='0' id='id_so' name='id'>
-					</form>
-				</div>
-				<div class='notification_box' id='box_pin' style='display:none'>
-					<h1 style='font-size:3em;color:#def'><i class="fa fa-key" aria-hidden="true"></i></h1>
-					<div class='col-md-4 col-md-offset-4'>
-						<input type='password' class='form-control' name='pin'>
-					</div>
-					<br><br>
-					<button type='button' class='btn btn-back'>Back</button>
-					<button type='button' class='btn btn-confirm'>Close</button>
-				</div>
-			</div>
-<?php
-	}
-?>
 		</div>
 	</div>
 </div>
-<style>
-	.isactive{
-		background-color:#1ac6ff!important;
-		color:white;
-		transition:0.3s all ease;
-	}
-</style>
 </body>
 <script>
-$('.btn-confirm').click(function(){
-	$('#close_so_form').submit();
-});
-function closing(n){
-	$('.isactive').removeClass('isactive');
-	$('#row-' + n).addClass('isactive');
-	$('#id_so').val(n);
-	$('.notification_large').fadeIn();
-	
-}
-$('.btn-back').click(function(){
-	$('.notification_large').fadeOut();
-});
-$('#button_show_pin').click(function(){
-	$('#box_display').fadeOut();
-	setTimeout(function(){
-		$('#box_pin').fadeIn();
-	},300);
-});
-function view_pane(n){
-	$('#sure').fadeOut();
-	$('#viewpane').fadeIn();
-	$('.isactive').removeClass('isactive');
-	$('#row-' + n).addClass('isactive');
-	$.ajax({
-		url: "ajax/view_so.php",
-		data: {
-			term: n
-		},
-		type: "POST",
-		dataType: "html",
-		success: function (data) {
-			$('#viewpane').html(data);
-		},
-		error: function (xhr, status) {
-			alert("Sorry, there was a problem!");
-		},
-		complete: function (xhr, status) {
-		}
-	});
-}
+function submit_form_edit(n){
+	$('#form_edit_sales_order-' + n).submit();
+};
+
 function search_quotation(){
 	if(($('#search')).val() == ''){
 		alert('Please insert a keyword!');

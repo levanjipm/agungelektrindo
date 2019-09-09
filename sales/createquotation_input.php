@@ -6,7 +6,6 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <?php
-	print_r($_POST);
 	include('../codes/connect.php');
 	session_start();
 	
@@ -21,6 +20,13 @@
 	$lunas 				= $_POST['lunas'];
 	$terms 				= $_POST['terms'];
 	$add_discount 		= $_POST['add_discount'];
+	$guid				= $_POST['GUID'];
+	
+	$sql_check_guid		= "SELECT id FROM code_quotation WHERE guid = '$guid'";
+	$result_check_guid	= $conn->query($sql_check_guid);
+	if(mysqli_num_rows($result_check_guid) != 0){
+		header('location:sales');
+	}
 	
 	if (date('m',strtotime($q_date)) == '01'){
 		$month = 'I';
@@ -63,8 +69,8 @@
 	$customer = $_POST['customer'];
 	$comment = $conn->real_escape_string($_POST['comment']);
 	
-	$sql_insert		= "INSERT INTO code_quotation (name,customer_id,date,additional_discount,payment_id,down_payment,repayment,note,created_by) 
-				VALUES ('$q_number','$customer','$q_date','$add_discount','$terms','$dp','$lunas','$comment','$user_id')";
+	$sql_insert		= "INSERT INTO code_quotation (name,customer_id,date,additional_discount,payment_id,down_payment,repayment,note,created_by,guid) 
+				VALUES ('$q_number','$customer','$q_date','$add_discount','$terms','$dp','$lunas','$comment','$user_id','$guid')";
 	$conn->query($sql_insert);
 	$sql_first= "SELECT id FROM code_quotation WHERE name = '" . $q_number . "'"; 
 	$result = $conn->query($sql_first);

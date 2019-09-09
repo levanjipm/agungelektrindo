@@ -55,19 +55,19 @@
 	}
 </style
 <?php	
-	$payement = mysqli_real_escape_string($conn,$_POST['top']);
-	$po_date = mysqli_real_escape_string($conn,$_POST['today']);
-	$vendor = mysqli_real_escape_string($conn,$_POST['selectsupplier']); //Supplier id//
+	$payement 	= mysqli_real_escape_string($conn,$_POST['top']);
+	$po_date 	= mysqli_real_escape_string($conn,$_POST['today']);
+	$vendor 	= mysqli_real_escape_string($conn,$_POST['selectsupplier']); //Supplier id//
 	
-	$sent_date = mysqli_real_escape_string($conn,$_POST['sent_date']);
-	$delivery_date = mysqli_real_escape_string($conn,$_POST['delivery_date']);
+	$sent_date 		= mysqli_real_escape_string($conn,$_POST['sent_date']);
+	$delivery_date 	= mysqli_real_escape_string($conn,$_POST['delivery_date']);
 	
-	$note = mysqli_real_escape_string($conn,$_POST['note']);
+	$note 		= mysqli_real_escape_string($conn,$_POST['note']);
 	
-	$dropship_name = mysqli_real_escape_string($conn,$_POST['dropship_name']);
-	$dropship_address = mysqli_real_escape_string($conn,$_POST['dropship_address']);
-	$dropship_city = mysqli_real_escape_string($conn,$_POST['dropship_city']);
-	$dropship_phone = mysqli_real_escape_string($conn,$_POST['dropship_phone']);
+	$dropship_name 		= mysqli_real_escape_string($conn,$_POST['dropship_name']);
+	$dropship_address 	= mysqli_real_escape_string($conn,$_POST['dropship_address']);
+	$dropship_city 		= mysqli_real_escape_string($conn,$_POST['dropship_city']);
+	$dropship_phone 	= mysqli_real_escape_string($conn,$_POST['dropship_phone']);
 	
 	$sql_vendor = "SELECT name,address,city FROM supplier WHERE id='" . $vendor . "'";
 	$r = $conn->query($sql_vendor);
@@ -76,9 +76,25 @@
 	$vendor_address = $rows['address'];
 	$vendor_city = $rows['city'];
 	
-	$total = mysqli_real_escape_string($conn,$_POST['total']);
 	$address_choice = $_POST['optradio'];
 	$code_promo = $_POST['code_promo'];
+	
+	$reference_array	= $_POST['reference'];
+	$price_array		= $_POST['price'];
+	$discount_array		= $_POST['discount'];
+	$quantity_array		= $_POST['quantity'];
+	
+	function GUID()
+	{
+		if (function_exists('com_create_guid') === true)
+		{
+			return trim(com_create_guid(), '{}');
+		}
+
+		return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+	}
+	
+	$guid = GUID();
 	
 	$sql = " SELECT COUNT(*) AS jumlah FROM code_purchaseorder WHERE MONTH(date) = MONTH('" . $po_date . "') AND YEAR(date) = YEAR('" . $po_date . "')";
 	$result = $conn->query($sql);
@@ -119,7 +135,7 @@
 ?>
 <body>
 <div class='row'>
-	<div class='col-sm-1' style='background-color:#ddd'>
+	<div class='col-sm-1' style='background-color:#333'>
 	</div>
 	<div class='col-sm-10' style='padding:12px'>
 		<form action="createpurchaseorder_input.php" method="POST" id='create_po_validation_form'>
@@ -162,6 +178,9 @@
 ?>					
 			<br>
 			<hr>
+			<label>Unique GUID</label>
+			<p><?= $guid ?></p>
+			<input type='hidden' value='<?= $guid ?>' name='guid'>
 			<label>Taxing option</label>
 			<select class='form-control' name='taxing' id='taxing' style='width:50%'>
 				<option value='0'>Please select taxing option for this purchase</option>
@@ -171,90 +190,77 @@
 			<hr>
 			<table class="table table-hover">
 				<thead>
-					<th>Item Description</th>
-					<th>Reference</th>
-					<th>Unit price</th>
-					<th>Discount</th>
-					<th>Quantity</th>
-					<th>Price after discount</th>
-					<th>Total price</th>
+					<th style='width:30%'>Item Description</th>
+					<th style='width:10%'>Reference</th>
+					<th style='width:15%'>Unit price</th>
+					<th style='width:5%'>Discount</th>
+					<th style='width:10%'>Quantity</th>
+					<th style='width:15%'>Price after discount</th>
+					<th style='width:15%'>Total price</th>
 				</thead>	
 				<tbody>
-				<?php
-					$x = $_POST['jumlah_barang'];
-				?>
-					<input type="hidden" name="jumlah_barang" value=" <?= $x ?>">
-				<?php 
-
+<?php
+					$total = 0;
 					$i = 1;
-					for ($i = 1; $i <= $x; $i++){
-						$ref = $_POST["reference" . $i ];
-						$price = $_POST["price" . $i ];
-						$disc = $_POST["discount" . $i ];
-						$qty = $_POST["quantity" . $i ];
-						$netprice = $_POST["unitprice" . $i ];
-						$totprice = $_POST["totalprice" . $i];
-						$sql = "SELECT * FROM itemlist WHERE reference='" . $ref . "'";
-						$result = $conn->query($sql) or die($conn->error);
-						$row = $result->fetch_assoc();
-						if($row == false){
-							$desc = " ";
-						} else { 
-							$item_id = $row['id'];
-							$desc = $row['description'];
-						}
-				?>
+					foreach($reference_array as $reference){
+						$key = key($reference_array);
+						$price			= $price_array[$key];
+						$discount		= $discount_array[$key];
+						$quantity		= $quantity_array[$key];
+						
+						$sql_item = "SELECT description FROM itemlist WHERE reference = '" . $reference . "'";
+						$result_item	= $conn->query($sql_item);
+						$item			= $result_item->fetch_assoc();
+						
+						$net_price 		= $price * (100 - $discount) * 0.01;
+						$total_price	= $quantity * $net_price;
+						
+						$total += $total_price;
+						
+						$description	= $item['description'];
+?>
 
 					<tr>
-						<td style="width:30%">
-							<?=$desc?>
+						<td><?= $description ?></td>
+						<td>
+							<?= $reference ?>
+							<input class="hidden" for="reference" value= "<?=$reference?>" readonly name='reference[<?=$i?>]'>
 						</td>
-						<td style="width:10%">
-							<?= $ref ?>
-							<input class="hidden" for="ref" value= "<?=$ref?>" readonly name='item<?=$i?>'>
-						</td>
-						<td style="width:15%">
+						<td>
 							Rp. <?= number_format($price,0) ?>
-							<input class="hidden" value="<?= $price?>" name='price<?=$i?>'>
+							<input class="hidden" value="<?= $price?>" name='price[<?=$i?>]'>
 						</td>
-						<td style="width:6%">
-						<?= $disc ?> %
-							<input type='hidden' for="disc" value="<?=$disc?>" readonly name='discount<?=$i?>'>
+						<td>
+							<?= $discount ?> %
+							<input type='hidden' for="discount" value="<?= $discount ?>" readonly name='discount[<?=$i?>]'>
 						</td>
 						<td style="width:5%">
-							<?= number_format($qty,0) ?>
-							<input type="hidden" value="<?=$qty?>" name='quantity<?=$i?>'>
+							<?= number_format($quantity,0) ?>
+							<input type="hidden" value="<?=$quantity?>" name='quantity[<?=$i?>]'>
 						</td>
-						<td style="width:15%">
-							Rp. <?= number_format($netprice,2) ?>
-							<input type="hidden" name='netprice<?=$i?>' value="<?= $netprice ?>">
-						</td>
-						<td style="width:15%">
-							Rp. <?= number_format($totprice,2) ?>
-							<input type="hidden" value="<?= $totprice?>" name='totprice<?=$i?>'>
-						</td>
+						<td>Rp. <?= number_format($net_price,2) ?></td>
+						<td>Rp. <?= number_format($total_price,2) ?></td>
 					</tr>
 <?php
-	}
+						$i++;
+						next($reference_array);
+					}
 ?>
 				</tbody>
 				<tr>
 					<td style='background-color:white;border:none' colspan='5'></td>
 					<td>Grand Total</td>
-					<td>
-						Rp. <?= number_format($total,2) ?>
-						<input class="hidden" id="total" value=" <?= $total ?>" name='total'>
-					</td>
+					<td>Rp. <?= number_format($total,2) ?></td>
 				</tr>
 			</table>
 			<br>
 			<?= $note ?>
 			<div class="row" style="top:50px;padding:20px">
-				<button type="button" class="btn btn-primary" onclick='taxing_check()'>Proceed</button>
+				<button type="button" class="button_default_dark" onclick='taxing_check()'>Proceed</button>
 			</div>
 		</form>
 	</div>
-	<div class='col-sm-1' style='background-color:#ddd'>
+	<div class='col-sm-1' style='background-color:#333'>
 	</div>
 </div>
 <div class='notification_large' style='display:none' id='confirm_notification'>

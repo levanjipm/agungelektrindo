@@ -18,6 +18,38 @@
 	z-index:25;
 }
 
+.button_default_dark{
+	outline:none;
+	padding:5px 20px;
+	background-color:#40545e;
+	border:none;
+	color:white;
+}
+
+.button_success_dark{
+	outline:none;
+	padding:5px 20px;
+	background-color:#008080;
+	border:none;
+	color:white;
+}
+
+.button_warning_dark{
+	outline:none;
+	padding:5px 20px;
+	background-color:#c04000;
+	border:none;
+	color:#fff;
+}
+
+.button_danger_dark{
+	outline:none;
+	padding:5px 20px;
+	background-color:#cd607e;
+	border:none;
+	color:#fff;
+}
+
 .btn-badge{
 	background-color:transparent;
 	color:white;
@@ -83,10 +115,12 @@
 	margin-left:200px;
 	padding:20px;
 }
+
 .dropdown {
   float: left;
   overflow: hidden;
 }
+
 .dropdown-content {
   display: none;
   position: absolute;
@@ -108,104 +142,4 @@
 }
 .dropdown:hover .dropdown-content {
   display: block;
-}
-#myTable {
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-  border: 1px solid #ddd;
-}
-
-th, td {
-  text-align: center;
-  padding: 16px;
-}
-
-tr:nth-child(even) {
-  background-color: #f2f2f2
-}
-
-#myTable tr.header, #myTable tr:hover {
-  /* Add a grey background color to the table header and on hover */
-  background-color: #f1f1f1;
-}
-.sticky{
-	margin-top:0px;
-	position:fixed;
-}
-	
-.sticky + .main {
-  padding-top: 0px;
-}	
-.nomor{
-	width:100%;
-	background-color:#fff;
-	border:none;
-}
-.fa-folder{
-	width:50px;
-	font-size: 20px;
-	padding:20px;
-	top:50%;
-	right:0px;
-	position:fixed;
-	background-color:#333;
-	border-radius:8px;
-	text-align:center;
-	color:blue;
-}
-.fa-close{
-	width:50px;
-	font-size: 20px;
-	padding:20px;
-	top:60%;
-	right:0px;
-	position:fixed;
-	background-color:#333;
-	border-radius:8px;
-	text-align:center;
-	color:red;
-}
-#regForm {
-  background-color: #ffffff;
-  margin: 0px auto;
-  padding: 40px;
-  width: 70%;
-  min-width: 300px;
-}
-
-input {
-  padding: 10px;
-  width: 100%;
-  font-size: 17px;
-  font-family: Raleway;
-  border: 1px solid #aaaaaa;
-}
-
-/* Mark input boxes that gets an error on validation: */
-input.invalid {
-  background-color: #ffdddd;
-}
-
-.tab {
-  display: none;
-}
-
-.step {
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbbbbb;
-  border: none; 
-  border-radius: 50%;
-  display: inline-block;
-  opacity: 0.5;
-}
-
-.step.active {
-  opacity: 1;
-}
-
-.step.finish {
-  background-color: #4CAF50;
 }

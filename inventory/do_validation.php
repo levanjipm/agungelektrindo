@@ -7,6 +7,18 @@ $so_id = $_POST["id"];
 $do_date = $_POST['today'];
 $customer_id = $_POST['customer_id'];
 
+function GUID()
+{
+	if (function_exists('com_create_guid') === true)
+	{
+		return trim(com_create_guid(), '{}');
+	}
+
+	return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+}
+
+$guid = GUID();
+
 switch (date('m',strtotime($do_date))) {
 	case "01" :
 		$month = 'I';
@@ -120,28 +132,19 @@ switch (date('m',strtotime($do_date))) {
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-8">
-				<div class="col-sm-4">
-					<p><b>Nomor DO:</b></p>
-				</div>
-				<div class="col-sm-3">
-					<p><?= $do_number_preview ?></p>
-					<input type="hidden" name="do_name" value="<?= $do_number_preview ?>">
-				</div>
+			<div class='col-sm-12'>
+				<label>DO Number</label>
+				<p><?= $do_number_preview ?></p>
+				<input type="hidden" name="do_name" value="<?= $do_number_preview ?>">
+				<label>PO Number</label>
+				<p><?= $po_number ?></p>
+				<input type="hidden" name="po_number" value="<?= $po_number ?>">
+				<label>Unique GUID</label>
+				<p><?= $guid ?></p>
+				<input type='hidden' value='<?= $guid ?>' name='guid'>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-8">
-				<div class="col-sm-4">
-					<p><b>Nomor Purchase Order:</b></p>
-				</div>
-				<div class="col-sm-3">
-					<p><?= $po_number ?></p>
-				</div>
-			</div>
-		</div>
-		<br>
-		<table class="table" id="myTable">
+		<table class="table table-bordered">
 			<thead>
 				<th style="width:40%">Item name </th>
 				<th style="width:30%">Reference</th>
@@ -165,7 +168,11 @@ switch (date('m',strtotime($do_date))) {
 			$quantity_sent		= $check['sent_quantity'];
 			
 			if($quantity + $quantity_sent > $quantity_ordered){
-				header('location:do_exist_dashboard.php');
+?>
+<script>
+	window.location.href='do_choose';
+</script>
+<?php
 			}
 			$sql_item 			= "SELECT description FROM itemlist WHERE reference = '" . $reference . "'";
 			$result 			= $conn->query($sql_item);
@@ -196,7 +203,7 @@ switch (date('m',strtotime($do_date))) {
 			</tbody>
 		</table>
 		<br><br>
-		<button type="button" class="btn btn-secondary" id='submit_delivery_order_button'>Next</button>
+		<button type="button" class="button_default_dark" id='submit_delivery_order_button'>Next</button>
 	</form>
 </div>
 <script>

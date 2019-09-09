@@ -15,20 +15,20 @@ $quantity_array		= $_POST['quantity'];
 $vat_array			= $_POST['vat'];
 $pl_array			= $_POST['pl'];
 
-$so_date		= $_POST['today'];
-$taxing 		= $_POST['taxing'];
-$po_number 		= mysqli_real_escape_string($conn,$_POST['purchaseordernumber']);
-$customer 		= $_POST['select_customer'];
+$so_date			= $_POST['today'];
+$taxing 			= $_POST['taxing'];
+$po_number 			= mysqli_real_escape_string($conn,$_POST['purchaseordernumber']);
+$customer 			= $_POST['select_customer'];
 if($customer == 0){
-	$address 	= $_POST['retail_address'];
-	$city 		= $_POST['retail_city'];
-	$phone 		= $_POST['retail_phone'];
-	$name 		= $_POST['retail_name'];
+	$address 		= $_POST['retail_address'];
+	$city 			= $_POST['retail_city'];
+	$phone 			= $_POST['retail_phone'];
+	$name 			= $_POST['retail_name'];
 } else {
-	$address 	= '';
-	$city 		= '';
-	$phone 		= '';
-	$name 		= '';
+	$address 		= '';
+	$city 			= '';
+	$phone 			= '';
+	$name 			= '';
 }
 $sql_customer 		= "SELECT name FROM customer WHERE id = '" . $customer . "'";
 $result_customer 	= $conn->query($sql_customer);
@@ -118,13 +118,13 @@ $customer_name 		= $customer_row['name'];
 								$vat = $vat_array[$key];
 								$pl = $pl_array[$key];
 								
-								$discount	= $vat/$pl;
+								$discount	= 100 - ($vat * 100/$pl);
 								$total_price = $vat * $quantity;
 						?>
 							<tr>	
 								<td style="text-align:center"><?= $reference ?></td>						
 								<td style="text-align:center">Rp. <?= number_format($vat,2) ?></td>
-								<td style="text-align:center"><?= $discount . '%' ?></td>
+								<td style="text-align:center"><?= number_format($discount,2) . '%' ?></td>
 								<td style="text-align:center"><?= $quantity ?></td>
 								<td style="text-align:center">Rp. <?= number_format($pl,2) ?></td>
 								<td style="text-align:center">Rp. <?= number_format($total_price,2) ?></td>

@@ -8,6 +8,14 @@
 	$document_array	= $_POST['document'];
 	$po_array		= array();
 	
+	if(empty($_POST['document'])){
+?>
+<script>
+	window.location.href = 'accounting';
+</script>
+<?php
+	}
+	
 	foreach($document_array as $document){
 		$sql 		= "SELECT isinvoiced,po_id FROM code_goodreceipt WHERE id = '" . $document . "'";
 		$result 	= $conn->query($sql);
@@ -23,7 +31,7 @@
 	if($check_invoice > 1 || $po_quantity > 1){
 ?>
 <script>
-	window.location.href = 'accounting.php';
+	window.location.href = 'accounting';
 </script>
 <?php
 	}

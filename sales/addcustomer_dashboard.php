@@ -88,7 +88,7 @@
 							$("#npwp").inputmask("99.999.999.9-999.999");
 						</script>
 						<br><br>
-						<button type="button" class="btn btn-default" id="submitBtn">Submit Here</button>
+						<button type="button" class="button_default_dark" id="submitBtn">Submit Here</button>
 					</div>
 				</div>
 				<div class="modal" id="myModal" role="dialog">

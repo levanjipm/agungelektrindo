@@ -7,22 +7,27 @@
 	</script>
 <?php
 	}
-	$invoice_id = $_POST['invoice_id'];
-	$sql_invoice = "SELECT name,faktur,do_id FROM invoices WHERE id = '" . $invoice_id . "'";
+	$invoice_id 	= $_POST['invoice_id'];
+	$sql_invoice 	= "SELECT name,faktur,do_id FROM invoices WHERE id = '" . $invoice_id . "'";
 	$result_invoice = $conn->query($sql_invoice);
-	$invoice = $result_invoice->fetch_assoc();
+	$invoice		= $result_invoice->fetch_assoc();
 	
-	$sql_code_delivery_order = "SELECT customer_id, so_id FROM code_delivery_order WHERE id = '" . $invoice['do_id'] . "'";
+	$sql_code_delivery_order 	= "SELECT customer_id, so_id FROM code_delivery_order WHERE id = '" . $invoice['do_id'] . "'";
 	$result_code_delivery_order = $conn->query($sql_code_delivery_order);
-	$code_do = $result_code_delivery_order->fetch_assoc();
+	$code_do 					= $result_code_delivery_order->fetch_assoc();
 	
-	$so_id = $code_do['so_id'];
-	$customer_id = $code_do['customer_id'];
+	$so_id 			= $code_do['so_id'];
+	$customer_id 	= $code_do['customer_id'];
 	
-	$sql_customer = "SELECT name FROM customer WHERE id = '" . $customer_id . "'";
-	$result_customer = $conn->query($sql_customer);
-	$customer = $result_customer->fetch_assoc();
-	
+	if($customer_id != 0){
+		$sql_customer 		= "SELECT name FROM customer WHERE id = '" . $customer_id . "'";
+		$result_customer 	= $conn->query($sql_customer);
+		$customer 			= $result_customer->fetch_assoc();
+	} else {
+		$sql_customer		= "SELECT retail_name as name FROM code_salesorder WHERE id = '$so_id'";
+		$result_customer	= $conn->query($sql_customer);
+		$customer			= $result_customer->fetch_assoc();
+	}
 	$faktur = $invoice['faktur'];
 	$invoice_name = $invoice['name'];
 ?>
@@ -36,14 +41,15 @@
 <div class='main'>
 <script type='text/javascript' src="../universal/Jquery/jquery.inputmask.bundle.js"></script>
 	<form method='POST' action='edit_invoice.php' id='myForm'>
-	<h2 style='font-family:bebasneue'>Edit invoice</h2>
+	<h2 style='font-family:bebasneue'>Sales Invoice</h2>
+	<p>Edit invoice</p>
+	<hr>
 	<h3 style='font-family:bebasneue'><?= $customer['name'] ?></h3>
 	<p><?= $invoice['name'] ?></p>
-	<hr>
 <?php
 	if($faktur != ''){
 ?>
-	<label>Faktur pajak</label>
+	<label>Taxing document</label>
 	<input type='text' class='form-control' id='piash' name='faktur' value='<?= $faktur ?>'>
 	<script>
 		$("#piash").inputmask("999.999.99-99999999");
@@ -70,9 +76,9 @@
 	$sql_do = "SELECT reference,quantity FROM delivery_order WHERE do_id = '" . $invoice['do_id'] . "'";
 	$result_do = $conn->query($sql_do);
 	while($do = $result_do->fetch_assoc()){		
-		$sql_invoice = "SELECT price,price_list,discount FROM sales_order WHERE so_id = '" . $so_id . "' AND reference = '" . $do['reference'] . "'";
+		$sql_invoice 	= "SELECT price,price_list,discount FROM sales_order WHERE so_id = '" . $so_id . "' AND reference = '" . $do['reference'] . "'";
 		$result_invoice = $conn->query($sql_invoice);
-		$row_invoice = $result_invoice->fetch_assoc();
+		$row_invoice 	= $result_invoice->fetch_assoc();
 ?>
 		<tr>
 			<td>
@@ -124,7 +130,7 @@
 	<input type='hidden' value='<?= $i ?>' name='x'>
 	<input type='hidden' value='<?= $invoice_id ?>' name='invoice_id'>
 	</form>
-	<button type='button' class='btn btn-secondary' id='edit_invoice_button'>Edit Invoice</button>
+	<button type='button' class='button_default_dark' id='edit_invoice_button'>Edit Invoice</button>
 </div>
 <script>
 var grand_total_value = 0;

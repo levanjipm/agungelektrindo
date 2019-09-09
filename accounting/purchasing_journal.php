@@ -37,7 +37,7 @@
 			</select>
 		</div>
 		<div class='col-sm-3'>
-			<button type='button' class='btn btn-primary' onclick='search_invoice()'>Show Purchase Journal</button>
+			<button type='button' class='button_default_dark' onclick='search_invoice()'>Show Purchase Journal</button>
 		</div>
 		<hr>
 	</div>

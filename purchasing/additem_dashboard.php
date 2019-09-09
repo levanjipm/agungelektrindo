@@ -20,7 +20,7 @@
 			<strong>Danger</strong> Failed to add item.
 		</div>
 	</div>
-	<div class='col-sm-10 col-sm-offset-1'>
+	<div class='col-sm-10'>
 		<h2 style='font-family:bebasneue'>Item</h2>
 		<p>Add new item</p>
 		<hr>

@@ -11,7 +11,7 @@
 			<th>Date</th>
 			<th>Invoice name</th>
 			<th>Customer</th>
-			<th>Confirm</th>
+			<th></th>
 		</tr>
 <?php
 	$sql_invoice = "SELECT invoices.id,invoices.date, invoices.name, code_delivery_order.customer_id FROM invoices 
@@ -33,7 +33,7 @@
 			?>
 			</td>
 			<td>
-				<button type='button' class='btn btn-default' onclick='confirming(<?= $row_invoice['id'] ?>)'>Confirm</button>
+				<button type='button' class='button_default_dark' onclick='confirming(<?= $row_invoice['id'] ?>)'>Confirm</button>
 			</td>
 			<form id='form<?= $row_invoice['id'] ?>' method='POST' action='confirm_invoice.php'>
 				<input type='hidden' value='<?= $row_invoice['id'] ?>' name='id'>

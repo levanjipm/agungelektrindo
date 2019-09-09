@@ -38,7 +38,7 @@
 			</select>
 		</div>
 		<div class='col-sm-2'>
-			<button type='button' class='btn btn-default' onclick='search_invoice()'>Show Sales Journal</button>
+			<button type='button' class='button_default_dark' onclick='search_invoice()'>Seach</button>
 		</div>
 	</div>
 	<hr>
@@ -69,7 +69,7 @@
 	</div>
 	<div class='row'>
 		<div class='col-sm-2 col-sm-offset-5'>
-			<button type='button' class='btn btn-primary hidden-print' onclick='printing()'>Print</button>
+			<button type='button' class='button_default_dark hidden-print' onclick='printing()'>Print</button>
 		</div>
 	</div>
 	<script>

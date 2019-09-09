@@ -81,12 +81,13 @@
 	$pembagi = max($sales_this_month, $sales_month_before, $sales_month_last);
 	
 	$sales_annual = $sales_annual == '' ? 0 : $sales_annual;
-	
-	if($_SESSION['user_id'] == 1 || $_SESSION['user_id'] == 3 || $_SESSION['user_id'] == 7){ 
 ?>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales</h2>
 	<hr>
+<?php
+	if($_SESSION['user_id'] == 1 || $_SESSION['user_id'] == 3 || $_SESSION['user_id'] == 7){ 
+?>
 <style>
 	.progress{
 		width: 150px;
@@ -340,13 +341,69 @@
 			<h5><strong>Rp. <?= number_format($sales_annual,2) ?></strong></h5>
 		</div>
 	</div>
-				<?php
-					
-				?>
-				</div>
-			</div>
-		</div>
-	</div>
+	<br>
 <?php
 	}
 ?>
+	<div class='row'>
+		<div class='col-xs-12'>
+			<h3 style='font-family:bebasneue'>General Sales Info</h3>
+			<br>
+			<table class='table'>
+				<tr>
+					<td><strong>NPWP</strong></td>
+					<td>72.418.271.2-423.000</td>
+					<td>
+						<a href='../universal/npwp.pdf' style='text-decoration:none' target='_blank'>
+							<button type='button' class='button_default_dark'>
+								Resource
+							</button>
+						</a>
+					</td>
+				</tr>
+				<tr>
+					<td>SPPKP</td>
+					<td>S-145PKP/WPJ.09/KP.0203/2015</td>
+					<td>
+						<a href='../universal/sppkp.pdf' style='text-decoration:none' target='_blank'>
+							<button type='button' class='button_default_dark'>
+								Resource
+							</button>
+						</a>
+					</td>
+				</tr>
+				<tr>
+					<td>Alamat PKP</td>
+					<td>Jalan Jamuju no. 18 RT 005/ RW 006, <br>Kelurahan Cihapit, Kecamatan Bandung Wetan, Bandung</td>
+					<td>
+					</td>
+				</tr>
+				<tr>
+					<td>Nomor Rekening </td>
+					<td>Bank Central Asia<br>
+						Cabang Ahmad Yani II<br>
+						Nomor: 8090249500<br>
+						Atas nama: CV Agung Elektrindo
+					<td id='td_bank'>
+						<button type='button' class='button_default_dark' id='bank_payment_button'><i class="fa fa-clone" aria-hidden="true"></i></button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+<script>
+$('#bank_payment_button').click(function(){
+	$('#td_bank').append(
+		"<textarea id='payment_narator' style='white-space: pre-wrap;'>Mohon pembayaran dilakukan ke nomor rekening sebagai berikut\r\nBank: Bank Central Asia Cabang Ahmadi Yani II, Bandung.\r\nNomor rekening: 8090249500.\r\nAtas nama: CV Agung Elektrindo'</textarea>"
+	)
+	var brRegex = /<br\s*[\/]?>/gi;
+	var input = document.getElementById('payment_narator');
+	
+	input.focus();
+	input.select();
+	document.execCommand("copy");
+	
+	$('#payment_narator').remove();
+})
+</script>

@@ -31,15 +31,15 @@
 	</script>
 <?php
 	} else {
-		$invoice_id = $_POST['id'];
-		$sql = "SELECT name,faktur,supplier_id FROM purchases WHERE id = '" . $invoice_id . "'";
-		$result = $conn->query($sql);
-		$row = $result->fetch_assoc();
-		$invoice_name = $row['name'];
+		$invoice_id 	= $_POST['id'];
+		$sql 			= "SELECT name,faktur,supplier_id FROM purchases WHERE id = '" . $invoice_id . "'";
+		$result 		= $conn->query($sql);
+		$row 			= $result->fetch_assoc();
+		$invoice_name 	= $row['name'];
 		
-		$sql_supplier = "SELECT name FROM supplier WHERE id = '" . $row['supplier_id'] . "'";
-		$result_supplier = $conn->query($sql_supplier);
-		$supplier = $result_supplier->fetch_assoc();
+		$sql_supplier 		= "SELECT name FROM supplier WHERE id = '" . $row['supplier_id'] . "'";
+		$result_supplier 	= $conn->query($sql_supplier);
+		$supplier 			= $result_supplier->fetch_assoc();
 		
 ?>
 		<h3 style='font-family:bebasneue'><?= $supplier['name'] ?></h3>
@@ -48,7 +48,7 @@
 		<form method="POST" action='confirm_invoice_input.php' id='input'>
 			<input type='hidden' value='<?= $invoice_id ?>' name='invoice_id'>
 		</form>
-		<table class='table'>
+		<table class='table table-bordered'>
 			<tr>
 				<th>Reference</th>
 				<th>Description</th>
@@ -70,7 +70,7 @@
 						WHERE purchaseorder.id = '" . $row['received_id'] . "'";
 						$result_received = $conn->query($sql_received);
 						$received = $result_received->fetch_assoc();
-						$total = $total + $row['quantity'] * $received['billed_price'];
+						$total = $total + $row['quantity'] * $row['billed_price'];
 ?>
 			<tr>
 				<td><?= $received['reference']; ?></td>
@@ -81,8 +81,8 @@
 					echo $item['description'];
 				?></td>
 				<td><?= $row['quantity'] ?></td>
-				<td>Rp. <?= number_format($received['billed_price'],2) ?></td>
-				<td>Rp. <?= number_format(($row['quantity'] * $received['billed_price']),2) ?></td>
+				<td>Rp. <?= number_format($row['billed_price'],2) ?></td>
+				<td>Rp. <?= number_format(($row['quantity'] * $row['billed_price']),2) ?></td>
 			</tr>
 <?php
 					}
@@ -92,11 +92,11 @@
 				<td></td>
 				<td></td>
 				<td></td>
-				<td><h4 style='font-family:bebasneue'>Grand total</h4></td>
+				<td><strong>Grand total</strong></td>
 				<td>Rp. <?= number_format($total,2) ?></td>
 		</table>
-		<button type='button' class='btn btn-default' id='confirm_button'>Confirm</button>
-		<button type='button' class='btn btn-danger' id='delete_button'>Delete</button>
+		<button type='button' class='button_default_dark' id='confirm_button'>Confirm</button>
+		<button type='button' class='button_danger_dark' id='delete_button'>Delete</button>
 <?php
 	}
 ?>

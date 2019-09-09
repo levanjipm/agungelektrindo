@@ -24,18 +24,25 @@
 		font-family:bebasneue;
 		color:white;
 		font-size:1.5em;
+		outline:none;
+		border:none;
+		padding:5px 10px;
 	}
 	.btn-delete{
 		background-color:red;
 		font-family:bebasneue;
 		color:white;
 		font-size:1.5em;
+		border:none;
+		padding:5px 10px;
 	}
 	.btn-back{
 		background-color:#777;
 		font-family:bebasneue;
 		color:white;
 		font-size:1.5em;
+		border:none;
+		padding:5px 10px;
 	}
 	.btn-x{
 		background-color:transparent;
@@ -45,8 +52,17 @@
 	.btn-x:focus{
 		outline: 0!important;
 	}
+	
+	.alert_wrapper{
+		position:fixed;
+		top:80px;
+		width:300px;
+		margin:auto;
+		text-align:center;
+	}
 </style>
 <div class='main'>
+	<div class='alert_wrapper'>
 <?php
 	if(empty($_GET['alert'])){
 	} else if($_GET['alert'] == 'true'){
@@ -63,6 +79,7 @@
 <?php
 	}
 ?>
+	</div>
 	<script>
 		$(document).ready(function(){
 			setTimeout(function(){
@@ -70,56 +87,54 @@
 			},1000);
 		});
 	</script>
-	<div class='col-sm-10 col-sm-offset-1'>
-		<h2 style='font-family:bebasneue'>Sales order</h2>
-		<p>Confirm sales order</p>
-		<hr>
-		<table class='table table-hover'>
-			<tr>
-				<th>Date</th>
-				<th>Customer</th>
-				<th>Name</th>
-				<th></th>
-			</tr>
+	<h2 style='font-family:bebasneue'>Sales order</h2>
+	<p>Confirm sales order</p>
+	<hr>
+	<table class='table table-hover'>
+		<tr>
+			<th>Date</th>
+			<th>Customer</th>
+			<th>Name</th>
+			<th></th>
+		</tr>
 <?php
 	$sql_so = "SELECT * FROM code_salesorder WHERE isconfirm = '0'";
 	$result_so = $conn->query($sql_so);
 	while($so = $result_so->fetch_assoc()){
 ?>
-			<tr>
-				<td><?= date('d M Y',strtotime($so['date'])) ?></td>
-				<td style='text-align:left'><?php
-					if($so['customer_id'] > 0){
-						$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $so['customer_id'] . "'";
-						$result_customer = $conn->query($sql_customer);
-						$customer = $result_customer->fetch_assoc();
-						echo '<p><strong>' . $customer['name'] . '</strong></p>';
-						echo '<p>' . $customer['address'] . '</p>';
-						echo $customer['city'];
-					}
-				?></td>
-				<td><?= $so['name'] ?></td>
-				<td>
-					<button type='button' class='btn btn-default' onclick='submit(<?= $so['id'] ?>)'>Confirm SO</button>
-					<button type='button' class='btn btn-danger' onclick='delete_sales_order(<?= $so['id'] ?>)'>Delete SO</button>
-					<form action='confirmsalesorder.php' method='POST' id='form<?= $so['id'] ?>'>
-						<input type='hidden' value='<?= $so['id'] ?>' name='id'>
-					</form>
-				</td>
-			</tr>
+		<tr>
+			<td><?= date('d M Y',strtotime($so['date'])) ?></td>
+			<td style='text-align:left'><?php
+				if($so['customer_id'] > 0){
+					$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $so['customer_id'] . "'";
+					$result_customer = $conn->query($sql_customer);
+					$customer = $result_customer->fetch_assoc();
+					echo '<p><strong>' . $customer['name'] . '</strong></p>';
+					echo '<p>' . $customer['address'] . '</p>';
+					echo $customer['city'];
+				}
+			?></td>
+			<td><?= $so['name'] ?></td>
+			<td>
+				<button type='button' class='button_default_dark' onclick='submit(<?= $so['id'] ?>)'>Confirm SO</button>
+				<button type='button' class='button_danger_dark' onclick='delete_sales_order(<?= $so['id'] ?>)'>Delete SO</button>
+				<form action='confirmsalesorder_validation' method='POST' id='form<?= $so['id'] ?>'>
+					<input type='hidden' value='<?= $so['id'] ?>' name='id'>
+				</form>
+			</td>
+		</tr>
 <?php
 	}
 ?>
-		</table>
-	</div>
+	</table>
 </div>
 <div class='notification_large' style='display:none' id='delete_notification'>
 	<div class='notification_box'>
 		<h1 style='font-size:3em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h1>
 		<h2 style='font-family:bebasneue'>Are you sure to delete this sales order</h2>
 		<br>
-		<button type='button' class='btn btn-back'>Back</button>
-		<button type='button' class='btn btn-delete' id='delete_sales_order_button'>Delete</button>
+		<button type='button' class='btn-back'>Back</button>
+		<button type='button' class='btn-delete' id='delete_sales_order_button'>Delete</button>
 		<input type='hidden' value='0' id='delete_id'>
 	</div>
 </div>

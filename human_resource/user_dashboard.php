@@ -6,8 +6,6 @@
 	<script src="../universal/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="../universal/fontawesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../universal/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src='../universal/Jquery/jquery-tagsinput-revisited-master/src/jquery.tagsinput-revisited.js'></script>
-	<link rel="stylesheet" href="../universal/Jquery/jquery-tagsinput-revisited-master/src/jquery.tagsinput-revisited.css">
 	<script src='../jquery-ui.js'></script>
 	<link rel='stylesheet' href='../jquery-ui.css'>
 	<link rel="stylesheet" href="user_dashboard.css">
@@ -20,14 +18,25 @@
 	$animation = $_GET['style'] ?? "";
 	ini_set('date.timezone', 'Asia/Jakarta');
 	
-	$sql_user = "SELECT id,role,username,name,mail,privilege FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
-	$result_user = $conn->query($sql_user);
-	$row_user = $result_user->fetch_assoc();
-	$user_id = $row_user['id'];
-	$username = $row_user['username'];
-	$name = $row_user['name'];
-	$role = $row_user['role'];
-	$privilege = $row_user['privilege'];
+	$sql_user 		= "SELECT * FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
+	$result_user 	= $conn->query($sql_user);
+	$row_user 		= $result_user->fetch_assoc();
+	$user_id 		= $row_user['id'];
+	$username 		= $row_user['username'];
+	$name 			= $row_user['name'];
+	$role 			= $row_user['role'];
+	$email 			= $row_user['mail'];
+	$nik 			= $row_user['NIK'];
+	$username		= $row_user['username'];
+	$address		= $row_user['address'];
+	$city			= $row_user['city'];
+	
+	$privilege 		= $row_user['privilege'];
+	$profile_pic	= $row_user['image_url'];
+	
+	if($profile_pic == ''){
+		$profile_pic = 'images/users/users.png';
+	}
 	if($_SESSION['user_id'] === NULL){
 		header('location:../landing_page.php');
 	}
@@ -58,7 +67,6 @@
 		});
 	</script>
 <?php
-	//Apabila masuk dari department, tidak perlu tampilkan animasi//
 	} else {
 ?>
 	<script>
@@ -91,13 +99,12 @@
 		</h3>
 	</div>
 </div>
-	<!-- Side bar, user data -->
-	<div class="sidenav">				
-		<button type='button' class='btn-badge dropdown-btn' style='color:white'>
-			<i class="fa fa-id-badge" aria-hidden="true"></i>
-			Departments
-		</button>
-		<div class="dropdown-container">
+<div class="sidenav">				
+	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
+		<i class="fa fa-id-badge" aria-hidden="true"></i>
+		Departments
+	</button>
+	<div class="dropdown-container">
 <?php
 		$sql_super 		= "SELECT * FROM authorization WHERE user_id = '" . $user_id . "'";
 		$result_super 	= $conn->query($sql_super);
@@ -109,36 +116,21 @@
 			$department 	= $row_dept['department'];
 			
 ?>
-			<a href='../<?= $department ?>/<?= $department ?>' style='color:white;text-decoration:none'>
-				<?php $department_name = ($department == 'human_resource')? 'Human resource' : $department; echo $department_name; ?>
-			</a>
-			<br>
+		<a href='../<?= $department ?>/<?= $department ?>' style='color:white;text-decoration:none'>
+			<?php $department_name = ($department == 'human_resource')? 'Human resource' : $department; echo $department_name; ?>
+		</a>
+		<br>
 <?php
 			}
 ?>
-		</div>
-		<button type='button' class='btn-badge dropdown-btn' style='color:white'>
-			<i class="fa fa-plus-circle" aria-hidden="true"></i>
-			Create
+	</div>
+	<a href='../guide/tutorial.php'>
+		<button type='button' class='btn-badge' style='color:white'>
+		<i class="fa fa-graduation-cap" aria-hidden="true"></i>
+		Read Tutorial
 		</button>
-		<div class='dropdown-container'>
-			<button type='button' class='btn-badge' id='create_news'>Create event</button>
-			<br>
-			<button type='button' class='btn-badge' id='create_anon'>Create announcement</button>
-		</div>
-		<a href='../guide/tutorial.php'>
-			<button type='button' class='btn-badge' style='color:white'>
-			<i class="fa fa-graduation-cap" aria-hidden="true"></i>
-			Read Tutorial
-			</button>
-		</a>
-		<a href='../codes/logout.php'>
-			<button type='button' class='btn-badge' style='color:white'>
-			<i class="fa fa-sign-out" aria-hidden="true"></i>
-			Log Out
-			</button>
-		</a>
-		<script>
+	</a>
+	<script>
 		$('.dropdown-btn').click(function(){
 			if($(this).next().is(':visible')){
 				$(this).css('color','white');
@@ -147,389 +139,183 @@
 			}
 			$(this).next().toggle(350);
 		});
-		</script>
-	</div>
-	<div class='notification_large' id='announcement_notification'>
-		<div class='notification_box'>
-			<h2 style='font-family:bebasneue'>Create new Announcement</h2>
-			<label>Date</label>
-			<input type='date' class='form-control' name='announcement_date' min='<?= date('Y-m-d') ?>'>
-			<label>Event name</label>
-			<input type='text' class='form-control' name='event' required>
-			<br>
-			<button type='button' class='btn-back'>Back</button>
-			<button type='button' class='btn-confirm' id='confirm_button_announcement'>Confirm</button>
-		</div>
-	</div>
-	<div class='notification_large' id='news_notification'>
-		<div class='notification_box'>
-			<h2 style='font-family:bebasneue'>Create new News</h2>
-			<label>Date</label>
-			<input type='date' class='form-control' name='announcement_date' min='<?= date('Y-m-d') ?>'>
-			<label>News name</label>
-			<input type='text' class='form-control' name='event' required>
-			<br><br>
-			<label>Tag</label>
-			<input id="tag" name="example" type="text">
-			<?php
-				$tag = '';
-				$sql_tag = "SELECT name FROM users WHERE isactive = '1'";
-				$result_tag = $conn->query($sql_tag);
-				$row_tag = $result_tag->fetch_assoc();
-				$tag = $tag . ',"' . $row_tag['name'] . '"';
-			?>
-			<input type='hidden' id='tags' name='tags'>
-			<script>
-			$('#tag').tagsInput({
-				interactive: true,
-				placeholder: 'Add a tag',
-				minChars: 0,
-				maxChars: null,
-				limit: null,
-				validationPattern: null,
-				unique: true,
-				'autocomplete': {
-					source: [<?= substr($tag,1,1000) ?>]
-				}
-			});
-			</script>
-			<button type='button' class='btn-back'>Back</button>
-			<button type='button' class='btn-confirm' id='confirm_button_announcement'>Confirm</button>
-			<input type='hidden' id='words' name='x'>
-		</form>
-		</div>
-	</div>
-	<script>
-		$('#create_anon').click(function(){
-			$('#announcement_notification').fadeIn();
-		});
-		$('#create_news').click(function(){
-			$('#news_notification').fadeIn();
-		});
-		$('.btn-back').click(function(){
-			$('.notification_large').fadeOut();
-		});
-		function convert(){
-			$('#tags').val($('#tag').val());
-			var value = $('#tag').val().replace(" ", "");
-			var words = value.split(",");
-			$('#words').val(words.length);
-			$('#form_calendar').submit();
-		}
-		</script>
-	<script>
-	function buka_kal(){
-		$('#calendar').fadeIn(500);
-		$('#dept').fadeOut(200);
-		$('#slip').fadeOut(200);
-	}
-	function bukaslip(){
-		$('#dept').fadeOut(200);
-		$('#calendar').fadeOut(200);
-		$('#slip').fadeIn(500);
-	}
 	</script>
-	<div class='main' id='slip' style='display:none'>
-		<form action='show_salary_slip.php' method="POST" target="_blank">
-			<input type='hidden' value='<?= $user_id ?>' name='user_salary'>
-			<label>Month</label>
-			<select class='form-control' name='month'>
-<?php
-		$month	 = 1; 
-		for($month = 1; $month <= 12; $month++){
-?>
-				<option value='<?= $month ?>'><?= $month ?></option>
-<?php
-		}
-?>
-			</select>
-			<label>Year</label>
-			<select class='form-control' name='year'>
-<?php
-		$year = date('Y'); 
-?>
-				<option value='<?= $year ?>'><?= $year ?></option>
-				<option value='<?= $year - 1 ?>'><?= $year - 1 ?></option>
-			</select><br>
-			<button type='submit' class='btn-primary'>View</button>
-		</form>
-	</div>
-	<div class='main' id='dept' style='display:none'>
-	<?php
-	if(empty($_GET['alert'])){
-	} else if($_GET['alert'] == 'changetrue'){
-	?>
-		<div style='position:fixed;top:20px;z-index:200'>
-			<div class="alert alert-success" id='alert'>
-				<strong>Success!</strong>Changes has been made to your account!
-			</div>
-		</div>
-	<script>
-		$(document).ready(function(){
-			setTimeout(function(){
-				$('#alert').fadeOut();
-			},2000)
-		});
-	</script>
-	<?php
-		} else {
-	?>
-		<div style='position:fixed;top:20px;z-index:200'>
-			<div class="alert alert-warning" id='alert'>
-				<strong>Warning!</strong>No changes were made
-			</div>
-		</div>
-		<script>
-			$(document).ready(function(){
-				setTimeout(function(){
-					$('#alert').fadeOut();
-				},2000)
-			});
-		</script>
-	<?php
-		}
-	?>
-	<div class='row' id='menus'>
-		<div class='col-sm-6 col-lg-6 col-xl-3' style='margin-top:20px'>
-			<div class='row box_notif'>
-				<div class='col-md-5 col-lg-4 col-xl-4' style='background-color:#00ccff;padding-top:20px'>
-					<img src='../universal/images/bullhorn.png' style='width:100%'>
-				</div>
-				<div class='col-sm-7 col-lg-8 col-xl-8'>
-				<?php
-					$sql_announcement = "SELECT COUNT(*) AS total_announcement FROM announcement WHERE date >= '" . date('Y-m-d') . "' AND date <= '" . date('Y-m-d',strtotime('+7day')) . "'";
-					$result_announcement = $conn->query($sql_announcement);
-					$announcement = $result_announcement->fetch_assoc();
-					echo ('<h1>' . $announcement['total_announcement'] . '</h1>');
-					echo ('<h3>News today</h3>');
-				?>
-				</div>
-			</div>
-		</div>
-		<div class='col-sm-6 col-lg-6 col-xl-3' style='margin-top:20px'>
-			<div class='row box_notif'>
-				<div class='col-md-5 col-lg-4 col-xl-4' style='background-color:#00b8e6;padding-top:20px'>
-					<img src='../universal/images/calendar.png' style='width:100%'>
-				</div>
-				<div class='col-md-7 col-lg-8 col-xl-8'>
-				<?php
-					if($role != 'superadmin'){
-						$sql_calendar = "SELECT COUNT(*) AS total_calendar FROM calendar WHERE maker = '" . $user_id . "' AND date >= '" . date('Y-m-d') . "' AND date <= '" . date('Y-m-d',strtotime('+3day')) . "'";
-					} else {
-						$sql_calendar = "SELECT COUNT(*) AS total_calendar,maker FROM calendar WHERE date >= '" . date('Y-m-d') . "' AND date <= '" . date('Y-m-d',strtotime('+3day')) . "'";
-					}
-					$result_calendar = $conn->query($sql_calendar);
-					$row = $result_calendar->fetch_assoc();
-					echo ('<h1>' . $row['total_calendar'] . '</h1>');
-					echo ('<h3>Events today</h3>');
-				?>
-				</div>
-			</div>
-		</div>
-		<?php
-			$sql_tagged = "SELECT user_id, calendar_id AS calendar_id FROM calendar_tag INNER JOIN calendar ON calendar_tag.calendar_id = calendar.id WHERE user_id = '" . $_SESSION['user_id'] . "' AND calendar.date >= '" . date('Y-m-d') . "' AND calendar.date <= '" . date('Y-m-d',strtotime('+3day')) . "'";
-			$result_tagged = $conn->query($sql_tagged);
-			$tagged = mysqli_num_rows($result_tagged);
-			if($role != 'superadmin'){
-		?>		
-		<div class='col-sm-6 col-lg-6 col-xl-3' style='margin-top:20px'>
-			<div class='row box_notif'>
-				<div class='col-md-5 col-lg-4 col-xl-4' style='background-color:#00ccff;padding-top:20px'>
-					<img src='../universal/images/tag.png' style='width:100%'>
-				</div>
-				<div class='col-sm-7 col-lg-8 col-xl-8'>
-				<?php					
-					echo ('<h1>' . $tagged . '</h1>');
-					echo ('<h3>Tags</h3>');
-				?>
-				</div>
-			</div>
-		</div>
-		<?php
-			}
-		?>
-		<div class='col-sm-6 col-lg-6 col-xl-3' style='margin-top:20px'>
-			<div class='box_notif'>
-				<div style='width:100%;background-color:#ddd;padding:0px;margin-top:0px;padding:10px'>
-					<h3><?= $name ?></h3>
-				</div>
-				<div class='row' style='padding:5px'>
-					<div class='col-xs-6'>						
-						<a href="edit_user_dashboard.php">
-							<button type='button' class='btn_notif'>
-								Edit profile
-							</button>
-						</a>
-					</div>
-					<div class='col-xs-6'>
-						<button type='button' class='btn_notif' onclick='open_salary_side()'><p>Print salary <br>slilp</p></button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<hr>
-	<?php
-		if($announcement['total_announcement'] > 0){
-	?>
-	<div class='row' id='news'>
-		<div class='col-sm-12'>
-			<h1>News!</h1>
-		</div>
-		<?php
-			$sql_news = "SELECT date,event FROM announcement WHERE date >= '" . date('Y-m-d') . "' AND date <= '" . date('Y-m-d',strtotime('+7day')) . "'";
-			$result_news = $conn->query($sql_news);
-			while($news = $result_news->fetch_assoc()){
-		?>
-		<div class='col-md-3 col-sm-4'>
-			<?= date('d M Y',strtotime($news['date'])); ?>
-		</div>
-		<div class='col-md-9 col-sm-8'>
-			<strong><?= $news['event']; ?></strong>
-		</div>
-		<?php
-			}
-		?>
-		<div class='col-md-12'>
-			<hr>
-		</div>
-	</div>
-	<?php
-		}
-		if($row['total_calendar'] > 0){
-	?>
-	<div class='row' id='events'>
-		<div class='col-md-12'>
-			<h1>Events</h1>
-		</div>
-		<?php
-			$sql_events = "SELECT id,date,event,description FROM calendar WHERE date >= '" . date('Y-m-d') . "' AND date <= '" . date('Y-m-d',strtotime('+3day')) . "' 
-			AND maker = '" . $_SESSION['user_id'] . "'";
-			$result_events = $conn->query($sql_events);
-			while($events = $result_events->fetch_assoc()){
-		?>
-		<div class='col-md-3 col-sm-4'>
-			<?= date('d M Y',strtotime($events['date'])) ?>
-		</div>
-		<div class='col-md-7 col-sm-6'>
-			<strong><?= $events['event']; ?></strong>
-		</div>
-		<div class='col-md-1 col-sm-1'>
-			<button type='button' class='btn-default' onclick='showdetail(<?= $events['id'] ?>)' id='showdet<?= $events['id'] ?>'>+</button>
-			<button type='button' class='btn-default' onclick='hidedetail(<?= $events['id'] ?>)' id='hidedet<?= $events['id'] ?>' style='display:none'>-</button>
-		</div>
-		<div class='col-md-12' id='detail<?= $events['id'] ?>' style='display:none'>
-			<?= $events['description'] ?>
-		</div>
-		<br><br>
-		<?php
-			}
-		?>
-		<div class='col-md-12'>
-			<hr>
-		</div>
-	</div>
-	<?php
-		}
-	if($tagged > 0){
-	?>
-	<div class='row' id='tags'>
-		<div class='col-sm-12'>
-			<h1>Tags</h1>
-		</div>
-		<?php
-			while($row_tagged = $result_tagged->fetch_assoc()){
-		?>
-		<div class='col-md-3 col-sm-4'>
-			<?php
-				$sqli = "SELECT id,date,event,description,maker FROM calendar WHERE id = '" . $row_tagged['calendar_id'] . "'";
-				$resulti = $conn->query($sqli);
-				$rowi = $resulti->fetch_assoc();
-				echo date('d M Y',strtotime($rowi['date']));
-			?>
-		</div>
-		<div class='col-md-5 col-sm-4'>
-			<?= $rowi['event'] ?>
-		</div>
-		<div class='col-md-3'>
-			<?php
-				$myname = "SELECT name FROM users WHERE id = '" . $rowi['maker'] . "'";
-				$yourname = $conn->query($myname);
-				$ourname = $yourname->fetch_assoc();
-			?>
-			You are tagged by <strong><?= $ourname['name'] ?></strong>
-		</div>
-		<div class='col-md-1 col-sm-1'>
-			<button type='button' class='btn-default' onclick='showi(<?= $rowi['id'] ?>)' id='show_tag<?= $rowi['id'] ?>'>+</button>
-			<button type='button' class='btn-default' onclick='hidi(<?= $rowi['id'] ?>)' id='hide_tag<?= $rowi['id'] ?>' style='display:none'>-</button>
-		</div>
-		<div class='col-sm-12' id='detaili<?= $rowi['id'] ?>' style='display:none'>
-			<?= $rowi['description']; ?>
-		</div>
-		<script>
-		function showi(n){
-			$('#detaili' + n).show();
-			$('#hide_tag' + n).show();
-			$('#show_tag' + n).hide();
-		};
-		function hidi(n){
-			$('#detaili' + n).hide();
-			$('#hide_tag' + n).hide();
-			$('#show_tag' + n).show();
-		}
-		</script>
-		<?php
-			}
-		?>
-	</div>
-	<?php
-	}
-	?>
-	<div id="Salary_side" class="salary_side_nav">
-		<div style='padding:20px'>
-			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-			<form action='show_salary_slip.php' method='POST' target='_blank'>
-				<label style='color:white'>Month</label>
-				<select class='form-control' name='month'>
-				<?php
-					$m = 1;
-					for($m = 1; $m <= 12; $m++){
-				?>
-					<option value='<?= $m ?>'><?= $m ?></option>
-				<?php
-					}
-				?>
-				</select>
-				<label style='color:white'>Year</label>
-				<input type='hidden' value='<?= $_SESSION['user_id'] ?>' name='user_salary'>
-				<select class='form-control' name='year'>
-				<?php
-					$sql_salary = 'SELECT DISTINCT(YEAR(date)) AS year FROM absentee_list';
-					echo $sql_salary;
-					$result_salary = $conn->query($sql_salary);
-					while($row_salary = $result_salary->fetch_assoc()){
-				?>	
-					<option value='<?= $row_salary['year'] ?>'><?= $row_salary['year']; ?></option>
-				<?php
-					}
-				?>
-				</select>
-				<br><br>
-				<button type='submit' class='btn_submit_salary'>Submit</button>
-			</form>
-		</div>
-	</div>
-	<script>
-		function open_salary_side() {
-			$('#Salary_side').css('width',"250px");
-		}
-		function closeNav() {
-			$("#Salary_side").css('width',"0px");
-		}
-	</script>
-<?php
-if($privilege == 1){
-	include('calendar_absent.php');
-}
-?>
 </div>
+<div class='notification_large' id='announcement_notification'>
+	<div class='notification_box'>
+		<h2 style='font-family:bebasneue'>Create new Announcement</h2>
+		<label>Date</label>
+		<input type='date' class='form-control' name='announcement_date' min='<?= date('Y-m-d') ?>'>
+		<label>Event name</label>
+		<input type='text' class='form-control' name='event' required>
+		<br>
+		<button type='button' class='btn-back'>Back</button>
+		<button type='button' class='btn-confirm' id='confirm_button_announcement'>Confirm</button>
+	</div>
+</div>
+<div class='main' id='dept' style='display:none'>
+	<div class='row'>
+		<div class='col-md-4 col-sm-6 col-xs-10 col-md-offset-0 col-sm-offset-0 col-xs-offset-1' style='text-align:center;border-right:2px solid #333'>
+			<img src='<?= $profile_pic ?>' style='width:100%;max-width:150px;border-radius:50%'>
+			<h3 style='font-family:Bebasneue'><?= $name ?></h3>
+			<h4 style='font-family:bebasneue'>Profile Information</h4>
+			<div style='text-align:left'>
+				<label>Name</label>
+				<p><?= $name ?></p>
+				<label>NIK</label>
+				<p><?= $nik ?></p>
+				<label>E-mail</label>
+				<p><?= $email ?></p>
+				<label>Username</label>
+				<p><?= $username ?></p>
+			</div>
+			<a href='edit_user_dashboard.php'>
+				<button class='button_default_dark'>Edit profile</button>
+			</a>
+		</div>
+		<div class='col-md-8 col-sm-6 col-xs-12 col-md-offset-0 col-sm-offset-0 col-xs-offset-0' style='position:relative'>
+			<div class='button_wrapper'>
+				<button type='button' class='button_default_light active_button' id='news_button'>
+					News
+				</button>
+				<button type='button' class='button_default_light' id='salary_button'>
+					Salary Slip
+				</button>
+<?php
+	if($privilege == 1){
+?>
+				<button type='button' class='button_default_light' id='att_list_button'>
+					Att. List
+				</button>
+<?php
+	}
+?>
+			</div>
+			<div id='menu_wrapper'>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	#create_news_wrapper{
+		width:100%;
+		height:100%;
+		background-color:rgba(30,30,30,0.8);
+		display:none;
+		position:fixed;
+		top:0;
+		z-index:100;
+	}
+	
+	#create_news_box{
+		width:80%;
+		height:80%;
+		background-color:white;
+		z-index:120;
+		position:absolute;
+		top:10%;
+		left:10%;
+		padding:40px;
+	}
+	
+	#close_news_wrapper_button{
+		position:fixed;
+		top:10%;
+		left:10%;
+		z-index:125;
+		color:#333;
+		background-color:transparent;
+		border:none;
+		outline:none;
+	}
+</style>
+<div id='create_news_wrapper'>
+	<button type='button' id='close_news_wrapper_button'>X</button>
+	<div id='create_news_box'>
+		<h2 style='font-family:bebasneue'>Create a news</h2>
+		<form id='create_news_form'>
+			<label>Date</label>
+			<input type='date' class='form-control' id='news_date'>
+			<label>Subject</label>
+			<input type='text' class='form-control' id='news_subject'>
+			<label>Other description</label>
+			<textarea class='form-control' style='resize:none' id='news_description'></textarea>
+			<br>
+			<button type='button' class='button_default_dark' id='add_news_button'>Submit</button>
+		</form>
+	</div>
+</div>
+<script>
+	$(document).ready(function(){
+		$.ajax({
+			url:'news_section.php',
+			success:function(response){
+				$('#menu_wrapper').html(response)
+			}
+		});
+	});
+	
+	$('#news_button').click(function(){
+		$('.active_button').removeClass('active_button');
+		$(this).addClass('active_button');
+		$.ajax({
+			url:'news_section.php',
+			success:function(response){
+				$('#menu_wrapper').html(response)
+			}
+		});
+	})
+	
+	$('#salary_button').click(function(){
+		$('.active_button').removeClass('active_button');
+		$(this).addClass('active_button');
+		$.ajax({
+			url:'salary_section.php',
+			success:function(response){
+				$('#menu_wrapper').html(response)
+			}
+		});
+	})
+	
+	$('#att_list_button').click(function(){
+		$('.active_button').removeClass('active_button');
+		$(this).addClass('active_button');
+		$.ajax({
+			url:'calendar_absent.php',
+			success:function(response){
+				$('#menu_wrapper').html(response);
+			}
+		});
+	});
+	
+	$('#add_news_button').click(function(){
+		if($('#news_date').val() == ''){
+			alert('Please inset a date');
+			$('#news_date').focus();
+			return false;
+		} else if($('#news_subject').val() == ''){
+			alert('Please insert a subject');
+			$('#news_subject').focus();
+			return false;
+		} else {
+			$.ajax({
+				url:'create_announcement.php',
+				data:{
+					subject: $('#news_subject').val(),
+					date: $('#news_date').val(),
+					description: $('#news_description').val(),
+					created_by: <?= $user_id ?>,
+				},
+				beforeSend:function(){
+					$('#add_news_button').attr('disabled',true);
+				},
+				success:function(){
+					$('#add_news_button').attr('disabled',false);
+					$('#close_news_wrapper_button').click();
+					$('#news_button').click();
+				},
+				type:'POST',
+			})
+		}
+	});		
+</script>

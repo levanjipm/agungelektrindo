@@ -1,9 +1,13 @@
 <?php
 	//Creating new announcemnt!//
 	include('../codes/connect.php');
-	$date = $_POST['announcement_date'];
-	$event = $_POST['event'];
-	$sql = "INSERT INTO announcement (date,event) VALUES ('$date','$event')";
-	$result = $conn->query($sql);
-	header('location:user_dashboard.php');
+	
+	$date 			= $_POST['date'];
+	$subject 		= $_POST['subject'];
+	$description 	= mysqli_real_escape_string($conn,$_POST['description']);
+	$created_by		= $_POST['created_by'];
+	
+	$sql = "INSERT INTO announcement (date,event,description,created_by) VALUES ('$date','$subject','$description','$created_by')";
+	echo $sql;
+	$conn->query($sql);
 ?>

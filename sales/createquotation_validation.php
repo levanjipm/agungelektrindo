@@ -32,6 +32,18 @@
 	} else if($terms == 4){
 		$note = $dp . "% down payment upon confirmation and full payment after " . $lunas . " day(s)";
 	}
+	
+	function GUID()
+	{
+		if (function_exists('com_create_guid') === true)
+		{
+			return trim(com_create_guid(), '{}');
+		}
+
+		return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+	}
+	
+	$guid = GUID();
 ?>
 <head>
 	<title>Validate Quotation</title>
@@ -72,8 +84,11 @@
 				<input type="hidden" value='<?= $customer?>' name="customer">
 				<h3><?= $customer_name ?></h3>
 				<p><?= date('d M Y',strtotime($q_date)) ?></p>
-				<br><br><br>
-				<table class="table table-hover">
+				<label>Unique GUID</label>
+				<p><?= $guid?></p>
+				<input type='hidden' value='<?= $guid ?>' name='GUID'>
+				<br>
+				<table class="table table-bordered">
 					<thead>
 						<th style="text-align:center;width:20%">Item Description</th>
 						<th style="text-align:center;width:10%">Reference</th>

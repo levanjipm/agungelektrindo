@@ -47,9 +47,9 @@
 		$result_customer_so	= $conn->query($sql_customer_so);
 		$customer_so		= $result_customer_so->fetch_assoc();
 		
-		$customer_name 		= $row_customer['retail_name'];
-		$customer_address 	= $row_customer['retail_address'];
-		$customer_city 		= $row_customer['retail_city'];
+		$customer_name 		= $customer_so['retail_name'];
+		$customer_address 	= $customer_so['retail_address'];
+		$customer_city 		= $customer_so['retail_city'];
 	}
 	
 	$sql_do 		= "SELECT so_id,id FROM code_delivery_order WHERE name = '" . $do_name . "'";
@@ -65,9 +65,9 @@
 	$po_number 		= $row_so['po_number'];
 ?>
 <div class='row'>
-	<div class='col-sm-1' style='background-color:#ddd'>
+	<div class='col-sm-1' style='background-color:#555'>
 	</div>
-	<div class='col-sm-10' style='padding-top:50px;padding-right:50px;padding-left:50px' id='printable'>
+	<div class='col-sm-10' style='padding:50px' id='printable'>
 		<div class='row'>
 			<div class='col-sm-7'>
 				<img src='../universal/images/Logo Agung.jpg' style='width:100%'>
@@ -88,14 +88,14 @@
 				<p><?= $customer_city ?></p>
 			</div>
 		</div>
-		<hr><br><br>
-		<table class='table' style='text-align:center'>
+		<br><br>
+		<table class='table table-bordered' style='text-align:center;'>
 			<tr>
-				<th style='width:5%'>Nomor</th>
-				<th style='width:30%'>Barang</th>
-				<th style='width:15%'>Jumlah</th>
-				<th style='width:25%'>Harga satuan</th>
-				<th style='width:25%'>Harga</th>
+				<th style='text-align:center;width:5%'>No.</th>
+				<th style='text-align:center;width:30%'>Barang</th>
+				<th style='text-align:center;width:15%'>Jumlah</th>
+				<th style='text-align:center;width:25%'>Harga satuan</th>
+				<th style='text-align:center;width:25%'>Harga</th>
 			</tr>
 <?php
 		$i = 1;
@@ -193,20 +193,36 @@
 			</tr>
 			<?php } ?>
 		</table>
-		<br><br><br><br><br>
-		<div class='col-sm-3 col-sm-offset-9' style='margin-bottom:150px'>
-			<p style='text-align:right'>Hormat kami,</p>
-			<?php
-				if($taxing == 1){
-			?>
-			<div style='border:1px solid #ddd;width:110px;height:80px;position:absolute;right:0%'>
+		<br><br><br>
+		<div class='row'>
+			<div class='col-sm-3 col-sm-offset-9' style='margin-bottom:150px'>
+				<p style='text-align:right'>Hormat kami,</p>
+				<?php
+					if($taxing == 1){
+				?>
+				<div style='border:1px solid #ddd;width:110px;height:80px;position:absolute;right:0%'>
+				</div>
+				<?php
+					}
+				?>
 			</div>
-			<?php
-				}
-			?>
+		</div>
+		<div class='row'>
+			<div class='col-xs-6'>
+				<p><strong>Keterangan</strong></p>
+				<ol>
+					<li>
+						<p style='line-height:1'>Pembayaran dilakukan melalui rekening</p>
+						<p style='line-height:1'>BCA Cabang Ahmad Yani II - Bandung</p>
+						<p style='line-height:1'>A/N: CV Agung Elektrindo</p>
+						<p style='line-height:1'>AC No.:8090249500</p>
+					</li>
+					<li>Pembayaran dengan menggunakan giro atau cek dianggap sah setelah diuangkan</li>
+				</ol>
+			</div>
 		</div>
 	</div>
-	<div class='col-sm-1' style='background-color:#ddd'>
+	<div class='col-sm-1' style='background-color:#555'>
 	</div>
 </div>
 <div class="row" style="background-color:#333;padding:30px">

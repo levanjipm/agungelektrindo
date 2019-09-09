@@ -33,7 +33,7 @@
 				while($gr	= $result_gr->fetch_assoc()){		
 					$quantity 		= $gr['quantity'];
 					$billed_price 	= $gr['billed_price'];
-					$total_value = $total_value + $quantity * $billed_price;
+					$total_value += $quantity * $billed_price;
 				}
 			}
 ?>

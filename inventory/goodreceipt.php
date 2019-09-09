@@ -5,20 +5,21 @@
 	}
 	
 	$date = $_POST['date'];
+	
 	//If there was no purchase from the purchasing department, redirect to initial//
 	$po_id = $_POST['po'];
-	//Get supplier name//
-	$sql_supplier = "SELECT name FROM supplier WHERE id = '" . $_POST['supplier'] . "'";
-	$result_supplier = $conn->query($sql_supplier);
-	$row_supplier = $result_supplier->fetch_assoc();
-	$supplier_name = $row_supplier['name'];
-	//Get purchaseorder unique name from database//
-	$sql_po = "SELECT name FROM code_purchaseorder WHERE id = '" . $po_id . "'";
-	$result_po = $conn->query($sql_po);
-	$row_po = $result_po->fetch_assoc();
-	$po_name = $row_po['name'];
 	
-	$x = 1;
+	//Get supplier name//
+	$sql_supplier 		= "SELECT name FROM supplier WHERE id = '" . $_POST['supplier'] . "'";
+	$result_supplier 	= $conn->query($sql_supplier);
+	$row_supplier 		= $result_supplier->fetch_assoc();
+	$supplier_name 		= $row_supplier['name'];
+	
+	//Get purchaseorder unique name from database//
+	$sql_po 			= "SELECT name FROM code_purchaseorder WHERE id = '" . $po_id . "'";
+	$result_po 			= $conn->query($sql_po);
+	$row_po 			= $result_po->fetch_assoc();
+	$po_name 			= $row_po['name'];
 ?>
 <style>
 	.notification_large{
@@ -57,22 +58,17 @@
 	<hr>
 	<h4><?= $supplier_name ?></h4>
 	<p><?= $po_name ?></p>
-	<br><br>
-<?php
-	$sql = "SELECT id, reference, quantity, received_quantity, status
-	FROM purchaseorder
-	WHERE status = '0' AND purchaseorder_id = '" . $po_id . "'";
-	$result = $conn->query($sql);
-?>
+	<p><?= date('d M Y',strtotime($date)) ?></p>
 	<form action="goodreceipt_validation.php" method="POST" id="goodreceipt_form">
 		<div class="row">
 			<div class="col-lg-4 col-lg-offset-4">
 				<label>Document number</label>
 				<input type="text" name="document" class="form-control" id="document">
+				<input type="hidden" name="date" value="<?= $date ?>">
 			</div>
 		</div>
 		<br><br>
-		<table class="table">
+		<table class="table table-bordered">
 			<thead>
 				<th style="width:30%">Item name</th>
 				<th style="width:10%">Ordered</th>
@@ -80,28 +76,30 @@
 				<th style="width:20%">Item Received</th>
 			</thead>
 <?php
+	$sql 	= "SELECT id, reference, quantity, received_quantity, status
+			FROM purchaseorder
+			WHERE status = '0' AND purchaseorder_id = '" . $po_id . "'";
+	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()) {
+		$id		= $row['id'];
 ?>
 			<tr>
-				<td><?= $row['reference'] ?>
-				</td>
-				<td><?= $row['quantity']; ?></td>
+				<td><?= $row['reference'];?>		</td>
+				<td><?= $row['quantity']; ?>		</td>
 				<td><?= $row['received_quantity']; ?></td>
 				<td>
-					<input type="hidden" name="date" value="<?= $date ?>">
-					<input type="hidden" name="id<?= $x?>" value="<?= $row['id']?>">
-					<input class="form-control" type="number" name="qty_receive<?= $x?>" id="qty_receive<?= $x?>" max="<?= $row['quantity'] -$row['received_quantity']?>" min='0' value='0'>
+					<input class="form-control" type="number" name="qty_receive[<?= $id?>]" id="qty_receive<?= $id?>" max="<?= $row['quantity'] -$row['received_quantity']?>" min='0' value='0'>
 				</td>
 			</tr>
-				<?php
-					$x++;
+<?php
 	}
-				?>	
+?>	
 		</table>
 		<div class="row">
-			<input type="hidden" value="<?= $_POST['po'] ?>" name="po">
-			<input type="hidden" value="<?= $x ?>" name="x">
-			<button type="button" class="btn btn-default" onclick='calculate()'>Calculate</button>
+			<div class='col-12'>
+				<input type="hidden" value="<?= $_POST['po'] ?>" name="po">
+				<button type="button" class="button_default_dark" onclick='calculate()'>Calculate</button>
+			</div>
 		</div>
 		<div class='notification_large' style='display:none'>
 			<div class='notification_box'>
@@ -118,7 +116,7 @@
 function calculate(){
 	var res = 'true';
 	var total_receive = 0;
-	$('input[id^=qty_receive]').each(function(){
+	$('input[id^="qty_receive"]').each(function(){
 		var maximum = parseInt($(this).attr('max'));
 		var receive = parseInt($(this).val());
 		total_receive = parseInt(total_receive + receive);

@@ -3,16 +3,14 @@
 ?>
 <div class="main" style='padding-top:0px'>
 	<div class='row' style='height:100%'>
-		<div class='col-sm-1' style='background-color:#ddd'>
-		</div>
-		<div class='col-sm-10'>
+		<div class='col-sm-12'>
 			<h2 style=';font-family:bebasneue'>Good receipt</h2>
 			<p>Create new good receipt</p>
 			<hr>
 			<form id="goodreceipt" method="POST" action="goodreceipt.php">
 				<div class="row">
-					<div class="col-lg-6">
-						<label for="name">Supplier</label>
+					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+						<label>Supplier</label>
 						<select class="form-control" name="supplier" id="supplier" onclick="disable()">
 							<option id="kosong">Please Select a supplier--</option>
 <?php
@@ -30,20 +28,14 @@
 							<option id="kosong">--Pelase select a purchase order to receive--</option>
 						</select>
 					</div>
-					<div class="col-lg-3 offset-lg-3">
+					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 col-lg-offset-3 col-md-offset-3 col-sm-offset-0 col-xs-offset-0">
 						<label for="date">Tanggal Surat Jalan</label>
 						<input type="date" class="form-control" required name="date"></input>
 					</div>
 				</div>
-				<br><hr>
-				<div class="row">
-					<div class="col-lg-3" style="padding:10px">
-						<button type="submit" href="goodreceipt.php" class="btn btn-secondary">View Uncompleted Items</button>
-					</div>
-				</div>
+				<br>
+				<button type="submit" href="goodreceipt.php" class="button_default_dark">View Uncompleted Items</button>
 			</form>
-		</div>
-		<div class='col-sm-1' style='background-color:#ddd'>
 		</div>
 	</div>
 </div>
@@ -51,10 +43,11 @@
 function disable(){
 	document.getElementById("kosong").disabled = true;
 }
+
 $(document).ready(function() {
 	$("#supplier").change(function(){
 		var options = {
-			url: "Ajax/requestfilter.php",
+			url: "Ajax/search_incomplete_po.php",
 			type: "POST",
 			data: {id:$('#supplier').val()},
 			success: function(result){

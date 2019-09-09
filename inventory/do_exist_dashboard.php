@@ -104,10 +104,8 @@
 			<input type="hidden" name="id" value="<?= $so_id ?>">
 			<input type="hidden" name="customer_id" value="<?= $customer_id ?>">
 			<input type="hidden" name="jumlah" value="<?= $i ?>" id='jumlah'>
-			<button type='button' class='btn btn-secondary' id='complete_delivery_button'>Complete delivery</button>
-			<br>
-			<br>
-			<button type="button" class="btn btn-default" onclick="lihat()">Proceed</button>
+			<button type='button' class='button_success_dark' id='complete_delivery_button'>Complete delivery</button>
+			<button type="button" class="button_default_dark" onclick="lihat()">Proceed</button>
 		</form>
 	</div>
 	<script>

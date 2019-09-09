@@ -1,10 +1,13 @@
 <?php
 	include('../codes/connect.php');
+	session_start();
+	$confirmed_by		= $_SESSION['user_id'];
 	//confirming goods receipt//
 	$good_receipt_id = $_POST['id'];
 	//Change status on 'isconfirm' to 1 from 0//
-	$sql_status = "UPDATE code_goodreceipt SET isconfirm = '1' WHERE id = '" . $good_receipt_id . "'";
-	$result_status = $conn->query($sql_status);
+	$sql_status = "UPDATE code_goodreceipt SET isconfirm = '1', confirmed_by = '$confirmed_by', confirmed_date = CURDATE()
+					WHERE id = '" . $good_receipt_id . "'";
+	$conn->query($sql_status);
 	
 	$sql_get_status = "SELECT date,supplier_id,document FROM code_goodreceipt WHERE id = '" . $good_receipt_id . "'";
 	$result_get_status = $conn->query($sql_get_status);

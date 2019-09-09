@@ -58,8 +58,8 @@
 		<label>Quantity</label>
 		<input type='number' class='form-control' id='quantity' name='quantity'>
 		<br>
-		<button type='button' class='btn btn-secondary' id='back_found_goods_button'>Back</button>
-		<button type='button' class='btn btn-default' id='submit_found_goods_confirmation_button'>Submit</button>
+		<button type='button' class='button_danger_dark' id='back_found_goods_button'>Back</button>
+		<button type='button' class='button_default_dark' id='submit_found_goods_confirmation_button'>Submit</button>
 	</form>
 </div>
 <div class='notification_large' style='display:none' id='confirm_notification'>

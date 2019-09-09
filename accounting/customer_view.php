@@ -3,7 +3,7 @@
 	if(empty($_POST['customer']) || $_POST['customer'] == 0){
 ?>
 <script>
-	window.location.href='accounting.php';
+	window.location.href='accounting';
 </script>
 <?php
 	}
@@ -50,8 +50,8 @@
 	</div>
 	<div class='row'>
 		<div class='col-sm-12'>
-			<h2>Unpaid invoices</h2>
-			<table class='table'>
+			<h3 style='font-family:bebasneue'>Unpaid invoices</h2>
+			<table class='table table-bordered'>
 				<tr>
 					<th>Date</th>
 					<th>Invoice number</th>
@@ -76,8 +76,8 @@
 		 $receivable		= $result_receivable->fetch_assoc();
 		 $paid				= $receivable['paid'];
 		 
-		 $sql_returned = "SELECT SUM(value) AS returned FROM return_invoice_sales WHERE invoice_id = '" . $invoices['id'] . "'";
-		$result_returned = $conn->query($sql_paid);
+		$sql_returned = "SELECT SUM(value) AS returned FROM return_invoice_sales WHERE invoice_id = '" . $invoice_detail['id'] . "'";
+		$result_returned = $conn->query($sql_returned);
 		$returned_row = $result_returned->fetch_assoc();
 		$returned = $returned_row['returned'];
 ?>
@@ -88,7 +88,7 @@
 <?php
 	if($role == 'superadmin'){
 ?>
-					<td><button type='button' class='btn btn-default' onclick='submiting(<?= $invoice_detail['id'] ?>)'>Lunas</button></td>
+					<td><button type='button' class='button_default_dark' onclick='submiting(<?= $invoice_detail['id'] ?>)'>Set done</button></td>
 					<form id='hitung_lunas<?= $invoice_detail['id'] ?>' action='invoice_isdone.php' method='POST'>
 						<input type='hidden' value='<?= $invoice_detail['id'] ?>' name='id' readonly>
 					</form>
@@ -99,6 +99,8 @@
 <?php
 	}
 ?>
+			</table>
+		</div>
 	</div>
 </div>
 <script>

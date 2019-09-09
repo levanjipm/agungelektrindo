@@ -89,7 +89,7 @@ $( function() {
 							<td><input id='vat1' name='vat[1]' class='form-control'></td>
 							<td><input id='pl1' name='pl[1]' class='form-control'></td>
 							<td><input id='disc1' class='nomor' readonly></td>
-							<td><input id='total1' class='nomor' readonly></td>
+							<td id='total1'></td>
 							<td></td>
 						</tr>
 					</tbody>
@@ -97,8 +97,7 @@ $( function() {
 						<tr>
 							<td style='border:none;' colspan='4'></td>
 							<td>Total</td>
-							<td id="total">
-							</td>
+							<td id="grand_total"></td>
 							<input type='hidden' id='total_number'/>
 						</tr>
 					</tfoot>
@@ -127,23 +126,19 @@ $( function() {
 	</div>
 </div>
 <input type='hidden' id='check_available_input' value='true'>
+<input type='hidden' id='check_duplicate_input' value='true'>
 <script>
-var a=2;
-
-function evaluate_organic(x){
-	var to_be_evaluated = $('#' + x).val();
-	return eval(to_be_evaluated);
-}
+var a = 2;
 
 $("#add_item_button").click(function (){	
 	$("#sales_order_table").append(
 	"<tr id='tr-" + a + "'>"+
 	"<td><input type='text' id='reference" + a + "' class='form-control' name='reference[" + a + "]''></td>"+
-	"<td><input type='number' id='qty" + a + "' name='qty[" + a + "]' class='form-control'></td>"+
+	"<td><input type='number' id='qty" + a + "' name='quantity[" + a + "]' class='form-control'></td>"+
 	"<td><input type='text' id='vat" + a + "' name='vat[" + a + "]'' class='form-control'></td>"+
 	"<td><input type='text' id='pl" + a + "' name='pl[" + a + "]'' class='form-control'></td>"+
 	"<td><input id='disc" + a + "' class='nomor' readonly></td>"+
-	"<td><input id='total" + a + " class='nomor' readonly></td>"+
+	"<td id='total" + a + "'></td>"+
 	"<td><button type='button' class='button_delete_row' onclick='delete_row(" + a + ")'>X</button></td>"+
 	"</tr>").find("input").each(function () {
 		});
@@ -165,13 +160,12 @@ function show_retail(){
 	}
 }
 
-function evaluate_organic(x){
-	var to_be_evaluated = $('#' + x).val();
-	return eval(to_be_evaluated);
-}
-
 function confirm_sales_order(){
-	$('input[id^=reference]').each(function(){
+	var reference_array = [];
+	$('#check_available_input').val('true');
+	$('#check_duplicate_input').val('true');
+	
+	$('input[id^="reference"]').each(function(){
 		$.ajax({
 			url: "ajax/check_item_available.php",
 			data: {
@@ -183,10 +177,16 @@ function confirm_sales_order(){
 				if((response == 1)){
 					$('#check_available_input').val('false');
 					return false;
-				} else {
 				}
 			},
 		})
+		
+		var reference_value = $(this).val();
+		if (reference_array.indexOf(reference_value) == -1){
+			reference_array.push(reference_value);
+		} else {
+			$('#check_duplicate_input').val('false');
+		}
 	});
 	
 	if ($('#select_customer').val() == ""){
@@ -207,29 +207,39 @@ function confirm_sales_order(){
 		
 	var calculated_total = 0;
 	$('input[id^="vat"]').each(function(){
-		var input_id = $(this).attr('id');
-		var vat			= $(this).val();
-		var calculated_vat = evaluate_organic(input_id);
-		var uid 		= input_id.substring(3,6);
-		var pricelist 	= parseFloat($('#pl' + uid).val());
-		var quantity	= parseFloat($('#qty' + uid).val());
+		var input_id 		= $(this).attr('id');
+		var vat				= $(this).val();
+		var calculated_vat 	= evaluate_organic(input_id);
+		var uid 			= input_id.substring(3,6);
+		var pricelist 		= parseFloat($('#pl' + uid).val());
+		var quantity		= parseFloat($('#qty' + uid).val());
+		
+		$(this).val(calculated_vat);
 		
 		var total_price	= parseFloat(vat * quantity);
 		
-		var discount 	= calculated_vat * 100 / pricelist;
+		var discount 	= 100 - (calculated_vat * 100 / pricelist);
 		$('#disc' + uid).val(discount.toFixed(2));
-		$('#total' + uid).val(numeral(total_price).format('0,0.00'));
+		$('#total' + uid).html(numeral(total_price).format('0,0.00'));
 		calculated_total += total_price; 
 		console.log(calculated_total);
 	})
 	$('#total_number').val(calculated_total);
-	$('#total').html(numeral(calculated_total).format('0,0.00'));
+	$('#grand_total').html(numeral(calculated_total).format('0,0.00'));
 }};
 
+
+function evaluate_organic(x){
+	var to_be_evaluated = $('#' + x).val();
+	return eval(to_be_evaluated);
+}
+
 function validate_sales_order(){
-	console.log($('#total_number').val());
 	if($('#check_available_input').val() == 'false'){
 		alert('One or more reference is not defined');
+		return false;
+	} else if($('#check_duplicate_input').val() == 'false'){
+		alert('There is a duplicate detected');
 		return false;
 	} else if (isNaN($('#total_number').val())){
 		alert("insert correct price");
@@ -250,11 +260,6 @@ function validate_sales_order(){
 		$("#sales_order").submit();
 	}
 };
-
-function round(value, precision) {
-    var multiplier = Math.pow(10, precision || 0);
-    return Math.round(value * multiplier) / multiplier;
-}
 
 $("#back").click(function () {
 	$('input[id^="disc"]').each(function(){

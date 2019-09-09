@@ -16,26 +16,45 @@
 	$tax = $_POST['tax'];
 	$seller = $_POST['seller'];
 	
-	$descriptions = $_POST['descriptions'];
-	$quantities = $_POST['quantities'];
-	$prices = $_POST['prices'];	
+	$service_name_array			= $_POST['service_name'];
+	$service_quantity_array		= $_POST['service_quantity'];
+	$service_unit_array			= $_POST['service_unit'];
+	$service_price_array		= $_POST['service_price'];
+	
+	function GUID()
+	{
+		if (function_exists('com_create_guid') === true)
+		{
+			return trim(com_create_guid(), '{}');
+		}
+
+		return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+	}
+	
+	$guid	= GUID();
 ?>
 <div class='main'>
 	<form action='service_sales_order.php' method='POST' id='service_sales_order_form'>
+	
 	<input type='hidden' value='<?= $seller ?>' name='seller'>
 	<input type='hidden' value='<?= $tax ?>' name='tax'>
 	<input type='hidden' value='<?= $customer_id ?>' name='customer'>
 	<input type='hidden' value='<?= $po_number ?>' name='po_number'>
 	<input type='hidden' value='<?= $date ?>' name='date'>
+	
 	<h2 style='font-family:bebasneue'>Sales order</h2>
 	<p>Service sales order validation</p>
 	<hr>
-	<?= date('d M Y',strtotime($date)) ?>
-	<br>
-	<strong>Customer :</strong><?= $customer['name'] ?>
-	<br>
-	<strong>Purchase Order number :</strong><?= $po_number ?>
-	<table class='table'>
+	<label>Date</label>
+	<p><?= date('d M Y',strtotime($date)) ?></p>
+	<label>Customer :</label>
+	<p><?= $customer['name'] ?></p>
+	<label>Purchase Order</label>
+	<p><?= $po_number ?></p>
+	<label>Unique GUID</label>
+	<p><?= $guid ?></p>
+	<input type='hidden' value='<?= $guid ?>' name='guid'>
+	<table class='table table-bordered'>
 		<tr>
 			<th>Service name</th>
 			<th>Quantity</th>
@@ -44,17 +63,18 @@
 		</tr>
 		
 <?php
-	$total = 0;
-	$i = 1;
-	foreach($descriptions as $description){
-		$key = array_search($description, $descriptions);
-		$quantity = $quantities[$key];
-		$price = $prices[$key];
+	$total 	= 0;
+	$i		= 1;
+	foreach($service_name_array as $service_name){
+		$key = key($service_name_array);
+		$quantity 	= $service_quantity_array[$key];
+		$unit 		= $service_unit_array[$key];
+		$price 		= $service_price_array[$key];
 ?>
 		<tr>
 			<td>
-				<?= $description ?>
-				<input type='hidden' value='<?= $description ?>' name='descriptions[<?= $i ?>]'>
+				<?= $service_name ?>
+				<input type='hidden' value='<?= mysqli_real_escape_string($conn,$service_name) ?>' name='descriptions[<?= $i ?>]'>
 			</td>
 			<td>
 				<?= $quantity ?>
@@ -67,8 +87,9 @@
 			<td>Rp. <?= number_format($quantity * $price,2) ?></td>
 		</tr>
 <?php
-	$total = $total + $price * $quantity;
-	$i++;
+		$total = $total + $price * $quantity;
+		next($service_name_array);
+		$i++;
 	}
 ?>
 		<tr>
@@ -78,10 +99,10 @@
 		</tr>
 	</table>
 	</form>
-	<button type='button' class='btn btn-default'>Submit</button>
+	<button type='button' class='button_default_dark' id='submit_button'>Submit</button>
 </div>
 <script>
-	$('.btn-default').click(function(){
+	$('#submit_button').click(function(){
 		$('#service_sales_order_form').submit();
 	});
 </script>

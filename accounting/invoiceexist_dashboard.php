@@ -9,13 +9,12 @@
 	<hr>
 	<div class="row" style="padding:0px;height:100%;margin:0px">
 		
-		<table class='table table-hover'>
+		<table class='table table-bordered'>
 			<tr>
 				<th>Date</th>
 				<th>DO name</th>
 				<th>Customer name</th>
-				<th></th>
-				<th></th>
+				<th colspan='2'></th>
 			</tr>
 <?php
 	$sql_invoice = "SELECT sent, id, date, name, customer_id, project_id, so_id
@@ -48,7 +47,7 @@
 					}
 				?></td>
 				<td>
-					<button type='button' class='btn btn-default' onclick='submiting(<?= $invoice['id'] ?>)'>Create Invoice</button>
+					<button type='button' class='button_default_dark' onclick='submiting(<?= $invoice['id'] ?>)'>Create Invoice</button>
 				</td>
 				<td><?php
 					if($invoice['project_id'] != NULL){
@@ -66,6 +65,7 @@
 					</form>
 <?php
 					} else {
+						echo ('Goods invoice');
 ?>
 					<form style="padding:0px;margin:0px;width:100%" method="POST" action="build_invoice.php" id='do<?= $invoice['id'] ?>'>
 						<input type='hidden' value='<?= $invoice['name'] ?>' name='sj'>

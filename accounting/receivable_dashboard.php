@@ -10,8 +10,8 @@
 	}
 </style>
 <?php
-	$maximum = 0;
-	$total = 0;
+	$maximum 	= 0;
+	$total 		= 0;
 	$sql_initial = "SELECT SUM(invoices.value) AS maximum, code_delivery_order.customer_id
 	FROM invoices
 		JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
@@ -29,7 +29,7 @@
 	<div class='container'>
 		<div class='row'>
 			<div class='col-sm-4'>
-				<h2>Account of receivable</h2>
+				<h2 style='font-family:bebasneue'>Account of receivable</h2>
 				<p>Rp. <?= number_format($total,2) ?></p>
 			</div>
 			<div class='col-sm-4'>

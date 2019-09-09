@@ -7,9 +7,8 @@
 	$result 	= $conn->query($sql);
 	while($row = $result->fetch_assoc()){
 		$nilai = 1;
-		$sql_detail = "SELECT sales_order.reference
-		FROM sales_order
-		WHERE sales_order.so_id = '" . $row['id'] . "' AND sales_order.status = '0'";
+		$sql_detail = "SELECT reference	FROM sales_order
+		WHERE so_id = '" . $row['id'] . "' AND status = '0'";
 		$result_detail = $conn->query($sql_detail);
 		while($detail = $result_detail->fetch_assoc()){
 			$sql_stock = "SELECT stock FROM stock WHERE reference = '" . $detail['reference'] . "' ORDER BY id DESC LIMIT 1";
@@ -31,8 +30,8 @@
 								echo $customer['name'];
 							?></p>
 							<p><?= $row['po_number'] ?></p>
-							<button type='button' class='btn btn-default' onclick='view(<?= $row['id'] ?>)'>View</button>
-							<button type='button' class='btn btn-success' onclick='send(<?= $row['id'] ?>)'>Send</button>
+							<button type='button' class='button_default_dark' onclick='view(<?= $row['id'] ?>)'>View</button>
+							<button type='button' class='button_success_dark' onclick='send(<?= $row['id'] ?>)'>Send</button>
 						</div>
 					</div>
 <?php
@@ -61,8 +60,8 @@
 								echo $customer['name'];
 							?></p>
 							<p><?= $row['po_number'] ?></p>
-							<button type='button' class='btn btn-default' onclick='view(<?= $row['id'] ?>)'>View</button>
-							<button type='button' class='btn btn-secondary' onclick='send(<?= $row['id'] ?>)'>Send</button>
+							<button type='button' class='button_default_dark' onclick='view(<?= $row['id'] ?>)'>View</button>
+							<button type='button' class='button_warning_dark' onclick='send(<?= $row['id'] ?>)'>Send</button>
 						</div>
 					</div>
 					<form action='do_exist_dashboard.php' method='POST' id='so_form<?= $row['id'] ?>'>

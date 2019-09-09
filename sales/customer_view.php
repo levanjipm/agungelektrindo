@@ -1,6 +1,6 @@
 <?php
 	include('salesheader.php');
-	$customer_id		= $customer_id;
+	$customer_id		= $_POST['customer'];
 	
 	if(empty($customer_id) || $customer_id == 0){
 		header('location:receivable_dashboard.php');
@@ -10,12 +10,16 @@
 	$result_customer 	= $conn->query($sql_customer);
 	$customer 			= $result_customer->fetch_assoc();
 	
-	$sql_invoice 		= "SELECT SUM(value) AS jumlah FROM invoices WHERE customer_id = '" . $customer_id . "'";
-	$result_invoice 	= $conn->query($sql_invoice);
-	$invoice 			= $result_invoice->fetch_assoc();
+	$sql_invoice 		= "SELECT invoices.value FROM invoices 
+							JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+							JOIN code_salesorder ON code_salesorder.id = code_delivery_order.so_id
+							WHERE code_salesorder.customer_id = '" . $customer_id . "'";
+	// $result_invoice 	= $conn->query($sql_invoice);
+	// $invoice 			= $result_invoice->fetch_assoc();
 ?>
 <div class='main'>
 	<div class='row'>
+		<?= $sql_invoice ?>
 		<div class='col-sm-5'>
 			<h2><?= $customer['name'] ?></h2>
 			<p><?= $customer['address'] ?></p>

@@ -11,28 +11,45 @@ $( function() {
 });
 </script>
 <style>
-.box_do{
-	padding:100px 30px;
-	box-shadow: 3px 3px 3px 3px #888888;
-}
-.icon_wrapper{
-	position:relative;
-}
-.view_wrapper{
-	position:fixed;
-	top:30px;
-	right:0px;
-	margin-left:0;
-	width:30%;
-	background-color:#eee;
-	padding:20px;
-}
-.active_tab{
-	border-bottom:2px solid #5cb85c;
-}
-.tab_top{
-	cursor:pointer;
-}
+	.tab_top{
+		cursor:pointer;
+	}
+	
+	.active_tab{
+		border-bottom:2px solid #008080;
+	}
+	
+	.view_sales_order_wrapper{
+		background-color:rgba(30,30,30,0.7);
+		position:fixed;
+		z-index:100;
+		top:0;
+		width:100%;
+		height:100%;
+		display:none;
+	}
+	
+	#view_sales_order_box{
+		position:absolute;
+		width:90%;
+		left:5%;
+		top:10%;
+		height:80%;
+		background-color:white;
+		overflow-y:scroll;
+		padding:20px;
+	}
+	
+	#button_close_sales_order_view{
+		position:absolute;
+		background-color:transparent;
+		top:10%;
+		left:5%;
+		outline:none;
+		border:none;
+		color:#333;
+		z-index:120;
+	}
 </style>
 	<div class="main">
 		<h2 style='font-family:bebasneue'>Delivery Order</h2>
@@ -83,24 +100,30 @@ $( function() {
 			});
 		</script>
 		<div class='row'>
-			<div class='col-sm-7' id='sales_order_pane'>
+			<div class='col-sm-12' id='sales_order_pane'>
 			</div>
 		</div>
-		<div class='view_wrapper'>
-			<div id='view_so'>
-			</div>
+	</div>
+	<div class='view_sales_order_wrapper'>
+		<button id='button_close_sales_order_view'>X</button>
+		<div id='view_sales_order_box'>
 		</div>
 	</div>
 </body>
 <script>
+	$('#button_close_sales_order_view').click(function(){
+		$('.view_sales_order_wrapper').fadeOut();
+	});
+	
 	function view(n){
+		$('.view_sales_order_wrapper').fadeIn();
 		$.ajax({
 			url:'view_so.php',
 			data:{
 				id: n,
 			},
 			success:function(response){
-				$('#view_so').html(response);
+				$('#view_sales_order_box').html(response);
 			},
 			type:'POST',
 		})

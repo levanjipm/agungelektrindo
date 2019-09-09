@@ -69,22 +69,22 @@ if(mysqli_num_rows($result_otorisasi) > 0 && $isactive == 1){
 		Purchase Invoice
 	</button>	
 	<div class="dropdown-container">
-		<a href="debt_document_dashboard.php">
+		<a href="debt_document_dashboard">
 			<p>Input debt document</p>
 		</a>
-		<a href="confirm_purchases_dashboard.php">
+		<a href="confirm_purchases_dashboard">
 			<p>Confirm document</p>
 		</a>
-		<a href="waiting_for_billing.php">
+		<a href="waiting_for_billing">
 			<p>Pending bills</p>
 		</a>
-		<a href='purchase_archive.php'>
+		<a href='purchase_archive'>
 			<p>Archives</p>
 		</a>
 <?php
 	if($role == 'superadmin'){
 ?>
-		<a href='random_debt_document.php'>
+		<a href='random_debt_document'>
 			<p>Input random</p>
 		</a>
 <?php
@@ -96,10 +96,10 @@ if(mysqli_num_rows($result_otorisasi) > 0 && $isactive == 1){
 		Counter Bill
 	</button>
 	<div class="dropdown-container">
-		<a href="counter_bill_dashboard.php">
+		<a href="counter_bill_dashboard">
 			<p>Create counter bill</p>
 		</a>
-		<a href="view_counter_bill.php">
+		<a href="view_counter_bill">
 			<p>View counter bill</p>
 		</a>
 	</div>
@@ -108,13 +108,13 @@ if(mysqli_num_rows($result_otorisasi) > 0 && $isactive == 1){
 		Journals
 	</button>
 	<div class="dropdown-container">
-		<a href="sales_journal.php">
+		<a href="sales_journal">
 			<p>Sales journal</p>
 		</a>
-		<a href="purchasing_journal.php">
+		<a href="purchasing_journal">
 			<p>Purchasing journal</p>
 		</a>
-		<a href="stock_value_dashboard.php">
+		<a href="stock_value_dashboard">
 			<p>Stock value</p>
 		</a>
 	</div>
@@ -123,20 +123,20 @@ if(mysqli_num_rows($result_otorisasi) > 0 && $isactive == 1){
 		Receivable
 	</button>
 	<div class="dropdown-container">
-		<a href='receivable_dashboard.php'>
+		<a href='receivable_dashboard'>
 			<p>Dashboard</p>
 		</a>
-		<a href='receivable_report_customer.php'>
+		<a href='receivable_report_customer'>
 			<p>Report</p>
 		</a>
 	</div>
-	<a href='payable_dashboard.php'>
+	<a href='payable_dashboard'>
 		<button type='button' class='btn-badge dropdown-btn' style='color:white'>
 			<i class="fa fa-credit-card" aria-hidden="true"></i>
 			Payable
 		</button>
 	</a>
-	<a href='assign_bank_dashboard.php'>
+	<a href='assign_bank_dashboard'>
 		<button type='button' class='btn-badge'>
 			<i class="fa fa-university" aria-hidden="true"></i>
 			Bank

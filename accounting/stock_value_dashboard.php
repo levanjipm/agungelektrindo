@@ -3,6 +3,9 @@
 	include('accountingheader.php');
 ?>
 <div class='main'>
+	<h2 style='font-family:bebasneue'>Accounting Journal</h2>
+	<p>Stock value</p>
+	<hr>
 	<div class='row'>
 		<div class='col-sm-3'>
 			<label>Start date</label>
@@ -14,7 +17,7 @@
 		</div>
 		<div class='col-sm-3'>
 			<label style='color:white'>a</label><br>
-			<button type='button' class='btn btn-default' onclick='check_date()'>Show</button>
+			<button type='button' class='button_default_dark' onclick='check_date()'>Show</button>
 		</div>
 	</div>
 	<hr>

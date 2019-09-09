@@ -32,14 +32,14 @@
 	<link rel="stylesheet" href="../universal/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="inventorystyle.css">
 </head>
-<body>
+<body style='width:100%;overflow-x:hidden'>
 <div class="row" style='height:100%'>
-	<div class="col-xs-1" style="background-color:gray">
+	<div class="col-xs-1" style="background-color:#333">
 	</div>
 	<div class="col-xs-10" id="printable">
 		<h2 style='font-family:bebasneue'>Good Receipt</h2>
 		<p><b>Tanggal:</b><?php echo date('d M Y',strtotime($date));?></p>
-		<br><br><br>
+		<br>
 		<div class="row">
 			<div class="col-xs-8">
 				<div class="col-xs-4">
@@ -52,10 +52,9 @@
 				</div>
 			</div>
 		</div>
-		<br><br><br>
-		<div class="row">
+		<div class="row" style='padding:15px'>
 			<div class="col-xs-12">
-				<table class="table" style="text-align:center">
+				<table class="table table-bordered" style="text-align:center">
 					<thead>
 						<tr>
 							<th style="text-align:center">Referensi</th>
@@ -92,7 +91,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-1" style="background-color:gray">
+	<div class="col-xs-1" style="background-color:#333">
 	</div>
 </div>
 <script>
