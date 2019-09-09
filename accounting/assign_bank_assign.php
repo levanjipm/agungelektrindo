@@ -43,32 +43,32 @@ $selector = $result_selector->fetch_assoc();
 		</tr>
 <?php
 	if($transaction == 1){
-		$sql_opponent = "SELECT id FROM " . $database . " WHERE id = '" . $opponent_id . "'";
-		$result_opponent = $conn->query($sql_opponent);
-		$opponent = $result_opponent->fetch_assoc();
-		$sql_invoice = "SELECT * FROM purchases WHERE supplier_id = '" . $opponent_id . "'";
-		$result_invoice = $conn->query($sql_invoice);
+		$sql_opponent 		= "SELECT id FROM " . $database . " WHERE id = '" . $opponent_id . "'";
+		$result_opponent 	= $conn->query($sql_opponent);
+		$opponent 			= $result_opponent->fetch_assoc();
+		
+		$sql_invoice 		= "SELECT * FROM purchases WHERE supplier_id = '" . $opponent_id . "'";
+		$result_invoice 	= $conn->query($sql_invoice);
 		$i = 1;
 		while($invoices = $result_invoice->fetch_assoc()){
-			$sql_paid = "SELECT SUM(value) AS paid FROM payable WHERE purchase_id = '" . $invoices['id'] . "'";
-			$result_paid = $conn->query($sql_paid);
-			$paid = $result_paid->fetch_assoc();
-			$received = $paid['paid'];
+			$sql_paid 		= "SELECT SUM(value) AS paid FROM payable WHERE purchase_id = '" . $invoices['id'] . "'";
+			$result_paid 	= $conn->query($sql_paid);
+			$paid 			= $result_paid->fetch_assoc();
+			$received 		= $paid['paid'];
 ?>
 		<tr>
-			<input type='hidden' value='<?= $invoices['id'] ?>' name='id<?= $i ?>'>
 			<td><?= date('d M Y',strtotime($invoices['date'])) ?></td>
 			<td><?= $invoices['name']; ?></td>
 			<td><?= number_format(($invoices['value'] - $received),2) ?></td>
 			<td>
 				<div class="checkbox">
-					<label><input type="checkbox" id="check-<?= $i ?>" onchange="add(<?= $i ?>)" name='check<?= $i ?>'></label>
+					<label><input type="checkbox" id="check-<?= $i ?>" onchange="add(<?= $i ?>)" name='check[<?= $invoices['id'] ?>]'></label>
 				</div>
 				<input type='hidden' value='<?= $invoices['value'] - $received ?>' id='angka<?= $i ?>' readonly>
 			</td>
 			<td>
 				Rp. <span id='remain-<?= $i ?>'><?= number_format(($invoices['value'] - $received),2) ?></span>
-				<input type='hidden' value='<?= $invoices['value'] - $received ?>' id='remaining-<?= $i ?>' name='remaining<?= $i ?>' readonly>
+				<input type='hidden' value='<?= $invoices['value'] - $received ?>' id='remaining-<?= $i ?>' name='remaining[<?= $invoices['id'] ?>]' readonly>
 			</td>
 		</tr>
 <?php
@@ -137,19 +137,18 @@ $selector = $result_selector->fetch_assoc();
 			$returned = ($returned_row['returned'] == NULL)? 0 : $returned_row['returned'];
 ?>
 		<tr>
-			<input type='hidden' value='<?= $invoices['id'] ?>' name='id<?= $i ?>'>
 			<td><?= date('d M Y',strtotime($invoices['date'])) ?></td>
 			<td><?= $invoices['name']; ?></td>
 			<td><?= number_format(($invoices['value'] + $invoices['ongkir'] - $received - $returned),2) ?></td>
 			<td>
 				<div class="checkbox">
-					<label><input type="checkbox" id="check-<?= $i ?>" onchange="add(<?= $i ?>)" name='check<?= $i ?>'></label>
+					<label><input type="checkbox" id="check-<?= $i ?>" onchange="add(<?= $i ?>)" name='check[<?= $invoices['id'] ?>]'></label>
 				</div>
 				<input type='hidden' value='<?= $invoices['value'] + $invoices['ongkir'] - $received - $returned ?>' id='angka<?= $i ?>' readonly>
 			</td>
 			<td>
 				Rp. <span id='remain-<?= $i ?>'><?= number_format(($invoices['value'] + $invoices['ongkir'] - $received),2) ?></span>
-				<input type='hidden' value='<?= ($invoices['value'] + $invoices['ongkir'] - $received) ?>' id='remaining-<?= $i ?>' name='remaining<?= $i ?>' readonly>
+				<input type='hidden' value='<?= ($invoices['value'] + $invoices['ongkir'] - $received) ?>' id='remaining-<?= $i ?>' name='remaining[<?= $invoices['id'] ?>]' readonly>
 			</td>
 		</tr>
 <?php

@@ -62,4 +62,6 @@
 			next($return_quantity_array);
 		}
 	}
+	
+	header('location:sales');
 ?>	

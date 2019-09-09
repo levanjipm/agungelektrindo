@@ -7,89 +7,58 @@
 	$sql_code = "SELECT * FROM code_sales_return WHERE id = '" . $return_id . "'";
 	$result_code = $conn->query($sql_code);
 	$code = $result_code->fetch_assoc();
-	
-	$sql_return = "SELECT * FROM sales_return WHERE return_code = '" . $return_id . "'";
-	$result_return = $conn->query($sql_return);
 ?>
 <div class='main'>
-	<div class='container'>
-	<form method='POST' action='sales_return_input_dashboard.php' id='myForm'>
+	<h2 style='font-family:bebasneue'>Sales Return</h2>
+	<hr>
+	<form method='POST' action='sales_return_input_dashboard.php'>
 <?php
-	$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $code['customer_id'] . "'";
-	$result_customer = $conn->query($sql_customer);
-	$customer = $result_customer->fetch_assoc();
+	$sql_customer 		= "SELECT name,address,city FROM customer WHERE id = '" . $code['customer_id'] . "'";
+	$result_customer 	= $conn->query($sql_customer);
+	$customer 			= $result_customer->fetch_assoc();
 ?>
-		<h2><?= $customer['name'] ?></h2>
+		<h4 style='font-family:bebasneue'><?= $customer['name'] ?></h4>
 		<p><?= $customer['address'] ?></p>
 		<p><?= $customer['city'] ?></p>
 		<label>Document number</label>
 		<input type='text' class='form-control' style='width:50%'  id='document' name='document' required>
 		<label>Date</label>
-		<input type='date' value='<?= date('Y-m-d') ?>' name='dating'>
-	</div>
-	<table class='table-hover'>
-		<tr>
-			<th style='width:20%'>Reference</th>
-			<th style='width:40%'>Description</th>
-			<th style='width:15%'>Return quantity</th>
-			<th style='width:15%'>Received quantity</th>
-		</tr>
+		<input type='date' value='<?= date('Y-m-d') ?>' name='return_date' class='form-control' style='width:50%'>
+		<br>
+		<table class='table table-bordered'>
+			<tr>
+				<th style='width:20%'>Reference</th>
+				<th style='width:40%'>Description</th>
+				<th style='width:15%'>Return quantity</th>
+				<th style='width:15%'>Received quantity</th>
+			</tr>
 <?php
-	$i = 1;
-	while($return = $result_return->fetch_assoc()){
+	$sql_return		= "SELECT sales_return.id, sales_return.delivery_order_id, delivery_order.reference, sales_return.quantity, sales_return.received FROM sales_return 
+						JOIN delivery_order ON delivery_order.id = sales_return.delivery_order_id
+						WHERE sales_return.return_code = '" . $return_id . "'";
+	$result_return 	= $conn->query($sql_return);
+	while($return 	= $result_return->fetch_assoc()){
 ?>
-		<tr>
-			<td>
-				<?= $return['reference'] ?>
-				<input type='hidden' value='<?= $return['reference'] ?>' name='reference<?= $i ?>'>
-			</td>
-			<input type='hidden' value='<?= $return['id'] ?>' name='id<?= $i ?>'>
-			<td><?php
-				$sql_item = "SELECT description FROM itemlist WHERE reference = '" . $return['reference'] . "'";
-				$result_item =  $conn->query($sql_item);
-				$item = $result_item->fetch_assoc();
-				echo $item['description'];
-			?></td>
-			<td><?= $return['quantity'] - $return['received'] ?></td>
-			<td>
-				<input type='number' value='0' id='received<?= $i ?>' name='received<?= $i ?>' class='form-control'>
-			</td>
-		</tr>
+			<tr>
+				<td>
+					<?= $return['reference'] ?>
+				</td>
+				<td><?php
+					$sql_item 		= "SELECT description FROM itemlist WHERE reference = '" . $return['reference'] . "'";
+					$result_item 	=  $conn->query($sql_item);
+					$item 			= $result_item->fetch_assoc();
+					echo $item['description'];
+				?></td>
+				<td><?= $return['quantity'] - $return['received'] ?></td>
+				<td>
+					<input type='number' value='0' id='received<?= $return['id'] ?>' name='received[<?= $return['id'] ?>]' class='form-control'>
+				</td>
+			</tr>
 <?php
-	$quantity[$i] = $return['quantity'] - $return['received'];
-	$i++;
 	}
 ?>
-	</table>
-	<input type='hidden' value='<?= $i ?>' name='x'>
-	<input type='hidden' value='<?= $return_id ?>' name='return_id'>
-	<button type='button' class='btn btn-default' onclick='check()'>Next</button>
+		</table>
+		<input type='hidden' value='<?= $return_id ?>' name='return_id'>
+		<button type='submit' class='button_default_dark'>Next</button>
+	</form>
 </div>
-<script>
-	function check(){
-		var total = 0;
-		var nilai = 0;
-		var maximum = <?= json_encode($quantity) ?>;
-		if($('#document').val() == ''){
-			alert('Insert document name!');
-			return false;
-		}
-		for(i = 1; i < <?= $i ?>; i++){
-			if(parseInt($('input[id= received' + i + ']').val()) > maximum[i]){
-				alert('Cannot insert higher than maximum quantity!');
-				nilai ++;
-				return false;
-			} else {
-				total = total + parseInt($('#received' + i).val());
-			}
-		}
-		console.log(total);
-		if(total <= 0){
-			alert('Cannot insert blank document!');
-			return false;
-		}
-		if(nilai == 0 && total > 0){
-			$('#myForm').submit();
-		}
-	}
-</script>
