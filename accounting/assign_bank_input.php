@@ -102,7 +102,7 @@
 			
 			next($check_array);
 		}
-		header('location:accounting.php');
+		header('location:accounting');
 		
 	} else if($transaction == 1){
 		$will_be_paid 	= 0;
@@ -190,7 +190,7 @@
 			
 		}
 		
-		// header('location:accounting.php');
+		header('location:accounting');
 	}
 	
 ?>

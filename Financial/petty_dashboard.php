@@ -1,7 +1,7 @@
 <?php
 	include('financialheader.php');
 ?>
-<div class='main' style='padding-top:0;height:100%'>
+<div class='main'>
 <?php
 	if(empty($_POST['status'])){
 	} else {
@@ -20,80 +20,72 @@
 		}
 	}
 ?>
-	<form action='petty_input.php' method='POST' id='pettyform' style='height:100%'>
-	<div class='row' style='height:100%'>
-		<div class='col-sm-1' style='background-color:#ddd'>
+	<form action='petty_input.php' method='POST' id='pettyform'>
+		<h2 style='font-family:bebasneue'>Petty Cash</h2>
+		<p>Input petty cash transaction</p>
+		<hr>
+		<div class='row'>
+			<div class='col-sm-3'>
+				<label>Date</label>
+				<input type='date' class='form-control' name='today' id='today' value='<?= date('Y-m-d') ?>'>
+			</div>
 		</div>
-		<div class='col-sm-10'>
-			<h2 style='font-family:bebasneue'>Petty Cash</h2>
-			<p>Input petty cash transaction</p>
-			<hr>
-			<div class='row'>
-				<div class='col-sm-3'>
-					<label>Date</label>
-					<input type='date' class='form-control' name='today' id='today' value='<?= date('Y-m-d') ?>'>
+		<div class='row'>
+			<div class='col-sm-3'>
+				<div class="radio">
+					<label><input type="radio" name="types" id='income' checked value='1' onchange='hide_sub()'>Income</label>
 				</div>
 			</div>
-			<div class='row'>
-				<div class='col-sm-3'>
-					<div class="radio">
-						<label><input type="radio" name="types" id='income' checked value='1' onchange='hide_sub()'>Income</label>
-					</div>
-				</div>
-				<div class='col-sm-3'>
-					<div class="radio">
-						<label><input type="radio" name="types" id='expense' value='2' onchange='hide_sub()'>Expense</label>
-					</div>
+			<div class='col-sm-3'>
+				<div class="radio">
+					<label><input type="radio" name="types" id='expense' value='2' onchange='hide_sub()'>Expense</label>
 				</div>
 			</div>
-			<div class='row'>
-				<div class='col-sm-6'>
-					<label>Value</label>
-					<div class="input-group">
-						<span class="input-group-addon">Rp. </span>
-						<input id="value" type="number" class="form-control" name="value" placeholder="Value">
-					</div>
+		</div>
+		<div class='row'>
+			<div class='col-sm-6'>
+				<label>Value</label>
+				<div class="input-group">
+					<span class="input-group-addon">Rp. </span>
+					<input id="value" type="number" class="form-control" name="value" placeholder="Value">
 				</div>
 			</div>
-			<div class='row'>
-				<div class='col-sm-6' id='classes' style='display:none'>
-					<label>Expense Classification</label>
-					<select class='form-control' onclick='activate_sub()' id='class' name='class'>
-						<option value='0'>Please select a classification</option>
+		</div>
+		<div class='row'>
+			<div class='col-sm-6' id='classes' style='display:none'>
+				<label>Expense Classification</label>
+				<select class='form-control' onchange='activate_sub()' id='class' name='class'>
+					<option value='0'>Please select a classification</option>
 <?php
 	$sql_petty = "SELECT * FROM petty_cash_classification WHERE major_id = '0' AND id <> '25'";
 	$result_petty = $conn->query($sql_petty);
 	while($petty = $result_petty->fetch_assoc()){
 ?>
-						<option value='<?= $petty['id'] ?>'><?= $petty['name'] ?></option>
+					<option value='<?= $petty['id'] ?>'><?= $petty['name'] ?></option>
 <?php
 	}
 ?>
-					</select>
-					<label>Information</label>
-					<input type='text' class='form-control' name='info' id='info'>
-				</div>
-				<div class='col-sm-6' id='subclass'>
-				</div>
+				</select>
+				<label>Information</label>
+				<input type='text' class='form-control' name='info' id='info'>
 			</div>
-			<div class='row'>
-				<div class='col-sm-3'>
-					<br><br>
-					<button type='button' class='btn btn-default' onclick='validate()'>Submit</button>
-					<hr>
-				</div>
+			<div class='col-sm-6' id='subclass'>
 			</div>
-			<div class='row'>
-				<div class='col-sm-12'>
-					<h3 style='font-family:bebasneue'>Recent transactions</h3>
-					<table class='table table-hover'>
-						<tr>
-							<th>Date</th>
-							<th>Info</th>
-							<th>Value</th>
-							<th>Class</th>
-							<th>Balance</th>
-						</tr>
+			<div class='col-sm-12' style='padding-top:10px'>
+				<button type='button' class='button_default_dark' onclick='validate()'>Submit</button>
+			</div>
+		</div>
+		<div class='row'>
+			<div class='col-sm-12'>
+				<h3 style='font-family:bebasneue'>Recent transactions</h3>
+				<table class='table table-bordered'>
+					<tr>
+						<th>Date</th>
+						<th>Info</th>
+						<th>Value</th>
+						<th>Class</th>
+						<th>Balance</th>
+					</tr>
 <?php
 					$sql_aing = "SELECT COUNT(id) AS jumlah_total FROM petty_cash";
 					$result_aing = $conn->query($sql_aing);
@@ -108,30 +100,26 @@
 							echo ('<tr>');
 						}
 ?>
-							<td><?= date('d M Y',strtotime($table['date'])) ?></td>
-							<td><?= $table['info'] ?></td>
-							<td>Rp. <?= number_format($table['value'],2) ?></td>
-							<td><?php
-								$sql_class = "SELECT name FROM petty_cash_classification WHERE id = '" . $table['class'] . "'";
-								$result_class = $conn->query($sql_class);
-								$class = $result_class->fetch_assoc();
-								echo $class['name'];
-							?></td>
-							<td>Rp. <?= number_format($table['balance'],2) ?></td>
-						</tr>
+						<td><?= date('d M Y',strtotime($table['date'])) ?></td>
+						<td><?= $table['info'] ?></td>
+						<td>Rp. <?= number_format($table['value'],2) ?></td>
+						<td><?php
+							$sql_class = "SELECT name FROM petty_cash_classification WHERE id = '" . $table['class'] . "'";
+							$result_class = $conn->query($sql_class);
+							$class = $result_class->fetch_assoc();
+							echo $class['name'];
+						?></td>
+						<td>Rp. <?= number_format($table['balance'],2) ?></td>
+					</tr>
 <?php
 					}
 ?>
-					</table>
-					<a href='petty_view.php'>
-						<button type='button' class='btn btn-secondary'>View more</button>
-					</a>
-				</div>
+				</table>
+				<a href='petty_view.php'>
+					<button type='button' class='button_default_dark'>View more</button>
+				</a>
 			</div>
 		</div>
-		<div class='col-sm-1' style='background-color:#ddd'>
-		</div>
-	</div>
 	</form>
 </div>
 <script>

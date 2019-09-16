@@ -2,10 +2,10 @@
 	ob_start();
 	include('../Codes/connect.php');
 	
-	$reference = mysqli_real_escape_string($conn,$_POST['reference']);
-	$description = mysqli_real_escape_string($conn,$_POST['description']);
-	$type = $_POST['type'];
-	$user_id = $_POST['user'];
+	$reference 		= mysqli_real_escape_string($conn,$_POST['reference']);
+	$description 	= mysqli_real_escape_string($conn,$_POST['description']);
+	$type 			= $_POST['type'];
+	$user_id 		= $_POST['user'];
 	
 	$sql_first = "SELECT COUNT(id) AS initial_count FROM itemlist WHERE reference = '" . $reference . "'";
 	$result_first = $conn->query($sql_first);

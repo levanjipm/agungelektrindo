@@ -8,7 +8,7 @@
 				<div class='row'>
 					<div class='col-sm-12 box'>
 					<?php
-						$sql_pending_po = "SELECT COUNT(DISTINCT(purchaseorder_id)) AS incomplete_po FROM purchaseorder_received WHERE status = '0'";
+						$sql_pending_po = "SELECT COUNT(DISTINCT(purchaseorder_id)) AS incomplete_po FROM purchaseorder WHERE status = '0'";
 						$result_pending_po = $conn->query($sql_pending_po);
 						$row_pending_po = $result_pending_po->fetch_assoc();
 						
@@ -40,22 +40,23 @@
 				<div class='col-xs-12 box' id='sales_order_view_button'>
 <?php
 					$point = 0;
-					$sql_pending_so = "SELECT * FROM sales_order_sent WHERE status = '0'";
-					$result_pending_so = $conn->query($sql_pending_so);
-					while($pending_so = $result_pending_so->fetch_assoc()){
-						$reference_so = $pending_so['reference'];
-						$so_id = $pending_so['so_id'];
-						$quantity_sent = $pending_so['quantity'];
-						$sql_so = "SELECT quantity FROM sales_order WHERE reference = '" . $reference_so . "' AND so_id = '" . $so_id . "'";
-						$result_so = $conn->query($sql_so);
-						$row_so = $result_so->fetch_assoc();
-						$quantity_ordered = $row_so['quantity'];
-						$sql_stock = "SELECT stock FROM stock WHERE reference = '" . $reference_so . "' ORDER BY ID DESC LIMIT 1";
-						$result_stock = $conn->query($sql_stock);
-						$row_stock = $result_stock->fetch_assoc();
-						$stock = $row_stock['stock'];
-						if($quantity_ordered <= $quantity_sent + $stock){
-						} else {
+					$sql_pending_so 		= "SELECT * FROM sales_order WHERE status = '0'";
+					$result_pending_so 		= $conn->query($sql_pending_so);
+					while($pending_so 		= $result_pending_so->fetch_assoc()){
+						$reference_so 		= $pending_so['reference'];
+						$so_id 				= $pending_so['so_id'];
+						$quantity_sent 		= $pending_so['quantity'];
+						
+						$sql_so 			= "SELECT quantity FROM sales_order WHERE reference = '" . $reference_so . "' AND so_id = '" . $so_id . "'";
+						$result_so 			= $conn->query($sql_so);
+						$row_so 			= $result_so->fetch_assoc();
+						$quantity_ordered 	= $row_so['quantity'];
+						
+						$sql_stock 			= "SELECT stock FROM stock WHERE reference = '" . $reference_so . "' ORDER BY ID DESC LIMIT 1";
+						$result_stock 		= $conn->query($sql_stock);
+						$row_stock 			= $result_stock->fetch_assoc();
+						$stock 				= $row_stock['stock'];
+						if($quantity_ordered > $quantity_sent + $stock){
 							$point++;
 						}
 						
@@ -98,7 +99,7 @@
 				<form method='POST' action='createpurchaseorder_dashboard_list.php'>
 <?php
 		$x = 1;
-		$sql_pending_so = "SELECT * FROM sales_order_sent WHERE status = '0'";
+		$sql_pending_so = "SELECT * FROM sales_order WHERE status = '0'";
 		$result_pending_so = $conn->query($sql_pending_so);
 		while($pending_so = $result_pending_so->fetch_assoc()){
 			$reference_so = $pending_so['reference'];

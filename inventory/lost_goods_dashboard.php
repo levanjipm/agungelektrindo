@@ -58,11 +58,11 @@
 		<label>Quantity</label>
 		<input type='number' class='form-control' id='quantity' name='quantity'>
 		<br>
-		<a href='add_event_dashboard.php' style='text-decoration:none'>
-			<button type='button' class='btn btn-secondary'>Back</button>
-		</a>
 	</form>
-	<button type='button' class='btn btn-default' id='submit_lost_goods_confirmation_button'>Submit</button>
+	<a href='add_event_dashboard.php' style='text-decoration:none'>
+		<button type='button' class='button_warning_dark'>Back</button>
+	</a>
+	<button type='button' class='button_default_dark' id='submit_lost_goods_confirmation_button'>Submit</button>
 </div>
 <div class='notification_large' style='display:none' id='confirm_notification'>
 	<div class='notification_box'>

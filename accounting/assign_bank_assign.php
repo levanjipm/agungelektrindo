@@ -33,7 +33,7 @@ $selector = $result_selector->fetch_assoc();
 	<input type='hidden' value='<?= $value ?>' id='value_now' readonly>
 	<form action='assign_bank_input.php' method='POST' id='myForm'>
 	<input type='hidden' value='<?= $date ?>' name='date' readonly>
-	<table class='table table-hover'>
+	<table class='table table-bordered'>
 		<tr>
 			<th>Date</th>
 			<th>Invoice number</th>
@@ -202,6 +202,6 @@ $selector = $result_selector->fetch_assoc();
 	
 <input type='hidden' name='tt' value='<?= $i ?>' readonly>
 <input type='hidden' name='bank_id' value='<?= $bank_id ?>' readonly>
-<button type='button' class='btn btn-default' onclick='validate()'>Submit</button>
+<button type='button' class='button_success_dark' onclick='validate()'>Submit</button>
 </form>
 </div>

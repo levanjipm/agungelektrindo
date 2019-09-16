@@ -1,85 +1,93 @@
 <?php
 	include('hrheader.php');
 ?>
+	<style>
+		.view_salary_slip_wrapper{
+			background-color:rgba(30,30,30,0.7);
+			position:fixed;
+			z-index:100;
+			top:0;
+			width:100%;
+			height:100%;
+			display:none;
+		}
+		
+		#view_salary_slip_box{
+			position:absolute;
+			width:90%;
+			left:5%;
+			top:10%;
+			height:80%;
+			background-color:white;
+			overflow-y:scroll;
+			padding:20px;
+		}
+		
+		#button_close_salary_slip{
+			position:absolute;
+			background-color:transparent;
+			top:10%;
+			left:5%;
+			outline:none;
+			border:none;
+			color:#333;
+			z-index:120;
+		}
+	</style>
 	<div class='main'>
 		<h2 style='font-family:bebasneue'>Salary Slip</h2>
 		<p>Create salary slip</p>
 		<hr>
-		<form method="POST" action='create_salary_slip_validation.php'>
-			<div class='row'>
-				<div class='col-sm-10'>
-					<div class='col-sm-4'>
-						<label>User</label>
-						<select class='form-control' id='users' name='userid'>
-							<option value=''>Pick a user</option>
+		<form method="POST" action='create_salary_slip_validation'>
+			<label>Term</label>
+			<select class='form-control' id='term' name='term' required>
 <?php
-	$sql = "SELECT id,name FROM users";
-	$result = $conn->query($sql);
-	while($row = $result->fetch_assoc()){
+	$sql_absen 			= "SELECT DISTINCT YEAR (date) as 'YEAR', MONTH(date) as 'MONTH' FROM absentee_list";
+	$result_absen 		= $conn->query($sql_absen);
+	while($row_absen 	= $result_absen->fetch_assoc()){
+		$dateObj   		= DateTime::createFromFormat('!m', $row_absen['MONTH']);
+		$monthName 		= $dateObj->format('F');
 ?>
-							<option value='<?= $row['id']; ?>'><?= $row['name']; ?></option>
-<?php
-	}
-?>
-						</select>
-					</div>
-					<div class='col-sm-4'>
-						<div id='absentee'>
-							<label>Term</label>
-							<select class='form-control' id='absence' onchange='panggil()' name='absence'>
-								<option value=''>Pick the term</option>
-<?php
-	$sql_absen = "SELECT DISTINCT YEAR (date) as 'YEAR', MONTH(date) as 'MONTH' FROM absentee_list";
-	$result_absen = $conn->query($sql_absen);
-	while($row_absen = $result_absen->fetch_assoc()){
-		$dateObj   = DateTime::createFromFormat('!m', $row_absen['MONTH']);
-		$monthName = $dateObj->format('F');
-?>
-								<option value='<?= str_pad($row_absen['MONTH'],2,'0',STR_PAD_LEFT) . $row_absen['YEAR']; ?>'><?= $monthName . ' - ' . $row_absen['YEAR']; ?></option>
+				<option value='<?= str_pad($row_absen['MONTH'],2,'0',STR_PAD_LEFT) . $row_absen['YEAR']; ?>'><?= $monthName . ' - ' . $row_absen['YEAR']; ?></option>
 <?php
 		}
+?>	
+			</select>
+			<br>
+			<table class='table' style='text-align:center'>
+				<tr>
+					<th style='text-align:center'>Name</th>
+					<th></th>
+				</tr>
+<?php
+	$sql 				= "SELECT id,name FROM users WHERE isactive = '1'";
+	$result 			= $conn->query($sql);
+	while($row 			= $result->fetch_assoc()){
 ?>
-							</select>
-						</div>
-					</div>
-					<div class='col-sm-4'>
-						<label>Jumlah hari kerja</label>
-						<input type='text' class='form-control' readonly id='working' name='working'>
-					</div>
-					<div class='col-sm-6'>
-						<label>Gaji per hari</label>
-						<input type='number' class='form-control' name='daily'>
-					</div>
-					<div class='col-sm-6'>
-						<label>Gaji Dasar</label>
-						<input type='number' class='form-control' name='basic'>
-					</div>
-					<div class='col-sm-6'>
-						<label>Bonus</label>
-						<input type='number' class='form-control' name='bonus'>
-						<label>Potongan</label>
-						<input type='number' class='form-control' name='potongan'>
-						<br>
-						<button type='submit' class='btn btn-secondary'>Next</button>
-					</div>
-				</div>
-			</div>
+				<tr>
+					<td><?= $row['name'] ?></td>
+					<td>
+						<button type='button' class='button_default_dark' onclick='salary_slip_open(<?= $row['id'] ?>)'>Create Salary Slip</button>
+					</td>
+				</tr>
+<?php
+	}
+?>
+			</table>
 		</form>
 	</div>
-				
+	<div class='view_salary_slip_wrapper'>
+		<button id='button_close_salary_slip'>X</button>
+		<div id='view_salary_slip_box'>
+		</div>
+	</div>
+</body>
 <script>
-	function panggil(){
-		$.ajax({
-			url: "counter.php",
-			type: "post",
-			data: {
-				'user': $('#users').val(),
-				'term': $('#absence').val()
-			},
-			success: function(data) {
-				$('#working').val(data);
-			}
-		});
-	}
+	function salary_slip_open(n){
+		$('.view_salary_slip_wrapper').fadeIn();
+	};
+	
+	$('#button_close_salary_slip').click(function(){
+		$('.view_salary_slip_wrapper').fadeOut();
+	});
 </script>
-		

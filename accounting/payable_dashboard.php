@@ -10,65 +10,63 @@
 	}
 </style>
 <?php
-	$maximum = 0;
-	$total = 0;
-	$sql_initial = "SELECT supplier_id,SUM(value) AS maximum FROM purchases WHERE isdone = '0' GROUP BY supplier_id";
+	$maximum 		= 0;
+	$total 			= 0;
+	$sql_initial 	= "SELECT supplier_id,SUM(value) AS maximum FROM purchases WHERE isdone = '0' GROUP BY supplier_id";
 	$result_initial = $conn->query($sql_initial);
 	while($initial = $result_initial->fetch_assoc()){
-		$sql_pengurang = "SELECT SUM(payable.value) AS pengurang FROM payable 
-		JOIN purchases ON purchases.id = payable.purchase_id
-		WHERE purchases.supplier_id = '" . $initial['supplier_id'] . "'";
-		$result_pengurang = $conn->query($sql_pengurang);
-		$pengurang = $result_pengurang->fetch_assoc();
+		$sql_pengurang 		= "SELECT SUM(payable.value) AS pengurang FROM payable 
+							JOIN purchases ON purchases.id = payable.purchase_id
+							WHERE purchases.supplier_id = '" . $initial['supplier_id'] . "'";
+		$result_pengurang 	= $conn->query($sql_pengurang);
+		$pengurang 			= $result_pengurang->fetch_assoc();
 		
-		$paid = $pengurang['pengurang'];
+		$paid 			= $pengurang['pengurang'];
 		if(($initial['maximum'] - $paid) > $maximum){
-			$maximum = $initial['maximum'] - $paid;
+			$maximum 	= $initial['maximum'] - $paid;
 		}
-		$total = $total + $initial['maximum'] - $paid;
+		$total 			= $total + $initial['maximum'] - $paid;
 	}
 ?>
 <div class='main'>
-	<div class='container'>
-		<div class='row'>
-			<div class='col-sm-4'>
-				<h2>Account of receivable</h2>
-				<p>Rp. <?= number_format($total,2) ?></p>
-			</div>
-			<div class='col-sm-4'>
-				<br>
-				<select class='form-control' onchange='change_customer()' id='seleksi'>
-					<option value='0'>Please insert supplier name to view</option>
+	<div class='row'>
+		<div class='col-sm-4'>
+			<h2 style='font-family:bebasneue'>Account of receivable</h2>
+			<p>Rp. <?= number_format($total,2) ?></p>
+		</div>
+		<div class='col-sm-4'>
+			<br>
+			<select class='form-control' onchange='change_supplier()' id='seleksi'>
+				<option value='0'>Please insert supplier name to view</option>
 <?php
-	$sql_select = 'SELECT id,name FROM supplier';
+	$sql_select 	= 'SELECT id,name FROM supplier';
 	$result_select = $conn->query($sql_select);
 	while($select = $result_select->fetch_assoc()){
 ?>
-					<option value='<?= $select['id'] ?>'><?= $select['name'] ?></option>
+				<option value='<?= $select['id'] ?>'><?= $select['name'] ?></option>
 <?php
 	}
 ?>
-				</select>
-				<form action='supplier_view.php' method='POST' id='supplier_form'>
-					<input type='hidden' id='supplier_to_view' name='supplier'>
-				</form>
-			</div>
-			<div class='col-sm-2'>
-				<br>
-				<button type='button' class='btn btn-default' onclick='submiting()'>
-					<i class="fa fa-search" aria-hidden="true"></i>
-				</button>
-			</div>
-		</div>			
+			</select>
+			<form action='supplier_view.php' method='POST' id='supplier_form'>
+				<input type='hidden' id='supplier_to_view' name='supplier'>
+			</form>
+		</div>
+		<div class='col-sm-2'>
+			<br>
+			<button type='button' class='button_default_dark' onclick='submiting()'>
+				<i class="fa fa-search" aria-hidden="true"></i>
+			</button>
+		</div>		
 		<hr>
 	</div>
 	<script>
-		function change_customer(){
+		function change_supplier(){
 			$('#supplier_to_view').val($('#seleksi').val());
 		}
 		function submiting(){
 			if($('#supplier_to_view').val() == 0){
-				alert('Please insert a customer!');
+				alert('Please insert a supplier!');
 				return false;
 			} else {
 				$('#supplier_form').submit();
@@ -76,17 +74,17 @@
 		}
 	</script>
 <?php
-	$timeout = 0;
-	$sql_invoice = "SELECT id,SUM(value) AS jumlah,supplier_id FROM purchases WHERE isdone = '0' GROUP BY supplier_id ORDER BY jumlah DESC";
-	$result_invoice = $conn->query($sql_invoice);
-	while($invoice = $result_invoice->fetch_assoc()){
+	$timeout 			= 0;
+	$sql_invoice 		= "SELECT id,SUM(value) AS jumlah,supplier_id FROM purchases WHERE isdone = '0' GROUP BY supplier_id ORDER BY jumlah DESC";
+	$result_invoice 	= $conn->query($sql_invoice);
+	while($invoice 		= $result_invoice->fetch_assoc()){
 		
-		$sql_paid = "SELECT SUM(value) AS paid FROM payable WHERE purchase_id = '" . $invoice['id'] . "'";
-		$result_paid = $conn->query($sql_paid);
-		$paid = $result_paid->fetch_assoc();
-		$dibayar = $paid['paid'];
+		$sql_paid 		= "SELECT SUM(value) AS paid FROM payable WHERE purchase_id = '" . $invoice['id'] . "'";
+		$result_paid 	= $conn->query($sql_paid);
+		$paid 			= $result_paid->fetch_assoc();
+		$dibayar 		= $paid['paid'];
 		
-		$width = max(($invoice['jumlah'] - $dibayar) * 100/ $maximum,2);
+		$width 			= max(($invoice['jumlah'] - $dibayar) * 100/ $maximum,2);
 ?>
 	<div class='row'>
 		<div class='col-sm-3'>

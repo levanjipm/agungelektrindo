@@ -6,7 +6,7 @@
 <script src="../jquery-ui.js"></script>
 <style>
 	.options{
-		background-color:#333;
+		background-color:#402b2f;
 		display:none;
 		color:white;
 		width:80%;
@@ -15,14 +15,14 @@
 	}
 	.box{
 		padding:5px;
-		background-color:#333;
+		background-color:#402b2f;
 		color:white;
 		text-align:center;
 		cursor:pointer;
 		display:none;
 	}
 	.box:hover{
-		background-color:#777;
+		background-color:#6e4a51;
 		transition:0.3s all ease;
 	}
 </style>

@@ -2,40 +2,11 @@
 <?php
 	include('salesheader.php');
 ?>
-<style>
-	.custom-file-input::-webkit-file-upload-button {
-	  visibility: hidden;
-	}
-	.custom-file-input::before {
-		content: 'Select some files';
-		display: inline-block;
-		background: linear-gradient(top, #f9f9f9, #e3e3e3);
-		border: 1px solid #999;
-		border-radius: 3px;
-		padding: 5px 8px;
-		outline: none;
-		white-space: nowrap;
-		-webkit-user-select: none;
-		cursor: pointer;
-		text-shadow: 1px 1px #fff;
-		font-weight: 700;
-		font-size: 10pt;
-	}
-	.custom-file-input:hover::before {
-		border-color: black;
-	}
-	.custom-file-input:active::before {
-		background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
-	}
-</style>
 <link rel="stylesheet" href="../jquery-ui.css">
 <script src="../jquery-ui.js"></script>
 <div class="main">
 	<h2 style='font-family:bebasneue'>Check stock</h2>
-	<form action="check_stock_file.php" method="post" enctype="multipart/form-data">
-		<input type="file" class="custom-file-input">
-	</form>
-	<input type="text" id="myInput" placeholder="Search..">
+	<input type="text" id="check_stock_search_box" placeholder="Search..">
 	<style>
 		input[type=text] {
 			padding:10px;
@@ -48,70 +19,52 @@
 		}
 	</style>
 	<hr>
-	<div class="row" style="text-align:center">
-		<div class="col-lg-3">
-			<p><b>Reference</b></p>
-		</div>
-		<div class="col-lg-5">
-			<p><b>Description</b></p>
-		</div>
-		<div class="col-lg-2">
-			<p><b>Stock</b></p>
-		</div>
-	</div>
-	<br>
-	<div id="edititemtable">
+	<table class='table table-bordered' style='text-align:center'>
+		<tr>
+			<th style='text-align:center'>Reference</th>
+			<th style='text-align:center'>Description</th>
+			<th style='text-align:center'>Stock</th>
+		</tr>
+		<tbody id='stock_table_body'>
 <?php
-		$sql = "SELECT * FROM stock
-		INNER JOIN (SELECT reference,MAX(id) AS latest FROM stock GROUP BY reference ORDER BY id DESC) topscore 
-		ON stock.reference = topscore.reference 
-		AND stock.id = topscore.latest
-		LIMIT 10";
-		$result = $conn->query($sql);
-		while($row = $result->fetch_assoc()) {
+		$sql 		= "SELECT * FROM stock
+					INNER JOIN (SELECT reference,MAX(id) AS latest FROM stock GROUP BY reference ORDER BY id DESC) topscore 
+					ON stock.reference = topscore.reference 
+					AND stock.id = topscore.latest
+					LIMIT 10";
+		$result 	= $conn->query($sql);
+		while($row 	= $result->fetch_assoc()) {
+			$stock			= $row['stock'];
+			$reference		= $row['reference'];
+			
+			$sql_item 		= "SELECT description FROM itemlist WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "'";
+			$result_item 	= $conn->query($sql_item);
+			$item	 		= $result_item->fetch_assoc();
+			
+			$description	= $item['description'];
 ?>
-		<div class="row" style="text-align:center">
-			<div class="col-lg-3">
-				<?= $row['reference'];?>
-			</div>
-<?php
-		$sql_item = "SELECT description FROM itemlist WHERE reference = '" . $row['reference'] . "'";
-		$result_item = $conn->query($sql_item);
-		while($row_item = $result_item->fetch_assoc()){
-?>
-			<div class='col-lg-5'>
-				<?= $row_item['description'] ?>
-			</div>
-<?php
-		}
-?>
-			<div class="col-lg-2">
-				<?= $row['stock']; ?>
-			</div>
-		</div>
-		<br>
+			<tr>
+				<td><?= $reference ?></td>
+				<td><?= $description ?></td>
+				<td><?= $stock ?></td>
+			</tr>
 <?php
 	}
 ?>
-	</div>
-	<div id="showresults"></div>
+		</tbody>
+	</table>
 <script>
-$('#myInput').change(function () {
+$('#check_stock_search_box').change(function () {
     $.ajax({
         url: "search_check_stock.php",
         data: {
-            term: $('#myInput').val()
+            term: $('#check_stock_search_box').val(),
         },
         type: "GET",
-        dataType: "html",
-        success: function (data) {
-            $('#edititemtable').replaceWith($('#showresults').html(data));
+        success: function (response) {
+            $('#stock_table_body').html('');
+			$('#stock_table_body').append(response);
         },
-        error: function (xhr, status) {
-            alert("Sorry, there was a problem!");
-        },
-        complete: function (xhr, status) {
-        }
     });
 });
 </script>

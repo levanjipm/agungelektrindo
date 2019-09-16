@@ -1,7 +1,7 @@
 <?php
 	include('salesheader.php');
 	ob_start();
-	$do_name = $_POST['do'];
+	$do_name = $_POST['delivery_order_name'];
 	$sql 	= "SELECT id,customer_id FROM code_delivery_order WHERE name = '" . $do_name . "'";
 	$result = $conn->query($sql);
 	$row 	= $result->fetch_assoc();
@@ -11,7 +11,7 @@
 	} else {
 ?>
 	<script>
-		window.location.replace('return_dashboard.php?alert=1');
+		// window.location.replace('return_dashboard.php?alert=1');
 	</script>
 <?php
 	};
@@ -24,7 +24,7 @@
 		
 		$customer_name	= $so['retail_name'];
 	} else {
-		$sql_customer	= "SELECT name FROM customer WHERE id = '$customer_id'";
+		$sql_customer		= "SELECT name FROM customer WHERE id = '$customer_id'";
 		$result_customer	= $conn->query($sql_customer);
 		$customer			= $result_customer->fetch_assoc();
 		

@@ -110,6 +110,21 @@
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
 
+.sidenav_small{
+	background-color:#2B3940;
+	padding:20px;
+	height:100%;
+	left:0;
+	top:70px;
+	width:50px;
+	position:fixed;
+	overflow-y:hidden;
+	display:none;
+	z-index:0;
+	color:white;
+	cursor:pointer;
+}
+
 .main{
 	margin-top:70px;
 	margin-left:200px;

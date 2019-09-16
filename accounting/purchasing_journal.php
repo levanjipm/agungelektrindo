@@ -25,15 +25,15 @@
 		<div class='col-sm-3'>
 			<select class='form-control' id='year'>
 				<option value='0'>Select year</option>
-				<?php
+<?php
 				$sql_select_year = "SELECT DISTINCT(YEAR(date)) AS year FROM purchases";
 				$result_select_year = $conn->query($sql_select_year);
 				while($row_select_year = $result_select_year->fetch_assoc()){
-				?>
+?>
 				<option value='<?= $row_select_year['year']; ?>'><?= $row_select_year['year'] ?></option>
-				<?php
+<?php
 				}
-				?>
+?>
 			</select>
 		</div>
 		<div class='col-sm-3'>
@@ -68,7 +68,7 @@
 	</div>
 	<div class='row'>
 		<div class='col-sm-2 col-sm-offset-5'>
-			<button type='button' class='btn btn-default hidden-print' onclick='printing()'>Print</button>
+			<button type='button' class='button_success_dark hidden-print' onclick='printing()'>Print</button>
 		</div>
 	</div>
 	<script>

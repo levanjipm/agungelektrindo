@@ -120,10 +120,6 @@
 	text-align:center;
 }
 
-#dept{
-	padding:20px;
-}
-
 .btn-badge{
 	background-color:transparent;
 	color:white;
@@ -150,6 +146,22 @@
 	width:200px;
 	position:fixed;
 }
+
+.sidenav_small{
+	background-color:#2B3940;
+	padding:20px;
+	height:100%;
+	left:0;
+	top:70px;
+	width:50px;
+	position:fixed;
+	overflow-y:hidden;
+	display:none;
+	z-index:0;
+	color:white;
+	cursor:pointer;
+}
+
 .main{
 	margin-top:70px;
 	margin-left:200px;

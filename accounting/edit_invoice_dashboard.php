@@ -37,7 +37,7 @@
 			</select>
 		</div>
 		<div class='col-sm-3'>
-			<button type='button' class='btn btn-default' onclick='search_invoice()'>Search for invoices</button>
+			<button type='button' class='button_default_dark' onclick='search_invoice()'>Search for invoices</button>
 		</div>
 	<hr>
 		<div class='col-sm-12'>

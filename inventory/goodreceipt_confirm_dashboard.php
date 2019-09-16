@@ -50,50 +50,69 @@
 	<h2 style='font-family:bebasneue'>Good Receipt</h2>
 	<p>Confirm good receipt</p>
 	<hr>
-	<div class="row">
-		<div class='col-sm-8'>
-			<div class='row'>				
+	<div class="row">			
 <?php
-	$sql = "SELECT id,supplier_id,date FROM code_goodreceipt WHERE isconfirm = '0' ORDER BY date ASC";
+	$sql = "SELECT id,supplier_id,date,document FROM code_goodreceipt WHERE isconfirm = '0' ORDER BY date ASC";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){
-		$sql_supplier = "SELECT name,city FROM supplier WHERE id = '" . $row['supplier_id'] . "'";
-		$result_supplier = $conn->query($sql_supplier);
-		$row_supplier = $result_supplier->fetch_assoc();
-		$supplier_name = $row_supplier['name'];
-		$supplier_city = $row_supplier['city'];
+		$sql_supplier 		= "SELECT name,city FROM supplier WHERE id = '" . $row['supplier_id'] . "'";
+		$result_supplier 	= $conn->query($sql_supplier);
+		$row_supplier		= $result_supplier->fetch_assoc();
+		$supplier_name	 	= $row_supplier['name'];
+		$supplier_city	 	= $row_supplier['city'];
 ?>
-				<div class="col-sm-3">
-					<button type='button' class='btn btn-x' onclick='tutup(<?= $row['id'] ?>)'>X</button>
-					<button onclick='view(<?= $row['id'] ?>)' id='<?= $row['id'] ?>' style='background-color:transparent;border:none'>
-						<img src="../universal/images/document.png" style=" display: block;width:50%;margin-left:auto;margin-right:auto">
-					</button>
-					<br>
-					<div style='text-align:center'>
-						<?= "<strong>" . $supplier_name . "</strong><br>" ?>
-						<?= $supplier_city . "<br>" ?>
-						<?= "Date:" . date('d M Y',strtotime($row['date']))?>
-						<br>
-						<button type="button" class="btn btn-primary" onclick='confirm_gr(<?= $row['id']?>)'>Confirm</button>
-					</div>
+			<div class="col-sm-2">
+				<button type='button' class='btn btn-x' onclick='tutup(<?= $row['id'] ?>)'>X</button>
+					<img src="../universal/images/document.png" style=" display: block;width:50%;margin-left:auto;margin-right:auto">
+				<br>
+				<div style='text-align:center'>
+					<p style='line-height:1'><strong><?= $supplier_name ?></strong></p>
+					<p style='line-height:0.8'><?= date('d M Y',strtotime($row['date']))?></p>
+					<p style='line-height:0.8'><?= $row['document']?></p>					
+					<button type="button" class="button_default_dark" onclick='view_good_receipt(<?= $row['id']?>)'>Confirm</button>
 				</div>
+			</div>
 <?php
 	}
 ?>
-			</div>
-		</div>
-		<div class='col-sm-4' style='height:100%' id='daniel'>
-		</div>
 	</div>
 </div>
-<div class='notification_large' style='display:none' id='confirm_notification'>
-	<div class='notification_box'>
-		<h1 style='font-size:3em;color:#2bf076'><i class="fa fa-check" aria-hidden="true"></i></h1>
-		<h2 style='font-family:bebasneue'>Are you sure to confirm this goods receipt</h2>
-		<br>
-		<button type='button' class='btn btn-back'>Back</button>
-		<button type='button' class='btn btn-confirm' id='confirm_button'>Confirm</button>
-		<input type='hidden' value='0' id='confirm_id'>
+<style>
+	.view_good_receipt_wrapper{
+		background-color:rgba(30,30,30,0.7);
+		position:fixed;
+		z-index:100;
+		top:0;
+		width:100%;
+		height:100%;
+		display:none;
+	}
+	
+	#view_good_receipt_box{
+		position:absolute;
+		width:90%;
+		left:5%;
+		top:10%;
+		height:80%;
+		background-color:white;
+		overflow-y:scroll;
+		padding:20px;
+	}
+	
+	#button_close_good_receipt_view{
+		position:absolute;
+		background-color:transparent;
+		top:10%;
+		left:5%;
+		outline:none;
+		border:none;
+		color:#333;
+		z-index:120;
+	}
+</style>
+<div class='view_good_receipt_wrapper'>
+	<button id='button_close_good_receipt_view'>X</button>
+	<div id='view_good_receipt_box'>
 	</div>
 </div>
 <div class='notification_large' style='display:none' id='delete_notification'>
@@ -107,39 +126,30 @@
 	</div>
 </div>
 <script>
-	function view(n){
-		var id = n;
+	function view_good_receipt(n){
 		$.ajax({
-			url: "Ajax/view.php",
-			data: {term: id},
+			url: "Ajax/view_good_receipt.php",
+			data: {term: n},
 			success: function(result){
-				$("#daniel").html(result);
+				$('#view_good_receipt_box').html(result);
+				$('.view_good_receipt_wrapper').fadeIn();
 			}
 		});
 	}
+	
+	$('#button_close_good_receipt_view').click(function(){
+		$('.view_good_receipt_wrapper').fadeOut();
+	});
+	
 	$('.btn-back').click(function(){
 		$('.notification_large').fadeOut();
 	});
+	
 	function tutup(n){
 		$('#delete_id').val(n);
 		$('#delete_notification').fadeIn();
 	}
-	function confirm_gr(n){
-		$('#confirm_id').val(n);
-		$('#confirm_notification').fadeIn();
-	}
-	$('.btn-confirm').click(function(){
-		$.ajax({
-			url:'confirm_goodreceipt.php',
-			data:{
-				id:$('#confirm_id').val(),
-			},
-			type:'POST',
-			success:function(){
-				location.reload();
-			},
-		})
-	});
+	
 	$('.btn-delete').click(function(){
 		$.ajax({
 			url:'cancel_goodreceipt.php',
@@ -148,8 +158,21 @@
 			},
 			type:'GET',
 			success:function(){
-				location.reload();
+				// location.reload();
 			},
 		})
 	});
+	
+	function confirm_goods_receipt(n){
+		$.ajax({
+			url:'confirm_goodreceipt.php',
+			data:{
+				id: n,
+			},
+			type:'POST',
+			success:function(){
+				location.reload();
+			},
+		})
+	};
 </script>

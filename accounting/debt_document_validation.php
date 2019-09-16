@@ -28,7 +28,7 @@
 	}
 	
 	$po_quantity	= count($po_array);
-	if($check_invoice > 1 || $po_quantity > 1){
+	if($check_invoice > 1){
 ?>
 <script>
 	window.location.href = 'accounting';
@@ -107,12 +107,13 @@
 	$i = 1;
 	$j = 1;
 ?>
-	<table class='table'>
+	<table class='table table-bordered'>
 		<tr>
-			<th style='width:40%'>Item name</th>
-			<th style='width:10%'>Quantity</th>
-			<th style='width:30%'>Price</th>
-			<th style='width:20%'></th>
+			<th style='width:20%;text-align:center'>Reference</th>
+			<th style='width:30%;text-align:center'>Description</th>
+			<th style='width:10%;text-align:center'>Quantity</th>
+			<th style='width:30%;text-align:center'>Price</th>
+			<th style='width:10%;text-align:center'></th>
 		</tr>
 <?php
 	foreach($document_array as $document){
@@ -126,22 +127,28 @@
 							WHERE goodreceipt.gr_id = '" . $document . "'";
 		$result_general 	= $conn->query($sql_general);
 		while($general 		= $result_general->fetch_assoc()){
-			$sql_item 		= "SELECT description FROM itemlist WHERE reference = '" . $general['reference'] . "'";
+			$reference		= $general['reference'];
+			
+			$sql_item 		= "SELECT description FROM itemlist WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "'";
 			$result_item 	= $conn->query($sql_item);
 			$item 			= $result_item->fetch_assoc();
+			
+			$description	= $item['description'];
+			
 			$id_po_detail	= $general['po_detail_id'];
 ?>
 		<tr>
-			<td><?= $general['reference'] . " - " . $item['description'] ?></td>
-			<td>
+			<td style='text-align:center'><?= $reference ?></td>
+			<td style='text-align:center'><?= $description ?></td>
+			<td style='text-align:center'>
 				<?= $general['quantity'] ?>
 				<input type='hidden' value='<?= $general['id'] ?>' name='po_gr[<?= $general['po_detail_id'] ?>]'>
 			</td>
-			<td>
+			<td style='text-align:center'>
 				<button type='button' style='background-color:transparent;border:none' onclick='show(<?= $j ?>)' id='button-<?= $j ?>'>Rp. <?= number_format($general['unitprice'],2) ?></button>
 				<input type='number' value='<?= $general['unitprice'] ?>' id='input<?= $j ?>' style='display:none' onfocusout='hide(<?= $j ?>)' class='form-control' name='input[<?= $id_po_detail ?>]'>
 			</td>
-			<td>
+			<td style='text-align:center'>
 				<input type="checkbox" class='checkbox'>
 			</td>
 		</tr>
@@ -154,7 +161,7 @@
 ?>
 	</table>
 	</form>
-	<button type='button' class='btn btn-default' onclick='hitungin()'>Calculate</button>
+	<button type='button' class='button_default_dark' onclick='hitungin()'>Calculate</button>
 	<div class='notification_large' style='display:none' id='confirm_notification'>
 		<div class='notification_box'>
 			<h1 style='font-size:3em;color:#2bf076'><i class="fa fa-check" aria-hidden="true"></i></h1>

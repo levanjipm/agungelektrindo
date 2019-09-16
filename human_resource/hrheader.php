@@ -47,7 +47,10 @@
 		</h3>
 	</div>
 </div>
-<div class="sidenav">			
+<div class="sidenav">		
+	<button type='button' class='btn-badge' style='text-align:right' id='hide_side_button'>
+		<i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i>
+	</button>
 	<button class="btn-badge dropdown-btn" style='color:white'>
 		<i class="fa fa-users" aria-hidden="true"></i>
 		Manage users
@@ -59,7 +62,7 @@
 		<a href="edit_user_all_dashboard.php">
 			<p>Edit a user</p>
 		</a>
-		<a href="edit_user_dashboard.php">
+		<a href="set_inactive.php">
 			<p>Set inactive</p>
 		</a>
 	</div>

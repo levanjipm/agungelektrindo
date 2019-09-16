@@ -11,51 +11,43 @@
 	});
 	</script>
 <div class='main'>
-<a href="#" id="folder"><i class="fa fa-folder"></i></a>
-<a href="#" id="close"><i class="fa fa-close"></i></a>
 	<h2 style='font-family:Bebasneue'>Project Delivery Order</h2>
 	<p>Create project delivery order</p>
 	<hr>
 	<div class='row'>
 		<div class='col-sm-10'>
-		<form action='project_do_validation.php' method='POST' id='project_form'>
-		<label>Date</label>
-		<input type='date' class='form-control' name='date' id='date'>
-		<label>Project</label>
-		<select class='form-control' name='project_id' id='projects'>
-			<option value=''>-- Please select a project --</option>
+			<form action='project_do_validation.php' method='POST' id='project_form'>
+				<label>Date</label>
+				<input type='date' class='form-control' name='date' id='date'>
+				<label>Project</label>
+				<select class='form-control' name='project_id' id='projects'>
+					<option value=''>-- Please select a project --</option>
 <?php
 	$sql_project = "SELECT * FROM code_project WHERE isdone = '0'";
 	$result_project = $conn->query($sql_project);
 	while($project = $result_project->fetch_assoc()){
 ?>
-			<option value='<?= $project['id'] ?>'><?= $project['project_name'] ?></option>
+					<option value='<?= $project['id'] ?>'><?= $project['project_name'] ?></option>
 <?php
 	}
 ?>
-		</select>
-				<div class='row' style='padding-top:30px'>
-					<div class='col-sm-1'>No.</div>
-					<div class='col-sm-4'>Reference</div>
-					<div class='col-sm-3'>Quantity</div>
-				</div>
-				<hr>
-				<div class='row'>
-					<div class='col-sm-1'>
-						1
-					</div>
-					<div class='col-sm-4'>
-						<input name='reference1' id='reference1' class='form-control'>
-					</div>
-					<div class='col-sm-3'>
-						<input name='quantity1' id='quantity1' class='form-control'>
-					</div>
-				</div>
-				<div id="input_list">
-				</div>
-				<hr>
-				<input type='hidden' value='1' id='jumlah' name='jumlah'>
-				<button type='button' class='btn btn-default' id='proceeding'>Proceed</button>
+				</select>
+				<br>
+				<table class='table table-bordered'>
+					<tr>
+						<th>Reference</th>
+						<th>Quantity</th>
+						<th></th>
+					</tr>
+					<tbody id='project_delivery_order_table'>
+						<tr>	
+							<td><input name='reference[1]' id='reference1' class='form-control'></td>
+							<td><input name='quantity[1]' id='quantity1' class='form-control'></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+				<button type='button' class='button_default_dark' id='proceeding'>Proceed</button>
 			</form>
 		</div>
 	</div>
@@ -78,12 +70,8 @@
 	var a = 2;
 	$("#folder").click(function (){	
 	$("#input_list").append(
-	'<div class="row" style="padding-top:10px" id="barisan'+a+'">'+
-	'<div class="col-sm-1">'+a+'</div>'+
-	'<div class="col-sm-4"><input id="reference'+a+'" name="reference'+a+'" class="form-control" style="width:100%"></div>'+
-	'<div class="col-sm-3">'+'<input id="quantity'+a+'" name="quantity'+a+'" class="form-control" style="width:100%"></div>'+
-	'</div>').find("input").each(function () {
-	});
+	"<tr id='tr-" + a + "'>"+
+	"<td>
 	$("#reference" + a).autocomplete({
 		source: "ajax/search_item.php"
 	});

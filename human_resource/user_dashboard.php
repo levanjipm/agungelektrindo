@@ -99,7 +99,10 @@
 		</h3>
 	</div>
 </div>
-<div class="sidenav">				
+<div class="sidenav">		
+	<button type='button' class='btn-badge' style='text-align:right' id='hide_side_button'>
+		<i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i>
+	</button>		
 	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-id-badge" aria-hidden="true"></i>
 		Departments
@@ -130,17 +133,43 @@
 		Read Tutorial
 		</button>
 	</a>
-	<script>
-		$('.dropdown-btn').click(function(){
-			if($(this).next().is(':visible')){
-				$(this).css('color','white');
-			} else {
-				$(this).css('color','#00ccff');
-			}
-			$(this).next().toggle(350);
-		});
-	</script>
 </div>
+<div class='sidenav_small'>
+	<i class="fa fa-bars" aria-hidden="true"></i>
+</div>
+<script>
+$('.dropdown-btn').click(function(){
+	if($(this).next().is(':visible')){
+		$(this).css('color','white');
+	} else {
+		$(this).css('color','#00ccff');
+	}
+	$(this).next().toggle(350);
+});
+
+$('#hide_side_button').click(function(){
+	$('.sidenav').toggle(200);
+	$('#show_side_button').fadeIn();
+	setTimeout(function(){	
+		$('.main').animate({
+			'margin-left':'50px'
+		},200);
+		
+		$('.sidenav_small').toggle(200);
+	},200);
+});
+
+$('.sidenav_small').click(function(){
+	$('.sidenav_small').toggle(200);
+	$('#show_side_button').hide();
+	setTimeout(function(){		
+		$('.sidenav').toggle(200);
+		$('.main').animate({
+			'margin-left':'200px'
+		},200);
+	},200);
+});
+</script>
 <div class='notification_large' id='announcement_notification'>
 	<div class='notification_box'>
 		<h2 style='font-family:bebasneue'>Create new Announcement</h2>

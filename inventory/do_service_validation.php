@@ -9,16 +9,16 @@
 		window.history.back();
 	</script>
 <?php
-	}
-	$row = $result->fetch_assoc();
-	$customer_id = $row['customer_id'];
-	$so_name = $row['name'];
-	$taxing = $row['taxing'];
-	$po_number = $row['po_number'];
-	
-	$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $customer_id . "'";
-	$result_customer = $conn->query($sql_customer);
-	$customer = $result_customer->fetch_assoc();
+	} else {
+		$row 			= $result->fetch_assoc();
+		$customer_id 	= $row['customer_id'];
+		$so_name 		= $row['name'];
+		$taxing 		= $row['taxing'];
+		$po_number 		= $row['po_number'];
+		
+		$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $customer_id . "'";
+		$result_customer = $conn->query($sql_customer);
+		$customer = $result_customer->fetch_assoc();
 ?>
 <div class='main'>
 	<h2 style='font-family:bebasneue'><?= $so_name ?></h2>
@@ -38,10 +38,10 @@
 			</tr>
 			<input type='hidden' value='<?= $id ?>' name='id' readonly>
 <?php
-	$sql_detail = "SELECT * FROM service_sales_order WHERE so_id = '" . $id . "'";
-	$result_detail = $conn->query($sql_detail);
-	while($detail = $result_detail->fetch_assoc()){
-		$quantity_max[$detail['id']] = $detail['quantity'] - $detail['done'];
+		$sql_detail 		= "SELECT * FROM service_sales_order WHERE so_id = '" . $id . "'";
+		$result_detail 		= $conn->query($sql_detail);
+		while($detail 		= $result_detail->fetch_assoc()){
+			$quantity_max[$detail['id']] = $detail['quantity'] - $detail['done'];
 ?>
 		<tr>
 			<td><?= $detail['description'] ?></td>
@@ -79,3 +79,6 @@
 		}
 	});
 </script>
+<?php
+	}
+?>

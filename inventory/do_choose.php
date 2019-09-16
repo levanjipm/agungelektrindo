@@ -129,13 +129,14 @@ $( function() {
 		})
 	}
 	function service_view(n){
+		$('.view_sales_order_wrapper').fadeIn();
 		$.ajax({
 			url:'view_service_so.php',
 			data:{
 				id: n,
 			},
 			success:function(response){
-				$('#view_so').html(response);
+				$('#view_sales_order_box').html(response);
 			},
 			type:'POST',
 		})

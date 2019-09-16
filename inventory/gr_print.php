@@ -2,23 +2,23 @@
 <?php
 	include('../codes/connect.php');
 	$code_goodreceipt_id = $_POST['id'];
-	$sql_first = "SELECT * FROM code_goodreceipt WHERE id = '" . $code_goodreceipt_id . "'";
-	$result_first = $conn->query($sql_first);
-	$first_row = $result_first->fetch_assoc();
+	$sql_first 		= "SELECT * FROM code_goodreceipt WHERE id = '" . $code_goodreceipt_id . "'";
+	$result_first 	= $conn->query($sql_first);
+	$first_row 		= $result_first->fetch_assoc();
 	
-	$date = $first_row['date'];
-	$supplier_id = $first_row['supplier_id'];
-	$document = $first_row['document'];
-	$po_id = $first_row['po_id'];
+	$date 			= $first_row['date'];
+	$supplier_id 	= $first_row['supplier_id'];
+	$document 		= $first_row['document'];
+	$po_id 			= $first_row['po_id'];
 	
-	$sql_code_purchase_order = "SELECT name FROM code_purchaseorder WHERE id = '" . $po_id . "'";
+	$sql_code_purchase_order 	= "SELECT name FROM code_purchaseorder WHERE id = '" . $po_id . "'";
 	$result_code_purchase_order = $conn->query($sql_code_purchase_order);
-	$code_purchase_order = $result_code_purchase_order->fetch_assoc();
-	$po_name = $code_purchase_order['name'];
+	$code_purchase_order 		= $result_code_purchase_order->fetch_assoc();
+	$po_name 					= $code_purchase_order['name'];
 	
-	$sql_customer = "SELECT name, address, city FROM supplier WHERE id = '" . $supplier_id . "'";
-	$result_customer = $conn->query($sql_customer);
-	$customer = $result_customer->fetch_assoc();
+	$sql_customer 		= "SELECT name, address, city FROM supplier WHERE id = '" . $supplier_id . "'";
+	$result_customer 	= $conn->query($sql_customer);
+	$customer 			= $result_customer->fetch_assoc();
 	
 	$customer_name = $customer['name'];
 	$customer_address = $customer['address'];
@@ -64,9 +64,9 @@
 					</thead>
 					<tbody>
 					<?php
-						$sql = "SELECT goodreceipt.quantity, purchaseorder_received.reference
+						$sql = "SELECT goodreceipt.quantity, purchaseorder.reference
 						FROM goodreceipt 
-						JOIN purchaseorder_received ON purchaseorder_received.id = goodreceipt.received_id
+						JOIN purchaseorder ON purchaseorder.id = goodreceipt.received_id
 						WHERE goodreceipt.gr_id = '" . $code_goodreceipt_id . "'";
 						$result = $conn->query($sql);
 						while($row = $result->fetch_assoc()){

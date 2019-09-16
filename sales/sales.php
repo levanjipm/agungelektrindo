@@ -1,10 +1,10 @@
 <?php
 	include("salesheader.php");
 	
-	$sql_pending_so = "SELECT COUNT(DISTINCT(so_id)) AS jumlah_so FROM sales_order_sent WHERE status = '0'";
-	$result_pending_so = $conn->query($sql_pending_so);
-	$row_pending_so = $result_pending_so->fetch_assoc();
-	$pending_so = $row_pending_so['jumlah_so'];
+	$sql_pending_so 	= "SELECT COUNT(DISTINCT(so_id)) AS jumlah_so FROM sales_order WHERE status = '0'";
+	$result_pending_so 	= $conn->query($sql_pending_so);
+	$row_pending_so 	= $result_pending_so->fetch_assoc();
+	$pending_so 		= $row_pending_so['jumlah_so'];
 	
 	$month = date('m');
 	
@@ -42,15 +42,15 @@
 		$year_last = $year;
 	}
 	
-	$sql_annual = "SELECT SUM(value) AS sales FROM invoices WHERE YEAR(date) = '$year'";
-	$result_annual = $conn->query($sql_annual);
-	$annual = $result_annual->fetch_assoc();
+	$sql_annual 	= "SELECT SUM(value) AS sales FROM invoices WHERE YEAR(date) = '$year'";
+	$result_annual 	= $conn->query($sql_annual);
+	$annual 		= $result_annual->fetch_assoc();
 	
 	$month_now = $month;
 	
-	$sql_this_month = "SELECT SUM(value) AS sales FROM invoices WHERE MONTH(date) = '$month' AND YEAR(date) = '$year'";
-	$result_this_month = $conn->query($sql_this_month);
-	$this_month = $result_this_month->fetch_assoc();
+	$sql_this_month 	= "SELECT SUM(value) AS sales FROM invoices WHERE MONTH(date) = '$month' AND YEAR(date) = '$year'";
+	$result_this_month 	= $conn->query($sql_this_month);
+	$this_month 		= $result_this_month->fetch_assoc();
 	
 	$month_now = $month - 1;
 	if($month_now > $month){

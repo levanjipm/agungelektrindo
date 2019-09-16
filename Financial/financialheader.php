@@ -1,12 +1,12 @@
 <head>
-<title>Financial Department</title>
-<script src='../universal/jquery/jquery-3.3.0.min.js'></script>
-<link rel="stylesheet" href="../universal/bootstrap/4.1.3/css/bootstrap.min.css">
-<link rel="stylesheet" href="../universal/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="../universal/bootstrap/3.3.7/js/bootstrap.min.js">
-<script src="../universal/bootstrap/4.1.3/js/bootstrap.bundle.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="financialstyle.css">
+	<title>Financial Department</title>
+	<script src='../universal/jquery/jquery-3.3.0.min.js'></script>
+	<link rel="stylesheet" href="../universal/bootstrap/4.1.3/css/bootstrap.min.css">
+	<script src="../universal/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../universal/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../universal/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<link rel="stylesheet" href="financialstyle.css">
 <?php
 	include("../codes/connect.php");
 	session_start();
@@ -26,118 +26,93 @@
 	if (isset( $_SESSION['user_id'] ) && mysqli_num_rows($otorisasi) != 0) {
 ?>
 </head>
-<style>
-#user_button{
-	background-color:transparent;
-	border:none;
-	color:white;
-}
-.dropdown {
-  float: left;
-  overflow: hidden;
-}
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-.dropdown-content a {
-  float: none;
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-}
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-</style>
+<div class='top_navigation_bar'>
+	<div class='col-lg-4 col-md-5 col-sm-6 col-xs-8'>
+		<a href='../human_resource/user_dashboard' style='text-decoration:none;display:inline-block'>
+			<img src='../universal/images/agungelektrindo_header.png' style='height:50px;'>
+		</a>
+	</div>
+	<div class='col-lg-2 col-md-4 col-sm-4 col-xs-4 col-lg-offset-6 col-md-offset-3 col-sm-offset-1 col-xs-offset-0' style='text-align:right'>
+		<h3 style='font-family:Bebasneue'><?= $name ?> 
+			<span style='display:inline-block'>
+				<a href='../codes/logout' style='padding-left:10px;text-decoration:none;color:white;' title='log out'>
+					 <i class="fa fa-sign-out" aria-hidden="true"></i>
+				</a>
+			</span>
+		</h3>
+	</div>
+</div>
 <div class="sidenav">
-	<div class='row'>
-		<div class='col-md-6'>
-			<img src='../human_resource/images/users/users.png' style='width:100%; border-radius:50%'>
-		</div>
-		<div class='col-md-6' style='color:white'>
-			<strong>Welcome</strong>
-			<p><?= $user_name ?></p>
-		</div>
-	</div>				
-	<hr>
-	<style>
-		.btn-badge{
-			background-color:transparent;
-			color:white;
-			width:100%;
-			text-align:left;
-		}
-		.dropdown-container {
-			display: none;
-			background-color: #262626;
-			padding-left: 8px;
-			line-height:2.5;
-		}
-	</style>
-	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+	<button type='button' class='btn-badge' style='text-align:right' id='hide_side_button'>
+		<i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i>
+	</button>
+	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-file-o" aria-hidden="true"></i>
 		Bank Account
 	</button>
 	<div class="dropdown-container">
-		<a href='view_mutation_dashboard.php'>View mutation</a><br>
-		<a href="add_transaction_dashboard.php">Add a transaction</a><br>
-		<a href='reset_transaction_dashboard.php'>Reset transaction</a><br>
+		<a href='view_mutation_dashboard'>View mutation</a><br>
+		<a href="add_transaction_dashboard">Add a transaction</a><br>
+		<a href='reset_transaction_dashboard'>Reset transaction</a><br>
 		<a href='#'>Assign transaction</a>
 		<br>
 	</div>
-	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
+	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-undo" aria-hidden="true"></i>
 		Petty Cash
 	</button>
 	<div class="dropdown-container">
-		<a href="petty_dashboard.php">
+		<a href="petty_dashboard">
 			<p>Add a transaction</p>
 		</a>
-		<a href="petty_view.php">
+		<a href="petty_view">
 			<p>View table</p>
 		</a>
-		<a href="petty_chart.php">
+		<a href="petty_chart">
 			<p>View chart</p>
 		</a>
 	</div>
 	<hr>
-	<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
-		<a href='../human_resource/user_dashboard.php' style='color:white;text-decoration:none'>
-			<i class="fa fa-home" aria-hidden="true"></i>
-			Back to home
-		</a>
-	</button>
-	<a href='../codes/logout.php'>
-		<button type='button' class='btn btn-badge' style='color:white'>
-		<i class="fa fa-sign-out" aria-hidden="true"></i>
-		Log Out
-		</button>
-	</a>
-	<hr>
 	<a href='financial.php' style='color:#1ac6ff;text-decoration:none'>
 		<i class="fa fa-eercast" aria-hidden="true"></i>Financial Department
 	</a>
-	<script>
-	$('.dropdown-btn').click(function(){
-		if($(this).next().is(':visible')){
-			$(this).css('color','white');
-		} else {
-			$(this).css('color','#00ccff');
-		}
-		$(this).next().toggle(350);
-	});
-	</script>
 </div>
+<div class='sidenav_small'>
+	<i class="fa fa-bars" aria-hidden="true"></i>
+</div>
+<script>
+$('.dropdown-btn').click(function(){
+	if($(this).next().is(':visible')){
+		$(this).css('color','white');
+	} else {
+		$(this).css('color','#00ccff');
+	}
+	$(this).next().toggle(350);
+});
+
+$('#hide_side_button').click(function(){
+	$('.sidenav').toggle(200);
+	$('#show_side_button').fadeIn();
+	setTimeout(function(){	
+		$('.main').animate({
+			'margin-left':'50px'
+		},200);
+		
+		$('.sidenav_small').toggle(200);
+	},200);
+});
+
+$('.sidenav_small').click(function(){
+	$('.sidenav_small').toggle(200);
+	$('#show_side_button').hide();
+	setTimeout(function(){		
+		$('.sidenav').toggle(200);
+		$('.main').animate({
+			'margin-left':'200px'
+		},200);
+	},200);
+});
+</script
 <?php
 } else{
 	header('location:../landing_page.php');

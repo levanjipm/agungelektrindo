@@ -44,7 +44,7 @@
 			<tr>
 				<td></td>
 <?php
-					$sql_received 			= "SELECT reference FROM purchaseorder_received WHERE id = '" . $detail['received_id'] . "'";
+					$sql_received 			= "SELECT reference FROM purchaseorder WHERE id = '" . $detail['received_id'] . "'";
 					$result_received 		= $conn->query($sql_received);
 					$received 				= $result_received->fetch_assoc();
 ?>

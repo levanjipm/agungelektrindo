@@ -36,5 +36,5 @@
 		
 		next($reference_array);
 	}
-	// header('location:sales.php');
+	header('location:sales.php');
 ?>

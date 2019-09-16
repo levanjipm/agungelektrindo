@@ -43,12 +43,13 @@
 		<button type='button' class='button_add_row' id='add_item_button' style='display:inline-block'>Add item</button>
 		<table class='table table-bordered'>
 			<tr>
-				<th>Reference</th>
-				<th>Price</th>
-				<th>Discount</th>
-				<th>Quantity</th>
-				<th>Net price</th>
-				<th>Total price</th>
+				<th style='width:20%'>Reference</th>
+				<th style='width:15%'>Price</th>
+				<th style='width:15%'>Discount</th>
+				<th style='width:15%'>Quantity</th>
+				<th style='width:15%'>Net price</th>
+				<th style='width:15%'>Total price</th>
+				<th></th>
 			</tr>
 			<tbody id='detail_quotation'>
 <?php
@@ -58,36 +59,32 @@
 	while($row = $result->fetch_assoc()){
 ?>	
 				<tr id='tr-<?= $a ?>'>
-					<td><input id='reference<?= $a ?>' class='form-control' name='reference[<?=$a?>]' style='width:100%' value='<?= $row['reference']?>'></td>
-					<td><input style='overflow-x:hidden' id='price<?=$a?>' name='price[<?=$a?>]' class='form-control' style='width:100%' value='<?= $row['price_list']?>'></td>
-					<td><input id='discount<?=$a?>' class='form-control' name='discount[<?=$a?>]' value='<?= $row['discount']?>'></td>
-					<td><input id='quantity<?=$a?>' class='form-control' name='quantity[<?=$a?>]' value='<?= $row['quantity']?>'></td>
+					<td><input id='reference<?= $a ?>' 	class='form-control' 	name='reference[<?=$a?>]' 	value='<?= $row['reference']?>'></td>
+					<td><input id='price<?=$a?>' 		class='form-control'	name='price[<?=$a?>]'  		value='<?= $row['price_list']?>'></td>
+					<td><input id='discount<?=$a?>' 	class='form-control' 	name='discount[<?=$a?>]' 	value='<?= $row['discount']?>'></td>
+					<td><input id='quantity<?=$a?>' 	class='form-control' 	name='quantity[<?=$a?>]' 	value='<?= $row['quantity']?>'></td>
 					<td id='netprice_numeral<?= $a ?>'></td>
 					<td id='total_price_numeral<?= $a ?>'></td>
 					<td><button class='button_delete_row' type='button' id='close<?= $a ?>' onclick='delete_row(<?= $a ?>)'>X</button></td>
 				</tr>
+				<script>
+					$('#reference<?= $a ?>').autocomplete({
+						source: "search_item.php"
+					});
+				</script>
 <?php
 		$a++;
 	}
 ?>
 			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan='3'></td>
+					<td>Total</td>
+					<td id='grand_total' colspan='2'></td>
+				</tr>
+			</tfoot>
 		</table>
-		<div id="input_list">
-		</div>
-		<hr>
-		<div class="row">
-			<div class="col-sm-2 offset-lg-7">
-				<label for="total">Total</label>
-			</div>
-			<div class="col-sm-2">
-				<input class="nomor" id="total" name="total" readonly>
-			</div>
-		</div>
-		<div class="row" style="padding-top:20px">
-			<div class="col-sm-2">
-				<input type="hidden" class="form-control" id="jumlah_barang" name="jumlah_barang"></input>
-			</div>	
-		</div>
 		<div style="padding:20px;background-color:#eee">
 			<div class='row'>
 				<div class='col-sm-6'>
@@ -148,11 +145,9 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-2">
-				<button type="button" id="submitbtn" class="btn btn-success" style="display:none" onclick='validate()'>Submit</button>
-			</div>
-			<div class="col-sm-2">
-				<button type="button" id="back" class="btn btn-primary" style="display:none">Back</button>
+			<div class="col-sm-12">
+				<button type="button" id="back" class="button_warning_dark" style="display:none">Back</button>
+				<button type="button" id="submitbtn" class="button_success_dark" style="display:none" onclick='validate()'>Submit</button>
 			</div>
 		</div>
 		<input type='hidden' value='benar' id='danieltri'>
@@ -239,7 +234,6 @@ function hitung(){
 			angka = false;
 		}
 	});
-	console.log(angka);
 	if($('#quote_person').val() == 0){
 		alert("Please insert a customer");
 		return false;
@@ -278,7 +272,7 @@ function hitung(){
 			calculated_total = parseFloat(calculated_total + totalprice);
 		});
 		
-		$('#total').val(numeral(calculated_total).format('0,0.00'));
+		$('#grand_total').html(numeral(calculated_total).format('0,0.00'));
 		if(isNaN(calculated_total)){
 			alert('Insert correct price!');
 			return false;
@@ -297,16 +291,13 @@ function round(value, precision) {
     return Math.round(value * multiplier) / multiplier;
 }
 $("#back").click(function () {
-	$('input[id^=reference]').attr('readonly',false);
-	$('input[id^=price]').attr('readonly',false);
-	$('input[id^=discount]').attr('readonly',false);
-	$('input[id^=quantity]').attr('readonly',false);
+	$('input').attr('readonly',false);
 	$('#submitbtn').hide();
 	$('#back').hide();
 	$('#calculate').show();
 	$('#folder').show();
 	$('#close').show();
-	$('button[id^=close]').show();
+	$('button[id^="close"]').show();
 });
 function validate(){
 	if($('#danieltri').val() == 'salah'){

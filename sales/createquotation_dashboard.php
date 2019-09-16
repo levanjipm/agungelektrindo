@@ -14,7 +14,7 @@ $( function() {
 </script>
 <div class="main">
 	<h2 style='font-family:bebasneue'>Quotation</h2>
-	<h4 style="color:#444">Create new quotation</h4>
+	<p>Create new quotation</p>
 	<hr>
 	<form name="quotation" id="quotation" class="form" method="POST" action="createquotation_validation.php">
 		<div class="row">
@@ -23,14 +23,12 @@ $( function() {
 				<select class="form-control" id="quote_person" name="quote_person"  onclick="disable()">
 				<option id="kosong" value="0">Please Select a customer--</option>
 					<?php
-						$sql = "SELECT id,name,address FROM customer ORDER BY name ASC";
-						$result = $conn->query($sql);
-						if ($result->num_rows > 0) {
-							while($row = mysqli_fetch_array($result)) {
-							echo '<option id="pilih" value="' . $row["id"] . '">'. $row["name"].'</option> ';
-							}
-						} else {
-							echo "0 results";
+						$sql 		= "SELECT id,name,address FROM customer ORDER BY name ASC";
+						$result 	= $conn->query($sql);
+						while($row	= $result->fetch_assoc()){
+					?>
+						<option value='<?= $row['id'] ?>'><?= $row['name'] ?></option>
+					<?php
 						}
 					?>
 				</select>
@@ -69,7 +67,7 @@ $( function() {
 				<tr>
 					<td colspan='3'></td>
 					<td>Total</td>
-					<td colspan='2' style='width:40%'><input class="nomor" id="total" name="total" readonly></td>
+					<td colspan='2' style='width:40%' id='total'></td>
 				</tr>
 				<tr>
 					<td colspan='3'></td>
@@ -77,9 +75,8 @@ $( function() {
 					<td colspan='2' style='width:40%'><input type='number' class="form-control" id="add_discount" name="add_discount" step='0.001'></td>
 				</tr>
 		</table>
-		<hr>
 		<button type='button' class='hide_note_button' id='toggle_note_button'>Toggle note</button>
-		<br><br>
+		<br>
 		<script>
 			$('#toggle_note_button').click(function(){
 				$('#note_wrapper').toggle(300);
@@ -150,17 +147,16 @@ $( function() {
 				</div>
 			</div>
 		</div>
+		<br>
 		<div class="row">
 			<div class="col-sm-2">
 				<button type="button" class="button_confirm" onclick="hitung()" id="calculate">Calculate</button>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-2">
-				<button type="button" id='button_validate' class="btn btn-success" style="display:none" onclick='validate()'>Submit</button>
-			</div>
-			<div class="col-sm-2">
-				<button type="button" id="back" class="btn btn-primary" style="display:none">Back</button>
+			<div class="col-sm-12">
+				<button type="button" id="back" class="button_warning_dark" style="display:none">Back</button>
+				<button type="button" id='button_validate' class="button_success_dark" style="display:none" onclick='validate()'>Submit</button>	
 			</div>
 		</div>
 	</form>
@@ -232,7 +228,7 @@ function hitung(){
 			$('#totalprice' + uid).html(numeral($('#quantity' + uid).val() * netprice,2).format('0,0.00'));
 			calculated_total = parseFloat(calculated_total + totalprice);
 		});
-		$('#total').val(numeral(calculated_total).format('0,0.00'));
+		$('#total').html(numeral(calculated_total).format('0,0.00'));
 		if(isNaN(calculated_total)){
 			alert('Insert correct price!');
 			return false;
@@ -243,6 +239,8 @@ function hitung(){
 			$('#calculate').hide();
 			$('#folder').hide();
 			$('#close').hide();
+			$('#add_item_button').attr('disabled',true);
+			$('.button_delete_row').hide();
 		}
 	}
 };
@@ -278,6 +276,8 @@ $("#back").click(function (){
 	$('#calculate').show();
 	$('#folder').show();
 	$('#close').show();
+	$('#add_item_button').attr('disabled',false);
+	$('.button_delete_row').show();
 })
 
 function payment_js(){

@@ -13,17 +13,21 @@
 	</div>
 	<p>Setelah masuk ke dalam halaman pembuatan penawaran harga, diisikan data data yang diperlukan dalam pembuatan penawaran harga, yakni:</p>
 	<ul>
-		<li>Nama customer yang telah didaftarkan pada <i>customer list</i></li>
-		<li>Tanggal penawaran harga tersebut ( <i>Default</i> tanggal penawaran harga adalah hari pembuatan penawaran harga)</li>
-		<li>Referensi barang yang ditawarkan</li>
-		<li>Harga dari daftar harga yang berlaku</li>
-		<li>Discount sesuai dengan kesepakatan atau keputusan kepala sales</li>
-		<li>Jumlah barang yang ditawarkan</li>
-		<li>Metode pembayaran</li>
-		<li>Catatan apabila ada</li>
+		<li>Nama pelanggan yang telah didaftarkan pada <i>customer list</i>,</li>
+		<li>Tanggal penawaran harga tersebut (<i>Default</i> tanggal penawaran harga adalah hari pembuatan penawaran harga),</li>
+		<li>Referensi barang yang ditawarkan,</li>
+		<li>Harga dari daftar harga yang berlaku,</li>
+		<li>Discount sesuai dengan kesepakatan atau keputusan kepala sales,</li>
+		<li>Jumlah barang yang ditawarkan,</li>
+		<li>Metode pembayaran,</li>
+		<li>Catatan (apabila ada).</li>
 	</ul>
-	<p>Untuk menambahkan barisan dalam penawaran harga, klik tombol dengan bentuk <i>folder</i> di sebelah kanan, sedangkan untuk menghapus barisan <strong>terakhir</strong>, klik tombol dengan bentuk silang di sebelah kanan. Periksa kembali seluruh penawaran harga sebelum klik tombol <i>Calculate</i> pada bagian bawah. Apabila hasil kalkulasi sudah benar, maka lanjutkan dengan klik tombol <i>submit</i>.</p>
-	<p>Setelah klik tombol <i>submit</i>, anda akan diarahkan menuju halaman validasi penawaran harga untuk diperiksa kembali. Untuk langkah ini, mohon koordinasikan dengan kepala sales atau supervisi terdekat anda</p>
+	<p>Untuk menambahkan barisan dalam penawaran harga klik tombol <i>add row</i> sedangkan untuk menghapus barisan klik tombol dengan bentuk silang di sebelah kanan. 
+	Periksa kembali seluruh penawaran harga sebelum klik tombol <i>Calculate</i> pada bagian bawah. Apabila hasil kalkulasi sudah benar, maka lanjutkan dengan 
+	klik tombol <i>submit</i>.</p>
+	<p>Setelah klik tombol <i>submit</i>, 
+	anda akan diarahkan menuju halaman validasi penawaran harga untuk diperiksa kembali. 
+	Untuk langkah ini, mohon koordinasikan dengan kepala sales atau supervisi terdekat anda</p>
 	<div style='text-align:center;padding:30px;'>
 		<img src='images/create_quotation2.png' style='max-width:600px'></img>
 	</div>
@@ -32,5 +36,5 @@
 	<div style='text-align:center;padding:30px;'>
 		<img src='images/create_quotation4.png' style='max-width:600px'></img>
 	</div>
-	<p>Apabila sudah selesai, cukup matikan <i>tab</i> tersebut dan anda akan kembali ke <i>dashboard</i> departemen penjualan.
+	<p>Apabila sudah selesai, cukup tutup <i>tab</i> tersebut dan anda akan kembali ke <i>dashboard</i> departemen penjualan.
 </div>

@@ -9,6 +9,38 @@
 		z-index:55;
 		left:50%;
 	}
+	
+	.view_add_class_form{
+		background-color:rgba(30,30,30,0.7);
+		position:fixed;
+		z-index:100;
+		top:0;
+		width:100%;
+		height:100%;
+		display:none;
+	}
+	
+	#view_add_class_box{
+		position:absolute;
+		width:90%;
+		left:5%;
+		top:10%;
+		height:80%;
+		background-color:white;
+		overflow-y:scroll;
+		padding:20px;
+	}
+	
+	#button_add_class_close{
+		position:absolute;
+		background-color:transparent;
+		top:10%;
+		left:5%;
+		outline:none;
+		border:none;
+		color:#333;
+		z-index:120;
+	}
 </style>
 <div class='main'>
 	<div class='alert_wrapper'>
@@ -25,34 +57,51 @@
 	<h2 style='font-family:bebasneue'>Item</h2>
 	<p>Add class</p>
 	<hr>
-	<label>Class name</label>
-	<input type='text' class='form-control' id='class_name'>
-	<br>
-	<button type='button' class='btn btn-default' id='submit_class'>Add class</button>
-	<hr>
-	<table class='table table-hover'>
+	<button type='button' class='button_success_dark' id='submit_class'>Add class</button>
+	<br><br>
+	<table class='table table-bordered'>
 		<tr>
 			<th>Date added</th>
 			<th>Class name</th>
 			<th>Items</th>
-			<th></th>
+			<th colspan='2'></th>
 		</tr>
 		<tbody>
 <?php
-	$sql = "SELECT date,id,name FROM itemlist_category ORDER BY date ASC";
-	$result = $conn->query($sql);
-	while($row = $result->fetch_assoc()){
+	$sql 		= "SELECT date,id,name FROM itemlist_category ORDER BY date ASC";
+	$result 	= $conn->query($sql);
+	while($row 	= $result->fetch_assoc()){
+		$sql_item 		= "SELECT COUNT(*) AS group_member_quantity FROM itemlist WHERE type = '" . $row['id'] . "'";
+		$result_item 	=  $conn->query($sql_item);
+		$item 			= $result_item->fetch_assoc();
+		$member			= $item['group_member_quantity'];
 ?>
-		<tr>
+		<tr id='tr-<?= $row['id'] ?>'>
 			<td><?= date('d M Y',strtotime($row['date'])) ?></td>
 			<td><?= $row['name'] ?></td>
-			<td><?php
-				$sql_item = "SELECT COUNT(*) AS jumlah_kelompok FROM itemlist WHERE type = '" . $row['id'] . "'";
-				$result_item =  $conn->query($sql_item);
-				$item = $result_item->fetch_assoc();
-				echo $item['jumlah_kelompok'];
-			?></td>
-			<td><button type='button' class='btn btn-default'>View</button></td>
+			<td><?= $member	?></td>
+			<td>
+				<button type='button' class='button_default_dark'><i class="fa fa-pencil" aria-hidden="true"></i></button>
+			</td>
+<?php
+				if($member == 0){
+?>
+			<td>	
+				<button type='button' class='button_danger_dark' onclick='delete_class(<?= $row['id'] ?>)'>
+					<i class="fa fa-trash" aria-hidden="true"></i>
+				</button>
+			</td>
+<?php
+				} else {
+?>
+			<td>	
+				<button type='button' class='button_danger_dark' disabled>
+					<i class="fa fa-trash" aria-hidden="true"></i>
+				</button>
+			</td>
+<?php
+				}
+?>
 		</tr>
 <?php
 	}
@@ -60,44 +109,49 @@
 		</tbody>
 	</table>
 </div>
+<div class='view_add_class_form'>
+	<button id='button_add_class_close'>X</button>
+	<div id='view_add_class_box'>
+		<h2 style='font-family:bebasneue'>Add item class</h2>
+		<hr>
+		<label>Class name</label>
+		<input type='text' class='form-control' name='class_name' id='class_name'>
+		<br>
+		<button type='button' class='button_success_dark' id='add_class_button'>Submit</button>
+	</div>
+</div>
 <script>
-	$('tbody').sortable();
 	$('#submit_class').click(function(){
+		$('.view_add_class_form').fadeIn();
+	});
+	
+	$('#button_add_class_close').click(function(){
+		$('.view_add_class_form').fadeOut();
+	});
+	
+	$('#add_class_button').click(function(){
 		if($('#class_name').val() == ''){
-			alert('Please insert a class name!');
+			alert('Please insert valid class name');
 			$('#class_name').focus();
 			return false;
 		} else {
 			$.ajax({
-				url: 'additem_class.php',
-				data :{
-					user: <?= $_SESSION['user_id'] ?>,
-					class_name : $('#class_name').val(),
+				url:'additem_class',
+				data:{
+					class_name: $('#class_name').val()
 				},
-				type: 'POST',
+				type:'POST',
+				beforeSend:function(){
+					$('#add_class_button').attr('disabled',true);
+				},
 				success:function(response){
-					if(response == 0){
-						$('#exist_alert').fadeIn();
-						setTimeout(function(){
-							$('#exist_alert').fadeOut();
-						},1000);
-						$('#itemreff').focus();
-					} else if(response == 1){
-						$('#success_alert').fadeIn();
-						setTimeout(function(){
-							$('#success_alert').fadeOut();
-						},1000);
-						$('#itemreff').val('');
-						$('#type').val(0);
-						$('#itemdescs').val('');
-					} else if(response == 2){
-						$('#failed_alert').fadeIn();
-						setTimeout(function(){
-							$('#failed_alert').fadeOut();
-						},1000);
-					}
+					location.reload();
 				},
 			})
 		}
 	});
+	
+	function delete_class(n){
+		$.ajax({
+			url:'delete_class
 </script>

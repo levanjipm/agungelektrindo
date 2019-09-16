@@ -14,8 +14,8 @@
 		header('location:../landing_page.php');
 		die();
 	}
-	$sql_user = "SELECT * FROM authorization WHERE user_id = '" . $_SESSION['user_id'] . "' AND department_id = '2'";
-	$result_user = $conn->query($sql_user);
+	$sql_user 		= "SELECT * FROM authorization WHERE user_id = '" . $_SESSION['user_id'] . "' AND department_id = '2'";
+	$result_user 	= $conn->query($sql_user);
 	if(mysqli_num_rows($result_user) == 0){
 		header('location:../landing_page.php');
 		die();
@@ -45,6 +45,9 @@
 	</div>
 </div>
 <div class="sidenav">
+	<button type='button' class='btn-badge' style='text-align:right' id='hide_side_button'>
+		<i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i>
+	</button>
 	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-file-o" aria-hidden="true"></i>
 		Purchase Order
@@ -87,7 +90,7 @@
 		Item list
 	</button>
 	<div class="dropdown-container">
-		<a href="additem_dashboard.php">
+		<a href="add_item_dashboard.php">
 			<p>Add item list</p>
 		</a>
 		<a href="edititem_dashboard.php">
@@ -119,7 +122,11 @@
 	<a href='purchasing.php' style='color:#1ac6ff;text-decoration:none'>
 		<i class="fa fa-eercast" aria-hidden="true"></i>Purchasing Department
 	</a>
-	<script>
+</div>
+<div class='sidenav_small'>
+	<i class="fa fa-bars" aria-hidden="true"></i>
+</div>
+<script>
 	$('.dropdown-btn').click(function(){
 		if($(this).next().is(':visible')){
 			$(this).css('color','white');
@@ -128,8 +135,29 @@
 		}
 		$(this).next().toggle(350);
 	});
-	</script>
-</div>
+
+	$('#hide_side_button').click(function(){
+		$('.sidenav').toggle(200);
+		$('#show_side_button').fadeIn();
+		setTimeout(function(){	
+			$('.main').animate({
+				'margin-left':'50px'
+			},200);
+			$('.sidenav_small').toggle(200);
+		},200);
+	});
+
+	$('.sidenav_small').click(function(){
+		$('.sidenav_small').toggle(200);
+		$('#show_side_button').hide();
+		setTimeout(function(){		
+			$('.sidenav').toggle(200);
+			$('.main').animate({
+				'margin-left':'200px'
+			},200);
+		},200);
+	});
+</script>
 <?php
 	}
 ?>

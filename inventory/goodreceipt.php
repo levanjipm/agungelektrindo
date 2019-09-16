@@ -61,7 +61,7 @@
 	<p><?= date('d M Y',strtotime($date)) ?></p>
 	<form action="goodreceipt_validation.php" method="POST" id="goodreceipt_form">
 		<div class="row">
-			<div class="col-lg-4 col-lg-offset-4">
+			<div class="col-sm-4 col-sm-offset-4">
 				<label>Document number</label>
 				<input type="text" name="document" class="form-control" id="document">
 				<input type="hidden" name="date" value="<?= $date ?>">
@@ -70,25 +70,36 @@
 		<br><br>
 		<table class="table table-bordered">
 			<thead>
-				<th style="width:30%">Item name</th>
-				<th style="width:10%">Ordered</th>
-				<th style="width:10%">Received</th>
-				<th style="width:20%">Item Received</th>
+				<th style='width:30%'>Reference</th>
+				<th style='width:30%'>Description</th>
+				<th style='width:10%'>Ordered</th>
+				<th style='width:10%'>Received</th>
+				<th style='width:20%'>Item Received</th>
 			</thead>
 <?php
-	$sql 	= "SELECT id, reference, quantity, received_quantity, status
-			FROM purchaseorder
-			WHERE status = '0' AND purchaseorder_id = '" . $po_id . "'";
-	$result = $conn->query($sql);
-	while($row = $result->fetch_assoc()) {
+	$sql 		= "SELECT id, reference, quantity, received_quantity, status
+				FROM purchaseorder
+				WHERE status = '0' AND purchaseorder_id = '" . $po_id . "'";
+	$result 	= $conn->query($sql);
+	while($row 	= $result->fetch_assoc()) {
 		$id		= $row['id'];
+		$reference	= $row['reference'];
+		$quantity	= $row['quantity'];
+		$received	= $row['received_quantity'];
+		
+		$sql_item	= "SELECT description FROM itemlist WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "'";
+		$result_item	= $conn->query($sql_item);
+		$item			= $result_item->fetch_assoc();
+		
+		$item_description	= $item['description'];
 ?>
 			<tr>
-				<td><?= $row['reference'];?>		</td>
-				<td><?= $row['quantity']; ?>		</td>
-				<td><?= $row['received_quantity']; ?></td>
+				<td><?= $reference	?></td>
+				<td><?= $item_description	?></td>
+				<td><?= $quantity	?></td>
+				<td><?= $received	?></td>
 				<td>
-					<input class="form-control" type="number" name="qty_receive[<?= $id?>]" id="qty_receive<?= $id?>" max="<?= $row['quantity'] -$row['received_quantity']?>" min='0' value='0'>
+					<input class="form-control" type="number" name="qty_receive[<?= $id?>]" id="qty_receive<?= $id?>" max="<?= $quantity - $received?>" min='0' value='0'>
 				</td>
 			</tr>
 <?php

@@ -84,6 +84,21 @@
 	overflow-y:scroll;
 }
 
+.sidenav_small{
+	background-color:#2B3940;
+	padding:20px;
+	height:100%;
+	left:0;
+	top:70px;
+	width:50px;
+	position:fixed;
+	overflow-y:hidden;
+	display:none;
+	z-index:0;
+	color:white;
+	cursor:pointer;
+}
+
 .sidenav::-webkit-scrollbar {
     width: 12px;
 }

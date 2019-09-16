@@ -2,11 +2,9 @@
 	include('financialheader.php');
 ?>
 <div class='main'>
-	<div class='container'>
-		<h2>Bank Account</h2>
-		<p>Mutation</p>
-		<hr>
-	</div>
+	<h2 style='font-family:bebasneue'>Bank Account</h2>
+	<p>Mutation</p>
+	<hr>
 	<div class='row'>
 		<div class='col-sm-3'>
 			<label>Date start</label>
@@ -18,7 +16,7 @@
 		</div>
 		<div class='col-sm-3'>
 			<label style='color:white'>x</label><br>
-			<button type='button' class='btn btn-default' onclick='view()'>View</button>
+			<button type='button' class='button_default_dark' onclick='view()'>View</button>
 		</div>
 	<hr>
 	</div>
@@ -28,10 +26,10 @@
 </div>
 <script>
 	function view(){
-		var start= new Date($("#start_date").val());
-		var end= new Date($("#end_date").val());
-		var diff = new Date(end - start);
-		var days = diff/1000/60/60/24;
+		var start	= new Date($("#start_date").val());
+		var end		= new Date($("#end_date").val());
+		var diff 	= new Date(end - start);
+		var days 	= diff/1000/60/60/24;
 		
 		if($('#start_date').val() == ''){
 			alert('Insert start date!');

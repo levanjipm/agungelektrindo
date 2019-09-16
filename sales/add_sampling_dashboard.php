@@ -16,40 +16,40 @@ $( function() {
 	<p>Add sampling</p>
 	<hr>
 	<form action='add_sampling_validation.php' method='POST' id='add_sample_form'>
-	<label>Customer</label>
-	<select class='form-control' name='customer' id='customer'>
-		<option value='0'>Please pick a customer</option>
+		<label>Customer</label>
+		<select class='form-control' name='customer' id='customer'>
+			<option value='0'>Please pick a customer</option>
 <?php	
 	$sql_customer = "SELECT id,name FROM customer ORDER BY name ASC";
 	$result_customer = $conn->query($sql_customer);
 	while($customer = $result_customer->fetch_assoc()){
 ?>
-		<option value='<?= $customer['id'] ?>'><?= $customer['name'] ?></option>
+			<option value='<?= $customer['id'] ?>'><?= $customer['name'] ?></option>
 <?php
 	}
 ?>
-	</select>
-	<br>
-	<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
-	<button type='button' class='button_add_row' id='add_item_button' style='display:inline-block'>Add item</button>
-	<table class='table table-bordered'>
-		<tr>
-			<th>Reference</th>
-			<th>Quantity</th>
-		</tr>
-		<tbody id='sample_detail'>
+		</select>
+		<br>
+		<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
+		<button type='button' class='button_add_row' id='add_item_button' style='display:inline-block'>Add item</button>
+		<table class='table table-bordered'>
 			<tr>
-				<td><input type='text' class='form-control' id='reference1' name='reference[1]'></td>
-				<td><input type='number' class='form-control' name='quantity[1]'></td>
-				<td></td>
+				<th>Reference</th>
+				<th>Quantity</th>
 			</tr>
-		</tbody>
-	</table>
+			<tbody id='sample_detail'>
+				<tr>
+					<td><input type='text' class='form-control' id='reference1' name='reference[1]'></td>
+					<td><input type='number' class='form-control' name='quantity[1]'></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+		<hr>
+		<button type='button' class='button_default_dark' onclick='submiting()'>
+			Submit
+		</button>
 	</form>
-	<hr>
-	<button type='button' class='btn btn-default' onclick='submiting()'>
-		Submit
-	</button>
 </div>
 <script>
 var a = 2;

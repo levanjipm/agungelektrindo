@@ -4,7 +4,7 @@
 	include("../../Codes/connect.php");
 	session_start();
 	$term 			= mysqli_real_escape_string($conn,$_GET['term']);
-	$sql 			= "SELECT itemlist.reference, itemlist.description, itemlist_category.name AS type
+	$sql 			= "SELECT itemlist.id, itemlist.reference, itemlist.description, itemlist_category.name AS type
 					FROM itemlist 
 					JOIN itemlist_category ON itemlist.type = itemlist_category.id
 					WHERE reference LIKE '%" . $term . "%' OR description LIKE '%" . $term . "%' ORDER by reference ASC";
@@ -80,7 +80,7 @@
 						<div class="modal-body">
 							<input name="id" type="hidden" value="<?= $row['id'] ?>">
 							<label for="name">reference</label>
-							<input class="form-control" for="name" name="reference" value="<?=$row->reference ?>" id ='reference<?= $row['id'] ?>' required>
+							<input class="form-control" for="name" name="reference" value="<?=$row['reference'] ?>" id ='reference<?= $row['id'] ?>' required>
 							<label for="name" >Description </label>
 							<input class="form-control" for="name" name="description" id="description<?= $row['id'] ?>" value="<?= $row['description'] ?>" required>
 							<label>Type</label>

@@ -15,12 +15,22 @@
 	$supplier = $result_supplier->fetch_assoc();
 ?>
 <div class='main'>
-	<div class='container'>
 	<h2 style='font-family:bebasneue'>Purchase order</h2>
 	<p>Close purchase order</p>
 	<hr>
 	<p><strong>Supplier :</strong> <?= $supplier['name'] ?></p>
 	<p><strong>PO number:</strong> <?= $initial['name'] ?></p>
+	<button type='button' class='button_success_dark' id='print_purchase_order_button'>View PO</button>
+	<br>
+	<br>
+	<form id='purchaseorder_print_form' action='createpurchaseorder_print' method='POST' target='_blank'>
+		<input type='hidden' value='<?= $po_id ?>' name='id'>
+	</form>
+	<script>
+		$('#print_purchase_order_button').click(function(){
+			$('#purchaseorder_print_form').submit();
+		})
+	</script>
 	<table class='table'>
 		<tr>
 			<th>Reference</th>
@@ -28,7 +38,7 @@
 			<th>Pending quantity</th>
 		</tr>
 <?php
-	$sql = "SELECT * FROM purchaseorder_received WHERE purchaseorder_id = '" . $po_id . "' AND status = '0'";
+	$sql = "SELECT * FROM purchaseorder WHERE purchaseorder_id = '" . $po_id . "' AND status = '0'";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){
 ?>
@@ -41,10 +51,7 @@
 				echo $item['description'];
 			?></td>
 			<td><?php
-				$sql_order = "SELECT quantity FROM purchaseorder WHERE purchaseorder_id = '" . $po_id . "' AND reference = '" . $row['reference'] . "' LIMIT 1";
-				$result_order = $conn->query($sql_order);
-				$row_order = $result_order->fetch_assoc();
-				echo ($row_order['quantity'] - $row['quantity']);
+				echo ($row['quantity'] - $row['received_quantity']);
 			?></td>
 		</tr>
 <?php
@@ -54,7 +61,7 @@
 	<form action='close_purchaseorder.php' method='POST' id='closepo'>
 		<input type='hidden' value='<?= $po_id ?>' name='po_id'>
 		<br>
-		<button type='button' class='btn btn-default' onclick='confirm()'>Close Purchase Order</button>
+		<button type='button' class='button_default_dark' onclick='confirm()'>Close Purchase Order</button>
 	</form>
 </div>
 <style>

@@ -101,6 +101,21 @@
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
 
+.sidenav_small{
+	background-color:#2B3940;
+	padding:20px;
+	height:100%;
+	left:0;
+	top:70px;
+	width:50px;
+	position:fixed;
+	overflow-y:hidden;
+	display:none;
+	z-index:0;
+	color:white;
+	cursor:pointer;
+}
+
 .btn-show{
 	position:fixed;
 	top:70px;
@@ -117,54 +132,11 @@
 	padding-top:70px;
 }
 
-#myTable {
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-  border: 1px solid #ddd;
-}
-
-th, td {
-  text-align: center;
-  padding: 16px;
-}
-
-tr:nth-child(even) {
-  background-color: #f2f2f2
-}
-
-#myTable tr.header, #myTable tr:hover {
-  background-color: #f1f1f1;
-}
-.sticky{
-	margin-top:0px;
-	position:fixed;
-}
-	
-.sticky + .main {
-  padding-top: 0px;
-}	
-.nomor{
-	width:100%;
-	background-color:#fff;
-	border:none;
-}
 .selectmr{
 	background-color:#fff;
 	border-radius:5px;
 }
-.fa-folder{
-	width:50px;
-	font-size: 20px;
-	padding:20px;
-	top:50%;
-	right:0px;
-	position:fixed;
-	background-color:#333;
-	border-radius:8px;
-	text-align:center;
-	color:#4da6ff;
-}
+
 #right-button{
 	top:70%;
 	position:fixed;
@@ -181,6 +153,7 @@ tr:nth-child(even) {
 	text-align:center;
 	color:black;
 }
+
 .fa-close{
 	width:50px;
 	font-size: 20px;

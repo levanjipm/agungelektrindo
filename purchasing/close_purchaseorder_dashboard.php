@@ -18,15 +18,15 @@
 		<tbody>
 <?php
 		//Close only the one that has not finished//
-		$sql_initial = "SELECT COUNT(*) AS jumlah, SUM(status) AS status, purchaseorder_id FROM purchaseorder_received GROUP BY purchaseorder_id";
-		$result_initial = $conn->query($sql_initial);
-		while($row_initial = $result_initial->fetch_assoc()){
-			$po_id 		= $row_initial['purchaseorder_id'];
-			$jumlah 	= $row_initial['jumlah'];
-			$status 	= $row_initial['status'];
-			if ($jumlah != $status){
-				$sql_po = "SELECT * FROM code_purchaseorder WHERE id = '" . $po_id . "' AND isclosed = '0'";
-				$result_po = $conn->query($sql_po);		
+		$sql_initial 		= "SELECT COUNT(*) AS jumlah, SUM(status) AS status, purchaseorder_id FROM purchaseorder GROUP BY purchaseorder_id";
+		$result_initial 	= $conn->query($sql_initial);
+		while($row_initial 	= $result_initial->fetch_assoc()){
+			$po_id 			= $row_initial['purchaseorder_id'];
+			$jumlah 		= $row_initial['jumlah'];
+			$status 		= $row_initial['status'];
+			if ($jumlah 	!= $status){
+				$sql_po 	= "SELECT * FROM code_purchaseorder WHERE id = '" . $po_id . "' AND isclosed = '0'";
+				$result_po 	= $conn->query($sql_po);		
 				while($row_po = $result_po->fetch_assoc()){
 ?>
 			<tr>
@@ -41,7 +41,7 @@
 				?>
 				</td>			
 				<td>
-					<button type="submit" class="button_danger_dark" onclick='submit_this(<?= $po_id ?>)'>X</button>
+					<button type="submit" class="button_danger_dark" onclick='submit_this(<?= $po_id ?>)'><i class="fa fa-times" aria-hidden="true"></i></button>
 					<form action='close_purchaseorder_validation.php' method='POST' id='form<?= $po_id ?>'>
 						<input type='hidden' value='<?= $po_id ?>' name='po_id'>
 					</form>

@@ -32,9 +32,9 @@
 		<select class='form-control' name='type' id='type'>
 			<option value='0'>Please select a classification</option>
 <?php
-	$sql = "SELECT * FROM petty_cash_classification WHERE major_id = '0'";
-	$result = $conn->query($sql);
-	while($row = $result->fetch_assoc()){
+	$sql 		= "SELECT * FROM petty_cash_classification WHERE major_id = '0'";
+	$result 	= $conn->query($sql);
+	while($row 	= $result->fetch_assoc()){
 ?>	
 			<option value='<?= $row['id'] ?>' style='font-weight:bold'><?= $row['name'] ?></option>				
 <?php
@@ -56,7 +56,7 @@
 		<input type='hidden' value='<?= $_POST['id'] ?>' name='id' readonly>
 	</form>
 	<br><br>
-	<button type='button' class='btn btn-default' id='other_assign_button'>Assign this transaction</button>
+	<button type='button' class='button_default_dark' id='other_assign_button'>Assign this transaction</button>
 </div>
 <script>
 	$('#other_assign_button').click(function(){

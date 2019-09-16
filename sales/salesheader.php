@@ -1,30 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>
-Sales Department
-</title>
-<script src='../universal/jquery/jquery-3.3.0.min.js'></script>
-<link rel="stylesheet" href="../universal/bootstrap/4.1.3/css/bootstrap.min.css">
-<script src="../universal/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="../universal/fontawesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="../universal/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-<link rel="stylesheet" href="salesstyle.css">
+	<title>Sales Department</title>
+	<script src='../universal/jquery/jquery-3.3.0.min.js'></script>
+	<link rel="stylesheet" href="../universal/bootstrap/4.1.3/css/bootstrap.min.css">
+	<script src="../universal/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../universal/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../universal/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<link rel="stylesheet" href="salesstyle.css">
 <?php
 	include("../codes/connect.php");
 	session_start();
-	$sql_user = "SELECT isactive,name,role,hpp FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
-	$result_user = $conn->query($sql_user);
-	$row_user = $result_user->fetch_assoc();
-	$name = $row_user['name'];
-	$role = $row_user['role'];
-	$hpp = $row_user['hpp'];
-	$isactive = $row_user['isactive'];
+	$sql_user 		= "SELECT isactive,name,role,hpp FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
+	$result_user 	= $conn->query($sql_user);
+	$row_user 		= $result_user->fetch_assoc();
+	$name 			= $row_user['name'];
+	$role 			= $row_user['role'];
+	$hpp 			= $row_user['hpp'];
+	$isactive 		= $row_user['isactive'];
 	
-	$sql_otorisasi = "SELECT COUNT(*) AS jumlah_otorisasi FROM authorization WHERE department_id = '1' AND user_id = '" . $_SESSION['user_id'] . "'";
-	$result_otorisasi = $conn->query($sql_otorisasi);
-	$otorisasi = $result_otorisasi->fetch_assoc();
+	$sql_otorisasi 		= "SELECT COUNT(*) AS jumlah_otorisasi FROM authorization WHERE department_id = '1' AND user_id = '" . $_SESSION['user_id'] . "'";
+	$result_otorisasi 	= $conn->query($sql_otorisasi);
+	$otorisasi 			= $result_otorisasi->fetch_assoc();
 	if ($otorisasi['jumlah_otorisasi'] == 1 && $isactive == 1) {
 ?>
 </head>
@@ -66,10 +64,10 @@ Sales Department
 		Customers
 	</button>
 	<div class="dropdown-container">
-		<a href="addcustomer_dashboard">
+		<a href="add_customer_dashboard">
 			<p>Add Customer</p>
 		</a>
-		<a href="editcustomer_dashboard">
+		<a href="edit_customer_dashboard">
 			<p>Edit Customer</p>
 		</a>
 	</div>
@@ -180,9 +178,9 @@ Sales Department
 <style>
 	
 </style>
-<button type='button' class='btn-show' id='show_side_button' title='Show side navigation bar'>
-	<i class="fa fa-chevron-right" aria-hidden="true"></i><i class="fa fa-chevron-right" aria-hidden="true"></i>
-</button>
+<div class='sidenav_small'>
+	<i class="fa fa-bars" aria-hidden="true"></i>
+</div>
 <script>
 $('.dropdown-btn').click(function(){
 	if($(this).next().is(':visible')){
@@ -196,16 +194,23 @@ $('.dropdown-btn').click(function(){
 $('#hide_side_button').click(function(){
 	$('.sidenav').toggle(200);
 	$('#show_side_button').fadeIn();
-	$('.main').animate({
-		'margin-left':'0px'
+	setTimeout(function(){	
+		$('.main').animate({
+			'margin-left':'50px'
+		},200);
+		
+		$('.sidenav_small').toggle(200);
 	},200);
 });
 
-$('#show_side_button').click(function(){
-	$('.main').animate({
-		'margin-left':'200px'
-	},200);
-	$('.sidenav').toggle(200);
+$('.sidenav_small').click(function(){
+	$('.sidenav_small').toggle(200);
 	$('#show_side_button').hide();
+	setTimeout(function(){		
+		$('.sidenav').toggle(200);
+		$('.main').animate({
+			'margin-left':'200px'
+		},200);
+	},200);
 });
 </script>

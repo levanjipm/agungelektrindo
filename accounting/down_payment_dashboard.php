@@ -10,13 +10,8 @@ $( function() {
 	 })
 });
 </script>
-<a href="#" id="folder"><i class="fa fa-folder"></i></a>
-<a href="#" id="close"><i class="fa fa-close"></i></a>
 <div class="main" style='padding-top:0;height:100%'>
-	<div class='row' style='height:100%'>
-		<div class='col-sm-1' style='background-color:#fff'>
-		</div>
-		<div class='col-sm-10' style='padding:30px'>
+		<div class='col-sm-12' style='padding:30px'>
 			<h2 style='font-family:bebasneue'>Random Invoice</h2>
 			<p>Create <i>Down payment</i> invoice</h2>
 			<hr>
@@ -41,7 +36,7 @@ $( function() {
 						<label for="purchaseordernumber">Purchase Order number</label>
 						<input type="name" class="form-control" id="purchaseordernumber" name="purchaseordernumber">			
 					</div>
-					<div class="col-sm-4">
+					<div class="col-sm-4 col-sm-offset-2">
 						<label for="date">Date</label>
 						<input id="today" name="today" type="date" class="form-control" value="<?php echo date('Y-m-d');?>">
 						<label for="taxing">Taxing option</label>
@@ -52,78 +47,42 @@ $( function() {
 						</select>
 					</div>
 				</div>
-				<div class="row" id="headerlist" style="padding-top:25px;font-family:bebasneue;text-align:center">
-					<div class="col-sm-1" style="background-color:#aaa">
-						Nomor
-					</div>
-					<div class="col-sm-2" style="background-color:#ccc">
-						Refference
-					</div>
-					<div class="col-sm-1" style="background-color:#aaa">
-						Quantity
-					</div>
-					<div class="col-sm-2" style="background-color:#ccc">
-						Price after tax
-					</div>
-					<div class="col-sm-2" style="background-color:#aaa">
-						Price list
-					</div>
-					<div class="col-sm-1" style="background-color:#ccc">
-						Discount
-					</div>
-					<div class="col-sm-2" style="background-color:#aaa">
-						Total Price
-					</div>
-				</div>
-				<div class="row" style="padding-top:10px;">
-					<div class="col-sm-1">
-						1
-					</div>
-					<div class="col-sm-2">
-						<input id="reference1" class="form-control" name="reference[1]" style="width:100%">
-					</div>
-					<div class="col-sm-1">
-						<input id="qty1" name="qty[1]" class="form-control" style="width:100%">
-					</div>
-					<div class="col-sm-2">
-						<input id="vat1" name="vat[1]" class="form-control" style="width:100%">
-					</div>
-					<div class="col-sm-2">
-						<input id="pl1" name="pl[1]" class="form-control" style="width:100%">
-					</div>
-					<div class="col-sm-1">
-						<input class="form-control" id="disc1" readonly name="disc[1]">
-					</div>
-					<div class="col-sm-2">
-						<input id="total1" class="form-control" readonly name="total[1]">
-					</div>
-				</div>
-				<div id="input_list">
-				</div>
 				<br>
+				<table class='table table-bordered'>
+					<tr>
+						<th>Reference</th>
+						<th>Quantity</th>
+						<th>VAT</th>
+						<th>Price list</th>
+						<th>Discount</th>
+						<th>Total price</th>
+					</tr>
+					<tbody id='down_payment_table'>
+						<tr>
+							<td><input id="reference1" class="form-control" name="reference[1]"></td>
+							<td><input id="qty1" name="qty[1]" class="form-control"></td>
+							<td><input id="vat1" name="vat[1]" class="form-control"></td>
+							<td><input id="pl1" name="pl[1]" class="form-control"></td>
+							<td><input class="form-control" id="disc1" readonly name="disc[1]"></td>
+							<td><input id="total1" class="form-control" readonly name="total[1]"></td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan='3'></td>
+							<td><strong>Total</strong></td>
+							<td id='grand_total' colspan='2'></td>
+						</tr>
+				</table>
 				<div class="row">
-					<div class="col-sm-2 offset-sm-7">
-						<a href="#" data-toggle="tooltip" data-placement="bottom" title="Check the purchase order's tax option"><b>Grand Total *</b></a>
-					</div>
-					<div class="col-sm-2">
-						<input type="text" class="form-control" id="total" readonly name="total">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-6" style="padding:20px">
-						<button type="button" class="btn btn-default" onclick="return validate_invoice()" id="calculate">Calculate</button>
+					<div class="col-sm-12" style="padding:20px">
+						<button type="button" class="button_default_dark" onclick="return validate_invoice()" id="calculate">Calculate</button>
 						<button type="button" class="btn btn-danger" style="display:none" id="back">Back</button>
-						<button type="button" class="btn btn-default" style="display:none" id="submitbtn" onclick="return look()">Submit</button	
+						<button type="button" class="btn btn-default" style="display:none" id="submitbtn" onclick="return look()">Submit</button>	
 					</div>
 				</div>
-				<input type="hidden" class="form-control" id="jumlah_barang" name="jumlah_barang"></input>
 			</form>
 		</div>
-		<div class='col-sm-1' style='background-color:#ddd;z-index:-100'>
-		</div>
-	</div>
-	<div class='row' style='height:70px;background-color:#333'>
-	</div>
 </div>
 <script>
 var i;

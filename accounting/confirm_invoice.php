@@ -55,11 +55,11 @@
 	if(empty($_POST['id'])){
 		header('confirm_invoice_dashboard.php');
 	} else {
-		$invoice_id = $_POST['id'];
-		$sql = "SELECT invoices.ongkir,invoices.name, code_delivery_order.tax, code_delivery_order.project_id, code_delivery_order.customer_id
-		FROM invoices 
-		JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
-		WHERE invoices.id = '" . $invoice_id . "'";
+		$invoice_id 	= $_POST['id'];
+		$sql 			= "SELECT invoices.ongkir,invoices.name, code_delivery_order.tax, code_delivery_order.project_id, code_delivery_order.customer_id
+						FROM invoices 
+						JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+						WHERE invoices.id = '" . $invoice_id . "'";
 		
 		$result = $conn->query($sql);
 		$row = $result->fetch_assoc();

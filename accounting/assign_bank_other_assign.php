@@ -62,7 +62,7 @@
 					</tr>
 				</table>
 				<br>
-				<button type='button' class='btn btn-default' id='assign_other'>Assign</button>
+				<button type='button' class='button_default_dark' id='assign_other'>Assign</button>
 			</form>
 		</div>
 	</div>

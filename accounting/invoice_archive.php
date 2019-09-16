@@ -11,7 +11,7 @@
 	<h2 style='font-family:bebasneue'>Sales Invoice</h2>
 	<p>Archives</p>
 	<hr>
-	<button type='button' class='btn btn-default' id='back_button'><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></button>
+	<button type='button' class='button_default_dark' id='back_button'><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></button>
 	<input type='hidden' value='0' id='depth'>
 	<input type='hidden' value='0' id='depth_year'>
 	<div class='row' id='folders'>

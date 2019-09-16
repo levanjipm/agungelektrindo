@@ -12,7 +12,7 @@
 		$sql_check_closed = "SELECT id FROM closed_purchaseorder WHERE purchaseorder_id = '" . $row['id'] . "'";
 		$result_check_closed = $conn->query($sql_check_closed);
 		$isclosed = mysqli_num_rows($result_check_closed);
-		$sql_done = "SELECT SUM(status) AS status, COUNT(id) AS parameter FROM purchaseorder_received WHERE purchaseorder_id = '" . $row['id'] . "'";
+		$sql_done = "SELECT SUM(status) AS status, COUNT(id) AS parameter FROM purchaseorder WHERE purchaseorder_id = '" . $row['id'] . "'";
 		$result_done = $conn->query($sql_done);
 		$done = $result_done->fetch_assoc();
 ?>

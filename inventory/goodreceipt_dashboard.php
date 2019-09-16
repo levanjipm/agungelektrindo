@@ -1,8 +1,8 @@
 <?php
 	include("inventoryheader.php");
 ?>
-<div class="main" style='padding-top:0px'>
-	<div class='row' style='height:100%'>
+<div class="main">
+	<div class='row'>
 		<div class='col-sm-12'>
 			<h2 style=';font-family:bebasneue'>Good receipt</h2>
 			<p>Create new good receipt</p>
@@ -11,7 +11,7 @@
 				<div class="row">
 					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						<label>Supplier</label>
-						<select class="form-control" name="supplier" id="supplier" onclick="disable()">
+						<select class="form-control" name="supplier" id="supplier" onclick="disable()" required>
 							<option id="kosong">Please Select a supplier--</option>
 <?php
 	$sql = "SELECT id,name FROM supplier ORDER BY name ASC";

@@ -1,19 +1,19 @@
 <?php
 	include('../../codes/connect.php');
-	$quotation_id = $_POST['term'];
-	$sql = "SELECT * FROM code_quotation WHERE id = '" . $quotation_id . "'";
-	$result = $conn->query($sql);
-	$code = $result->fetch_assoc();
-	$additional_discount = $code['additional_discount'];
-	$note = $code['note'];
+	$quotation_id 			= $_POST['term'];
+	$sql 					= "SELECT * FROM code_quotation WHERE id = '" . $quotation_id . "'";
+	$result 				= $conn->query($sql);
+	$code 					= $result->fetch_assoc();
+	$additional_discount 	= $code['additional_discount'];
+	$note 					= $code['note'];
 ?>
-	<h2><?= $code['name'] ?></h2>
-	<p><?php
+	<h2 style='font-family:bebasneue'><?= $code['name'] ?></h2>
+	<h4 style='font-family:bebasneue'><?php
 		$sql_customer = "SELECT name FROM customer WHERE id = '" . $code['customer_id'] . "'";
 		$result_customer = $conn->query($sql_customer);
 		$customer = $result_customer->fetch_assoc();
 		echo $customer['name'];
-	?></p>
+	?></h4>
 	<table class='table table-responsive'>
 		<tr>
 			<th style='width:10%'>Reference</th>
@@ -79,5 +79,5 @@
 	}
 ?>
 	</table>
-	<strong>Keterangan</strong>
+	<strong>Note</strong>
 	<p><?= $note ?></p>

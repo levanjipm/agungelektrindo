@@ -74,15 +74,15 @@ $( function() {
 				<option value='4'>4</option>
 			</select>
 			<br>
-			<button type='button' class='btn btn-secondary' id='back_dem_goods_button'>Back</button>
-			<button type='button' class='btn btn-success' id='next_dem_goods_confirmation_button'>Next</button>
+			<button type='button' class='button_warning_dark' id='back_dem_goods_button'>Back</button>
+			<button type='button' class='button_success_dark' id='next_dem_goods_confirmation_button'>Next</button>
 		</div>
 		<div id='second_form' style='display:none'>
 			<br>
 			<div id='appended_reference'>
 			</div>
-			<button type='button' class='btn btn-secondary' id='form_dem_goods_button'>Back</button>
-			<button type='button' class='btn btn-default' id='submit_dem_goods_confirmation_button'>Submit</button>
+			<button type='button' class='button_warning_dark' id='form_dem_goods_button'>Back</button>
+			<button type='button' class='button_default_dark' id='submit_dem_goods_confirmation_button'>Submit</button>
 		</div>
 	</form>
 </div>
