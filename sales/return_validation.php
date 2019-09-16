@@ -1,48 +1,40 @@
 <?php
 	include('salesheader.php');
 	ob_start();
-	$do_name = $_POST['delivery_order_name'];
-	$sql 	= "SELECT id,customer_id FROM code_delivery_order WHERE name = '" . $do_name . "'";
-	$result = $conn->query($sql);
-	$row 	= $result->fetch_assoc();
+	$do_name 	= $_POST['delivery_order_name'];
+	$sql 		= "SELECT id,customer_id FROM code_delivery_order WHERE name = '" . $do_name . "'";
+	$result 	= $conn->query($sql);
+	$row 		= $result->fetch_assoc();
 	
 	if (mysqli_num_rows($result) > 0){
 		$do_id 		= $row['id'];
-	} else {
-?>
-	<script>
-		// window.location.replace('return_dashboard.php?alert=1');
-	</script>
-<?php
-	};
-	
-	$customer_id	= $row['customer_id'];
-	if($customer_id	== 0){
-		$sql_so		= "SELECT retail_name FROM code_salesorder WHERE id = '" . $row['so_id'] . "'";
-		$result_so	= $conn->query($sql_so);
-		$so			= $result_so->fetch_assoc();
-		
-		$customer_name	= $so['retail_name'];
-	} else {
-		$sql_customer		= "SELECT name FROM customer WHERE id = '$customer_id'";
-		$result_customer	= $conn->query($sql_customer);
-		$customer			= $result_customer->fetch_assoc();
-		
-		$customer_name		= $customer['name'];
-	}
-	
-	function GUID()
-	{
-		if (function_exists('com_create_guid') === true)
-		{
-			return trim(com_create_guid(), '{}');
+		$customer_id	= $row['customer_id'];
+		if($customer_id	== 0){
+			$sql_so		= "SELECT retail_name FROM code_salesorder WHERE id = '" . $row['so_id'] . "'";
+			$result_so	= $conn->query($sql_so);
+			$so			= $result_so->fetch_assoc();
+			
+			$customer_name	= $so['retail_name'];
+		} else {
+			$sql_customer		= "SELECT name FROM customer WHERE id = '$customer_id'";
+			$result_customer	= $conn->query($sql_customer);
+			$customer			= $result_customer->fetch_assoc();
+			
+			$customer_name		= $customer['name'];
 		}
+		
+		function GUID()
+		{
+			if (function_exists('com_create_guid') === true)
+			{
+				return trim(com_create_guid(), '{}');
+			}
 
-		return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
-	}
-	
-	$guid	= GUID();
-?>
+			return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+		}
+		
+		$guid	= GUID();
+	?>
 <div class="main">
 	<h2 style='font-family:bebasneue'>Sales Return</h2>
 	<p>Validate return</p>
@@ -74,7 +66,7 @@
 			$result_code_return = $conn->query($sql_code_return);
 			$code_return 		= $result_code_return->fetch_assoc();
 			
-			$sql_return 		= "SELECT quantity FROM sales_return WHERE reference = '" . $item . "' AND return_code = '" . $code_return['id'] . "'";
+			$sql_return 		= "SELECT quantity FROM sales_return WHERE delivery_order_id = '" . $row['id'] . "'";
 			$result_return 		= $conn->query($sql_return);
 			$return 			= $result_return->fetch_assoc();
 			$quantity 			= $row['quantity'];
@@ -116,26 +108,27 @@
 </div>
 <script>
 	$('#button_submit').click(function(){
-		var quantity = 0;
-		var exceed	= false;
+		var check_blank_input 	= 0;
+		var exceed				= false;
+		var quantity;
 		
 		$('input[id^="return_quantity"]').each(function(){
-			var maximum = $(this).attr('max');
+			var input_id	= $(this).attr('id');
+			var maximum		= $('#' + input_id).attr('max');
+			quantity	= $('#' + input_id).val();
 			
-			if($(this).val() > maximum){
+			if(quantity > maximum){
 				exceed = true;
 			}
 			
 			if($(this).val() == ''){
 				$(this).val(0);
 			}
+			
+			check_blank_input += parseInt(quantity);
 		})
 		
-		$('input[id^="return_quantity"]').each(function(){
-			quantity += parseInt($(this).val());
-		})
-		
-		if(quantity == 0){
+		if(check_blank_input == 0){
 			alert('Please insert correct value!');
 			return false;
 		} else if(exceed == true){
@@ -146,3 +139,6 @@
 		}
 	})
 </script>
+<?php
+	}
+?>

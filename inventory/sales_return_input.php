@@ -5,9 +5,9 @@
 		header('location:sales.php');
 	}
 	
-	$date 		= $_POST['return_date'];
-	$document 	= mysqli_real_escape_string($conn,$_POST['document']);
-	$return_id 	= $_POST['return_id'];
+	$date 				= $_POST['return_date'];
+	$document 			= mysqli_real_escape_string($conn,$_POST['document']);
+	$return_id 			= $_POST['return_id'];
 	
 	$sql_return 		= "SELECT do_id,customer_id FROM code_sales_return WHERE id = '" . $return_id . "'";
 	$result_return 		= $conn->query($sql_return);
@@ -26,25 +26,28 @@
 	foreach($received_array as $received){
 		$key		= key($received_array);
 		
-		$sql_return		= "SELECT sales_return.quantity, delivery_order.reference FROM sales_return
+		$sql_return		= "SELECT sales_return.return_code, sales_return.delivery_order_id, sales_return.received, sales_return.quantity, delivery_order.reference FROM sales_return
 						JOIN delivery_order ON sales_return.delivery_order_id = delivery_order.id
 						WHERE sales_return.id = '$key'";
 		$result_return	= $conn->query($sql_return);
 		$return			= $result_return->fetch_assoc();
 		
+		$delivery_order_id	= $return['delivery_order_id'];
+		$return_code		= $return['return_code'];
+		
 		$reference		= mysqli_real_escape_string($conn,$return['reference']);
 		$quantity		= $return['quantity'];
-		$sql_check 		= "SELECT received FROM sales_return WHERE id = '$key'";
-		$result_check	= $conn->query($sql_check);
-		$check			= $result_check->fetch_assoc();
 		
-		$received		= $check['received'];
 		if($quantity == $received){
-			$sql_update = "UPDATE sales_return SET isreceive = '1',received = '$quantity' WHERE id = '$key'";
+			$sql_update = "UPDATE sales_return SET isreceive = '1',received = '$received', document = '$document' WHERE id = '$key'";
 		} else {
-			$sql_update	= "UPDATE sales_return SET received = '$quantity' WHERE id = '$key'";
+			$new_quantity	= $quantity - $received;
+			$sql			= "INSERT INTO sales_return (quantity, received, isreceive, return_code, delivery_order_id)
+							VALUES ('$new_quantity','0','0','$return_code','$delivery_order_id')";
+			$conn->query($sql);
+			
+			$sql_update	= "UPDATE sales_return SET received = '$received', quantity = '$received', isreceive = '1', document = '$$document' WHERE id = '$key'";
 		}
-		
 		$conn->query($sql_update);
 		
 		$sql_stock	 	= "SELECT stock FROM stock WHERE reference = '" . $reference . "' ORDER BY id DESC LIMIT 1";
@@ -79,5 +82,5 @@
 		next($received_array);
 	}
 	
-	header('location:inventory.php');
+	// header('location:inventory.php');
 ?>

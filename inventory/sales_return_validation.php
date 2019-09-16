@@ -3,15 +3,15 @@
 	if(empty($_POST['id'])){
 		header('location:inventory.php');
 	}
-	$return_id = $_POST['id'];
-	$sql_code = "SELECT * FROM code_sales_return WHERE id = '" . $return_id . "'";
-	$result_code = $conn->query($sql_code);
-	$code = $result_code->fetch_assoc();
+	$return_id		= $_POST['id'];
+	$sql_code 		= "SELECT * FROM code_sales_return WHERE id = '" . $return_id . "'";
+	$result_code 	= $conn->query($sql_code);
+	$code 			= $result_code->fetch_assoc();
 ?>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales Return</h2>
 	<hr>
-	<form method='POST' action='sales_return_input_dashboard.php'>
+	<form method='POST' action='sales_return_input.php'>
 <?php
 	$sql_customer 		= "SELECT name,address,city FROM customer WHERE id = '" . $code['customer_id'] . "'";
 	$result_customer 	= $conn->query($sql_customer);
@@ -38,21 +38,18 @@
 						WHERE sales_return.return_code = '" . $return_id . "'";
 	$result_return 	= $conn->query($sql_return);
 	while($return 	= $result_return->fetch_assoc()){
+		$reference	= $return['reference'];
+		$sql_item 		= "SELECT description FROM itemlist WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "'";
+		$result_item 	=  $conn->query($sql_item);
+		$item 			= $result_item->fetch_assoc();
+		
+		$description	= $item['description'];
 ?>
 			<tr>
-				<td>
-					<?= $return['reference'] ?>
-				</td>
-				<td><?php
-					$sql_item 		= "SELECT description FROM itemlist WHERE reference = '" . $return['reference'] . "'";
-					$result_item 	=  $conn->query($sql_item);
-					$item 			= $result_item->fetch_assoc();
-					echo $item['description'];
-				?></td>
+				<td><?= $reference ?></td>
+				<td><?= $description ?></td>
 				<td><?= $return['quantity'] - $return['received'] ?></td>
-				<td>
-					<input type='number' value='0' id='received<?= $return['id'] ?>' name='received[<?= $return['id'] ?>]' class='form-control'>
-				</td>
+				<td><input type='number' value='0' id='received<?= $return['id'] ?>' name='received[<?= $return['id'] ?>]' class='form-control' max='<?= $return['quantity'] - $return['received'] ?>'></td>
 			</tr>
 <?php
 	}
