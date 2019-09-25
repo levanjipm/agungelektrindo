@@ -71,10 +71,10 @@
 				$row_customer 		= $result_customer->fetch_assoc();
 				$customer_name 		= $row_customer['name'];
 			} else {
-				$sql = "SELECT code_salesorder.retail_address, code_salesorder.retail_name, code_salesorder.retail_phone, code_salesorder.retail_phone
-				FROM code_salesorder
-				JOIN code_delivery_order ON code_salesorder.id = code_delivery_order.so_id
-				WHERE code_delivery_order.id = '" . $row_do['id'] . "'";
+				$sql 				= "SELECT code_salesorder.retail_address, code_salesorder.retail_name, code_salesorder.retail_phone, code_salesorder.retail_phone
+									FROM code_salesorder
+									JOIN code_delivery_order ON code_salesorder.id = code_delivery_order.so_id
+									WHERE code_delivery_order.id = '" . $row_do['id'] . "'";
 				$result 			= $conn->query($sql);
 				$customer 			= $result->fetch_assoc();
 				$customer_name 		= $customer['retail_name'];
@@ -195,7 +195,6 @@
 		})
 	});
 	
-	//Confirm reguler delivery order//
 	function confirm_validate(n){
 		$('#confirm_id').val(n);
 		$('#confirm_notification').fadeIn();
@@ -217,7 +216,6 @@
 		})
 	});
 	
-	//Confirm project delivery order//
 	function confirm_validate_project(n){
 		$('#confirm_id_project').val(n);
 		$('#confirm_notification_project').fadeIn();

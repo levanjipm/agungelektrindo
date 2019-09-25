@@ -33,14 +33,14 @@
 	<h2 style='font-family:bebasneue'>Purchase Order</h2>
 	<p>Archives</p>
 	<hr>
-	<button type='button' class='btn btn-default' id='back_button'><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></button>
+	<button type='button' class='button_default_dark' id='back_button'><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></button>
 	<input type='hidden' value='0' id='depth'>
 	<input type='hidden' value='0' id='depth_year'>
 	<div class='row' id='folders'>
 <?php
-	$sql = "SELECT DISTINCT(YEAR(date)) AS year FROM code_purchaseorder";
-	$result = $conn->query($sql);
-	while($row = $result->fetch_assoc()){
+	$sql 		= "SELECT DISTINCT(YEAR(date)) AS year FROM code_purchaseorder";
+	$result 	= $conn->query($sql);
+	while($row 	= $result->fetch_assoc()){
 ?>
 	<div class='col-sm-2 folder_year' style='cursor:pointer' ondblclick='view_month(<?= $row['year'] ?>)'>
 		<h1 style='font-size:5em'>

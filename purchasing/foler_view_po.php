@@ -38,7 +38,7 @@
 		<p style='font-family:bebasneue'><?= $row['name'] ?></p>
 		<p style='font-family:bebasneue'><?= $supplier['name'] ?></p>
 	</div>
-	<form action='createpurchaseorder_print.php' method='POST' id='po_archieve_form<?= $row['id'] ?>' target='_blank'>
+	<form action='purchase_order_create_print' method='POST' id='po_archieve_form<?= $row['id'] ?>' target='_blank'>
 		<input type='hidden' value='<?= $row['id'] ?>' name='id'>
 	</form>
 <?php

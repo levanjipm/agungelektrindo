@@ -81,9 +81,6 @@
 						<i class="fa fa-print" aria-hidden="true"></i>
 					</button>
 				</div>
-				<div class='col-sm-12' style='padding-top:10px'>
-					<button class='button_success_dark' onclick='view_chart()'>View chart</button>
-				</div>
 			</div>
 			<div id='inputs'></div>
 		</div>

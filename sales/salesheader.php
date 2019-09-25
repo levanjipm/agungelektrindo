@@ -52,10 +52,10 @@
 		Quotations
 	</button>
 	<div class="dropdown-container">
-		<a href="createquotation_dashboard">
+		<a href="quotation_create_dashboard">
 			<p>Create a quotation</p>
 		</a>
-		<a href="editquotation_dashboard">
+		<a href="quotation_edit_dashboard">
 			<p>Print or edit a quotation</p>
 		</a>
 	</div>
@@ -64,10 +64,10 @@
 		Customers
 	</button>
 	<div class="dropdown-container">
-		<a href="add_customer_dashboard">
+		<a href="customer_add_dashboard">
 			<p>Add Customer</p>
 		</a>
-		<a href="edit_customer_dashboard">
+		<a href="customer_edit_dashboard">
 			<p>Edit Customer</p>
 		</a>
 	</div>
@@ -76,17 +76,20 @@
 		Sales Order
 	</button>
 	<div class="dropdown-container">
-		<a href="createsalesorder_dashboard">
+		<a href="sales_order_create_dashboard">
 			<p>Create sales order</p>
 		</a>
 		<a href="service_sales_order_dashboard">
 			<p>Services SO</p>
 		</a>
-		<a href="confirmsalesorder_dashboard">
+		<a href="sales_order_confirm_dashboard">
 			<p>Confirm sales order</p>
 		</a>
 		<a href="editsalesorder_dashboard">
 			<p>Edit sales order</p>
+		</a>
+		<a href='sales_order_archive'>
+			<p>Archives</p>
 		</a>
 	</div>
 	<a href="check_stock">
@@ -122,7 +125,7 @@
 		Project
 	</button>
 	<div class="dropdown-container">
-		<a href="add_project_dashboard">
+		<a href="project_add_dashboard">
 			<button type='button' class='btn-badge'>
 				Add project
 			</button>

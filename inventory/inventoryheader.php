@@ -10,9 +10,11 @@
 <?php
 	include("../codes/connect.php");
 	session_start();
+	
 	if($_SESSION['user_id'] === NULL){
 		header('location:../landing_page.php');
 	}
+	
 	$sql_user 		= "SELECT name,role FROM users WHERE id = " . $_SESSION['user_id'];
 	$result_user 	= $conn->query($sql_user);
 	$row_user 		= $result_user->fetch_assoc();
@@ -24,6 +26,15 @@
 	$sql_otorisasi = "SELECT * FROM authorization WHERE user_id = '" . $_SESSION['user_id'] . "' AND department_id = '3'";
 	$otorisasi = $conn->query($sql_otorisasi);
 	if (isset( $_SESSION['user_id'] ) && mysqli_num_rows($otorisasi) != 0) {
+		$sql_count_good_receipt 		= "SELECT COUNT(*) AS jumlah FROM code_goodreceipt WHERE isconfirm = '0'";
+		$result_count_good_receipt	 	= $conn->query($sql_count_good_receipt);
+		$count_good_receipt 			= $result_count_good_receipt->fetch_assoc();
+		$good_receipt					= $count_good_receipt['jumlah'];
+		
+		$sql_count_delivery_order 		= "SELECT COUNT(*) AS jumlah FROM code_delivery_order WHERE sent = '0'";
+		$result_count_delivery_order 	= $conn->query($sql_count_delivery_order);
+		$count_delivery_order 			= $result_count_delivery_order->fetch_assoc();
+		$delivery_order					= $count_delivery_order['jumlah'];
 ?>
 </head>
 <div class='top_navigation_bar'>
@@ -51,14 +62,17 @@
 		Delivery Order
 	</button>
 	<div class="dropdown-container">
-		<a href="do_choose.php">Create a DO<span class="badge"></a>
-		<br>
-		<a href="edit_delivery_order_dashboard.php">Edit a DO</a>
-		<br>
-		<a href="confirm_do_dashboard.php">Confirm DO</a>
-		<br>
-		<a href='view_do_archive.php'>
-			Archives
+		<a href='delivery_order_create_dashboard'>
+			<p>Create a DO</p>
+		</a>
+		<a href="edit_delivery_order_dashboard.php">
+			<p>Edit a DO</p>
+		</a>
+		<a href="confirm_do_dashboard">
+			<p>Confirm DO<span class="badge"><?= $good_receipt ?></span></p>
+		</a>
+		<a href='delivery_order_archive'>
+			<p>Archives</p>
 		</a>
 	</div>
 	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
@@ -66,17 +80,11 @@
 		Goods Receipt
 	</button>
 	<div class="dropdown-container">
-		<a href="goodreceipt_dashboard.php">
+		<a href='good_receipt_create_dashboard'>
 			<p>Create good receipt</p>
 		</a>
-<?php
-	$sql_badge_2 		= "SELECT COUNT(*) AS jumlah FROM code_goodreceipt WHERE isconfirm = '0'";
-	$result_badge_2 	= $conn->query($sql_badge_2);
-	$row_badge_2 		= $result_badge_2->fetch_assoc();
-	$badge_2 			= $row_badge_2['jumlah'];
-?>
 		<a href="goodreceipt_confirm_dashboard.php">
-			Confirm GR<span class="badge"><?= $badge_2 ?></span>
+			Confirm GR<span class="badge"><?= $good_receipt ?></span>
 		</a>
 		<br>
 		<a href='view_gr_archive.php'>
@@ -114,12 +122,12 @@
 		Project
 	</button>
 	<div class="dropdown-container">
-		<a href="project_do_dashboard.php">
+		<a href="delivery_order_project_dashboard">
 			<button type='button' class='btn-badge' style='color:white'>
 				Create DO
 			</button>
 		</a>
-		<a href="confirm_do_dashboard_project.php">
+		<a href="delivery_order_project_confirm_dashboard">
 			<button type='button' class='btn-badge' style='color:white'>
 				Confirm DO
 			</button>

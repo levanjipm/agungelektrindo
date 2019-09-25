@@ -115,9 +115,6 @@
 					}
 ?>
 				</table>
-				<a href='petty_view.php'>
-					<button type='button' class='button_default_dark'>View more</button>
-				</a>
 			</div>
 		</div>
 	</form>

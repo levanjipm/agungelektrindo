@@ -10,19 +10,20 @@
 <?php
 	include("../codes/connect.php");
 	session_start();
-	if($_SESSION['user_id'] === NULL){
+	if($_SESSION['user_id'] == NULL){
 		header('location:../landing_page.php');
 	}
-	$sql_user = "SELECT name,role FROM users WHERE id = " . $_SESSION['user_id'];
-	$result_user = $conn->query($sql_user);
-	$row_user = $result_user->fetch_assoc();
-	$role = $row_user['role'];
-	$user_name = $row_user['name'];
+	
+	$sql_user 		= "SELECT name,role FROM users WHERE id = " . $_SESSION['user_id'];
+	$result_user 	= $conn->query($sql_user);
+	$row_user 		= $result_user->fetch_assoc();
+	$role 			= $row_user['role'];
+	$user_name 		= $row_user['name'];
 	if(mysqli_num_rows($result_user) == 0){
 		header('location:../landing_page.php');
 	}
 	$sql_otorisasi = "SELECT * FROM authorization WHERE user_id = '" . $_SESSION['user_id'] . "' AND department_id = '3'";
-	$otorisasi = $conn->query($sql_otorisasi);
+	$otorisasi 		= $conn->query($sql_otorisasi);
 	if (isset( $_SESSION['user_id'] ) && mysqli_num_rows($otorisasi) != 0) {
 ?>
 </head>
@@ -33,7 +34,7 @@
 		</a>
 	</div>
 	<div class='col-lg-2 col-md-4 col-sm-4 col-xs-4 col-lg-offset-6 col-md-offset-3 col-sm-offset-1 col-xs-offset-0' style='text-align:right'>
-		<h3 style='font-family:Bebasneue'><?= $name ?> 
+		<h3 style='font-family:Bebasneue'><?= $user_name ?> 
 			<span style='display:inline-block'>
 				<a href='../codes/logout' style='padding-left:10px;text-decoration:none;color:white;' title='log out'>
 					 <i class="fa fa-sign-out" aria-hidden="true"></i>
@@ -65,11 +66,11 @@
 		<a href="petty_dashboard">
 			<p>Add a transaction</p>
 		</a>
+		<a href="petty_edit">
+			<p>Edit transaction</p>
+		</a>
 		<a href="petty_view">
 			<p>View table</p>
-		</a>
-		<a href="petty_chart">
-			<p>View chart</p>
 		</a>
 	</div>
 	<hr>
@@ -112,7 +113,7 @@ $('.sidenav_small').click(function(){
 		},200);
 	},200);
 });
-</script
+</script>
 <?php
 } else{
 	header('location:../landing_page.php');

@@ -8,19 +8,18 @@
 <link rel="stylesheet" href="user_dashboard.css">
 </head>
 <?php
-include('../codes/connect.php');
-session_start();
+include('hrheader.php');
 
-$sql_user = "SELECT * FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
-$result_user = $conn->query($sql_user);
-$row_user 	= $result_user->fetch_assoc();
-$user_id 	= $row_user['id'];
-$mail 		= $row_user['mail'];
-$name 		= $row_user['name'];
-$bank 		= $row_user['bank'];
-$address 	= $row_user['address'];
-$city 		= $row_user['city'];
-$user_name	= $row_user['username'];
+$sql_user 		= "SELECT * FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
+$result_user 	= $conn->query($sql_user);
+$row_user 		= $result_user->fetch_assoc();
+$user_id 		= $row_user['id'];
+$mail 			= $row_user['mail'];
+$name 			= $row_user['name'];
+$bank 			= $row_user['bank'];
+$address 		= $row_user['address'];
+$city 			= $row_user['city'];
+$user_name		= $row_user['username'];
 $profile_pic	= $row_user['image_url'];
 if($profile_pic == ''){
 	$profile_pic = 'images/users/users.png';
@@ -33,78 +32,6 @@ if($_SESSION['user_id'] === NULL){
 }
 ?>
 <body style='overflow-x:hidden'>
-<div class='top_navigation_bar'>
-	<div class='col-lg-4 col-md-5 col-sm-6 col-xs-8'>
-		<a href='../human_resource/user_dashboard.php' style='text-decoration:none'>
-			<img src='../universal/images/agungelektrindo_header.png' style='height:50px;'>
-		</a>
-	</div>
-	<div class='col-lg-2 col-md-3 col-sm-4 col-xs-4 col-lg-offset-6 col-md-offset-4 col-sm-offset-2 col-xs-offset-0' style='text-align:right'>
-		<h3 style='font-family:Bebasneue'><?= $name ?> 
-			<span style='display:inline-block'>
-				<a href='../codes/logout.php' style='padding-left:10px;text-decoration:none;color:white;' title='log out'>
-					 <i class="fa fa-sign-out" aria-hidden="true"></i>
-				</a>
-			</span>
-		</h3>
-	</div>
-</div>
-<div class="sidenav">
-	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
-		<i class="fa fa-id-badge" aria-hidden="true"></i>
-		Departments
-	</button>
-	<div class="dropdown-container">
-	<?php
-	$sql_super 			= "SELECT * FROM authorization WHERE user_id = '" . $user_id . "'";
-	$result_super 		= $conn->query($sql_super);
-	while($row_super 	= $result_super->fetch_assoc()){
-		$department 	= $row_super['department_id'];
-		$sql_dept 		= "SELECT department FROM departments WHERE id = '" . $department . "'";
-		$result_dept	= $conn->query($sql_dept);
-		$row_dept 		= $result_dept->fetch_assoc();
-		$department 	= $row_dept['department'];
-		?>
-			<a href='../<?= $department ?>/<?= $department ?>.php' style='color:white;text-decoration:none'>
-				<?= $department ?>
-			</a>
-			<br>
-		<?php
-			}
-		?>
-		</div>
-		<button type='button' class='btn btn-badge dropdown-btn' style='color:white'>
-			<i class="fa fa-plus-circle" aria-hidden="true"></i>
-			Create
-		</button>
-		<div class='dropdown-container'>
-			<button type='button' style='background-color:transparent;border:none;color:white;text-decoration:none' id='create_events'>Create event</button>
-			<br>
-			<button type='button' style='background-color:transparent;border:none;color:white;text-decoration:none' id='create_anon'>Create announcement</button>
-		</div>
-		<a href='../codes/logout.php'>
-			<button type='button' class='btn btn-badge' style='color:white'>
-			<i class="fa fa-sign-out" aria-hidden="true"></i>
-			Log Out
-			</button>
-		</a>
-		<script>
-			var dropdown = document.getElementsByClassName("dropdown-btn");
-			var i;
-
-			for (i = 0; i < dropdown.length; i++) {
-				dropdown[i].addEventListener("click", function() {
-					this.classList.toggle("active");
-					var dropdownContent = this.nextElementSibling;
-					if (dropdownContent.style.display === "block") {
-						dropdownContent.style.display = "none";
-					} else {
-						dropdownContent.style.display = "block";
-					}
-				});
-			}
-		</script>
-</div>
 <style>
 	#profile_picture_input{
 		width:0;

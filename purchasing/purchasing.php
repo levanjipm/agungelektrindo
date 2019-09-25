@@ -4,7 +4,7 @@
 <div class='main'>
 	<div class='row row-eq-height'>
 		<div class='col-sm-3 col-xs-4' style='padding:20px;padding-top:0'>
-			<a href='view_incomplete_po.php' style='text-decoration:none;color:#333;'>
+			<a href='purchase_order_incomplete_dashboard' style='text-decoration:none;color:#333;'>
 				<div class='row'>
 					<div class='col-sm-12 box'>
 					<?php

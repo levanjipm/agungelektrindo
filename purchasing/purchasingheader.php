@@ -20,11 +20,11 @@
 		header('location:../landing_page.php');
 		die();
 	} else {
-		$sql_users = "SELECT name,role FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
-		$result_users = $conn->query($sql_users);
-		$row_users = $result_users->fetch_assoc();
-		$name = $row_users['name'];
-		$role = $row_users['role'];
+		$sql_users 		= "SELECT name,role FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
+		$result_users 	= $conn->query($sql_users);
+		$row_users 		= $result_users->fetch_assoc();
+		$name 			= $row_users['name'];
+		$role 			= $row_users['role'];
 ?>
 </head>
 <body>
@@ -53,32 +53,37 @@
 		Purchase Order
 	</button>
 	<div class="dropdown-container">
-		<a href="createpurchaseorder_dashboard.php">Create a PO<span class="badge"></a>
-		<br>
+		<a href="purchase_order_create_dashboard">
+			<p>Create a PO</p>
+		</a>
 <?php
 	if($role == 'superadmin'){
 ?>
-		<a href="editpurchaseorder_dashboard.php">Edit a PO</a>
-		<br>
-		<a href="close_purchaseorder_dashboard.php">Close PO</a>
+		<a href="purchase_order_edit_dashboard">
+			<p>Edit a PO</p>
+		</a>
+		<a href="purchase_order_close_dashboard">
+			<p>Close a PO</p>
+		</a>
 <?php
 	}
 ?>
-		<br>
-		<a href='archive_view.php'>PO archives</a>
+		<a href='archive_view'>
+			<p>Archives</p>
+		</a>
 	</div>
 	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-briefcase" aria-hidden="true"></i>
 		Supplier
 	</button>
 	<div class="dropdown-container">
-		<a href="addsupplier_dashboard.php">
+		<a href="supplier_add_dashboard">
 			<p>Add supplier</p>
 		</a>
 <?php
 	if($role == 'superadmin'){
 ?>
-		<a href="editsupplier_dashboard.php">
+		<a href="supplier_edit_dashboard">
 			<p>Edit supplier</p>
 		</a>
 <?php
@@ -90,14 +95,14 @@
 		Item list
 	</button>
 	<div class="dropdown-container">
-		<a href="add_item_dashboard.php">
+		<a href="item_add_dashboard">
 			<p>Add item list</p>
 		</a>
-		<a href="edititem_dashboard.php">
+		<a href="item_edit_dashboard">
 			<p>Edit item list</p>
 		</a>
-		<a href="addclass_item_dashboard.php">
-			<p>Add or edit item list</p>
+		<a href="item_add_class_dashboard">
+			<p>Item list category</p>
 		</a>
 	</div>
 	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
@@ -105,21 +110,21 @@
 		Return
 	</button>
 	<div class="dropdown-container">
-		<a href="purchasing_return_dashboard.php">
-			<p>Create Purchasing Return</p>
+		<a href="return_dashboard">
+			<p>Create Return</p>
 		</a>
-		<a href="return_confirm_dashboard.php">
-			<p>Confirm Purchasing Return</p>
+		<a href="return_confirm_dashboard">
+			<p>Confirm Return</p>
 		</a>
 	</div>
-	<a href='purchasing_report_dashboard.php'>
+	<a href='report_dashboard'>
 		<button class='btn-badge' style='text-decoration:none'>
-			<i class="fa fa-flag-checkered" aria-hidden="true"></i>
+			<i class="fa fa-file-text" aria-hidden="true"></i>
 			Purchase Report
 		</button>
 	</a>
 	<hr>
-	<a href='purchasing.php' style='color:#1ac6ff;text-decoration:none'>
+	<a href='purchasing' style='color:#1ac6ff;text-decoration:none'>
 		<i class="fa fa-eercast" aria-hidden="true"></i>Purchasing Department
 	</a>
 </div>

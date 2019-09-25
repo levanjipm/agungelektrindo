@@ -3,16 +3,16 @@ include('accountingheader.php');
 if(empty($_POST['id'])){
 	header('localtion:accounting.php');
 }
-$bank_id = $_POST['id'];
-$sql_bank = "SELECT * FROM code_bank WHERE id = '" . $bank_id . "'";
-$result_bank = $conn->query($sql_bank);
-$bank = $result_bank->fetch_assoc();
+$bank_id 		= $_POST['id'];
+$sql_bank 		= "SELECT * FROM code_bank WHERE id = '" . $bank_id . "'";
+$result_bank 	= $conn->query($sql_bank);
+$bank 			= $result_bank->fetch_assoc();
 
-$transaction = $bank['transaction'];
-$date = $bank['date'];
-$value = $bank['value'];
-$opponent_id = $bank['bank_opponent_id'];
-$opponent_type = $bank['label'];
+$transaction 	= $bank['transaction'];
+$date 			= $bank['date'];
+$value 			= $bank['value'];
+$opponent_id 	= $bank['bank_opponent_id'];
+$opponent_type 	= $bank['label'];
 
 if($opponent_type == 'CUSTOMER'){
 	$database = 'customer';
@@ -22,16 +22,16 @@ if($opponent_type == 'CUSTOMER'){
 	$database = 'bank_account_other';
 };
 
-$sql_selector = "SELECT name FROM " . $database . " WHERE id = '" . $opponent_id . "'";
-$result_selector = $conn->query($sql_selector);
-$selector = $result_selector->fetch_assoc();
+$sql_selector 		= "SELECT name FROM " . $database . " WHERE id = '" . $opponent_id . "'";
+$result_selector 	= $conn->query($sql_selector);
+$selector 			= $result_selector->fetch_assoc();
 ?>
 <script src='../universal/Numeral-js-master/src/numeral.js'></script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'><?= $selector['name'] ?></h2>
 	<h2>Rp. <span id='rupiah'><?= number_format($value,2) ?></span></h2>
 	<input type='hidden' value='<?= $value ?>' id='value_now' readonly>
-	<form action='assign_bank_input.php' method='POST' id='myForm'>
+	<form action='assign_bank_input' method='POST' id='myForm'>
 	<input type='hidden' value='<?= $date ?>' name='date' readonly>
 	<table class='table table-bordered'>
 		<tr>
@@ -120,9 +120,9 @@ $selector = $result_selector->fetch_assoc();
 <?php
 	} else {
 		$sql_invoice = "SELECT invoices.id, invoices.date, invoices.name, invoices.ongkir, invoices.value, code_delivery_order.customer_id
-		FROM invoices 
-		JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
-		WHERE customer_id = '" . $opponent_id . "' AND isdone = '0' ";
+						FROM invoices 
+						JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
+						WHERE customer_id = '" . $opponent_id . "' AND isdone = '0' ";
 		$result_invoice = $conn->query($sql_invoice);
 		$i = 1;
 		while($invoices = $result_invoice->fetch_assoc()){
@@ -152,7 +152,7 @@ $selector = $result_selector->fetch_assoc();
 			</td>
 		</tr>
 <?php
-		$i++;
+			$i++;
 		}
 ?>
 <script>

@@ -66,7 +66,7 @@
 			<p>Set inactive</p>
 		</a>
 	</div>
-	<a href="create_salary_slip_dashboard.php">
+	<a href="create_salary_slip_dashboard">
 		<button class='btn-badge' style='color:white;pointer:cursor'>
 			Salary slip
 		</button>
@@ -76,7 +76,7 @@
 		<i class="fa fa-eercast" aria-hidden="true"></i>Human Resource Department
 	</a>
 </div>
-	<script>
+<script>
 	$('.dropdown-btn').click(function(){
 		if($(this).next().is(':visible')){
 			$(this).css('color','white');
@@ -85,4 +85,4 @@
 		}
 		$(this).next().toggle(350);
 	});
-	</script>
+</script>

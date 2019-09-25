@@ -10,63 +10,31 @@
 	$result_customer 	= $conn->query($sql_customer);
 	$customer 			= $result_customer->fetch_assoc();
 	
-	$sql_invoice 		= "SELECT invoices.value FROM invoices 
-							JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
-							JOIN code_salesorder ON code_salesorder.id = code_delivery_order.so_id
-							WHERE code_salesorder.customer_id = '" . $customer_id . "'";
-	// $result_invoice 	= $conn->query($sql_invoice);
-	// $invoice 			= $result_invoice->fetch_assoc();
+	$customer_name		= $customer['name'];
+	$customer_address	= $customer['address'];
+	$customer_city		= $customer['city'];
 ?>
 <div class='main'>
 	<div class='row'>
-		<?= $sql_invoice ?>
 		<div class='col-sm-5'>
-			<h2><?= $customer['name'] ?></h2>
-			<p><?= $customer['address'] ?></p>
-			<p><?= $customer['city'] ?></p>
-		</div>
-		<div class='col-sm-3' style='background-color:#ddd;box-shadow: 10px 10px 8px #888888;padding:20px'>
-			<div class='row'>
-				<div class='col-sm-4'>
-					<h1><i class="fa fa-credit-card-alt" aria-hidden="true"></i></h1>
-				</div>
-				<div class='col-sm-8'>
-				<p><strong>Overall purchases</strong></p>
-				Rp. <?= number_format($invoice['jumlah'],2) ?>
-				</div>
-			</div>
-		</div>
-		<div class='col-sm-3' style='background-color:#ddd;box-shadow: 10px 10px 8px #888888;padding:20px;margin-left:20px'>
-			<div class='row'>
-				<div class='col-sm-4'>
-					<h1><i class="fa fa-money" aria-hidden="true"></i></h1>
-				</div>
-				<div class='col-sm-8'>
-				<p><strong>Overall payment</strong></p>
-				Rp. <?= number_format($invoice['jumlah'],2) ?>
-				</div>
-			</div>
+			<h2><?= $customer_name ?></h2>
+			<p><?= $customer_address ?></p>
+			<p><?= $customer_city ?></p>
 		</div>
 	</div>
 	<div class='row'>
 		<div class='col-sm-12'>
-			<h2>Unpaid invoices</h2>
-			<table class='table'>
+			<h2 style='font-family:bebasneue'>Unpaid invoices</h2>
+			<table class='table table-bordered'>
 				<tr>
 					<th>Date</th>
 					<th>Invoice number</th>
 					<th>Value</th>
-<?php
-	if($role == 'superadmin'){
-?>
-					<th></th>
-<?php
-	}
-?>
 				</tr>
 <?php
 	$sql_invoice_detail 	= "SELECT invoices.id, invoices.date, invoices.name AS invoice_name, invoices.value, invoices.ongkir FROM invoices
-							WHERE invoices.customer_id = '" . $customer_id . "' AND invoices.isdone = '0'";
+							JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
+							WHERE code_delivery_order.customer_id = '" . $customer_id . "' AND invoices.isdone = '0'";
 	$result_invoice_detail 	= $conn->query($sql_invoice_detail);
 	while($invoice_detail 	= $result_invoice_detail->fetch_assoc()){
 ?>
@@ -74,20 +42,12 @@
 					<td><?= date('d M Y',strtotime($invoice_detail['date'])) ?></td>
 					<td><?= $invoice_detail['invoice_name'] ?></td>
 					<td>Rp. <?= number_format($invoice_detail['value'] + $invoice_detail['ongkir']) ?></td>
-<?php
-	if($role == 'superadmin'){
-?>
-					<td><button type='button' class='btn btn-default' onclick='submiting(<?= $invoice_detail['id'] ?>)'>Lunas</button></td>
-					<form id='hitung_lunas<?= $invoice_detail['id'] ?>' action='invoice_isdone.php' method='POST'>
-						<input type='hidden' value='<?= $invoice_detail['id'] ?>' name='id' readonly>
-					</form>
-<?php
-	}
-?>
 				</tr>
 <?php
 	}
 ?>
+			</table>
+		</div>
 	</div>
 </div>
 <script>
