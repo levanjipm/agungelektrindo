@@ -56,10 +56,9 @@
 		$init_stock			= $stock['stock'];
 		$final_stock 		= $init_stock + $quantity;
 		
-		$sql_stock 			= "INSERT INTO stock (date,reference,transaction,quantity,stock,customer_id,document) VALUES
+		$sql_insert_stock 	= "INSERT INTO stock (date,reference,transaction,quantity,stock,customer_id,document) VALUES
 							('$date','$reference','IN','$quantity','$final_stock','$customer_id','$document')";
-		$conn->query($sql_stock);
-		
+		$conn->query($sql_insert_stock);
 		$sql_stock_value_out = "SELECT stock_value_out.in_id, stock_value_in.id, stock_value_in.price, stock_value_in.quantity AS in_quantity, stock_value_in.reference, stock_value_out.quantity AS out_quantity FROM stock_value_out
 							INNER JOIN stock_value_in
 							ON stock_value_out.in_id = stock_value_in.id
@@ -83,5 +82,5 @@
 		next($received_array);
 	}
 	
-	// header('location:inventory.php');
+	header('location:inventory.php');
 ?>

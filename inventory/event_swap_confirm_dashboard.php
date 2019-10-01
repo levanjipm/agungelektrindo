@@ -138,6 +138,9 @@
 		<button type='button' class='btn-confirm' id='confirm_button'>Confirm</button>
 	</div>
 </div>
+<form id='daniel' action='event_swap_confirm' method='POST'>
+	<input type='hidden' value='<?= $event_id ?>' name='event_id'>
+</form>
 <script>
 	$('#delete_button_event').click(function(){
 		$('#delete_notification').fadeIn();
@@ -152,19 +155,20 @@
 	});
 	
 	$('#confirm_button').click(function(){
-		$.ajax({
-			url:'event_swap_confirm.php',
-			data:{
-				event_id: <?= $event_id ?>
-			},
-			type:'POST',
-			beforeSend:function(){
-				$('#confirm_button').attr('disabled',true);
-			},
-			success:function(){
-				location.href='inventory';
-			}
-		});
+		$('#daniel').submit();
+		// $.ajax({
+			// url:'event_swap_confirm.php',
+			// data:{
+				// event_id: <?= $event_id ?>
+			// },
+			// type:'POST',
+			// beforeSend:function(){
+				// $('#confirm_button').attr('disabled',true);
+			// },
+			// success:function(){
+				// location.href='inventory';
+			// }
+		// });
 	});
 	
 	$('#delete_button').click(function(){
