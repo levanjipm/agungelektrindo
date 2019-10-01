@@ -10,6 +10,7 @@
 		</script>
 <?php
 	}
+	
 	$sql_initial 	= "SELECT * FROM code_purchaseorder WHERE id = '" . $po_id . "'";
 	$result_initial = $conn->query($sql_initial);
 	$row_initial 	= $result_initial->fetch_assoc();
@@ -78,8 +79,8 @@
 				<input type="text" class="form-control" value="<?= $promo_code?>" name="promo_code" style='width:50%'>
 				<label>Taxing option</label>
 				<select class="form-control" name="taxing" style='width:50%'>
-					<option value='1' <?= if($tax == 0) { echo 'selected'; } ?>>Tax</option>
-					<option value='2' <?= if($tax != 0) { echo 'selected'; } ?>>Non Tax</option>
+					<option value='1' <?php if($tax == 0) { echo 'selected'; } ?>>Tax</option>
+					<option value='2' <?php if($tax != 0) { echo 'selected'; } ?>>Non Tax</option>
 				</select>
 				<label>Term of payment</label>
 				<div>
@@ -149,7 +150,7 @@
 							<td><input type="text" value="<?= $row['quantity'] ?>" 		class='form-control' name='quantity[<?= $row['id'] ?>]' min='<?= $min_val ?>' ></td>
 							<td><?= number_format($quantity_received,0) ?></td>
 							<td><?= number_format($total_price,2) ?></td>
-							<td><button type="button" class="button_danger_dark" onclick="delete_item(<?= $row['id'] ?>)">&times</button></td>
+							<td><button type="button" class="button_danger_dark" onclick="delete_item_exist(<?= $row['id'] ?>)" id='delete_button-<?= $row['id'] ?>'>&times</button></td>
 						</tr>
 						<script>
 							$( function() {
@@ -181,8 +182,20 @@
 <script>
 	var a = 1;
 	
-	function delete_item(n){
-		$('#tr' + n).remove();
+	function delete_item_exist(n){
+		$.ajax({
+			url:'purchase_order_edit_delete_item.php',
+			data:{
+				purchase_order_id: n
+			},
+			type:'POST',
+			beforeSend:function(){
+				$('#delete_button-' + n).attr('disabled',true);
+			},
+			success:function(){
+				$('#tr' + n).remove();
+			}
+		});
 	}
 	
 	$("#add_item_button").click(function (){

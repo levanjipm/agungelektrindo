@@ -22,7 +22,6 @@
 		$quantity		= $event['quantity'];
 		$price			= $event['price_input'];
 		
-		//Check the stock//
 		$sql_check		= "SELECT stock FROM stock WHERE reference = '" . $reference . "' ORDER BY id DESC LIMIT 1";
 		$result_check	= $conn->query($sql_check);
 		$check			= $result_check->fetch_assoc();
@@ -124,5 +123,5 @@
 	$sql = "UPDATE code_adjustment_event SET isconfirm = '1', confirmed_by = '$confirmed_by', confirm_time = CURRENT_TIMESTAMP)";
 	$result = $conn->query($sql);
 	
-	header('location:inventory.php');
+	header('location:inventory');
 ?>

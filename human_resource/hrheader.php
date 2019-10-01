@@ -56,13 +56,10 @@
 		Manage users
 	</button>
 	<div class="dropdown-container">
-		<a href="add_user.php">
+		<a href="add_user">
 			<p>Add a user</p>
 		</a>
-		<a href="edit_user_all_dashboard.php">
-			<p>Edit a user</p>
-		</a>
-		<a href="set_inactive.php">
+		<a href='set_inactive_dashboard'>
 			<p>Set inactive</p>
 		</a>
 	</div>
@@ -72,7 +69,7 @@
 		</button>
 	</a>
 	<hr>
-	<a href='human_resource.php' style='color:#1ac6ff;text-decoration:none'>
+	<a href='human_resource' style='color:#1ac6ff;text-decoration:none'>
 		<i class="fa fa-eercast" aria-hidden="true"></i>Human Resource Department
 	</a>
 </div>

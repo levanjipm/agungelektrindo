@@ -20,13 +20,13 @@
 		$date = $event['date'];
 		$document = $event['event_name'];
 		
-		$sql_get = "SELECT * FROM adjustment_event WHERE code_adjustment_event = '" . $id . "'";
-		$result_get = $conn->query($sql_get);
-		while($get = $result_get->fetch_assoc()){
-			$reference = $get['reference'];
-			$quantity = $get['quantity'];
-			$transaction = $get['transaction'];
-			
+		$sql_get 			= "SELECT * FROM adjustment_event WHERE code_adjustment_event = '" . $id . "'";
+		$result_get 		= $conn->query($sql_get);
+		while($get 			= $result_get->fetch_assoc()){
+			$reference 		= $get['reference'];
+			$quantity 		= $get['quantity'];
+			$transaction 	= $get['transaction'];
+
 			$sql_last_stock = "SELECT stock FROM stock WHERE reference = '" . $reference . "' ORDER BY id DESC LIMIT 1";
 			$result_last_stock = $conn->query($sql_last_stock);
 			$last_stock = $result_last_stock->fetch_assoc();

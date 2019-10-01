@@ -170,3 +170,13 @@
 .form-control{
 	border-radius:0;
 }
+
+@media only screen and (max-width: 800px) {
+	.sidenav{
+		display:none;
+	}
+	
+	.sidenav_small{
+		display:block;
+	}
+}

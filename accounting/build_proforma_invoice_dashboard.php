@@ -32,10 +32,8 @@ $( function() {
 						$result = $conn->query($sql);
 						if ($result->num_rows > 0) {
 							while($row = mysqli_fetch_array($result)) {
-							echo '<option id="pilih" value="' . $row["id"] . '">'. $row["name"].'</option> ';
+								echo '<option id="pilih" value="' . $row["id"] . '">'. $row["name"].'</option> ';
 							}
-						} else {
-							echo "0 results";
 						}
 					?>
 				</select>

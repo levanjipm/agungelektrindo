@@ -65,11 +65,11 @@
 		<a href='delivery_order_create_dashboard'>
 			<p>Create a DO</p>
 		</a>
-		<a href="edit_delivery_order_dashboard.php">
+		<a href="delivery_order_edit_dashboard">
 			<p>Edit a DO</p>
 		</a>
-		<a href="confirm_do_dashboard">
-			<p>Confirm DO<span class="badge"><?= $good_receipt ?></span></p>
+		<a href="delivery_order_confirm_dashboard">
+			<p>Confirm DO<span class="badge"><?= $delivery_order ?></span></p>
 		</a>
 		<a href='delivery_order_archive'>
 			<p>Archives</p>
@@ -100,11 +100,11 @@
 		Add an event
 	</button>	
 	<div class="dropdown-container">
-		<a href="add_event_dashboard.php">
+		<a href='event_add_dashboard'>
 			Add event
 		</a>
 		<br>
-		<a href='confirm_event_dashboard.php'>
+		<a href='event_confirm_dashboard'>
 			Confirm event
 		</a>
 	</div>

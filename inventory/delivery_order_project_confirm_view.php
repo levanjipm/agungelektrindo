@@ -53,4 +53,21 @@
 	}
 ?>
 	</table>
-	<button type='button' class='button_success_dark'>Confirm</button>
+	<button type='button' class='button_success_dark' id='confirm_button'>Confirm</button>
+	<script>
+		$('#confirm_button').click(function(){
+			$.ajax({
+				url:'delivery_order_project_confirm.php',
+				data:{
+					delivery_order_id: <?= $delivery_order_id ?>,
+				},
+				type:'POST',
+				beforeSend:function(){
+					$('#confirm_button').attr('disabled',true);
+				},
+				success:function(){
+					location.reload();
+				}
+			});
+		});
+	</script>

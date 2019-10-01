@@ -48,7 +48,7 @@
 		<i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i>
 	</button>
 	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
-		<i class="fa fa-file-o" aria-hidden="true"></i>
+		<i class="fa fa-university" aria-hidden="true"></i>
 		Bank Account
 	</button>
 	<div class="dropdown-container">
@@ -59,7 +59,7 @@
 		<br>
 	</div>
 	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
-		<i class="fa fa-undo" aria-hidden="true"></i>
+		<i class="fa fa-money" aria-hidden="true"></i>
 		Petty Cash
 	</button>
 	<div class="dropdown-container">

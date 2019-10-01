@@ -50,7 +50,7 @@
 						<i class="fa fa-pencil" aria-hidden="true"></i>
 					</button>
 					<br>
-					<form id='editing<?= $quotation['id'] ?>' action='editquotation.php' method='POST'>
+					<form id='editing<?= $quotation['id'] ?>' action='quotation_edit' method='POST'>
 						<input type='hidden' value='<?= $quotation['id'] ?>' name='id'>
 					</form>
 					<button type='button' class='button_warning_dark' style='width:100%' onclick='submit_form(<?= $quotation['id']?>)'>

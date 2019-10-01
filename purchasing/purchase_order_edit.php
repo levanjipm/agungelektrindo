@@ -1,9 +1,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <?php
 	include('../codes/connect.php');
-	print_r($_POST);
 	$purchase_order_id		= $_POST['purchase_order_id'];
-	$promo_code				= mysqli_real_escape_string($conn,$_POST['purchase_order_id']);
+	$promo_code				= mysqli_real_escape_string($conn,$_POST['promo_code']);
 	$taxing					= $_POST['taxing'];
 	$top					= $_POST['top'];
 	
@@ -26,20 +25,22 @@
 		
 		if($received_quantity > 0 && $quantity_updated == $received_quantity){
 			$sql_update	= "UPDATE purchaseorder SET quantity = '$quantity_updated', status = '1' WHERE id = '$key'";
+			
 		} else if($received_quantity > 0 && $quantity_updated > $received_quantity){
 			$sql_update	= "UPDATE purchaseorder SET quantity = '$quantity_updated', status = '0' WHERE id = '$key'";
+			
 		} else if($received_quantity == 0 && $quantity_updated > $received_quantity){
 			$price_list		= $price_list_array[$key];
 			$discount		= $discount_array[$key];
 			$unit_price		= $price_list * (100 - $discount) * 0.01;
 			
-			$sql_update	= "UPDATE purchaseorder SET reference = '" . mysqli_real_escape_string($conn,$reference) . "', price_list = '$price_list', discount = '$discount', unit_price = '$unit_price', quantity = '$quantity_updated', status = '0' WHERE id = '$key'";
+			$sql_update	= "UPDATE purchaseorder SET reference = '" . mysqli_real_escape_string($conn,$reference) . "', price_list = '$price_list', discount = '$discount', unitprice = '$unit_price', quantity = '$quantity_updated', status = '0' WHERE id = '$key'";
 		} else if($received_quantity == 0 && $quantity_updated == $received_quantity){
 			$price_list		= $price_list_array[$key];
 			$discount		= $discount_array[$key];
 			$unit_price		= $price_list * (100 - $discount) * 0.01;
 			
-			$sql_update	= "UPDATE purchaseorder SET reference = '" . mysqli_real_escape_string($conn,$reference) . "', price_list = '$price_list', discount = '$discount', unit_price = '$unit_price', quantity = '$quantity_updated', status = '1' WHERE id = '$key'";
+			$sql_update	= "UPDATE purchaseorder SET reference = '" . mysqli_real_escape_string($conn,$reference) . "', price_list = '$price_list', discount = '$discount', unitprice = '$unit_price', quantity = '$quantity_updated', status = '1' WHERE id = '$key'";
 		}
 		
 		$conn->query($sql_update);

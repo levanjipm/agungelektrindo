@@ -1,22 +1,11 @@
 <?php
 	include('inventoryheader.php');
 ?>
-<style>
-	.event_wrapper{
-		width:30%;
-		display:block;
-		position:relative;
-		padding:10px 15px;
-		background-color:#333;
-		color:white;
-		cursor:pointer;
-	}
-</style>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Event</h2>
 	<p>Confirm event</p>
 	<hr>
-	<table class='table table-hover'>
+	<table class='table table-bordered'>
 		<tr>
 			<th>Date</th>
 			<th>Event name</th>
@@ -36,7 +25,10 @@
 			<td><?= date('d M Y',strtotime($event['date'])) ?></td>
 			<td><?= $event['event_name'] ?></td>
 			<td><?= $event['name'] ?></td>
-			<td><button type='button' class='btn btn-default' onclick='submit(<?= $event['id'] ?>)'>Confirm</button></td>
+			<td>
+				<button type='button' class='button_default_dark' onclick='submit(<?= $event['id'] ?>)'>Confirm</button>
+			</td>
+			
 			<form id='confirm_event-<?= $event['id'] ?>' action='<?= $event['confirmation_url'] ?>' method='POST'>
 				<input type='hidden' value='<?= $event['id'] ?>' name='id'>
 			</form>

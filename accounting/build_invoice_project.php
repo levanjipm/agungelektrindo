@@ -144,7 +144,7 @@ tr.border_bottom td{
 						</table>
 						<br>
 						<br>
-						<button type="button" class="btn btn-success" id='submit_form'>Submit</button>
+						<button type="button" class='button_success_dark' id='submit_form'>Submit</button>
 					</form>
 				</div>
 			</div>

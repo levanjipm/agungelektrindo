@@ -1,11 +1,11 @@
 <?php
 	include('../codes/connect.php');
-	$id = $_POST['id'];
-	$sql_initial 		= "SELECT customer_id,name,note FROM code_salesorder WHERE id = '" . $id . "'";
-	$result_initial 	= $conn->query($sql_initial);
-	$initial 			= $result_initial->fetch_assoc();
-	
-	$note				= $initial['note'];
+	$id 					= $_POST['id'];
+	$sql_initial 			= "SELECT customer_id,name,note FROM code_salesorder WHERE id = '" . $id . "'";
+	$result_initial 		= $conn->query($sql_initial);
+	$initial 				= $result_initial->fetch_assoc();
+		
+	$note					= $initial['note'];
 	
 	if($initial['customer_id'] == 0){
 		$sql_customer 		= "SELECT retail_name, retail_address, retail_city FROM code_salesorder WHERE id = '" . $id . "'";

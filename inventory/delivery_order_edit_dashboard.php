@@ -3,6 +3,9 @@
 	include('inventoryheader.php');
 ?>
 <div class="main">
+	<h2 style='font-family:bebasneue'>Delivery Order</h2>
+	<p>Edit delivery order<p>
+	<hr>
 	<table class='table'>
 		<tr>
 			<th>Date</th>
@@ -15,19 +18,24 @@
 	$sql = "SELECT * FROM code_delivery_order WHERE sent = '0' AND isdelete = '0'";
 	$results = $conn->query($sql);
 	if ($results->num_rows > 0){
-		while($row_do = $results->fetch_assoc()){
+		$row_do 			= $results->fetch_assoc();
+		$sql_customer 		= "SELECT name FROM customer WHERE id = '" . $row_do['customer_id'] . "'";
+		$result_customer 	= $conn->query($sql_customer);
+		$customer 			= $result_customer->fetch_assoc();
+		
+		$customer_name		= $customer['name'];
 ?>
 			<tr>
 				<td><?= date('d M Y',strtotime($row_do['date'])) ?></td>
 				<td><?= $row_do['name'] ?></td>
-				<td><?php
-					$sql_customer = "SELECT name FROM customer WHERE id = '" . $row_do['customer_id'] . "'";
-					$result_customer = $conn->query($sql_customer);
-					$customer = $result_customer->fetch_assoc();
-					echo $customer['name'];
-				?></td>
-				<td><button type='button' class='btn btn-default' onclick='testform(<?= $row_do['id'] ?>)'>Edit Delivery Order</button></td>
-				<form id='form<?= $row_do['id'] ?>' method='POST' action='edit_delivery_order.php'>
+				<td><?= $customer_name ?></td>
+				<td>
+					<button type='button' class='button_default_dark' onclick='testform(<?= $row_do['id'] ?>)'>
+						<i class="fa fa-pencil" aria-hidden="true"></i>
+					</button>
+				</td>
+				
+				<form id='form<?= $row_do['id'] ?>' method='POST' action='delivery_order_edit'>
 					<input type='hidden' value='<?= $row_do['id'] ?>' name='id'>
 				</form>
 			</tr>

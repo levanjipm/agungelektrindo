@@ -45,13 +45,50 @@
 	.btn-x:focus{
 		outline: 0!important;
 	}
+	
+	.view_delivery_order_dashboard{
+		background-color:rgba(30,30,30,0.7);
+		position:fixed;
+		z-index:100;
+		top:0;
+		width:100%;
+		height:100%;
+		display:none;
+	}
+	
+	#view_delivery_order_box{
+		position:absolute;
+		width:90%;
+		left:5%;
+		top:10%;
+		height:80%;
+		background-color:white;
+		overflow-y:scroll;
+		padding:20px;
+	}
+	
+	#button_close_delivery_order_view{
+		position:absolute;
+		background-color:transparent;
+		top:10%;
+		left:5%;
+		outline:none;
+		border:none;
+		color:#333;
+		z-index:120;
+	}
 </style>
+<div class='view_delivery_order_dashboard'>
+	<button id='button_close_delivery_order_view'>X</button>
+	<div id='view_delivery_order_box'>
+	</div>
+</div>
 <div class="main">
 	<h2 style='font-family:bebasneue'>Delivery Order</h2>
 	<p>Confirm delivery order</p>
 	<hr>
 	<div class="row">
-		<div class='col-sm-8'>
+		<div class='col-sm-12'>
 			<div class='row'>
 <?php
 	$sql = "SELECT * FROM code_delivery_order WHERE isdelete = '0' AND sent = '0'";
@@ -80,11 +117,9 @@
 				$customer_name 		= $customer['retail_name'];
 			}
 ?>
-				<div class="col-sm-3">
+				<div class="col-sm-2 col-xs-3">
 					<button type='button' class='btn btn-x' onclick='<?php if($project_id != NULL){ echo('delete_do_project'); } else if($type == 'SRVC'){ echo ('delete_do_service'); } else  { echo ('delete_do'); } ?>(<?= $row_do['id'] ?>)'>X</button>
-					<button type='button' onclick='view(<?= $row_do['id'] ?>)' style='background-color:transparent;border:none'>
-						<img src="../universal/document.png" style=" display: block;width:50%;margin-left:auto;margin-right:auto">
-					</button>
+					<img src="../universal/document.png" style=" display: block;width:50%;margin-left:auto;margin-right:auto">
 					<br>
 					<p style="text-align:center"><?= $row_do['name'];?></p>
 					<p style="text-align:center"><b><?= $customer_name?></b></p>	
@@ -98,18 +133,6 @@
 			</div>
 		</div>
 		<input type='hidden' value='' name='id'>
-		<div class='col-sm-4' id='daniel'>
-		</div>
-	</div>
-</div>
-<div class='notification_large' style='display:none' id='confirm_notification'>
-	<div class='notification_box'>
-		<h1 style='font-size:3em;color:#2bf076'><i class="fa fa-check" aria-hidden="true"></i></h1>
-		<h2 style='font-family:bebasneue'>Are you sure to confirm this delivery order</h2>
-		<br>
-		<button type='button' class='btn btn-back'>Back</button>
-		<button type='button' class='btn btn-confirm' id='confirm_button'>Confirm</button>
-		<input type='hidden' value='0' id='confirm_id'>
 	</div>
 </div>
 <div class='notification_large' style='display:none' id='delete_notification'>
@@ -120,17 +143,6 @@
 		<button type='button' class='btn btn-back'>Back</button>
 		<button type='button' class='btn btn-delete' id='delete_button'>Delete</button>
 		<input type='hidden' value='0' id='delete_id'>
-	</div>
-</div>
-
-<div class='notification_large' style='display:none' id='confirm_notification_project'>
-	<div class='notification_box'>
-		<h1 style='font-size:3em;color:#2bf076'><i class="fa fa-check" aria-hidden="true"></i></h1>
-		<h2 style='font-family:bebasneue'>Are you sure to confirm this project delivery order</h2>
-		<br>
-		<button type='button' class='btn btn-back'>Back</button>
-		<button type='button' class='btn btn-confirm' id='confirm_button_project'>Confirm</button>
-		<input type='hidden' value='0' id='confirm_id_project'>
 	</div>
 </div>
 <div class='notification_large' style='display:none' id='delete_notification_project'>
@@ -166,17 +178,6 @@
 </div>
 
 <script>
-	function view(n){
-		var id = n;
-		$.ajax({
-			url: "Ajax/view_do.php",
-			data: {term: id},
-			success: function(result){
-				$("#daniel").html(result);
-			}
-		});
-	}
-	
 	function delete_do(x){
 		$('#delete_id').val(x);
 		$('#delete_notification').fadeIn();
@@ -196,29 +197,26 @@
 	});
 	
 	function confirm_validate(n){
-		$('#confirm_id').val(n);
-		$('#confirm_notification').fadeIn();
+		$.ajax({
+			url:'delivery_order_confirm_view.php',
+			data:{
+				do_id:n
+			},
+			type:'POST',
+			success:function(response){
+				$('#view_delivery_order_box').html(response);
+				$('.view_delivery_order_dashboard').fadeIn();
+			}
+		});
 	}
 	
-	$('#confirm_button').click(function(){
-		$.ajax({
-			url:'sent_delivery_order.php',
-			data:{
-				id:$('#confirm_id').val()
-			},
-			beforeSend: function(){
-				$('#confirm_button').attr('disabled',true);
-			},
-			success: function(){
-				location.reload();
-			},
-			type:'GET',
-		})
+	$('#button_close_delivery_order_view').click(function(){
+		$('.view_delivery_order_dashboard').fadeOut();
 	});
-	
+		
 	function confirm_validate_project(n){
 		$('#confirm_id_project').val(n);
-		$('#confirm_notification_project').fadeIn();
+		$('.view_delivery_order_dashboard').fadeIn();
 	}
 	$('.btn-back').click(function(){
 		$('.notification_large').fadeOut();
@@ -262,7 +260,6 @@
 		})
 	});
 	
-	//Confirm service delivery order//
 	function confirm_validate_service(n){
 		$('#confirm_id_service').val(n);
 		$('#confirm_notification_service').fadeIn();

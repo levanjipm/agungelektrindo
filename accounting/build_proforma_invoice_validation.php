@@ -9,7 +9,11 @@
 	$quantity_array				= $_POST['quantity'];
 	$price_array				= $_POST['price'];
 	
-	$down_payment				= $_POST['down_payment'];
+	if($proforma_invoice_type	== 3){
+		$down_payment			= 0;
+	} else {
+		$down_payment				= $_POST['down_payment'];
+	}
 	
 	function GUID()
 	{
@@ -44,16 +48,18 @@
 			<input type='hidden' value='<?= $taxing ?>' name='taxing'>
 			<input type='hidden' value='<?= $proforma_invoice_type ?>' name='proforma_invoice_type'>
 			<input type='hidden' value='<?= $guid ?>' name='guid'>
+			<input type='hidden' value='<?= $down_payment ?>' name='other_value'>
 <?php
 	$total_price = 0;
 	$i = 1;
 	foreach($reference_array AS $reference){
-		$key = key($reference_array);
-		$quantity = $quantity_array[$key];
-		$price = $price_array[$key];
-		$sql_item = "SELECT description FROM itemlist WHERE reference = '" . $reference . "'";
-		$result_item = $conn->query($sql_item);
-		$item = $result_item->fetch_assoc();
+		$key 			= key($reference_array);
+		$quantity 		= $quantity_array[$key];
+		$price 			= $price_array[$key];
+		
+		$sql_item 		= "SELECT description FROM itemlist WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "'";
+		$result_item 	= $conn->query($sql_item);
+		$item 			= $result_item->fetch_assoc();
 ?>
 			<tr>
 				<td>
@@ -94,7 +100,9 @@
 		<tr>
 			<td colspan='2'></td>
 			<td colspan='2'><?= $text ?></td>
-			<td>Rp. <?= number_format($down_payment,2) ?></td>
+			<td>
+				Rp. <?= number_format($down_payment,2) ?>
+			</td>
 		</tr>
 		<tr>
 			<td colspan='2'></td>

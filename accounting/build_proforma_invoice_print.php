@@ -1,11 +1,10 @@
 <head>
 <title>Print Invoice</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<link rel="stylesheet" href="../universal/bootstrap/4.1.3/css/bootstrap.min.css">
+<script src="../universal/Jquery/jquery-3.3.0.min.js"></script>
+<script src="../universal/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../universal/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="accountingstyle.css">
 </head>
 <style>
 	*{
@@ -17,28 +16,30 @@
 	
 	$id = $_POST['id'];
 	
-	$sql = "SELECT * FROM code_proforma_invoice WHERE id = '" . $id . "'";
-	$result = $conn->query($sql);
-	$row = $result->fetch_assoc();
+	$sql 					= "SELECT * FROM code_proforma_invoice WHERE id = '" . $id . "'";
+	$result 				= $conn->query($sql);
+	$row 					= $result->fetch_assoc();
 	
-	$name = $row['name'];
-	$date = $row['date'];
-	$customer_id = $row['customer_id'];
-	$taxing = $row['taxing'];
-	$po_number = $row['po_number'];
+	$name 					= $row['name'];
+	$date 					= $row['date'];
+	$customer_id 			= $row['customer_id'];
+	$taxing 				= $row['taxing'];
+	$po_number 				= $row['po_number'];
 	
-	$sql_customer = "SELECT name, address, city FROM customer WHERE id = '" . $customer_id . "'";
-	$result_customer = $conn->query($sql_customer);
-	$row_customer = $result_customer->fetch_assoc();
+	$value_proforma			= $row['value'];
 	
-	$customer_name = $row_customer['name'];
-	$customer_address = $row_customer['address'];
-	$customer_city = $row_customer['city'];
+	$proforma_invoice_type	= $row['type'];
+	
+	$sql_customer 		= "SELECT name, address, city FROM customer WHERE id = '" . $customer_id . "'";
+	$result_customer 	= $conn->query($sql_customer);
+	$customer			= $result_customer->fetch_assoc();
+	
+	$customer_name 		= $customer['name'];
+	$customer_address 	= $customer['address'];
+	$customer_city 		= $customer['city'];
 ?>
-<div class='row'>
-	<div class='col-sm-1' style='background-color:#ddd'>
-	</div>
-	<div class='col-sm-10' style='padding-top:50px;padding-right:50px;padding-left:50px' id='printable'>
+<div class='row' style='margin:0;background-color:#ddd'>
+	<div class='col-sm-10 col-sm-offset-1' style='padding:50px;background-color:white' id='printable'>
 		<div class='row'>
 			<div class='col-sm-7'>
 				<img src='../universal/images/Logo Agung.jpg' style='width:100%'>
@@ -64,10 +65,6 @@
 			</tr>
 <?php
 		$i = 1;
-		$sql_count = "SELECT COUNT(*) AS counter FROM proforma_invoice WHERE code_proforma_invoice_id = '" . $id . "'";
-		$result_count = $conn->query($sql_count);
-		$row_count = $result_count->fetch_assoc();
-		$counting = $row_count['counter'];
 		$value = 0;
 		$sql_detail = "SELECT * FROM proforma_invoice WHERE code_proforma_invoice_id = '" . $id . "'";
 		$result_detail = $conn->query($sql_detail);
@@ -98,7 +95,7 @@
 				?></td>
 			</tr>
 <?php
-		$value += $detail['quantity'] * $detail['price'];
+			$value += $detail['quantity'] * $detail['price'];
 		}
 		if($taxing == 1){ 
 		?>
@@ -135,6 +132,28 @@
 			</tr>
 <?php
 		}
+		
+		if($proforma_invoice_type != 3){
+			if($proforma_invoice_type == 1){
+				$text = "Uang muka";
+			} else {
+				$text = "Dibayarkan di muka";
+			}
+?>
+			<tr>
+				<td colspan='3'></td>
+				<td	><?= $text ?></td>
+				<td>
+					Rp. <?= number_format($value_proforma,2) ?>
+				</td>
+			</tr>
+			<tr>
+				<td colspan='3'></td>
+				<td>Ditagihkan</td>
+				<td>Rp. <?= number_format($value - $value_proforma,2) ?></td>
+			</tr>		
+<?php
+		}
 ?>
 		</table>
 		<br><br><br><br><br>
@@ -153,9 +172,9 @@
 	<div class='col-sm-1' style='background-color:#ddd'>
 	</div>
 </div>
-<div class="row" style="background-color:#333;padding:30px">
+<div class="row" style="background-color:#333;padding:30px;margin:0">
 	<div class="col-sm-2 offset-sm-5">
-		<button class="btn btn-primary hidden-print" type="button" id="print" onclick="printing()">Print</button>
+		<button class="button_default_dark hidden-print" type="button" id="print" onclick="printing()">Print</button>
 	</div>
 </div>
 <script>

@@ -34,8 +34,8 @@
 			</td>
 		</tr>
 		<tr>
-			<td><p>Order pembelian (<i><strong>sales order</strong></i>)</p></td>
-			<td><p>Order pembelian dibuat untuk menginformasikan order penjualan ke bagian gudang untuk dikirimkan kepada pelanggan.</p></td>
+			<td><p>Order penjualan (<i><strong>sales order</strong></i>)</p></td>
+			<td><p>Order penjualan dibuat untuk menginformasikan order penjualan ke bagian gudang untuk dikirimkan kepada pelanggan.</p></td>
 			<td>
 				<a href='sales_create_sales_order'>
 					<button type='button' class='button_default_dark'>Go to</button>
@@ -72,7 +72,7 @@
 		</tr>
 	</table>
 	<br>
-	<a href='getting_started'>
+	<a href='tutorial'>
 		<button type='button' class='button_success_dark'>
 			Back
 		</button>

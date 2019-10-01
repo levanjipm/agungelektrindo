@@ -43,5 +43,5 @@
 		}
 	}
 	
-	header('location:inventory.php');
+	header('location:inventory');
 ?>

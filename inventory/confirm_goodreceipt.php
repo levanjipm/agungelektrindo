@@ -9,7 +9,6 @@
 	$status				= $result_status->fetch_assoc();
 	
 	if($status['status'] == 0){
-		//Change status on 'isconfirm' to 1 from 0//
 		$sql_status = "UPDATE code_goodreceipt SET isconfirm = '1', confirmed_by = '$confirmed_by', confirmed_date = CURDATE()
 						WHERE id = '" . $good_receipt_id . "'";
 		$conn->query($sql_status);
@@ -17,6 +16,7 @@
 		$sql_get_status 	= "SELECT date,supplier_id,document FROM code_goodreceipt WHERE id = '" . $good_receipt_id . "'";
 		$result_get_status 	= $conn->query($sql_get_status);
 		$row_get_status 	= $result_get_status->fetch_assoc();
+		
 		$date 				= $row_get_status['date'];
 		$supplier_id 		= $row_get_status['supplier_id'];
 		$document 			= $row_get_status['document'];
@@ -35,7 +35,7 @@
 				$reference = $row_received['reference'];
 
 				//Getting the previous stock quantity//
-				$sql_initial = "SELECT stock FROM stock WHERE reference = '" . $reference . "' ORDER BY id DESC LIMIT 1";
+				$sql_initial 	= "SELECT stock FROM stock WHERE reference = '" . $reference . "' ORDER BY id DESC LIMIT 1";
 				$result_initial = $conn->query($sql_initial);
 				if(mysqli_num_rows($result_initial) == 0){
 					$stock_initial = 0;
@@ -45,24 +45,23 @@
 					}
 				}
 				//Inserting stock//
-				$final_stock = $stock_initial + $quantity;
-				$sql_stock = "INSERT INTO stock (date,reference,transaction,quantity,stock,supplier_id,customer_id,document) 
-				VALUES ('$date','$reference','IN','$quantity','$final_stock','$supplier_id','0','$document')";
+				$final_stock 	= $stock_initial + $quantity;
+				$sql_stock 		= "INSERT INTO stock (date,reference,transaction,quantity,stock,supplier_id,customer_id,document) 
+								VALUES ('$date','$reference','IN','$quantity','$final_stock','$supplier_id','0','$document')";
 				
-				$result_stock = $conn->query($sql_stock);
+				$conn->query($sql_stock);
 				
-				$sql_price = "SELECT * FROM purchaseorder WHERE id = '" . $received_id . "'";
-				$result_price = $conn->query($sql_price);
-				while($row_price = $result_price->fetch_assoc()){
-					$price = $row_price['unitprice'];
-				}
+				$sql_price 		= "SELECT * FROM purchaseorder WHERE id = '" . $received_id . "'";
+				$result_price 	= $conn->query($sql_price);
+				$row_price 		= $result_price->fetch_assoc();
+				$price 			= $row_price['unitprice'];
+				
 				$sql_stock_value = "INSERT INTO stock_value_in (date,reference,quantity,price,sisa,supplier_id,gr_id) 
-				VALUES ('$date','$reference','$quantity','$price','$quantity','$supplier_id','$goods_id')";
-				$result_stock_value = $conn->query($sql_stock_value);
+									VALUES ('$date','$reference','$quantity','$price','$quantity','$supplier_id','$goods_id')";
+				$conn->query($sql_stock_value);
 			}
 		}
 	}
 	
-	//Getting back to inventory.php//
 	header('location:inventory');
 ?>

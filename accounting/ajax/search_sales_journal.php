@@ -1,13 +1,14 @@
 <?php
 	include('../../codes/connect.php');
-	$month = $_POST['month'];
-	$year = $_POST['year'];
-	$sql_search = "SELECT invoices.date, invoices.name, invoices.faktur, invoices.value, code_delivery_order.customer_id, code_delivery_order.id
-	FROM invoices JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
-	WHERE MONTH(invoices.date) = '" . $month . "' AND YEAR(invoices.date) = '" . $year . "' AND isconfirm = '1'";
-	$result_search = $conn->query($sql_search);
-	$x = 1;
-	while($row_search = $result_search->fetch_assoc()){
+	$month 				= $_POST['month'];
+	$year 				= $_POST['year'];
+	$sql_search 		= "SELECT invoices.date, invoices.name, invoices.faktur, invoices.value, code_delivery_order.customer_id, code_delivery_order.id
+						FROM invoices JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+						WHERE MONTH(invoices.date) = '" . $month . "' AND YEAR(invoices.date) = '" . $year . "' AND isconfirm = '1'
+						ORDER BY date, name ASC";
+	$result_search 		= $conn->query($sql_search);
+	$x 					= 1;
+	while($row_search 	= $result_search->fetch_assoc()){
 ?>
 	<tr>
 		<td><?= date('d M Y',strtotime($row_search['date'])); ?></td>

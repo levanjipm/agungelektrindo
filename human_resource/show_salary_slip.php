@@ -28,7 +28,7 @@
 	$working 	= $row['working'];
 	$daily 		= $row['daily'];
 	$bonus 		= $row['bonus'];
-	$cut 		= $row['cut'];
+	$cut 		= $row['deduction'];
 ?>
 <div class='main'>
 	<div class='row'>

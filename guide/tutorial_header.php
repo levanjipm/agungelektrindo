@@ -11,11 +11,10 @@
 <?php
 	include('../codes/connect.php');
 	session_start();
-	$sql_user = "SELECT id,role,username,name,mail FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
-	$result_user = $conn->query($sql_user);
-	$row_user = $result_user->fetch_assoc();
-	$user_id = $row_user['id'];
-	$name = $row_user['name'];
+	$sql_user 		= "SELECT role,username,name,mail FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
+	$result_user 	= $conn->query($sql_user);
+	$row_user 		= $result_user->fetch_assoc();
+	$name 			= $row_user['name'];
 ?>
 <div class='top_navigation_bar'>
 	<div class='col-lg-4 col-md-5 col-sm-6 col-xs-8'>
@@ -34,7 +33,7 @@
 	</div>
 </div>
 <div class="sidenav">		
-	<a href='tutorial_dashboard.php' style='color:#1ac6ff;text-decoration:none'>
+	<a href='tutorial' style='color:#1ac6ff;text-decoration:none'>
 		<i class="fa fa-eercast" aria-hidden="true"></i>
 		Tutorial
 	</a>
