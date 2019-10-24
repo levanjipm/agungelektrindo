@@ -41,6 +41,12 @@
 		color:#333;
 		z-index:120;
 	}
+	
+	.button_edit{
+		background-color:transparent;
+		border:none;
+		outline:none;
+	}
 </style>
 <div class='main'>
 	<div class='alert_wrapper'>
@@ -64,13 +70,13 @@
 			<th>Date added</th>
 			<th>Class name</th>
 			<th>Items</th>
-			<th colspan='2'></th>
+			<th></th>
 		</tr>
 		<tbody>
 <?php
-	$sql 		= "SELECT date,id,name FROM itemlist_category ORDER BY date ASC";
-	$result 	= $conn->query($sql);
-	while($row 	= $result->fetch_assoc()){
+	$sql 				= "SELECT date,id,name FROM itemlist_category ORDER BY date ASC";
+	$result 			= $conn->query($sql);
+	while($row 			= $result->fetch_assoc()){
 		$sql_item 		= "SELECT COUNT(*) AS group_member_quantity FROM itemlist WHERE type = '" . $row['id'] . "'";
 		$result_item 	=  $conn->query($sql_item);
 		$item 			= $result_item->fetch_assoc();
@@ -78,13 +84,13 @@
 ?>
 		<tr id='tr-<?= $row['id'] ?>'>
 			<td><?= date('d M Y',strtotime($row['date'])) ?></td>
-			<td><?= $row['name'] ?></td>
-			<td><?= $member	?></td>
 			<td>
-				<button type='button' class='button_default_dark' onclick='edit_class(<?= $row['id'] ?>)'>
-					<i class="fa fa-pencil" aria-hidden="true"></i>
+				<button class='button_edit' onclick='view_edit_input(<?= $row['id'] ?>)' id='button-<?= $row['id'] ?>'>
+					<?= $row['name'] ?>
 				</button>
+				<input type='text' class='form-control' id='input-<?= $row['id'] ?>' value='<?= $row['name'] ?>' style='display:none' onfocusout='edit_class_name(<?= $row['id'] ?>)'>
 			</td>
+			<td><?= $member	?></td>
 <?php
 				if($member == 0){
 ?>
@@ -166,6 +172,25 @@
 		})
 	}
 	
-	function edit_class(n){
+	function view_edit_input(n){
+		$('#button-' + n).hide();
+		$('#input-' + n).show();
+		$('#input-' + n).focus();
+	}
+	
+	function edit_class_name(n){
+		$.ajax({
+			url:'item_edit_class.php',
+			data:{
+				id: n,
+				class_name: $('#input-' + n).val(),
+			},
+			type:'POST',
+			success:function(){
+				$('#button-' + n).html($('#input-' + n).val());
+				$('#button-' + n).show();
+				$('#input-' + n).hide();
+			}
+		});
 	};
 </script>

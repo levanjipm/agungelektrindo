@@ -3,7 +3,7 @@
 	$x							= 1;
 	$month 						= $_POST['month'];
 	$year 						= $_POST['year'];
-	$sql_search 				= "SELECT * FROM purchases WHERE MONTH(date) = '" . $month . "' AND YEAR(date) = '" . $year . "' AND isconfirm = '1'";
+	$sql_search 				= "SELECT * FROM purchases WHERE MONTH(date) = '" . $month . "' AND YEAR(date) = '" . $year . "' AND isconfirm = '1' ORDER BY date ASC, name ASC";
 	$result_search 				= $conn->query($sql_search);
 	while($row_search 			= $result_search->fetch_assoc()){
 		$total_value 			= 0;

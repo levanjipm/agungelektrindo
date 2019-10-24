@@ -1,8 +1,8 @@
 <?php
 	//Search stock value//
 	include('../../codes/connect.php');
-	$start = $_POST['start'];
-	$end = $_POST['end'];
+	$start 	= $_POST['start'];
+	$end 	= $_POST['end'];
 ?>
 	<table class='table table-hover'>
 		<tr>

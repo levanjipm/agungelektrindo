@@ -133,6 +133,12 @@
 		Read Tutorial
 		</button>
 	</a>
+	<a href='../../dutasaptaenergi/human_resource/user_dashboard'>
+		<button type='button' class='btn-badge' style='color:white'>
+			<i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+			Duta Sapta Energi
+		</button>
+	</a>
 </div>
 <div class='sidenav_small'>
 	<i class="fa fa-bars" aria-hidden="true"></i>
@@ -207,6 +213,9 @@ $('.sidenav_small').click(function(){
 				<button type='button' class='button_default_light active_button' id='news_button'>
 					News
 				</button>
+				<button type='button' class='button_default_light' id='promo_button'>
+					Promo
+				</button>
 				<button type='button' class='button_default_light' id='salary_button'>
 					Salary Slip
 				</button>
@@ -257,6 +266,18 @@ $('.sidenav_small').click(function(){
 		border:none;
 		outline:none;
 	}
+	
+	#create_promo_box{
+		width:80%;
+		height:80%;
+		background-color:white;
+		z-index:120;
+		position:absolute;
+		top:10%;
+		left:10%;
+		padding:40px;
+	}
+		
 </style>
 <div id='create_news_wrapper'>
 	<button type='button' id='close_news_wrapper_button'>X</button>
@@ -267,10 +288,23 @@ $('.sidenav_small').click(function(){
 			<input type='date' class='form-control' id='news_date'>
 			<label>Subject</label>
 			<input type='text' class='form-control' id='news_subject'>
-			<label>Other description</label>
+			<label>Description</label>
 			<textarea class='form-control' style='resize:none' id='news_description'></textarea>
 			<br>
 			<button type='button' class='button_default_dark' id='add_news_button'>Submit</button>
+		</form>
+	</div>
+	<div id='create_promo_box'>
+		<h2 style='font-family:bebasneue'>Create a new promotion</h2>
+		<form id='create_news_form'>
+			<label>End Date</label>
+			<input type='date' class='form-control' id='promo_end_date'>
+			<label>Promotion name</label>
+			<input type='text' class='form-control' id='promo_subject'>
+			<label>Promo description</label>
+			<textarea class='form-control' style='resize:none' id='promo_description'></textarea>
+			<br>
+			<button type='button' class='button_default_dark' id='add_promo_button'>Submit</button>
 		</form>
 	</div>
 </div>
@@ -278,6 +312,9 @@ $('.sidenav_small').click(function(){
 	$(document).ready(function(){
 		$.ajax({
 			url:'news_section.php',
+			beforeSend:function(){
+				$('#menu_wrapper').html('<div style="position;absolute;left:0;right:0;color:##2B3940;width:100%;text-align:center;padding:20px;"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>');
+			},
 			success:function(response){
 				$('#menu_wrapper').html(response)
 			}
@@ -289,6 +326,23 @@ $('.sidenav_small').click(function(){
 		$(this).addClass('active_button');
 		$.ajax({
 			url:'news_section.php',
+			beforeSend:function(){
+				$('#menu_wrapper').html('<div style="position;absolute;left:0;right:0;color:##2B3940;width:100%;text-align:center;padding:20px;"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>');
+			},
+			success:function(response){
+				$('#menu_wrapper').html(response)
+			}
+		});
+	})
+	
+	$('#promo_button').click(function(){
+		$('.active_button').removeClass('active_button');
+		$(this).addClass('active_button');
+		$.ajax({
+			url:'promo_section.php',
+			beforeSend:function(){
+				$('#menu_wrapper').html('<div style="position;absolute;left:0;right:0;color:##2B3940;width:100%;text-align:center;padding:20px;"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>');
+			},
 			success:function(response){
 				$('#menu_wrapper').html(response)
 			}
@@ -300,6 +354,9 @@ $('.sidenav_small').click(function(){
 		$(this).addClass('active_button');
 		$.ajax({
 			url:'salary_section.php',
+			beforeSend:function(){
+				$('#menu_wrapper').html('<div style="position;absolute;left:0;right:0;color:##2B3940;width:100%;text-align:center;padding:20px;"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>');
+			},
 			success:function(response){
 				$('#menu_wrapper').html(response)
 			}
@@ -311,6 +368,9 @@ $('.sidenav_small').click(function(){
 		$(this).addClass('active_button');
 		$.ajax({
 			url:'calendar_absent.php',
+			beforeSend:function(){
+				$('#menu_wrapper').html('<div style="position;absolute;left:0;right:0;color:##2B3940;width:100%;text-align:center;padding:20px;"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>');
+			},
 			success:function(response){
 				$('#menu_wrapper').html(response);
 			}

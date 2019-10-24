@@ -22,7 +22,7 @@
 			<th>Quantity</th>
 		</tr>
 <?php
-	$sql_in				= "SELECT * FROM adjustment_event WHERE code_adjustment_event = '$event_id' AND transaction = 'IN'";
+	$sql_in				= "SELECT * FROM adjustment_event WHERE code_adjustment_event = '$event_id' AND transaction = 'OUT'";
 	$result_in			= $conn->query($sql_in);
 	while($row_in		= $result_in->fetch_assoc()){
 		$quantity		= $row_in['quantity'];
@@ -50,7 +50,7 @@
 			<th>Quantity</th>
 		</tr>
 <?php
-	$sql_in				= "SELECT * FROM adjustment_event WHERE code_adjustment_event = '$event_id' AND transaction = 'OUT'";
+	$sql_in				= "SELECT * FROM adjustment_event WHERE code_adjustment_event = '$event_id' AND transaction = 'IN'";
 	$result_in			= $conn->query($sql_in);
 	while($row_in		= $result_in->fetch_assoc()){
 		$quantity		= $row_in['quantity'];
@@ -138,9 +138,6 @@
 		<button type='button' class='btn-confirm' id='confirm_button'>Confirm</button>
 	</div>
 </div>
-<form id='daniel' action='event_swap_confirm' method='POST'>
-	<input type='hidden' value='<?= $event_id ?>' name='event_id'>
-</form>
 <script>
 	$('#delete_button_event').click(function(){
 		$('#delete_notification').fadeIn();
@@ -155,20 +152,19 @@
 	});
 	
 	$('#confirm_button').click(function(){
-		$('#daniel').submit();
-		// $.ajax({
-			// url:'event_swap_confirm.php',
-			// data:{
-				// event_id: <?= $event_id ?>
-			// },
-			// type:'POST',
-			// beforeSend:function(){
-				// $('#confirm_button').attr('disabled',true);
-			// },
-			// success:function(){
-				// location.href='inventory';
-			// }
-		// });
+		$.ajax({
+			url:'event_swap_confirm.php',
+			data:{
+				event_id: <?= $event_id ?>
+			},
+			type:'POST',
+			beforeSend:function(){
+				$('#confirm_button').attr('disabled',true);
+			},
+			success:function(){
+				location.href='inventory';
+			}
+		});
 	});
 	
 	$('#delete_button').click(function(){

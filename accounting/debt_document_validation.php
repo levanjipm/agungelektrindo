@@ -135,6 +135,7 @@
 			
 			$description	= $item['description'];
 			
+			$id				= $general['id'];
 			$id_po_detail	= $general['po_detail_id'];
 ?>
 		<tr>
@@ -142,11 +143,12 @@
 			<td style='text-align:center'><?= $description ?></td>
 			<td style='text-align:center'>
 				<?= $general['quantity'] ?>
-				<input type='hidden' value='<?= $general['id'] ?>' name='po_gr[<?= $general['po_detail_id'] ?>]'>
+				<input type='hidden' value='<?= $general['quantity'] ?>' id='quantity<?= $j ?>'>
+				<input type='hidden' value='<?= $id_po_detail ?>' name='po_gr[<?= $id ?>]'>
 			</td>
 			<td style='text-align:center'>
 				<button type='button' style='background-color:transparent;border:none' onclick='show(<?= $j ?>)' id='button-<?= $j ?>'>Rp. <?= number_format($general['unitprice'],2) ?></button>
-				<input type='number' value='<?= $general['unitprice'] ?>' id='input<?= $j ?>' style='display:none' onfocusout='hide(<?= $j ?>)' class='form-control' name='input[<?= $id_po_detail ?>]'>
+				<input type='number' value='<?= $general['unitprice'] ?>' id='input<?= $j ?>' style='display:none' onfocusout='hide(<?= $j ?>)' class='form-control' name='input[<?= $id ?>]'>
 			</td>
 			<td style='text-align:center'>
 				<input type="checkbox" class='checkbox'>
@@ -201,12 +203,11 @@
 		} else {
 			$('#faktur_pajak_display').html($('#fp').val());
 			$('input[id^="input"]').each(function(){
-				var price = $(this).val();
-				var parent = $(this).parent();
-				var parent_sibling = parent.siblings();
-				var quantity = parent_sibling.find($('input[id^="quantity"]'));
-				var quantity_val = quantity.val();
-				total = total + (quantity_val * price);
+				var input_id	= $(this).attr('id');
+				var uid			= parseInt(input_id.substring(5,8));
+				var price 		= parseFloat($('#' + input_id).val());
+				var quantity	= parseInt($('#quantity' + uid).val());
+				total 			= total + (quantity * price);
 			});
 			$('#total_display').html('Rp. ' + numeral(total).format('0,0.00'));
 			$('#confirm_notification').fadeIn();

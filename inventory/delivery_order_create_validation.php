@@ -60,7 +60,7 @@ switch (date('m',strtotime($do_date))) {
 	$taxing 		= $_POST['tax'];
 	$sql_number 	= "SELECT * FROM code_delivery_order 
 					WHERE MONTH(date) = MONTH('" . $do_date . "') AND YEAR(date) = YEAR('" . $do_date . "') AND number > '0'
-					AND isdelete = '0' ORDER BY number ASC";
+					AND isdelete = '0' AND company = 'AE' ORDER BY number ASC";
 	$results 		= $conn->query($sql_number);
 	if ($results->num_rows > 0){
 		$i = 1;

@@ -17,21 +17,21 @@
 	
 	$id 			= $_POST['id'];
 	
-	$sql_invoice	= "SELECT invoices.faktur,invoices.value,invoices.ongkir,invoices.name,invoices.date, code_delivery_order.customer_id, code_salesorder.id as sales_order_id
-					FROM invoices 
-					JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
-					JOIN code_salesorder ON code_salesorder.id = code_delivery_order.so_id
-					WHERE invoices.id = '" . $id . "'";
-	$result_invoice	= $conn->query($sql_invoice);
-	$invoice		= $result_invoice->fetch_assoc();
-	
-	$ongkir 		= $invoice['ongkir'];
-	$value 			= $invoice['value'];
-	$name 			= $invoice['name'];
-	$date 			= $invoice['date'];
-	$customer_id 	= $invoice['customer_id'];
-	$faktur 		= $invoice['faktur'];
-	$sales_order_id	= $invoice['sales_order_id'];
+	$sql_invoice			= "SELECT invoices.faktur,invoices.value,invoices.ongkir,invoices.name,invoices.date, code_delivery_order.customer_id, code_salesorder.id as sales_order_id
+							FROM invoices 
+							JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+							JOIN code_salesorder ON code_salesorder.id = code_delivery_order.so_id
+							WHERE invoices.id = '" . $id . "'";
+	$result_invoice			= $conn->query($sql_invoice);
+	$invoice				= $result_invoice->fetch_assoc();
+			
+	$ongkir 				= $invoice['ongkir'];
+	$value 					= $invoice['value'];
+	$name 					= $invoice['name'];
+	$date 					= $invoice['date'];
+	$customer_id 			= $invoice['customer_id'];
+	$faktur 				= $invoice['faktur'];
+	$sales_order_id			= $invoice['sales_order_id'];
 	
 	$do_name = 'SJ-AE-' . substr($name,6,100);
 	if($customer_id != 0){

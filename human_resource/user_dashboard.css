@@ -30,6 +30,14 @@
 	color:#333;
 }
 
+.button_success_dark{
+	outline:none;
+	padding:5px 20px;
+	background-color:#008080;
+	border:none;
+	color:white;
+}
+
 .active_button{
 	border-bottom:2px solid #40545e;
 }
@@ -42,7 +50,7 @@
 }
 
 .button_wrapper button{
-	width:30%;
+	width:22%;
 	margin:0;
 }
 

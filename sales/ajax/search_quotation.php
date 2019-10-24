@@ -57,7 +57,7 @@
 						<i class="fa fa-print" aria-hidden="true"></i>
 					</button>
 					
-					<form id='<?= $quotation['id'] ?>' action='createquotation_print.php' method='POST' target='_blank'>
+					<form id='<?= $quotation['id'] ?>' action='quotation_create_print' method='POST' target='_blank'>
 						<input type='hidden' value='<?= $quotation['id'] ?>' name='id'>
 					</form>
 				</div>

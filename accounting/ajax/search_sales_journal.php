@@ -5,7 +5,7 @@
 	$sql_search 		= "SELECT invoices.date, invoices.name, invoices.faktur, invoices.value, code_delivery_order.customer_id, code_delivery_order.id
 						FROM invoices JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
 						WHERE MONTH(invoices.date) = '" . $month . "' AND YEAR(invoices.date) = '" . $year . "' AND isconfirm = '1'
-						ORDER BY date, name ASC";
+						ORDER BY code_delivery_order.number ASC, date, name ASC";
 	$result_search 		= $conn->query($sql_search);
 	$x 					= 1;
 	while($row_search 	= $result_search->fetch_assoc()){

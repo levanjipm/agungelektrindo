@@ -1,6 +1,6 @@
 <?php
 	include("../codes/connect.php");
-	$q_id 		= $_POST['id'];
+	$q_id 					= $_POST['id'];
 	
 	$sql 					= "SELECT * FROM code_quotation WHERE id = '" . $q_id . "'";
 	$result 				= $conn->query($sql);

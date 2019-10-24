@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Human Resource Department</title>
-<script src='../universal/jquery/jquery-3.3.0.min.js'></script>
-<link rel="stylesheet" href="../universal/bootstrap/4.1.3/css/bootstrap.min.css">
-<script src="../universal/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="../universal/fontawesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="../universal/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="hrstyle.css">
+	<title>Human Resource Department</title>
+	<script src='../universal/jquery/jquery-3.3.0.min.js'></script>
+	<link rel="stylesheet" href="../universal/bootstrap/4.1.3/css/bootstrap.min.css">
+	<script src="../universal/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../universal/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../universal/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="hrstyle.css">
 </head>
 <?php
 	include("../codes/connect.php");

@@ -12,13 +12,13 @@
 <?php
 	include("../codes/connect.php");
 	session_start();
-	$sql_user 		= "SELECT isactive,name,role,hpp FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
-	$result_user 	= $conn->query($sql_user);
-	$row_user 		= $result_user->fetch_assoc();
-	$name 			= $row_user['name'];
-	$role 			= $row_user['role'];
-	$hpp 			= $row_user['hpp'];
-	$isactive 		= $row_user['isactive'];
+	$sql_user 			= "SELECT isactive,name,role,hpp FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
+	$result_user 		= $conn->query($sql_user);
+	$row_user 			= $result_user->fetch_assoc();
+	$name 				= $row_user['name'];
+	$role 				= $row_user['role'];
+	$hpp 				= $row_user['hpp'];
+	$isactive 			= $row_user['isactive'];
 	
 	$sql_otorisasi 		= "SELECT COUNT(*) AS jumlah_otorisasi FROM authorization WHERE department_id = '1' AND user_id = '" . $_SESSION['user_id'] . "'";
 	$result_otorisasi 	= $conn->query($sql_otorisasi);

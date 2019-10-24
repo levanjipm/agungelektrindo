@@ -27,15 +27,15 @@
 	if(empty($_POST['id'])){
 ?>
 	<script>
-		window.location.href="accounting.php";
+		window.location.href="accounting";
 	</script>
 <?php
 	} else {
-		$invoice_id 	= $_POST['id'];
-		$sql 			= "SELECT name,faktur,supplier_id FROM purchases WHERE id = '" . $invoice_id . "'";
-		$result 		= $conn->query($sql);
-		$row 			= $result->fetch_assoc();
-		$invoice_name 	= $row['name'];
+		$invoice_id 		= $_POST['id'];
+		$sql 				= "SELECT name,faktur,supplier_id FROM purchases WHERE id = '" . $invoice_id . "'";
+		$result 			= $conn->query($sql);
+		$row 				= $result->fetch_assoc();
+		$invoice_name 		= $row['name'];
 		
 		$sql_supplier 		= "SELECT name FROM supplier WHERE id = '" . $row['supplier_id'] . "'";
 		$result_supplier 	= $conn->query($sql_supplier);
@@ -66,22 +66,28 @@
 					$sql = "SELECT * FROM goodreceipt WHERE gr_id = '" . $gr_id . "'";
 					$result = $conn->query($sql);
 					while($row = $result->fetch_assoc()){
-						$sql_received = "SELECT purchaseorder.billed_price, purchaseorder.reference FROM purchaseorder 
-						WHERE purchaseorder.id = '" . $row['received_id'] . "'";
-						$result_received = $conn->query($sql_received);
-						$received = $result_received->fetch_assoc();
-						$total = $total + $row['quantity'] * $row['billed_price'];
+						$received_id		= $row['received_id'];
+						$quantity			= $row['quantity'];
+						$billed_price		= $row['billed_price'];
+						$total 				+= $quantity * $billed_price;
+						
+						$sql_received		= "SELECT reference FROM purchaseorder WHERE id = '$received_id'";
+						$result_received	= $conn->query($sql_received);
+						$received			= $result_received->fetch_assoc();
+						
+						$reference			= $received['reference'];
+						
+						$sql_item 			= "SELECT description FROM itemlist WHERE reference = '".  $received['reference'] . "'";
+						$result_item 		= $conn->query($sql_item);
+						$item 				= $result_item->fetch_assoc();
+						
+						$item_description	= $item['description'];
 ?>
 			<tr>
-				<td><?= $received['reference']; ?></td>
-				<td><?php
-					$sql_item = "SELECT description FROM itemlist WHERE reference = '".  $received['reference'] . "'";
-					$result_item = $conn->query($sql_item);
-					$item = $result_item->fetch_assoc();
-					echo $item['description'];
-				?></td>
-				<td><?= $row['quantity'] ?></td>
-				<td>Rp. <?= number_format($row['billed_price'],2) ?></td>
+				<td><?= $reference ?></td>
+				<td><?= $item_description ?></td>
+				<td><?= $quantity ?></td>
+				<td>Rp. <?= number_format($billed_price,2) ?></td>
 				<td>Rp. <?= number_format(($row['quantity'] * $row['billed_price']),2) ?></td>
 			</tr>
 <?php

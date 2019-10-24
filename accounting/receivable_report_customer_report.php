@@ -24,7 +24,7 @@
 		padding:20px;
 	}
 	.active_tab{
-		border-bottom:2px solid #5cb85c;
+		border-bottom:2px solid #008080;
 	}
 	.tab_top{
 		cursor:pointer;
@@ -62,6 +62,7 @@ $('.tab_top').click(function(){
 	$('.tab_top').removeClass('active_tab');
 	$(this).addClass('active_tab');
 });
+
 $(window).ready(function(){
 	show_receivable(1);
 });

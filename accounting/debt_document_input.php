@@ -8,30 +8,33 @@
 	$po_gr_array		= $_POST['po_gr'];
 	$code_gr_array		= $_POST['code_gr'];
 	$input_array		= $_POST['input'];
-	echo '<br>';
-	echo '<br>';
-	$supplier_id = mysqli_real_escape_string($conn,$_POST['supplier']);
+	$supplier_id 		= mysqli_real_escape_string($conn,$_POST['supplier']);
 	
-	foreach($po_gr_array as $gr){
-		$po			= key($po_gr_array);
-		$sql_gr		= "SELECT quantity FROM goodreceipt WHERE id = '" . $gr . "'";
-		$result_gr	= $conn->query($sql_gr);
-		$row_gr		= $result_gr->fetch_assoc();
+	print_r($po_gr_array);
+	echo '<br>';
+	
+	foreach($po_gr_array as $po){
+		$gr				= key($po_gr_array);
+		$sql_gr			= "SELECT quantity FROM goodreceipt WHERE id = '" . $gr . "'";
+		$result_gr		= $conn->query($sql_gr);
+		$row_gr			= $result_gr->fetch_assoc();
+			
+		$quantity		= $row_gr['quantity'];
+		$input			= (float)$input_array[$gr];
+			
+		$total 			= $total + $quantity * $input;
+		$sql_po 		= "SELECT reference FROM purchaseorder WHERE id = '" . $po . "'";
+		$result_po 		= $conn->query($sql_po);
+		$po_row 		= $result_po->fetch_assoc();
+		$reference 		= $po_row['reference'];
+			
+		$sql 			= "UPDATE stock_value_in SET price = '" . $input . "' WHERE gr_id = '" . $gr . "' AND reference = '" . $reference . "'";
+		$conn->query($sql);
 		
-		$quantity	= $row_gr['quantity'];
-		$input		= (float)$input_array[$po];
-		
-		$total 		= $total + $quantity * $input;
-		$sql_po 	= "SELECT reference FROM purchaseorder WHERE id = '" . $po . "'";
-		$result_po 	= $conn->query($sql_po);
-		$po_row 	= $result_po->fetch_assoc();
-		$reference 	= $po_row['reference'];
-		
-		$sql = "UPDATE stock_value_in SET price = '" . $input . "' WHERE gr_id = '" . $gr . "' AND reference = '" . $reference . "'";
-		$result = $conn->query($sql);
-		
-		$sql = "UPDATE goodreceipt SET billed_price = '" . $input . "' WHERE id = '" .  $gr . "'";
-		$result = $conn->query($sql);
+		$sql 			= "UPDATE goodreceipt SET billed_price = '" . $input . "' WHERE id = '" .  $gr . "'";
+		echo $sql;
+		echo '<br>';
+		$conn->query($sql);
 		
 		next($po_gr_array);
 	}
@@ -49,9 +52,8 @@
 	
 	foreach($code_gr_array as $code_gr){
 		$sql_update 	= "UPDATE code_goodreceipt SET isinvoiced = '1', invoice_id = '"  . $purchase_id . "' WHERE id = '" . $code_gr . "'";
-		echo $sql_update;
 		$conn->query($sql_update);
 		next($code_gr_array);
 	}
-	header('location:accounting.php');
+	header('location:accounting');
 ?>			

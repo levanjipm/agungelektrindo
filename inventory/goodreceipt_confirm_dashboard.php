@@ -158,7 +158,7 @@
 			},
 			type:'GET',
 			success:function(){
-				// location.reload();
+				location.reload();
 			},
 		})
 	});

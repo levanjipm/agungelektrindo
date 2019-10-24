@@ -42,22 +42,37 @@
 		<table class='table table-bordered'>
 			<tr>
 				<th>Date</th>
+				<th>Purchase order</th>
 				<th>Invoice name</th>
 				<th>Value</th>
 			</tr>
 <?php
-	$total_value		= 0;
-	$sql_purchase 		= "SELECT * FROM purchases WHERE supplier_id = '$supplier_id' AND YEAR(date) = '$year'";
-	$result_purchase 	= $conn->query($sql_purchase);
-	while($purchase 	= $result_purchase->fetch_assoc()){
-		$invoice_date	= $purchase['date'];
-		$invoice_name	= $purchase['name'];
-		$invoice_value	= $purchase['value'];
+	$total_value				= 0;
+	$sql_purchase 				= "SELECT * FROM purchases WHERE supplier_id = '$supplier_id' AND YEAR(date) = '$year'";
+	$result_purchase 			= $conn->query($sql_purchase);
+	while($purchase 			= $result_purchase->fetch_assoc()){
+		$invoice_id				= $purchase['id'];
+		$invoice_date			= $purchase['date'];
+		$invoice_name			= $purchase['name'];
+		$invoice_value			= $purchase['value'];
 		
-		$total_value	+= $invoice_value;
+		$sql_good_receipt		= "SELECT po_id FROM code_goodreceipt WHERE invoice_id = '$invoice_id'";
+		$result_good_receipt	= $conn->query($sql_good_receipt);
+		$good_receipt			= $result_good_receipt->fetch_assoc();
+		
+		$po_id					= $good_receipt['po_id'];
+		
+		$sql_po					= "SELECT name FROM code_purchaseorder WHERE id = '$po_id'";
+		$result_po				= $conn->query($sql_po);
+		$po						= $result_po->fetch_assoc();
+		
+		$po_name				= $po['name'];
+		
+		$total_value			+= $invoice_value;
 ?>
 			<tr>
 				<td><?= date('d M Y',strtotime($invoice_date)); ?></td>
+				<td><?= $po_name ?></td>
 				<td><?= $invoice_name ?></td>
 				<td>Rp. <?= number_format($invoice_value,2) ?></td>
 			</tr>

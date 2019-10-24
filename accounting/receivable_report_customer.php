@@ -105,7 +105,7 @@ function sortTable(n) {
 			<td>Rp. <?= number_format($nunggak['nunggak'],2) ?></td>
 			<td>
 				<a href='receivable_report_customer_report.php?customer_id=<?= $row['customer_id'] ?>' style='text-decoration:none'>
-					<button type='button' class='btn btn-default' title='Report <?= $row['name'] ?>' id='receivable_report(<?= $row['customer_id'] ?>)'>
+					<button type='button' class='button_default_dark' title='Report <?= $row['name'] ?>' id='receivable_report(<?= $row['customer_id'] ?>)'>
 						<i class="fa fa-flag-o" aria-hidden="true"></i>
 					</button>
 				</a>

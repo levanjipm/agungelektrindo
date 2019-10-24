@@ -28,6 +28,8 @@
 <script>
 $('#create_news_button').click(function(){
 	$('#create_news_wrapper').fadeIn();
+	$('#create_news_box').fadeIn();
+	$('#create_promo_box').fadeOut();
 });
 
 $('#close_news_wrapper_button').click(function(){

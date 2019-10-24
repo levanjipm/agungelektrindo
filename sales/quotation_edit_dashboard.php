@@ -74,7 +74,7 @@
 	<h3 style='font-family:bebasneue'>Latest Quotations</h3>
 	<div class='row' style='padding:10px' id='quotation_row'>
 <?php
-	$sql_quotation = "SELECT * FROM code_quotation ORDER BY id DESC LIMIT 30";
+	$sql_quotation = "SELECT * FROM code_quotation WHERE company = 'AE' ORDER BY id DESC LIMIT 30";
 	$result_quotation = $conn->query($sql_quotation);
 	while($quotation = $result_quotation->fetch_assoc()){
 		$sql_customer 		= "SELECT name FROM customer WHERE id = '" . $quotation['customer_id'] . "'";

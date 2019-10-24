@@ -10,7 +10,10 @@
 ?>
 <br>
 <a href='show_receivable_customer_print.php?customer_id=<?= $customer_id ?>&type=<?= $type ?>' target='_blank'>
-	<button type='button' class='btn btn-success'><i class="fa fa-print" aria-hidden="true"></i> Print</button>
+	<button type='button' class='button_success_dark'><i class="fa fa-print" aria-hidden="true"></i></button>
+</a>
+<a href='receivable_report_customer'>
+	<button type='button' class='button_default_dark'><i class="fa fa-long-arrow-left" aria-hidden="true"></i></button>
 </a>
 <h3 style='font-family:bebasneue'>Unassigned payment: Rp. <?= number_format($swamp,2) ?></h3>
 <table class='table table-hover'>

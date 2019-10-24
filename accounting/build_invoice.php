@@ -74,7 +74,7 @@ tr.border_bottom td{
 	</div>
 	<div class="row">
 		<div class="col-sm-12">
-			<form name="invoice" method="POST" action="build_invoice_input.php" id='invoices'>
+			<form name="invoice" method="POST" action="build_invoice_input" id='invoices'>
 			<input type='hidden' value='<?= $do_id ?>' name='do_id'>
 				<table class="table">
 					<thead>
@@ -104,14 +104,14 @@ tr.border_bottom td{
 			$description = '';
 		};
 		
-		$sql_price 		= "SELECT price FROM sales_order WHERE reference = '" . $reference . "' AND so_id = '" . $so_id . "'";
+		$sql_price 		= "SELECT id,price FROM sales_order WHERE reference = '" . $reference . "' AND so_id = '" . $so_id . "'";
 		$result_price 	= $conn->query($sql_price);
 		$row_price 		= $result_price->fetch_assoc();
 		$price 			= $row_price['price'];
 		$quantity 		= $rows['quantity'];
 ?>
 						<tr class="border_bottom">
-							<td><?= $i ?></td>
+							<td><?= $row_price['id']; ?></td>
 							<td><?= $reference ?></td>
 							<td><?= $description ?></td>
 							<td><?= $quantity ?></td>
@@ -155,7 +155,7 @@ tr.border_bottom td{
 							<td style="background-color:#fff">Total</td>
 							<td style="background-color:#fff">
 							<input type='text' id='invoice_totalis' class='form-control' readonly>
-							<input type="hidden" class="form-control" name="invoice_total" id="invoice_total" readonly></td>									
+							<input type="hidden" class="form-control" id="invoice_total" readonly></td>									
 						</tr>
 <?php
 	} else{

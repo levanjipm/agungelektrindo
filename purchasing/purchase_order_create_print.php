@@ -39,7 +39,32 @@
 	}
 </style>
 <?php
-	$po_id = $_POST['id'];
+	$po_id 				= $_POST['id'];
+	
+	$sql 				= "SELECT * FROM code_purchaseorder WHERE id = '" . $po_id . "'";
+	$result 			= $conn->query($sql);
+	$row 				= $result->fetch_assoc();
+	
+	$po_name 			= $row['name'];
+	$vendor 			= $row['supplier_id'];
+	$po_date 			= $row['date'];
+	$top 				= $row['top'];
+	$tax 				= $row['taxing'];
+	$promo 				= $row['promo_code'];
+	$send_date 			= $row['send_date'];
+	$dropship_name 		= $row['dropship_name'];
+	$dropship_address 	= $row['dropship_address'];
+	$dropship_city 		= $row['dropship_city'];
+	$dropship_phone 	= $row['dropship_phone'];
+	$status 			= $row['status'];
+	
+	$sql_vendor 		= "SELECT * FROM supplier WHERE id = '" . $vendor . "'";
+	$result 			= $conn->query($sql_vendor);
+	$row 				= $result->fetch_assoc();
+	$vendor_name 		= $row['name'];
+	$vendor_address 	= $row['address'];
+	$vendor_city 		= $row['city'];
+	$vendor_phone 		= $row['phone'];	
 ?>
 
 <body style='width:100%;overflow-x:hidden'>
@@ -53,32 +78,6 @@
 				</div>
 			</div>
 			<br><br>
-	<?php
-		$sql 				= "SELECT * FROM code_purchaseorder WHERE id = '" . $po_id . "'";
-		$result 			= $conn->query($sql);
-		$row 				= $result->fetch_assoc();
-		
-		$po_name 			= $row['name'];
-		$vendor 			= $row['supplier_id'];
-		$po_date 			= $row['date'];
-		$top 				= $row['top'];
-		$tax 				= $row['taxing'];
-		$promo 				= $row['promo_code'];
-		$send_date 			= $row['send_date'];
-		$dropship_name 		= $row['dropship_name'];
-		$dropship_address 	= $row['dropship_address'];
-		$dropship_city 		= $row['dropship_city'];
-		$dropship_phone 	= $row['dropship_phone'];
-		$status 			= $row['status'];
-		
-		$sql_vendor 		= "SELECT * FROM supplier WHERE id = '" . $vendor . "'";
-		$result 			= $conn->query($sql_vendor);
-		$row 				= $result->fetch_assoc();
-		$vendor_name 		= $row['name'];
-		$vendor_address 	= $row['address'];
-		$vendor_city 		= $row['city'];
-		$vendor_phone 		= $row['phone'];	
-	?>
 			<div class="row">
 				<div class="col-sm-5 offset-sm-1">
 					<div class="col-sm-5">
@@ -150,7 +149,7 @@
 <?php
 	if($dropship_name == ''){
 ?>
-						<b>CV Agung Elektrindo</b>
+						<p><b>CV Agung Elektrindo</b></p>
 						<p>Jalan Jamuju no. 18</p>
 						<p>Bandung</p>
 <?php
@@ -167,17 +166,23 @@
 				</div>
 				<div class="col-sm-5">
 						<div class="col-sm-5">
-							<b>Phone number :</b>
+							<b>Phone number</b>
 						</div>
 						<div class="col-sm-7">
 							<?= $vendor_phone ?>
 						</div><br>
 						<div class="col-sm-5">
-							<b>Promo code :</b>
+							<b>Promo code</b>
 						</div>
 						<div class="col-sm-7">
 							<?= $promo ?>
+						</div><br>
+						<div class="col-sm-5">
+							<b>Term of payment</b>
 						</div>
+						<div class="col-sm-7">
+							<?= $top ?> days
+						</div><br>
 				</div>
 			</div>
 <?php

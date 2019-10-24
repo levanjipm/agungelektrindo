@@ -1,9 +1,8 @@
 <?php
 	include('../codes/connect.php');
 	if(empty($_POST['date']) || empty($_POST['value']) || empty($_POST['opponent'])){
-		header('location:add_transaction_dashboard.php');	
+		header('location:add_transaction_dashboard');	
 	} else {
-		print_r($_POST);
 		$date = $_POST['date'];
 		$value = $_POST['value'];
 		$opponent_array = preg_split("/\-/", $_POST['opponent']);
@@ -16,6 +15,6 @@
 	}
 	$sql_insert = "INSERT INTO code_bank (date,value,transaction,bank_opponent_id,label)
 	VALUES ('$date','$value','$transaction','$opponent_id','$opponent_type')";
-	$result_insert = $conn->query($sql_insert);
-	header('location:add_transaction_dashboard.php');
+	$conn->query($sql_insert);
+	header('location:add_transaction_dashboard');
 ?>

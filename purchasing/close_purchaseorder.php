@@ -14,5 +14,5 @@
 		}
 	}
 	
-	header('location:close_purchaseorder_dashboard');
+	header('location:purchase_order_close_dashboard');
 ?>
