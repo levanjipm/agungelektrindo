@@ -204,7 +204,7 @@ $('.sidenav_small').click(function(){
 				<label>Username</label>
 				<p><?= $username ?></p>
 			</div>
-			<a href='edit_user_dashboard.php'>
+			<a href='edit_user_dashboard'>
 				<button class='button_default_dark'>Edit profile</button>
 			</a>
 		</div>
@@ -297,6 +297,8 @@ $('.sidenav_small').click(function(){
 	<div id='create_promo_box'>
 		<h2 style='font-family:bebasneue'>Create a new promotion</h2>
 		<form id='create_news_form'>
+			<label>Start Date</label>
+			<input type='date' class='form-control' id='promo_start_date'>
 			<label>End Date</label>
 			<input type='date' class='form-control' id='promo_end_date'>
 			<label>Promotion name</label>
@@ -406,5 +408,40 @@ $('.sidenav_small').click(function(){
 				type:'POST',
 			})
 		}
-	});		
+	});	
+
+	$('#add_promo_button').click(function(){
+		if($('#promo_start_date').val() == '' || $('#promo_end_date').val() == ''){
+			alert('Please inset a date');
+			return false;
+		} else if($('#promo_subject').val() == ''){
+			alert('Please insert a subject');
+			$('#promo_subject').focus();
+			return false;
+		} else {
+			$.ajax({
+				url:'create_promotion.php',
+				data:{
+					subject		: $('#promo_subject').val(),
+					start_date	: $('#promo_start_date').val(),
+					end_date	: $('#promo_end_date').val(),
+					description	: $('#promo_description').val(),
+					created_by: <?= $user_id ?>,
+				},
+				beforeSend:function(){
+					$('#add_promo_button').attr('disabled',true);
+				},
+				success:function(){
+					$('#promo_subject').val('');
+					$('#promo_start_date').val('');
+					$('#promo_end_date').val('');
+					$('#promo_description').val('');
+					$('#add_promo_button').attr('disabled',false);
+					$('#close_news_wrapper_button').click();
+					$('#promo_button').click();
+				},
+				type:'POST'
+			})
+		}
+	});	
 </script>

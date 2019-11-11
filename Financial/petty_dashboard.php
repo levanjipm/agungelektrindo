@@ -7,13 +7,13 @@
 	} else {
 		if($_POST['status'] == 'success'){
 ?>
-	<div class="alert alert-success" style='position:absolute;z-index:100;top:20'>
+	<div class="alert alert-success" style='position:absolute;z-index:100;top:100px'>
 		<strong>Success!</strong> Input data success!
 	</div>
 <?php
 		} else if($_POST['status'] == 'failed'){
 ?>
-	<div class="alert alert-danger" style='position:absolute;z-index:100;top:20'>
+	<div class="alert alert-danger" style='position:absolute;z-index:100;top:100px'>
 		<strong>Danger!</strong> Input data failed!
 	</div>
 <?php
@@ -33,12 +33,12 @@
 		<div class='row'>
 			<div class='col-sm-3'>
 				<div class="radio">
-					<label><input type="radio" name="types" id='income' checked value='1' onchange='hide_sub()'>Income</label>
+					<label><input type="radio" name="types" id='expense' checked value='2' onchange='hide_sub()'>Expense</label>
 				</div>
 			</div>
 			<div class='col-sm-3'>
 				<div class="radio">
-					<label><input type="radio" name="types" id='expense' value='2' onchange='hide_sub()'>Expense</label>
+					<label><input type="radio" name="types" id='income' value='1' onchange='hide_sub()'>Income</label>
 				</div>
 			</div>
 		</div>
@@ -52,7 +52,7 @@
 			</div>
 		</div>
 		<div class='row'>
-			<div class='col-sm-6' id='classes' style='display:none'>
+			<div class='col-sm-6' id='classes'>
 				<label>Expense Classification</label>
 				<select class='form-control' onchange='activate_sub()' id='class' name='class'>
 					<option value='0'>Please select a classification</option>

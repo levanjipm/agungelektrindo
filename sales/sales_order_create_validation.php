@@ -19,7 +19,7 @@ $so_date			= $_POST['today'];
 $taxing 			= $_POST['taxing'];
 $po_number 			= mysqli_real_escape_string($conn,$_POST['purchaseordernumber']);
 $customer 			= $_POST['select_customer'];
-if($customer == 0){
+if($customer == NULL){
 	$address 		= $_POST['retail_address'];
 	$city 			= $_POST['retail_city'];
 	$phone 			= $_POST['retail_phone'];

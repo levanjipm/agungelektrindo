@@ -68,6 +68,11 @@
 			Salary slip
 		</button>
 	</a>
+	<a href="absentee_edit_dashboard">
+		<button class='btn-badge' style='color:white;pointer:cursor'>
+			Absentee List
+		</button>
+	</a>
 	<hr>
 	<a href='human_resource' style='color:#1ac6ff;text-decoration:none'>
 		<i class="fa fa-eercast" aria-hidden="true"></i>Human Resource Department

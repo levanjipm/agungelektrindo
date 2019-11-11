@@ -70,6 +70,15 @@
 		<a href="customer_edit_dashboard">
 			<p>Edit Customer</p>
 		</a>
+<?php
+		if($role == 'superadmin'){
+?>
+		<a href='customer_black_list'>
+			<p>Blacklist Customer</p>
+		</a>
+<?php
+		}
+?>
 	</div>
 	<button class="btn-badge dropdown-btn" style='color:white'>
 		<i class="fa fa-file-text" aria-hidden="true"></i>

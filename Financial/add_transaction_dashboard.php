@@ -3,11 +3,11 @@
 ?>
 <div class='main'>
 	<div class='row'>
-		<div class='col-sm-10 col-sm-offset-1'>
+		<div class='col-sm-12'>
 			<h2 style='font-family:bebasneue'>Bank Account</h2>
 			<p>Add transaction</p>
 			<hr>
-			<form action='add_transaction_validation.php' method='POST' id='add_transaction_form'>
+			<form action='add_transaction_validation' method='POST' id='add_transaction_form'>
 				<label>Date</label>
 				<input type='date' class='form-control' id='date' name='date'>
 				<label>Transaction type</label>
@@ -21,56 +21,43 @@
 					<span class="input-group-addon">Rp.</span>
 					<input type="number" class="form-control" placeholder="Insert value" id='value' name='value'>
 				</div>
-				<label>Transaction to/from</label>
-				<div class="input-group mb-3">
-					<select class='form-control' id='lawan' name='lawan' style='width:80%'>
-						<option value='0'>Please pick a client</option>
-						<option value='0' style='font-weight:bold' disabled>Customer</option>
-<?php
-	$sql = "SELECT id,name FROM customer ORDER BY name ASC";
-	$result = $conn->query($sql);
-	while($row = $result->fetch_assoc()){
-?>
-						<option value='<?= $row['id'] . "-" . "CUSTOMER" ?>'><?= $row['name']; ?></option>
-<?php
-	}
-?>
-						<option value='0' style='font-weight:bold' disabled>Supplier</option>
-<?php
-	$sql = "SELECT id,name FROM supplier ORDER BY name ASC";
-	$result = $conn->query($sql);
-	while($row = $result->fetch_assoc()){
-?>
-						<option value='<?= $row['id'] . "-" . "SUPPLIER" ?>'><?= $row['name']; ?></option>
-<?php
-	}
-?>
-						<option value='0' style='font-weight:bold' disabled>Other</option>
-<?php
-	$sql = "SELECT id,name FROM bank_account_other ORDER BY name ASC";
-	$result = $conn->query($sql);
-	while($row = $result->fetch_assoc()){
-?>
-						<option value='<?= $row['id'] . "-" . "OTHER" ?>'><?= $row['name']; ?></option>
-<?php
-	}
-?>
-					</select>
-					<div class="input-group-append">
-						<button class="btn btn-success" type="submit">Go</button> 
-					</div>
-				</div>
+				<label>Transaction to/from</label><br>
+				<label class='radio-inline'>
+					<input type='radio' name='transaction_to' value='customer' checked onchange='open_select()'>Customer
+				</label>
+				<label class='radio-inline'>
+					<input type='radio' name='transaction_to' value='supplier' onchange='open_select()'>Supplier
+				</label>
+				<label class='radio-inline'>
+					<input type='radio' name='transaction_to' value='other' onchange='open_select()'>Other
+				</label><br><br>
+				<div id='select_wrapper'></div>
 				<label>Description</label>
 				<textarea class='form-control' form='add_transaction_form' name='description'></textarea>
 				<hr>
-				<button type='button' class='btn btn-secondary' onclick='check_all()'>
+				<button type='button' class='button_success_dark' onclick='check_all()'>
 					Submit
 				</button>
-			</div>
+			</form>
 		</div>
-	</form>
+	</div>
 </div>
 <script>
+	$(document).ready(function(){
+		open_select();
+	});
+	
+	function open_select(){
+		var url		= $('input[name=transaction_to]:checked').val() + '_select.php';
+		$.ajax({
+			url: url,
+			type:'POST',
+			success:function(response){
+				$('#select_wrapper').html(response);
+			}
+		});
+	}
+	
 	function check_all(){
 		if($('#date').val() == ''){
 			alert('Insert valid date!');
@@ -78,7 +65,7 @@
 			alert('Please pick transaction type!');
 		} else if($('#value').val() == '' || $('#value').val() == 0){
 			alert('Please insert value number!');
-		} else if($('#lawan').val() == 0){
+		} else if($('#transaction_select_to').val() == 0){
 			alert('Please pick a client!');
 		} else {
 			$('#add_transaction_form').submit();

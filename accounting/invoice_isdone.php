@@ -9,41 +9,57 @@
 <?php
 	}
 	
-	$invoice_id = $_POST['id'];
-	$sql_invoice = "SELECT * FROM invoices WHERE id = '" . $invoice_id . "'";
-	$result_invoice = $conn->query($sql_invoice);
-	$invoice = $result_invoice->fetch_assoc();
+	$invoice_id 		= $_POST['id'];
+	$sql_invoice 		= "SELECT invoices.id, invoices.name, invoices.ongkir, invoices.value, code_delivery_order.customer_id
+						FROM invoices 
+						JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+						WHERE invoices.id = '" . $invoice_id . "'";
+	$result_invoice 	= $conn->query($sql_invoice);
+	$invoice 			= $result_invoice->fetch_assoc();
+	
+	$invoice_name		= $invoice['name'];
+	$invoice_value		= $invoice['value'];
+	$invoice_delivery	= $invoice['ongkir'];
+	$customer_id		= $invoice['customer_id'];
+	
+	$sql_customer 		= "SELECT name,address,city FROM customer WHERE id = '$customer_id'";
+	$result_customer 	= $conn->query($sql_customer);
+	$customer 			= $result_customer->fetch_assoc();
+	
+	$customer_name		= $customer['name'];
+	$customer_address	= $customer['address'];
+	$customer_city		= $customer['city'];
 ?>
 <div class='main'>
-	<h2><?php
-		$sql_customer = "SELECT name,address,city FROM customer WHERE id = '" . $invoice['customer_id'] . "'";
-		$result_customer = $conn->query($sql_customer);
-		$customer = $result_customer->fetch_assoc();
-		echo $customer['name'];		
-	?></h2>
-	<p><?= $customer['address'] ?></p>
-	<p><?= $customer['city'] ?></p>
-	<form method='POST' action='invoice_isdone_input.php' id='form_danil'>
-		<input type='date' class='form-control' name='date' style='width:40%' id='date'>
-		<table class='table table-hover'>
+	<h2 style='font-family:bebasneue'>Bank</h2>
+	<p>Set invoice done</p>
+	<hr>
+	<h3 style='font-family:bebasneue'><?=$customer_name ?></h3>
+	<p><?= $customer_address ?></p>
+	<p><?= $customer_city ?></p>
+	<form method='POST' action='invoice_isdone_input' id='form_danil'>
+		<label>Date done</label>
+		<input type='date' class='form-control' name='date' id='date'>
+		<br>
+		<h3 style='font-family:bebasneue'>Invoice detail</h3>
+		<table class='table table-bordered'>
 			<tr>
-				<td>Invoice name</td>
+				<td><strong>Invoice name</strong></td>
 				<td><?= $invoice['name'] ?></td>
 			</tr>
 			<tr>
-				<td>Value</td>
+				<td><strong>Value</strong></td>
 				<td>Rp. <?= number_format($invoice['value'],2) ?></td>
 			</tr>
-				<td>Ongkir</td>
+				<td><strong>Delivery fee</strong></td>
 				<td>Rp. <?= number_format($invoice['ongkir'],2) ?></td>
 			</tr>
 		</table>
-		<br>
-		Paid
-		<table class='table'>
+		<h3 style='font-family:bebasneue'>Payment detail</h3>
+		<table class='table table-bordered'>
 			<tr>
-				<th>Date</th>
-				<th>Value</th>
+				<td><strong>Date</strong></td>
+				<td><strong>Value</strong></td>
 			</tr>
 <?php
 	$sql_paid = "SELECT date,value FROM receivable WHERE invoice_id = '" . $invoice['id'] . "'";
@@ -59,8 +75,8 @@
 ?>
 		</table>
 		<br>
-		<button type='button' class='btn btn-warning'>Back</button>
-		<button type='button' class='btn btn-default' id='submit_button'>Submit</button>
+		<button type='button' class='button_warning_dark'>Back</button>
+		<button type='button' class='button_success_dark' id='submit_button'>Submit</button>
 		<input type='hidden' value='<?= $invoice_id ?>' name='id'>
 	</form>
 </div>

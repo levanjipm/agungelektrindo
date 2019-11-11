@@ -1,0 +1,161 @@
+<?php
+	include('purchasingheader.php');
+	$nilai = true;
+	$supplier_id 		= $_POST['supplier'];
+	$date				= $_POST['date'];
+	$sql_supplier 		= "SELECT name,address,city FROM supplier WHERE id = '". $supplier_id . "'";
+	$result_supplier 	= $conn->query($sql_supplier);
+	$supplier 			= $result_supplier->fetch_assoc();
+	
+	$supplier_name		= $supplier['name'];
+	$supplier_address	= $supplier['address'];
+	$supplier_city		= $supplier['city'];
+	
+	$reference_array	= $_POST['reference'];
+	$quantity_array		= $_POST['quantity'];
+?>
+<div class='main'>
+	<h2 style='font-family:bebasneue'>Return</h2>
+	<p>Purchasing return</p>
+	<hr>
+<?php
+	foreach($reference_array as $reference){
+		$key					= key($reference_array);
+		$quantity				= $quantity_array[$key];
+		$sql_check_reference 	= "SELECT id FROM itemlist WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "'";
+		$result_check_reference	= $conn->query($sql_check_reference);
+		$check_reference		= mysqli_num_rows($result_check_reference);
+		
+		if($check_reference 	== 0){
+			$nilai				= false;
+			break;
+		}
+		
+		$sql_check_stock 		= "SELECT stock FROM stock WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "' ORDER BY id DESC LIMIT 1";
+		$result_check_stock 	= $conn->query($sql_check_stock);
+		$stock 					= $result_check_stock->fetch_assoc();
+		if($stock['stock'] < $quantity){
+			$nilai = false;
+			break;
+		}
+		
+		next($reference_array);
+	}
+	if($nilai == true){
+		$reference_array	= $_POST['reference'];
+		$quantity_array		= $_POST['quantity'];
+		$i					= 1;
+?>
+	<h3><?= $supplier_name ?></h3>
+	<p><?= $supplier_address ?></p>
+	<p><?= $supplier_city ?></p>
+	<form action='purchasing_return_create_input' method='POST' id='return_form'>
+		<input type='hidden' value='<?= $supplier_id ?>' name='supplier'>
+		<input type='hidden' value='<?= $date ?>' name='date'>
+		<table class='table table-bordered'>
+			<tr>
+				<th>Reference</th>
+				<th colspan='2'>Description</th>
+				<th colspan='2'>Quantity</th>
+<?php
+		foreach($reference_array as $reference){
+			$key				= key($reference_array);
+			$quantity			= $quantity_array[$key];
+			$sql_item 			= "SELECT description FROM itemlist WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "'";
+			$result_item 		= $conn->query($sql_item);
+			$item 				= $result_item->fetch_assoc();
+			
+			$item_description	= $item['description'];
+?>
+		<tr>
+			<td>
+				<?= $reference ?></td>
+				<input type='hidden' value='<?= mysqli_real_escape_string($conn,$reference) ?>' name='reference[<?= $i ?>]'>
+			</td>
+			<td colspan='2'><?= $item_description ?></td>
+			<td colspan='2'>
+				<?= $quantity ?>
+				<input type='hidden' value='<?= $quantity ?>' name='quantity[<?= $i ?>]'>
+			</td>
+		</tr>
+		<tr>
+			<td><strong>Date</strong></td>
+			<td><strong>Supplier</strong></td>
+			<td><strong>Quantity</strong></td>
+			<td><strong>Price</strong></td>
+			<td><input type="checkbox" value="1" id='check<?= $i ?>' name='check[<?= $i ?>]' onchange='insert_manual_price(<?= $i ?>)'>Insert manually</td>
+		</tr>
+		<tr style='display:none' id='manual_tr<?= $i ?>'>
+			<td colspan='3'></td>
+			<td colspan='2'><input type='number' class='form-control' id='manual_price<?= $i ?>' name='manual_price[<?= $i ?>]'></td>
+		</tr>
+		<tbody id='automatic<?= $i ?>'>
+<?php
+			$sql_value 				= "SELECT * FROM stock_value_in WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "' AND date >= '" . date('Y-m-d',strtotime('-2 year')) . "' AND sisa > 0 ORDER BY date DESC";
+			$result_value 			= $conn->query($sql_value);
+			while($value 			= $result_value->fetch_assoc()){
+				$sql_supplier_in 	= "SELECT name,id FROM supplier WHERE id = '" . $value['supplier_id'] . "'";
+				$result_supplier_in = $conn->query($sql_supplier_in);
+				$supplier_in 		= $result_supplier_in->fetch_assoc();
+				$supplier_in_name	= $supplier_in['name'];
+?>
+			<tr>
+				<td><?= (date('d M Y',strtotime($value['date']))); ?></td>
+				<td><?php
+					if($value['supplier_id'] == 0){
+						echo ("Stock awal");
+					} else {
+						echo $supplier_in_name;
+					}
+				?></td>
+				<td><?= $value['quantity'] ?></td>
+				<td style='width:20%'>Rp. <?= number_format($value['price'],2) ?></td>
+				<td><input type='radio' value='<?= $value['price'] ?>' name='radio[<?= $i ?>]' id='radio-<?= $i ?>'>Pick</td>
+			</tr>
+<?php
+			}
+?>
+		</tbody>
+<?php
+			next($reference_array);
+			$i++;
+		}
+?>
+	</table>
+	<hr>
+	<button type='button' class='button_default_dark' onclick='submiting()'>Submit</button>
+<?php
+	}
+?>
+<script>
+	function insert_manual_price(n){
+		if ($('#check' + n).is(':checked')) {
+			$('#manual_tr' + n).show();
+			$('#automatic' + n).hide();
+		} else {
+			$('#manual_tr' + n).hide();
+			$('#automatic' + n).show();
+		}
+	}
+	function submiting(){
+		var validate_manual_price		= true;
+		$('input[id^="check"]').each(function(){
+			var input_id				= $(this).attr('id');
+			var uid						= parseInt(input_id.substring(5,7));
+			if ($('#check' + uid).is(':checked') == true && ($('#manual_price' + uid).val() == '')){
+				alert('Please insert correct priceasdf!');
+				$('#manual_price' + uid).focus();
+				validate_manual_price	= false;
+				return false;
+			} else if($('#check' + uid).is(':checked') == false && $('#radio-' + uid).is(':checked') == false){
+				alert('Please select a correct price!');
+				validate_manual_price	= false;
+				return false;
+			}		
+		});
+		
+		if(validate_manual_price		== true){
+			$('#return_form').submit();
+		}
+	}
+</script>

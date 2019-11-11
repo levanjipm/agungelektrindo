@@ -23,7 +23,7 @@ $( function() {
 				<select class="form-control" id="quote_person" name="quote_person"  onclick="disable()">
 				<option id="kosong" value="0">Please Select a customer--</option>
 					<?php
-						$sql 		= "SELECT id,name,address FROM customer ORDER BY name ASC";
+						$sql 		= "SELECT id,name,address FROM customer WHERE is_blacklist = '0' ORDER BY name ASC";
 						$result 	= $conn->query($sql);
 						while($row	= $result->fetch_assoc()){
 					?>

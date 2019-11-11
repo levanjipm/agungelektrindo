@@ -12,11 +12,22 @@
 		<select class='form-control' name='report_supplier' id='report_supplier'>
 			<option value='0'>--Please select a supplier</option>
 <?php
-	$sql_supplier = "SELECT id,name FROM supplier ORDER BY name";
-	$result_supplier = $conn->query($sql_supplier);
-	while($supplier = $result_supplier->fetch_assoc()){
+	$sql_supplier 		= "SELECT id,name FROM supplier ORDER BY name";
+	$result_supplier 	= $conn->query($sql_supplier);
+	while($supplier 	= $result_supplier->fetch_assoc()){
 ?>
 			<option value='<?= $supplier['id'] ?>'><?= $supplier['name'] ?></option>
+<?php
+	}
+?>
+		</select>
+		<label>Month</label>
+		<select class='form-control' name='report_month'>
+			<option value='0'>Show all</option>
+<?php
+	for($month	= 1; $month <= 12; $month++){
+?>
+			<option value='<?= $month ?>'><?= date('F',mktime(0,0,0,$month,1,date('Y'))) ?></option>
 <?php
 	}
 ?>
@@ -46,45 +57,8 @@
 			$('#report_form').submit();
 		}
 	});
+	
 	$('div').not('.context_box').click(function(){
 		$('.context_box').fadeOut();
-	});
-	$('#report').contextmenu(function() {
-		var currentMousePos = { x: -1, y: -1 };
-		currentMousePos.x = event.pageX;
-		currentMousePos.y = event.pageY;
-		$('.context_box').css('left',currentMousePos.x);
-		$('.context_box').css('top',currentMousePos.y);
-		$('.context_box').fadeIn();
-		
-		event.preventDefault();
-	});
-	$('#view_monthly_span').click(function(){
-		$.ajax({
-			url:'purchasing_monthly_report.php',
-			data:{
-				supplier: $('#supplier_hidden').val(),
-				year: $('#year_hidden').val(),
-			},
-			type:'POST',
-			success:function(response){
-				$('#report').html(response);
-			},
-		})
-	});		
-	$('#view_all_span').click(function(){
-		$.ajax({
-			url:'purchasing_report.php',
-			data:{
-				supplier: $('#supplier_hidden').val(),
-				year: $('#year_hidden').val(),
-			},
-			type:'POST',
-			success:function(response){
-				$('#report').html(response);
-				$('#supplier_hidden').val($('#supplier').val());
-				$('#year_hidden').val($('#year').val());
-			},
-		})
 	});
 </script>

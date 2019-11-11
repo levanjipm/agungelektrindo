@@ -28,7 +28,7 @@
 			<td><p>Menambah pelanggan untuk dapat dibuatkan penawaran harga. Perusahaan yang belum membeli (<i>lead</i>) dan memintakan penawaran harga, 
 					perlu dimasukkan ke dalam daftar pelanggan.</p></td>
 			<td>
-				<a href='sales_create_sales_order'>
+				<a href='sales_create_customer'>
 					<button type='button' class='button_default_dark'>Go to</button>
 				</a>
 			</td>

@@ -22,9 +22,9 @@
 	
 	$jumlah++;
 		
-	$so_number = "" . date("y",strtotime($so_date)) . date("m",strtotime($so_date)) . "-SO-" . str_pad($jumlah,3,"0",STR_PAD_LEFT);
+	$so_number 				= "" . date("y",strtotime($so_date)) . date("m",strtotime($so_date)) . "-SO-" . str_pad($jumlah,3,"0",STR_PAD_LEFT);
 	
-	if($customer != 0){
+	if($customer 			!= NULL){
 		$sql 		= "INSERT INTO code_salesorder (name,created_by,date,po_number,taxing,customer_id,value,note) 
 					VALUES ('$so_number','$created_by','$so_date','$po_number','$taxing','$customer','0','$note')";	
 	} else {
@@ -34,7 +34,7 @@
 		$phone 				= mysqli_real_escape_string($conn,$_POST['retail_phone']);
 		
 		$sql 				= "INSERT INTO code_salesorder (name,created_by,date,po_number,taxing,customer_id,value,retail_name,retail_address,retail_city,retail_phone,note) 
-							VALUES ('$so_number','$created_by','$so_date','$po_number','$taxing','0','0','$name','$address','$city','$phone','$note')";
+							VALUES ('$so_number','$created_by','$so_date','$po_number','$taxing','','','$name','$address','$city','$phone','$note')";
 	}
 	$conn->query($sql);
 

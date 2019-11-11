@@ -21,6 +21,7 @@
 <?php
 	$supplier_id 		= $_POST['report_supplier'];
 	$year 				= $_POST['report_year'];
+	$month				= $_POST['report_month'];
 	
 	$sql_supplier 		= "SELECT name,address,city FROM supplier WHERE id = '" . $supplier_id . "'";
 	$result_supplier 	= $conn->query($sql_supplier);
@@ -37,6 +38,13 @@
 		<h3 style='font-family:bebasneue'><?= $supplier_name?></h2>
 		<p><?= $supplier_address ?></p>
 		<p><?= $supplier_city ?></p>
+<?php
+		if($month != 0){
+?>
+		<p><?= date('F',mktime(0,0,0,$month,1,$year)) ?></p>
+<?php
+		}
+?>
 		<p><?= $year ?></p>
 		<hr>
 		<table class='table table-bordered'>
@@ -48,7 +56,11 @@
 			</tr>
 <?php
 	$total_value				= 0;
-	$sql_purchase 				= "SELECT * FROM purchases WHERE supplier_id = '$supplier_id' AND YEAR(date) = '$year'";
+	if($month	== 0){
+		$sql_purchase 				= "SELECT * FROM purchases WHERE supplier_id = '$supplier_id' AND YEAR(date) = '$year' ORDER BY date ASC, name ASC";
+	} else {
+		$sql_purchase 				= "SELECT * FROM purchases WHERE supplier_id = '$supplier_id' AND YEAR(date) = '$year' AND MONTH(date) = '$month' ORDER BY date ASC, name ASC";
+	}
 	$result_purchase 			= $conn->query($sql_purchase);
 	while($purchase 			= $result_purchase->fetch_assoc()){
 		$invoice_id				= $purchase['id'];
@@ -81,7 +93,7 @@
 ?>
 			<tfoot>
 				<tr>
-					<td></td>
+					<td colspan='2'></td>
 					<td><strong>Total</strong></td>
 					<td>Rp. <?= number_format($total_value,2) ?></td>
 				</tr>
@@ -90,7 +102,7 @@
 	</div>
 	<div class='row'>
 		<div class='col-xs-12' style='text-align:center'>
-			<button type='button' class='button_default_dark' id='print_button'>Print</button>
+			<button type='button' class='button_default_dark' id='print_button'><i class="fa fa-print" aria-hidden="true"></i></button>
 		</div>
 	</div>
 </div>

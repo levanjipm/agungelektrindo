@@ -18,22 +18,18 @@ $( function() {
 			<h2 style='font-family:bebasneue'>Sales Order</h2>
 			<p>Create sales order</h2>
 			<hr>
-			<form class="form" method="POST" id="sales_order" action="sales_order_create_validation">
+			<form method="POST" id="sales_order" action="sales_order_create_validation">
 				<div class="row">
 					<div class="col-sm-6">
 						<label for="name">Customer</label>
 						<select class="form-control" id="select_customer" name="select_customer"  onclick="disable_two()" onchange='show_retail()'>
-						<option id="customer_one" value="">Please select a customer--</option>
-						<option value='0'>Retail</option>
+						<option id="customer_one" value='0'>Please select a customer--</option>
+						<option value=''>Retail</option>
 							<?php
-								$sql = "SELECT id,name FROM customer ORDER BY name ASC";
-								$result = $conn->query($sql);
-								if ($result->num_rows > 0) {
-									while($row = mysqli_fetch_array($result)) {
+								$sql 		= "SELECT id,name,address FROM customer WHERE is_blacklist = '0' ORDER BY name ASC";
+								$result 	= $conn->query($sql);
+								while($row 	= mysqli_fetch_array($result)) {
 									echo '<option id="pilih" value="' . $row["id"] . '">'. $row["name"].'</option> ';
-									}
-								} else {
-									echo "0 results";
 								}
 							?>
 						</select>
@@ -153,7 +149,7 @@ function delete_row(n){
 }
 
 function show_retail(){
-	if($('#select_customer').val() == 0){
+	if($('#select_customer').val() == ''){
 		$('#retails').fadeIn();
 	} else {
 		$('#retails').fadeOut();
@@ -189,7 +185,7 @@ function confirm_sales_order(){
 		}
 	});
 	
-	if ($('#select_customer').val() == ""){
+	if ($('#select_customer').val() == "0"){
 		alert("Pick a customer!");
 		return false;
 	} else if ($('#taxing').val() == ""){

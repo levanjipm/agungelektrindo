@@ -211,4 +211,10 @@
 			});
 		}
 	});
+	
+	$(document).keyup(function(e) {
+		if (e.key === "Escape") {
+			$('.view_wrapper').fadeOut();
+		}
+	});
 </script>

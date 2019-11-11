@@ -110,10 +110,10 @@
 		Return
 	</button>
 	<div class="dropdown-container">
-		<a href="return_dashboard">
+		<a href="purchasing_return_create_dashboard">
 			<p>Create Return</p>
 		</a>
-		<a href="return_confirm_dashboard">
+		<a href="purchasing_return_confirm_dashboard">
 			<p>Confirm Return</p>
 		</a>
 	</div>

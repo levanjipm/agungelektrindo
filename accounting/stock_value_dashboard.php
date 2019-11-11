@@ -17,7 +17,7 @@
 		</div>
 		<div class='col-sm-3'>
 			<label style='color:white'>a</label><br>
-			<button type='button' class='button_default_dark' onclick='check_date()'>Show</button>
+			<button type='button' class='button_default_dark' onclick='check_date()' id='show_button'>Show</button>
 		</div>
 	</div>
 	<hr>
@@ -44,8 +44,12 @@
 					end: $('#end_date').val()
 				},
 				dataType: 'html',
+				beforeSend:function(){
+					$('#show_button').attr('disabled',true);
+					$('#input_list').html('<div style="position;absolute;left:0;right:0;color:##2B3940;width:100%;text-align:center;padding:20px;"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>');
+				},
 				success: function(response) {
-                    $(input_list).html(response);
+                    $('#input_list').html(response);
 				}
 			});
 		}

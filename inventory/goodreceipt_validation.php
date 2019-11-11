@@ -58,5 +58,5 @@
 		
 		next($qty_receive_array);
 	}
-	header('location:inventory.php');
+	header('location:inventory');
 ?>

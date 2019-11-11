@@ -1,31 +1,20 @@
 <?php
 	include("../codes/Connect.php");
-	$id = $_POST['id'];
-
-	$sql_check 		= "SELECT * FROM customer WHERE id = '" . $id . "'";
-	$result_check 	= $conn->query($sql_check);
-	$check 			= $result_check->fetch_assoc();
+	$customer_id		= $_POST['customer_id'];
 	
-	$name 		= mysqli_real_escape_string($conn,$_POST['namaperusahaan']);
-	$address 	= mysqli_real_escape_string($conn,$_POST['address']);
-	$phone 		= mysqli_real_escape_string($conn,$_POST['phone']);
-	$npwp 		= mysqli_real_escape_string($conn,$_POST['npwp']);
-	$city 		= mysqli_real_escape_string($conn,$_POST['city']);
-	$prefix 	= mysqli_real_escape_string($conn,$_POST['prefix']);
-	$pic 		= mysqli_real_escape_string($conn,$_POST['pic']);
+	$customer_name	     = mysqli_real_escape_string($conn,$_POST['customer_name']);	
+	$customer_address    = mysqli_real_escape_string($conn,$_POST['customer_address']);
+	$customer_city	     = mysqli_real_escape_string($conn,$_POST['customer_city']);
+	$customer_phone	     = mysqli_real_escape_string($conn,$_POST['customer_phone']);
 	
-	if($check['name'] == $name && $check['address'] == $address && $check['phone'] == $phone && $check['npwp'] == $npwp && $check['city'] == $city 
-	&& $check['prefix'] == $prefix && $check['pic'] == $pic){
-		echo ('0'); //No changes detected//
-	} else {
-		$sql = "UPDATE customer
-		SET name='$name', address='$address', phone='$phone', npwp='$npwp', city='$city', prefix='$prefix', pic='$pic'
-		WHERE id='$id'";
-		$result = $conn->query($sql);
-		if($result){
-			echo ('1'); //Update success//
-		} else {
-			echo ('2'); // Update failed//
-		}
+	$sql_check			= "SELECT COUNT(*) as duplicate FROM customer WHERE name = '$customer_name' AND id <> '$customer_id'";
+	$result_check		= $conn->query($sql_check);
+	$check				= $result_check->fetch_assoc();
+	$duplicate			= $check['duplicate'];
+	
+	if($duplicate 		== 0){
+		$sql 			= "UPDATE customer
+						SET name='$customer_name', address='$customer_address', phone='$customer_phone', city='$customer_city' WHERE id='$customer_id'";
+		$conn->query($sql);
 	}
 ?>

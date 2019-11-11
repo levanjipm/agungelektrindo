@@ -41,14 +41,14 @@
 						JOIN purchaseorder ON code_purchaseorder.id = purchaseorder.purchaseorder_id WHERE purchaseorder.status = '0' AND supplier.name LIKE '%" . $term . "%')";
 		$result			= $conn->query($sql);
 		while($row 		= $result->fetch_assoc()){			
-			$po_id 		= $row['id'];
+			$po_id 				= $row['id'];
 			
-			$sql_code		= "SELECT name,date,supplier_id FROM code_purchaseorder WHERE id = '$po_id	'";
-			$result_code	= $conn->query($sql_code);
-			$code			= $result_code->fetch_assoc();
+			$sql_code			= "SELECT name,date,supplier_id FROM code_purchaseorder WHERE id = '$po_id	'";
+			$result_code		= $conn->query($sql_code);
+			$code				= $result_code->fetch_assoc();
 			
-			$po_name	= $code['name'];
-			$date		= $code['date'];
+			$po_name			= $code['name'];
+			$date				= $code['date'];
 			$supplier_id		= $code['supplier_id'];
 			
 			$sql_supplier 		= "SELECT name,city FROM supplier WHERE id = '" . $supplier_id . "'";

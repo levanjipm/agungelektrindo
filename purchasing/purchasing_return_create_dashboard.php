@@ -4,7 +4,7 @@
 <script>
 $( function() {
 	$('#reference1').autocomplete({
-		source: "ajax/search_item.php"
+		source: "../codes/search_item.php"
 	 })
 });
 </script>
@@ -14,7 +14,9 @@ $( function() {
 	<h2 style='font-family:bebasneue'>Return</h2>
 	<p>Purchasing return</p>
 	<hr>
-	<form action='purchasing_return_validation.php' method='POST' id='return_form'>
+	<form action='purchasing_return_create_validation' method='POST' id='return_form'>
+		<label>Date</label>
+		<input type='date' class='form-control' id='date' value='<?= date('Y-m-d') ?>' name='date'>
 		<label>Supplier</label>
 		<select class='form-control' name='supplier' id='supplier'>
 			<option value='0'>Please select a supplier</option>
@@ -37,16 +39,16 @@ $( function() {
 			</tr>
 			<tbody id='purchase_return_table_body'>
 				<tr>
-					<td><input type='text' class='form-control' name='reference1' id='reference1'></td>
-					<td><input type='number' class='form-control' name='quantity1' id='quantity1'></td>
+					<td><input type='text' class='form-control' name='reference[1]' id='reference1'></td>
+					<td><input type='number' class='form-control' name='quantity[1]' id='quantity1'></td>
 					<td id='check_result1'></td>
 				</tr>
 			</tbody>
 		</table>
 	</form>
 	<button type='button' class='button_default_dark' onclick='checking()' id='cekin'>Check</button>
-	<button type='button' class='btn btn-warning' onclick='kembalikan()' id='balikin' style='display:none'>Back</button>
-	<button type='button' class='btn btn-default' onclick='validation()' id='ajuin' style='display:none'>Submit</button>
+	<button type='button' class='button_danger_dark' onclick='return_back()' id='button_back' style='display:none'>Back</button>
+	<button type='button' class='button_success_dark' onclick='validation()' id='ajuin' style='display:none'>Submit</button>
 </div>
 <script>
 var a = 2;
@@ -62,15 +64,19 @@ $("#add_item_button").click(function (){
 		source: "ajax/search_item.php"
 	 });
 	a++;
-	$('#jumlah').val(a);
 });
 
 function checking(){
-	if($('#supplier').val() == 0){
+	if($('#date').val() == ''){
+		alert('Please insert date!');
+		$('#date').focus();
+		return false;
+	} else if($('#supplier').val() == 0){
 		alert('Please insert a supplier!');
 		$('#supplier').focus();
 		return false;
 	}
+	
 	$('input[id^="reference"]').each(function(){
 		var input_id			= $(this).attr('id');
 		var reference			= $(this).val();
@@ -90,7 +96,7 @@ function checking(){
 			}
 		})
 	});
-	$('#balikin').show();
+	$('#button_back').show();
 	$('#ajuin').show();
 	$('#folder').hide();
 	$('#close').hide();
@@ -100,8 +106,9 @@ function checking(){
 	$('#supplier').attr('readonly',true);
 	$('#cekin').hide();
 };
-function kembalikan(){
-	$('#balikin').hide();
+
+function return_back(){
+	$('#button_back').hide();
 	$('#ajuin').hide();
 	$('#folder').show();
 	$('#close').show();
@@ -111,16 +118,18 @@ function kembalikan(){
 	$('#supplier').attr('readonly',false);
 	$('#cekin').show();
 };
+
 function validation(){
 	var point = 1;
 	$('.loading').each(function(){
 		if($.trim($(this).html()) != "OK"){
 			alert($(this).html());
 			point++;
-			balikin();
+			return_back();
 			return false;
 		}
 	});
+	
 	if(point == 1){
 		$('#return_form').submit();
 	}

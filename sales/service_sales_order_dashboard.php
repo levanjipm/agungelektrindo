@@ -15,7 +15,7 @@
 			<select class='form-control' name='customer' id='customer'>
 				<option value='0'>-- Please select a customer --</option>
 <?php
-	$sql_customer = "SELECT id,name FROM customer ORDER BY name ASC";
+	$sql_customer = "SELECT id,name,address FROM customer WHERE is_blacklist = '0' ORDER BY name ASC";
 	$result_customer = $conn->query($sql_customer);
 	while($customer = $result_customer->fetch_assoc()){
 ?>

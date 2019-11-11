@@ -38,13 +38,13 @@
 		color:white;
 		font-size:1.5em;
 	}
-	input[type=text] {
+	#customer_filter {
 		padding:10px;
 		width: 130px;
 		-webkit-transition: width 0.4s ease-in-out;
 		transition: width 0.4s ease-in-out;
 	}
-	input[type=text]:focus {
+	#customer_filter:focus {
 		width: 100%;
 	}
 	.view_customer_wrapper{
@@ -106,7 +106,7 @@
 			<th></th>
 		</tr>
 <?php
-	$sql 		= "SELECT * FROM customer ORDER BY name";
+	$sql 		= "SELECT id,name,address FROM customer ORDER BY name";
 	$result 	= $conn->query($sql);
 	while($row 	= mysqli_fetch_array($result)) {
 ?>
@@ -114,7 +114,7 @@
 			<td><?= $row['name']?></td>
 			<td><?= $row['address']?></td>
 			<td>
-				<button type="button" class="button_default_dark" data-toggle="modal" data-target="#myModal-<?=$row['id']?>">
+				<button type="button" class="button_default_dark" onclick='open_edit_customer(<?= $row['id'] ?>)'>
 					<i class="fa fa-pencil" aria-hidden="true"></i>
 				</button>
 			</td>
@@ -170,10 +170,19 @@
 		<button type='button' class='btn btn-delete'>Close</button>
 	</div>
 </div>
+<div class='view_customer_wrapper'>
+	<button type='button' id='button_close_customer_wrapper'>X</button>
+	<div id='view_customer_box'>
+	</div>
+</div>
 <input type='hidden' value='0' id='customer_id' name='id'>
 </body>
 </html>
 <script>
+	$('#button_close_customer_wrapper').click(function(){
+		$('.view_customer_wrapper').fadeOut();
+	});
+	
 	function delete_customer(n){
 		$('#customer_id').val(n);
 		$('.notification_large').fadeIn();
@@ -239,7 +248,24 @@
 			});
 		});
 	});
+	
 	function view_customer(n){
 		$('#view_customer_form' + n).submit();
+	};
+	
+	function open_edit_customer(n){
+		$.ajax({
+			url:'customer_edit_form.php',
+			data:{
+				customer_id:n,
+			},
+			type:'POST',
+			success:function(response){
+				$('#view_customer_box').html(response);
+				setTimeout(function(){
+					$('.view_customer_wrapper').fadeIn();
+				},100);
+			}
+		});
 	};
 </script>

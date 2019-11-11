@@ -13,10 +13,10 @@
 	$maximum 	= 0;
 	$total 		= 0;
 	$sql_initial = "SELECT SUM(invoices.value) AS maximum, code_delivery_order.customer_id
-	FROM invoices
-		JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
-	WHERE invoices.isdone = '0'
-	GROUP by code_delivery_order.customer_id";
+					FROM invoices
+					JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
+					WHERE invoices.isdone = '0'
+					GROUP by code_delivery_order.customer_id";
 	$result_initial = $conn->query($sql_initial);
 	while($initial = $result_initial->fetch_assoc()){
 		if($initial['maximum'] > $maximum){

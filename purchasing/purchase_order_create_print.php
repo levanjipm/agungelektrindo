@@ -234,7 +234,7 @@
 								<td><?= $ref[$i] ?></td>
 								<td>Rp. <?= number_format($price_list[$i] * 10 /11,2) ?></td>
 								<td><?= number_format($disc[$i],2) ?>%</td>
-								<td><?= $quantity[$i] ?></td>
+								<td><?= number_format($quantity[$i],0) ?></td>
 								<td>Rp. <?= number_format($unitprice[$i] * 10 /11,2) ?></td>
 								<td>Rp.<?= number_format($totprice[$i] * 10 /11,2) ?></td>
 							</tr>

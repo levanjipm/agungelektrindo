@@ -11,15 +11,15 @@
 		<div class='col-sm-3'>
 			<select class='form-control' id='month'>
 				<option value='0'>Select month</option>
-				<?php
-				$sql_select_month = "SELECT DISTINCT(MONTH(date)) AS month FROM purchases";
-				$result_select_month = $conn->query($sql_select_month);
-				while($row_select_month = $result_select_month->fetch_assoc()){
-				?>
+<?php
+	$sql_select_month 		= "SELECT DISTINCT(MONTH(date)) AS month FROM purchases";
+	$result_select_month 	= $conn->query($sql_select_month);
+	while($row_select_month = $result_select_month->fetch_assoc()){
+?>
 				<option value='<?= $row_select_month['month']; ?>'><?= date('F',mktime(0,0,0,$row_select_month['month'],10)); ?></option>
-				<?php
-				}
-				?>
+<?php
+	}
+?>
 			</select>
 		</div>
 		<div class='col-sm-3'>
@@ -42,10 +42,12 @@
 		<hr>
 	</div>
 	<div id='printable'>
-		<div class='container' id='head_print' style='display:none'>
-			<h2>Purchase Journal</h2>
-			<p id='masa'></p>
-		<hr>
+		<div class='row' id='head_print' style='display:none'>
+			<div class='col-xs-12'>
+				<h2>Purchase Journal</h2>
+				<p id='masa'></p>
+				<hr>
+			</div>
 		</div>
 		<table class='table'>
 			<tr>
@@ -98,16 +100,22 @@
 		}
 	}
 	function printing(){
-		var months = [ "January", "February", "March", "April", "May", "June", 
-           "July", "August", "September", "October", "November", "December" ];
-		var selectedMonthName = months[document.getElementById('month').value - 1];
-		var selectedyear = document.getElementById('year').value;
-		document.getElementById('masa').innerHTML = selectedMonthName + ' ' + selectedyear;
-		document.getElementById('head_print').style.display = 'block';
-		var printContents = document.getElementById('printable').innerHTML;
-		var originalContents = document.body.innerHTML;
-		document.body.innerHTML = printContents;
-		window.print();
-		document.body.innerHTML = originalContents;
+		if($('#month').val() == 0){
+			alert('Please insert valid month');
+		} else if($('#year').val() == 0){
+			alert('Please insert valid year');
+		} else if($('#list').html() != ''){
+			var months = [ "January", "February", "March", "April", "May", "June", 
+			   "July", "August", "September", "October", "November", "December" ];
+			var selectedMonthName = months[document.getElementById('month').value - 1];
+			var selectedyear = document.getElementById('year').value;
+			document.getElementById('masa').innerHTML = selectedMonthName + ' ' + selectedyear;
+			document.getElementById('head_print').style.display = 'block';
+			var printContents = document.getElementById('printable').innerHTML;
+			var originalContents = document.body.innerHTML;
+			document.body.innerHTML = printContents;
+			window.print();
+			document.body.innerHTML = originalContents;
+		}
 	}
 	</script>

@@ -26,7 +26,7 @@
 			<th>Balance</th>
 		</tr>
 <?php
-	$sql_table 		= "SELECT id,bank_opponent_id,label,value,transaction,date FROM code_bank WHERE date >= '" . $start_date . "' AND date <= '" . $end_date . "' AND isdelete = '0'";
+	$sql_table 		= "SELECT id,bank_opponent_id,label,value,transaction,date FROM code_bank WHERE date >= '" . $start_date . "' AND date <= '" . $end_date . "' AND isdelete = '0' ORDER BY date ASC, id ASC";
 	$result_table 	= $conn->query($sql_table);
 	while($table 	= $result_table->fetch_assoc()){
 		$label 		= $table['label'];

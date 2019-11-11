@@ -4,6 +4,7 @@
 	$result = $conn->query($sql);
 	if(mysqli_num_rows($result) == 0){
 		echo ('<p>There are no news for today. Start your own news</p>');
+		echo ('<hr>');
 		echo ("<button type='button' class='button_default_dark' id='create_news_button'>Create News</button>");
 	} else {
 ?>

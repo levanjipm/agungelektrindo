@@ -13,6 +13,6 @@
 		}
 		header('location:human_resource/user_dashboard.php?style=animate');
 	} else {
-		header("location:landing_page.php");
+		header("location:landing_page");
 	};
 ?>
