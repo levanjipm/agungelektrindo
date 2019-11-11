@@ -83,11 +83,11 @@
 			<td><strong>Supplier</strong></td>
 			<td><strong>Quantity</strong></td>
 			<td><strong>Price</strong></td>
-			<td><input type="checkbox" value="1" id='check<?= $i ?>' name='check[<?= $i ?>]' onchange='insert_manual_price(<?= $i ?>)'>Insert manually</td>
+			<td><input type="radio" id='check<?= $i ?>' name='radio[<?= $i ?>]' onchange='insert_manual_price(<?= $i ?>)'>Insert manually</td>
 		</tr>
-		<tr style='display:none' id='manual_tr<?= $i ?>'>
+		<tr id='manual_tr<?= $i ?>'>
 			<td colspan='3'></td>
-			<td colspan='2'><input type='number' class='form-control' id='manual_price<?= $i ?>' name='manual_price[<?= $i ?>]'></td>
+			<td colspan='2'><input type='number' class='form-control' id='manual_price<?= $i ?>' name='manual_price[<?= $i ?>]' onkeyup='change_to_manual_price(<?= $i ?>)'></td>
 		</tr>
 		<tbody id='automatic<?= $i ?>'>
 <?php
@@ -110,7 +110,7 @@
 				?></td>
 				<td><?= $value['quantity'] ?></td>
 				<td style='width:20%'>Rp. <?= number_format($value['price'],2) ?></td>
-				<td><input type='radio' value='<?= $value['price'] ?>' name='radio[<?= $i ?>]' id='radio-<?= $i ?>'>Pick</td>
+				<td><input type='radio' value='<?= $value['price'] ?>' id='radio-<?= $i ?>'>Pick</td>
 			</tr>
 <?php
 			}
@@ -129,33 +129,33 @@
 ?>
 <script>
 	function insert_manual_price(n){
-		if ($('#check' + n).is(':checked')) {
-			$('#manual_tr' + n).show();
-			$('#automatic' + n).hide();
-		} else {
-			$('#manual_tr' + n).hide();
-			$('#automatic' + n).show();
-		}
+		$('#manual_price' + n).val('');
+		
 	}
+	
+	function change_to_manual_price(n){
+		$('#check' + n).prop('checked',true);
+	}
+	
+	$('input[id^="radio-"]').change(function(){
+		var uid					= parseInt($(this).attr('id').substring(6,8));
+		$('#manual_price' + uid).val($(this).val());
+	});
+	
 	function submiting(){
-		var validate_manual_price		= true;
-		$('input[id^="check"]').each(function(){
-			var input_id				= $(this).attr('id');
-			var uid						= parseInt(input_id.substring(5,7));
-			if ($('#check' + uid).is(':checked') == true && ($('#manual_price' + uid).val() == '')){
-				alert('Please insert correct priceasdf!');
-				$('#manual_price' + uid).focus();
-				validate_manual_price	= false;
+		var	validate_form		= true;
+		$('input[id^="manual_price"]').each(function(){
+			if($(this).val() == ''){
+				validate_form	= false;
 				return false;
-			} else if($('#check' + uid).is(':checked') == false && $('#radio-' + uid).is(':checked') == false){
-				alert('Please select a correct price!');
-				validate_manual_price	= false;
-				return false;
-			}		
+			}
 		});
 		
-		if(validate_manual_price		== true){
+		if(validate_form){
 			$('#return_form').submit();
+		} else {
+			alert('Please check your inputs!');
+			return false;
 		}
-	}
+	};
 </script>

@@ -30,7 +30,7 @@
 			</tr>
 			<tbody id='stock_table_body'>
 <?php
-	$sql_stock 		= "SELECT * FROM stock WHERE reference = '" . $reference . "' ORDER BY id ASC LIMIT 10";
+	$sql_stock 		= "SELECT * FROM stock WHERE reference = '" . $reference . "' ORDER BY id ASC";
 	$result_stock 	= $conn->query($sql_stock);
 	while($stock 	= $result_stock->fetch_assoc()){
 		if($stock['transaction'] == 'IN'){
