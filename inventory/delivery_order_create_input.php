@@ -27,14 +27,16 @@
 		
 		$reference_array	= $_POST['reference'];
 		$quantity_array 	= $_POST['quantity'];
+		$price_array		= $_POST['price'];
 		
 		foreach($reference_array as $reference){
-			$key = key($reference_array);
-			$quantity = $quantity_array[$key];
+			$key 			= key($reference_array);
+			$quantity 		= $quantity_array[$key];
+			$price			= $price_array[$key];
 			
 			if($quantity == '' || $quantity == 0){
 			} else {
-				$sql_insert_delivery_order 		= "INSERT INTO delivery_order (reference,quantity,do_id) VALUES ('$reference','$quantity','$do_id')";
+				$sql_insert_delivery_order 		= "INSERT INTO delivery_order (reference,quantity,do_id,billed_price) VALUES ('$reference','$quantity','$do_id','$price')";
 				$conn->query($sql_insert_delivery_order);
 				
 				$sql_sales_order 				= "SELECT * FROM sales_order WHERE id = '" . $key . "'";

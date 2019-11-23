@@ -7,7 +7,7 @@
 	$transaction_id				= $_POST['transaction_id'];
 	$transaction_description	= mysqli_real_escape_string($conn,$_POST['transaction_description']);
 	
-	if(empty($transaction_date) || empty($transaction_value) || empty($transaction_type) || empty($transaction_to) || empty($transaction_id)){
+	if(empty($transaction_date) || empty($transaction_value) || empty($transaction_type) || empty($transaction_to) || ($transaction_id == '')){
 		header('location:add_transaction_dashboard');
 	} else {
 		$sql_insert = "INSERT INTO code_bank (date,value,transaction,bank_opponent_id,label, description)

@@ -13,21 +13,22 @@
 	include("../codes/connect.php");
 	session_start();
 	if($_SESSION['user_id'] === NULL){
-		header('location:../landing_page.php');
+		header('location:../landing_page');
 	}
-	$sql_user = "SELECT name, role FROM users WHERE id = " . $_SESSION['user_id'];
-	$result_user = $conn->query($sql_user);
-	$row_user = $result_user->fetch_assoc();
-	$role = $row_user['role'];
-	$name = $row_user['name'];
+	$sql_user		= "SELECT name, role FROM users WHERE id = " . $_SESSION['user_id'];
+	$result_user 	= $conn->query($sql_user);
+	$row_user 		= $result_user->fetch_assoc();
+	$role 			= $row_user['role'];
+	$name 			= $row_user['name'];
 	
 	if(mysqli_num_rows($result_user) == 0){
-		header('location:../landing_page.php');
+		header('location:../landing_page');
 	}
+	
 	$sql_otorisasi = "SELECT * FROM authorization WHERE user_id = '" . $_SESSION['user_id'] . "' AND department_id = '5'";
 	$result_otorisasi = $conn->query($sql_otorisasi);
 	if(!$result_otorisasi){
-		header('location:user_dashboard.php');
+		header('location:user_dashboard');
 	}
 ?>
 <body>
@@ -61,6 +62,9 @@
 		</a>
 		<a href='set_inactive_dashboard'>
 			<p>Set inactive</p>
+		</a>
+		<a href='set_authority_dashboard'>
+			<p>Authority</p>
 		</a>
 	</div>
 	<a href="create_salary_slip_dashboard">

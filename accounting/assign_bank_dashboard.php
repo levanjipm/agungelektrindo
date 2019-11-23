@@ -19,6 +19,7 @@
 	$sql 		= "SELECT * FROM code_bank WHERE isdone = '0' AND transaction = '1' AND isdelete = '0'";
 	$result 	= $conn->query($sql);
 	while($row 	= $result->fetch_assoc()){
+		$id				= $row['id'];
 		$transaction 	= $row['transaction'];
 		$date 			= $row['date'];
 		$value 			= $row['value'];
@@ -39,6 +40,7 @@
 		$selector 			= $result_selector->fetch_assoc();
 ?>
 		<tr>
+			<td><?= $row['id'] ?></td>
 			<td><?= date('d M Y',strtotime($row['date'])) ?></td>
 			<td><?= $selector['name'] ?></td>
 			<td>Rp. <?= number_format($row['value'],2) ?></td>

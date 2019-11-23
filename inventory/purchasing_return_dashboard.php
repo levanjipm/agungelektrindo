@@ -1,60 +1,74 @@
 <?php	
 	include('inventoryheader.php');
 ?>
+<style>
+	.view_wrapper{
+		height:100%;
+		width:100%;
+		background-color:rgba(25,25,25,0.8);
+		position:fixed;
+		top:0;
+		left:0;
+		z-index:50;
+		display:none;
+	}
+	
+	.view_box{
+		height:80%;
+		width:80%;
+		position:fixed;
+		background-color:white;
+		top:10%;
+		left:10%;
+		overflow-y:scroll;
+		padding:20px;
+	}
+	
+	.button_x_box{
+		position:fixed;
+		top:10%;
+		left:10%;
+		border:none;
+		outline:none!important;
+		color:#333;
+		z-index:55;
+		background-color:transparent;
+	}
+</style>
+<div class='view_wrapper'>
+	<button type='button' class='button_x_box'>X</button>
+	<div class='view_box'>
+	</div>
+</div>
 <div class='main'>
-	<h2>Return</h2>
+	<h2 style='font-family:bebasneue'>Return</h2>
 	<p>Purchasing return</p>
 	<hr>
-	<table class='table'>
+	<table class='table table-bordered'>
 		<tr>
 			<th>Date</th>
 			<th>Supplier</th>
 			<th></th>
 		</tr>
 <?php
-	$sql_code = "SELECT * FROM code_purchase_return WHERE isconfirm = '1'";
-	$result_code = $conn->query($sql_code);
-	while($code = $result_code->fetch_assoc()){
+	$sql_code 				= "SELECT * FROM code_purchase_return WHERE isconfirm = '1' AND issent = '0'";
+	$result_code 			= $conn->query($sql_code);
+	while($code 			= $result_code->fetch_assoc()){
+		$sql_supplier 		= "SELECT name FROM supplier WHERE id = '" . $code['supplier_id'] . "'";
+		$result_supplier 	= $conn->query($sql_supplier);
+		$supplier 			= $result_supplier->fetch_assoc();
+		
+		$supplier_name		= $supplier['name'];
 ?>
 		<tr>
 			<td><?= date('d M Y',strtotime($code['date'])) ?></td>
-			<td><?php
-				$sql_supplier = "SELECT name FROM supplier WHERE id = '" . $code['supplier_id'] . "'";
-				$result_supplier = $conn->query($sql_supplier);
-				$supplier = $result_supplier->fetch_assoc();
-				echo $supplier['name'];
-			?></td>
+			<td><?= $supplier_name ?></td>
 			<td>
-				<button type='button' class='btn btn-default' id='plus<?= $code['id'] ?>' onclick='show(<?= $code['id'] ?>)'>+</button>
-				<button type='button' class='btn btn-warning' id='minus<?= $code['id'] ?>' onclick='hide(<?= $code['id'] ?>)' style='display:none'>-</button>
+				<button type='button' class='button_default_dark' id='button-<?= $code['id'] ?>' onclick='show(<?= $code['id'] ?>)'>
+					<i class="fa fa-eye" aria-hidden="true"></i>
+				</button>
 			</td>
 		</tr>
-		<tbody id='table<?= $code['id'] ?>' style='display:none'>
-<?php
-		$sql = "SELECT * FROM purchase_return WHERE code_id = '" . $code['id'] . "'";
-		$result = $conn->query($sql);
-		while($row = $result->fetch_assoc()){
-?>
-			<tr>
-				<td><?= $row['reference'] ?></td>
-				<td><?php
-					$sql_item = "SELECT description FROM itemlist WHERE reference = '" . $row['reference'] . "'";
-					$result_item = $conn->query($sql_item);
-					$item = $result_item->fetch_assoc();
-					echo $item['description'];
-				?></td>
-				<td><?= $row['quantity'] ?></td>
-			</tr>
-<?php
-		}
-?>
-		<tr>
-			<td colspan='2'></td>
-			<td><button type='button' class='btn btn-default' onclick='submit(<?= $code['id'] ?>)'>Submit</button></td>
-			<form action='purchasing_return_do.php' method='POST' id='form<?= $code['id'] ?>'>
-				<input type='hidden' value='<?= $code['id'] ?>' name='id' readonly>
-			</form>
-		</tbody>
 <?php
 	}
 ?>
@@ -62,17 +76,52 @@
 </div>
 <script>
 	function show(n){
-		$('#table' + n).show();
-		$('#minus' + n).show();
-		$('#plus' + n).hide();
-	}
-	function hide(n){
-		$('#table' + n).hide();
-		$('#minus' + n).hide();
-		$('#plus' + n).show();
-		
-	}
-	function submit(n){
-		$('#form' + n).submit();
+		$.ajax({
+			url:'purchasing_return_view.php',
+			data:{
+				return_id: n
+			},
+			type:'POST',
+			beforeSend:function(){
+				$('#button-' + n).attr('disabled',true);
+				$('#button-' + n).css('cursor','not-allowed');
+				$('#button-' + n).html('<i class="fa fa-spinner fa-spin"></i>');
+			},
+			success:function(response){
+				$('#button-' + n).attr('disabled',false);
+				$('#button-' + n).css('cursor','pointer');
+				$('#button-' + n).html('<i class="fa fa-eye" aria-hidden="true"></i>');
+				$('.view_box').html(response);
+				$('.view_wrapper').fadeIn();
+			}
+		});
+	};
+	
+	$('.button_x_box').click(function(){
+		$('.view_wrapper').fadeOut();
+	});
+	
+	function input_purchasing_return(n){
+		if($('#send_date').val() == ''){
+			alert('Please insert a valid date!');
+			$('#send_date').focus();
+			return false;
+		} else {
+			$.ajax({
+				url:'purchasing_return_input.php',
+				data:{
+					return_id:n,
+					send_date: $('#send_date').val(),
+				},
+				type:'POST',
+				beforeSend:function(){
+					$('#submit_button_view').attr('disabled',true);
+				},
+				success:function(){
+					$('#submit_button_view').attr('disabled',false);
+					$('.button_x_box').click();
+				}
+			});
+		}
 	}
 </script>

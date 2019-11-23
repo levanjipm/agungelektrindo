@@ -2,7 +2,8 @@
 	include('../codes/connect.php');
 ?>
 	<select class='form-control' id='transaction_select_to'  name='transaction_select_to'>
-		<option value='0'>Please select a customer</option>
+		<option value=''>Please select a customer</option>
+		<option value='0'>Retail purchase</option>
 <?php
 	$sql_customer			= "SELECT id,name,city FROM customer ORDER BY name ASC";
 	$result_customer		= $conn->query($sql_customer);

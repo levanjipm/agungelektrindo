@@ -65,7 +65,7 @@
 			alert('Please pick transaction type!');
 		} else if($('#value').val() == '' || $('#value').val() == 0){
 			alert('Please insert value number!');
-		} else if($('#transaction_select_to').val() == 0){
+		} else if($('#transaction_select_to').val() == ''){
 			alert('Please pick a client!');
 		} else {
 			$('#add_transaction_form').submit();

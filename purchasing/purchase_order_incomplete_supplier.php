@@ -1,5 +1,5 @@
 <?php
-	include('inventoryheader.php');
+	include('purchasingheader.php');
 	$supplier_id		= $_POST['supplier_id'];
 	$sql_supplier		= "SELECT name, address, city FROM supplier WHERE id = '$supplier_id'";
 	$result_supplier	= $conn->query($sql_supplier);

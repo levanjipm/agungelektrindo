@@ -19,7 +19,7 @@
 <?php
 	$sql_invoice = "SELECT sent, id, date, name, customer_id, project_id, so_id
 	FROM code_delivery_order
-	WHERE code_delivery_order.isinvoiced = '0'";
+	WHERE code_delivery_order.isinvoiced = '0' AND company = 'AE'";
 	$result_invoice = $conn->query($sql_invoice);
 	while($invoice = $result_invoice->fetch_assoc()){
 		$sql_so = "SELECT type FROM code_salesorder WHERE id = '" . $invoice['so_id'] . "'";

@@ -2,7 +2,7 @@
 	include('../codes/connect.php');
 ?>
 	<select class='form-control'  id='transaction_select_to'  name='transaction_select_to'>
-		<option value='0'>Please select an account</option>
+		<option value=''>Please select an account</option>
 <?php
 	$sql_other				= "SELECT id,name FROM bank_account_other";
 	$result_other			= $conn->query($sql_other);

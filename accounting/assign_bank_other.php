@@ -7,6 +7,8 @@
 	$result = $conn->query($sql);
 	$row = $result->fetch_assoc();
 	
+	$description		= $row['description'];
+	
 	$opponent_id = $row['bank_opponent_id'];
 	$opponent_type = $row['label'];
 	
@@ -27,7 +29,7 @@
 	<hr>
 	<h4>Rp. <?= number_format($row['value']) ?></h4>
 	<hr>
-	Assign this transaction as:
+	<label>Assign this transaction as</label>
 	<form action='assign_bank_other_assign.php' method='POST' id='assign_form'>
 		<select class='form-control' name='type' id='type'>
 			<option value='0'>Please select a classification</option>
@@ -50,9 +52,8 @@
 	}
 ?>
 		</select>
-		<br>
 		<label>Information</label>
-		<input type='text' class='form-control' name='keterangan' id='keterangan'>
+		<input type='text' class='form-control' name='keterangan' id='keterangan' value='<?= $description  ?>'>
 		<input type='hidden' value='<?= $_POST['id'] ?>' name='id' readonly>
 	</form>
 	<br><br>

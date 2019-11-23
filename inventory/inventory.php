@@ -2,7 +2,6 @@
 	include("inventoryheader.php")
 ?>
 <style>
-
 .box{
 	padding:10px;
 	background-color:#024769;
@@ -66,7 +65,7 @@
 		<div class='col-sm-3 col-xs-4' style='padding:20px;padding-top:0'>
 			<a href='#' style='text-decoration:none;color:#333;'>
 				<div class='row'>
-					<div class='col-sm-12 box'>
+					<div class='col-sm-12 box' id='on_delivery_button'>
 					<?php
 						$sql_calendar = "SELECT COUNT(*) AS delivery FROM code_delivery_order WHERE date = '" . date('Y-m-d') . "' AND sent = '0'";
 						$result_calendar = $conn->query($sql_calendar);
@@ -196,6 +195,17 @@
 	$('#pending_sales_order_button').click(function(){
 		$.ajax({
 			url:'pending_sales_order.php',
+			type: 'POST',
+			success:function(response){
+				$('#view_inventory_view').html(response);
+			}
+		});
+		$('.view_wrapper').fadeIn(200);
+	});
+	
+	$('#on_delivery_button').click(function(){
+		$.ajax({
+			url:'delivery_order_sending.php',
 			type: 'POST',
 			success:function(response){
 				$('#view_inventory_view').html(response);

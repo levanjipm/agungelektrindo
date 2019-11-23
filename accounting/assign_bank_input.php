@@ -26,7 +26,7 @@
 				$key			= key($check_array);
 				$remaining		= $remaining_array[$key];
 					
-				$sql_invoice 	= "SELECT value FROM invoices WHERE id = '" . $key . "'";
+				$sql_invoice 	= "SELECT value, ongkir FROM invoices WHERE id = '" . $key . "'";
 				$result_invoice	= $conn->query($sql_invoice);
 				$invoice 		= $result_invoice->fetch_assoc();
 					
@@ -34,9 +34,9 @@
 				$result_receivable 	= $conn->query($sql_receivable);
 				$receivable 		= $result_receivable->fetch_assoc();
 				
-				$received 		= ($receivable['paid'] == NULL) ? 0: $receivable['paid'];
+				$received 			= ($receivable['paid'] == NULL) ? 0: $receivable['paid'];
 					
-				$will_be_paid 	+= ($invoice['value']  - $received - $remaining);
+				$will_be_paid 		+= ($invoice['value'] + $invoice['ongkir']  - $received - $remaining);
 			}
 			
 			next($check_array);
@@ -177,10 +177,8 @@
 				$sql = "INSERT INTO payable (purchase_id,date,value,bank_id) VALUES ('$key','$date','$paid','$bank_id')";
 				$conn->query($sql);
 				if($remaining == 0){
-					
 					$update_invoice = "UPDATE purchases SET isdone = '1' WHERE id = '" . $key . "'";
 					$conn->query($update_invoice);
-					
 				}
 				
 				$uang = $uang - $paid;

@@ -31,24 +31,24 @@ tr.border_bottom td{
 	$tax = $row['tax'];
 	
 	if($customer != 0){
-		$sql_customer = "SELECT id,name,address,city FROM customer WHERE id = '" . $customer . "'";
-		$result_customer = $conn->query($sql_customer);
-		$row_customer = $result_customer->fetch_assoc();
+		$sql_customer 			= "SELECT id,name,address,city FROM customer WHERE id = '" . $customer . "'";
+		$result_customer 		= $conn->query($sql_customer);
+		$row_customer 			= $result_customer->fetch_assoc();
 		
-		$name = $row_customer['name'];
-		$address = $row_customer['address'];
-		$city = $row_customer['city'];
+		$name 					= $row_customer['name'];
+		$address 				= $row_customer['address'];
+		$city 					= $row_customer['city'];
 	} else {
-		$sql = "SELECT code_salesorder.retail_name, code_salesorder.retail_address, code_salesorder.retail_city
-		FROM code_salesorder
-		JOIN code_delivery_order ON code_delivery_order.so_id = code_salesorder.id
-		WHERE code_delivery_order.id = '" . $do_id . "'";
-		$result = $conn->query($sql);
-		$row = $result->fetch_assoc();
-		
-		$name = $row['retail_name'];
-		$address = $row['retail_address'];
-		$city = $row['retail_city'];
+		$sql 					= "SELECT code_salesorder.retail_name, code_salesorder.retail_address, code_salesorder.retail_city
+								FROM code_salesorder
+								JOIN code_delivery_order ON code_delivery_order.so_id = code_salesorder.id
+								WHERE code_delivery_order.id = '" . $do_id . "'";
+		$result 				= $conn->query($sql);
+		$row 					= $result->fetch_assoc();
+				
+		$name 					= $row['retail_name'];
+		$address 				= $row['retail_address'];
+		$city 					= $row['retail_city'];
 	}	
 ?>
 <div class="main">
@@ -79,7 +79,6 @@ tr.border_bottom td{
 				<table class="table">
 					<thead>
 						<tr>
-							<th style="width:10%">Nomor</th>
 							<th style="width:10%">Item reference</th>
 							<th style="width:30%">Description</th>
 							<th style="width:10%">Quantity</th>
@@ -94,24 +93,20 @@ tr.border_bottom td{
 	$i = 1;
 	$price_init = 0;
 	while($rows = $result_select->fetch_assoc()) {
-		$reference = $rows['reference'];
-		$sql_item = "SELECT * FROM itemlist WHERE reference = '" . $reference . "'";
-		$result_item = $conn->query($sql_item);
+		$reference 			= $rows['reference'];
+		$sql_item 			= "SELECT * FROM itemlist WHERE reference = '" . $reference . "'";
+		$result_item 		= $conn->query($sql_item);
 		if ($result_item->num_rows > 0){
-			$row_item = $result_item->fetch_assoc();
-			$description = $row_item['description'];
+			$row_item 		= $result_item->fetch_assoc();
+			$description 	= $row_item['description'];
 		} else {
 			$description = '';
 		};
 		
-		$sql_price 		= "SELECT id,price FROM sales_order WHERE reference = '" . $reference . "' AND so_id = '" . $so_id . "'";
-		$result_price 	= $conn->query($sql_price);
-		$row_price 		= $result_price->fetch_assoc();
-		$price 			= $row_price['price'];
-		$quantity 		= $rows['quantity'];
+		$price 				= $rows['billed_price'];
+		$quantity 			= $rows['quantity'];
 ?>
 						<tr class="border_bottom">
-							<td><?= $row_price['id']; ?></td>
 							<td><?= $reference ?></td>
 							<td><?= $description ?></td>
 							<td><?= $quantity ?></td>
@@ -139,19 +134,19 @@ tr.border_bottom td{
 	if($tax != 1){
 ?>
 						<tr>
-							<td style="border:none;background-color:#fff" colspan='4'></td>
+							<td style="border:none;background-color:#fff" colspan='3'></td>
 							<td>Sub Total</td>
 							<td><input type="text" class="form-control" name="invoice_total" value="<?= $price_init ?>" readonly></td>
 						</tr>
 						<tr>
-							<td style="border:none;background-color:#fff" colspan='4'></td>
+							<td style="border:none;background-color:#fff" colspan='3'></td>
 							<td style="background-color:#fff">Ongkos Kirim</td>
 							<td style="background-color:#fff">
 								<input type="text" class="form-control" name="ongkos_kirim" id='ongkir' value='0'>
 							</td>									
 						</tr>
 						<tr>
-							<td style="border:none;background-color:#fff" colspan='4'></td>
+							<td style="border:none;background-color:#fff" colspan='3'></td>
 							<td style="background-color:#fff">Total</td>
 							<td style="background-color:#fff">
 							<input type='text' id='invoice_totalis' class='form-control' readonly>
@@ -161,7 +156,7 @@ tr.border_bottom td{
 	} else{
 ?>
 						<tr>
-							<td style="border:none;background-color:#fff" colspan='4'></td>
+							<td style="border:none;background-color:#fff" colspan='3'></td>
 							<td style="background-color:#fff">Sub Total</td>
 							<td style="background-color:#fff;text-align:left">
 								<input type='hidden' id="invoice_subtotal" name="invoice_subtotal" value="<?= $price_init/1.1 ?>" readonly>
@@ -169,7 +164,7 @@ tr.border_bottom td{
 							</td>
 						</tr>
 						<tr>
-							<td style="border:none;background-color:#fff" colspan='4'></td>
+							<td style="border:none;background-color:#fff" colspan='3'></td>
 							<td style="background-color:#fff">PPN 10%</td>
 							<td style="background-color:#fff;text-align:left">
 								<input type="hidden" name="ppn"  id="ppn" value="<?= $price_init*1.1 - $price_init ?>" readonly>
@@ -177,17 +172,14 @@ tr.border_bottom td{
 							</td>
 						</tr>
 						<tr>
-							<td style="border:none;background-color:#fff" colspan='4'></td>
+							<td style="border:none;background-color:#fff" colspan='3'></td>
 							<td style="background-color:#fff">Ongkos Kirim</td>
 							<td style="background-color:#fff">
 								<input type="text" class="form-control" name="ongkos_kirim" id='ongkir' value='0'>
 							</td>									
 						</tr>
 						<tr>
-							<td style="border:none;background-color:#fff"></td>
-							<td style="border:none;background-color:#fff"></td>
-							<td style="border:none;background-color:#fff"></td>
-							<td style="border:none;background-color:#fff"></td>
+							<td style="border:none;background-color:#fff" colspan='3'></td>
 							<td style="background-color:#fff">Total</td>
 							<td style="background-color:#fff">
 							<input type='text' id='invoice_totalis' class='form-control' readonly>

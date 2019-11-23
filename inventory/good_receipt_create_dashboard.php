@@ -34,7 +34,7 @@
 					</div>
 				</div>
 				<br>
-				<button type="submit" href="goodreceipt.php" class="button_default_dark">View Uncompleted Items</button>
+				<button type="submit" class="button_default_dark">View Uncompleted Items</button>
 			</form>
 		</div>
 	</div>

@@ -2,7 +2,7 @@
 	include('../codes/connect.php');
 	$year = $_POST['year'];
 	$month = $_POST['month'];
-	$sql = "SELECT id,name,customer_id FROM code_delivery_order WHERE MONTH(date) = '" . $month . "' AND YEAR(date) = '" . $year . "'";
+	$sql = "SELECT id,name,customer_id FROM code_delivery_order WHERE MONTH(date) = '" . $month . "' AND YEAR(date) = '" . $year . "' AND company = 'AE'";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){
 		$sql_customer = "SELECT name FROM customer WHERE id = '" . $row['customer_id'] . "'";

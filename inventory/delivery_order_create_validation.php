@@ -154,11 +154,13 @@ switch (date('m',strtotime($do_date))) {
 <?php
 		$reference_array 		= $_POST['reference'];
 		$quantity_array			= $_POST['quantity'];
+		$price_array			= $_POST['price'];
 		$i						= 1;
 		
 		foreach($reference_array as $reference){
 			$key 				= key($reference_array);
 			$quantity			= $quantity_array[$key];
+			$price				= $price_array[$key];
 			
 			//Check if user changes the validation in front-end security//			
 			$sql_check 			= "SELECT quantity, sent_quantity FROM sales_order WHERE so_id = '" . $so_id . "' AND reference = '" . $reference . "'";
@@ -188,6 +190,7 @@ switch (date('m',strtotime($do_date))) {
 				<td>
 					<?= $reference ?>
 					<input type="hidden" name="reference[<?= $key ?>]" value="<?= $reference ?>">
+					<input type="hidden" name="price[<?= $key ?>]" value="<?= $price ?>">
 				</td>
 				<td>
 					<?=$quantity?>

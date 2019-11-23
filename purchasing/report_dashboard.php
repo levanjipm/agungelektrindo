@@ -44,6 +44,23 @@
 	}
 ?>
 		</select>
+		<div class='checkbox'>
+			<div class='row'>
+<?php
+		$sql_item_category		= "SELECT id, name FROM itemlist_category ORDER BY id";
+		$result_item_category	= $conn->query($sql_item_category);
+		while($item_category	= $result_item_category->fetch_assoc()){
+			$category_id		= $item_category['id'];
+			$category_name		= $item_category['name'];
+?>
+				<div class='col-sm-3 col-xs-4'>
+					<label><input type="checkbox" value="1" checked name='item_category[<?= $category_id ?>]'><?= $category_name ?></label>
+				</div>
+<?php
+		}
+?>
+			</div>
+		</div>
 	</form>
 	<button type='button' class='button_default_dark' id='submit_report_button'>Submit</button>
 </div>
@@ -56,9 +73,5 @@
 		} else {
 			$('#report_form').submit();
 		}
-	});
-	
-	$('div').not('.context_box').click(function(){
-		$('.context_box').fadeOut();
 	});
 </script>

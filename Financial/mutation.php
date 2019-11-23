@@ -3,11 +3,11 @@
 	$start_date 		= $_POST['start_date'];
 	$end_date 			= $_POST['end_date'];
 	
-	$sql_debit_balance		= "SELECT SUM(value) AS initial_debit_balance FROM code_bank WHERE date < '" . $start_date . "' AND transaction = '1' AND isdelete ='0'";
+	$sql_debit_balance		= "SELECT SUM(value) AS initial_debit_balance FROM code_bank WHERE date < '" . $start_date . "' AND transaction = '1' AND major_id ='0'";
 	$result_debit_balance	= $conn->query($sql_debit_balance);
 	$debit	 				= $result_debit_balance->fetch_assoc();
-	
-	$sql_credit_balance		= "SELECT SUM(value) AS initial_credit_balance FROM code_bank WHERE date < '" . $start_date . "' AND transaction = '2' AND isdelete ='0'";
+
+	$sql_credit_balance		= "SELECT SUM(value) AS initial_credit_balance FROM code_bank WHERE date < '" . $start_date . "' AND transaction = '2' AND major_id ='0'";
 	$result_credit_balance	= $conn->query($sql_credit_balance);
 	$credit 				= $result_credit_balance->fetch_assoc();
 	
@@ -26,7 +26,7 @@
 			<th>Balance</th>
 		</tr>
 <?php
-	$sql_table 		= "SELECT id,bank_opponent_id,label,value,transaction,date FROM code_bank WHERE date >= '" . $start_date . "' AND date <= '" . $end_date . "' AND isdelete = '0' ORDER BY date ASC, id ASC";
+	$sql_table 		= "SELECT id,bank_opponent_id,label,value,transaction,date FROM code_bank WHERE date >= '" . $start_date . "' AND date <= '" . $end_date . "' AND major_id = '0' ORDER BY date ASC, id ASC";
 	$result_table 	= $conn->query($sql_table);
 	while($table 	= $result_table->fetch_assoc()){
 		$label 		= $table['label'];

@@ -31,7 +31,7 @@
 		$count_good_receipt 			= $result_count_good_receipt->fetch_assoc();
 		$good_receipt					= $count_good_receipt['jumlah'];
 		
-		$sql_count_delivery_order 		= "SELECT COUNT(*) AS jumlah FROM code_delivery_order WHERE sent = '0'";
+		$sql_count_delivery_order 		= "SELECT COUNT(*) AS jumlah FROM code_delivery_order WHERE sent = '0' AND company = 'AE'";
 		$result_count_delivery_order 	= $conn->query($sql_count_delivery_order);
 		$count_delivery_order 			= $result_count_delivery_order->fetch_assoc();
 		$delivery_order					= $count_delivery_order['jumlah'];
@@ -149,15 +149,15 @@
 		Return
 	</button>
 	<div class="dropdown-container">
-		<a href="sales_return_dashboard.php">
+		<a href="sales_return_dashboard">
 			<p>Sales return</p>
 		</a>
-		<a href="purchasing_return_dashboard.php">
+		<a href="purchasing_return_dashboard">
 			<p>Purchasing return</p>
 		</a>
 	</div>
 	<hr>
-	<a href='inventory.php' style='color:#1ac6ff;text-decoration:none'>
+	<a href='inventory' style='color:#1ac6ff;text-decoration:none'>
 		<i class="fa fa-eercast" aria-hidden="true"></i>Inventory Department
 	</a>
 </div>
@@ -198,6 +198,6 @@
 </script>
 <?php
 } else{
-	header('location:../landing_page.php');
+	header('location:../landing_page');
 };
 ?>

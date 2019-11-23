@@ -2,9 +2,9 @@
 	include('../codes/connect.php');
 ?>
 	<select class='form-control' id='transaction_select_to'  name='transaction_select_to'>
-		<option value='0'>Please select a supplier</option>
+		<option value=''>Please select a supplier</option>
 <?php
-	$sql_supplier			= "SELECT id,name,city FROM supplier";
+	$sql_supplier			= "SELECT id,name,city FROM supplier ORDER BY name ASC";
 	$result_supplier		= $conn->query($sql_supplier);
 	while($supplier			= $result_supplier->fetch_assoc()){
 		$supplier_id		= $supplier['id'];

@@ -58,9 +58,10 @@
 					$result_so 		= $conn->query($sql_so);
 					while($sales_order = $result_so->fetch_assoc()){
 						$id					= $sales_order['id'];
-						$reference 			= $sales_order['reference'];
+						$reference 			= mysqli_real_escape_string($conn,$sales_order['reference']);
 						$quantity			= $sales_order['quantity'];
 						$sent_quantity		= $sales_order['sent_quantity'];
+						$price				= $sales_order['price'];
 						
 						$maximum_quantity 	= $quantity - $sent_quantity;
 						if ($sent_quantity != $quantity){
@@ -69,6 +70,7 @@
 						<td>
 							<?= $reference ?>
 							<input type='hidden' value="<?= $reference ?>" name="reference[<?= $id ?>]" readonly tabindex="-1">
+							<input type='hidden' value='<?= $price ?>' name='price[<?= $id ?>]' readonly>
 						</td>
 						<td>
 							<?= $sent_quantity ?>

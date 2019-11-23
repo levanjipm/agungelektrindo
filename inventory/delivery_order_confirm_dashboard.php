@@ -91,7 +91,7 @@
 		<div class='col-sm-12'>
 			<div class='row'>
 <?php
-	$sql = "SELECT * FROM code_delivery_order WHERE isdelete = '0' AND sent = '0'";
+	$sql = "SELECT * FROM code_delivery_order WHERE isdelete = '0' AND sent = '0' AND company = 'AE'";
 	$results = $conn->query($sql);
 	if ($results->num_rows > 0){
 		while($row_do = $results->fetch_assoc()){

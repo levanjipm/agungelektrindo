@@ -52,11 +52,12 @@
 		Bank Account
 	</button>
 	<div class="dropdown-container">
-		<a href='view_mutation_dashboard'>View mutation</a><br>
-		<a href="add_transaction_dashboard">Add a transaction</a><br>
-		<a href='reset_transaction_dashboard'>Reset transaction</a><br>
-		<a href='#'>Assign transaction</a>
-		<br>
+		<a href='view_mutation_dashboard'>
+			<p>View mutation</p>
+		</a>
+		<a href="add_transaction_dashboard">
+			<p>Add a transaction</p>
+		</a>
 	</div>
 	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
 		<i class="fa fa-money" aria-hidden="true"></i>

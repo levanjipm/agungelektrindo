@@ -1,15 +1,15 @@
 <?php
 	include('inventoryheader.php');
-	$sql_item 		= "SELECT reference,description FROM itemlist WHERE id = '" . $_GET['id'] . "'";
-	$result_item 	= $conn->query($sql_item);
-	$item 			= $result_item->fetch_assoc();
-	$reference 		= $item['reference'];
-	$description 	= $item['description'];
-	
-	$sql_count_data	= "SELECT id FROM stock WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "'";
-	$result_count	= $conn->query($sql_count_data);
-	
-	$count			= mysqli_num_rows($result_count);
+	$sql_item 			= "SELECT reference,description FROM itemlist WHERE id = '" . $_GET['id'] . "'";
+	$result_item 		= $conn->query($sql_item);
+	$item 				= $result_item->fetch_assoc();
+	$reference 			= $item['reference'];
+	$description 		= $item['description'];
+		
+	$sql_count_data		= "SELECT id FROM stock WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "'";
+	$result_count		= $conn->query($sql_count_data);
+		
+	$count				= mysqli_num_rows($result_count);
 ?>
 	<div class='main'>
 		<h2 style='font-family:bebasneue'><?= $reference ?></h2>
