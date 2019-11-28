@@ -1,9 +1,7 @@
 <?php
-	include('salesheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
-<script src='../jquery-ui.js'></script>
-<script src='../universal/Numeral-js-master/numeral.js'></script>
-<link rel='stylesheet' href='../jquery-ui.css'>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales order</h2>
 	<p>Create <strong>Service</strong> sales order</p>

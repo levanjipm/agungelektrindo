@@ -1,5 +1,7 @@
 <?php
-	include("../codes/connect.php");
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
+	
 	session_start();
 	$sql_user 			= "SELECT name,role,hpp FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
 	$result_user 		= $conn->query($sql_user);
@@ -45,44 +47,33 @@
 	
 	$guid = GUID();
 ?>
-<head>
-	<title>Validate Quotation</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="salesstyle.css">
-	<link rel="stylesheet" href="css/create_quotation.css">
-</head>
 <body>
-	<div class="row" style='margin:0'>
-		<div class='col-sm-1' style='background-color:#333'>
-		</div>
-		<div class='col-sm-10'>
-			<form action="quotation_create_input.php" method="POST" id="quotation_validate">
-				<h2 style='font-family:bebasneue'>Quotation</h2>
-				<p>Validate quotation</p>
-				<hr>
-				<input type="hidden" value="<?= $q_date ?>" name="today">
-				<input type="hidden" value='<?= $customer?>' name="customer">
-				<h3><?= $customer_name ?></h3>
-				<p><?= date('d M Y',strtotime($q_date)) ?></p>
-				<label>Unique GUID</label>
-				<p><?= $guid?></p>
-				<input type='hidden' value='<?= $guid ?>' name='GUID'>
-				<br>
-				<table class="table table-bordered">
-					<thead>
-						<th style="text-align:center;width:20%">Item Description</th>
-						<th style="text-align:center;width:10%">Reference</th>
-						<th style="text-align:center;width:15%">Unit price</th>
-						<th style="text-align:center;width:5%">Discount</th>
-						<th style="text-align:center;width:10%">Quantity</th>
-						<th style="text-align:center;width:15%">Price after discount</th>
-						<th style="text-align:center;width:15%">Total price</th>
-					</thead>	
-					<tbody>
+<div class='main'>
+	<form action="quotation_create_input" method="POST" id="quotation_validate">
+		<h2 style='font-family:bebasneue'>Quotation</h2>
+		<p>Validate quotation</p>
+		<hr>
+		<input type="hidden" value="<?= $q_date ?>" name="today">
+		<input type="hidden" value='<?= $customer?>' name="customer">
+		<label>Customer</label>
+		<p style='font-family:museo'><?= $customer_name ?></p>
+		<label>Quotation date</label>
+		<p style='font-family:museo'><?= date('d M Y',strtotime($q_date)) ?></p>
+		<label>GUID</label>
+		<p style='font-family:museo'><?= $guid?></p>
+		<input type='hidden' value='<?= $guid ?>' name='GUID'>
+		<br>
+		<table class='table table-bordered'>
+			<thead>
+				<th style='text-align:center;width:20%'>Item Description</th>
+				<th style='text-align:center;width:10%'>Reference</th>
+				<th style='text-align:center;width:15%'>Unit price</th>
+				<th style='text-align:center;width:5%'>Discount</th>
+				<th style='text-align:center;width:10%'>Quantity</th>
+				<th style='text-align:center;width:15%'>Price after discount</th>
+				<th style='text-align:center;width:15%'>Total price</th>
+			</thead>	
+			<tbody>
 			<?php
 				$total 	= 0;
 				$i 		= 1;
@@ -124,104 +115,77 @@
 					$i++;
 				}
 			?>
-					</tbody>
-					<tfoot>
-						<tr>
-							<td style="border:none" colspan='5'></td>
-							<td style="padding-left:50px"><b>Total</b></td>
-							<td style="text-align:center">
-								Rp. <?= number_format($total,2)?>
-							</td>
-						</tr>
-						<input type='hidden' value='<?= $_POST['add_discount'] ?>' name='add_discount'>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td style="border:none" colspan='5'></td>
+					<td style="padding-left:50px"><b>Total</b></td>
+					<td style="text-align:center">
+						Rp. <?= number_format($total,2)?>
+					</td>
+				</tr>
+				<input type='hidden' value='<?= $_POST['add_discount'] ?>' name='add_discount'>
 <?php
 if($_POST['add_discount'] > 0){
 ?>
-						<tr>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="padding-left:50px"><b>Additional Disc.</b></td>
-							<td style="text-align:center">
-								Rp. <?= number_format($_POST['add_discount'],2)?>
-							</td>
-						</tr>
-						<tr>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="border:none"></td>
-							<td style="padding-left:50px"><b>Grand Total</b></td>
-							<td style="text-align:center">
-								Rp. <?= number_format($total - $_POST['add_discount'],2)?>
-							</td>
-						</tr>
+				<tr>
+					<td style="border:none" colspan='5'></td>
+					<td style="padding-left:50px"><b>Additional Disc.</b></td>
+					<td style="text-align:center">
+						Rp. <?= number_format($_POST['add_discount'],2)?>
+					</td>
+				</tr>
+				<tr>
+					<td style="border:none" colspan='5'></td>
+					<td style="padding-left:50px"><b>Grand Total</b></td>
+					<td style="text-align:center">
+						Rp. <?= number_format($total - $_POST['add_discount'],2)?>
+					</td>
+				</tr>
 <?php
 }
 ?>
-					</tfoot>
-				</table>
-				<div style="padding-left:40px">
-					<div class="row">
-						<div class="col-sm-6">
-							<h4><b>Note</b></h4>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-6">
-							<p><b>1.  </b><?= $note ?></p>
-							<input type="hidden" name="dp" value="<?= $dp ?>">
-							<input type="hidden" name="lunas" value="<?= $lunas ?>">
-							<input type="hidden" name="terms" value="<?= $terms ?>">
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-6">
-							<p><b>2. </b>Prices and availability are subject to change at any time without prior notice.</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-6">
-							<p><b>3. </b>Prices mentioned above are tax-included.</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-6">
-							<input type='hidden' name="comment" value='<?= $comment ?>'>
-							<?= $comment ?>
-						</div>
-					</div>
-				</div>
-				<br>
-				<div class="row" style="top:50px;padding-left:50px">
-					<button type="button" class="button_add_row" id='proceed_button'>Proceed</button>
-				</div>
-			</form>
+			</tfoot>
+		</table>
+		<div class='row'>
+			<div class='col-sm-12'>
+				<h4 style='font-family:museo'>Note</h4>
+				<ol>
+					<li><p style='font-family:museo'><?= $note ?></p></li>
+					<li><p style='font-family:museo'>Prices and availability are subject to change at any time without prior notice.</p></li>
+					<li><p style='font-family:museo'>Prices mentioned above are tax-included.</p></li>
+					<?php if(!empty($comment)){ ?>
+					<li><p style='font-family:museo'><?= $comment ?></p>
+					<?php } ?>
+				</ol>
+				<input type="hidden" name="dp" value="<?= $dp ?>">
+				<input type="hidden" name="lunas" value="<?= $lunas ?>">
+				<input type="hidden" name="terms" value="<?= $terms ?>">
+				<input type="hidden" name="comment" value="<?= $comment ?>">
+				<button type="button" class="button_success_dark" id='proceed_button'>Proceed</button>
+			</div>
 		</div>
-		<div class='col-sm-1' style='background-color:#333'>
-		</div>
-	</div>
-</form>
+	</form>
 </div>
-<div class='notification_large' style='display:none' id='confirm_notification'>
-	<div class='notification_box'>
-		<h1 style='font-size:3em;color:#2bf076'><i class="fa fa-check" aria-hidden="true"></i></h1>
-		<h2 style='font-family:bebasneue'>Are you sure to confirm this Quotation?</h2>
-		<br>
-		<button type='button' class='btn-back'>Back</button>
-		<button type='button' class='btn-confirm' id='confirm_quotation_button'>Confirm</button>
+<div class='full_screen_wrapper'>
+	<div class='full_screen_notif_bar'>
+		<h1 style='font-size:3em;color:green'><i class="fa fa-check" aria-hidden="true"></i></h1>
+		<p style='font-family:museo'>Are you sure to confirm this quotation?</p>
+		<button type='button' class='button_danger_dark' id='close_notification_button'>Check again</button>
+		<button type='button' class='button_success_dark' id='confirm_quotation_button'>Confirm</button>
 	</div>
 </div>
 <script>
 	$('#proceed_button').click(function(){
-		$('#confirm_notification').fadeIn();
+		var window_height			= $(window).height();
+		var bar_height				= $('.full_screen_notif_bar').height();
+		var difference				= window_height - bar_height;
+		$('.full_screen_notif_bar').css('top',0.7 * difference / 2);
+		$('.full_screen_wrapper').fadeIn();
 	});
 	
-	$('.btn-back').click(function(){
-		$('#confirm_notification').fadeOut();
+	$('#close_notification_button').click(function(){
+		$('.full_screen_wrapper').fadeOut();
 	});
 	
 	$('#confirm_quotation_button').click(function(){

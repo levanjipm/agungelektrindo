@@ -1,12 +1,16 @@
 <?php
-	include("salesheader.php")
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
-<script type='text/javascript' src="../universal/Jquery/jquery.inputmask.bundle.js"></script>
-<div class="main">
+<head>
+	<script type='text/javascript' src='/agungelektrindo/universal/Jquery/jquery.inputmask.bundle.js'></script>
+	<title>Input customer data</title>
+</head>
+<div class='main'>
 	<div class='row' style='height:100%'>
 		<div class='col-sm-12 col-xs-12'>
 			<h2 style='font-family:bebasneue'>Customer</h2>
-			<p>Add new customer data</p>
+			<p style='font-family:museo'>Add new customer data</p>
 			<hr>
 			<form id="inputcustomer" method="POST" action="addcustomer.php">
 				<label for="name">Company</label>
@@ -77,43 +81,9 @@
 		</div>
 	</div>
 </div>
-<style>
-	.view_wrapper{
-		width:100%;
-		height:100%;
-		background-color:rgba(25,25,25,0.8);
-		position:fixed;
-		top:0;
-		left:0;
-		z-index:50;
-		display:none;
-	}
-	
-	.view_box{
-		width:80%;
-		height:80%;
-		position:absolute;
-		top:10%;
-		left:10%;
-		background-color:white;
-		overflow-y:scroll;
-		padding:10px;
-	}
-	
-	.button_close_view{
-		position:fixed;
-		top:10%;
-		left:10%;
-		border:none;
-		outline:none!important;
-		color:#333;
-		z-index:55;
-		background-color:transparent;
-	}
-</style>
-<div class='view_wrapper'>
-	<button class='button_close_view'>&times</button>
-	<div class='view_box'>
+<div class='full_screen_wrapper'>
+	<button class='full_screen_close_button'>&times</button>
+	<div class='full_screen_box'>
 		<h3 style='font-family:bebasneue'>Create customer data</h3>
 		<hr>
 		<table class='table table-bordered'>
@@ -142,8 +112,8 @@
 	</div>
 </div>
 <script>
-	$('.button_close_view').click(function(){
-		$('.view_wrapper').fadeOut();
+	$('.full_screen_close_button').click(function(){
+		$('.full_screen_wrapper').fadeOut();
 	});
 	
 	$('#proceed_button').click(function() {
@@ -184,7 +154,7 @@
 			$('#customer_phone_number_view').text(customer_phone);
 			$('#customer_pic_view').text(customer_pic);
 
-			$('.view_wrapper').fadeIn();
+			$('.full_screen_wrapper').fadeIn();
 			
 		}
 	});

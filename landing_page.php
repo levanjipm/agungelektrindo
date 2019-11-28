@@ -2,7 +2,7 @@
 <head>
 	<title>Login Page</title>
 	<link rel="stylesheet" href="universal/bootstrap/4.1.3/css/bootstrap.min.css">
-	<script src="universal/Jquery/jquery-3.3.0.min.js"></script>
+	<script src="universal/jquery/jquery-3.3.0.min.js"></script>
 	<script src="universal/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="universal/bootstrap/3.3.7/css/bootstrap.min.css"> 
 </head>
@@ -13,7 +13,7 @@ session_destroy();
 <style>
 	@font-face {
 	  font-family: Bebasneue;
-	  src: url(Universal/Font/Bebasneue/BebasNeue.woff);
+	  src: url(universal/Font/BebasNeue.woff);
 	}
 	
 	body{

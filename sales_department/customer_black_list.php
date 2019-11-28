@@ -1,28 +1,8 @@
 <?php
-	include('salesheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
 <style>
-	.notification_wrapper{
-		width:100%;
-		height:100%;
-		background-color:rgba(25,25,25,0.8);
-		position:fixed;
-		top:0;
-		left:0;
-		z-index:30;
-		display:none;
-		text-align:center;
-	}
-	
-	.notification_box{
-		position:relative;
-		background-color:#fff;
-		padding:30px;
-		width:100%;
-		top:30%;
-		box-shadow: 3px 4px 3px 4px #333;
-	}
-
 	.button_tab{
 		background-color:transparent;
 		border:none;
@@ -37,16 +17,6 @@
 	
 	#customer_list{
 		padding:20px;
-	}
-	
-	.btn-back{
-		background-color:#777;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-		padding:5px 10px;
-		outline:none;
-		border:none;
 	}
 </style>
 <div class='main'>

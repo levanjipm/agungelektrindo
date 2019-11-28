@@ -1,10 +1,9 @@
 <script src='../universal/jquery/jquery-3.3.0.min.js'></script>
 <?php
 	include('../codes/connect.php');
-	print_r($_POST);
-	$q_id 		= $_POST['id'];
-	$sql_delete = "DELETE FROM quotation WHERE quotation_code = '" . $q_id . "'";
-	$result = $conn->query($sql_delete);
+	$q_id 				= $_POST['id'];
+	$sql_delete 		= "DELETE FROM quotation WHERE quotation_code = '" . $q_id . "'";
+	$conn->query($sql_delete);
 	$reference_array	= $_POST['reference'];
 	$price_array		= $_POST['price'];
 	$discount_array		= $_POST['discount'];
@@ -42,6 +41,6 @@ $(document).ready(function () {
 		$('#q_id').submit();
 
 	},100);
-	window.setTimeout("location = ('sales');",125);
+	window.setTimeout("location = ('/agungelektrindo/sales');",125);
 });
 </script>

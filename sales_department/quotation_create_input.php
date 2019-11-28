@@ -1,12 +1,9 @@
 <head>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<title>Create quotation input</title>
+	<script src='/agungelektrindo/universal/jquery/jquery-3.3.0.min.js'></script>
 </head>
 <?php
-	include('../codes/connect.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/codes/connect.php');
 	session_start();
 	
 	$reference_array	= $_POST['reference'];
@@ -25,7 +22,7 @@
 	$sql_check_guid		= "SELECT id FROM code_quotation WHERE guid = '$guid'";
 	$result_check_guid	= $conn->query($sql_check_guid);
 	if(mysqli_num_rows($result_check_guid) != 0){
-		header('location:sales');
+		header('location:/agungelektrindo/sales');
 	}
 	
 	if (date('m',strtotime($q_date)) == '01'){
@@ -56,18 +53,18 @@
 	
 	$sql 			= " SELECT COUNT(*) AS jumlah FROM code_quotation WHERE MONTH(date) = MONTH('" . $q_date . "') 
 					AND YEAR(date) = YEAR('" . $q_date . "') AND company = 'AE'";
-	$result = $conn->query($sql);
+	$result 		= $conn->query($sql);
 	if($result){	
-			while($row = $result->fetch_assoc()) { 
-			   $jumlah = $row['jumlah'];
-			}
-		} else {
-			$jumlah = 0;
+		while($row = $result->fetch_assoc()) { 
+		   $jumlah = $row['jumlah'];
 		}
+	} else {
+		$jumlah = 0;
+	}
 	$jumlah++;
-	$q_number = "Q-AE-" . str_pad($jumlah,2,"0",STR_PAD_LEFT) . "." . date("d",strtotime($q_date)). "-" . $month. "-" . date("y",strtotime($q_date));
-	$customer = $_POST['customer'];
-	$comment = $conn->real_escape_string($_POST['comment']);
+	$q_number 		= "Q-AE-" . str_pad($jumlah,2,"0",STR_PAD_LEFT) . "." . date("d",strtotime($q_date)). "-" . $month. "-" . date("y",strtotime($q_date));
+	$customer 		= $_POST['customer'];
+	$comment 		= $conn->real_escape_string($_POST['comment']);
 	
 	$sql_insert				= "INSERT INTO code_quotation (name,customer_id,date,additional_discount,payment_id,down_payment,repayment,note,created_by,guid) 
 							VALUES ('$q_number','$customer','$q_date','$add_discount','$terms','$dp','$lunas','$comment','$user_id','$guid')";
@@ -99,7 +96,7 @@
 		window.setTimeout(function () {
 			$('#po_id').submit();
 		}, 250);
-		window.setTimeout("location = ('sales.php');",260);
+		window.setTimeout("location = ('/agungelektrindo/sales');",260);
 	});
 	</script>
 <?php

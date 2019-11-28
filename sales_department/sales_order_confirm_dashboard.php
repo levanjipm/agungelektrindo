@@ -1,5 +1,6 @@
 <?php
-	include('salesheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 	$sql_so 		= "SELECT * FROM code_salesorder WHERE isconfirm = '0'";
 	$result_so 		= $conn->query($sql_so);
 ?>

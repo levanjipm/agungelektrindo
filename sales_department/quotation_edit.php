@@ -1,6 +1,6 @@
 <?php
-	include('salesheader.php');
-	print_r($_POST);
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
 <body>
 <link rel="stylesheet" href="../jquery-ui.css">

@@ -1,11 +1,7 @@
 <?php
-	include('../header.php');
-	include('../universal/headers/salesheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
-<link rel="stylesheet" href="css/create_quotation.css">
-<link rel="stylesheet" href="../jquery-ui.css">
-<script src="../jquery-ui.js"></script>
-<script src="../universal/Numeral-js-master/numeral.js"></script>
 <script>
 $( function() {
 	$('#reference1').autocomplete({
@@ -13,16 +9,19 @@ $( function() {
 	 })
 });
 </script>
+<head>
+	<title>Create quotation</title>
+</head>
 <div class="main">
 	<h2 style='font-family:bebasneue'>Quotation</h2>
 	<p>Create new quotation</p>
 	<hr>
-	<form id="quotation" class="form" method="POST" action="quotation_create_validate.php">
+	<form id="quotation" class="form" method="POST" action="quotation_create_validate">
 		<div class="row">
 			<div class="col-sm-6">
-				<label for="name">Quote to:</label>
-				<select class="form-control" id="quote_person" name="quote_person"  onclick="disable()">
-				<option id="kosong" value="0">Please Select a customer--</option>
+				<label>Customer</label>
+				<select class="form-control" id="quote_person" name="quote_person" onclick="disable('empty_customer')">
+				<option id="empty_customer" value="0">Please Select a customer--</option>
 					<?php
 						$sql 		= "SELECT id,name,address FROM customer WHERE is_blacklist = '0' ORDER BY name ASC";
 						$result 	= $conn->query($sql);
@@ -41,7 +40,7 @@ $( function() {
 		</div>
 		<br>
 		<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
-		<button type='button' class='button_add_row' id='add_item_button' style='display:inline-block'>Add item</button>
+		<button type='button' class='button_default_dark' id='add_item_button' style='display:inline-block'>Add item</button>
 		<br>
 		<br>
 		<table class='table table-bordered'>
@@ -76,7 +75,7 @@ $( function() {
 					<td colspan='2' style='width:40%'><input type='number' class="form-control" id="add_discount" name="add_discount" step='0.001'></td>
 				</tr>
 		</table>
-		<button type='button' class='hide_note_button' id='toggle_note_button'>Toggle note</button>
+		<button type='button' class='button_default_dark' id='toggle_note_button'>Toggle note</button>
 		<br>
 		<script>
 			$('#toggle_note_button').click(function(){
@@ -92,8 +91,8 @@ $( function() {
 			</div>
 			<div class="row">
 				<div class="col-sm-6">
-					<select id="terms" name="terms" class="form-control" style="width:100%" onchange="payment_js()" onclick="disable_two()">
-					<option value='0' id="kosongan">--Please select payment terms--</option>
+					<select id="terms" name="terms" class="form-control" style="width:100%" onchange="payment_js()" onclick="disable('empty_payment_term')">
+					<option value='0' id="empty_payment_term">--Please select payment terms--</option>
 					<?php
 						include("connect.php");
 						$sql_payment = "SELECT * FROM payment";
@@ -151,7 +150,7 @@ $( function() {
 		<br>
 		<div class="row">
 			<div class="col-sm-2">
-				<button type="button" class="button_confirm" onclick="hitung()" id="calculate">Calculate</button>
+				<button type="button" class="button_default_dark" onclick="hitung()" id="calculate">Calculate</button>
 			</div>
 		</div>
 		<div class="row">
@@ -298,12 +297,10 @@ function payment_js(){
 		$('#lunas').attr('readonly',false);
 	}
 }
-	function disable(){
-		document.getElementById("kosong").disabled = true;
+	function disable(option_id){
+		$('#' + option_id).attr('disabled',true);
 	}
-	function disable_two(){
-		document.getElementById("kosongan").disabled = true;
-	}
+	
 	$("#add_item_button").click(function (){	
 		$("#quotation_detail").append(
 			"<tr id='tr-" + a + "'>"+
@@ -313,7 +310,7 @@ function payment_js(){
 			"<td><input type='text' class='form-control' name='quantity[" + a + "]' id='quantity" + a + "'></td>"+
 			"<td id='unitprice" + a + "'></td>"+
 			"<td id='totalprice" + a + "'></td>"+
-			"<td><button type='button' class='button_delete_row' onclick='delete_row(" + a + ")'>X</button></td></tr>").find("input").each(function () {
+			"<td><button type='button' class='button_danger_dark' onclick='delete_row(" + a + ")'>X</button></td></tr>").find("input").each(function () {
 			});
 		$("#reference" + a).autocomplete({
 			source: "../codes/search_item.php"

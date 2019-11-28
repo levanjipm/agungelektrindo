@@ -1,5 +1,7 @@
 <?php
-	include('salesheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
+	
 	$customer_id	= $_POST['customer'];
 	$start_project	= $_POST['start_project'];
 	$name_project	= $_POST['name_project'];
@@ -23,23 +25,28 @@
 ?>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Project</h2>
-	<p>Add new project</p>
+	<p style='font-family:museo'>Add new project</p>
 	<hr>
 	<form action='project_input_new' method='POST'>
+		<h3 style='font-family:museo'>General data</h3>
 		<label>Customer</label>
+		<h4 style='font-family:museo'><?= $customer_name ?></h4>
+		<p style='font-family:museo'><?= $customer_address ?></p>
+		<p style='font-family:museo'><?= $customer_city ?></p>
 		<input type='hidden' value='<?= $customer_id ?>' name='customer_id'>
-		<p><strong><?= $customer_name ?></strong></p>
-		<p><?= $customer_address ?></p>
-		<p><?= $customer_city ?></p>
+		
 		<label>Taxing</label>
-		<p><?= $taxing_text ?></p>
+		<p style='font-family:museo'><?= $taxing_text ?></p>
 		<input type='hidden' value='<?= $taxing ?>' name='taxing'>
+		
 		<label>Purchase Order Number</label>
 		<p><?= $purchase_order ?></p>
 		<input type='hidden' value='<?= $purchase_order ?>' name='purchase_order'>
+		
 		<label>Project date</label>
 		<p><?= date('d M Y',strtotime($start_project)) ?></p>
 		<input type='hidden' value='<?= $start_project ?>' name='start_project'>
+		
 		<label>Project name</label>
 		<p><?= $name_project ?></p>
 		<input type='hidden' value='<?= mysqli_real_escape_string($conn,$name_project) ?>' name='name_project'>

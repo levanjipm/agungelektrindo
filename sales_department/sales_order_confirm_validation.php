@@ -1,5 +1,6 @@
 <?php
-	include('salesheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 	$sales_order_id		= $_POST['id'];
 	$sql				= "SELECT * FROM code_salesorder WHERE id = '$sales_order_id'";
 	$result				= $conn->query($sql);
@@ -21,57 +22,17 @@
 		$type_text			= "Goods sales order";
 	}
 ?>
-<style>
-	.notification_large{
-		position:fixed;
-		top:0;
-		left:0;
-		background-color:rgba(51,51,51,0.3);
-		width:100%;
-		text-align:center;
-		height:100%;
-	}
-	
-	.notification_large .notification_box{
-		position:relative;
-		background-color:#fff;
-		padding:30px;
-		width:100%;
-		top:30%;
-		box-shadow: 3px 4px 3px 4px #ddd;
-	}
-	
-	.btn-delete{
-		background-color:red;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-		padding:5px 10px;
-		outline:none;
-		border:none;
-	}
-	
-	.btn-back{
-		background-color:#777;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-		padding:5px 10px;
-		outline:none;
-		border:none;
-	}
-</style>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales Order</h2>
-	<p>Confirm sales order</p>
+	<p style='font-family:museo'>Confirm sales order</p>
 	<hr>
-	<h3 style='font-family:bebasneue'><?= $customer_name ?></h3>
-	<label>Number</label>
-	<p><?= $row['name']; ?></p>
+	<h3 style='font-family:museo'>General data</h3>
+	<label>Customer</label>
+	<p style='font-family:museo'><?= $customer_name ?></p>
+	<label>Sales order number</label>
+	<p style='font-family:museo'><?= $row['name']; ?></p>
 	<label>Type</label>
-	<p><?= $type_text ?></p>
-	<label>Unique GUID</label>
-	<p><?= $row['guid'] ?></p>
+	<p style='font-family:museo'><?= $type_text ?></p>
 	
 	<table class='table table-bordered'>
 <?php
@@ -158,13 +119,13 @@
 		<input type='hidden' value='<?= $sales_order_id ?>' name='id'>
 	</form>
 </div>
-<div class='notification_large' style='display:none' id='confirm_notification'>
-	<div class='notification_box'>
-		<h1 style='font-size:3em;color:red'><i class="fa fa-times" aria-hidden="true"></i></h1>
-		<h2 style='font-family:bebasneue'>Are you sure to delete this sales order?</h2>
+<div class='full_screen_wrapper'>
+	<div class='full_screen_notif_bar'>
+		<h1 style='font-size:2em;color:red'><i class="fa fa-times" aria-hidden="true"></i></h1>
+		<p style='font-family:museo'>Are you sure to delete this sales order?</p>
 		<br>
-		<button type='button' class='btn-back'>Back</button>
-		<button type='button' class='btn-delete' id='confirm_button'>Delete</button>
+		<button type='button' class='button_danger_dark' id='close_notif_button'>Check again</button>
+		<button type='button' class='button_success_dark' id='confirm_button'>Delete</button>
 	</div>
 </div>
 <script>
@@ -173,11 +134,15 @@
 	});
 	
 	$('#delete_sales_order_button').click(function(){
-		$('#confirm_notification').fadeIn();
+		var window_height		= $(window).height();
+		var notif_height		= $('.full_screen_notif_bar').height();
+		var difference			= window_height - notif_height;
+		$('.full_screen_notif_bar').css('top',0.7 * difference / 2);
+		$('.full_screen_wrapper').fadeIn();
 	});
 	
-	$('.btn-back').click(function(){
-		$('#confirm_notification').fadeOut();
+	$('#close_notif_button').click(function(){
+		$('.full_screen_wrapper').fadeOut();
 	});
 	
 	$('#confirm_button').click(function(){

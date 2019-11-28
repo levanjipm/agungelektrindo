@@ -1,10 +1,8 @@
-<DOCTYPE html>
 <?php
-	include('salesheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
-<link rel="stylesheet" href="../jquery-ui.css">
-<script src="../jquery-ui.js"></script>
-<div class="main">
+<div class='main'>
 	<h2 style='font-family:bebasneue'>Check stock</h2>
 	<input type="text" id="check_stock_search_box" placeholder="Search..">
 	<style>
@@ -56,7 +54,7 @@
 <script>
 $('#check_stock_search_box').change(function () {
     $.ajax({
-        url: "search_check_stock.php",
+        url: "check_stock_search.php",
         data: {
             term: $('#check_stock_search_box').val(),
         },

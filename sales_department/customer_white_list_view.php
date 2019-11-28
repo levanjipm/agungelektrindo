@@ -1,27 +1,25 @@
 <?php
-	include('../codes/connect.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/codes/connect.php');
+	$sql_customer			= "SELECT * FROM customer WHERE is_blacklist = '1'";
+	$result_customer		= $conn->query($sql_customer);
 ?>
-<style>
-	.btn-confirm{
-		background-color:#008080;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-		padding:5px 10px;
-		outline:none;
-		border:none;
-	}
-</style>
-<div class='notification_wrapper'>
-	<div class='notification_box'>
-		<h1 style='font-size:3em;color:#2bf076'><i class="fa fa-check" aria-hidden="true"></i></h1>
-		<h2 style='font-family:bebasneue'>Are you sure to <strong>whitelist</strong> this customer?</h2>
+<div class='full_screen_wrapper'>
+	<div class='full_screen_notif_bar'>
+		<h1 style='font-size:2em;color:#2bf076'><i class="fa fa-check" aria-hidden="true"></i></h1>
+		<p style='font-family:museo'>Are you sure to <strong>whitelist</strong> this customer?</p>
 		<br>
-		<button type='button' class='btn-back'>Back</button>
-		<button type='button' class='btn-confirm' id='confirm_button'>Confirm</button>
+		<button type='button' class='button_danger_dark' id='close_notif_button'>Check again</button>
+		<button type='button' class='button_success_dark' id='confirm_button'>Confirm</button>
 		<input type='hidden' id='customer_id'>
 	</div>
 </div>
+<?php
+	if(mysqli_num_rows($result_customer) == 0){
+?>
+	<p style='font-family:museo'>There is no customer to white list</p>
+<?php
+	} else {
+?>
 <table class='table table-bordered'>
 	<thead>
 		<tr>
@@ -32,8 +30,7 @@
 	</thead>
 	<tbody>
 <?php
-	$sql_customer			= "SELECT * FROM customer WHERE is_blacklist = '1'";
-	$result_customer		= $conn->query($sql_customer);
+	
 	while($customer			= $result_customer->fetch_assoc()){
 		$customer_id		= $customer['id'];
 		$customer_name		= $customer['name'];
@@ -56,15 +53,19 @@
 </table>
 <script>
 	function whitelist_customer(n){
-		$('.notification_wrapper').fadeIn();
+		var window_height		= $(window).height();
+		var notif_height		= $('.full_screen_notif_bar').height();
+		var difference			= window_height - notif_height;
+		$('.full_screen_notif_bar').css('top',0.7 * difference / 2);
+		$('.full_screen_wrapper').fadeIn();
 		$('#customer_id').val(n);
 	}
 	
-	$('.btn-back').click(function(){
-		$('.notification_wrapper').fadeOut();
+	$('#close_notif_button').click(function(){
+		$('.full_screen_wrapper').fadeOut();
 	});
 	
-	$('.btn-confirm').click(function(){
+	$('#confirm_button').click(function(){
 		$.ajax({
 			url:'customer_white_list_input.php',
 			data:{
@@ -75,10 +76,13 @@
 				$('.btn-confirm').attr('disabled',true);
 			},
 			success:function(){
-				$('.btn-confirm').attr('disabled',false);
-				$('.btn-back').click();
+				$('#confirm_button').attr('disabled',false);
+				$('#close_notif_button').click();
 				$('#whitelist_button').click();
 			}
 		});
 	});
 </script>
+<?php
+	}
+?>

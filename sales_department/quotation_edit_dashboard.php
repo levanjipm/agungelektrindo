@@ -1,5 +1,6 @@
 <?php
-	include ("salesheader.php");
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include ($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
 <style>
 	input[type=text] {
@@ -25,38 +26,6 @@
 		color:#ddd;
 		transition:0.3s all ease;
 	}
-
-	.view_wrapper{
-		background-color:rgba(30,30,30,0.7);
-		position:fixed;
-		z-index:100;
-		top:0;
-		width:100%;
-		height:100%;
-		display:none;
-	}
-	
-	#view_inventory_view{
-		position:absolute;
-		width:90%;
-		left:5%;
-		top:10%;
-		height:80%;
-		background-color:white;
-		overflow-y:scroll;
-		padding:20px;
-	}
-	
-	#button_close_view{
-		position:absolute;
-		background-color:transparent;
-		top:10%;
-		left:5%;
-		outline:none;
-		border:none;
-		color:#333;
-		z-index:120;
-	}
 	
 	.isactive{
 		background-color:#2B3940!important;
@@ -74,9 +43,9 @@
 	<h3 style='font-family:bebasneue'>Latest Quotations</h3>
 	<div class='row' style='padding:10px' id='quotation_row'>
 <?php
-	$sql_quotation = "SELECT * FROM code_quotation WHERE company = 'AE' ORDER BY id DESC LIMIT 30";
-	$result_quotation = $conn->query($sql_quotation);
-	while($quotation = $result_quotation->fetch_assoc()){
+	$sql_quotation 			= "SELECT * FROM code_quotation WHERE company = 'AE' ORDER BY id DESC LIMIT 30";
+	$result_quotation 		= $conn->query($sql_quotation);
+	while($quotation 		= $result_quotation->fetch_assoc()){
 		$sql_customer 		= "SELECT name FROM customer WHERE id = '" . $quotation['customer_id'] . "'";
 		$result_customer 	= $conn->query($sql_customer);
 		$customer 			= $result_customer->fetch_assoc();
@@ -128,9 +97,9 @@
 		</div>
 	</div>
 </div>
-<div class='view_wrapper'>
-	<button id='button_close_view'>X</button>
-	<div id='view_inventory_view'>
+<div class='full_screen_wrapper'>
+	<button class='full_screen_close_button'>&times</button>
+	<div class='full_screen_box'>
 	</div>
 </div>
 </body>
@@ -154,14 +123,14 @@
 			type: "POST",
 			dataType: "html",
 			success: function (response) {
-				$('.view_wrapper').fadeIn();
-				$('#view_inventory_view').html(response);
+				$('.full_screen_wrapper').fadeIn();
+				$('.full_screen_box').html(response);
 			},
 		});
 	}
 	
-	$('#button_close_view').click(function(){
-		$('.view_wrapper').fadeOut();
+	$('.full_screen_close_button').click(function(){
+		$('.full_screen_wrapper').fadeOut();
 	});
 	
 	$('#load_old_quotation_button').click(function(){
@@ -178,9 +147,10 @@
 			beforeSend:function(){
 				$('#loading_text').hide();
 				$('#loading_spin').show();
-				$('#quotation_row').html('');
+				$('#quotation_row').html("<h1 style='font-size:3em'><i class='fa fa-spin fa-spinner'></i></h1>");
 			},
 			success:function(response){
+				$('#quotation_row').html('');
 				$('#quotation_row').append(response);
 				$('#loading_text').show();
 				$('#loading_spin').hide();

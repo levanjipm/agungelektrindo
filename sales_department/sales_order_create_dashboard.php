@@ -1,10 +1,10 @@
 <?php
-	include("salesheader.php");
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
-<link rel="stylesheet" href="../jquery-ui.css">
-<link rel="stylesheet" href="css/create_quotation.css">
-<script src="../jquery-ui.js"></script>
-<script src="../universal/Numeral-js-master/numeral.js"></script>
+<head>
+	<title>Create sales order</title>
+</head>
 <script>
 $( function() {
 	$('#reference1').autocomplete({
@@ -68,7 +68,7 @@ $( function() {
 					</div>
 				</div>
 				<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
-				<button type='button' class='button_add_row' id='add_item_button' style='display:inline-block'>Add item</button>
+				<button type='button' class='button_default_dark' id='add_item_button' style='display:inline-block'>Add item</button>
 				<br>
 				<br>
 				<table class='table table-bordered'>
@@ -114,7 +114,7 @@ $( function() {
 				</div>
 				<div class="row">
 					<div class="col-sm-6" style="padding:20px">
-						<button type="button" class="hide_note_button" onclick="confirm_sales_order()" id="calculate">Calculate</button>
+						<button type="button" class="button_default_dark" onclick="confirm_sales_order()" id="calculate">Calculate</button>
 						<button type="button" class="button_danger_dark" style="display:none" id="back_button">Back</button>
 						<button type="button" class="button_success_dark" style="display:none" id="submitbtn" onclick="validate_sales_order()">Submit</button>	
 					</div>
@@ -203,8 +203,6 @@ function confirm_sales_order(){
 		$('#submitbtn').show();
 		$('#back_button').show();
 		$('#calculate').hide();
-		$('#folder').hide();
-		$('#close').hide();
 		
 	var calculated_total = 0;
 	
@@ -270,8 +268,6 @@ $("#back_button").click(function () {
 	$('#submitbtn').hide();
 	$('#back_button').hide();
 	$('#calculate').show();
-	$('#folder').show();
-	$('#close').show();
 });
 
 function disable(){

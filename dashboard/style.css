@@ -1,0 +1,20 @@
+.tab_button_wrapper{
+	background-color:white;
+}
+
+.tab_button_wrapper button{
+	background-color:white;
+	border:none;
+	outline:none;
+	font-family:museo;
+	font-size:1.2em;
+	padding:5px 20px;
+}
+
+.tab_button_wrapper button.active{
+	border-bottom:2px solid #333;
+}
+
+.tab_view{
+	padding:20px;
+}

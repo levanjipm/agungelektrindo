@@ -1,10 +1,13 @@
 <?php
-	include('salesheader.php');
-	$customer_id = mysqli_real_escape_string($conn,$_POST['customer']);
-	$sql_customer = "SELECT name FROM customer WHERE id = '" . $customer_id . "'";
-	$result_customer = $conn->query($sql_customer);
-	$customer = $result_customer->fetch_assoc();
-	$po_number = mysqli_real_escape_string($conn,$_POST['po_name']);
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
+	
+	$customer_id 		= mysqli_real_escape_string($conn,$_POST['customer']);
+	$sql_customer 		= "SELECT name FROM customer WHERE id = '" . $customer_id . "'";
+	$result_customer 	= $conn->query($sql_customer);
+	$customer 			= $result_customer->fetch_assoc();
+	
+	$po_number 			= mysqli_real_escape_string($conn,$_POST['po_name']);
 	if(mysqli_num_rows($result_customer) == 0){
 ?>
 	<script>
@@ -12,9 +15,10 @@
 	</script>
 <?php
 	}
-	$date = $_POST['date'];
-	$tax = $_POST['tax'];
-	$seller = $_POST['seller'];
+	
+	$date 				= $_POST['date'];
+	$tax 				= $_POST['tax'];
+	$seller 			= $_POST['seller'];
 	
 	$service_name_array			= $_POST['service_name'];
 	$service_quantity_array		= $_POST['service_quantity'];
@@ -33,8 +37,11 @@
 	
 	$guid	= GUID();
 ?>
+<head>
+	<title>Service sales order</title>
+</head>
 <div class='main'>
-	<form action='service_sales_order.php' method='POST' id='service_sales_order_form'>
+	<form action='service_sales_order_input' method='POST' id='service_sales_order_form'>
 	
 	<input type='hidden' value='<?= $seller ?>' name='seller'>
 	<input type='hidden' value='<?= $tax ?>' name='tax'>
@@ -46,14 +53,18 @@
 	<p>Service sales order validation</p>
 	<hr>
 	<label>Date</label>
-	<p><?= date('d M Y',strtotime($date)) ?></p>
+	<p style='font-family:museo'><?= date('d M Y',strtotime($date)) ?></p>
+	
 	<label>Customer :</label>
-	<p><?= $customer['name'] ?></p>
+	<p style='font-family:museo'><?= $customer['name'] ?></p>
+	
 	<label>Purchase Order</label>
-	<p><?= $po_number ?></p>
-	<label>Unique GUID</label>
-	<p><?= $guid ?></p>
+	<p style='font-family:museo'><?= $po_number ?></p>
+	
+	<label>GUID</label>
+	<p style='font-family:museo'><?= $guid ?></p>
 	<input type='hidden' value='<?= $guid ?>' name='guid'>
+	
 	<table class='table table-bordered'>
 		<tr>
 			<th>Service name</th>
@@ -63,10 +74,10 @@
 		</tr>
 		
 <?php
-	$total 	= 0;
-	$i		= 1;
+	$total 			= 0;
+	$i				= 1;
 	foreach($service_name_array as $service_name){
-		$key = key($service_name_array);
+		$key 		= key($service_name_array);
 		$quantity 	= $service_quantity_array[$key];
 		$unit 		= $service_unit_array[$key];
 		$price 		= $service_price_array[$key];

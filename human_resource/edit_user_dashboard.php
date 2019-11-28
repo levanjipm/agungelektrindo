@@ -94,6 +94,8 @@ if($_SESSION['user_id'] === NULL){
 				data: formdata,
 				processData: false,
 				contentType: false,
+				beforeSend:function(){
+				},
 				success: function (result) {
 					$('#profile_picture_image').attr('src',result);
 				}
@@ -110,7 +112,7 @@ if($_SESSION['user_id'] === NULL){
 			return false;
 		} else {
 			$.ajax({
-				url:'edit_profile.php',
+				url:'profile_edit_input.php',
 				data:{
 					email: $('#email').val(),
 					address: $('#address').val(),

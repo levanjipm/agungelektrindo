@@ -1,24 +1,13 @@
 <?php
-	include('../codes/connect.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/codes/connect.php');
 ?>
-<style>
-	.btn-delete{
-		background-color:red;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-		padding:5px 10px;
-		outline:none;
-		border:none;
-	}
-</style>
-<div class='notification_wrapper'>
-	<div class='notification_box'>
-		<h1 style='font-size:3em;color:red'><i class="fa fa-times" aria-hidden="true"></i></h1>
-		<h2 style='font-family:bebasneue'>Are you sure to <strong>blacklist</strong> this customer?</h2>
+<div class='full_screen_wrapper'>
+	<div class='full_screen_notif_bar'>
+		<h1 style='font-size:2em;color:red'><i class="fa fa-times" aria-hidden="true"></i></h1>
+		<p style='font-family:museo'>Are you sure to <strong>blacklist</strong> this customer?</p>
 		<br>
-		<button type='button' class='btn-back'>Back</button>
-		<button type='button' class='btn-delete' id='confirm_button'>Delete</button>
+		<button type='button' class='button_danger_dark' id='close_notification_button'>Check again</button>
+		<button type='button' class='button_success_dark' id='confirm_button'>Delete</button>
 		<input type='hidden' id='customer_id'>
 	</div>
 </div>
@@ -56,15 +45,19 @@
 </table>
 <script>
 	function black_list_customer(n){
-		$('.notification_wrapper').fadeIn();
+		var window_height		= $(window).height();
+		var notif_height		= $('.full_screen_notif_bar').height();
+		var difference			= window_height - notif_height;
+		$('.full_screen_notif_bar').css('top',0.7 * difference / 2);
+		$('.full_screen_wrapper').fadeIn();
 		$('#customer_id').val(n);
 	}
 	
-	$('.btn-back').click(function(){
-		$('.notification_wrapper').fadeOut();
+	$('#close_notification_button').click(function(){
+		$('.full_screen_wrapper').fadeOut();
 	});
 	
-	$('.btn-delete').click(function(){
+	$('#confirm_button').click(function(){
 		$.ajax({
 			url:'customer_black_list_input.php',
 			data:{

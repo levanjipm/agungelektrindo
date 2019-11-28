@@ -1,5 +1,5 @@
 <?php
-	include("../codes/connect.php");
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/codes/connect.php');
 	$q_id 					= $_POST['id'];
 	
 	$sql 					= "SELECT * FROM code_quotation WHERE id = '" . $q_id . "'";
@@ -28,13 +28,12 @@
 ?>
 <head>
 	<title><?= strtoupper($q_name . " " .$customer_name) ?></title>
-	<script src='../universal/jquery/jquery-3.3.0.min.js'></script>
-	<link rel="stylesheet" href="../universal/bootstrap/4.1.3/css/bootstrap.min.css">
-	<script src="../universal/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="../universal/fontawesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="salesstyle.css">
-	<link rel="stylesheet" href="../universal/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src='/agungelektrindo/universal/jquery/jquery-3.3.0.min.js'></script>
+	<link rel="stylesheet" href="/agungelektrindo/universal/bootstrap/4.1.3/css/bootstrap.min.css">
+	<script src="/agungelektrindo/universal/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="/agungelektrindouniversal/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/agungelektrindo/css/style.css">
+	<link rel="stylesheet" href="/agungelektrindo/universal/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
 	<div class="row" style='margin:0'>
@@ -43,7 +42,7 @@
 		<div class="col-sm-8" id="printable">
 			<div class="row">
 				<div class="col-sm-8 offset-sm-2">
-					<img src="../universal/images/Logo Agung.jpg" style="width:100%"></img>
+					<img src="/agungelektrindo/universal/images/Logo Agung.jpg" style="width:100%"></img>
 				</div>
 			</div>
 			<div class="row">

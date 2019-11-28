@@ -1,5 +1,6 @@
 <?php
-	include("salesheader.php");
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
 <script type='text/javascript' src="../universal/Jquery/jquery.inputmask.bundle.js"></script>
 <div class="main">
@@ -79,17 +80,6 @@
 		z-index:120;
 	}
 </style>
-	<div class='alert_wrapper'>
-		<div class="alert alert-success" id='alert_change' style='display:none'>
-			<strong>Success!</strong> Update successful!
-		</div>
-		<div class="alert alert-info" id='alert_no' style='display:none'>
-			<strong>Info!</strong> There was no change detected.
-		</div>
-		<div class="alert alert-warning" id='alert_failed' style='display:none'>
-			<strong>Info!</strong> There was no change detected.
-		</div>
-	</div>
 	<h2 style='font-family:bebasneue'>Customer</h2>
 	<p>Edit customer data</p>
 	<hr>
@@ -101,9 +91,7 @@
 		<tr>
 			<th style="text-align:center"><strong>Name</strong></th>
 			<th style="text-align:center"><strong>Address</strong></th>
-			<th></th>
-			<th></th>
-			<th></th>
+			<th colspan='3'></th>
 		</tr>
 <?php
 	$sql 		= "SELECT id,name,address FROM customer ORDER BY name";
@@ -119,9 +107,9 @@
 				</button>
 			</td>
 			<td>
-				<button type='button' class='button_success_dark' onclick='view_customer(<?= $row['id'] ?>)'>
-					<i class="fa fa-eye" aria-hidden="true"></i>
-				</button>
+				<a  href='/agungelektrindo/sales_department/customer_view.php?id=<?= $row['id'] ?>'>
+				<button class='button_success_dark'><i class="fa fa-eye" aria-hidden="true"></i></button>
+				</a>
 			</td>
 <?php
 		$sql_check 		= "SELECT
@@ -161,51 +149,60 @@
 ?>
 	</table>
 </div>
-<div class='notification_large' style='display:none'>
-	<div class='notification_box' id='box_display'>
-		<h1 style='font-size:3em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h1>
-		<h2 style='font-family:bebasneue'>Are you sure to delete this customer?</h2>
-		<br>
-		<button type='button' class='btn btn-back'>Back</button>
-		<button type='button' class='btn btn-delete'>Close</button>
+<div class='full_screen_wrapper' id='delete_wrapper'>
+	<div class='full_screen_notif_bar'>
+		<h1 style='font-size:3em;color:red'><i class="fa fa-trash-o" aria-hidden="true"></i></h1>
+		<p style='font-family:museo'>Are you sure to delete this customer?</p>
+		<button type='button' class='button_danger_dark' id='close_notification_button'>Check again</button>
+		<button type='button' class='button_success_dark' id='confirm_delete_customer'>Confirm</button>
 	</div>
 </div>
-<div class='view_customer_wrapper'>
-	<button type='button' id='button_close_customer_wrapper'>X</button>
-	<div id='view_customer_box'>
+<div class='full_screen_wrapper' id='edit_wrapper'>
+	<button type='button' class='full_screen_close_button'>X</button>
+	<div class='full_screen_box'>
 	</div>
 </div>
 <input type='hidden' value='0' id='customer_id' name='id'>
 </body>
 </html>
 <script>
-	$('#button_close_customer_wrapper').click(function(){
-		$('.view_customer_wrapper').fadeOut();
-	});
+	$("input[id^=npwp]").inputmask("99.999.999.9-999.999");
 	
 	function delete_customer(n){
 		$('#customer_id').val(n);
-		$('.notification_large').fadeIn();
+		var window_height			= $(window).height();
+		var bar_height				= $('.full_screen_notif_bar').height();
+		var difference				= window_height - bar_height;
+		$('.full_screen_notif_bar').css('top',0.7 * difference / 2);
+		$('#delete_wrapper').fadeIn();
 	}
-	$('.btn-back').click(function(){
-		$('.notification_large').fadeOut();
+	
+	$('#close_notification_button').click(function(){
+		$('#delete_wrapper').fadeOut(300);
 	});
-	$('.btn-delete').click(function(){
+	
+	$('.full_screen_close_button').click(function(){
+		$('.full_screen_wrapper').fadeOut();
+	});
+	
+	$('#confirm_delete_customer').click(function(){
 		$.ajax({
-			url:"delete_customer.php",
+			url:"customer_delete.php",
 			data:{
 				id: $('#customer_id').val()
 			},
 			type:"POST",
+			beforeSend:function(){
+				$('#confirm_delete_customer').attr('disabled',true);
+			},
 			success:function(){
 				location.reload()
 			},
 		})
 	});
-	$("input[id^=npwp]").inputmask("99.999.999.9-999.999");
 	
 	function submit(n){
-		$('#close_modal' + n).click();
+		$('.full_screen_close_button').click();
 		$.ajax({
 			url:"customer_edit.php",
 			data:{
@@ -218,23 +215,8 @@
 				phone: $('#phone' + n).val(),
 				city: $('#city' + n).val(),
 			},
-			success:function(response){
-				if(response == 0){
-					$('#alert_no').fadeIn();
-					setTimeout(function(){
-						$('#alert_no').fadeOut();
-					},1000);
-				} else if(response == 1){
-					$('#alert_change').fadeIn();
-					setTimeout(function(){
-						$('#alert_change').fadeOut();
-					},1000);
-				} else if(response == 2){
-					$('#alert_failed').fadeIn();
-					setTimeout(function(){
-						$('#alert_failed').fadeOut();
-					},1000);
-				}
+			success:function(){
+				location.reload();
 			},
 			type:"POST",
 		})
@@ -249,10 +231,6 @@
 		});
 	});
 	
-	function view_customer(n){
-		$('#view_customer_form' + n).submit();
-	};
-	
 	function open_edit_customer(n){
 		$.ajax({
 			url:'customer_edit_form.php',
@@ -261,9 +239,9 @@
 			},
 			type:'POST',
 			success:function(response){
-				$('#view_customer_box').html(response);
+				$('.full_screen_box').html(response);
 				setTimeout(function(){
-					$('.view_customer_wrapper').fadeIn();
+					$('#edit_wrapper').fadeIn();
 				},100);
 			}
 		});

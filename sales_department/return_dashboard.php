@@ -1,9 +1,13 @@
 <?php
-	include('salesheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include ($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
-<div class="main">	
+<head>
+	<title>Sales return</title>
+</head>
+<div class='main'>
 	<h2 style='font-family:bebasneue'>Return</h2>
-	<p>Create return</p>
+	<p style='font-family:museo'>Create return</p>
 	<hr>
 	<form method="POST" action="return_validation" id='sales_return_form'>
 		<label>Insert the delivery order to be return</label>
@@ -12,10 +16,11 @@
 		<button type='button' class="button_warning_dark" id='submit_sales_return_button'>Proceed</button>
 	</form>
 </div>
+
 <script>
 	$('#submit_sales_return_button').click(function(){
 		$.ajax({
-			url:'search_sales_return_delivery_order.php',
+			url:'sales_return_search.php',
 			data:{
 				delivery_order_name: $('#delivery_order_name').val()
 			},

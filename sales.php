@@ -3,7 +3,7 @@
 </head>
 <?php
 	include('header.php');
-	include('universal/headers/salesheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 	
 	$sql_pending_so 	= "SELECT COUNT(DISTINCT(so_id)) AS jumlah_so FROM sales_order WHERE status = '0'";
 	$result_pending_so 	= $conn->query($sql_pending_so);

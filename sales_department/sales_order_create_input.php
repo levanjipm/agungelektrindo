@@ -1,5 +1,5 @@
 <?php
-	include ("../codes/connect.php");
+	include ($_SERVER['DOCUMENT_ROOT'] . "/agungelektrindo/codes/connect.php");
 	
 	session_start();
 	$created_by 	= $_SESSION['user_id'];
@@ -70,5 +70,5 @@
 	$sql					= "UPDATE code_salesorder SET value = '" . $sales_order_value . "' WHERE name = '" . $so_number . "'";
 	$conn->query($sql);
 	
-	header('location:sales.php');
+	header('location:/agungelektrindo/sales.php');
 ?>
