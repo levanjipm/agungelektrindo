@@ -2,15 +2,20 @@
 	include("../codes/connect.php");
 	session_start();
 	if($_SESSION['user_id'] == NULL){
-		header('location:purchasing.php');
+		header('location:../purchasing');
 	} else {
 ?>
 <head>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src='/agungelektrindo/universal/jquery/jquery-3.3.0.min.js'></script>
+	<link rel='stylesheet' href='/agungelektrindo/universal/bootstrap/4.1.3/css/bootstrap.min.css'>
+	<script src='/agungelektrindo/universal/bootstrap/4.1.3/js/bootstrap.min.js'></script>
+	<link rel='stylesheet' href='/agungelektrindo/universal/fontawesome/css/font-awesome.min.css'>
+	<link rel='stylesheet' href='/agungelektrindo/universal/bootstrap/3.3.7/css/bootstrap.min.css'>
+	<script src='/agungelektrindo/universal/jquery/jquery-ui.js'></script>
+	<link rel='stylesheet' href='/agungelektrindo/universal/jquery/jquery-ui.css'>
+	<script src='/agungelektrindo/universal/numeral/numeral.js'></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<link rel="stylesheet" href='/agungelektrindo/css/style.css'>
 </head>
 <style>
 #heading{
@@ -65,7 +70,7 @@
 			}	
 			$conn->query($sql);
 			
-			$sql_first	= "SELECT id FROM code_purchaseorder WHERE name = '" . $po_number . "'"; 
+			$sql_first	= "SELECT id FROM code_purchaseorder WHERE guid = '$guid'"; 
 			$result 	= $conn->query($sql_first);	
 			$row 		= $result->fetch_assoc();
 			$po_id 		=  $row['id'];
@@ -100,7 +105,7 @@
 				$('#po_id').submit();
 
 			}, 125);
-			window.setTimeout("location = ('purchasing');",150);
+			window.setTimeout("location = ('../purchasing');",150);
 		});
 	</script>
 </body>

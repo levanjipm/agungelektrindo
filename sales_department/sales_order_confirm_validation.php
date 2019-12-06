@@ -1,6 +1,7 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
+	
 	$sales_order_id		= $_POST['id'];
 	$sql				= "SELECT * FROM code_salesorder WHERE id = '$sales_order_id'";
 	$result				= $conn->query($sql);

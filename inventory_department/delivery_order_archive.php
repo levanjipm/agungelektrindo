@@ -1,5 +1,6 @@
 <?php
-	include('inventoryheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 ?>
 <style>
 	.btn-table{
@@ -7,6 +8,9 @@
 		border:none;
 	}
 </style>
+<head>
+	<title>Delivery Order Archives</title>
+</head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Delivery Order</h2>
 	<p>Archives</p>
@@ -16,9 +20,9 @@
 	<input type='hidden' value='0' id='depth_year'>
 	<div class='row' id='folders'>
 <?php
-	$sql = "SELECT DISTINCT(YEAR(date)) AS year FROM code_delivery_order";
-	$result = $conn->query($sql);
-	while($row = $result->fetch_assoc()){
+	$sql 		= "SELECT DISTINCT(YEAR(date)) AS year FROM code_delivery_order";
+	$result 	= $conn->query($sql);
+	while($row 	= $result->fetch_assoc()){
 ?>
 	<div class='col-sm-2 folder_year' style='cursor:pointer' ondblclick='view_month(<?= $row['year'] ?>)'>
 		<h1 style='font-size:5em'>
@@ -29,7 +33,7 @@
 <?php
 	}
 ?>
-	</div>
+</div>
 <script>
 	function view_month(n){
 		$('#depth').val(1);

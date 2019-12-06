@@ -74,5 +74,5 @@
 		}
 	}
 	
-	header('location:purchasing');
+	header('location:../purchasing');
 ?>

@@ -1,8 +1,6 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
-	
-	session_start();
 	$sql_user 			= "SELECT name,role,hpp FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
 	$result_user 		= $conn->query($sql_user);
 	$row_user 			= $result_user->fetch_assoc();

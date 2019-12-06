@@ -1,62 +1,62 @@
 <?php
-	include("inventoryheader.php");
-?>
-<div class="main">
-<?php
-$so_id = $_POST["id"];
-$do_date = $_POST['today'];
-$customer_id = $_POST['customer_id'];
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
+	
+	$so_id 			= $_POST["id"];
+	$do_date 		= $_POST['today'];
+	$customer_id 	= $_POST['customer_id'];
 
-function GUID()
-{
-	if (function_exists('com_create_guid') === true)
+	function GUID()
 	{
-		return trim(com_create_guid(), '{}');
+		if (function_exists('com_create_guid') === true)
+		{
+			return trim(com_create_guid(), '{}');
+		}
+
+		return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
 	}
 
-	return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
-}
-
-$guid = GUID();
-
-switch (date('m',strtotime($do_date))) {
-	case "01" :
-		$month = 'I';
-		break;
-	case "02" :
-		$month = 'II';
-		break;
-	case "03" :
-		$month = 'III';
-		break;
-	case "04" :
-		$month = 'IV';
-		break;
-	case "05" :
-		$month = 'V';
-		break;
-	case "06" :
-		$month = 'VI';
-		break;
-	case "07" :
-		$month = 'VII';
-		break;
-	case "08" :
-		$month = 'VIII';
-		break;
-	case "09" :
-		$month = 'IX';
-		break;
-	case "10" :
-		$month = 'X';
-		break;
-	case "11" :
-		$month = 'XI';
-		break;
-	case "12" :
-		$month = 'XII';
-		break;		
-}	
+	$guid 			= GUID();
+	
+	switch (date('m',strtotime($do_date))) {
+		case "01" :
+			$month = 'I';
+			break;
+		case "02" :
+			$month = 'II';
+			break;
+		case "03" :
+			$month = 'III';
+			break;
+		case "04" :
+			$month = 'IV';
+			break;
+		case "05" :
+			$month = 'V';
+			break;
+		case "06" :
+			$month = 'VI';
+			break;
+		case "07" :
+			$month = 'VII';
+			break;
+		case "08" :
+			$month = 'VIII';
+			break;
+		case "09" :
+			$month = 'IX';
+			break;
+		case "10" :
+			$month = 'X';
+			break;
+		case "11" :
+			$month = 'XI';
+			break;
+		case "12" :
+			$month = 'XII';
+			break;		
+	}
+	
 	$taxing 		= $_POST['tax'];
 	$sql_number 	= "SELECT * FROM code_delivery_order 
 					WHERE MONTH(date) = MONTH('" . $do_date . "') AND YEAR(date) = YEAR('" . $do_date . "') AND number > '0'
@@ -102,12 +102,16 @@ switch (date('m',strtotime($do_date))) {
 		$city 				= $row['retail_city'];
 	}
 ?>
+<head>
+	<title>Create delivery order</title>
+</head>
+<div class='main'>
 	<form method="POST" action="delivery_order_create_input" id='delivery_order_form'>
-		<input type="hidden" 	value="<?= $so_id ?>" 		name="so_id">
-		<input type="hidden" 	value="<?= $customer_id ?>" name="customer">
-		<input type="hidden" 	value="<?= $taxing ?>" 		name="tax">
-		<input type="hidden" 	value="<?= $do_date ?>" 	name="do_date">
-		<input type="hidden" 	value="<?= $nomor ?>" 		name="do_number">
+		<input type='hidden' 	value='<?= $so_id ?>' 		name='so_id'>
+		<input type='hidden' 	value='<?= $customer_id ?>' name='customer'>
+		<input type='hidden' 	value='<?= $taxing ?>' 		name='tax'>
+		<input type='hidden' 	value='<?= $do_date ?>' 	name='do_date'>
+		<input type='hidden' 	value='<?= $nomor ?>' 		name='do_number'>
 		<div class="row">
 			<div class="col-sm-2">
 				<img src="../universal/images/logogudang.jpg" style="width:100%;height:auto">
@@ -160,9 +164,7 @@ switch (date('m',strtotime($do_date))) {
 		foreach($reference_array as $reference){
 			$key 				= key($reference_array);
 			$quantity			= $quantity_array[$key];
-			$price				= $price_array[$key];
-			
-			//Check if user changes the validation in front-end security//			
+			$price				= $price_array[$key];		
 			$sql_check 			= "SELECT quantity, sent_quantity FROM sales_order WHERE so_id = '" . $so_id . "' AND reference = '" . $reference . "'";
 			$result_check 		= $conn->query($sql_check);
 			$check 				= $result_check->fetch_assoc();
@@ -187,16 +189,12 @@ switch (date('m',strtotime($do_date))) {
 ?>
 			<tr>
 				<td><?= $item_description ?></td>
-				<td>
-					<?= $reference ?>
-					<input type="hidden" name="reference[<?= $key ?>]" value="<?= $reference ?>">
-					<input type="hidden" name="price[<?= $key ?>]" value="<?= $price ?>">
-				</td>
-				<td>
-					<?=$quantity?>
-					<input type="hidden" name="quantity[<?= $key ?>]" value="<?= $quantity ?>">
-				</td>
+				<td><?= $reference ?></td>
+				<td><?=$quantity?></td>
 			</tr>
+			<input type="hidden" name="quantity[<?= $key ?>]" value="<?= $quantity ?>">
+			<input type="hidden" name="reference[<?= $key ?>]" value="<?= $reference ?>">
+			<input type="hidden" name="price[<?= $key ?>]" value="<?= $price ?>">
 <?php
 			next($reference_array);
 		}
@@ -204,7 +202,7 @@ switch (date('m',strtotime($do_date))) {
 			</tbody>
 		</table>
 		<br><br>
-		<button type="button" class="button_default_dark" id='submit_delivery_order_button'>Next</button>
+		<button type="button" class='button_success_dark' id='submit_delivery_order_button'>Next</button>
 	</form>
 </div>
 <script>

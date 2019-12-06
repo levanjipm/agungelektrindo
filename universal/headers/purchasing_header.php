@@ -1,6 +1,6 @@
 <div class="sidenav">
 	<button style='text-align:right' id='hide_side_button'><i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
-	<button>Purchase Order</button>
+	<button class='dropdown_button'>Purchase Order</button>
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/purchasing_department/purchase_order_create_dashboard'><p>Create a PO</p></a>
 <?php
@@ -13,7 +13,7 @@
 ?>
 		<a href='/agungelektrindo/purchasing_department/purchase_order_archive'><p>Archives</p></a>
 	</div>
-	<button>Supplier</button>
+	<button class='dropdown_button'>Supplier</button>
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/purchasing_department/supplier_add_dashboard'><p>Add supplier</p></a>
 <?php
@@ -24,13 +24,13 @@
 	};
 ?>
 	</div>
-	<button>Item list</button>
+	<button class='dropdown_button'>Item list</button>
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/purchasing_department/item_add_dashboard'><p>Add item list</p></a>
 		<a href='/agungelektrindo/purchasing_department/item_manage_dashboard'><p>Manage item list</p></a>
 		<a href='/agungelektrindo/purchasing_department/item_add_class_dashboard'><p>Item list cat.</p></a>
 	</div>
-	<button>Return</button>
+	<button class='dropdown_button'>Return</button>
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/purchasing_department/return_create_dashboard'><p>Create Return</p></a>
 		<a href='/agungelektrindo/purchasing_department/purchasing_return_confirm_dashboard'><p>Confirm Return</p></a>
@@ -45,13 +45,13 @@
 	<i class="fa fa-bars" aria-hidden="true"></i>
 </div>
 <script>
-$('.sidenav button').click(function(){
-	if($(this).next('.dropdown-container').is(':visible')){
+$('.dropdown_button').click(function(){
+	if($(this).next().is(':visible')){
 		$(this).css('color','white');
 	} else {
 		$(this).css('color','#00ccff');
 	}
-	$(this).next('.dropdown-container').toggle(350);
+	$(this).next().toggle(350);
 });
 
 $('#hide_side_button').click(function(){

@@ -66,43 +66,41 @@
 		font-size:1.5em;
 	}
 </style>
-<div class="main">
-	<div class='row'>
-		<div class='col-sm-12'>
-			<h2 style='font-family:bebasneue'>Purchase order</h2>
-			<p>Edit purchase order</p>
-			<hr>
-			<form action='purchase_order_edit' method="POST" id='edit_purchase_order_form'>
-				<input type='hidden' value='<?= $po_id ?>' name='purchase_order_id'>
-				<label>Order to</label>
-				<p><?= $supplier_name ?></p>
-				<label>Promo Code</label>
-				<input type="text" class="form-control" value="<?= $promo_code?>" name="promo_code" style='width:50%'>
-				<label>Taxing option</label>
-				<select class="form-control" name="taxing" style='width:50%'>
-					<option value='1' <?php if($tax == 0) { echo 'selected'; } ?>>Tax</option>
-					<option value='2' <?php if($tax != 0) { echo 'selected'; } ?>>Non Tax</option>
-				</select>
-				<label>Term of payment</label>
-				<div>
-					<input type="text" value="<?= $top ?>" class="form-control" name="top" style='width:50%;display:inline-block;'>
-					<span style='width:20%;display:inline-block;'>Days</span>
-				</div>
-				<br>
-				<h4 style='font-family:bebasneue;display:inline-block'>Details</h4>
-				<button type='button' class='button_default_dark' style='display:inline-block' id='add_item_button'>Add item</button>
-				<table class='table table-bordered'>
-					<tr>
-						<th>Item</th>
-						<th>Price list(Rp.)</th>
-						<th>Discount</th>
-						<th>Unit price</th>
-						<th>Quantity</th>
-						<th>Received</th>
-						<th>Total price</th>
-						<th></th>
-					</tr>
-					<tbody id='purchase_order_body'>
+<div class='main'>
+	<h2 style='font-family:bebasneue'>Purchase order</h2>
+	<p>Edit purchase order</p>
+	<hr>
+	<form action='purchase_order_edit' method="POST" id='edit_purchase_order_form'>
+		<input type='hidden' value='<?= $po_id ?>' name='purchase_order_id'>
+		<label>Order to</label>
+		<p><?= $supplier_name ?></p>
+		<label>Promo Code</label>
+		<input type="text" class="form-control" value="<?= $promo_code?>" name="promo_code" style='width:50%'>
+		<label>Taxing option</label>
+		<select class="form-control" name="taxing" style='width:50%'>
+			<option value='1' <?php if($tax == 0) { echo 'selected'; } ?>>Tax</option>
+			<option value='2' <?php if($tax != 0) { echo 'selected'; } ?>>Non Tax</option>
+		</select>
+		<label>Term of payment</label>
+		<div>
+			<input type="text" value="<?= $top ?>" class="form-control" name="top" style='width:50%;display:inline-block;'>
+			<span style='width:20%;display:inline-block;'>Days</span>
+		</div>
+		<br>
+		<h4 style='font-family:bebasneue;display:inline-block'>Details</h4>
+		<button type='button' class='button_default_dark' style='display:inline-block' id='add_item_button'>Add item</button>
+		<table class='table table-bordered'>
+			<tr>
+				<th>Item</th>
+				<th>Price list(Rp.)</th>
+				<th>Discount</th>
+				<th>Unit price</th>
+				<th>Quantity</th>
+				<th>Received</th>
+				<th>Total price</th>
+				<th></th>
+			</tr>
+			<tbody id='purchase_order_body'>
 <?php
 	$sql  = "SELECT * FROM purchaseorder WHERE purchaseorder_id = '" . $po_id . "'";
 	$result = $conn->query($sql);
@@ -122,54 +120,51 @@
 		
 		if($disabled == 'disabled'){
 ?>
-						<tr>
-							<td><?= $reference ?></td>
-							<?= $row['id'] ?>
-							<td>Rp. <?= number_format($price_list,2) ?></td>
-							<td><?= number_format($discount,2) ?>%</td>
-							<td>Rp. <?= number_format($unit_price,2) ?></td>
-							<td><input type="number" value="<?= $row['quantity'] ?>"	class="form-control" id="qty<?= $row['id'] ?>" 	name="qty[<?= $row['id'] ?>]" 		min='<?= $quantity_received ?>' ></td>
-							<td><?= number_format($quantity_received,0) ?></td>
-							<td><?= number_format($total_price,2) ?></td>
-							<td></td>
-						</tr>
-						<script>
-							$( function() {
-								$('#reference<?= $row['id'] ?>').autocomplete({
-									source: "ajax/search_item.php"
-								 })
-							});
-						</script>
+				<tr>
+					<td><?= $reference ?></td>
+					<td>Rp. <?= number_format($price_list,2) ?></td>
+					<td><?= number_format($discount,2) ?>%</td>
+					<td>Rp. <?= number_format($unit_price,2) ?></td>
+					<td><input type="number" value="<?= $row['quantity'] ?>"	class="form-control" id="qty<?= $row['id'] ?>" 	name="qty[<?= $row['id'] ?>]" 		min='<?= $quantity_received ?>' ></td>
+					<td><?= number_format($quantity_received,0) ?></td>
+					<td><?= number_format($total_price,2) ?></td>
+					<td></td>
+				</tr>
+				<script>
+					$( function() {
+						$('#reference<?= $row['id'] ?>').autocomplete({
+							source: "ajax/search_item.php"
+						 })
+					});
+				</script>
 <?php
 		} else {
 ?>
-						<tr id="tr<?= $row['id'] ?>">
-							<td><input type='text' value="<?= $row['reference'] ?>" 	class='form-control' id='reference<?= $row['id'] ?>' 	name='reference[<?= $row['id'] ?>]'></td>
-							<td><input type="text" value="<?= $row['price_list'] ?>" 	class='form-control' name='price_list[<?= $row['id']?>]'></td>
-							<td><input type="text" value="<?= $row['discount'] ?>" 		class='form-control' name='discount[<?= $row['id'] ?>]'	min='0' max='100'></td>
-							<td><input type="text" value="<?= $row['unitprice'] ?>" 	class='form-control' readonly ></td>
-							<td><input type="text" value="<?= $row['quantity'] ?>" 		class='form-control' name='quantity[<?= $row['id'] ?>]' min='<?= $min_val ?>' ></td>
-							<td><?= number_format($quantity_received,0) ?></td>
-							<td><?= number_format($total_price,2) ?></td>
-							<td><button type="button" class="button_danger_dark" onclick="delete_item_exist(<?= $row['id'] ?>)" id='delete_button-<?= $row['id'] ?>'>&times</button></td>
-						</tr>
-						<script>
-							$( function() {
-								$('#reference<?= $row['id'] ?>').autocomplete({
-									source: "ajax/search_item.php"
-								 })
-							});
-						</script>
+				<tr id="tr<?= $row['id'] ?>">
+					<td><input type='text' value="<?= $row['reference'] ?>" 	class='form-control' id='reference<?= $row['id'] ?>' 	name='reference[<?= $row['id'] ?>]'></td>
+					<td><input type="text" value="<?= $row['price_list'] ?>" 	class='form-control' name='price_list[<?= $row['id']?>]'></td>
+					<td><input type="text" value="<?= $row['discount'] ?>" 		class='form-control' name='discount[<?= $row['id'] ?>]'	min='0' max='100'></td>
+					<td><input type="text" value="<?= $row['unitprice'] ?>" 	class='form-control' readonly ></td>
+					<td><input type="text" value="<?= $row['quantity'] ?>" 		class='form-control' name='quantity[<?= $row['id'] ?>]' min='<?= $min_val ?>' ></td>
+					<td><?= number_format($quantity_received,0) ?></td>
+					<td><?= number_format($total_price,2) ?></td>
+					<td><button type="button" class="button_danger_dark" onclick="delete_item_exist(<?= $row['id'] ?>)" id='delete_button-<?= $row['id'] ?>'>&times</button></td>
+				</tr>
+				<script>
+					$( function() {
+						$('#reference<?= $row['id'] ?>').autocomplete({
+							source: "ajax/search_item.php"
+						 })
+					});
+				</script>
 <?php
 		}
 	}
 ?>
-					</tbody>
-				</table>
-				<button type="button" class="button_default_dark" onclick="calculate()">Calculate</button>
-			</form>	
-		</div>
-	</div>
+			</tbody>
+		</table>
+		<button type="button" class="button_default_dark" onclick="calculate()">Calculate</button>
+	</form>	
 </div>
 <div class='notification_large' style='display:none'>
 	<div class='notification_box' id='confirm_box'>

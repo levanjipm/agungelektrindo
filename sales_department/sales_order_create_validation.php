@@ -12,15 +12,15 @@
 	$vat_array			= $_POST['vat'];
 	$pl_array			= $_POST['pl'];
 
-	$so_date			= $_POST['today'];
+	$so_date			= $_POST['sales_order_date'];
 	$taxing 			= $_POST['taxing'];
-	$po_number 			= mysqli_real_escape_string($conn,$_POST['purchaseordernumber']);
+	$po_number 			= mysqli_real_escape_string($conn,$_POST['purchase_order_name']);
 	$customer 			= $_POST['select_customer'];
 	if($customer == NULL){
-		$address 		= $_POST['retail_address'];
-		$city 			= $_POST['retail_city'];
-		$phone 			= $_POST['retail_phone'];
-		$name 			= $_POST['retail_name'];
+		$address 		= mysqli_real_escape_string($conn,$_POST['retail_address']);
+		$city 			= mysqli_real_escape_string($conn,$_POST['retail_city']);
+		$phone 			= mysqli_real_escape_string($conn,$_POST['retail_phone']);
+		$name 			= mysqli_real_escape_string($conn,$_POST['retail_name']);
 	} else {
 		$address 		= '';
 		$city 			= '';
@@ -31,6 +31,18 @@
 	$result_customer 	= $conn->query($sql_customer);
 	$customer_row		= $result_customer->fetch_assoc();
 	$customer_name 		= $customer_row['name'];
+	
+	function GUID()
+	{
+		if (function_exists('com_create_guid') === true)
+		{
+			return trim(com_create_guid(), '{}');
+		}
+
+		return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+	}
+	
+	$guid = GUID();
 ?>
 <div class='main'>
 	<form action="sales_order_create_input" method="POST" id='sales_order_form'>
@@ -41,45 +53,33 @@
 		<input type='hidden' value='<?= $city ?>' name='retail_city'>
 		<input type='hidden' value='<?= $phone ?>' name='retail_phone'>
 		<input type='hidden' value='<?= $name ?>' name='retail_name'>
+		<input type='hidden' value='<?= $guid ?>' name='guid'>
 		
 		<input type='hidden' value="<?= $so_date ?>" class="form-control" readonly>
 		<input type='hidden' value="<?= $so_date ?>" name="today">
 		<input type='hidden' value="<?= $customer?>" name="customer">
 		<input type='hidden' value="<?= $customer_top?>" name="customer_top">
-<?php
-		if($customer == 0){
-?>
+<?php if($customer == 0){ ?>
 			<h3 style="font-family:bebasneue">Retail</h3>
-<?php
-		} else {
-?>
+<?php } else { ?>
 			<h3 style="font-family:bebasneue"><?= $customer_name ?></h3>
-<?php
-		}
-		if($customer == 0){
-?>
+<?php }	if($customer == 0){ ?>
 			<p><?= $address ?></p>
 			<p><?= $city ?></p>
 			<p><?= $phone ?></p>
-<?php
-		}
-?>
+<?php } ?>
 		<p><strong>Purchase order number</strong></p>
 		<p><?= $po_number ?></p>
 		<p><strong>Term of payment</strong></p>
 		<p><?= $customer_top ?></p>
 		<input type="hidden" class="form-control" value="<?= $po_number ?>" readonly name="purchaseordernumber">
 		<label>Taxing Option</label>
-<?php
-		if($customer == 0){
-?>
+<?php if($customer == 0){ ?>
 			<p>Retail may not receive tax document</p>
 			<input type="hidden" class="form-control" value="0" readonly name="taxing" style='display:none'>
-<?php
-		} else {
-			if($taxing == 1){
+<?php } else { if($taxing == 1){
 ?>
-			<p><strong>Taxable</strong> sales</p>
+			<p>Taxable</p>
 <?php
 			} else {
 ?>

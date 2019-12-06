@@ -27,12 +27,12 @@
 			$sql_select 				= "SELECT * FROM delivery_order WHERE do_id = '" . $id_do . "'";
 			$result_select 				= $conn->query($sql_select);
 			while($row = $result_select->fetch_assoc()){
-				$reference 			= $row['reference'];
-				$quantity 			= $row['quantity'];
-				$sql_check_stock 	= "SELECT stock FROM stock WHERE reference = '" . $reference . "' ORDER BY id DESC LIMIT 1";
-				$result_check_stock = $conn->query($sql_check_stock);
-				$row_stock 			= $result_check_stock->fetch_assoc();
-				$stock 				= $row_stock['stock'];
+				$reference 				= $row['reference'];
+				$quantity 				= $row['quantity'];
+				$sql_check_stock 		= "SELECT stock FROM stock WHERE reference = '" . $reference . "' ORDER BY id DESC LIMIT 1";
+				$result_check_stock 	= $conn->query($sql_check_stock);
+				$row_stock 				= $result_check_stock->fetch_assoc();
+				$stock 					= $row_stock['stock'];
 				if ($stock == NULL || $stock == 0){
 					$x = 2;
 				} else if($stock < $quantity){

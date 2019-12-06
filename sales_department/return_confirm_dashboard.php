@@ -76,5 +76,39 @@
 		$('.full_screen_wrapper').fadeOut(300);
 		$('.full_screen_box').html('');
 	});
+	
+	function delete_sales_return(n){
+		$.ajax({
+			url:'return_confirm_delete.php',
+			data:{
+				id:n
+			},
+			type:'POST',
+			beforeSend:function(){
+				$('#cancel_button').attr('disabled',true);
+				$('#confirm_button').attr('disabled',true);
+			},
+			success:function(){
+				location.reload();
+			}
+		})
+	};
+	
+	function confirm_sales_return(n){
+		$.ajax({
+			url:'return_confirm_input.php',
+			data:{
+				id:n
+			},
+			type:'POST',
+			beforeSend:function(){
+				$('#cancel_button').attr('disabled',true);
+				$('#confirm_button').attr('disabled',true);
+			},
+			success:function(){
+				location.reload();
+			}
+		})
+	};
 </script>
 	

@@ -15,7 +15,7 @@
 	<tr>
 		<td><?= $reference ?></td>
 		<td><?= $description ?></td>
-		<td><?= $stock ?></td>
+		<td><?= number_format($stock,0) ?></td>
 	</tr>
 <?php
 		}
@@ -39,7 +39,7 @@
 	<tr>
 		<td><?= $reference ?></td>
 		<td><?= $description ?></td>
-		<td><?= $stock ?></td>
+		<td><?= number_format($stock,0) ?></td>
 	</tr>
 <?php
 		}

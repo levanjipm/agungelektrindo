@@ -1,23 +1,26 @@
 <?php
-	include('inventoryheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 ?>
-<link rel="stylesheet" href="../jquery-ui.css">
-<script src="../jquery-ui.js"></script>
-<div class="main">
-	<h2 style='font-family:bebasneue'>Check Stock</h2>
-	<hr>
-	<input type="text" id="search_item_bar" placeholder="Search..">
-	<style>
-		input[type=text] {
+<head>
+	<title>Check stock</title>
+</head>
+<style>
+	input[type=text] {
 		width: 130px;
 		-webkit-transition: width 0.4s ease-in-out;
 		transition: width 0.4s ease-in-out;
-		}
-		
-		input[type=text]:focus {
+		padding:10px;
+	}
+	
+	input[type=text]:focus {
 		width: 100%;
-		}
-	</style>
+	}
+</style>
+<div class='main'>
+	<h2 style='font-family:bebasneue'>Check Stock</h2>
+	<hr>
+	<input type="text" id="search_item_bar" placeholder="Search..">
 	<br><br>
 	<table class='table table-bordered'>
 		<tr>
@@ -50,7 +53,7 @@
 				<td><?= $stock ?></td>
 				<td>
 					<a href='stock_card?id=<?= $item_id ?>'>
-						<button type='button' class='button_default_dark'>View</button>
+						<button type='button' class='button_success_dark'><i class="fa fa-eye" aria-hidden="true"></i></button>
 					</a>
 				</td>
 				

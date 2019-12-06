@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/codes/connect.php");
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/codes/connect.php');
 	session_start();
 	
 	$created_by					= $_SESSION['user_id'];

@@ -5,23 +5,20 @@
 	$result_supplier	= $conn->query($sql_supplier);
 	$supplier		= $result_supplier->fetch_assoc();
 ?>
-<script type='text/javascript' src="../universal/Jquery/jquery.inputmask.bundle.js"></script>
-<div class='container'>
-	<h2 style='font-family:bebasneue'>Edit supplier data</h2>
-	<hr>
-	<label>Supplier name</label>
-	<input type='text' class='form-control' id='supplier_name' value='<?= mysqli_real_escape_string($conn,$supplier['name']) ?>'>
-	<label>Address</label>
-	<textarea class='form-control' id='supplier_address' style='resize:none'><?= $supplier['address']; ?></textarea>
-	<label>City</label>
-	<input type='text' class='form-control' id='supplier_city' value='<?= mysqli_real_escape_string($conn,$supplier['city']) ?>'>
-	<label>Phone number</label>
-	<input type='text' class='form-control' id='supplier_phone' value='<?= mysqli_real_escape_string($conn,$supplier['phone']) ?>'>
-	<label>NPWP</label>
-	<input type='text' class='form-control' id='supplier_npwp' value='<?= mysqli_real_escape_string($conn,$supplier['npwp']) ?>'>
-	<br>
-	<button type='button' class='button_success_dark' id='submit_edit_supplier_form'>Submit</button>
-</div>
+<h2 style='font-family:bebasneue'>Edit supplier data</h2>
+<hr>
+<label>Supplier name</label>
+<input type='text' class='form-control' id='supplier_name' value='<?= mysqli_real_escape_string($conn,$supplier['name']) ?>'>
+<label>Address</label>
+<textarea class='form-control' id='supplier_address' style='resize:none'><?= $supplier['address']; ?></textarea>
+<label>City</label>
+<input type='text' class='form-control' id='supplier_city' value='<?= mysqli_real_escape_string($conn,$supplier['city']) ?>'>
+<label>Phone number</label>
+<input type='text' class='form-control' id='supplier_phone' value='<?= mysqli_real_escape_string($conn,$supplier['phone']) ?>'>
+<label>NPWP</label>
+<input type='text' class='form-control' id='supplier_npwp' value='<?= mysqli_real_escape_string($conn,$supplier['npwp']) ?>'>
+<br>
+<button type='button' class='button_success_dark' id='submit_edit_supplier_form'>Submit</button>
 <script>
 	$("#supplier_npwp").inputmask("99.999.999.9-999.999");
 	

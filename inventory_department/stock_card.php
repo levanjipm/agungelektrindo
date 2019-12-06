@@ -1,5 +1,6 @@
 <?php
-	include('inventoryheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 	$sql_item 			= "SELECT reference,description FROM itemlist WHERE id = '" . $_GET['id'] . "'";
 	$result_item 		= $conn->query($sql_item);
 	$item 				= $result_item->fetch_assoc();
@@ -17,6 +18,7 @@
 		<a href='check_stock'>
 			<button type='button' class='button_danger_dark'>Back</button>
 		</a>
+		<button type='button' class='button_success_dark' title='Calculate safety stock' id='safety_stock_button'><i class="fa fa-calculator" aria-hidden="true"></i></button>
 		<br>
 		<br>
 		<table class='table'>
@@ -110,6 +112,11 @@
 		</div>
 	</div>
 </div>
+<div class='full_screen_wrapper'>
+	<button type='button' class='full_screen_close_button'>&times</button>
+	<div class='full_screen_box'>
+	</div>
+</div>
 <script>
 	$(document).ready(function(){
 		var count		= parseInt($('#count_data').val());
@@ -144,4 +151,13 @@
 			type:'POST',
 		})
 	})
+	
+	$('#safety_stock_button').click(function(){
+		$('.full_screen_box').html("<h1 style='font-size:6em;color:#333;text-align:center'><i class='fa fa-spinner fa-spin' aria-hidden='true'></i></h1>");
+		$('.full_screen_wrapper').fadeIn(300);
+	});
+	
+	$('.full_screen_close_button').click(function(){
+		$('.full_screen_wrapper').fadeOut(300);
+	});
 </script>

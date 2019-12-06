@@ -34,11 +34,9 @@
 	<link rel='stylesheet' href='/agungelektrindo/dashboard/style.css'>
 	<title>User dashboard</title>
 </head>
-<div class="sidenav">		
-	<button type='button' style='text-align:right' id='hide_side_button'>
-		<i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i>
-	</button>		
-	<button>Departments</button>
+<div class='sidenav'>	
+	<button type='button' style='text-align:right' id='hide_side_button'><i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i></button>		
+	<button class='dropdown_button'>Departments</button>
 	<div class="dropdown-container">
 <?php
 		$sql_super 		= "SELECT * FROM authorization WHERE user_id = '" . $user_id . "'";
@@ -68,7 +66,7 @@
 </div>
 <div class='sidenav_small'><i class="fa fa-bars" aria-hidden="true"></i></div>
 <script>
-$('.sidenav button').click(function(){
+$('.dropdown_button').click(function(){
 	if($(this).next().is(':visible')){
 		$(this).css('color','white');
 	} else {

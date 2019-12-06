@@ -1,39 +1,10 @@
 <?php
-	include('inventoryheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 ?>
-<style>
-	.view_incomplete_po_wrapper{
-		background-color:rgba(30,30,30,0.7);
-		position:fixed;
-		z-index:100;
-		top:0;
-		width:100%;
-		height:100%;
-		display:none;
-	}
-	
-	#view_incomplete_po_box{
-		position:absolute;
-		width:90%;
-		left:5%;
-		top:10%;
-		height:80%;
-		background-color:white;
-		overflow-y:scroll;
-		padding:20px;
-	}
-	
-	#button_close_incomplete_po{
-		position:absolute;
-		background-color:transparent;
-		top:10%;
-		left:5%;
-		outline:none;
-		border:none;
-		color:#333;
-		z-index:120;
-	}
-</style>
+<head>
+	<title>Pending purchase order</title>
+</head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Incomplete Purchase Order</h2>
 	<hr>
@@ -82,11 +53,11 @@
 		</tr>
 		<tbody id='incomplete_po_table'>
 <?php
-	$i			= 0;
-	$sql 		= "SELECT DISTINCT(purchaseorder_id) FROM purchaseorder WHERE status = '0'";
-	$result 	= $conn->query($sql);
-	while($row 	= $result->fetch_assoc()){
-		$po_id 	= $row['purchaseorder_id'];
+	$i						= 0;
+	$sql 					= "SELECT DISTINCT(purchaseorder_id) FROM purchaseorder WHERE status = '0'";
+	$result 				= $conn->query($sql);
+	while($row 				= $result->fetch_assoc()){
+		$po_id 				= $row['purchaseorder_id'];
 		
 		$sql_po 			= "SELECT id,name,supplier_id,date FROM code_purchaseorder WHERE id = '" . $po_id . "'";
 		$result_po 			= $conn->query($sql_po);
@@ -112,7 +83,7 @@
 					<button type='button' class="button_success_dark" onclick='showdetail(<?= $po_id ?>)' id="more_detail<?= $po_id ?>">
 						<i class="fa fa-eye" aria-hidden="true"></i>
 					</button>		
-				</td style="width:50%">
+				</td>
 			</tr>
 <?php
 		$i++;
@@ -123,9 +94,9 @@
 		</tbody>
 	</table>
 </div>
-<div class='view_incomplete_po_wrapper'>
-	<button id='button_close_incomplete_po'>X</button>
-	<div id='view_incomplete_po_box'>
+<div class='full_screen_wrapper'>
+	<button class='full_screen_close_button'>&times</button>
+	<div class='full_screen_box'>
 	</div>
 </div>
 <script>
@@ -154,14 +125,14 @@
 			},
 			type:'POST',
 			success:function(response){
-				$('#view_incomplete_po_box').html(response);
-				$('.view_incomplete_po_wrapper').fadeIn();
+				$('.full_screen_box').html(response);
+				$('.full_screen_wrapper').fadeIn();
 			}
 		});
 	}
 	
-	$('#button_close_incomplete_po').click(function(){
-		$('.view_incomplete_po_wrapper').fadeOut();
+	$('.full_screen_close_button').click(function(){
+		$('.full_screen_wrapper').fadeOut();
 	});
 	
 	$('#search_incomplete_po').change(function(){

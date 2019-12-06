@@ -1,8 +1,7 @@
 <?php
-	include("inventoryheader.php")
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 ?>
-<link rel="stylesheet" href="../jquery-ui.css">
-<script src="../jquery-ui.js"></script>
 <script> 
 $( function() {
 	$('#so_id').autocomplete({
@@ -17,38 +16,6 @@ $( function() {
 	
 	.active_tab{
 		border-bottom:2px solid #008080;
-	}
-	
-	.view_sales_order_wrapper{
-		background-color:rgba(30,30,30,0.7);
-		position:fixed;
-		z-index:100;
-		top:0;
-		width:100%;
-		height:100%;
-		display:none;
-	}
-	
-	#view_sales_order_box{
-		position:absolute;
-		width:90%;
-		left:5%;
-		top:10%;
-		height:80%;
-		background-color:white;
-		overflow-y:scroll;
-		padding:20px;
-	}
-	
-	#button_close_sales_order_view{
-		position:absolute;
-		background-color:transparent;
-		top:10%;
-		left:5%;
-		outline:none;
-		border:none;
-		color:#333;
-		z-index:120;
 	}
 </style>
 	<div class="main">
@@ -70,6 +37,9 @@ $( function() {
 			function sales_order_goods(){
 				$.ajax({
 					url: 'delivery_order_goods.php',
+					beforeSend:function(){
+						$('#sales_order_pane').html("<h1 style='font-size:4em;text-align:center'><i class='fa fa-spin fa-spinner'></i></h1>");
+					},
 					success: function(response){
 						$('#sales_order_pane').html(response);
 					},
@@ -78,6 +48,9 @@ $( function() {
 			function sales_order_services(){
 				$.ajax({
 					url: 'delivery_order_service.php',
+					beforeSend:function(){
+						$('#sales_order_pane').html("<h1 style='font-size:4em;text-align:center'><i class='fa fa-spin fa-spinner'></i></h1>");
+					},
 					success: function(response){
 						$('#sales_order_pane').html(response);
 					},
@@ -86,6 +59,9 @@ $( function() {
 			function sales_order_import_project(){
 				$.ajax({
 					url: 'delivery_order_project.php',
+					beforeSend:function(){
+						$('#sales_order_pane').html("<h1 style='font-size:4em;text-align:center'><i class='fa fa-spin fa-spinner'></i></h1>");
+					},
 					success: function(response){
 						$('#sales_order_pane').html(response);
 					},
@@ -104,46 +80,50 @@ $( function() {
 			</div>
 		</div>
 	</div>
-	<div class='view_sales_order_wrapper'>
-		<button id='button_close_sales_order_view'>X</button>
-		<div id='view_sales_order_box'>
+	<div class='full_screen_wrapper'>
+		<button class='full_screen_close_button'>X</button>
+		<div class='full_screen_box'>
 		</div>
 	</div>
 </body>
 <script>
-	$('#button_close_sales_order_view').click(function(){
-		$('.view_sales_order_wrapper').fadeOut();
+	$('.full_screen_close_button').click(function(){
+		$('.full_screen_wrapper').fadeOut();
 	});
 	
 	function view(n){
-		$('.view_sales_order_wrapper').fadeIn();
+		$('.full_screen_wrapper').fadeIn();
 		$.ajax({
 			url:'view_so.php',
 			data:{
 				id: n,
 			},
 			success:function(response){
-				$('#view_sales_order_box').html(response);
+				$('.full_screen_box').html(response);
 			},
 			type:'POST',
 		})
 	}
+	
 	function service_view(n){
-		$('.view_sales_order_wrapper').fadeIn();
+		$('.full_screen_wrapper').fadeIn();
 		$.ajax({
 			url:'view_service_so.php',
 			data:{
 				id: n,
 			},
 			success:function(response){
-				$('#view_sales_order_box').html(response);
+				$('.full_screen_box').html(response);
 			},
 			type:'POST',
 		})
 	}
+	
 	function send(n){
-		$('#so_form' + n).submit();
+		$('#sales_order_id').val(n);
+		$('#delivery_order_form').submit();
 	}
+	
 	function send_project(n){
 		$('#project_form-' + n).submit();
 	}

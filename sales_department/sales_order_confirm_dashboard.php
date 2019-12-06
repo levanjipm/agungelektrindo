@@ -4,6 +4,9 @@
 	$sql_so 		= "SELECT * FROM code_salesorder WHERE isconfirm = '0'";
 	$result_so 		= $conn->query($sql_so);
 ?>
+<head>
+	<title>Confirm sales order</title>
+</head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales order</h2>
 	<p>Confirm sales order</p>

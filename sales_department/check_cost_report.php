@@ -67,7 +67,7 @@
 		<li>Seluruh harga di atas sudah termasuk dengan PPn 10%</li>
 		<li>Harga di atas merupakan harga per pada saat pengecekan, harga <strong>dapat berubah</strong> apabila waktu pengecekan berubah.</li>
 	</ol>
-	<a href='check_hpp_dashboard'>
+	<a href='check_cost_dashboard'>
 		<button type='button' class='button_success_dark'>
 			<i class="fa fa-long-arrow-left" aria-hidden="true"></i>
 		</button>

@@ -22,14 +22,10 @@
 	$role 				= $row_user['role'];
 	$hpp 				= $row_user['hpp'];
 	$isactive 			= $row_user['isactive'];
-	
-	$sql_otorisasi 		= "SELECT COUNT(*) AS jumlah_otorisasi FROM authorization WHERE department_id = '1' AND user_id = '" . $_SESSION['user_id'] . "'";
-	$result_otorisasi 	= $conn->query($sql_otorisasi);
-	$otorisasi 			= $result_otorisasi->fetch_assoc();
-	if ($otorisasi['jumlah_otorisasi'] != 1 && $isactive != 1) {
+	if (empty($_SESSION['user_id']) && $isactive != 1) {
 ?>
 	<script>
-		window.location.href='codes/logout.php';
+		window.location.href='/agungelektrindo/codes/logout.php';
 	</script>
 <?php
 	}

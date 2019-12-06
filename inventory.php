@@ -1,10 +1,10 @@
-<head>
-	<title>Inventory Department</title>
-</head>
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 ?>
+<head>
+	<title>Inventory Department</title>
+</head>
 <style>
 .box{
 	padding:10px;
@@ -35,7 +35,7 @@
 <div class='main'>
 	<div class='row'>
 		<div class='col-sm-3 col-xs-4' style='padding:20px;padding-top:0'>
-			<a href='purchase_order_incomplete_dashboard' style='text-decoration:none;color:#333;'>
+			<a href='/agungelektrindo/inventory_department/purchase_order_incomplete_dashboard' style='text-decoration:none;color:#333;'>
 				<div class='row'>
 					<div class='col-sm-12 box'>
 					<?php
@@ -128,71 +128,10 @@
 			})
 		</script>
 	</div>
-<script>
-	function showdetail(n){
-		$("#" + n).show();
-		$("#less_detail" + n).show();
-		$("#more_detail" + n).hide();
-	}
-	function lessdetail(n){
-		$("#" + n).hide();
-		$("#less_detail" + n).hide();
-		$("#more_detail" + n).show();
-	}
-	function showdetailso(n){
-		$("#so" + n).show();
-		$("#less_detail_so" + n).show();
-		$("#more_detail_so" + n).hide();
-	}
-	function lessdetailso(n){
-		$("#so" + n).hide();
-		$("#less_detail_so" + n).hide();
-		$("#more_detail_so" + n).show();
-	}
-	function submit(n){
-		$('#form' + n).submit();
-	}
-	function goodreceipt(n){
-		$('#form' + n).submit();
-	}
-</script>
-<style>
-	.view_wrapper{
-		background-color:rgba(30,30,30,0.7);
-		position:fixed;
-		z-index:100;
-		top:0;
-		width:100%;
-		height:100%;
-		display:none;
-	}
-	
-	#view_inventory_view{
-		position:absolute;
-		width:90%;
-		left:5%;
-		top:10%;
-		height:80%;
-		background-color:white;
-		overflow-y:scroll;
-		padding:20px;
-	}
-	
-	#button_close_view{
-		position:absolute;
-		background-color:transparent;
-		top:10%;
-		left:5%;
-		outline:none;
-		border:none;
-		color:#333;
-		z-index:120;
-	}
-</style>
 </div>
-<div class='view_wrapper'>
-	<button id='button_close_view'>X</button>
-	<div id='view_inventory_view'>
+<div class='full_screen_wrapper'>
+	<button class='full_screen_close_button'>&times</button>
+	<div class='full_screen_box'>
 	</div>
 </div>
 <script>

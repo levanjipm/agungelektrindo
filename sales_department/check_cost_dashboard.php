@@ -34,7 +34,7 @@ $( function() {
 				</tr>
 			</tbody>
 		</table>
-		<button type='button' class='button_default_dark' id='check_item_button'>Check</button>
+		<button type='button' class='button_success_dark' id='check_item_button'>Check</button>
 		<button type='button' class='button_warning_dark' id='back_button' style='display:none'>Back</button>
 		<button type='submit' class='button_success_dark' id='check_hpp_button' style='display:none'>Next</button>
 	</form>

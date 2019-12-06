@@ -1,5 +1,6 @@
 <?php
-	include('purchasingheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/purchasing_header.php');
 ?>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Purchasing Return</h2>

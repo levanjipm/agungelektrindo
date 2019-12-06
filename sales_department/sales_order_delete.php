@@ -27,7 +27,7 @@
 		}
 		
 	} else if($type == 'SRVC'){
-		$sql		= "SELECT sent_quantity FROM service_sales_order WHERE so_id = '$sales_order_id'";
+		$sql		= "SELECT done FROM service_sales_order WHERE so_id = '$sales_order_id'";
 		$result		= $conn->query($sql);
 		while($row	= $result->fetch_assoc()){
 			if($row['done'] > 0){

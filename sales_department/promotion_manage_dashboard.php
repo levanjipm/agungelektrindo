@@ -17,7 +17,7 @@
 			<th></th>
 		</tr>
 <?php
-	$sql_ongoing		= "SELECT * FROM promotion WHERE end_date <= CURDATE() ORDER BY end_date ASC";
+	$sql_ongoing		= "SELECT * FROM promotion WHERE end_date > CURDATE() ORDER BY end_date ASC";
 	$result_ongoing		= $conn->query($sql_ongoing);
 	while($ongoing		= $result_ongoing->fetch_assoc()){
 		$id				= $ongoing['id'];

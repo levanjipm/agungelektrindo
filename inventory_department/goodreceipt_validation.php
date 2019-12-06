@@ -1,5 +1,4 @@
 <?php
-	//Getting all the Data submited//
 	include('../codes/connect.php');
 	session_start();
 	
@@ -38,9 +37,7 @@
 				
 				$sql_final = "INSERT INTO goodreceipt (received_id,quantity,gr_id) VALUES ('$po_id','$quantity_receive','$code_good_receipt')";
 				$conn->query($sql_final);
-				
-				echo $sql_final;
-				
+
 				if ($status == 0){
 					if ($quantity_receive + $received_quantity == $quantity){
 						$final_quantity = $received_quantity + $quantity_receive;
@@ -59,5 +56,5 @@
 			next($qty_receive_array);
 		}
 	}
-	header('location:inventory');
+	header('location:../inventory');
 ?>

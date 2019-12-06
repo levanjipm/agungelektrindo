@@ -60,7 +60,7 @@
 ?>
 	<script src='../universal/Jquery/jquery-3.3.0.min.js'></script>
 	<body>
-	<form method="POST" id="po_id" action="delivery_order_print.php" target="_blank">
+	<form method="POST" id="po_id" action="delivery_order_print" target="_blank">
 		<input type="hidden" name="id" value="<?= $do_id?>">
 	</form>
 	</body>
@@ -74,11 +74,11 @@
 			window.setTimeout(function () {
 				$('#po_id').submit();
 			}, 400);
-			window.setTimeout("location = ('inventory.php');",500);
+			window.setTimeout("location = ('/agungelektrindo/inventory');",500);
 		});
 	</script>
 <?php
 	} else {
-		header('location:inventory.php');
+		header('location:/agungelektrindo/inventory');
 	}
 ?>

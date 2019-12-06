@@ -23,9 +23,9 @@ $( function() {
 		<select class='form-control' name='supplier' id='supplier'>
 			<option value='0'>Please select a supplier</option>
 <?php
-	$sql_supplier = "SELECT id,name FROM supplier ORDER BY name ASC";
-	$result_supplier = $conn->query($sql_supplier);
-	while($supplier = $result_supplier->fetch_assoc()){
+	$sql_supplier 		= "SELECT id,name FROM supplier ORDER BY name ASC";
+	$result_supplier 	= $conn->query($sql_supplier);
+	while($supplier 	= $result_supplier->fetch_assoc()){
 ?>
 			<option value='<?= $supplier['id'] ?>'><?= $supplier['name'] ?></option>
 <?php
@@ -48,7 +48,7 @@ $( function() {
 			</tbody>
 		</table>
 	</form>
-	<button type='button' class='button_default_dark' onclick='checking()' id='cekin'>Check</button>
+	<button type='button' class='button_success_dark' onclick='checking()' id='cekin'>Check</button>
 	<button type='button' class='button_danger_dark' onclick='return_back()' id='button_back' style='display:none'>Back</button>
 	<button type='button' class='button_success_dark' onclick='validation()' id='ajuin' style='display:none'>Submit</button>
 </div>

@@ -1,9 +1,8 @@
 <?php
-	include('inventoryheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 	if($role == 'superadmin'){
 ?>
-<link rel="stylesheet" href="../jquery-ui.css">
-<script src="../jquery-ui.js"></script>
 <style>
 	.options{
 		background-color:#402b2f;
@@ -26,15 +25,18 @@
 		transition:0.3s all ease;
 	}
 </style>
-<div class="main">
+<head>
+	<title>Add event</title>
+</head>
+<div class='main'>
 	<h2 style='font-family:bebasneue'>Event</h2>
-	<p>Add event</p>
+	<p style='font-family:museo'>Add event</p>
 	<hr>
 	<div class='row'>
 <?php
-	$sql_event = "SELECT * FROM event";
-	$result_event = $conn->query($sql_event);
-	while($event = $result_event->fetch_assoc()){
+	$sql_event 		= "SELECT * FROM event";
+	$result_event 	= $conn->query($sql_event);
+	while($event 	= $result_event->fetch_assoc()){
 ?>
 		<div class='col-sm-3' style='padding:20px'>
 			<a  href='<?= $event['url'] ?>' style='text-decoration:none'>
@@ -64,7 +66,7 @@
 	} else {
 ?>
 	<script>
-		window.location.href = 'inventory.php';
+		window.location.href = '../inventory';
 	</script>
 <?php
 	}

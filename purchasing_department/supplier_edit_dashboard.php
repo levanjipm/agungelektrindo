@@ -1,73 +1,11 @@
 <?php
-	include("purchasingheader.php");
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/purchasing_header.php');
 ?>
-<style>
-	.notification_large{
-		position:fixed;
-		top:0;
-		left:0;
-		background-color:rgba(51,51,51,0.3);
-		width:100%;
-		text-align:center;
-		height:100%;
-	}
-	
-	.notification_large .notification_box{
-		position:relative;
-		background-color:#fff;
-		padding:30px;
-		width:100%;
-		top:30%;
-		box-shadow: 3px 4px 3px 4px #ddd;
-	}
-	
-	.btn-delete{
-		background-color:red;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	
-	.btn-back{
-		background-color:#777;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	
-	.view_supplier_wrapper{
-		background-color:rgba(30,30,30,0.7);
-		position:fixed;
-		z-index:100;
-		top:0;
-		width:100%;
-		height:100%;
-		display:none;
-	}
-	
-	#view_supplier_box{
-		position:absolute;
-		width:90%;
-		left:5%;
-		top:10%;
-		height:80%;
-		background-color:white;
-		overflow-y:scroll;
-		padding:20px;
-	}
-	
-	#button_close_view{
-		position:absolute;
-		background-color:transparent;
-		top:10%;
-		left:5%;
-		outline:none;
-		border:none;
-		color:#333;
-		z-index:120;
-	}
-</style>
-<div class="main">
+<head>
+	<title>Manage supplier data</title>
+</head>
+<div class='main'>
 	<h2 style='font-family:bebasneue'>Supplier</h2>
 	<p>Edit supplier</p>
 	<hr>
@@ -116,32 +54,32 @@ if ($result->num_rows > 0) {
 		</div>
 	</div>
 </div>
-<div class='notification_large' style='display:none' id='delete_large'>
-	<div class='notification_box'>
-		<h1 style='font-size:3em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h1>
-		<h2 style='font-family:bebasneue'>Are you sure to delete this item?</h2>
+<div class='full_screen_wrapper' id='delete_supplier_notif'>
+	<div class='full_screen_notif_bar'>
+		<h1 style='font-size:2em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h1>
+		<p style='font-family:museo'>Are you sure to delete this item?</p>
 		<br>
-		<button type='button' class='btn btn-back'>Back</button>
-		<button type='button' class='btn btn-delete'>Delete</button>
+		<button type='button' class='button_danger_dark' id='close_notif_button'>Check again</button>
+		<button type='button' class='button_success_dark' id='confirm_delete_button'>Confirm</button>
 	</div>
 </div>
-<div class='view_supplier_wrapper'>
-	<div id='view_supplier_box'>
+<div class='full_screen_wrapper' id='edit_supplier_wrapper'>
+	<button class='full_screen_close_button'>&times</button>
+	<div class='full_screen_box'>
 	</div>
-	<button id='button_close_view'>X</button>
 </div>
 <input type='hidden' id='delete_id'>
 <script>
 	function pop_notification_large(n){
-		$('#delete_large').fadeIn();
+		$('#delete_supplier_notif').fadeIn();
 		$('#delete_id').val(n);
 	}
 	
-	$('.btn-back').click(function(){
-		$('#delete_large').fadeOut();
+	$('#close_notif_button').click(function(){
+		$('#delete_supplier_notif').fadeOut();
 	});
 	
-	$('.btn-delete').click(function(){
+	$('#confirm_delete_button').click(function(){
 		$.ajax({
 			url:"supplier_delete.php",
 			data:{
@@ -161,16 +99,16 @@ if ($result->num_rows > 0) {
 				supplier_id:n
 			},
 			success:function(response){
-				$('#view_supplier_box').html(response);
+				$('.full_screen_box').html(response);
 			},
 			complete:function(){
-				$('.view_supplier_wrapper').fadeIn();
+				$('#edit_supplier_wrapper').fadeIn();
 			},
 			type:'POST',
 		})
 	};
 	
-	$('#button_close_view').click(function(){
-		$('.view_supplier_wrapper').fadeOut();
+	$('.full_screen_close_button').click(function(){
+		$('#edit_supplier_wrapper').fadeOut();
 	});
 </script>

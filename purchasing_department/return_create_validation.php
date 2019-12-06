@@ -1,6 +1,7 @@
 <?php
-	include('purchasingheader.php');
-	$nilai = true;
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/purchasing_header.php');
+	$nilai 				= 1;
 	$supplier_id 		= $_POST['supplier'];
 	$date				= $_POST['date'];
 	$sql_supplier 		= "SELECT name,address,city FROM supplier WHERE id = '". $supplier_id . "'";
@@ -13,12 +14,7 @@
 	
 	$reference_array	= $_POST['reference'];
 	$quantity_array		= $_POST['quantity'];
-?>
-<div class='main'>
-	<h2 style='font-family:bebasneue'>Return</h2>
-	<p>Purchasing return</p>
-	<hr>
-<?php
+	
 	foreach($reference_array as $reference){
 		$key					= key($reference_array);
 		$quantity				= $quantity_array[$key];
@@ -27,7 +23,7 @@
 		$check_reference		= mysqli_num_rows($result_check_reference);
 		
 		if($check_reference 	== 0){
-			$nilai				= false;
+			$nilai				= 2;
 			break;
 		}
 		
@@ -35,13 +31,23 @@
 		$result_check_stock 	= $conn->query($sql_check_stock);
 		$stock 					= $result_check_stock->fetch_assoc();
 		if($stock['stock'] < $quantity){
-			$nilai = false;
+			$nilai 				= 2;
 			break;
 		}
 		
 		next($reference_array);
 	}
-	if($nilai == true){
+?>
+<head>
+	<title>Purchasing return validation</title>
+</head>
+<div class='main'>
+	<h2 style='font-family:bebasneue'>Return</h2>
+	<p style='font-family:museo'>Purchasing return</p>
+	<hr>
+<?php
+	echo $nilai;
+	if($nilai == 1){
 		$reference_array	= $_POST['reference'];
 		$quantity_array		= $_POST['quantity'];
 		$i					= 1;

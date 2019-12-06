@@ -2,6 +2,9 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
+<head>
+	<title>Check stock</title>
+</head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Check stock</h2>
 	<input type="text" id="check_stock_search_box" placeholder="Search..">
@@ -26,10 +29,10 @@
 		<tbody id='stock_table_body'>
 <?php
 		$sql 		= "SELECT * FROM stock
-					INNER JOIN (SELECT reference,MAX(id) AS latest FROM stock GROUP BY reference ORDER BY id DESC) topscore 
-					ON stock.reference = topscore.reference 
-					AND stock.id = topscore.latest
-					LIMIT 10";
+						INNER JOIN (SELECT reference,MAX(id) AS latest FROM stock GROUP BY reference ORDER BY id DESC) topscore 
+						ON stock.reference = topscore.reference 
+						AND stock.id = topscore.latest
+						LIMIT 10";
 		$result 	= $conn->query($sql);
 		while($row 	= $result->fetch_assoc()) {
 			$stock			= $row['stock'];
@@ -44,7 +47,7 @@
 			<tr>
 				<td><?= $reference ?></td>
 				<td><?= $description ?></td>
-				<td><?= $stock ?></td>
+				<td><?= number_format($stock,0) ?></td>
 			</tr>
 <?php
 	}

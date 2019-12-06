@@ -2,9 +2,15 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include ($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 	
-	$so_id 				= $_POST['id'];
-	if($so_id == NULL){
-		header('location:../sales');
+	$so_id 				= $_GET['id'];
+	$sql		 		= "SELECT id AS so_id FROM sales_order WHERE status = '0' AND so_id = '$so_id'";
+	$result				= $conn->query($sql);
+	if($so_id == NULL || mysqli_num_rows($result) == 0){
+?>
+	<script>
+		window.location.href='/agungelektrindo/sales';
+	</script>
+<?php
 	}
 	
 	$sql_initial 		=  "SELECT name,customer_id,po_number,label, seller FROM code_salesorder WHERE id = '" . $so_id . "'";

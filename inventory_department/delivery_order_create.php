@@ -1,9 +1,10 @@
 <?php
-	include("inventoryheader.php")
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 ?>
-<div class="main">
+<div class='main'>
 	<h2 style='font-family:bebasneue'>Delivery Order</h2>
-	<p>Create new delivery order</p>
+	<p style='font-family:museo'>Create new delivery order</p>
 	<hr>
 <?php
 	$so_id 		= $_POST['id'];
@@ -18,31 +19,35 @@
 <?php
 	} else {
 		$so_id 				= $row['id'];
-		$po_number 			= $row['po_number'];
+		$po_number 			= mysqli_real_escape_string($conn,$row['po_number']);
 		$taxing 			= $row['taxing'];
 		$customer_id 		= $row['customer_id'];
 			
 		$sql_customer 		= "SELECT name,address,city FROM customer WHERE id = '" . $customer_id . "'";
 		$result_customer 	= $conn->query($sql_customer);
 		$customer 			= $result_customer->fetch_assoc();
+		
+		$customer_name		= $customer['name'];
+		$customer_address	= $customer['address'];
+		$customer_city		= $customer['city'];
 ?>
 		<form method="POST" action="delivery_order_create_validation" id="do_validate">
-			<div class="row">
-				<div class="col-sm-4">
-					<h4 style='font-family:bebasneue'><?= $customer['name']; ?></h4>
-					<p><?= $customer['address'] ?></p>
-					<p><?= $customer['city'] ?></p>
-					<p><b>Purchase order number :</b><?= $po_number ?></p>
-					<input type="hidden" value="<?= $po_number ?>" class="form-control">
-					<input type="hidden" value="<?= $customer_name ?>" class="form-control" readonly>
-				</div>
-				<div class="col-sm-3 offset-sm-5">
-					<label>Date:</label>
-					<input type="date" class="form-control" value="<?php echo date('Y-m-d');?>" name="today">
-				</div>
-			</div>
-			<hr>
-			<table class="table">
+			<label>Date:</label>
+			<input type="date" class="form-control" value="<?php echo date('Y-m-d');?>" name="today">
+			
+			<label>Customer data</label>
+			<p style='font-family:museo'><?= $customer_name ?></p>
+			<p style='font-family:museo'><?= $customer_address ?></p>
+			<p style='font-family:museo'><?= $customer_city ?></p>
+			
+			<label>Purchase order</label>
+			<p style='font-family:museo'>
+			<p style='font-family:museo'><?= $po_number ?></p>
+			
+			<input type="hidden" value="<?= $po_number ?>" class="form-control">
+			<input type="hidden" value="<?= $customer_name ?>" class="form-control" readonly>
+
+			<table class='table table-bordered'>
 				<tr>
 					<th style="width:40%">Item</th>
 					<th style="width:20%">Sent item</th>

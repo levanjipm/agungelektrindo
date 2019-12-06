@@ -1,21 +1,40 @@
-<DOCTYPE html>
 <?php
 	include('../codes/connect.php');
-	$do_id = $_POST['id'];
-	$sql_first = "SELECT date,customer_id,name,so_id FROM code_delivery_order WHERE id = '" . $do_id . "'";
-	$result_first = $conn->query($sql_first);
-	$first_row = $result_first->fetch_assoc();
+?>
+<head>
+	<script src='/agungelektrindo/universal/jquery/jquery-3.3.0.min.js'></script>
+	<link rel='stylesheet' href='/agungelektrindo/universal/bootstrap/4.1.3/css/bootstrap.min.css'>
+	<script src='/agungelektrindo/universal/bootstrap/4.1.3/js/bootstrap.min.js'></script>
+	<link rel='stylesheet' href='/agungelektrindo/universal/fontawesome/css/font-awesome.min.css'>
+	<link rel='stylesheet' href='/agungelektrindo/universal/bootstrap/3.3.7/css/bootstrap.min.css'>
+	<script src='/agungelektrindo/universal/jquery/jquery-ui.js'></script>
+	<link rel='stylesheet' href='/agungelektrindo/universal/jquery/jquery-ui.css'>
+	<link rel="stylesheet" href='/agungelektrindo/css/style.css'>
+</head>
+<style>
+	#print{
+		position:fixed;
+		top:50%;
+		right:0;
+	}
+</style>
+<?php
+	$do_id 						= $_POST['id'];
 	
-	$date = $first_row['date'];
-	$customer_id = $first_row['customer_id'];
-	$deliery_order_name = $first_row['name'];
-	$so_id = $first_row['so_id'];
+	$sql_delivery_order			= "SELECT date,customer_id,name,so_id FROM code_delivery_order WHERE id = '" . $do_id . "'";
+	$result_delivery_order 		= $conn->query($sql_delivery_order);
+	$delivery_order 			= $result_delivery_order->fetch_assoc();
 	
-	$sql_po = "SELECT po_number,retail_address,retail_city,retail_phone,retail_name FROM code_salesorder WHERE id = '" . $so_id . "'";
-	$result_po = $conn->query($sql_po);
-	$po = $result_po->fetch_assoc();
+	$date 						= $delivery_order['date'];
+	$customer_id 				= $delivery_order['customer_id'];
+	$delivery_order_name 		= $delivery_order['name'];
+	$so_id 						= $delivery_order['so_id'];
 	
-	$po_name = $po['po_number'];
+	$sql_po 					= "SELECT po_number,retail_address,retail_city,retail_phone,retail_name FROM code_salesorder WHERE id = '" . $so_id . "'";
+	$result_po 					= $conn->query($sql_po);
+	$po 						= $result_po->fetch_assoc();
+	
+	$po_name 					= $po['po_number'];
 	
 	if($customer_id != 0){
 		$sql_customer 		= "SELECT name,address,city FROM customer WHERE id = '" . $customer_id . "'";
@@ -30,117 +49,85 @@
 		$city 				= $po['retail_city'];
 	}
 ?>
-<head>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-</head>
 <body>
-<div class="row">
-	<div class="col-xs-1" style="background-color:gray">
-	</div>
-	<div class="col-xs-10" id="printable">
-		<div class="row" style="height:100px">
-			<div class="col-xs-2">
-				<img src="../universal/images/logogudang.jpg" style="width:100%;height:70%;padding-top:30px">
-			</div>
-			<div class="col-xs-5" style="line-height:0.6">
+<div class='row' style='background-color:#ccc;z-index:0;width:100%;height:100%;margin:0'>
+	<div class='col-xs-10 col-xs-offset-1' id='printable' style='z-index:25;background-color:white'>
+		<div class='row'>
+			<div class='col-xs-2'><img src="../universal/images/logogudang.jpg" style="width:100%;height:70%;padding-top:30px"></div>
+			<div class='col-xs-5' style="line-height:0.6">
 				<h3><b>Agung Elektrindo</b></h3>
 				<p>Jalan Jamuju no. 18,</p>
 				<p>Bandung, 40114</p>
 				<p><b>Ph.</b>(022) - 7202747 <b>Fax</b>(022) - 7212156</p>
 				<p><b>Email :</b>AgungElektrindo@gmail.com</p>
 			</div>
-			<div class="col-xs-4 offset-lg-1" style="padding:20px">
-				<div class="col-xs-3">
-					<p><b>Tanggal:</b></p>
-				</div>
-				<div class="col-xs-6"><?php echo date('d M Y',strtotime($date));?></div>
-				<div class="col-xs-12">
-					<p>Kepada Yth. <b><?= $name ?></b></p>
-					<p><?= $address ?></p>
-					<p><?= $city ?></p>
-				</div>
+			<div class='col-xs-4 col-xs-offset-1' style="padding:20px">
+				<p><b>Tanggal:</b></p>
+				<p><?php echo date('d M Y',strtotime($date));?></p>
+				<p>Kepada Yth.</p>
+				<p><b><?= $name ?></b></p>
+				<p><?= $address ?></p>
+				<p><?= $city ?></p>
 			</div>
 		</div>
-		<br><br><br>
-		<div class="row">
-			<div class="col-xs-8">
-				<div class="col-xs-4">
-					<p><b>Nomor DO:</b></p>
-					<p><b>Nomor PO:</b></p>
-				</div>
-				<div class="col-xs-4">
-					<p><?= $deliery_order_name ?></p>
-					<p><?= $po_name ?></p>
-				</div>
+		<div class='row'>
+			<div class='col-xs-12'>
+				<p><b>Nomor DO:</b><?= $delivery_order_name ?></p>
+				<p><b>Nomor PO:</b><?= $po_name ?></p>
 			</div>
 		</div>
-		<br><br><br>
-		<div class="row">
-			<div class="col-xs-12">
-				<table class="table" style="text-align:center">
-					<thead>
-						<tr>
-							<th style="text-align:center">Referensi</th>
-							<th style="text-align:center">Deskripsi</th>
-							<th style="text-align:center">Quantity</th>
-						</tr>
-					</thead>
-					<tbody>
-					<?php
-						$sql = "SELECT * FROM delivery_order WHERE do_id = '" . $do_id . "'";
-						$result = $conn->query($sql);
-						while($row = $result->fetch_assoc()){
-					?>
-						<tr>
-							<td><?= $row['reference'] ?></td>
-							<?php
-								$sql_item = "SELECT description FROM itemlist WHERE reference = '" . $row['reference'] . "'";
-								$result_item = $conn->query($sql_item);
-								while($row_item = $result_item->fetch_assoc()){
-									$description = $row_item['description'];
-								}
-							?>
-							<td><?= $description ?></td>
-							<td><?= $row['quantity'] ?></td>
-						</tr>
-					<?php
-						}
-					?>
-					</tbody>
-				</table>
-			</div>
+		<table class='table table-bordered' style='text-align:center'>
+			<thead>
+				<tr>
+					<th style='text-align:center'>Referensi</th>
+					<th style='text-align:center'>Deskripsi</th>
+					<th style='text-align:center'>Quantity</th>
+				</tr>
+			</thead>
+			<tbody>
+<?php
+	$sql 				= "SELECT * FROM delivery_order WHERE do_id = '" . $do_id . "'";
+	$result 			= $conn->query($sql);
+	while($row 			= $result->fetch_assoc()){
+		$reference		= $row['reference'];
+		$quantity		= $row['quantity'];
+		$sql_item 		= "SELECT description FROM itemlist WHERE reference = '" . $row['reference'] . "'";
+		$result_item 	= $conn->query($sql_item);
+		$item			= $result_item->fetch_assoc();
+		$description 	= $item['description'];
+?>
+				<tr>
+					<td><?= $reference ?></td>
+					<td><?= $description ?></td>
+					<td><?= $quantity ?></td>
+				</tr>
+<?php
+	}
+?>
+			</tbody>
+		</table>
+		<div style='padding-top:50px;padding-bottom:50px'>
+			<div class='col-xs-4' style='text-align:center'>Penerima,</div>
+			<div class='col-xs-4' style='text-align:center'>Pengirim,</div>
+			<div class='col-xs-4' style='text-align:center'>Hormat kami,</div>
 		</div>
-		<div class="row">
-			<div class="col-xs-4" style="text-align:center;height:100px">
-				Penerima,
-			</div>
-			<div class="col-xs-4" style="text-align:center">
-				Pengirim,
-			</div>
-			<div class="col-xs-4" style="text-align:center">
-				Hormat kami,
-			</div>
-		</div>
-	</div>
-	<div class="col-xs-1" style="background-color:gray">
 	</div>
 </div>
-	<div class="row" style="background-color:#333;padding:20px">
-		<br><br><br>
-		<div class="col-xs-2 offset-sm-5">
-			<button class="btn btn-primary hidden-print" type="button" id="print" onclick="printing('printable')">Print</button>
-		</div>
-	</div>
+<button class='button_default_dark hidden-print' id='print' onclick='printing("printable")'><i class="fa fa-print" aria-hidden="true"></i></button>
 <style>
 @media print {
-	html, body {
-		display: block; 
-		font-family: "Calibri";
-		margin: 0;
+	body * {
+		visibility: hidden;
+	}
+	
+	#printable, #printable *{
+		visibility:visible!important;
+	}
+	
+	#printable{
+		position: absolute;
+		left: 0;
+		top: 0;
 	}
 	
 	@page {
