@@ -82,14 +82,8 @@
 				$receivable 		= $result_receivable->fetch_assoc();
 					
 				$total_receivable 	= $receivable['received'];
-					
-				$sql_returned 		= "SELECT SUM(value) AS returned FROM return_invoice_sales WHERE invoice_id = '" . $key . "'";
-				$result_returned 	= $conn->query($sql_returned);
-				$returned_row 		= $result_returned->fetch_assoc();
-				$returned 			= $returned_row['returned'];
-				
 				$remaining 			= $remaining_array[$key];
-				$paid 				= $invoice['value'] + $invoice['ongkir'] - $total_receivable - $returned - $remaining;
+				$paid 				= $invoice['value'] + $invoice['ongkir'] - $total_receivable - $remaining;
 				
 				$sql 				= "INSERT INTO receivable (invoice_id,date,value,bank_id) VALUES ('$key','$date','$paid','$bank_id')";
 				$conn->query($sql);

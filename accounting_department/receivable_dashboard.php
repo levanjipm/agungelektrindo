@@ -1,5 +1,6 @@
 <?php
-	include('accountingheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 ?>
 <style>
 	.garis{
@@ -12,17 +13,17 @@
 <?php
 	$maximum 	= 0;
 	$total 		= 0;
-	$sql_initial = "SELECT SUM(invoices.value) AS maximum, code_delivery_order.customer_id
-					FROM invoices
-					JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
-					WHERE invoices.isdone = '0'
-					GROUP by code_delivery_order.customer_id";
-	$result_initial = $conn->query($sql_initial);
-	while($initial = $result_initial->fetch_assoc()){
-		if($initial['maximum'] > $maximum){
-			$maximum = $initial['maximum'];
+	$sql_invoice	 	= "SELECT SUM(invoices.value) AS maximum, code_delivery_order.customer_id
+							FROM invoices
+							JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
+							WHERE invoices.isdone = '0'
+							GROUP by code_delivery_order.customer_id";
+	$result_invoice 	= $conn->query($sql_invoice);
+	while($invoice 		= $result_invoice->fetch_assoc()){
+		if($invoice['maximum'] > $maximum){
+			$maximum = $invoice['maximum'];
 		}
-		$total = $total + $initial['maximum'];
+		$total = $total + $invoice['maximum'];
 	}
 ?>
 <div class='main'>
@@ -74,13 +75,13 @@
 	</script>
 <?php
 	$timeout = 0;
-	$sql_invoice = "SELECT SUM(invoices.value + invoices.ongkir) AS jumlah, code_delivery_order.customer_id, invoices.id 
-	FROM invoices 
-	JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
-	GROUP BY code_delivery_order.customer_id ORDER BY jumlah DESC";
-	$result_invoice = $conn->query($sql_invoice);
-	while($invoice = $result_invoice->fetch_assoc()){
-		$sql_receive = "SELECT SUM(receivable.value) AS bayar_total, code_delivery_order.customer_id FROM receivable 
+	$sql_invoice 		= "SELECT SUM(invoices.value + invoices.ongkir) AS jumlah, code_delivery_order.customer_id, invoices.id 
+							FROM invoices 
+							JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+							GROUP BY code_delivery_order.customer_id ORDER BY jumlah DESC";
+	$result_invoice 	= $conn->query($sql_invoice);
+	while($invoice 		= $result_invoice->fetch_assoc()){
+		$sql_receive 	= "SELECT SUM(receivable.value) AS bayar_total, code_delivery_order.customer_id FROM receivable 
 		JOIN invoices ON receivable.invoice_id = invoices.id 
 		JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
 		WHERE code_delivery_order.customer_id = '" . $invoice['customer_id'] . "'";

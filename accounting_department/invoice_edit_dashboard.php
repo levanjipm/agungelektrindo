@@ -1,8 +1,12 @@
 <?php
-	//Editing invoices//
-	include('accountingheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 	if($role != 'superadmin'){
-		header('location:accounting.php');
+?>
+<script>
+	window.location.href='/agungelektrindo/accounting';
+</script>
+<?php
 	}
 ?>
 <div class='main'>
@@ -11,50 +15,49 @@
 		<div class='col-sm-3'>
 			<select class='form-control' id='month'>
 				<option value='0'>Select month</option>
-				<?php
-				$sql_select_month = "SELECT DISTINCT(MONTH(date)) AS month FROM invoices";
-				$result_select_month = $conn->query($sql_select_month);
-				while($row_select_month = $result_select_month->fetch_assoc()){
-				?>
-				<option value='<?= $row_select_month['month']; ?>'><?= date('F',mktime(0,0,0,$row_select_month['month'],10)); ?></option>
-				<?php
-				}
-				?>
+<?php
+	for($i = 1; $i <= 12; $i++){
+?>
+				<option value='<?= $i ?>'><?= date('F',mktime(0,0,0,$i,1)) ?></option>
+<?php 
+	}
+?>
 			</select>
 		</div>
 		<div class='col-sm-3'>
 			<select class='form-control' id='year'>
 				<option value='0'>Select year</option>
-				<?php
-				$sql_select_year = "SELECT DISTINCT(YEAR(date)) AS year FROM invoices";
-				$result_select_year = $conn->query($sql_select_year);
-				while($row_select_year = $result_select_year->fetch_assoc()){
-				?>
+<?php
+	$sql_select_year 		= "SELECT DISTINCT(YEAR(date)) AS year FROM invoices";
+	$result_select_year 	= $conn->query($sql_select_year);
+	while($row_select_year 	= $result_select_year->fetch_assoc()){
+?>
 				<option value='<?= $row_select_year['year']; ?>'><?= $row_select_year['year'] ?></option>
-				<?php
-				}
-				?>
+<?php
+	}
+?>
 			</select>
 		</div>
 		<div class='col-sm-3'>
 			<button type='button' class='button_default_dark' onclick='search_invoice()'>Search for invoices</button>
 		</div>
-	<hr>
-		<div class='col-sm-12'>
-			<table class='table'>
-				<tr>
-					<th>Invoice date</th>
-					<th>Tax document</th>
-					<th>Invoice number</th>
-					<th>Customer</th>
-					<th>Value</th>
-				</tr>
-				<tbody id='list'>
-				</tbody>
-			</table>
-		</div>
 	</div>
+	<br>
+	<table class='table table-bordered'>
+		<tr>
+			<th>Invoice date</th>
+			<th>Tax document</th>
+			<th>Invoice number</th>
+			<th>Customer</th>
+			<th>Value</th>
+		</tr>
+		<tbody id='list'>
+		</tbody>
+	</table>
 </div>
+<form method='POST' action='invoice_edit_validate' id='edit_invoice_form'>
+	<input type='hidden' id='invoice_id' name='invoice_id'>
+</form>
 <script>
 	function search_invoice(){
 		if($('#month').val() == 0){
@@ -63,7 +66,7 @@
 			alert('Please insert valid year');
 		} else {
 			$.ajax({
-				url:"ajax/search_edit_invoice.php",
+				url:"invoice_edit_search.php",
 				method: "POST",
 				data: {
 					month: $('#month').val(),
@@ -76,8 +79,10 @@
 			})
 		}
 	}
+	
 	function submit_form_edit(n){
-		$('#form' + n).submit();
+		$('#invoice_id').val(n);
+		$('#edit_invoice_form').submit();
 	}
 </script>
 	

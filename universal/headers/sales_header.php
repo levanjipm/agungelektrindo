@@ -68,9 +68,9 @@
 <script>
 $('.dropdown_button').click(function(){
 	if($(this).next().is(':visible')){
-		$(this).css('color','white');
+		$(this).css('background-color','transparent');
 	} else {
-		$(this).css('color','#00ccff');
+		$(this).css('background-color','#00ccff');
 	}
 	$(this).next().toggle(350);
 });

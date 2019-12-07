@@ -1,5 +1,6 @@
 <?php
-include('accountingheader.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 if(empty($_POST['id'])){
 	header('location:accounting.php');
 }
@@ -130,21 +131,16 @@ $selector 			= $result_selector->fetch_assoc();
 			$result_paid = $conn->query($sql_paid);
 			$paid = $result_paid->fetch_assoc();
 			$received = $paid['paid'];
-			
-			$sql_returned = "SELECT SUM(value) AS returned FROM return_invoice_sales WHERE invoice_id = '" . $invoices['id'] . "'";
-			$result_returned = $conn->query($sql_returned);
-			$returned_row = $result_returned->fetch_assoc();
-			$returned = ($returned_row['returned'] == NULL)? 0 : $returned_row['returned'];
 ?>
 		<tr>
 			<td><?= date('d M Y',strtotime($invoices['date'])) ?></td>
 			<td><?= $invoices['name']; ?></td>
-			<td><?= number_format(($invoices['value'] + $invoices['ongkir'] - $received - $returned),2) ?></td>
+			<td><?= number_format(($invoices['value'] + $invoices['ongkir'] - $received),2) ?></td>
 			<td>
 				<div class="checkbox">
 					<label><input type="checkbox" id="check-<?= $i ?>" onchange="add(<?= $i ?>)" name='check[<?= $invoices['id'] ?>]'></label>
 				</div>
-				<input type='hidden' value='<?= $invoices['value'] + $invoices['ongkir'] - $received - $returned ?>' id='angka<?= $i ?>' readonly>
+				<input type='hidden' value='<?= $invoices['value'] + $invoices['ongkir'] - $received ?>' id='angka<?= $i ?>' readonly>
 			</td>
 			<td>
 				Rp. <span id='remain-<?= $i ?>'><?= number_format(($invoices['value'] + $invoices['ongkir'] - $received),2) ?></span>

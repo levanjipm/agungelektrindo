@@ -7,7 +7,7 @@
 	$sql_update 			= "UPDATE code_delivery_order SET isinvoiced = '1' WHERE id = '" . $do_id . "'";
 	$result_update 			= $conn->query($sql_update);
 	
-	$sql_get 				= "SELECT name FROM code_delivery_order WHERE id = '" . $do_id . "'";
+	$sql_get 				= "SELECT name, date FROM code_delivery_order WHERE id = '" . $do_id . "'";
 	$result_get 			= $conn->query($sql_get);
 	
 	$row_get 				= $result_get->fetch_assoc();

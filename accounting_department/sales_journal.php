@@ -1,8 +1,10 @@
 <?php
-	//Sales journal//
-	include('accountingheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 ?>
-<script src='../universal/Numeral-js-master/numeral.js'></script>
+<head>
+	<title>Sales journal</title>
+</head>
 <div class='main'>
 	<div class='row'>
 		<div class='col-sm-4'>
@@ -12,29 +14,27 @@
 		<div class='col-sm-3'>
 			<select class='form-control' id='month'>
 				<option value='0'>Select month</option>
-				<?php
-				$sql_select_month = "SELECT DISTINCT(MONTH(date)) AS month FROM invoices";
-				$result_select_month = $conn->query($sql_select_month);
-				while($row_select_month = $result_select_month->fetch_assoc()){
-				?>
-				<option value='<?= $row_select_month['month']; ?>'><?= date('F',mktime(0,0,0,$row_select_month['month'],10)); ?></option>
-				<?php
-				}
-				?>
+<?php
+	for($i = 1; $i <= 12; $i++){
+?>
+				<option value='<?= $i ?>'><?= date('F',mktime(0,0,0,$i,1)) ?></option>
+<?php 
+	}
+?>
 			</select>
 		</div>
 		<div class='col-sm-3'>
 			<select class='form-control' id='year'>
 				<option value='0'>Select year</option>
-				<?php
-				$sql_select_year = "SELECT DISTINCT(YEAR(date)) AS year FROM invoices";
-				$result_select_year = $conn->query($sql_select_year);
-				while($row_select_year = $result_select_year->fetch_assoc()){
-				?>
+<?php
+	$sql_select_year 		= "SELECT DISTINCT(YEAR(date)) AS year FROM invoices";
+	$result_select_year 	= $conn->query($sql_select_year);
+	while($row_select_year 	= $result_select_year->fetch_assoc()){
+?>
 				<option value='<?= $row_select_year['year']; ?>'><?= $row_select_year['year'] ?></option>
-				<?php
-				}
-				?>
+<?php
+	}
+?>
 			</select>
 		</div>
 		<div class='col-sm-2'>
@@ -48,7 +48,7 @@
 			<p id='masa'></p>
 		<hr>
 		</div>
-		<table class='table'>
+		<table class='table table-bordered'>
 			<tr>
 				<th>Date</th>
 				<th>Tax document</th>
@@ -69,7 +69,7 @@
 	</div>
 	<div class='row'>
 		<div class='col-sm-2 col-sm-offset-5'>
-			<button type='button' class='button_default_dark hidden-print' onclick='printing()'>Print</button>
+			<button type='button' class='button_success_dark hidden-print' onclick='printing()'><i class="fa fa-print" aria-hidden="true"></i></button>
 		</div>
 	</div>
 	<script>

@@ -4,7 +4,7 @@
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/accounting_department/invoice_create_dashboard'><p>Create an invoice<p></a>
 <?php if ($role == 'superadmin'){ ?>
-		<a href='/agungelektrindo/accounting_department/edit_invoice_dashboard'><p>Edit an invoice</p></a>
+		<a href='/agungelektrindo/accounting_department/invoice_edit_dashboard'><p>Edit an invoice</p></a>
 		<a href='/agungelektrindo/accounting_department/confirm_invoice_dashboard'><p>Confirm an invoice</p></a>
 <?php } ?>
 		<a href='invoice_archive.php'><p>Archives</p></a>
@@ -85,9 +85,9 @@
 <script>
 	$('.dropdown_button').click(function(){
 		if($(this).next().is(':visible')){
-			$(this).css('color','white');
+			$(this).css('background-color','transparent');
 		} else {
-			$(this).css('color','#00ccff');
+			$(this).css('background-color','#00ccff');
 		}
 		$(this).next().toggle(350);
 	});

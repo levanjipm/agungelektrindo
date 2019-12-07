@@ -3,11 +3,13 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2019 at 11:00 AM
+-- Generation Time: Dec 07, 2019 at 09:27 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -19,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `agungelektrindo`
 --
-CREATE DATABASE IF NOT EXISTS `agungelektrindo` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `agungelektrindo`;
 
 -- --------------------------------------------------------
 
@@ -28,15 +28,13 @@ USE `agungelektrindo`;
 -- Table structure for table `absentee_list`
 --
 
-CREATE TABLE IF NOT EXISTS `absentee_list` (
-  `ID` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `absentee_list` (
+  `ID` int(255) NOT NULL,
   `user_id` int(11) NOT NULL,
   `time` time NOT NULL,
   `date` date NOT NULL,
-  `isdelete` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`ID`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1169 DEFAULT CHARSET=latin1;
+  `isdelete` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `absentee_list`
@@ -1189,7 +1187,16 @@ INSERT INTO `absentee_list` (`ID`, `user_id`, `time`, `date`, `isdelete`) VALUES
 (1165, 3, '08:04:43', '2019-12-06', 0),
 (1166, 8, '08:05:57', '2019-12-06', 0),
 (1167, 10, '08:07:14', '2019-12-06', 0),
-(1168, 9, '08:07:14', '2019-12-06', 0);
+(1168, 9, '08:07:14', '2019-12-06', 0),
+(1169, 1, '07:57:46', '2019-12-07', 0),
+(1170, 4, '07:57:48', '2019-12-07', 0),
+(1171, 7, '07:57:48', '2019-12-07', 0),
+(1172, 10, '07:57:50', '2019-12-07', 0),
+(1173, 11, '07:57:51', '2019-12-07', 1),
+(1174, 3, '07:57:55', '2019-12-07', 0),
+(1175, 9, '07:58:46', '2019-12-07', 0),
+(1176, 2, '08:01:09', '2019-12-07', 0),
+(1177, 8, '08:01:29', '2019-12-07', 0);
 
 -- --------------------------------------------------------
 
@@ -1197,16 +1204,14 @@ INSERT INTO `absentee_list` (`ID`, `user_id`, `time`, `date`, `isdelete`) VALUES
 -- Table structure for table `adjustment_event`
 --
 
-CREATE TABLE IF NOT EXISTS `adjustment_event` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `adjustment_event` (
+  `id` int(255) NOT NULL,
   `reference` varchar(50) NOT NULL,
   `quantity` int(50) NOT NULL,
   `transaction` varchar(10) NOT NULL,
   `price_input` decimal(20,2) NOT NULL DEFAULT '0.00',
-  `code_adjustment_event` int(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `code_adjustment_event` (`code_adjustment_event`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
+  `code_adjustment_event` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `adjustment_event`
@@ -1247,14 +1252,13 @@ INSERT INTO `adjustment_event` (`id`, `reference`, `quantity`, `transaction`, `p
 -- Table structure for table `announcement`
 --
 
-CREATE TABLE IF NOT EXISTS `announcement` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `announcement` (
+  `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `event` text NOT NULL,
   `description` text,
-  `created_by` int(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+  `created_by` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `announcement`
@@ -1274,14 +1278,11 @@ INSERT INTO `announcement` (`id`, `date`, `event`, `description`, `created_by`) 
 -- Table structure for table `authorization`
 --
 
-CREATE TABLE IF NOT EXISTS `authorization` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `authorization` (
+  `id` int(255) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `department_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `department_id` (`department_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+  `department_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `authorization`
@@ -1321,14 +1322,12 @@ INSERT INTO `authorization` (`id`, `user_id`, `department_id`) VALUES
 -- Table structure for table `bank_account_other`
 --
 
-CREATE TABLE IF NOT EXISTS `bank_account_other` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `bank_account_other` (
+  `id` int(255) NOT NULL,
   `name` text NOT NULL,
   `created_by` int(10) NOT NULL,
-  `created_date` date NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `created_by` (`created_by`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  `created_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `bank_account_other`
@@ -1345,13 +1344,11 @@ INSERT INTO `bank_account_other` (`id`, `name`, `created_by`, `created_date`) VA
 -- Table structure for table `closed_purchaseorder`
 --
 
-CREATE TABLE IF NOT EXISTS `closed_purchaseorder` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `closed_purchaseorder` (
+  `id` int(255) NOT NULL,
   `purchaseorder_id` int(255) NOT NULL,
-  `closed_date` date NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `purchaseorder_id` (`purchaseorder_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+  `closed_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `closed_purchaseorder`
@@ -1387,19 +1384,16 @@ INSERT INTO `closed_purchaseorder` (`id`, `purchaseorder_id`, `closed_date`) VAL
 -- Table structure for table `code_adjustment_event`
 --
 
-CREATE TABLE IF NOT EXISTS `code_adjustment_event` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `code_adjustment_event` (
+  `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `event_id` smallint(2) NOT NULL,
   `event_name` varchar(100) NOT NULL,
   `created_by` int(11) NOT NULL,
   `isconfirm` tinyint(1) NOT NULL DEFAULT '0',
   `confirmed_by` int(10) DEFAULT NULL,
-  `confirm_time` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `confirmed_by` (`confirmed_by`),
-  KEY `created_by` (`created_by`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+  `confirm_time` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `code_adjustment_event`
@@ -1428,8 +1422,8 @@ INSERT INTO `code_adjustment_event` (`id`, `date`, `event_id`, `event_name`, `cr
 -- Table structure for table `code_bank`
 --
 
-CREATE TABLE IF NOT EXISTS `code_bank` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `code_bank` (
+  `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `value` decimal(20,2) NOT NULL,
   `transaction` text NOT NULL,
@@ -1438,9 +1432,8 @@ CREATE TABLE IF NOT EXISTS `code_bank` (
   `isdone` tinyint(1) NOT NULL DEFAULT '0',
   `major_id` int(11) NOT NULL,
   `description` text NOT NULL,
-  `isdelete` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1135 DEFAULT CHARSET=latin1;
+  `isdelete` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `code_bank`
@@ -2174,7 +2167,8 @@ INSERT INTO `code_bank` (`id`, `date`, `value`, `transaction`, `bank_opponent_id
 (736, '2019-05-23', '3912750.00', '1', 1, 'OTHER', 0, 0, 'Uang kas', 0),
 (737, '2019-05-23', '4961800.00', '2', 35, 'CUSTOMER', 0, 0, '', 1),
 (738, '2019-03-25', '12385299.00', '2', 6, 'CUSTOMER', 1, 388, '', 0),
-(739, '2019-05-23', '1463800.00', '2', 31, 'CUSTOMER', 0, 0, '', 1),
+(739, '2019-05-23', '1463800.00', '2', 31, 'CUSTOMER', 0, 0, '', 1);
+INSERT INTO `code_bank` (`id`, `date`, `value`, `transaction`, `bank_opponent_id`, `label`, `isdone`, `major_id`, `description`, `isdelete`) VALUES
 (740, '2019-05-23', '14473700.00', '1', 2, 'SUPPLIER', 0, 0, '', 0),
 (741, '2019-05-23', '17775900.00', '1', 2, 'SUPPLIER', 0, 0, '', 0),
 (742, '2019-05-06', '43301582.00', '2', 6, 'CUSTOMER', 1, 655, '', 0),
@@ -2397,8 +2391,7 @@ INSERT INTO `code_bank` (`id`, `date`, `value`, `transaction`, `bank_opponent_id
 (959, '2019-07-18', '700000.00', '2', 34, 'CUSTOMER', 0, 0, '', 0),
 (960, '2019-07-18', '81503530.90', '2', 55, 'CUSTOMER', 0, 0, '', 0),
 (961, '2019-07-18', '147781000.00', '1', 4, 'SUPPLIER', 0, 0, '', 0),
-(962, '2019-07-18', '10091000.00', '1', 4, 'SUPPLIER', 0, 0, '', 0);
-INSERT INTO `code_bank` (`id`, `date`, `value`, `transaction`, `bank_opponent_id`, `label`, `isdone`, `major_id`, `description`, `isdelete`) VALUES
+(962, '2019-07-18', '10091000.00', '1', 4, 'SUPPLIER', 0, 0, '', 0),
 (963, '2019-07-18', '36748000.00', '1', 1, 'SUPPLIER', 0, 0, '', 0),
 (964, '2019-07-19', '89876968.00', '2', 267, 'CUSTOMER', 0, 0, '', 0),
 (965, '2019-07-19', '1000000.00', '1', 1, 'OTHER', 0, 0, 'Business trip', 0),
@@ -2560,7 +2553,7 @@ INSERT INTO `code_bank` (`id`, `date`, `value`, `transaction`, `bank_opponent_id
 (1121, '2019-08-30', '805200.00', '2', 15, 'CUSTOMER', 0, 0, '', 0),
 (1122, '2019-08-30', '487894.00', '2', 15, 'CUSTOMER', 0, 0, '', 0),
 (1123, '2019-08-30', '53447180.00', '2', 55, 'CUSTOMER', 0, 0, '', 0),
-(1124, '2019-08-30', '45169277.00', '2', 7, 'CUSTOMER', 0, 0, '', 0),
+(1124, '2019-08-30', '45169277.00', '2', 7, 'CUSTOMER', 0, 0, '', 1),
 (1125, '2019-08-30', '56524000.00', '1', 4, 'SUPPLIER', 0, 0, '', 0),
 (1126, '2019-08-30', '248421000.00', '1', 4, 'SUPPLIER', 0, 0, '', 0),
 (1127, '2019-08-30', '92500000.00', '1', 2, 'SUPPLIER', 0, 0, '', 0),
@@ -2569,7 +2562,9 @@ INSERT INTO `code_bank` (`id`, `date`, `value`, `transaction`, `bank_opponent_id
 (1130, '2019-08-31', '50572.78', '1', 2, 'OTHER', 0, 0, 'Biaya administrasi', 0),
 (1131, '2019-08-31', '102863.92', '2', 2, 'OTHER', 0, 0, 'Bunga bank', 0),
 (1133, '2019-07-17', '7456570.00', '2', 27, 'CUSTOMER', 0, 0, '0014/SJ/WRH/V/2019', 0),
-(1134, '2019-07-17', '18641425.00', '2', 27, 'CUSTOMER', 0, 0, '0015/SJ/WRH/V/2019', 0);
+(1134, '2019-07-17', '18641425.00', '2', 27, 'CUSTOMER', 0, 0, '0015/SJ/WRH/V/2019', 0),
+(1135, '2019-08-30', '45169277.00', '2', 7, 'CUSTOMER', 1, 1124, '', 0),
+(1136, '2019-08-30', '45169277.00', '2', 7, 'CUSTOMER', 1, 1124, '', 0);
 
 -- --------------------------------------------------------
 
@@ -2577,13 +2572,12 @@ INSERT INTO `code_bank` (`id`, `date`, `value`, `transaction`, `bank_opponent_id
 -- Table structure for table `code_bank_other`
 --
 
-CREATE TABLE IF NOT EXISTS `code_bank_other` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `code_bank_other` (
+  `id` int(255) NOT NULL,
   `bank_id` int(255) NOT NULL,
   `class` int(255) NOT NULL,
-  `information` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=latin1;
+  `information` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `code_bank_other`
@@ -2684,8 +2678,8 @@ INSERT INTO `code_bank_other` (`id`, `bank_id`, `class`, `information`) VALUES
 -- Table structure for table `code_delivery_order`
 --
 
-CREATE TABLE IF NOT EXISTS `code_delivery_order` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `code_delivery_order` (
+  `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `number` int(20) NOT NULL,
   `tax` tinyint(1) NOT NULL,
@@ -2701,9 +2695,8 @@ CREATE TABLE IF NOT EXISTS `code_delivery_order` (
   `confirmed_by` int(10) NOT NULL,
   `confirm_date` date NOT NULL,
   `guid` varchar(50) NOT NULL,
-  `company` varchar(10) NOT NULL DEFAULT 'AE',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1318 DEFAULT CHARSET=latin1;
+  `company` varchar(10) NOT NULL DEFAULT 'AE'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `code_delivery_order`
@@ -3147,7 +3140,8 @@ INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `custo
 (454, '2019-02-06', 15, 1, 'SJ-AE-15P.06-II-19', 40, 1, 0, 1, 102, NULL, 3, '2019-07-18', 3, '2019-07-18', '', 'AE'),
 (455, '2019-02-07', 16, 1, 'SJ-AE-16P.07-II-19', 12, 1, 0, 1, 103, NULL, 3, '2019-07-18', 3, '2019-07-18', '', 'AE'),
 (456, '2019-02-07', 17, 1, 'SJ-AE-17P.07-II-19', 4, 1, 0, 1, 104, NULL, 3, '2019-07-18', 3, '2019-07-18', '', 'AE'),
-(457, '2019-02-07', 18, 0, 'SJ-AE-18N.07-II-19', 31, 1, 0, 1, 105, NULL, 3, '2019-07-18', 3, '2019-07-18', '', 'AE'),
+(457, '2019-02-07', 18, 0, 'SJ-AE-18N.07-II-19', 31, 1, 0, 1, 105, NULL, 3, '2019-07-18', 3, '2019-07-18', '', 'AE');
+INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `customer_id`, `sent`, `isdelete`, `isinvoiced`, `so_id`, `project_id`, `created_by`, `created_date`, `confirmed_by`, `confirm_date`, `guid`, `company`) VALUES
 (458, '2019-02-08', 19, 1, 'SJ-AE-19P.08-II-19', 29, 1, 0, 1, 106, NULL, 3, '2019-07-18', 3, '2019-07-18', '', 'AE'),
 (459, '2019-02-09', 20, 1, 'SJ-AE-20P.09-II-19', 29, 1, 0, 1, 107, NULL, 3, '2019-07-19', 3, '2019-07-19', '', 'AE'),
 (460, '2019-02-08', 21, 1, 'SJ-AE-21P.08-II-19', 13, 1, 0, 1, 108, NULL, 3, '2019-07-19', 3, '2019-07-19', '', 'AE'),
@@ -3281,8 +3275,7 @@ INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `custo
 (590, '2019-03-22', 59, 0, 'SJ-AE-59N.22-III-19', 35, 1, 0, 1, 221, NULL, 3, '2019-07-27', 3, '2019-07-27', '', 'AE'),
 (591, '2019-03-22', 60, 0, 'SJ-AE-60N.22-III-19', 31, 1, 0, 1, 222, NULL, 3, '2019-07-27', 3, '2019-07-27', '', 'AE'),
 (592, '2019-03-22', 61, 1, 'SJ-AE-61P.22-III-19', 26, 1, 0, 1, 223, NULL, 3, '2019-07-27', 3, '2019-07-27', '', 'AE'),
-(593, '2019-03-23', 62, 1, 'SJ-AE-62P.23-III-19', 46, 1, 0, 1, 224, NULL, 3, '2019-07-27', 3, '2019-07-27', '', 'AE');
-INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `customer_id`, `sent`, `isdelete`, `isinvoiced`, `so_id`, `project_id`, `created_by`, `created_date`, `confirmed_by`, `confirm_date`, `guid`, `company`) VALUES
+(593, '2019-03-23', 62, 1, 'SJ-AE-62P.23-III-19', 46, 1, 0, 1, 224, NULL, 3, '2019-07-27', 3, '2019-07-27', '', 'AE'),
 (594, '2019-03-23', 63, 0, 'SJ-AE-63N.23-III-19', 15, 1, 0, 1, 225, NULL, 3, '2019-07-27', 3, '2019-07-27', '', 'AE'),
 (595, '2019-03-23', 64, 1, 'SJ-AE-64P.23-III-19', 14, 1, 0, 1, 226, NULL, 3, '2019-07-27', 3, '2019-07-27', '', 'AE'),
 (596, '2019-03-23', 65, 1, 'SJ-AE-65P.23-III-19', 15, 1, 0, 1, 227, NULL, 3, '2019-07-27', 3, '2019-07-27', '', 'AE'),
@@ -3578,7 +3571,8 @@ INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `custo
 (894, '2019-07-12', 45, 1, 'SJ-AE-45P.12-VII-19', 26, 1, 0, 1, 457, NULL, 3, '2019-08-29', 3, '2019-08-29', '', 'AE'),
 (895, '2019-07-12', 46, 1, 'SJ-AE-46P.12-VII-19', 26, 1, 0, 1, 458, NULL, 3, '2019-08-29', 3, '2019-08-29', '', 'AE'),
 (896, '2019-07-13', 47, 1, 'SJ-AE-47P.13-VII-19', 11, 1, 0, 1, 459, NULL, 3, '2019-08-29', 3, '2019-08-29', '', 'AE'),
-(897, '2019-07-13', 48, 1, 'SJ-AE-48P.13-VII-19', 58, 1, 0, 1, 460, NULL, 3, '2019-08-29', 3, '2019-08-29', '', 'AE'),
+(897, '2019-07-13', 48, 1, 'SJ-AE-48P.13-VII-19', 58, 1, 0, 1, 460, NULL, 3, '2019-08-29', 3, '2019-08-29', '', 'AE');
+INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `customer_id`, `sent`, `isdelete`, `isinvoiced`, `so_id`, `project_id`, `created_by`, `created_date`, `confirmed_by`, `confirm_date`, `guid`, `company`) VALUES
 (898, '2019-07-13', 49, 0, 'SJ-AE-49N.13-VII-19', 10, 1, 0, 1, 461, NULL, 3, '2019-08-29', 3, '2019-08-29', '', 'AE'),
 (899, '2019-07-13', 50, 1, 'SJ-AE-50P.13-VII-19', 83, 1, 0, 1, 462, NULL, 3, '2019-08-29', 3, '2019-08-29', '', 'AE'),
 (900, '2019-07-13', 51, 1, 'SJ-AE-51P.13-VII-19', 28, 1, 0, 1, 463, NULL, 3, '2019-08-29', 3, '2019-08-29', '', 'AE'),
@@ -3794,8 +3788,7 @@ INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `custo
 (1131, '2019-09-19', 58, 1, 'SJ-AE-58P.19-IX-19', 11, 1, 0, 1, 639, NULL, 1, '2019-11-11', 1, '2019-11-13', '8D7F928F-BA7C-40E2-B045-3D6015133327', 'AE'),
 (1132, '2019-09-19', 59, 1, 'SJ-AE-59P.19-IX-19', 11, 1, 0, 1, 640, NULL, 1, '2019-11-11', 1, '2019-11-13', '925C1632-F9C3-4EC4-A158-1B5A605A9843', 'AE'),
 (1133, '2019-09-19', 60, 1, 'SJ-AE-60P.19-IX-19', 138, 1, 0, 1, 641, NULL, 1, '2019-11-11', 1, '2019-11-13', '70036B78-0414-4A67-A164-4C1CEFD54132', 'AE'),
-(1134, '2019-09-19', 61, 1, 'SJ-AE-61P.19-IX-19', 3, 1, 0, 1, 548, NULL, 1, '2019-11-11', 1, '2019-11-13', '942C123C-7D02-4475-9360-E921D7D468D9', 'AE');
-INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `customer_id`, `sent`, `isdelete`, `isinvoiced`, `so_id`, `project_id`, `created_by`, `created_date`, `confirmed_by`, `confirm_date`, `guid`, `company`) VALUES
+(1134, '2019-09-19', 61, 1, 'SJ-AE-61P.19-IX-19', 3, 1, 0, 1, 548, NULL, 1, '2019-11-11', 1, '2019-11-13', '942C123C-7D02-4475-9360-E921D7D468D9', 'AE'),
 (1135, '2019-09-19', 62, 1, 'SJ-AE-62P.19-IX-19', 3, 1, 0, 1, 642, NULL, 1, '2019-11-11', 1, '2019-11-13', 'EA2C28EE-E5EC-42FD-BF9F-21F42E419AEE', 'AE'),
 (1136, '2019-09-19', 63, 1, 'SJ-AE-63P.19-IX-19', 3, 1, 0, 1, 643, NULL, 1, '2019-11-11', 1, '2019-11-13', '03D15DCA-B20E-44DB-81F3-F7FAB6BEACC7', 'AE'),
 (1137, '2019-09-19', 64, 1, 'SJ-AE-64P.19-IX-19', 19, 1, 0, 1, 644, NULL, 1, '2019-11-11', 1, '2019-11-13', '62B53A4B-DFFA-4CA6-8D31-716334330EF0', 'AE'),
@@ -3835,8 +3828,8 @@ INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `custo
 (1171, '2019-09-30', 100, 1, 'SJ-AE-100P.30-IX-19', 19, 1, 0, 1, 677, NULL, 1, '2019-11-11', 1, '2019-11-13', 'B7338200-8F4C-486D-9AB8-40E67EA35035', 'AE'),
 (1172, '2019-09-30', 101, 1, 'SJ-AE-101P.30-IX-19', 3, 1, 0, 1, 519, NULL, 1, '2019-11-11', 1, '2019-11-13', 'DC0B7AD2-02FF-464B-BB8F-62C0A751A1D3', 'AE'),
 (1173, '2019-09-30', 102, 0, 'SJ-AE-102N.30-IX-19', 38, 1, 0, 1, 678, NULL, 1, '2019-11-11', 1, '2019-11-13', '6031E388-AB47-4C45-9208-519DEE893CEB', 'AE'),
-(1174, '2019-09-27', 103, 0, 'SJ-AE-103N.27-IX-19', 59, 1, 0, 0, 679, NULL, 1, '2019-11-11', 1, '2019-11-13', 'B9881487-1E01-405C-AC6E-056E3BC0BF11', 'AE'),
-(1175, '2019-09-27', 104, 0, 'SJ-AE-104N.27-IX-19', 59, 1, 0, 0, 680, NULL, 1, '2019-11-11', 1, '2019-11-13', 'E4867E66-D5B0-4F88-A36A-352FF53D732E', 'AE'),
+(1174, '2019-09-27', 90, 0, 'SJ-AE-90N.27-IX-19', 59, 1, 0, 1, 679, NULL, 1, '2019-11-11', 1, '2019-11-13', 'B9881487-1E01-405C-AC6E-056E3BC0BF11', 'AE'),
+(1175, '2019-09-27', 91, 0, 'SJ-AE-91N.27-IX-19', 59, 1, 0, 1, 680, NULL, 1, '2019-11-11', 1, '2019-11-13', 'E4867E66-D5B0-4F88-A36A-352FF53D732E', 'AE'),
 (1176, '2019-10-01', 1, 0, 'SJ-AE-01N.01-X-19', 31, 1, 0, 1, 681, NULL, 1, '2019-11-13', 3, '2019-11-21', '6C7998E7-C416-4A0B-B2D1-92CAFA8AFB39', 'AE'),
 (1177, '2019-10-01', 3, 0, 'SJ-AE-03N.01-X-19', 90, 1, 0, 1, 683, NULL, 1, '2019-11-13', 1, '2019-12-04', '0B290386-3D34-4AB7-99EC-38BC10A8AE86', 'AE'),
 (1178, '2019-10-01', 4, 1, 'SJ-AE-04P.01-X-19', 11, 1, 0, 1, 684, NULL, 1, '2019-11-13', 1, '2019-12-04', '8AFA2C9B-D158-4D11-8FAF-816FAAAE086D', 'AE'),
@@ -3918,7 +3911,8 @@ INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `custo
 (1256, '2019-10-21', 79, 1, 'SJ-AE-79P.21-X-19', 267, 1, 0, 1, 754, NULL, 1, '2019-11-14', 1, '2019-12-04', 'DE97992F-9D80-4C3F-A662-6751E9D268F9', 'AE'),
 (1257, '2019-10-21', 80, 1, 'SJ-AE-80P.21-X-19', 268, 1, 0, 1, 761, NULL, 1, '2019-11-14', 1, '2019-12-04', '9B0C095C-52E0-4E63-A209-EE171243393F', 'AE'),
 (1258, '2019-10-21', 81, 0, 'SJ-AE-81N.21-X-19', 38, 1, 0, 1, 755, NULL, 1, '2019-11-14', 1, '2019-12-04', '803F8EDA-53D8-4266-A35D-054C1A92ACFE', 'AE'),
-(1259, '2019-10-22', 82, 1, 'SJ-AE-82P.22-X-19', 11, 1, 0, 1, 756, NULL, 1, '2019-11-14', 1, '2019-12-04', 'F8B3F67E-FF78-4E4A-B916-F930007B945B', 'AE'),
+(1259, '2019-10-22', 82, 1, 'SJ-AE-82P.22-X-19', 11, 1, 0, 1, 756, NULL, 1, '2019-11-14', 1, '2019-12-04', 'F8B3F67E-FF78-4E4A-B916-F930007B945B', 'AE');
+INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `customer_id`, `sent`, `isdelete`, `isinvoiced`, `so_id`, `project_id`, `created_by`, `created_date`, `confirmed_by`, `confirm_date`, `guid`, `company`) VALUES
 (1260, '2019-10-22', 83, 1, 'SJ-AE-83P.22-X-19', 3, 1, 0, 1, 757, NULL, 1, '2019-11-14', 1, '2019-12-04', '0FFA9E4C-900E-41C1-AA81-7911753E3305', 'AE'),
 (1261, '2019-10-22', 84, 1, 'SJ-AE-84P.22-X-19', 3, 1, 0, 1, 762, NULL, 1, '2019-11-14', 1, '2019-12-04', '9D2365DE-0051-403F-BF06-8243A62F4625', 'AE'),
 (1262, '2019-10-22', 85, 1, 'SJ-AE-85P.22-X-19', 3, 1, 0, 1, 763, NULL, 1, '2019-11-14', 1, '2019-12-04', '205C91AE-B069-4420-91D3-A4667CDC5A54', 'AE'),
@@ -3965,17 +3959,70 @@ INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `custo
 (1304, '2019-08-26', 11, 0, 'DO.DSE201908-0110', 208, 0, 0, 0, NULL, NULL, 1, '2019-11-22', 0, '0000-00-00', '706863A9-8AC8-466E-9BD4-2ACEA5739A92', 'DSE'),
 (1305, '2019-08-26', 12, 0, 'DO.DSE201908-0120', 160, 0, 0, 0, NULL, NULL, 1, '2019-11-22', 0, '0000-00-00', '23A0089A-D50D-43C6-B562-FEC1F3429169', 'DSE'),
 (1306, '2019-08-28', 13, 0, 'DO.DSE201908-0130', 240, 0, 0, 0, NULL, NULL, 1, '2019-11-22', 0, '0000-00-00', '96E01B2E-0ACD-424C-AB8B-D82AAA6587D5', 'DSE'),
-(1307, '2019-11-01', 1, 1, 'SJ-AE-01P.01-XI-19', 7, 1, 0, 0, 793, NULL, 1, '2019-12-04', 1, '2019-12-05', 'DA7C551D-60A8-49C8-913C-C9A110735D89', 'AE'),
-(1308, '2019-11-01', 2, 1, 'SJ-AE-02P.01-XI-19', 13, 1, 0, 0, 794, NULL, 1, '2019-12-04', 1, '2019-12-05', 'E002E0BF-D0B7-43A8-A5AF-A7B6F06C111A', 'AE'),
-(1309, '2019-11-01', 3, 0, 'SJ-AE-03N.01-XI-19', 31, 1, 0, 0, 795, NULL, 1, '2019-12-04', 1, '2019-12-05', '19AFE07F-0816-40EE-9FB2-6CAE44B15CE5', 'AE'),
-(1310, '2019-11-01', 4, 0, 'SJ-AE-04N.01-XI-19', 31, 1, 0, 0, 796, NULL, 1, '2019-12-05', 1, '2019-12-05', '24D6A99C-58E3-4314-A0CF-57BE7FB301FF', 'AE'),
-(1311, '2019-11-01', 5, 0, 'SJ-AE-05N.01-XI-19', 31, 1, 0, 0, 797, NULL, 1, '2019-12-05', 1, '2019-12-05', '02CA87CD-E593-4CD8-8EB6-CF34C7A2CF2B', 'AE'),
-(1312, '2019-11-01', 6, 1, 'SJ-AE-06P.01-XI-19', 12, 1, 0, 0, 798, NULL, 1, '2019-12-05', 1, '2019-12-05', '702F885D-DDB2-4879-8B5A-BC4213AC2C30', 'AE'),
-(1313, '2019-11-04', 7, 0, 'SJ-AE-07N.04-XI-19', 49, 1, 0, 0, 799, NULL, 1, '2019-12-05', 1, '2019-12-05', '8F4E1228-DF6E-4EDD-A6B7-F9D6E194649A', 'AE'),
-(1314, '2019-11-02', 8, 1, 'SJ-AE-08P.02-XI-19', 27, 1, 0, 0, 800, NULL, 1, '2019-12-05', 1, '2019-12-05', 'E89D3B4B-3BDA-4350-BC87-E06C24E3A6B4', 'AE'),
-(1315, '2019-11-02', 9, 1, 'SJ-AE-09P.02-XI-19', 27, 1, 0, 0, 801, NULL, 1, '2019-12-05', 1, '2019-12-05', '1A180FD4-53A4-4F98-9459-0EC9ADD790B9', 'AE'),
-(1316, '2019-11-02', 10, 1, 'SJ-AE-10P.02-XI-19', 27, 1, 0, 0, 802, NULL, 1, '2019-12-05', 1, '2019-12-05', '425DAAC9-A5F2-4B51-8C63-96C39A30E594', 'AE'),
-(1317, '2019-11-04', 11, 0, 'SJ-AE-11N.04-XI-19', 272, 0, 0, 0, 803, NULL, 1, '2019-12-05', 0, '0000-00-00', 'EA947FB7-0CC3-4DD6-B306-60D77353E64D', 'AE');
+(1307, '2019-11-01', 1, 1, 'SJ-AE-01P.01-XI-19', 7, 1, 0, 1, 793, NULL, 1, '2019-12-04', 1, '2019-12-05', 'DA7C551D-60A8-49C8-913C-C9A110735D89', 'AE'),
+(1308, '2019-11-01', 2, 1, 'SJ-AE-02P.01-XI-19', 13, 1, 0, 1, 794, NULL, 1, '2019-12-04', 1, '2019-12-05', 'E002E0BF-D0B7-43A8-A5AF-A7B6F06C111A', 'AE'),
+(1309, '2019-11-01', 3, 0, 'SJ-AE-03N.01-XI-19', 31, 1, 0, 1, 795, NULL, 1, '2019-12-04', 1, '2019-12-05', '19AFE07F-0816-40EE-9FB2-6CAE44B15CE5', 'AE'),
+(1310, '2019-11-01', 4, 0, 'SJ-AE-04N.01-XI-19', 31, 1, 0, 1, 796, NULL, 1, '2019-12-05', 1, '2019-12-05', '24D6A99C-58E3-4314-A0CF-57BE7FB301FF', 'AE'),
+(1311, '2019-11-01', 5, 0, 'SJ-AE-05N.01-XI-19', 31, 1, 0, 1, 797, NULL, 1, '2019-12-05', 1, '2019-12-05', '02CA87CD-E593-4CD8-8EB6-CF34C7A2CF2B', 'AE'),
+(1312, '2019-11-01', 6, 1, 'SJ-AE-06P.01-XI-19', 12, 1, 0, 1, 798, NULL, 1, '2019-12-05', 1, '2019-12-05', '702F885D-DDB2-4879-8B5A-BC4213AC2C30', 'AE'),
+(1313, '2019-11-04', 7, 0, 'SJ-AE-07N.04-XI-19', 49, 1, 0, 1, 799, NULL, 1, '2019-12-05', 1, '2019-12-05', '8F4E1228-DF6E-4EDD-A6B7-F9D6E194649A', 'AE'),
+(1314, '2019-11-02', 8, 1, 'SJ-AE-08P.02-XI-19', 27, 1, 0, 1, 800, NULL, 1, '2019-12-05', 1, '2019-12-05', 'E89D3B4B-3BDA-4350-BC87-E06C24E3A6B4', 'AE'),
+(1315, '2019-11-02', 9, 1, 'SJ-AE-09P.02-XI-19', 27, 1, 0, 1, 801, NULL, 1, '2019-12-05', 1, '2019-12-05', '1A180FD4-53A4-4F98-9459-0EC9ADD790B9', 'AE'),
+(1316, '2019-11-02', 10, 1, 'SJ-AE-10P.02-XI-19', 27, 1, 0, 1, 802, NULL, 1, '2019-12-05', 1, '2019-12-05', '425DAAC9-A5F2-4B51-8C63-96C39A30E594', 'AE'),
+(1317, '2019-11-04', 11, 0, 'SJ-AE-11N.04-XI-19', 272, 1, 0, 1, 803, NULL, 1, '2019-12-05', 3, '2019-12-07', 'EA947FB7-0CC3-4DD6-B306-60D77353E64D', 'AE'),
+(1318, '2019-11-04', 12, 0, 'SJ-AE-12N.04-XI-19', 49, 1, 0, 1, 804, NULL, 3, '2019-12-07', 3, '2019-12-07', 'CE7EFF7F-494C-434D-8499-73B88B56E8B6', 'AE'),
+(1319, '2019-11-04', 13, 1, 'SJ-AE-13P.04-XI-19', 3, 1, 0, 1, 805, NULL, 3, '2019-12-07', 3, '2019-12-07', '33D98EC6-2CFF-415B-A33A-143FCC7627B6', 'AE'),
+(1320, '2019-11-04', 14, 1, 'SJ-AE-14P.04-XI-19', 3, 1, 0, 1, 806, NULL, 3, '2019-12-07', 3, '2019-12-07', 'C990F174-8B72-4D1A-81FF-A52123FFFC0B', 'AE'),
+(1321, '2019-11-02', 15, 0, 'SJ-AE-15N.02-XI-19', 275, 1, 0, 1, 807, NULL, 3, '2019-12-07', 3, '2019-12-07', '3540EDF2-48D3-40D3-B2F2-AFB0BDBE1153', 'AE'),
+(1322, '2019-11-04', 16, 0, 'SJ-AE-16N.04-XI-19', 35, 1, 0, 1, 808, NULL, 3, '2019-12-07', 3, '2019-12-07', '3E5CE96D-7CF5-482F-9588-D608F098CFCA', 'AE'),
+(1323, '2019-11-04', 17, 0, 'SJ-AE-17N.04-XI-19', 38, 1, 0, 1, 809, NULL, 3, '2019-12-07', 3, '2019-12-07', '181D908C-7E8D-48B7-8FD8-B801A68CF953', 'AE'),
+(1324, '2019-11-07', 18, 0, 'SJ-AE-18N.07-XI-19', 270, 1, 0, 1, 810, NULL, 3, '2019-12-07', 3, '2019-12-07', 'C59458AB-8AB1-4C40-85E6-D576E58C52A7', 'AE'),
+(1325, '2019-11-06', 19, 1, 'SJ-AE-19P.06-XI-19', 79, 1, 0, 1, 811, NULL, 3, '2019-12-07', 3, '2019-12-07', 'CDD96792-0612-4AC7-AB0D-793B49492E4E', 'AE'),
+(1326, '2019-11-06', 20, 1, 'SJ-AE-20P.06-XI-19', 15, 1, 0, 1, 812, NULL, 3, '2019-12-07', 3, '2019-12-07', '2682990F-F2D1-478A-A524-FA58C1E7148B', 'AE'),
+(1327, '2019-11-06', 21, 1, 'SJ-AE-21P.06-XI-19', 6, 1, 0, 1, 813, NULL, 3, '2019-12-07', 3, '2019-12-07', '6DE71591-2952-470D-ABDA-EBE794BC35C1', 'AE'),
+(1328, '2019-11-07', 22, 1, 'SJ-AE-22P.07-XI-19', 1, 1, 0, 1, 814, NULL, 3, '2019-12-07', 3, '2019-12-07', '34A573AC-D358-4093-A87C-F0323C9DB541', 'AE'),
+(1329, '2019-11-11', 23, 1, 'SJ-AE-23P.11-XI-19', 44, 1, 0, 1, 815, NULL, 3, '2019-12-07', 3, '2019-12-07', 'E317C5B4-9A31-45D9-8923-3D78A271B06D', 'AE'),
+(1330, '2019-11-11', 24, 1, 'SJ-AE-24P.11-XI-19', 52, 1, 0, 1, 816, NULL, 3, '2019-12-07', 3, '2019-12-07', 'DDE4BCE8-200A-48B3-B644-B96A8353C4E8', 'AE'),
+(1331, '2019-11-11', 25, 1, 'SJ-AE-25P.11-XI-19', 12, 1, 0, 1, 817, NULL, 3, '2019-12-07', 3, '2019-12-07', '5C85BF51-F43C-4245-AFE9-DA2CEC87EE67', 'AE'),
+(1332, '2019-11-11', 26, 0, 'SJ-AE-26N.11-XI-19', 276, 1, 0, 1, 818, NULL, 3, '2019-12-07', 3, '2019-12-07', 'D26A2065-3DD7-4711-9C6C-051D517A2E37', 'AE'),
+(1333, '2019-11-11', 27, 1, 'SJ-AE-27P.11-XI-19', 44, 1, 0, 1, 819, NULL, 3, '2019-12-07', 3, '2019-12-07', '151BF467-918C-4C85-AC41-67C0126D0F2C', 'AE'),
+(1334, '2019-11-11', 28, 1, 'SJ-AE-28P.11-XI-19', 44, 1, 0, 1, 820, NULL, 3, '2019-12-07', 3, '2019-12-07', 'E5CF707F-47FC-4960-B651-12F32D42E360', 'AE'),
+(1335, '2019-11-12', 29, 1, 'SJ-AE-29P.12-XI-19', 40, 1, 0, 1, 821, NULL, 3, '2019-12-07', 3, '2019-12-07', '2A2270B7-6B44-4FF0-9399-E55D590A2CD6', 'AE'),
+(1336, '2019-11-12', 30, 1, 'SJ-AE-30P.12-XI-19', 15, 1, 0, 1, 822, NULL, 3, '2019-12-07', 3, '2019-12-07', '23B7206D-9DA6-4690-A8D0-CE738287D11E', 'AE'),
+(1337, '2019-11-08', 31, 1, 'SJ-AE-31P.08-XI-19', 147, 1, 0, 1, 824, NULL, 3, '2019-12-07', 3, '2019-12-07', 'B256542B-761D-4851-8DA5-72682EAA4231', 'AE'),
+(1338, '2019-11-13', 32, 1, 'SJ-AE-32P.13-XI-19', 19, 1, 0, 1, 825, NULL, 3, '2019-12-07', 3, '2019-12-07', '1F58A7A4-FA61-4740-B3BD-58A25170DADD', 'AE'),
+(1339, '2019-11-13', 33, 1, 'SJ-AE-33P.13-XI-19', 12, 1, 0, 1, 817, NULL, 3, '2019-12-07', 3, '2019-12-07', '1A9DBBEA-1A35-4020-B386-8319E9E8BD1A', 'AE'),
+(1340, '2019-11-13', 34, 1, 'SJ-AE-34P.13-XI-19', 12, 1, 0, 1, 826, NULL, 3, '2019-12-07', 3, '2019-12-07', '62867AFC-399D-4844-BFC5-4AE131B79464', 'AE'),
+(1341, '2019-11-13', 35, 1, 'SJ-AE-35P.13-XI-19', 28, 1, 0, 1, 827, NULL, 3, '2019-12-07', 3, '2019-12-07', 'E9D6B65C-153B-406B-AC6D-57B3A153B227', 'AE'),
+(1342, '2019-11-13', 36, 1, 'SJ-AE-36P.13-XI-19', 7, 1, 0, 0, 828, NULL, 3, '2019-12-07', 1, '2019-12-07', '86BC3AF8-0606-439F-B596-7300B398CA15', 'AE'),
+(1343, '2019-11-14', 37, 0, 'SJ-AE-37N.14-XI-19', 261, 1, 0, 1, 829, NULL, 3, '2019-12-07', 3, '2019-12-07', 'B1F39721-E5F7-4892-A25C-40A940B477B1', 'AE'),
+(1344, '2019-11-14', 38, 0, 'SJ-AE-38N.14-XI-19', 261, 1, 0, 1, 830, NULL, 3, '2019-12-07', 3, '2019-12-07', 'B3DB39C5-00AC-4C2A-9611-A9D66C873A7D', 'AE'),
+(1345, '2019-11-14', 39, 1, 'SJ-AE-39P.14-XI-19', 15, 1, 0, 1, 822, NULL, 3, '2019-12-07', 3, '2019-12-07', 'B7741275-7C9A-40E8-A816-486196D02B1C', 'AE'),
+(1346, '2019-11-14', 40, 1, 'SJ-AE-40P.14-XI-19', 6, 1, 0, 1, 831, NULL, 3, '2019-12-07', 3, '2019-12-07', 'A2BB9ACB-C83E-484F-B6A7-8F140D97EC1D', 'AE'),
+(1347, '2019-11-15', 41, 1, 'SJ-AE-41P.15-XI-19', 19, 1, 0, 1, 825, NULL, 3, '2019-12-07', 3, '2019-12-07', '606BFDB3-E5CB-4DEA-848F-D0134A3661F9', 'AE'),
+(1348, '2019-11-18', 42, 1, 'SJ-AE-42P.18-XI-19', 3, 1, 0, 1, 832, NULL, 3, '2019-12-07', 3, '2019-12-07', '90451A6E-29DE-41BF-A809-5A739B3B4F87', 'AE'),
+(1349, '2019-11-15', 43, 1, 'SJ-AE-43P.15-XI-19', 138, 1, 0, 1, 833, NULL, 3, '2019-12-07', 3, '2019-12-07', 'AD2BED80-A158-4F85-AD4C-1731EB224317', 'AE'),
+(1350, '2019-11-15', 44, 1, 'SJ-AE-44P.15-XI-19', 15, 1, 0, 1, 834, NULL, 3, '2019-12-07', 3, '2019-12-07', '9040E016-8F7D-4575-B6CA-873B5BE055CE', 'AE'),
+(1351, '2019-11-15', 45, 1, 'SJ-AE-45P.15-XI-19', 12, 1, 0, 1, 826, NULL, 3, '2019-12-07', 3, '2019-12-07', '2D762456-755C-48AD-A778-A980CECE9566', 'AE'),
+(1352, '2019-11-18', 46, 1, 'SJ-AE-46P.18-XI-19', 26, 1, 0, 1, 835, NULL, 3, '2019-12-07', 3, '2019-12-07', '312B670C-C5CC-490D-A722-36323E8ECE14', 'AE'),
+(1353, '2019-11-19', 47, 1, 'SJ-AE-47P.19-XI-19', 15, 1, 0, 1, 834, NULL, 3, '2019-12-07', 3, '2019-12-07', 'E20AC621-A8A2-4F82-946D-7CDB6EE825ED', 'AE'),
+(1354, '2019-11-19', 48, 1, 'SJ-AE-48P.19-XI-19', 27, 1, 0, 1, 836, NULL, 3, '2019-12-07', 3, '2019-12-07', 'E5E641CD-CAEF-4962-A578-D79091ED3B71', 'AE'),
+(1355, '2019-11-21', 49, 1, 'SJ-AE-49P.21-XI-19', 3, 1, 0, 1, 837, NULL, 3, '2019-12-07', 3, '2019-12-07', 'B3948693-3AD2-4F21-BB42-1CE3CC4B15CC', 'AE'),
+(1356, '2019-11-21', 50, 1, 'SJ-AE-50P.21-XI-19', 40, 1, 0, 1, 838, NULL, 3, '2019-12-07', 3, '2019-12-07', '386056C4-5B62-490C-B3E2-392025EBDA7D', 'AE'),
+(1357, '2019-11-21', 51, 0, 'SJ-AE-51N.21-XI-19', 31, 1, 0, 1, 839, NULL, 3, '2019-12-07', 3, '2019-12-07', '948232DB-0FC7-435C-94FF-DE0A8BEF3568', 'AE'),
+(1358, '2019-11-21', 52, 0, 'SJ-AE-52N.21-XI-19', 31, 1, 0, 1, 840, NULL, 3, '2019-12-07', 3, '2019-12-07', '081C6FFA-32A0-49A1-A05B-2F6772268563', 'AE'),
+(1359, '2019-11-20', 53, 1, 'SJ-AE-53P.20-XI-19', 277, 1, 0, 1, 841, NULL, 3, '2019-12-07', 3, '2019-12-07', '2F759F09-9714-4924-972F-1CE5D59F6D78', 'AE'),
+(1360, '2019-11-21', 54, 1, 'SJ-AE-54P.21-XI-19', 12, 1, 0, 1, 842, NULL, 3, '2019-12-07', 3, '2019-12-07', 'DFC18B3A-EF06-4CAB-8E89-245B51063C24', 'AE'),
+(1361, '2019-11-22', 55, 1, 'SJ-AE-55P.22-XI-19', 12, 1, 0, 1, 817, NULL, 3, '2019-12-07', 3, '2019-12-07', '8824C4AB-2188-4715-ACFA-85A867C406FD', 'AE'),
+(1362, '2019-11-22', 56, 1, 'SJ-AE-56P.22-XI-19', 79, 1, 0, 1, 811, NULL, 3, '2019-12-07', 3, '2019-12-07', '8C2D3AEC-266F-4C01-B82F-4BBC5AE98C76', 'AE'),
+(1363, '2019-11-23', 57, 1, 'SJ-AE-57P.23-XI-19', 150, 1, 0, 1, 843, NULL, 3, '2019-12-07', 3, '2019-12-07', 'E2C53BBC-D4E6-4FE9-B476-A2740DE1C709', 'AE'),
+(1364, '2019-11-23', 58, 1, 'SJ-AE-58P.23-XI-19', 148, 1, 0, 1, 844, NULL, 3, '2019-12-07', 3, '2019-12-07', '5B7E8C7E-3289-47CB-9B24-C3DEFB276944', 'AE'),
+(1365, '2019-11-27', 59, 1, 'SJ-AE-59P.27-XI-19', 138, 1, 0, 1, 845, NULL, 3, '2019-12-07', 3, '2019-12-07', '3275AEC0-0945-48A1-AB92-E1D24626E5FA', 'AE'),
+(1366, '2019-11-27', 60, 0, 'SJ-AE-60N.27-XI-19', 18, 1, 0, 1, 846, NULL, 3, '2019-12-07', 3, '2019-12-07', '5982748A-AA7C-4F49-A812-3060BDBFBDBE', 'AE'),
+(1367, '2019-11-27', 61, 1, 'SJ-AE-61P.27-XI-19', 27, 1, 0, 1, 847, NULL, 3, '2019-12-07', 3, '2019-12-07', '2C22F788-AFAB-4486-9E05-5E134FE15FAC', 'AE'),
+(1368, '2019-11-29', 62, 1, 'SJ-AE-62P.29-XI-19', 147, 1, 0, 1, 848, NULL, 3, '2019-12-07', 3, '2019-12-07', '3565E56C-0F7D-4D52-B1CB-D733E9EA8367', 'AE'),
+(1369, '2019-11-29', 63, 1, 'SJ-AE-63P.29-XI-19', 138, 1, 0, 1, 845, NULL, 3, '2019-12-07', 3, '2019-12-07', 'AB91657A-3E74-4C6A-9299-C2EDC767B348', 'AE'),
+(1370, '2019-11-29', 64, 1, 'SJ-AE-64P.29-XI-19', 15, 1, 0, 1, 849, NULL, 3, '2019-12-07', 3, '2019-12-07', '2920A471-3276-4EFD-91F7-645C45C1438D', 'AE');
 
 -- --------------------------------------------------------
 
@@ -3983,8 +4030,8 @@ INSERT INTO `code_delivery_order` (`id`, `date`, `number`, `tax`, `name`, `custo
 -- Table structure for table `code_goodreceipt`
 --
 
-CREATE TABLE IF NOT EXISTS `code_goodreceipt` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `code_goodreceipt` (
+  `id` int(255) NOT NULL,
   `supplier_id` int(255) NOT NULL,
   `date` date NOT NULL,
   `received_date` date NOT NULL,
@@ -3995,14 +4042,8 @@ CREATE TABLE IF NOT EXISTS `code_goodreceipt` (
   `invoice_id` int(255) DEFAULT NULL,
   `created_by` int(10) NOT NULL,
   `confirmed_by` int(10) DEFAULT NULL,
-  `confirmed_date` date DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `supplier_id` (`supplier_id`),
-  KEY `created_by` (`created_by`),
-  KEY `invoice_id` (`invoice_id`),
-  KEY `po_id` (`po_id`),
-  KEY `confirmed_by` (`confirmed_by`)
-) ENGINE=InnoDB AUTO_INCREMENT=755 DEFAULT CHARSET=latin1;
+  `confirmed_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `code_goodreceipt`
@@ -4599,7 +4640,8 @@ INSERT INTO `code_goodreceipt` (`id`, `supplier_id`, `date`, `received_date`, `d
 (622, 2, '2019-11-02', '2019-11-04', '3792', 294, 1, 1, 567, 1, 1, '2019-11-04'),
 (623, 4, '2019-11-02', '2019-11-04', 'PI-CK-AI-OCFIE', 290, 1, 1, 577, 1, 1, '2019-11-04'),
 (624, 4, '2019-11-02', '2019-11-04', 'PI-SL-AI-AOGAB', 285, 1, 1, 581, 1, 1, '2019-11-04'),
-(625, 4, '2019-11-02', '2019-11-04', 'PI-SL-AI-AOGOC', 290, 1, 1, 577, 1, 1, '2019-11-04'),
+(625, 4, '2019-11-02', '2019-11-04', 'PI-SL-AI-AOGOC', 290, 1, 1, 577, 1, 1, '2019-11-04');
+INSERT INTO `code_goodreceipt` (`id`, `supplier_id`, `date`, `received_date`, `document`, `po_id`, `isconfirm`, `isinvoiced`, `invoice_id`, `created_by`, `confirmed_by`, `confirmed_date`) VALUES
 (626, 4, '2019-10-19', '2019-11-04', 'BNS-CK-AI-OOODE', 274, 1, 1, 524, 1, 1, '2019-11-04'),
 (627, 4, '2019-10-21', '2019-11-04', 'BNS-TA-AI-OOACC', 269, 1, 1, 525, 1, 1, '2019-11-04'),
 (628, 4, '2019-10-15', '2019-11-04', 'PI-CK-AI-OCAHB', 266, 1, 1, 539, 3, 3, '2019-11-04'),
@@ -4721,7 +4763,8 @@ INSERT INTO `code_goodreceipt` (`id`, `supplier_id`, `date`, `received_date`, `d
 (750, 4, '2019-12-05', '2019-12-06', 'PI-CK-AI-ODFFC', 317, 1, 0, NULL, 1, 1, '2019-12-06'),
 (751, 2, '2019-12-04', '2019-12-06', '4258', 315, 1, 0, NULL, 1, 1, '2019-12-06'),
 (752, 2, '2019-12-04', '2019-12-06', '4253', 315, 1, 0, NULL, 1, 1, '2019-12-06'),
-(754, 2, '2019-12-04', '2019-12-06', '4257', 315, 1, 0, NULL, 1, 1, '2019-12-06');
+(754, 2, '2019-12-04', '2019-12-06', '4257', 315, 1, 0, NULL, 1, 1, '2019-12-06'),
+(755, 2, '2019-12-06', '2019-12-07', '4289', 282, 1, 0, NULL, 1, 1, '2019-12-07');
 
 -- --------------------------------------------------------
 
@@ -4729,8 +4772,8 @@ INSERT INTO `code_goodreceipt` (`id`, `supplier_id`, `date`, `received_date`, `d
 -- Table structure for table `code_proforma_invoice`
 --
 
-CREATE TABLE IF NOT EXISTS `code_proforma_invoice` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `code_proforma_invoice` (
+  `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `name` varchar(50) NOT NULL,
   `taxing` tinyint(1) DEFAULT NULL,
@@ -4740,8 +4783,7 @@ CREATE TABLE IF NOT EXISTS `code_proforma_invoice` (
   `value` decimal(30,2) NOT NULL DEFAULT '0.00',
   `created_by` int(10) NOT NULL,
   `created_date` date NOT NULL,
-  `guid` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  `guid` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -4750,8 +4792,8 @@ CREATE TABLE IF NOT EXISTS `code_proforma_invoice` (
 -- Table structure for table `code_project`
 --
 
-CREATE TABLE IF NOT EXISTS `code_project` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `code_project` (
+  `id` int(255) NOT NULL,
   `customer_id` int(255) NOT NULL,
   `project_name` text NOT NULL,
   `price` decimal(20,2) NOT NULL,
@@ -4763,9 +4805,8 @@ CREATE TABLE IF NOT EXISTS `code_project` (
   `end_date` date NOT NULL,
   `isdone` int(11) NOT NULL DEFAULT '0',
   `issent` tinyint(1) NOT NULL DEFAULT '0',
-  `created_by` int(10) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+  `created_by` int(10) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `code_project`
@@ -4798,8 +4839,8 @@ INSERT INTO `code_project` (`id`, `customer_id`, `project_name`, `price`, `major
 -- Table structure for table `code_purchaseorder`
 --
 
-CREATE TABLE IF NOT EXISTS `code_purchaseorder` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `code_purchaseorder` (
+  `id` int(255) NOT NULL,
   `name` varchar(40) NOT NULL,
   `supplier_id` int(255) NOT NULL,
   `date` date NOT NULL,
@@ -4814,12 +4855,8 @@ CREATE TABLE IF NOT EXISTS `code_purchaseorder` (
   `dropship_address` varchar(100) DEFAULT NULL,
   `dropship_city` varchar(50) DEFAULT NULL,
   `dropship_phone` varchar(50) DEFAULT NULL,
-  `guid` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `guid` (`guid`),
-  KEY `supplier_id` (`supplier_id`),
-  KEY `created_by` (`created_by`)
-) ENGINE=InnoDB AUTO_INCREMENT=326 DEFAULT CHARSET=latin1;
+  `guid` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `code_purchaseorder`
@@ -5140,7 +5177,8 @@ INSERT INTO `code_purchaseorder` (`id`, `name`, `supplier_id`, `date`, `top`, `t
 (322, 'PO-AE-04.03-XII-19', 2, '2019-12-03', 30, '1', '0000-00-00', 'URGENT', '', 0, 1, '', NULL, NULL, NULL, '30D6A27E-FCD4-4303-B1CB-BDC818791529'),
 (323, 'PO-AE-05.06-XII-19', 4, '2019-12-06', 60, '1', '2019-12-10', '', '', 0, 1, '', NULL, NULL, NULL, 'BA044D28-3E14-494D-AE54-4EBA651B7C0F'),
 (324, 'PO-AE-06.06-XII-19', 4, '2019-12-06', 30, '1', '2019-12-07', '', '', 0, 1, '', NULL, NULL, NULL, '6C48B4C7-CA86-4E78-BC2A-4E67F37EA8C9'),
-(325, 'PO-AE-07.06-XII-19', 2, '2019-12-06', 30, '1', '0000-00-00', '', '', 0, 1, '', NULL, NULL, NULL, 'CEFD53B2-8DF7-4877-8F93-F0D1D538D4E0');
+(325, 'PO-AE-07.06-XII-19', 2, '2019-12-06', 30, '1', '0000-00-00', '', '', 0, 1, '', NULL, NULL, NULL, 'CEFD53B2-8DF7-4877-8F93-F0D1D538D4E0'),
+(326, 'PO-AE-08.07-XII-19', 3, '2019-12-07', 30, '1', '0000-00-00', '', '', 0, 1, '', NULL, NULL, NULL, 'FB5C0E55-7746-481C-9A62-1AFFF24B9269');
 
 -- --------------------------------------------------------
 
@@ -5148,13 +5186,12 @@ INSERT INTO `code_purchaseorder` (`id`, `name`, `supplier_id`, `date`, `top`, `t
 -- Table structure for table `code_purchase_return`
 --
 
-CREATE TABLE IF NOT EXISTS `code_purchase_return` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `code_purchase_return` (
+  `id` int(255) NOT NULL,
   `submission_date` date NOT NULL,
   `supplier_id` int(255) NOT NULL,
   `isconfirm` tinyint(1) NOT NULL DEFAULT '0',
-  `guid` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  `guid` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -5163,8 +5200,8 @@ CREATE TABLE IF NOT EXISTS `code_purchase_return` (
 -- Table structure for table `code_quotation`
 --
 
-CREATE TABLE IF NOT EXISTS `code_quotation` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `code_quotation` (
+  `id` int(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `customer_id` int(255) NOT NULL,
   `date` date NOT NULL,
@@ -5176,12 +5213,8 @@ CREATE TABLE IF NOT EXISTS `code_quotation` (
   `isdelete` tinyint(1) NOT NULL DEFAULT '0',
   `created_by` int(10) NOT NULL,
   `company` varchar(5) NOT NULL DEFAULT 'AE',
-  `GUID` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `GUID` (`GUID`),
-  KEY `created_by` (`created_by`),
-  KEY `customer_id` (`customer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=584 DEFAULT CHARSET=latin1;
+  `GUID` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `code_quotation`
@@ -5665,7 +5698,8 @@ INSERT INTO `code_quotation` (`id`, `name`, `customer_id`, `date`, `additional_d
 (540, 'Q-AE-36.21-X-19', 138, '2019-10-21', '0.000', 3, 0, 30, '', 0, 1, 'AE', '78048348-81FE-4B3D-81F1-CFD379418FBC'),
 (541, 'Q-AE-37.23-X-19', 3, '2019-10-23', '0.000', 3, 0, 30, '679247', 0, 1, 'AE', '31C33673-9F1C-4810-BDEE-F1C48BFFB92D'),
 (542, 'Q-AE-38.24-X-19', 44, '2019-10-24', '0.000', 3, 0, 30, '', 0, 1, 'AE', 'D0497359-A0C6-4E6F-BEAB-574DDF92F0D1'),
-(543, 'Q-AE-39.24-X-19', 31, '2019-10-24', '0.000', 3, 0, 30, '', 0, 1, 'AE', '82D3836C-AE03-47E9-8F85-0F406C7422EF'),
+(543, 'Q-AE-39.24-X-19', 31, '2019-10-24', '0.000', 3, 0, 30, '', 0, 1, 'AE', '82D3836C-AE03-47E9-8F85-0F406C7422EF');
+INSERT INTO `code_quotation` (`id`, `name`, `customer_id`, `date`, `additional_discount`, `payment_id`, `down_payment`, `repayment`, `note`, `isdelete`, `created_by`, `company`, `GUID`) VALUES
 (544, 'Q-AE-40.24-X-19', 7, '2019-10-24', '0.000', 3, 0, 30, '', 0, 1, 'AE', 'A01F5E3E-8263-432E-9F73-B29DC9DB910D'),
 (545, 'Q-AE-41.24-X-19', 7, '2019-10-24', '0.000', 3, 0, 30, '', 0, 1, 'AE', 'ED46082A-2ED9-4878-A5C2-A69C1AC2E7E9'),
 (546, 'Q-AE-42.28-X-19', 3, '2019-10-28', '0.000', 3, 0, 30, '152168', 0, 1, 'AE', 'C4D0DDC6-3F8A-437C-A225-A6F15F12FFB4'),
@@ -5713,8 +5747,8 @@ INSERT INTO `code_quotation` (`id`, `name`, `customer_id`, `date`, `additional_d
 -- Table structure for table `code_salesorder`
 --
 
-CREATE TABLE IF NOT EXISTS `code_salesorder` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `code_salesorder` (
+  `id` int(255) NOT NULL,
   `name` varchar(20) NOT NULL,
   `created_by` int(10) NOT NULL,
   `date` date NOT NULL,
@@ -5734,10 +5768,8 @@ CREATE TABLE IF NOT EXISTS `code_salesorder` (
   `date_confirm` date DEFAULT NULL,
   `note` text,
   `top` int(11) NOT NULL,
-  `guid` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `guid` (`guid`)
-) ENGINE=InnoDB AUTO_INCREMENT=804 DEFAULT CHARSET=latin1;
+  `guid` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `code_salesorder`
@@ -6006,7 +6038,8 @@ INSERT INTO `code_salesorder` (`id`, `name`, `created_by`, `date`, `po_number`, 
 (264, '1904-SO-011', 3, '2019-04-04', '290/KA/IV/F/2019', 1, 15, '532097.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-07-30', NULL, 0, '1AE122B3-4B3B-466D-8C9C-B59646D48099'),
 (265, '1904-SO-012', 3, '2019-04-01', 'PO010306/PO 10071', 1, 19, '4867240.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-07-30', NULL, 0, 'ACC38B54-819B-4FBB-92E3-A6C7A6323886'),
 (266, '1904-SO-013', 3, '2019-04-09', '156/237/IV/19/LKJ/P', 1, 42, '173000.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-07-30', NULL, 0, '2AC6E488-2C4F-4620-8599-4590D03E619F'),
-(267, '1904-SO-014', 3, '2019-04-08', '00199/PO-KAP/I/2019', 1, 28, '28645320.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-07-30', NULL, 0, '0878CFFE-2BE8-4F8F-9CDB-438E90511F6B'),
+(267, '1904-SO-014', 3, '2019-04-08', '00199/PO-KAP/I/2019', 1, 28, '28645320.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-07-30', NULL, 0, '0878CFFE-2BE8-4F8F-9CDB-438E90511F6B');
+INSERT INTO `code_salesorder` (`id`, `name`, `created_by`, `date`, `po_number`, `taxing`, `customer_id`, `value`, `label`, `type`, `seller`, `retail_name`, `retail_address`, `retail_city`, `retail_phone`, `isconfirm`, `confirmed_by`, `date_confirm`, `note`, `top`, `guid`) VALUES
 (268, '1904-SO-015', 3, '2019-04-08', '0203/PO-KAP/I/2019', 1, 28, '32999010.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-07-30', NULL, 0, 'B7A6D459-6647-4C2E-AFB6-95BBE37E7AAD'),
 (269, '1904-SO-016', 3, '2019-04-05', 'PO5190151', 0, 10, '2926800.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-07-30', NULL, 0, '0B2D8F81-0606-4261-A8C3-FEEF655CF03D'),
 (270, '1904-SO-017', 3, '2019-04-11', 'PO5190155', 0, 10, '4380480.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-07-30', NULL, 0, 'EA4970FE-55A5-4085-ACF4-5B0D0B72D5E2'),
@@ -6088,8 +6121,7 @@ INSERT INTO `code_salesorder` (`id`, `name`, `created_by`, `date`, `po_number`, 
 (346, '1905-SO-028', 3, '2019-05-17', '0300/PO-KAP/V/2019', 1, 28, '2394810.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-08-06', NULL, 0, '8C189EB9-8CA2-4C79-B459-9877F9CE551D'),
 (347, '1905-SO-029', 3, '2019-05-06', '049/L/PO/HPS/5/19', 1, 32, '272385070.42', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-08-06', NULL, 0, 'B03B526A-2F34-4843-BE9D-12A88F51A464'),
 (348, '1905-SO-030', 3, '2019-05-14', '00291/PO-KAP/V/2019', 1, 28, '13653900.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-08-06', NULL, 0, 'AE3AF529-A4AF-4998-9667-F4BAD5C996A6'),
-(349, '1905-SO-031', 3, '2019-05-18', '00307/PO-KAP/V/2019', 1, 28, '93985650.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-08-06', NULL, 0, 'BB33CDE0-1DF4-4A5F-955F-328A4E586943');
-INSERT INTO `code_salesorder` (`id`, `name`, `created_by`, `date`, `po_number`, `taxing`, `customer_id`, `value`, `label`, `type`, `seller`, `retail_name`, `retail_address`, `retail_city`, `retail_phone`, `isconfirm`, `confirmed_by`, `date_confirm`, `note`, `top`, `guid`) VALUES
+(349, '1905-SO-031', 3, '2019-05-18', '00307/PO-KAP/V/2019', 1, 28, '93985650.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-08-06', NULL, 0, 'BB33CDE0-1DF4-4A5F-955F-328A4E586943'),
 (350, '1905-SO-032', 3, '2019-05-21', 'BEE/20/V/19', 1, 46, '354200.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-08-06', NULL, 0, '756A584B-373A-4D79-B934-42D76B548476'),
 (351, '1905-SO-033', 3, '2019-05-16', '19113950/XL', 1, 31, '2000000.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-08-06', NULL, 0, '80FCC5DE-586E-4915-AB23-03841661EE59'),
 (352, '1905-SO-034', 3, '2019-05-16', '19113950/XL', 0, 31, '2000000.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-08-06', NULL, 0, '335D102A-2B2E-4EE0-95F1-B8CAE24B8EC9'),
@@ -6267,7 +6299,8 @@ INSERT INTO `code_salesorder` (`id`, `name`, `created_by`, `date`, `po_number`, 
 (528, '1908-SO-010', 3, '2019-08-08', '348/PO/MJU/VIII/2019', 1, 1, '1148289.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-09-21', '', 0, '808AAC81-0FFC-48F1-A5A1-55854B1945C0'),
 (529, '1908-SO-011', 3, '2019-08-02', '480/KA/VIII/F/2019', 1, 15, '1726010.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-09-24', '', 0, '9219BA0D-1566-41D9-9E68-9DAC5FE38AE9'),
 (530, '1908-SO-012', 3, '2019-08-08', '486/KA/VIII/F/2019', 1, 15, '946800.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-09-24', '', 0, '61839843-47B0-4961-8103-743166264E39'),
-(531, '1908-SO-013', 3, '2019-08-10', '', 0, 91, '15140000.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-09-24', '', 0, '8786EE3D-55DC-48C9-969E-2792BC2B5BE0'),
+(531, '1908-SO-013', 3, '2019-08-10', '', 0, 91, '15140000.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-09-24', '', 0, '8786EE3D-55DC-48C9-969E-2792BC2B5BE0');
+INSERT INTO `code_salesorder` (`id`, `name`, `created_by`, `date`, `po_number`, `taxing`, `customer_id`, `value`, `label`, `type`, `seller`, `retail_name`, `retail_address`, `retail_city`, `retail_phone`, `isconfirm`, `confirmed_by`, `date_confirm`, `note`, `top`, `guid`) VALUES
 (532, '1908-SO-014', 3, '2019-08-08', '162/MS-PO/VIII/2019', 1, 6, '38394576.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-09-24', '', 0, 'B4DC42D1-93C2-48C2-B017-CF1324E6926C'),
 (533, '1908-SO-015', 3, '2019-08-08', '348/PO/MJU/VIII/2019', 1, 1, '1148289.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-09-24', '', 0, '5B71795F-D3E5-4FD0-AC43-64A80B5D9A5D'),
 (534, '1907-SO-086', 3, '2019-07-30', 'YANA/553338', 1, 3, '500500.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-09-24', '', 0, 'A0AEEE65-B0AA-43DC-9833-50EF9DD73281'),
@@ -6433,8 +6466,7 @@ INSERT INTO `code_salesorder` (`id`, `name`, `created_by`, `date`, `po_number`, 
 (695, '1910-SO-016', 1, '2019-10-04', '', 0, 35, '742764.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-11-13', '', 0, '59913AAD-6509-4A58-B574-74C385DC42B8'),
 (696, '1910-SO-017', 1, '2019-10-05', '', 0, 35, '1629144.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-11-13', '', 0, '72309D5C-FF66-4E75-8D30-D908A8270132'),
 (697, '1910-SO-018', 1, '2019-10-05', '801/KA/X/F/2019', 1, 15, '163200048.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-11-13', '', 0, 'DC25214F-5239-45F6-A669-58418E054281'),
-(698, '1910-SO-019', 1, '2019-10-07', 'R1.0347/CTP/PO/06/2019', 1, 44, '29972487.60', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-11-13', '', 0, 'A8EF15F7-1DB1-4512-8703-658ED0CE93A0');
-INSERT INTO `code_salesorder` (`id`, `name`, `created_by`, `date`, `po_number`, `taxing`, `customer_id`, `value`, `label`, `type`, `seller`, `retail_name`, `retail_address`, `retail_city`, `retail_phone`, `isconfirm`, `confirmed_by`, `date_confirm`, `note`, `top`, `guid`) VALUES
+(698, '1910-SO-019', 1, '2019-10-07', 'R1.0347/CTP/PO/06/2019', 1, 44, '29972487.60', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-11-13', '', 0, 'A8EF15F7-1DB1-4512-8703-658ED0CE93A0'),
 (699, '1910-SO-020', 1, '2019-10-07', 'R1.0314/CTP/PO/05/2019', 1, 44, '474320.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-11-13', '', 0, 'B20655FE-7766-49BE-A76C-A13F75E3A37C'),
 (700, '1910-SO-021', 1, '2019-10-07', 'R2.0316/CTP/PO/05/2019', 1, 44, '474320.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-11-13', '', 0, '0B58692E-3445-4DE3-8C30-A9517F17FFCD'),
 (701, '1910-SO-022', 1, '2019-10-07', 'R1.0374/CTP/PO/08/2019', 1, 44, '9821332.40', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-11-13', '', 0, '26A6275F-DCDD-4F95-A868-869A161EC715'),
@@ -6533,12 +6565,58 @@ INSERT INTO `code_salesorder` (`id`, `name`, `created_by`, `date`, `po_number`, 
 (795, '1911-SO-004', 1, '2019-11-01', '19117770/XL', 0, 31, '232155.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-12-04', '', 30, '8B93C823-8B71-4BBA-B883-50019C0310F3'),
 (796, '1911-SO-005', 1, '2019-11-01', '19118232/XL', 0, 31, '2075884.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-12-04', '', 30, '2397F24E-0583-48D0-A51A-FD32B797E606'),
 (797, '1911-SO-006', 1, '2019-11-01', '19118232/XL', 0, 31, '1724116.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-12-05', '', 30, '89CE1359-294E-40A6-BE09-1DCA7354BC98'),
-(798, '1911-SO-007', 1, '2019-11-01', '08422/PTHJ/PO-SB/X/2019', 1, 12, '26261010.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-12-05', '', 30, '6047EE79-145F-4E97-B94D-1EFC260E8476'),
+(798, '1911-SO-007', 1, '2019-11-01', '08422/PTHJ/PO-SB/X/2019', 1, 12, '26261010.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-12-05', '', 30, '6047EE79-145F-4E97-B94D-1EFC260E8476');
+INSERT INTO `code_salesorder` (`id`, `name`, `created_by`, `date`, `po_number`, `taxing`, `customer_id`, `value`, `label`, `type`, `seller`, `retail_name`, `retail_address`, `retail_city`, `retail_phone`, `isconfirm`, `confirmed_by`, `date_confirm`, `note`, `top`, `guid`) VALUES
 (799, '1911-SO-008', 1, '2019-11-04', '', 0, 49, '2887311.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-12-05', '', 30, '64B2DCD8-C9A1-4468-89BA-932E0B4FE9C3'),
 (800, '1911-SO-009', 1, '2019-11-02', '0390/OPB/PCH/X/2019', 1, 27, '4995144.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-12-05', '', 30, '15337458-AE66-4DBE-9EC7-472F6F482304'),
 (801, '1911-SO-010', 1, '2019-11-02', '0409/OPB/PCH/X/2019', 1, 27, '19980576.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-12-05', '', 30, '90FB6F62-7A88-4947-B873-4454390ECB7C'),
 (802, '1911-SO-011', 1, '2019-11-02', '0413/OPB/PCH/XI/2019', 1, 27, '41669925.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-12-05', '', 30, '44BE0D4C-CD3E-4FAC-9F16-00192CAAE524'),
-(803, '1911-SO-012', 1, '2019-11-04', '', 0, 272, '7576800.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-12-05', '', 30, '679142E4-A3A6-4E30-9EE4-D8414C39E43D');
+(803, '1911-SO-012', 1, '2019-11-04', '', 0, 272, '7576800.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 1, '2019-12-05', '', 30, '679142E4-A3A6-4E30-9EE4-D8414C39E43D'),
+(804, '1911-SO-013', 3, '2019-11-04', '', 0, 49, '10900890.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'FF98C35F-1605-4F0D-9717-D62A1B47D4A5'),
+(805, '1909-SO-084', 3, '2019-09-19', 'YANA/554796', 1, 3, '3658160.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '3D5B7406-FF81-4F10-B952-B41F2AD93108'),
+(806, '1910-SO-112', 3, '2019-10-24', 'YANA/555011', 1, 3, '5715325.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '5ACF79C8-03F4-4AA3-B06C-BAD961AB8188'),
+(807, '1911-SO-014', 3, '2019-11-02', '', 0, 275, '48875000.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 0, '9735834A-7093-4D0C-9CA0-816DC99B335F'),
+(808, '1911-SO-015', 3, '2019-11-04', '', 0, 35, '1211760.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'ED1BA964-3D13-45B9-B1C3-66923C54C029'),
+(809, '1911-SO-016', 3, '2019-11-04', '', 0, 38, '644080.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'CBA02D30-934D-4703-985E-E899CB68D110'),
+(810, '1911-SO-017', 3, '2019-11-05', 'MEPO191105', 0, 270, '1448370.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '5A008E42-F2B9-4CDC-B239-FAD5BF40476C'),
+(811, '1909-SO-085', 3, '2019-09-06', '0234/PO/IX/2019', 1, 79, '71435524.16', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 45, 'DF24361B-0FA1-484E-B2A8-01874628BC83'),
+(812, '1911-SO-018', 3, '2019-11-04', '962/KA/XI/F/2019', 1, 15, '3065304.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'B80252A1-B843-4FEC-BD67-3B5910127FE3'),
+(813, '1911-SO-019', 3, '2019-11-06', '242/MS-PO/XI/2019', 1, 6, '1494000.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 60, 'F6B2736E-4CB4-4123-AD2B-A2057681BA09'),
+(814, '1911-SO-020', 3, '2019-11-07', '479/PO-P/MJU/XI/2019', 1, 1, '297082.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '06DAA69F-67A6-4024-B416-2F15AB607D3A'),
+(815, '1911-SO-021', 3, '2019-11-05', '0644/CTP/PO/11/2019', 1, 44, '88010863.60', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'CDFD65EA-1118-49F5-B59A-DEC00261FE51'),
+(816, '1911-SO-022', 3, '2019-11-04', '375/497/XI/19/JLP/P', 1, 52, '562200.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '3401EAF8-CEEE-43F7-8750-66DFEE2E735D'),
+(817, '1911-SO-023', 3, '2019-11-07', '08748/PTHJ/PO-SB/XI/2019', 1, 12, '18827609.84', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '8808578C-A06C-4A08-9324-0A970312C358'),
+(818, '1911-SO-024', 3, '2019-11-11', '', 0, 276, '1000000.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 0, 'D1C1F381-2DB6-4A41-91A6-AEB51380B52A'),
+(819, '1908-SO-072', 3, '2019-08-09', 'R1.0314/CTP/PO/05/2019', 1, 44, '29608240.20', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '0D41186B-5811-4608-94C2-97344A2B5704'),
+(820, '1911-SO-025', 3, '2019-11-11', 'R2.0316/CTP/PO/05/2019', 1, 44, '29608240.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'D36EA287-F144-4009-9371-E30CE9B41512'),
+(821, '1910-SO-113', 3, '2019-10-08', '2566/X/2019', 1, 40, '191620.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '907B73B1-5104-45EA-A6A1-69C9E49C69EB'),
+(822, '1911-SO-026', 3, '2019-11-12', '977/KA/XI/F/2019', 1, 15, '6024432.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'E4741633-7BEB-4A63-8300-410B37A7B36A'),
+(824, '1911-SO-027', 3, '2019-11-08', '', 1, 147, '8312650.50', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'E830829B-87E4-430F-B337-230D0F9334AE'),
+(825, '1911-SO-028', 3, '2019-11-11', 'PO012557/PO 10907', 1, 19, '13944000.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '0CBD89DF-7D64-479F-990E-143921A69E95'),
+(826, '1911-SO-029', 3, '2019-11-07', '08749/PTHJ/PO-SB/XI/2019', 1, 12, '6827796.80', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'A6162086-82D1-4ABF-9BAE-FE6E97C15DC2'),
+(827, '1909-SO-086', 3, '2019-09-26', '00609/PO-KAP/IX/2019', 1, 28, '2880000.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '7DEC3FC5-7BC9-4A62-9D9B-3DCDD83A7A8D'),
+(828, '1911-SO-030', 3, '2019-11-07', 'Q-AE-07.07-XI-19', 1, 7, '105848919.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'EA92FAB2-D6D1-4725-8579-32CF67775253'),
+(829, '1911-SO-031', 3, '2019-11-08', '19610392/XL', 0, 261, '457243.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '32893B6C-FFFB-4EED-9B55-53C0B9E08202'),
+(830, '1911-SO-032', 3, '2019-11-08', '19610393/XL', 0, 261, '524370.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'DAE2B9CE-EF91-4901-94EC-BFE8ACEFF624'),
+(831, '1910-SO-114', 3, '2019-10-08', '213/MS-PO/X/2019', 1, 6, '3081870.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 60, 'B5508E36-94FC-45F7-8BFB-7FCF34BA9A7B'),
+(832, '1911-SO-033', 3, '2019-11-07', 'YANA/556803', 1, 3, '18612825.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '0F7C0CB9-3DEF-49C0-BA9E-8F924DCA4862'),
+(833, '1911-SO-034', 3, '2019-11-11', '662/DIG/PO/AN/XI/2019', 1, 138, '24816000.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'B6794F0B-B57D-41CF-B900-A850AB114CD8'),
+(834, '1911-SO-035', 3, '2019-11-14', '980/KA/XI/F/2019', 1, 15, '2399040.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '62ACB175-A15E-41E3-9AB2-6F7DB5DBAC2D'),
+(835, '1911-SO-036', 3, '2019-11-18', 'S/PRM/1911/002', 1, 26, '2509650.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '31B50BF3-E502-4F3B-B4DE-CC9A6EBC9267'),
+(836, '1911-SO-037', 3, '2019-11-15', '0433/OPB/PCH/XI/2019', 1, 27, '41669925.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '9450E0E1-B1C6-46CC-B45A-6CCEDC8DED93'),
+(837, '1911-SO-038', 3, '2019-11-11', 'YANA/556825', 1, 3, '14668500.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '084749CD-FC2A-4E39-88E5-47F8B9CBD0DF'),
+(838, '1908-SO-073', 3, '2019-08-08', '1982/VIII/2019', 1, 40, '332156.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'D6C97CB3-5B67-4DEC-828C-7C1214E54C89'),
+(839, '1911-SO-039', 3, '2019-11-14', '19118734/XL', 0, 31, '418600.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '2472FA19-FC10-48D3-A62E-C0B8E106A0D8'),
+(840, '1911-SO-040', 3, '2019-11-14', '19118871/XL', 0, 31, '1350000.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '78437930-5C98-4A08-B64D-2BB91FFF9D14'),
+(841, '1911-SO-041', 3, '2019-11-20', '', 1, 277, '2940000.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 0, '4820D137-ACB0-4B9A-8C9A-400A5A5F67CB'),
+(842, '1911-SO-042', 3, '2019-11-21', '088886/PTHJ/PO-MJA/XI/2019', 1, 12, '1052040.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'B03A2D78-9096-4F70-9ACD-98BD89BFA9E3'),
+(843, '1911-SO-043', 3, '2019-11-20', '0887', 1, 150, '4119456.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'CBBB865D-EEA2-47EE-8AFC-4C6C0DC5F568'),
+(844, '1910-SO-115', 3, '2019-10-23', 'MEPO191023', 1, 148, '56548371.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '0A5ACDDF-3899-4F7F-94B0-99BBA7CA54CF'),
+(845, '1911-SO-044', 3, '2019-11-25', '688/DIG/PO/AN/XI/19', 1, 138, '5548785.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'A81D9E15-949D-459C-8B8E-8BD34A5CF6F5'),
+(846, '1911-SO-045', 3, '2019-11-27', '', 0, 18, '7050000.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'A6483F3C-A87A-40C4-85B2-6AF7C5C2E803'),
+(847, '1911-SO-046', 3, '2019-11-27', '0465/OPB/PCH/XI/2019', 1, 27, '1082631.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '61472C55-31E0-471A-A47E-E88A2F886DFB'),
+(848, '1911-SO-047', 3, '2019-11-29', '', 1, 147, '46411992.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, '9711B785-3F0C-44B5-B3B3-DA97A9CDE5C0'),
+(849, '1911-SO-048', 3, '2019-11-25', '989/KA/XI/F/2019', 1, 15, '2726400.00', NULL, 'GOOD', NULL, NULL, NULL, NULL, NULL, 1, 3, '2019-12-07', '', 30, 'CCDC022F-460D-4FF9-83B3-3356C645E530');
 
 -- --------------------------------------------------------
 
@@ -6546,16 +6624,15 @@ INSERT INTO `code_salesorder` (`id`, `name`, `created_by`, `date`, `po_number`, 
 -- Table structure for table `code_sales_return`
 --
 
-CREATE TABLE IF NOT EXISTS `code_sales_return` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `code_sales_return` (
+  `id` int(255) NOT NULL,
   `submission_date` date NOT NULL,
   `do_id` int(255) NOT NULL,
   `reason` smallint(2) NOT NULL,
   `other` text,
   `isconfirm` tinyint(1) NOT NULL DEFAULT '0',
-  `guid` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+  `guid` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `code_sales_return`
@@ -6575,18 +6652,16 @@ INSERT INTO `code_sales_return` (`id`, `submission_date`, `do_id`, `reason`, `ot
 -- Table structure for table `code_sales_return_received`
 --
 
-CREATE TABLE IF NOT EXISTS `code_sales_return_received` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `code_sales_return_received` (
+  `id` int(255) NOT NULL,
   `document` varchar(255) NOT NULL,
   `code_sales_return_id` int(255) NOT NULL,
   `created_by` int(10) NOT NULL,
   `date` date NOT NULL,
   `isconfirm` tinyint(1) NOT NULL DEFAULT '0',
   `guid` varchar(50) NOT NULL,
-  `isdone` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `guid` (`guid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  `isdone` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `code_sales_return_received`
@@ -6603,8 +6678,8 @@ INSERT INTO `code_sales_return_received` (`id`, `document`, `code_sales_return_i
 -- Table structure for table `code_sample`
 --
 
-CREATE TABLE IF NOT EXISTS `code_sample` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `code_sample` (
+  `id` int(11) NOT NULL,
   `customer_id` int(255) NOT NULL,
   `isconfirm` tinyint(1) NOT NULL DEFAULT '0',
   `date` date NOT NULL,
@@ -6616,9 +6691,8 @@ CREATE TABLE IF NOT EXISTS `code_sample` (
   `received_by` int(10) NOT NULL,
   `created_by` int(10) NOT NULL,
   `confirmed_by` int(10) NOT NULL,
-  `confirm_date` date NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `confirm_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `code_sample`
@@ -6633,15 +6707,12 @@ INSERT INTO `code_sample` (`id`, `customer_id`, `isconfirm`, `date`, `issent`, `
 -- Table structure for table `counter_bill`
 --
 
-CREATE TABLE IF NOT EXISTS `counter_bill` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `counter_bill` (
+  `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `name` varchar(50) NOT NULL,
   `customer_id` int(255) NOT NULL,
-  `created_by` int(10) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `created_by` (`created_by`),
-  KEY `customer_id` (`customer_id`)
+  `created_by` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -6650,8 +6721,8 @@ CREATE TABLE IF NOT EXISTS `counter_bill` (
 -- Table structure for table `customer`
 --
 
-CREATE TABLE IF NOT EXISTS `customer` (
-  `id` int(100) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `customer` (
+  `id` int(100) NOT NULL,
   `name` varchar(100) NOT NULL,
   `address` varchar(100) NOT NULL,
   `phone` varchar(20) NOT NULL,
@@ -6662,11 +6733,8 @@ CREATE TABLE IF NOT EXISTS `customer` (
   `date_created` date NOT NULL,
   `created_by` int(255) NOT NULL,
   `is_blacklist` tinyint(1) NOT NULL DEFAULT '0',
-  `default_top` int(5) NOT NULL DEFAULT '30',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `created_by` (`created_by`)
-) ENGINE=InnoDB AUTO_INCREMENT=275 DEFAULT CHARSET=latin1;
+  `default_top` int(5) NOT NULL DEFAULT '30'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `customer`
@@ -6942,7 +7010,10 @@ INSERT INTO `customer` (`id`, `name`, `address`, `phone`, `npwp`, `city`, `prefi
 (271, 'PT Derajat', 'Jalan Bojong Koneng atas Blok gang Baru IV no.11C, RT000, RW000', '081222060337', '', 'Bandung', 'Bapak', 'Satia', '2019-11-20', 3, 0, 60),
 (272, 'Toko Kencana Electric', 'Jalan Raya Sultan Agung Blok 000 no.136, RT000, RW000', '(0285) 422035', '', 'Pekalongan', 'Bapak', 'Akiang', '2019-12-05', 1, 0, 30),
 (273, 'Toko Mulia Jaya Teknik', 'Jalan Jendral Ahmad Yani Blok 000 no.510B, RT000, RW000', '087822377337', '', 'Bandung', 'Bapak', 'Ben', '2019-12-06', 1, 0, 30),
-(274, 'Toko AA Electronic Service', 'Jalan H. Sadili Blok 000 no.194, RT000, RW000', '085316116595', '', 'Bandung', 'Bapak', 'Amir', '2019-12-06', 3, 0, 60);
+(274, 'Toko AA Electronic Service', 'Jalan H. Sadili Blok 000 no.194, RT000, RW000', '085316116595', '', 'Bandung', 'Bapak', 'Amir', '2019-12-06', 3, 0, 60),
+(275, 'PT Setia Murni Perkasa', 'Jalan Letda Nasir Blok 000 no.44B, RT000, RW000', '081288993893', '', 'Bogor', 'Bapak', 'Farid', '2019-12-07', 3, 0, 0),
+(276, 'Ibu Nining', 'Jalan Jamuju Blok 000 no.008, RT005, RW006', '', '', 'Bandung', 'Ibu', 'Nining', '2019-12-07', 3, 0, 0),
+(277, 'CV SIM', 'Komplek Pasadena Blok B3 no.026, RT000, RW000', '', '84.512.216.7-422.000', 'Bandung', 'Bapak', 'Daniel', '2019-12-07', 3, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -6950,14 +7021,13 @@ INSERT INTO `customer` (`id`, `name`, `address`, `phone`, `npwp`, `city`, `prefi
 -- Table structure for table `delivery_order`
 --
 
-CREATE TABLE IF NOT EXISTS `delivery_order` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `delivery_order` (
+  `id` int(255) NOT NULL,
   `reference` varchar(200) NOT NULL,
   `quantity` int(255) NOT NULL,
   `do_id` int(255) NOT NULL,
-  `billed_price` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2168 DEFAULT CHARSET=latin1;
+  `billed_price` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `delivery_order`
@@ -8010,7 +8080,7 @@ INSERT INTO `delivery_order` (`id`, `reference`, `quantity`, `do_id`, `billed_pr
 (1129, 'LRD22', 1, 837, '295100.00'),
 (1130, 'LRD12', 1, 837, '252200.00'),
 (1131, 'RXM2AB1P7', 1, 837, '59345.00'),
-(1132, 'EZC100N3060', 1, 838, '570900.00'),
+(1132, 'EZC100N3063', 1, 838, '570900.00'),
 (1133, 'RXM4LB1P7', 1, 839, '39325.00'),
 (1134, 'RXM4LB1P7', 1, 840, '39325.00'),
 (1135, 'LV429632', 10, 841, '935935.00'),
@@ -8244,7 +8314,8 @@ INSERT INTO `delivery_order` (`id`, `reference`, `quantity`, `do_id`, `billed_pr
 (1364, 'A9K14310', 4, 938, '255750.00'),
 (1365, 'DOM11349SNI', 8, 938, '213180.00'),
 (1366, 'EZC250F3200', 1, 939, '960564.00'),
-(1367, 'A9F74332', 1, 939, '334200.00'),
+(1367, 'A9F74332', 1, 939, '334200.00');
+INSERT INTO `delivery_order` (`id`, `reference`, `quantity`, `do_id`, `billed_price`) VALUES
 (1368, 'LC1D09M7', 4, 940, '167700.00'),
 (1369, 'NYFGBY42', 722, 941, '25255.00'),
 (1370, 'NYFGBY34', 260, 941, '31575.00'),
@@ -8634,8 +8705,7 @@ INSERT INTO `delivery_order` (`id`, `reference`, `quantity`, `do_id`, `billed_pr
 (1786, 'NYYHY44', 1000, 1119, '26656.30'),
 (1787, 'DOM12252SNI', 12, 1120, '54907.00'),
 (1788, 'EZC100F3025', 1, 1121, '447311.00'),
-(1789, 'DOM11349SNI', 4, 1122, '218295.00');
-INSERT INTO `delivery_order` (`id`, `reference`, `quantity`, `do_id`, `billed_price`) VALUES
+(1789, 'DOM11349SNI', 4, 1122, '218295.00'),
 (1790, 'DOM11350SNI', 1, 1122, '227536.00'),
 (1791, 'DOM11351SNI', 1, 1122, '214831.00'),
 (1792, 'EZC100N3080', 2, 1122, '616165.00'),
@@ -8871,13 +8941,13 @@ INSERT INTO `delivery_order` (`id`, `reference`, `quantity`, `do_id`, `billed_pr
 (2024, 'NYM32', 600, 1254, '9860.40'),
 (2025, 'LV540306', 1, 1255, '2445300.00'),
 (2026, 'NFA2X-T395-70', 470, 1256, '71500.00'),
-(2027, 'NYM32', 7500, 1257, '7613.10'),
-(2028, 'NYM22', 2500, 1257, '5968.60'),
-(2029, 'NYA2H', 400, 1257, '1943.70'),
-(2030, 'NYA10KH', 250, 1257, '7954.10'),
-(2031, 'NYA16KH', 300, 1257, '4807.00'),
-(2032, 'NYY410', 255, 1257, '40272.10'),
-(2033, 'NYY416', 152, 1257, '60839.90'),
+(2027, 'NYM32', 7500, 1257, '7613.58'),
+(2028, 'NYM22', 2500, 1257, '5968.56'),
+(2029, 'NYA2H', 400, 1257, '1943.76'),
+(2030, 'NYA10KH', 250, 1257, '7954.44'),
+(2031, 'NYA16KH', 300, 1257, '4807.13'),
+(2032, 'NYY410', 255, 1257, '40272.18'),
+(2033, 'NYY416', 152, 1257, '60840.00'),
 (2034, 'NYM21', 50, 1258, '5445.00'),
 (2035, 'NYM31', 50, 1258, '6985.00'),
 (2036, 'LRD10', 2, 1259, '232799.60'),
@@ -9010,7 +9080,90 @@ INSERT INTO `delivery_order` (`id`, `reference`, `quantity`, `do_id`, `billed_pr
 (2164, 'DOM12524', 12, 1314, '416262.00'),
 (2165, 'DOM12524', 48, 1315, '416262.00'),
 (2166, 'A9E21180', 50, 1316, '833398.50'),
-(2167, 'METSEDM1310', 20, 1317, '378840.00');
+(2167, 'METSEDM1310', 20, 1317, '378840.00'),
+(2168, 'DOM12252SNI', 36, 1318, '53267.50'),
+(2169, 'DOM11340SNI', 60, 1318, '43257.50'),
+(2170, 'DOM11341SNI', 60, 1318, '43257.50'),
+(2171, 'DOM11342SNI', 60, 1318, '43257.50'),
+(2172, 'DOM11344SNI', 12, 1318, '48977.50'),
+(2173, 'DOM11345SNI', 12, 1318, '50765.00'),
+(2174, 'LC1D25BD', 4, 1319, '914540.00'),
+(2175, 'CA2KN22M7', 15, 1320, '129635.00'),
+(2176, 'XB5AW34M5', 40, 1320, '94270.00'),
+(2177, 'NYFGBY310', 850, 1321, '57500.00'),
+(2178, 'DOM12252SNI', 12, 1322, '55726.00'),
+(2179, 'DOM11341SNI', 12, 1322, '45254.00'),
+(2180, 'NYM21', 50, 1323, '5444.80'),
+(2181, 'NYYHY2075', 100, 1323, '3718.40'),
+(2182, 'LC1D18M7', 6, 1324, '241395.00'),
+(2183, 'ATV320U55N4B', 2, 1325, '5279354.08'),
+(2184, 'DOM11353SNI', 12, 1326, '255442.00'),
+(2185, 'NYM32', 150, 1327, '9960.00'),
+(2186, 'RE17RAMU', 1, 1328, '297082.00'),
+(2187, 'LC1F500', 4, 1329, '16116001.00'),
+(2188, 'LX1FK220', 4, 1329, '2512200.90'),
+(2189, 'LV429630', 10, 1329, '965580.00'),
+(2190, 'EZC250F3250', 4, 1329, '960564.00'),
+(2191, 'LC1D38M7', 1, 1330, '562200.00'),
+(2192, 'NYM21', 300, 1331, '5335.91'),
+(2193, 'NYM31', 300, 1331, '6845.58'),
+(2194, 'NYM32', 500, 1331, '9760.80'),
+(2195, 'NYM42', 300, 1331, '12428.75'),
+(2196, 'NYM21', 50, 1332, '8761.00'),
+(2197, 'NYM31', 50, 1332, '11239.00'),
+(2198, '33466E', 2, 1333, '14804120.10'),
+(2199, '33466E', 2, 1334, '14804120.00'),
+(2200, 'A9K27216', 1, 1335, '191620.00'),
+(2201, 'DOM11348SNI', 6, 1336, '213180.00'),
+(2202, 'LC1D115M7', 3, 1337, '2770883.50'),
+(2203, 'NYM32', 900, 1338, '9960.00'),
+(2204, 'NYYHY32', 50, 1339, '12591.43'),
+(2205, 'NYA1H', 800, 1340, '2000.00'),
+(2206, 'NYA1M', 800, 1340, '2000.00'),
+(2207, 'NYAF2B', 900, 1341, '3200.00'),
+(2208, 'EZC250N3250', 10, 1342, '1073193.00'),
+(2209, 'EZC250N3200', 10, 1342, '1073193.00'),
+(2210, 'EZC250N3160', 10, 1342, '902649.00'),
+(2211, 'EZC250N3125', 10, 1342, '865623.00'),
+(2212, 'EZC100N3060', 20, 1342, '485265.00'),
+(2213, 'EZC100N3050', 20, 1342, '444312.00'),
+(2214, 'EZC100N3030', 20, 1342, '444312.00'),
+(2215, 'NW32H13F2EH', 1, 1342, '39224559.00'),
+(2216, 'EZC100F3025', 1, 1343, '457243.00'),
+(2217, 'ABL2REM24085H', 1, 1344, '524370.00'),
+(2218, 'LC1K0910M7', 3, 1345, '168300.00'),
+(2219, 'LR2K0310', 12, 1345, '272400.00'),
+(2220, 'DOM11348SNI', 1, 1345, '213180.00'),
+(2221, 'DOM11352SNI', 1, 1345, '247588.00'),
+(2222, 'DOM11353SNI', 2, 1345, '255442.00'),
+(2223, 'EZC100N1100', 11, 1346, '280170.00'),
+(2224, 'NYM32', 500, 1347, '9960.00'),
+(2225, 'LV432893', 3, 1348, '6204275.00'),
+(2226, 'LC1DWK12M7', 12, 1349, '2068000.00'),
+(2227, 'DOM11349SNI', 3, 1350, '213180.00'),
+(2228, 'NYY46', 100, 1351, '36278.00'),
+(2229, 'BLRCH104A125B40', 2, 1352, '1254825.00'),
+(2230, 'LADT2', 3, 1353, '586500.00'),
+(2231, 'A9E21180', 50, 1354, '833398.50'),
+(2232, 'NYM32', 1500, 1355, '9779.00'),
+(2233, 'LC1K0610D7', 2, 1356, '166078.00'),
+(2234, 'LC1D12M7', 2, 1357, '209300.00'),
+(2235, 'EZC250N3200', 1, 1358, '1350000.00'),
+(2236, 'NFA2X216', 500, 1359, '5880.00'),
+(2237, 'A9F84316', 2, 1360, '526020.00'),
+(2238, 'NYMHY21', 950, 1361, '6246.91'),
+(2239, 'ATV320U55N4B', 3, 1362, '5279354.08'),
+(2240, 'NYM22', 400, 1363, '7808.64'),
+(2241, 'NYM32', 100, 1363, '9960.00'),
+(2242, 'LV429354', 1, 1364, '1142394.00'),
+(2243, 'EZC100F3030', 6, 1365, '386897.50'),
+(2244, 'LC1F265', 1, 1366, '6103385.00'),
+(2245, 'LX1FH2202', 1, 1366, '946615.00'),
+(2246, 'A9F74104', 3, 1367, '77539.00'),
+(2247, 'A9F74110', 12, 1367, '70834.50'),
+(2248, 'F-SM6R-QM-A1', 1, 1368, '46411992.00'),
+(2249, 'LC1D38M7', 6, 1369, '537900.00'),
+(2250, 'LC1D80E7', 2, 1370, '1363200.00');
 
 -- --------------------------------------------------------
 
@@ -9018,12 +9171,11 @@ INSERT INTO `delivery_order` (`id`, `reference`, `quantity`, `do_id`, `billed_pr
 -- Table structure for table `departments`
 --
 
-CREATE TABLE IF NOT EXISTS `departments` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `departments` (
+  `id` int(11) NOT NULL,
   `department` text NOT NULL,
-  `description` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+  `description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `departments`
@@ -9043,14 +9195,13 @@ INSERT INTO `departments` (`id`, `department`, `description`) VALUES
 -- Table structure for table `event`
 --
 
-CREATE TABLE IF NOT EXISTS `event` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `event` (
+  `id` int(11) NOT NULL,
   `name` text NOT NULL,
   `icon` varchar(100) DEFAULT NULL,
   `url` varchar(100) NOT NULL,
-  `confirmation_url` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+  `confirmation_url` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `event`
@@ -9069,15 +9220,13 @@ INSERT INTO `event` (`id`, `name`, `icon`, `url`, `confirmation_url`) VALUES
 -- Table structure for table `goodreceipt`
 --
 
-CREATE TABLE IF NOT EXISTS `goodreceipt` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `goodreceipt` (
+  `id` int(255) NOT NULL,
   `received_id` int(255) NOT NULL,
   `quantity` int(11) NOT NULL,
   `gr_id` int(11) NOT NULL,
-  `billed_price` decimal(20,3) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `received_id` (`received_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1686 DEFAULT CHARSET=latin1;
+  `billed_price` decimal(20,3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `goodreceipt`
@@ -10604,7 +10753,8 @@ INSERT INTO `goodreceipt` (`id`, `received_id`, `quantity`, `gr_id`, `billed_pri
 (1601, 1633, 10000, 735, '0.000'),
 (1602, 1639, 400, 736, '0.000'),
 (1603, 1640, 1000, 736, '0.000'),
-(1604, 1653, 25000, 737, '0.000'),
+(1604, 1653, 25000, 737, '0.000');
+INSERT INTO `goodreceipt` (`id`, `received_id`, `quantity`, `gr_id`, `billed_price`) VALUES
 (1605, 1665, 1250, 738, '0.000'),
 (1606, 1634, 1750, 739, '0.000'),
 (1607, 1649, 150, 740, '0.000'),
@@ -10667,7 +10817,9 @@ INSERT INTO `goodreceipt` (`id`, `received_id`, `quantity`, `gr_id`, `billed_pri
 (1682, 1609, 1, 754, '0.000'),
 (1683, 1610, 1, 754, '0.000'),
 (1684, 1611, 2, 754, '0.000'),
-(1685, 1612, 2, 754, '0.000');
+(1685, 1612, 2, 754, '0.000'),
+(1686, 1363, 30, 755, '0.000'),
+(1687, 1364, 120, 755, '0.000');
 
 -- --------------------------------------------------------
 
@@ -10675,8 +10827,8 @@ INSERT INTO `goodreceipt` (`id`, `received_id`, `quantity`, `gr_id`, `billed_pri
 -- Table structure for table `invoices`
 --
 
-CREATE TABLE IF NOT EXISTS `invoices` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `invoices` (
+  `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `do_id` int(11) NOT NULL,
   `faktur` varchar(50) NOT NULL,
@@ -10686,9 +10838,8 @@ CREATE TABLE IF NOT EXISTS `invoices` (
   `isconfirm` tinyint(1) NOT NULL DEFAULT '0',
   `isdone` tinyint(4) NOT NULL DEFAULT '0',
   `date_done` date NOT NULL,
-  `counter_id` int(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1255 DEFAULT CHARSET=latin1;
+  `counter_id` int(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `invoices`
@@ -11138,7 +11289,8 @@ INSERT INTO `invoices` (`id`, `date`, `do_id`, `faktur`, `name`, `value`, `ongki
 (454, '2019-02-08', 460, '010.003-19.12230864', 'FU-AE-21P.08-II-19', '1151000.00', '0.00', 1, 1, '2019-03-22', NULL),
 (455, '2019-02-08', 461, '010.003-19.12230865', 'FU-AE-22P.08-II-19', '340000.00', '0.00', 1, 1, '2019-03-22', NULL),
 (456, '2019-02-09', 462, '011.003-19.12230873', 'FU-AE-23P.09-II-19', '7434620.00', '0.00', 1, 0, '0000-00-00', NULL),
-(457, '2019-02-09', 463, '010.003-19.12230869', 'FU-AE-24P.09-II-19', '654830.00', '0.00', 1, 1, '2019-04-29', NULL),
+(457, '2019-02-09', 463, '010.003-19.12230869', 'FU-AE-24P.09-II-19', '654830.00', '0.00', 1, 1, '2019-04-29', NULL);
+INSERT INTO `invoices` (`id`, `date`, `do_id`, `faktur`, `name`, `value`, `ongkir`, `isconfirm`, `isdone`, `date_done`, `counter_id`) VALUES
 (458, '2019-02-12', 464, '010.003-19.12230895', 'FU-AE-25P.12-II-19', '88845900.00', '0.00', 1, 1, '2019-03-21', NULL),
 (459, '2019-02-11', 465, '010.003-19.12230867', 'FU-AE-26P.11-II-19', '3561200.00', '116000.00', 1, 0, '0000-00-00', NULL),
 (460, '2019-02-11', 466, '010.003-19.12230870', 'FU-AE-27P.11-II-19', '830000.00', '0.00', 1, 1, '2019-03-29', NULL),
@@ -11276,8 +11428,7 @@ INSERT INTO `invoices` (`id`, `date`, `do_id`, `faktur`, `name`, `value`, `ongki
 (592, '2019-03-26', 600, '010.003-19.12230967', 'FU-AE-69P.26-III-19', '159023315.00', '0.00', 1, 1, '2019-03-25', NULL),
 (593, '2019-03-25', 601, '010.003-19.12230974', 'FU-AE-70P.25-III-19', '13510068.00', '0.00', 1, 1, '2019-05-02', NULL),
 (594, '2019-03-26', 602, '010.003-19.12230968', 'FU-AE-71P.26-III-19', '709225.00', '0.00', 1, 1, '2019-04-29', NULL),
-(595, '2019-03-26', 603, '010.003-19.12230969', 'FU-AE-72P.26-III-19', '1136025.00', '0.00', 1, 1, '2019-05-14', NULL);
-INSERT INTO `invoices` (`id`, `date`, `do_id`, `faktur`, `name`, `value`, `ongkir`, `isconfirm`, `isdone`, `date_done`, `counter_id`) VALUES
+(595, '2019-03-26', 603, '010.003-19.12230969', 'FU-AE-72P.26-III-19', '1136025.00', '0.00', 1, 1, '2019-05-14', NULL),
 (596, '2019-03-28', 604, '010.003-19.12230970', 'FU-AE-73P.28-III-19', '75121200.00', '0.00', 1, 1, '2019-04-29', NULL),
 (597, '2019-03-28', 605, '010.003-19.12230973', 'FU-AE-74P.28-III-19', '627000.00', '0.00', 1, 1, '2019-04-29', NULL),
 (598, '2019-03-28', 606, '010.003-19.12230972', 'FU-AE-75P.28-III-19', '12540000.00', '0.00', 1, 1, '2019-04-29', NULL),
@@ -11582,7 +11733,8 @@ INSERT INTO `invoices` (`id`, `date`, `do_id`, `faktur`, `name`, `value`, `ongki
 (898, '2019-07-19', 913, '010.003-19.68328167', 'FU-AE-64P.19-VII-19', '160000.00', '0.00', 1, 0, '0000-00-00', NULL),
 (899, '2019-07-19', 914, '010.003-19.68328168', 'FU-AE-65P.19-VII-19', '1543275.00', '0.00', 1, 0, '0000-00-00', NULL),
 (900, '2019-07-20', 916, '011.003-19.68328169', 'FU-AE-66P.20-VII-19', '28424550.00', '0.00', 1, 0, '0000-00-00', NULL),
-(901, '2019-07-20', 917, '010.003-19.68328170', 'FU-AE-67P.20-VII-19', '184575000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(901, '2019-07-20', 917, '010.003-19.68328170', 'FU-AE-67P.20-VII-19', '184575000.00', '0.00', 1, 0, '0000-00-00', NULL);
+INSERT INTO `invoices` (`id`, `date`, `do_id`, `faktur`, `name`, `value`, `ongkir`, `isconfirm`, `isdone`, `date_done`, `counter_id`) VALUES
 (902, '2019-07-20', 918, '010.003-19.68328201', 'FU-AE-68P.20-VII-19', '74667500.00', '0.00', 1, 0, '0000-00-00', NULL),
 (903, '2019-07-20', 919, '010.003-19.68328202', 'FU-AE-69P.20-VII-19', '6781800.00', '0.00', 1, 0, '0000-00-00', NULL),
 (904, '2019-07-20', 920, '', 'FU-AE-70N.20-VII-19', '345000.00', '0.00', 1, 0, '0000-00-00', NULL),
@@ -11599,7 +11751,7 @@ INSERT INTO `invoices` (`id`, `date`, `do_id`, `faktur`, `name`, `value`, `ongki
 (915, '2019-07-23', 931, '', 'FU-AE-81N.23-VII-19', '1190000.00', '0.00', 1, 0, '0000-00-00', NULL),
 (916, '2019-07-23', 932, '010.003-19.68328179', 'FU-AE-82P.23-VII-19', '2343072.00', '0.00', 1, 0, '0000-00-00', NULL),
 (917, '2019-07-23', 933, '010.003-19.68328180', 'FU-AE-83P.23-VII-19', '1021768.00', '0.00', 1, 0, '0000-00-00', NULL),
-(918, '2019-07-23', 934, '010.003-19.68328181', 'FU-AE-84P.23-VII-19', '45169277.00', '0.00', 1, 0, '0000-00-00', NULL),
+(918, '2019-07-23', 934, '010.003-19.68328181', 'FU-AE-84P.23-VII-19', '45169277.00', '0.00', 1, 1, '2019-08-30', NULL),
 (919, '2019-07-24', 935, '010.003-19.68328184', 'FU-AE-85P.24-VII-19', '1804000.00', '0.00', 1, 0, '0000-00-00', NULL),
 (920, '2019-07-24', 936, '010.003-19.68328185', 'FU-AE-86P.24-VII-19', '834600.00', '0.00', 1, 0, '0000-00-00', NULL),
 (921, '2019-07-24', 937, '', 'FU-AE-87N.24-VII-19', '2295000.00', '0.00', 1, 0, '0000-00-00', NULL),
@@ -11852,8 +12004,7 @@ INSERT INTO `invoices` (`id`, `date`, `do_id`, `faktur`, `name`, `value`, `ongki
 (1170, '2019-10-09', 1211, '010.006-19.06612705', 'FU-AE-34P.09-X-19', '1065300.00', '37500.00', 1, 0, '0000-00-00', NULL),
 (1171, '2019-10-09', 1212, '010.006-19.06612706', 'FU-AE-35P.09-X-19', '1165384.00', '0.00', 1, 0, '0000-00-00', NULL),
 (1172, '2019-10-09', 1213, '', 'FU-AE-36N.09-X-19', '1878096.00', '0.00', 1, 0, '0000-00-00', NULL),
-(1173, '2019-10-10', 1214, '', 'FU-AE-37N.10-X-19', '637296.00', '0.00', 1, 0, '0000-00-00', NULL);
-INSERT INTO `invoices` (`id`, `date`, `do_id`, `faktur`, `name`, `value`, `ongkir`, `isconfirm`, `isdone`, `date_done`, `counter_id`) VALUES
+(1173, '2019-10-10', 1214, '', 'FU-AE-37N.10-X-19', '637296.00', '0.00', 1, 0, '0000-00-00', NULL),
 (1174, '2019-10-10', 1215, '010.006-19.06612707', 'FU-AE-38P.10-X-19', '742764.00', '0.00', 1, 0, '0000-00-00', NULL),
 (1175, '2019-10-10', 1216, '011.006-19.06612708', 'FU-AE-39P.10-X-19', '21950610.00', '0.00', 1, 0, '0000-00-00', NULL),
 (1176, '2019-10-11', 1217, '010.006-19.06612709', 'FU-AE-40P.11-X-19', '17328630.00', '0.00', 1, 0, '0000-00-00', NULL),
@@ -11875,66 +12026,131 @@ INSERT INTO `invoices` (`id`, `date`, `do_id`, `faktur`, `name`, `value`, `ongki
 (1192, '2019-10-16', 1234, '010.006-19.06612730', 'FU-AE-57P.16-X-19', '5951000.00', '0.00', 1, 0, '0000-00-00', NULL),
 (1193, '2019-10-16', 1235, '010.006-19.06612731', 'FU-AE-58P.16-X-19', '879285.00', '0.00', 1, 0, '0000-00-00', NULL),
 (1194, '2019-10-01', 1177, '', 'FU-AE-03N.01-X-19', '4250000.00', '0.00', 1, 0, '0000-00-00', NULL),
-(1195, '2019-10-01', 1178, '', 'FU-AE-04P.01-X-19', '838168.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1196, '2019-10-01', 1179, '', 'FU-AE-02N.01-X-19', '467245.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1197, '2019-10-11', 1219, '', 'FU-AE-42P.11-X-19', '40989277.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1198, '2019-10-16', 1236, '', 'FU-AE-59P.16-X-19', '12815000.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1199, '2019-10-16', 1237, '', 'FU-AE-60P.16-X-19', '19140000.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1200, '2019-10-16', 1238, '', 'FU-AE-61P.16-X-19', '2765840.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1201, '2019-10-16', 1239, '', 'FU-AE-62P.16-X-19', '10846440.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1202, '2019-10-16', 1240, '', 'FU-AE-63P.16-X-19', '3111570.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1203, '2019-10-16', 1241, '', 'FU-AE-64P.16-X-19', '16810200.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1204, '2019-10-16', 1242, '', 'FU-AE-65P.16-X-19', '6375930.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1205, '2019-10-17', 1243, '', 'FU-AE-66P.17-X-19', '679019.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1206, '2019-10-17', 1244, '', 'FU-AE-67P.17-X-19', '375260.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1207, '2019-10-17', 1245, '', 'FU-AE-68P.17-X-19', '1268190.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1208, '2019-10-17', 1246, '', 'FU-AE-69P.17-X-19', '32578920.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1209, '2019-10-17', 1247, '', 'FU-AE-70P.17-X-19', '12988154.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1210, '2019-10-17', 1248, '', 'FU-AE-71P.17-X-19', '4066000.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1211, '2019-10-18', 1249, '', 'FU-AE-72N.18-X-19', '240000.00', '12000.00', 0, 0, '0000-00-00', NULL),
-(1212, '2019-10-18', 1250, '', 'FU-AE-73P.18-X-19', '1985112.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1213, '2019-10-18', 1251, '', 'FU-AE-74N.18-X-19', '2190000.00', '120000.00', 0, 0, '0000-00-00', NULL),
-(1214, '2019-10-18', 1252, '', 'FU-AE-75N.18-X-19', '272250.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1215, '2019-10-21', 1253, '', 'FU-AE-76P.21-X-19', '3227620.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1216, '2019-10-21', 1254, '', 'FU-AE-77P.21-X-19', '5916240.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1217, '2019-10-21', 1255, '', 'FU-AE-78P.21-X-19', '2512300.00', '67000.00', 0, 0, '0000-00-00', NULL),
-(1218, '2019-10-21', 1256, '', 'FU-AE-79P.21-X-19', '33605000.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1219, '2019-10-21', 1257, '', 'FU-AE-80P.21-X-19', '95744905.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1220, '2019-10-21', 1258, '', 'FU-AE-81N.21-X-19', '621500.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1221, '2019-10-22', 1259, '', 'FU-AE-82P.22-X-19', '1049336.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1222, '2019-10-22', 1260, '', 'FU-AE-83P.22-X-19', '660000.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1223, '2019-10-22', 1261, '', 'FU-AE-84P.22-X-19', '186760.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1224, '2019-10-22', 1262, '', 'FU-AE-85P.22-X-19', '407286.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1225, '2019-10-22', 1263, '', 'FU-AE-86P.22-X-19', '9196000.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1226, '2019-10-22', 1264, '', 'FU-AE-87P.22-X-19', '1030040.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1227, '2019-10-22', 1265, '', 'FU-AE-88P.22-X-19', '13598720.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1228, '2019-10-24', 1266, '', 'FU-AE-89P.24-X-19', '19980576.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1229, '2019-10-24', 1267, '', 'FU-AE-90N.24-X-19', '345300.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1230, '2019-10-24', 1268, '', 'FU-AE-91N.24-X-19', '810810.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1231, '2019-10-24', 1269, '', 'FU-AE-92P.24-X-19', '283711428.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1232, '2019-10-25', 1270, '', 'FU-AE-93P.25-X-19', '59490215.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1233, '2019-10-25', 1271, '', 'FU-AE-94P.25-X-19', '7500882.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1234, '2019-10-25', 1272, '', 'FU-AE-95P.25-X-19', '303600.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1235, '2019-10-25', 1273, '', 'FU-AE-96P.25-X-19', '38913369.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1236, '2019-10-26', 1274, '', 'FU-AE-97P.26-X-19', '2609970.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1237, '2019-10-25', 1275, '', 'FU-AE-98N.25-X-19', '1243000.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1238, '2019-10-26', 1276, '', 'FU-AE-99P.26-X-19', '630000.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1239, '2019-10-28', 1277, '', 'FU-AE-100P.28-X-19', '7813346.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1240, '2019-10-28', 1278, '', 'FU-AE-101P.28-X-19', '651789.00', '41000.00', 0, 0, '0000-00-00', NULL),
-(1241, '2019-10-26', 1279, '', 'FU-AE-102P.26-X-19', '1908990.00', '60000.00', 0, 0, '0000-00-00', NULL),
-(1242, '2019-10-29', 1280, '', 'FU-AE-103P.29-X-19', '238480.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1243, '2019-10-29', 1281, '', 'FU-AE-104P.29-X-19', '110000.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1244, '2019-10-29', 1282, '', 'FU-AE-105P.29-X-19', '28296840.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1245, '2019-10-29', 1283, '', 'FU-AE-106P.29-X-19', '852720.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1246, '2019-10-29', 1284, '', 'FU-AE-107P.29-X-19', '3857920.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1247, '2019-10-29', 1285, '', 'FU-AE-108P.29-X-19', '729273.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1248, '2019-10-30', 1286, '', 'FU-AE-109P.30-X-19', '2108040.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1249, '2019-10-30', 1287, '', 'FU-AE-110P.30-X-19', '543840.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1250, '2019-10-30', 1288, '', 'FU-AE-111P.30-X-19', '1138533.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1251, '2019-10-30', 1289, '', 'FU-AE-112P.30-X-19', '5227801.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1252, '2019-10-30', 1290, '', 'FU-AE-113P.30-X-19', '243100.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1253, '2019-10-31', 1291, '', 'FU-AE-115P.31-X-19', '271920.00', '0.00', 0, 0, '0000-00-00', NULL),
-(1254, '2019-10-31', 1292, '', 'FU-AE-116N.31-X-19', '695400.00', '0.00', 0, 0, '0000-00-00', NULL);
+(1195, '2019-10-01', 1178, '010.006-19.06612689', 'FU-AE-04P.01-X-19', '838168.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1196, '2019-10-01', 1179, '', 'FU-AE-02N.01-X-19', '467245.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1197, '2019-10-11', 1219, '011.006-19.06612711', 'FU-AE-42P.11-X-19', '40989277.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1198, '2019-10-16', 1236, '010.006-19.06612732', 'FU-AE-59P.16-X-19', '12815000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1199, '2019-10-16', 1237, '010.006-19.06612749', 'FU-AE-60P.16-X-19', '19140000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1200, '2019-10-16', 1238, '010.006-19.06612720', 'FU-AE-61P.16-X-19', '2765840.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1201, '2019-10-16', 1239, '010.006-19.06612721', 'FU-AE-62P.16-X-19', '10846440.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1202, '2019-10-16', 1240, '010.006-19.06612722', 'FU-AE-63P.16-X-19', '3111570.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1203, '2019-10-16', 1241, '010.006-19.06612733', 'FU-AE-64P.16-X-19', '16810200.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1204, '2019-10-16', 1242, '010.006-19.06612734', 'FU-AE-65P.16-X-19', '6375930.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1205, '2019-10-17', 1243, '010.006-19.06612739', 'FU-AE-66P.17-X-19', '679019.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1206, '2019-10-17', 1244, '010.006-19.06612740', 'FU-AE-67P.17-X-19', '375260.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1207, '2019-10-17', 1245, '011.006-19.06612736', 'FU-AE-68P.17-X-19', '1268190.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1208, '2019-10-17', 1246, '010.006-19.06612737', 'FU-AE-69P.17-X-19', '32578920.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1209, '2019-10-17', 1247, '010.006-19.06612735', 'FU-AE-70P.17-X-19', '12988154.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1210, '2019-10-17', 1248, '010.006-19.06612741', 'FU-AE-71P.17-X-19', '4066000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1211, '2019-10-18', 1249, '', 'FU-AE-72N.18-X-19', '240000.00', '12000.00', 1, 0, '0000-00-00', NULL),
+(1212, '2019-10-18', 1250, '010.006-19.06612742', 'FU-AE-73P.18-X-19', '1985112.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1213, '2019-10-18', 1251, '', 'FU-AE-74N.18-X-19', '2190000.00', '120000.00', 1, 0, '0000-00-00', NULL),
+(1214, '2019-10-18', 1252, '', 'FU-AE-75N.18-X-19', '272250.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1215, '2019-10-21', 1253, '010.006-19.06612743', 'FU-AE-76P.21-X-19', '3227620.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1216, '2019-10-21', 1254, '010.006-19.06612744', 'FU-AE-77P.21-X-19', '5916240.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1217, '2019-10-21', 1255, '010.006-19.06612745', 'FU-AE-78P.21-X-19', '2512300.00', '67000.00', 1, 0, '0000-00-00', NULL),
+(1218, '2019-10-21', 1256, '010.006-19.06612750', 'FU-AE-79P.21-X-19', '33605000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1219, '2019-10-21', 1257, '010.006-19.06612751', 'FU-AE-80P.21-X-19', '95744905.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1220, '2019-10-21', 1258, '', 'FU-AE-81N.21-X-19', '621500.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1221, '2019-10-22', 1259, '010.006-19.06612752', 'FU-AE-82P.22-X-19', '1049336.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1222, '2019-10-22', 1260, '010.006-19.06612769', 'FU-AE-83P.22-X-19', '660000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1223, '2019-10-22', 1261, '010.006-19.06612753', 'FU-AE-84P.22-X-19', '186760.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1224, '2019-10-22', 1262, '010.006-19.06612754', 'FU-AE-85P.22-X-19', '407286.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1225, '2019-10-22', 1263, '010.006-19.06612770', 'FU-AE-86P.22-X-19', '9196000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1226, '2019-10-22', 1264, '010.006-19.06612755', 'FU-AE-87P.22-X-19', '1030040.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1227, '2019-10-22', 1265, '011.006-19.06612756', 'FU-AE-88P.22-X-19', '13598720.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1228, '2019-10-24', 1266, '010.006-19.06612759', 'FU-AE-89P.24-X-19', '19980576.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1229, '2019-10-24', 1267, '', 'FU-AE-90N.24-X-19', '345300.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1230, '2019-10-24', 1268, '', 'FU-AE-91N.24-X-19', '810810.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1231, '2019-10-24', 1269, '010.006-19.06612760', 'FU-AE-92P.24-X-19', '283711428.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1232, '2019-10-25', 1270, '010.006-19.06612761', 'FU-AE-93P.25-X-19', '59490215.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1233, '2019-10-25', 1271, '010.006-19.06612762', 'FU-AE-94P.25-X-19', '7500882.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1234, '2019-10-25', 1272, '010.006-19.06612763', 'FU-AE-95P.25-X-19', '303600.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1235, '2019-10-25', 1273, '011.006-19.06612764', 'FU-AE-96P.25-X-19', '38913369.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1236, '2019-10-26', 1274, '010.006-19.06612765', 'FU-AE-97P.26-X-19', '2609970.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1237, '2019-10-25', 1275, '', 'FU-AE-98N.25-X-19', '1243000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1238, '2019-10-26', 1276, '010.006-19.06612767', 'FU-AE-99P.26-X-19', '630000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1239, '2019-10-28', 1277, '010.006-19.06612768', 'FU-AE-100P.28-X-19', '7813346.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1240, '2019-10-28', 1278, '010.006-19.06612780', 'FU-AE-101P.28-X-19', '651789.00', '41000.00', 1, 0, '0000-00-00', NULL),
+(1241, '2019-10-26', 1279, '010.006-19.06612766', 'FU-AE-102P.26-X-19', '1908990.00', '60000.00', 1, 0, '0000-00-00', NULL),
+(1242, '2019-10-29', 1280, '010.006-19.06612771', 'FU-AE-103P.29-X-19', '238480.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1243, '2019-10-29', 1281, '010.006-19.06612787', 'FU-AE-104P.29-X-19', '110000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1244, '2019-10-29', 1282, '010.006-19.06612772', 'FU-AE-105P.29-X-19', '28296840.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1245, '2019-10-29', 1283, '010.006-19.06612773', 'FU-AE-106P.29-X-19', '852720.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1246, '2019-10-29', 1284, '010.006-19.06612788', 'FU-AE-107P.29-X-19', '3857920.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1247, '2019-10-29', 1285, '010.006-19.06612774', 'FU-AE-108P.29-X-19', '729273.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1248, '2019-10-30', 1286, '010.006-19.06612775', 'FU-AE-109P.30-X-19', '2108040.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1249, '2019-10-30', 1287, '010.006-19.06612776', 'FU-AE-110P.30-X-19', '543840.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1250, '2019-10-30', 1288, '010.006-19.06612777', 'FU-AE-111P.30-X-19', '1138533.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1251, '2019-10-30', 1289, '010.006-19.06612778', 'FU-AE-112P.30-X-19', '5227801.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1252, '2019-10-30', 1290, '010.006-19.06612779', 'FU-AE-113P.30-X-19', '243100.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1253, '2019-10-31', 1291, '010.006-19.06612781', 'FU-AE-115P.31-X-19', '271920.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1254, '2019-10-31', 1292, '', 'FU-AE-116N.31-X-19', '695400.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1255, '2019-09-01', 1307, '010.006-19.06612782', 'FU-AE-01P.01-XI-19', '21246995.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1256, '2019-11-01', 1308, '010.006-19.06612783', 'FU-AE-02P.01-XI-19', '1160500.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1257, '2019-11-01', 1309, '', 'FU-AE-03N.01-XI-19', '232155.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1258, '2019-11-01', 1310, '', 'FU-AE-04N.01-XI-19', '2075884.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1259, '2019-11-01', 1311, '', 'FU-AE-05N.01-XI-19', '1724116.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1260, '2019-11-01', 1312, '010.006-19.06612789', 'FU-AE-06P.01-XI-19', '26261010.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1261, '2019-11-04', 1313, '', 'FU-AE-07N.04-XI-19', '2887311.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1262, '2019-11-02', 1314, '010.006-19.06612784', 'FU-AE-08P.02-XI-19', '4995144.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1263, '2019-11-02', 1315, '010.006-19.06612785', 'FU-AE-09P.02-XI-19', '19980576.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1264, '2019-11-02', 1316, '010.006-19.06612786', 'FU-AE-10P.02-XI-19', '41669925.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1265, '2019-11-04', 1317, '', 'FU-AE-11N.04-XI-19', '7576800.00', '70000.00', 1, 0, '0000-00-00', NULL),
+(1266, '2019-11-04', 1318, '', 'FU-AE-12N.04-XI-19', '10900890.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1267, '2019-11-04', 1319, '010.006-19.06612790', 'FU-AE-13P.04-XI-19', '3658160.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1268, '2019-11-04', 1320, '010.006-19.06612791', 'FU-AE-14P.04-XI-19', '5715325.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1269, '2019-11-02', 1321, '', 'FU-AE-15N.02-XI-19', '48875000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1270, '2019-11-04', 1322, '', 'FU-AE-16N.04-XI-19', '1211760.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1271, '2019-09-27', 1174, '', 'FU-AE-90N.27-IX-19', '543048.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1272, '2019-09-27', 1175, '', 'FU-AE-91N.27-IX-19', '543048.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1273, '2019-11-04', 1323, '', 'FU-AE-17N.04-XI-19', '644080.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1274, '2019-11-07', 1324, '', 'FU-AE-18N.07-XI-19', '1448370.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1275, '2019-11-06', 1325, '010.006-19.06612792', 'FU-AE-19P.06-XI-19', '10628349.00', '69641.00', 1, 0, '0000-00-00', NULL),
+(1276, '2019-11-06', 1326, '010.006-19.06612793', 'FU-AE-20P.06-XI-19', '3065304.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1277, '2019-11-06', 1327, '010.006-19.06612794', 'FU-AE-21P.06-XI-19', '1494000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1278, '2019-11-07', 1328, '010.006-19.06612795', 'FU-AE-22P.07-XI-19', '297082.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1279, '2019-11-11', 1329, '010.006-19.06612796', 'FU-AE-23P.11-XI-19', '88860864.00', '850000.00', 1, 0, '0000-00-00', NULL),
+(1280, '2019-11-11', 1330, '010.006-19.06612797', 'FU-AE-24P.11-XI-19', '562200.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1281, '2019-11-11', 1331, '010.006-19.06612798', 'FU-AE-25P.11-XI-19', '12263472.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1282, '2019-11-11', 1332, '', 'FU-AE-26N.11-XI-19', '1000000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1283, '2019-11-11', 1333, '010.006-19.06612799', 'FU-AE-27P.11-XI-19', '29608240.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1284, '2019-11-11', 1334, '010.006-19.06612800', 'FU-AE-28P.11-XI-19', '29608240.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1285, '2019-11-12', 1335, '010.006-19.06612801', 'FU-AE-29P.12-XI-19', '191620.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1286, '2019-11-12', 1336, '010.006-19.06612804', 'FU-AE-30P.12-XI-19', '1279080.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1287, '2019-11-08', 1337, '010.006-19.06612802', 'FU-AE-31P.08-XI-19', '8312651.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1288, '2019-11-13', 1338, '010.006-19.06612805', 'FU-AE-32P.13-XI-19', '8964000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1289, '2019-11-13', 1339, '010.006-19.06612806', 'FU-AE-33P.13-XI-19', '629572.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1290, '2019-11-13', 1340, '010.006-19.06612807', 'FU-AE-34P.13-XI-19', '3200000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1291, '2019-11-13', 1341, '010.006-19.06612808', 'FU-AE-35P.13-XI-19', '2975000.00', '95000.00', 1, 0, '0000-00-00', NULL),
+(1292, '2019-11-14', 1343, '', 'FU-AE-37N.14-XI-19', '457243.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1293, '2019-11-14', 1344, '', 'FU-AE-38N.14-XI-19', '524370.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1294, '2019-11-14', 1345, '010.006-19.06612809', 'FU-AE-39P.14-XI-19', '4745352.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1295, '2019-11-14', 1346, '010.006-19.06612810', 'FU-AE-40P.14-XI-19', '3081870.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1296, '2019-11-15', 1347, '010.006-19.06612811', 'FU-AE-41P.15-XI-19', '4980000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1297, '2019-11-18', 1348, '010.006-19.06612815', 'FU-AE-42P.18-XI-19', '18612825.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1298, '2019-11-15', 1349, '010.006-19.06612812', 'FU-AE-43P.15-XI-19', '24816000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1299, '2019-11-15', 1350, '010.006-19.06612813', 'FU-AE-44P.15-XI-19', '639540.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1300, '2019-11-15', 1351, '010.006-19.06612814', 'FU-AE-45P.15-XI-19', '3627800.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1301, '2019-11-18', 1352, '010.006-19.06612816', 'FU-AE-46P.18-XI-19', '2509650.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1302, '2019-11-19', 1353, '010.006-19.06612817', 'FU-AE-47P.19-XI-19', '1759500.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1303, '2019-11-19', 1354, '010.006-19.06612818', 'FU-AE-48P.19-XI-19', '41669925.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1304, '2019-11-21', 1355, '010.006-19.06612832', 'FU-AE-49P.21-XI-19', '14668500.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1305, '2019-11-21', 1356, '010.006-19.06612819', 'FU-AE-50P.21-XI-19', '332156.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1306, '2019-11-21', 1357, '', 'FU-AE-51N.21-XI-19', '418600.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1307, '2019-11-21', 1358, '', 'FU-AE-52N.21-XI-19', '1350000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1308, '2019-11-20', 1359, '010.006-19.06612820', 'FU-AE-53P.20-XI-19', '2940000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1309, '2019-11-21', 1360, '010.006-19.06612821', 'FU-AE-54P.21-XI-19', '1052040.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1310, '2019-11-22', 1361, '010.006-19.06612822', 'FU-AE-55P.22-XI-19', '5934565.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1311, '2019-11-22', 1362, '010.006-19.06612823', 'FU-AE-56P.22-XI-19', '15916288.00', '78226.00', 1, 0, '0000-00-00', NULL),
+(1312, '2019-11-23', 1363, '010.006-19.06612824', 'FU-AE-57P.23-XI-19', '4119456.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1313, '2019-11-23', 1364, '010.006-19.06612825', 'FU-AE-58P.23-XI-19', '1142394.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1314, '2019-11-27', 1365, '010.006-19.06612826', 'FU-AE-59P.27-XI-19', '2321385.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1315, '2019-11-27', 1366, '', 'FU-AE-60N.27-XI-19', '7050000.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1316, '2019-11-27', 1367, '010.006-19.06612827', 'FU-AE-61P.27-XI-19', '1082631.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1317, '2019-11-29', 1368, '010.006-19.06612828', 'FU-AE-62P.29-XI-19', '46411992.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1318, '2019-11-29', 1369, '010.006-19.06612829', 'FU-AE-63P.29-XI-19', '3227400.00', '0.00', 1, 0, '0000-00-00', NULL),
+(1319, '2019-11-29', 1370, '010.006-19.06612830', 'FU-AE-64P.29-XI-19', '2726400.00', '0.00', 1, 0, '0000-00-00', NULL);
 
 -- --------------------------------------------------------
 
@@ -11942,17 +12158,15 @@ INSERT INTO `invoices` (`id`, `date`, `do_id`, `faktur`, `name`, `value`, `ongki
 -- Table structure for table `itemlist`
 --
 
-CREATE TABLE IF NOT EXISTS `itemlist` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `itemlist` (
+  `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `reference` varchar(100) NOT NULL,
   `description` text NOT NULL,
   `type` int(255) NOT NULL,
   `isactive` tinyint(1) NOT NULL DEFAULT '1',
-  `created_by` int(10) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `reference` (`reference`)
-) ENGINE=InnoDB AUTO_INCREMENT=4433 DEFAULT CHARSET=latin1;
+  `created_by` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `itemlist`
@@ -12618,7 +12832,8 @@ INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isact
 (673, '2019-01-01', 'ATV212HD18N4', 'Inverter Altivar212 3P 37A 18.5kW 380-480VAC', 5, 1, 0),
 (674, '2019-01-01', 'ATV212HD45N4', 'Inverter Altivar212 3P 94A 45kW 380-480VAC', 5, 1, 0),
 (675, '2019-01-01', 'ATV212HD75N4', 'Inverter Altivar212 3P 160A 75kW 380-480VAC', 5, 1, 0),
-(676, '2019-01-01', 'ATV212HU15N4', 'Inverter Altivar212 3P 3.7A 1.5kW 380-480VAC', 5, 1, 0),
+(676, '2019-01-01', 'ATV212HU15N4', 'Inverter Altivar212 3P 3.7A 1.5kW 380-480VAC', 5, 1, 0);
+INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isactive`, `created_by`) VALUES
 (677, '2019-01-01', 'ATV212HU55N4', 'Inverter Altivar212 3P 12A 5.5kW 380-480VAC', 5, 1, 0),
 (678, '2019-01-01', 'ATV610C13N4', 'Inverter altivar610 213.0A 132kW', 5, 1, 0),
 (679, '2019-01-01', 'ATV610D11N4', 'Inverter altivar610 20.7A 11kW', 5, 1, 0),
@@ -12804,8 +13019,7 @@ INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isact
 (861, '2019-01-01', 'CB315', 'Rel busbar tembaga 3mm x 15mm', 7, 1, 0),
 (862, '2019-01-01', 'METSECT5MA040', 'Current Transformer 400/5A', 2, 1, 0),
 (863, '2019-01-01', 'NYY34', 'Kabel NYY 3 x 4mm', 6, 1, 0),
-(864, '2019-01-01', 'METSECT5DC400', 'Current Transformer 4000/5A', 2, 1, 0);
-INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isactive`, `created_by`) VALUES
+(864, '2019-01-01', 'METSECT5DC400', 'Current Transformer 4000/5A', 2, 1, 0),
 (865, '2019-01-01', 'METSECT5DA125', 'Current Transformer 1250/5A', 2, 1, 0),
 (866, '2019-01-01', 'F-SM6R-IM-A1', 'SM6-24 IM500 LBS SM6 Man 630A, use CIT manual cubicle', 4, 1, 0),
 (867, '2019-01-01', 'F-SM6R-QM-A1', 'SM6-24 QM500 LBS Man630A,CI1,op. coil220Vac,T. Fuse, F. Holder DIN cubicle', 4, 1, 0),
@@ -13205,7 +13419,8 @@ INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isact
 (1265, '2019-01-01', 'LC1F330', 'Kontaktor TesysF 3P 330A 160kW', 2, 1, 0),
 (1266, '2019-01-01', 'LC1F400', 'Kontaktor TesysF 3P 400A 200kW', 2, 1, 0),
 (1267, '2019-01-01', 'LC1F500', 'Kontaktor TesysF 3P 500A 250kW', 2, 1, 0),
-(1268, '2019-01-01', 'LC1F630', 'Kontaktor TesysF 3P 630A 335kW', 2, 1, 0),
+(1268, '2019-01-01', 'LC1F630', 'Kontaktor TesysF 3P 630A 335kW', 2, 1, 0);
+INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isactive`, `created_by`) VALUES
 (1269, '2019-01-01', 'LC1F800', 'Kontaktor TesysF 3P 800A 450kW', 2, 1, 0),
 (1270, '2019-01-01', '51006538M0', 'MV fuse cubicle 24kV, DIN standard, 6,3A', 4, 1, 0),
 (1271, '2019-01-01', '51006539M0', 'MV fuse cubicle 24kV, DIN standard, 10A', 4, 1, 0),
@@ -13612,8 +13827,7 @@ INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isact
 (1676, '2019-01-01', 'NFA2X325-25', 'Kabel NFA2X 3 x 25mm + 25mm', 6, 1, 0),
 (1677, '2019-01-01', 'NFA2X335-25', 'Kabel NFA2X 3 x 35mm + 25mm', 6, 1, 0),
 (1678, '2019-01-01', 'NFA2X350-35', 'Kabel NFA2X 3 x 50mm + 35mm', 6, 1, 0),
-(1679, '2019-01-01', 'NFA2X370-70', 'Kabel NFA2X 3 x 70mm + 70mm', 6, 1, 0);
-INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isactive`, `created_by`) VALUES
+(1679, '2019-01-01', 'NFA2X370-70', 'Kabel NFA2X 3 x 70mm + 70mm', 6, 1, 0),
 (1680, '2019-01-01', 'NFA2X370-50', 'Kabel NFA2X 3 x 70mm + 50mm', 6, 1, 0),
 (1681, '2019-01-01', 'NFA2X395-70', 'Kabel NFA2X 3 x 95mm + 70mm', 6, 1, 0),
 (1682, '2019-01-01', 'AAACS35', 'Kabel AAACS 1 x 35mm', 6, 1, 0),
@@ -13795,7 +14009,8 @@ INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isact
 (1858, '2019-01-01', 'MTZ212H22.0X3PMD', 'ACB 3P 1250A 100kA MTZ12 H2 tipe Drawout - manually operated', 2, 1, 0),
 (1859, '2019-01-01', 'MTZ216H22.0X3PMD', 'ACB 3P 1600A 100kA MTZ16 H2 tipe Drawout - manually operated', 2, 1, 0),
 (1860, '2019-01-01', 'MTZ220H22.0X3PMD', 'ACB 3P 2000A 100kA MTZ20 H2 tipe Fixed - manually operated', 2, 1, 0),
-(1861, '2019-01-01', 'MTZ225H22.0X3PMD', 'ACB 3P 2500A 100kA MTZ25 H2 tipe Drawout - manually operated', 2, 1, 0),
+(1861, '2019-01-01', 'MTZ225H22.0X3PMD', 'ACB 3P 2500A 100kA MTZ25 H2 tipe Drawout - manually operated', 2, 1, 0);
+INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isactive`, `created_by`) VALUES
 (1862, '2019-01-01', 'MTZ232H22.0X3PMD', 'ACB 3P 3200A 100kA MTZ32 H2 tipe Drawout - manually operated', 2, 1, 0),
 (1863, '2019-01-01', 'MTZ240H22.0X3PMD', 'ACB 3P 4000A 100kA MTZ40 H2 tipe Drawout - manually operated', 2, 1, 0),
 (1864, '2019-01-01', 'MTZ350H22.0X3PMD', 'ACB 3P 5000A 150kA MTZ50 H2 tipe Drawout - manually operated', 2, 1, 0),
@@ -14287,8 +14502,7 @@ INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isact
 (2350, '2019-01-01', 'LC1E80004M7', 'Kontaktor TVS 4P 80A 4N/O 220VAC', 2, 1, 0),
 (2351, '2019-01-01', 'LC1E80004Q7', 'Kontaktor TVS 4P 80A 4N/O 380VAC', 2, 1, 0),
 (2352, '2019-01-01', 'LC1E80004N7', 'Kontaktor TVS 4P 80A 4N/O 415VAC', 2, 1, 0),
-(2353, '2019-01-01', 'LC1E80008B7', 'Kontaktor TVS 4P 80A 2N/O 2N/C 24VAC', 2, 1, 0);
-INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isactive`, `created_by`) VALUES
+(2353, '2019-01-01', 'LC1E80008B7', 'Kontaktor TVS 4P 80A 2N/O 2N/C 24VAC', 2, 1, 0),
 (2354, '2019-01-01', 'LC1E80008E7', 'Kontaktor TVS 4P 80A 2N/O 2N/C 48VAC', 2, 1, 0),
 (2355, '2019-01-01', 'LC1E80008F7', 'Kontaktor TVS 4P 80A 2N/O 2N/C 110VAC', 2, 1, 0),
 (2356, '2019-01-01', 'LC1E80008M7', 'Kontaktor TVS 4P 80A 2N/O 2N/C 220VAC', 2, 1, 0),
@@ -14326,7 +14540,8 @@ INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isact
 (2388, '2019-01-01', 'LC1K0910Q7', 'Kontaktor TesysK 3P 9A 4kW 1N/O 380VAC', 2, 1, 0),
 (2389, '2019-01-01', 'LC1K0901B7', 'Kontaktor TesysK 3P 9A 4kW 1N/C 24VAC', 2, 1, 0),
 (2390, '2019-01-01', 'LC1K0901D7', 'Kontaktor TesysK 3P 9A 4kW 1N/C 42VAC', 2, 1, 0),
-(2391, '2019-01-01', 'LC1K0901E7', 'Kontaktor TesysK 3P 9A 4kW 1N/C 48VAC', 2, 1, 0),
+(2391, '2019-01-01', 'LC1K0901E7', 'Kontaktor TesysK 3P 9A 4kW 1N/C 48VAC', 2, 1, 0);
+INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isactive`, `created_by`) VALUES
 (2392, '2019-01-01', 'LC1K0901F7', 'Kontaktor TesysK 3P 9A 4kW 1N/C 110VAC', 2, 1, 0),
 (2393, '2019-01-01', 'LC1K0901M7', 'Kontaktor TesysK 3P 9A 4kW 1N/C 220VAC', 2, 1, 0),
 (2394, '2019-01-01', 'LC1K0901Q7', 'Kontaktor TesysK 3P 9A 4kW 1N/C 380VAC', 2, 1, 0),
@@ -14845,7 +15060,8 @@ INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isact
 (2907, '2019-01-01', 'NYA4KH', 'Kabel NYA 1 x 4mm kuning-hijau', 6, 1, 0),
 (2908, '2019-01-01', 'LR2K0321', 'Relay thermal beban lebih untuk kontaktor TesysK 10-14A', 2, 1, 0),
 (2909, '2019-01-01', 'NYA4M', 'Kabel NYA 1 x 4mm merah', 6, 1, 0),
-(2910, '2019-01-01', 'NYA6H', 'Kabel NYA 1 x 6mm hitam', 6, 1, 0),
+(2910, '2019-01-01', 'NYA6H', 'Kabel NYA 1 x 6mm hitam', 6, 1, 0);
+INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isactive`, `created_by`) VALUES
 (2911, '2019-01-01', 'LR2K0322', 'Relay thermal beban lebih untuk kontaktor TesysK 12-16A', 2, 1, 0),
 (2912, '2019-01-01', 'NYA6B', 'Kabel NYA 1 x 6mm biru', 6, 1, 0),
 (2913, '2019-01-01', 'NYA6M', 'Kabel NYA 1 x 6mm merah', 6, 1, 0),
@@ -14996,8 +15212,7 @@ INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isact
 (3058, '2019-01-01', 'LT4706F7A', 'EOCR 0.5-6A 100...120VAC - reset otomatis', 2, 1, 0),
 (3059, '2019-01-01', 'LT4706M7A', 'EOCR 0.5-6A 200...240VAC - reset otomatis', 2, 1, 0),
 (3060, '2019-01-01', 'LT4730BA', 'EOCR 3-30A 24VAC/DC - reset otomatis', 2, 1, 0),
-(3061, '2019-01-01', 'LT4730EA', 'EOCR 3-30A 48VAC/DC - reset otomatis', 2, 1, 0);
-INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isactive`, `created_by`) VALUES
+(3061, '2019-01-01', 'LT4730EA', 'EOCR 3-30A 48VAC/DC - reset otomatis', 2, 1, 0),
 (3062, '2019-01-01', 'LT4730F7A', 'EOCR 3-30A 100...120VAC - reset otomatis', 2, 1, 0),
 (3063, '2019-01-01', 'LT4730M7A', 'EOCR 3-30A 200...220VAC - reset otomatis', 2, 1, 0),
 (3064, '2019-01-01', 'LT4760BA', 'EOCR 5-60A 24VAC/DC - reset otomatis', 2, 1, 0),
@@ -15434,7 +15649,8 @@ INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isact
 (3496, '2019-01-01', 'LV429404', 'Under voltage release 24VAC 50/60Hz', 2, 1, 0),
 (3497, '2019-01-01', 'LV429405', 'Under voltage release 48VAC 50/60Hz', 2, 1, 0),
 (3498, '2019-01-01', 'LV429406', 'Under voltage release 110/130VAC 50/60Hz', 2, 1, 0),
-(3499, '2019-01-01', 'LV429408', 'Under voltage release 380/415VAC 50Hz', 2, 1, 0),
+(3499, '2019-01-01', 'LV429408', 'Under voltage release 380/415VAC 50Hz', 2, 1, 0);
+INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isactive`, `created_by`) VALUES
 (3500, '2019-01-01', 'LV429409', 'Under voltage release 525VAC 50Hz', 2, 1, 0),
 (3501, '2019-01-01', 'LV429402', 'Under voltage release 12VDC', 2, 1, 0),
 (3502, '2019-01-01', 'LV429410', 'Under voltage release 24VDC', 2, 1, 0),
@@ -15711,8 +15927,7 @@ INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isact
 (3773, '2019-01-01', 'A9MEM2010-TERA', 'kWh meter 1P+N 40A 230VAC Pulse output', 3, 1, 0),
 (3774, '2019-01-01', 'A9MEM2050-TERA', 'kWh meter 1P+N 40A 230VAC Modbus', 3, 1, 0),
 (3775, '2019-01-01', 'A9MEM2105-TERA', 'kWh meter 1P+N 63A 230VAC Pulse output', 3, 1, 0),
-(3776, '2019-01-01', 'A9MEM2150-TERA', 'kWh meter 1P+N 63A 230VAC Modbus', 3, 1, 0);
-INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isactive`, `created_by`) VALUES
+(3776, '2019-01-01', 'A9MEM2150-TERA', 'kWh meter 1P+N 63A 230VAC Modbus', 3, 1, 0),
 (3777, '2019-01-01', 'VJCNS101112', 'Vijeo Citect Server 500 points', 5, 1, 0),
 (3778, '2019-01-01', 'A9XPCM04', 'Set of 4 connectors 100A monoconnect for 3P+N comb busbar', 2, 1, 0),
 (3779, '2019-01-01', 'TM241C24R', 'Controller M241 24 IO relay', 5, 1, 0),
@@ -15960,7 +16175,8 @@ INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isact
 (4021, '2019-01-01', 'LC1K1610FD', 'Kontaktor TesysK 3P 16A 7.5kW 1N/O 110VDC', 2, 1, 0),
 (4022, '2019-01-01', 'LC1K1610MD', 'Kontaktor TesysK 3P 16A 7.5kW 1N/O 220VDC', 2, 1, 0),
 (4023, '2019-01-01', 'LC1K1601JD', ' Kontaktor TesysK 3P 16A 7.5kW 1N/C 12VDC', 2, 1, 0),
-(4024, '2019-01-01', 'LC1K1601BD', ' Kontaktor TesysK 3P 16A 7.5kW 1N/C 24VDC', 2, 1, 0),
+(4024, '2019-01-01', 'LC1K1601BD', ' Kontaktor TesysK 3P 16A 7.5kW 1N/C 24VDC', 2, 1, 0);
+INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isactive`, `created_by`) VALUES
 (4025, '2019-01-01', 'LC1K1601ED', ' Kontaktor TesysK 3P 16A 7.5kW 1N/C 48VDC', 2, 1, 0),
 (4026, '2019-01-01', 'LC1K1601FD', ' Kontaktor TesysK 3P 16A 7.5kW 1N/C 110VDC', 2, 1, 0),
 (4027, '2019-01-01', 'LC1K1601MD', ' Kontaktor TesysK 3P 16A 7.5kW 1N/C 220VDC', 2, 1, 0),
@@ -16358,7 +16574,10 @@ INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isact
 (4429, '2019-11-21', '192T9697', 'Current transformer TCB 85 - 100 2500A', 12, 1, 1),
 (4430, '2019-12-06', 'TRAYTEK3010C', 'Tray kabel C ukuran 300mm x 100mm x 3000mm Traytek', 18, 1, 1),
 (4431, '2019-12-06', 'TRAYTEK3010EL', 'Elbow tray kabel ukuran 300mm x 100mm Traytek', 18, 1, 1),
-(4432, '2019-12-06', 'TRAYTEK3010T', 'Tee tray kabel ukuran 300mm x 100mm Traytek', 18, 1, 1);
+(4432, '2019-12-06', 'TRAYTEK3010T', 'Tee tray kabel ukuran 300mm x 100mm Traytek', 18, 1, 1),
+(4433, '2019-12-06', 'B9020', 'Conduit 20mm Boss', 20, 1, 1),
+(4434, '2019-12-07', 'B242/20', 'Joining coupling conduit Boss', 20, 1, 1),
+(4435, '2019-12-07', 'B261/20', 'Saddle conduit Boss', 20, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -16366,13 +16585,12 @@ INSERT INTO `itemlist` (`id`, `date`, `reference`, `description`, `type`, `isact
 -- Table structure for table `itemlist_category`
 --
 
-CREATE TABLE IF NOT EXISTS `itemlist_category` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `itemlist_category` (
+  `id` int(255) NOT NULL,
   `name` varchar(100) NOT NULL,
   `date` date NOT NULL,
-  `created_by` int(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+  `created_by` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `itemlist_category`
@@ -16396,7 +16614,7 @@ INSERT INTO `itemlist_category` (`id`, `name`, `date`, `created_by`) VALUES
 (16, 'Other components', '2019-01-01', 1),
 (17, 'Schneider Electric low voltage components - Domae', '2019-08-01', 1),
 (18, 'Traytek', '2019-12-06', 0),
-(19, 'Boss', '2019-12-06', 0);
+(20, 'Boss', '2019-12-06', 0);
 
 -- --------------------------------------------------------
 
@@ -16404,14 +16622,13 @@ INSERT INTO `itemlist_category` (`id`, `name`, `date`, `created_by`) VALUES
 -- Table structure for table `payable`
 --
 
-CREATE TABLE IF NOT EXISTS `payable` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `payable` (
+  `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `purchase_id` int(255) NOT NULL,
   `value` decimal(20,2) NOT NULL,
-  `bank_id` int(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+  `bank_id` int(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `payable`
@@ -16441,11 +16658,10 @@ INSERT INTO `payable` (`id`, `date`, `purchase_id`, `value`, `bank_id`) VALUES
 -- Table structure for table `payment`
 --
 
-CREATE TABLE IF NOT EXISTS `payment` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
-  `payment_term` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+CREATE TABLE `payment` (
+  `id` int(255) NOT NULL,
+  `payment_term` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `payment`
@@ -16463,15 +16679,14 @@ INSERT INTO `payment` (`id`, `payment_term`) VALUES
 -- Table structure for table `petty_cash`
 --
 
-CREATE TABLE IF NOT EXISTS `petty_cash` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `petty_cash` (
+  `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `info` text NOT NULL,
   `value` decimal(20,2) NOT NULL,
   `balance` decimal(20,2) NOT NULL,
-  `class` int(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1270 DEFAULT CHARSET=latin1;
+  `class` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `petty_cash`
@@ -17237,7 +17452,8 @@ INSERT INTO `petty_cash` (`id`, `date`, `info`, `value`, `balance`, `class`) VAL
 (785, '2019-08-06', '', '5434600.00', '500000.00', 25),
 (786, '2019-08-07', 'Bensin mobil', '250000.00', '250000.00', 13),
 (787, '2019-08-07', 'Pengisian kartu E-toll', '151500.00', '98500.00', 14),
-(788, '2019-08-07', 'Pengiriman barang - PT Mentari Gemilang Perdana Sentosa', '11000.00', '87500.00', 16),
+(788, '2019-08-07', 'Pengiriman barang - PT Mentari Gemilang Perdana Sentosa', '11000.00', '87500.00', 16);
+INSERT INTO `petty_cash` (`id`, `date`, `info`, `value`, `balance`, `class`) VALUES
 (790, '2019-08-07', 'Parkir', '3000.00', '84500.00', 15),
 (791, '2019-08-08', 'Bensin motor', '20000.00', '64500.00', 13),
 (792, '2019-08-08', 'Pengiriman barang', '24000.00', '40500.00', 16),
@@ -17474,8 +17690,7 @@ INSERT INTO `petty_cash` (`id`, `date`, `info`, `value`, `balance`, `class`) VAL
 (1025, '2019-10-10', 'Pengiriman dokumen retur - Prima Indah Lestari', '15000.00', '610000.00', 17),
 (1026, '2019-10-11', '', '1000000.00', '1610000.00', 25),
 (1027, '2019-10-11', 'Ongkos angkut barang - GTS', '15000.00', '1595000.00', 16),
-(1028, '2019-10-11', 'Parkir', '3000.00', '1592000.00', 15);
-INSERT INTO `petty_cash` (`id`, `date`, `info`, `value`, `balance`, `class`) VALUES
+(1028, '2019-10-11', 'Parkir', '3000.00', '1592000.00', 15),
 (1029, '2019-10-11', 'Parkir', '3000.00', '1589000.00', 15),
 (1030, '2019-10-11', 'Print brosur - down payment', '500000.00', '1089000.00', 34),
 (1031, '2019-10-11', 'Bensin mobil', '250000.00', '839000.00', 13),
@@ -17718,12 +17933,11 @@ INSERT INTO `petty_cash` (`id`, `date`, `info`, `value`, `balance`, `class`) VAL
 -- Table structure for table `petty_cash_classification`
 --
 
-CREATE TABLE IF NOT EXISTS `petty_cash_classification` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `petty_cash_classification` (
+  `id` int(11) NOT NULL,
   `name` text NOT NULL,
-  `major_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
+  `major_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `petty_cash_classification`
@@ -17777,13 +17991,12 @@ INSERT INTO `petty_cash_classification` (`id`, `name`, `major_id`) VALUES
 -- Table structure for table `proforma_invoice`
 --
 
-CREATE TABLE IF NOT EXISTS `proforma_invoice` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `proforma_invoice` (
+  `id` int(11) NOT NULL,
   `reference` varchar(50) NOT NULL,
   `quantity` int(50) NOT NULL,
   `price` decimal(30,3) NOT NULL,
-  `code_proforma_invoice_id` int(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  `code_proforma_invoice_id` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -17792,13 +18005,12 @@ CREATE TABLE IF NOT EXISTS `proforma_invoice` (
 -- Table structure for table `project`
 --
 
-CREATE TABLE IF NOT EXISTS `project` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `project` (
+  `id` int(255) NOT NULL,
   `reference` varchar(100) NOT NULL,
   `quantity` int(255) NOT NULL,
-  `project_do_id` int(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=193 DEFAULT CHARSET=latin1;
+  `project_do_id` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `project`
@@ -17968,17 +18180,16 @@ INSERT INTO `project` (`id`, `reference`, `quantity`, `project_do_id`) VALUES
 -- Table structure for table `project_delivery_order`
 --
 
-CREATE TABLE IF NOT EXISTS `project_delivery_order` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `project_delivery_order` (
+  `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `name` varchar(50) NOT NULL,
   `project_id` int(255) NOT NULL,
   `isconfirm` tinyint(1) NOT NULL DEFAULT '0',
   `created_by` int(10) NOT NULL,
   `confirmed_by` int(10) NOT NULL,
-  `confirmed_date` date NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1;
+  `confirmed_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `project_delivery_order`
@@ -18049,17 +18260,15 @@ INSERT INTO `project_delivery_order` (`id`, `date`, `name`, `project_id`, `iscon
 -- Table structure for table `promotion`
 --
 
-CREATE TABLE IF NOT EXISTS `promotion` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `promotion` (
+  `id` int(255) NOT NULL,
   `name` text NOT NULL,
   `description` text NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `created_by` int(10) NOT NULL,
-  `image_url` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `created_by` (`created_by`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+  `image_url` varchar(500) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `promotion`
@@ -18076,8 +18285,8 @@ INSERT INTO `promotion` (`id`, `name`, `description`, `start_date`, `end_date`, 
 -- Table structure for table `purchaseorder`
 --
 
-CREATE TABLE IF NOT EXISTS `purchaseorder` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `purchaseorder` (
+  `id` int(255) NOT NULL,
   `reference` varchar(100) NOT NULL,
   `price_list` decimal(30,3) NOT NULL,
   `discount` decimal(10,3) NOT NULL,
@@ -18085,10 +18294,8 @@ CREATE TABLE IF NOT EXISTS `purchaseorder` (
   `quantity` int(100) NOT NULL,
   `received_quantity` int(255) NOT NULL DEFAULT '0',
   `status` tinyint(1) NOT NULL DEFAULT '0',
-  `purchaseorder_id` int(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `purchaseorder_id` (`purchaseorder_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1705 DEFAULT CHARSET=latin1;
+  `purchaseorder_id` int(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchaseorder`
@@ -18807,7 +19014,8 @@ INSERT INTO `purchaseorder` (`id`, `reference`, `price_list`, `discount`, `unitp
 (721, 'XB5AA42', '63250.000', '45.000', '34787.500', 10, 10, 1, 143),
 (722, 'RXM2LB2BD', '57200.000', '45.000', '31460.000', 5, 5, 1, 143),
 (723, 'RXZE1M2C', '29150.000', '45.000', '16032.500', 5, 5, 1, 143),
-(724, 'RXM4LB2B7', '67100.000', '45.000', '36905.000', 2, 2, 1, 143),
+(724, 'RXM4LB2B7', '67100.000', '45.000', '36905.000', 2, 2, 1, 143);
+INSERT INTO `purchaseorder` (`id`, `reference`, `price_list`, `discount`, `unitprice`, `quantity`, `received_quantity`, `status`, `purchaseorder_id`) VALUES
 (725, 'A9A15310', '157850.000', '50.000', '78925.000', 200, 200, 1, 144),
 (726, 'A9F74102', '146300.000', '51.000', '71687.000', 24, 24, 1, 145),
 (727, 'A9F74104', '146300.000', '51.000', '71687.000', 24, 24, 1, 145),
@@ -19026,8 +19234,7 @@ INSERT INTO `purchaseorder` (`id`, `reference`, `price_list`, `discount`, `unitp
 (974, 'F-SM6-EP-M', '2917200.000', '15.000', '2479620.000', 2, 2, 1, 204),
 (975, '51006544M0', '4777300.000', '20.000', '3821840.000', 1, 1, 1, 204),
 (976, 'NYAF2H', '3200.000', '5.000', '3040.000', 1100, 1100, 1, 205),
-(977, 'NYAF2B', '3200.000', '5.000', '3040.000', 300, 300, 1, 205);
-INSERT INTO `purchaseorder` (`id`, `reference`, `price_list`, `discount`, `unitprice`, `quantity`, `received_quantity`, `status`, `purchaseorder_id`) VALUES
+(977, 'NYAF2B', '3200.000', '5.000', '3040.000', 300, 300, 1, 205),
 (978, 'NYAF10KH', '13513.000', '5.000', '12837.350', 100, 100, 1, 205),
 (979, 'LADN22', '214500.000', '46.000', '115830.000', 4, 4, 1, 206),
 (980, 'LC1F150', '6230000.000', '46.000', '3364200.000', 2, 2, 1, 206),
@@ -19398,8 +19605,8 @@ INSERT INTO `purchaseorder` (`id`, `reference`, `price_list`, `discount`, `unitp
 (1360, 'NYYHY21', '7680.000', '18.000', '6297.600', 1250, 1250, 1, 281),
 (1361, 'XY2CE2A250', '4279000.000', '51.500', '2075315.000', 15, 8, 0, 282),
 (1362, 'XY2CE1A250', '4273500.000', '51.500', '2072647.500', 15, 0, 0, 282),
-(1363, 'XY2CZ402', '205150.000', '51.500', '99497.750', 30, 0, 0, 282),
-(1364, 'XY2CZ503', '57750.000', '51.500', '28008.750', 120, 0, 0, 282),
+(1363, 'XY2CZ402', '205150.000', '51.500', '99497.750', 30, 30, 1, 282),
+(1364, 'XY2CZ503', '57750.000', '51.500', '28008.750', 120, 120, 1, 282),
 (1365, 'XB5AD33', '122100.000', '50.000', '61050.000', 18, 18, 1, 282),
 (1366, 'XB5AD21', '101200.000', '50.000', '50600.000', 13, 13, 1, 282),
 (1367, 'LV540315', '4441800.000', '51.000', '2176482.000', 2, 2, 1, 282),
@@ -19514,7 +19721,8 @@ INSERT INTO `purchaseorder` (`id`, `reference`, `price_list`, `discount`, `unitp
 (1476, 'NYYHY3075', '7200.000', '18.000', '5904.000', 1000, 1000, 1, 304),
 (1477, 'NYYHY31', '10600.000', '18.000', '8692.000', 500, 500, 1, 304),
 (1478, 'NYYHY32', '15480.000', '18.000', '12693.600', 250, 0, 0, 304),
-(1479, 'NYM34', '34720.000', '54.000', '15971.200', 50, 50, 1, 304),
+(1479, 'NYM34', '34720.000', '54.000', '15971.200', 50, 50, 1, 304);
+INSERT INTO `purchaseorder` (`id`, `reference`, `price_list`, `discount`, `unitprice`, `quantity`, `received_quantity`, `status`, `purchaseorder_id`) VALUES
 (1480, 'NYA1H', '1615.000', '0.000', '1615.000', 100, 100, 1, 304),
 (1481, 'NYA1M', '1615.000', '0.000', '1615.000', 100, 100, 1, 304),
 (1482, 'NYYHY21', '7680.000', '18.000', '6297.600', 500, 500, 1, 304),
@@ -19714,30 +19922,36 @@ INSERT INTO `purchaseorder` (`id`, `reference`, `price_list`, `discount`, `unitp
 (1678, 'NYYHY2075', '4480.000', '18.000', '3673.600', 600, 0, 0, 323),
 (1679, 'NYY1240', '263000.000', '0.000', '263000.000', 140, 0, 0, 324),
 (1680, 'BC50', '46000.000', '0.000', '46000.000', 35, 0, 0, 324),
-(1681, 'A9F74216', '337150.000', '51.000', '165203.500', 2, 0, 0, 51),
-(1682, 'A9F84206', '686950.000', '51.000', '336605.500', 1, 0, 0, 51),
-(1683, 'LRD04', '388000.000', '46.000', '209520.000', 10, 0, 0, 51),
-(1684, 'LRD06', '388000.000', '46.000', '209520.000', 5, 0, 0, 51),
-(1685, 'LRD32', '577500.000', '46.000', '311850.000', 10, 0, 0, 51),
-(1686, 'GV3S', '1105000.000', '46.000', '596700.000', 30, 0, 0, 51),
-(1687, 'LAD9R1V', '470500.000', '46.000', '254070.000', 20, 0, 0, 51),
-(1688, 'LAD9R3', '1273000.000', '46.000', '687420.000', 20, 0, 0, 51),
-(1689, 'LAD93217', '2257000.000', '46.000', '1218780.000', 30, 0, 0, 51),
-(1690, 'LAD9SD3', '3517000.000', '46.000', '1899180.000', 30, 0, 0, 51),
-(1691, 'LV429840', '1919500.000', '51.000', '940555.000', 5, 0, 0, 51),
-(1692, 'LV429841', '1919500.000', '51.000', '940555.000', 5, 0, 0, 51),
-(1693, 'GV2ME04', '636500.000', '46.000', '343710.000', 1, 0, 0, 51),
-(1694, 'GV2P32', '1831000.000', '46.000', '988740.000', 10, 0, 0, 51),
-(1695, 'GV2P02', '907500.000', '46.000', '490050.000', 10, 0, 0, 51),
-(1696, 'GV3L40', '2086000.000', '46.000', '1126440.000', 15, 0, 0, 51),
-(1697, 'GV3P40', '2246000.000', '46.000', '1212840.000', 15, 0, 0, 51),
-(1698, 'LC1D50AM7', '1614000.000', '46.000', '871560.000', 7, 0, 0, 51),
-(1699, 'LRD340', '1126000.000', '46.000', '608040.000', 10, 0, 0, 51),
-(1700, 'A9F74320', '512050.000', '51.000', '250904.500', 2, 0, 0, 51),
-(1701, 'A9F74316', '512050.000', '51.000', '250904.500', 2, 0, 0, 51),
-(1702, 'LV525333', '2843500.000', '51.000', '1393315.000', 2, 0, 0, 51),
-(1703, 'XB5AS9442', '149600.000', '50.000', '74800.000', 15, 0, 0, 51),
-(1704, 'ZBE101', '31900.000', '50.000', '15950.000', 20, 0, 0, 51);
+(1681, 'A9F74216', '337150.000', '51.000', '165203.500', 2, 0, 0, 325),
+(1682, 'A9F84206', '686950.000', '51.000', '336605.500', 1, 0, 0, 325),
+(1683, 'LRD04', '388000.000', '46.000', '209520.000', 10, 0, 0, 325),
+(1684, 'LRD06', '388000.000', '46.000', '209520.000', 5, 0, 0, 325),
+(1685, 'LRD32', '577500.000', '46.000', '311850.000', 10, 0, 0, 325),
+(1686, 'GV3S', '1105000.000', '46.000', '596700.000', 30, 0, 0, 325),
+(1687, 'LAD9R1V', '470500.000', '46.000', '254070.000', 20, 0, 0, 325),
+(1688, 'LAD9R3', '1273000.000', '46.000', '687420.000', 20, 0, 0, 325),
+(1689, 'LAD93217', '2257000.000', '46.000', '1218780.000', 30, 0, 0, 325),
+(1690, 'LAD9SD3', '3517000.000', '46.000', '1899180.000', 30, 0, 0, 325),
+(1691, 'LV429840', '1919500.000', '51.000', '940555.000', 5, 0, 0, 325),
+(1692, 'LV429841', '1919500.000', '51.000', '940555.000', 5, 0, 0, 325),
+(1693, 'GV2ME04', '636500.000', '46.000', '343710.000', 1, 0, 0, 325),
+(1694, 'GV2P32', '1831000.000', '46.000', '988740.000', 10, 0, 0, 325),
+(1695, 'GV2P02', '907500.000', '46.000', '490050.000', 10, 0, 0, 325),
+(1696, 'GV3L40', '2086000.000', '46.000', '1126440.000', 15, 0, 0, 325),
+(1697, 'GV3P40', '2246000.000', '46.000', '1212840.000', 15, 0, 0, 325),
+(1698, 'LC1D50AM7', '1614000.000', '46.000', '871560.000', 7, 0, 0, 325),
+(1699, 'LRD340', '1126000.000', '46.000', '608040.000', 10, 0, 0, 325),
+(1700, 'A9F74320', '512050.000', '51.000', '250904.500', 2, 0, 0, 325),
+(1701, 'A9F74316', '512050.000', '51.000', '250904.500', 2, 0, 0, 325),
+(1702, 'LV525333', '2843500.000', '51.000', '1393315.000', 2, 0, 0, 325),
+(1703, 'XB5AS9442', '149600.000', '50.000', '74800.000', 15, 0, 0, 325),
+(1704, 'ZBE101', '31900.000', '50.000', '15950.000', 20, 0, 0, 325),
+(1705, 'TRAYTEK3010C', '450000.000', '0.000', '450000.000', 10, 0, 0, 326),
+(1706, 'TRAYTEK3010EL', '235000.000', '0.000', '235000.000', 2, 0, 0, 326),
+(1707, 'TRAYTEK3010T', '310000.000', '0.000', '310000.000', 1, 0, 0, 326),
+(1708, 'B242/20', '600.000', '0.000', '600.000', 20, 0, 0, 326),
+(1709, 'B261/20', '600.000', '0.000', '600.000', 20, 0, 0, 326),
+(1710, 'B9020', '8500.000', '0.000', '8500.000', 12, 0, 0, 326);
 
 -- --------------------------------------------------------
 
@@ -19745,8 +19959,8 @@ INSERT INTO `purchaseorder` (`id`, `reference`, `price_list`, `discount`, `unitp
 -- Table structure for table `purchases`
 --
 
-CREATE TABLE IF NOT EXISTS `purchases` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `purchases` (
+  `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `supplier_id` int(255) NOT NULL,
   `faktur` varchar(50) NOT NULL,
@@ -19756,10 +19970,8 @@ CREATE TABLE IF NOT EXISTS `purchases` (
   `isconfirm` tinyint(1) NOT NULL DEFAULT '0',
   `isdone` tinyint(1) NOT NULL DEFAULT '0',
   `created_by` int(10) NOT NULL,
-  `guid` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `supplier_id` (`supplier_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=619 DEFAULT CHARSET=latin1;
+  `guid` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchases`
@@ -20264,7 +20476,8 @@ INSERT INTO `purchases` (`id`, `date`, `supplier_id`, `faktur`, `name`, `keteran
 (565, '2019-11-01', 2, '010.007.19-29375616', '010.007.19-29375616', '', '4554396.00', 1, 0, 1, NULL),
 (566, '2019-11-01', 2, '010.007.19-29375617', '010.007.19-29375617', '', '38525025.00', 1, 0, 1, NULL),
 (567, '2019-11-02', 2, '010.007.19-29375638', '010.007.19-29375638', '', '5928035.30', 1, 0, 1, NULL),
-(568, '2019-11-05', 2, '010.007.19-29375690', '010.007.19-29375690', '', '56763234.00', 1, 0, 1, NULL),
+(568, '2019-11-05', 2, '010.007.19-29375690', '010.007.19-29375690', '', '56763234.00', 1, 0, 1, NULL);
+INSERT INTO `purchases` (`id`, `date`, `supplier_id`, `faktur`, `name`, `keterangan`, `value`, `isconfirm`, `isdone`, `created_by`, `guid`) VALUES
 (569, '2019-11-07', 2, '010.007.19-29375741', '010.007.19-29375741', '', '77519596.44', 1, 0, 1, NULL),
 (570, '2019-10-26', 4, '010.006.19-83756321', '010.006-19.83756321', '', '1926705.00', 1, 0, 3, NULL),
 (571, '2019-10-28', 4, '010.006.19-83756410', '010.006-19.83756410', '', '724801.00', 1, 0, 3, NULL),
@@ -20322,14 +20535,13 @@ INSERT INTO `purchases` (`id`, `date`, `supplier_id`, `faktur`, `name`, `keteran
 -- Table structure for table `purchase_return`
 --
 
-CREATE TABLE IF NOT EXISTS `purchase_return` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `purchase_return` (
+  `id` int(255) NOT NULL,
   `reference` varchar(100) NOT NULL,
   `quantity` int(100) NOT NULL,
   `price` decimal(20,2) NOT NULL,
-  `code_id` int(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `code_id` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `purchase_return`
@@ -20344,17 +20556,15 @@ INSERT INTO `purchase_return` (`id`, `reference`, `quantity`, `price`, `code_id`
 -- Table structure for table `quotation`
 --
 
-CREATE TABLE IF NOT EXISTS `quotation` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `quotation` (
+  `id` int(255) NOT NULL,
   `reference` varchar(50) NOT NULL,
   `price_list` decimal(30,3) NOT NULL,
   `discount` decimal(11,4) NOT NULL,
   `net_price` decimal(30,3) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `quotation_code` int(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `quotation_code` (`quotation_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=5404 DEFAULT CHARSET=latin1;
+  `quotation_code` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `quotation`
@@ -21127,7 +21337,8 @@ INSERT INTO `quotation` (`id`, `reference`, `price_list`, `discount`, `net_price
 (2562, 'NYMHY31', '9540.000', '0.0000', '9540.000', 50, 193),
 (2563, 'DOM12252SNI', '81950.000', '32.0000', '55726.000', 4, 193),
 (2566, 'LC1D80M7', '2272000.000', '35.0000', '1476800.000', 1, 174),
-(2567, 'LADN31', '214500.000', '35.0000', '139425.000', 1, 174),
+(2567, 'LADN31', '214500.000', '35.0000', '139425.000', 1, 174);
+INSERT INTO `quotation` (`id`, `reference`, `price_list`, `discount`, `net_price`, `quantity`, `quotation_code`) VALUES
 (2568, 'LC1D80M7', '2272000.000', '37.0000', '1431360.000', 1, 189),
 (2569, 'LADN31', '214500.000', '37.0000', '135135.000', 1, 189),
 (2570, 'LRD35', '582500.000', '35.0000', '378625.000', 2, 194),
@@ -21363,8 +21574,7 @@ INSERT INTO `quotation` (`id`, `reference`, `price_list`, `discount`, `net_price
 (3362, 'EZC100N3060', '951500.000', '43.0000', '542355.000', 6, 242),
 (3363, 'EZC100N3030', '871200.000', '43.0000', '496584.000', 6, 242),
 (3364, 'XB7EV03MP', '62700.000', '40.0000', '37620.000', 1, 242),
-(3365, 'XB7EV04MP', '62700.000', '40.0000', '37620.000', 1, 242);
-INSERT INTO `quotation` (`id`, `reference`, `price_list`, `discount`, `net_price`, `quantity`, `quotation_code`) VALUES
+(3365, 'XB7EV04MP', '62700.000', '40.0000', '37620.000', 1, 242),
 (3366, 'XB7EV05MP', '62700.000', '40.0000', '37620.000', 1, 242),
 (3367, 'K1F027MLHL', '568700.000', '40.0000', '341220.000', 1, 242),
 (3368, 'XB4BD33', '174900.000', '35.0000', '113685.000', 13, 243),
@@ -21886,7 +22096,8 @@ INSERT INTO `quotation` (`id`, `reference`, `price_list`, `discount`, `net_price
 (3974, 'NYYHY410', '65520.000', '2.0000', '64209.600', 1000, 348),
 (3975, 'GV2ME32', '1491000.000', '40.0000', '894600.000', 1, 349),
 (3976, 'LRD32', '577500.000', '40.0000', '346500.000', 1, 349),
-(3977, 'XB5AW33M5', '167750.000', '30.0000', '117425.000', 1, 349),
+(3977, 'XB5AW33M5', '167750.000', '30.0000', '117425.000', 1, 349);
+INSERT INTO `quotation` (`id`, `reference`, `price_list`, `discount`, `net_price`, `quantity`, `quotation_code`) VALUES
 (3978, 'XB5AW34M5', '167750.000', '30.0000', '117425.000', 1, 349),
 (3979, 'DOM11341SNI', '66550.000', '30.0000', '46585.000', 1, 349),
 (3980, 'NYY310', '42500.000', '0.0000', '42500.000', 100, 349),
@@ -22363,8 +22574,7 @@ INSERT INTO `quotation` (`id`, `reference`, `price_list`, `discount`, `net_price
 (4565, 'NYAF2M', '3200.000', '0.0000', '3200.000', 3000, 468),
 (4566, 'DOM12520', '577500.000', '30.0000', '404250.000', 3, 469),
 (4567, 'LC1D25M7', '575500.000', '40.0000', '345300.000', 1, 469),
-(4568, 'NSYCVF165M230PF', '1345000.000', '30.0000', '941500.000', 2, 469);
-INSERT INTO `quotation` (`id`, `reference`, `price_list`, `discount`, `net_price`, `quantity`, `quotation_code`) VALUES
+(4568, 'NSYCVF165M230PF', '1345000.000', '30.0000', '941500.000', 2, 469),
 (4569, 'NSYCAG223LPF', '423500.000', '30.0000', '296450.000', 2, 469),
 (4570, 'A9R71225', '714450.000', '40.0000', '428670.000', 1, 469),
 (4571, 'A9A27005', '1862300.000', '30.0000', '1303610.000', 1, 469),
@@ -22649,7 +22859,8 @@ INSERT INTO `quotation` (`id`, `reference`, `price_list`, `discount`, `net_price
 (4877, '51006541M0', '4004000.000', '10.0000', '3603600.000', 1, 525),
 (4878, '51006542M0', '4004000.000', '10.0000', '3603600.000', 1, 525),
 (4879, 'F-SM6-EP-M', '5834400.000', '10.0000', '5250960.000', 2, 525),
-(4881, 'LC1D50AM7', '1614000.000', '42.0000', '936120.000', 4, 526),
+(4881, 'LC1D50AM7', '1614000.000', '42.0000', '936120.000', 4, 526);
+INSERT INTO `quotation` (`id`, `reference`, `price_list`, `discount`, `net_price`, `quantity`, `quotation_code`) VALUES
 (4882, 'LRD332', '1050000.000', '42.0000', '609000.000', 4, 526),
 (4883, 'LC1D18M7', '423500.000', '42.0000', '245630.000', 1, 527),
 (4884, 'LRD10', '388000.000', '42.0000', '225040.000', 1, 527),
@@ -22985,11 +23196,10 @@ INSERT INTO `quotation` (`id`, `reference`, `price_list`, `discount`, `net_price
 -- Table structure for table `reason`
 --
 
-CREATE TABLE IF NOT EXISTS `reason` (
-  `id` int(3) NOT NULL AUTO_INCREMENT,
-  `name` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+CREATE TABLE `reason` (
+  `id` int(3) NOT NULL,
+  `name` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `reason`
@@ -23007,14 +23217,13 @@ INSERT INTO `reason` (`id`, `name`) VALUES
 -- Table structure for table `receivable`
 --
 
-CREATE TABLE IF NOT EXISTS `receivable` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `receivable` (
+  `id` int(11) NOT NULL,
   `invoice_id` int(11) NOT NULL,
   `date` date NOT NULL,
   `value` decimal(20,2) NOT NULL,
-  `bank_id` int(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=399 DEFAULT CHARSET=latin1;
+  `bank_id` int(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `receivable`
@@ -23415,7 +23624,8 @@ INSERT INTO `receivable` (`id`, `invoice_id`, `date`, `value`, `bank_id`) VALUES
 (395, 772, '2019-07-04', '117975.00', 927),
 (396, 773, '2019-07-04', '825825.00', 927),
 (397, 580, '2019-04-01', '116000.00', 929),
-(398, 829, '2019-07-15', '225400.00', 953);
+(398, 829, '2019-07-15', '225400.00', 953),
+(399, 918, '2019-08-30', '45169277.00', 1136);
 
 -- --------------------------------------------------------
 
@@ -23423,8 +23633,8 @@ INSERT INTO `receivable` (`id`, `invoice_id`, `date`, `value`, `bank_id`) VALUES
 -- Table structure for table `salary`
 --
 
-CREATE TABLE IF NOT EXISTS `salary` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `salary` (
+  `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `working` int(11) NOT NULL,
   `daily` decimal(20,2) NOT NULL,
@@ -23432,10 +23642,8 @@ CREATE TABLE IF NOT EXISTS `salary` (
   `bonus` int(11) NOT NULL,
   `deduction` int(11) NOT NULL,
   `month` int(11) NOT NULL,
-  `year` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+  `year` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `salary`
@@ -23476,7 +23684,8 @@ INSERT INTO `salary` (`id`, `user_id`, `working`, `daily`, `basic`, `bonus`, `de
 (36, 3, 25, '60000.00', '1300000.00', 0, 0, 11, 2019),
 (37, 4, 25, '0.00', '500000.00', 0, 0, 11, 2019),
 (38, 8, 25, '60000.00', '500000.00', 0, 0, 11, 2019),
-(39, 10, 7, '0.00', '700000.00', 0, 0, 11, 2019);
+(39, 10, 7, '0.00', '700000.00', 0, 0, 11, 2019),
+(40, 2, 25, '0.00', '3300000.00', 1536112, 0, 11, 2019);
 
 -- --------------------------------------------------------
 
@@ -23484,8 +23693,8 @@ INSERT INTO `salary` (`id`, `user_id`, `working`, `daily`, `basic`, `bonus`, `de
 -- Table structure for table `sales_order`
 --
 
-CREATE TABLE IF NOT EXISTS `sales_order` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `sales_order` (
+  `id` int(11) NOT NULL,
   `reference` varchar(200) NOT NULL,
   `price` decimal(20,2) NOT NULL,
   `discount` decimal(5,2) NOT NULL,
@@ -23493,9 +23702,8 @@ CREATE TABLE IF NOT EXISTS `sales_order` (
   `quantity` int(255) NOT NULL,
   `sent_quantity` int(255) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
-  `so_id` int(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2048 DEFAULT CHARSET=latin1;
+  `so_id` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sales_order`
@@ -24248,7 +24456,8 @@ INSERT INTO `sales_order` (`id`, `reference`, `price`, `discount`, `price_list`,
 (748, 'NYY1300', '368510.00', '10.12', '410000.00', 120, 120, 1, 308),
 (749, 'NYY1185', '220210.00', '10.12', '245000.00', 424, 424, 1, 308),
 (750, 'NYY44', '27935.00', '6.89', '30003.00', 50, 50, 1, 308),
-(751, 'NYM32', '10980.00', '8.50', '12000.00', 100, 100, 1, 308),
+(751, 'NYM32', '10980.00', '8.50', '12000.00', 100, 100, 1, 308);
+INSERT INTO `sales_order` (`id`, `reference`, `price`, `discount`, `price_list`, `quantity`, `sent_quantity`, `status`, `so_id`) VALUES
 (752, 'NYA70KH', '99500.01', '42.02', '171600.00', 24, 24, 1, 308),
 (753, 'LC1D09M7', '150975.00', '45.00', '274500.00', 5, 5, 1, 309),
 (754, 'LC1D18M7', '232925.00', '45.00', '423500.00', 5, 5, 1, 309),
@@ -24478,8 +24687,7 @@ INSERT INTO `sales_order` (`id`, `reference`, `price`, `discount`, `price_list`,
 (979, 'EZC250F3200', '1011120.00', '40.00', '1685200.00', 2, 2, 1, 390),
 (980, 'EZC250F3160', '960300.00', '40.00', '1600500.00', 1, 1, 1, 390),
 (981, 'EZC250N3125', '934560.00', '40.00', '1557600.00', 2, 2, 1, 390),
-(982, 'EZC100F3100', '466950.00', '40.00', '778250.00', 1, 1, 1, 390);
-INSERT INTO `sales_order` (`id`, `reference`, `price`, `discount`, `price_list`, `quantity`, `sent_quantity`, `status`, `so_id`) VALUES
+(982, 'EZC100F3100', '466950.00', '40.00', '778250.00', 1, 1, 1, 390),
 (983, 'LC1D65AM7', '1465100.00', '35.00', '2254000.00', 6, 6, 1, 390),
 (984, 'LC1D18M7', '264000.00', '37.66', '423500.00', 2, 2, 1, 391),
 (985, 'EZC100F3075', '505863.00', '35.00', '778250.00', 1, 1, 1, 391),
@@ -24549,7 +24757,7 @@ INSERT INTO `sales_order` (`id`, `reference`, `price`, `discount`, `price_list`,
 (1050, 'LRD12', '252200.00', '35.00', '388000.00', 1, 1, 1, 414),
 (1051, 'RXM2AB1P7', '59345.00', '35.00', '91300.00', 1, 1, 1, 414),
 (1052, 'RXM4LB1P7', '39325.00', '35.00', '60500.00', 1, 1, 1, 414),
-(1053, 'EZC100N3060', '570900.00', '40.00', '951500.00', 1, 1, 1, 415),
+(1053, 'EZC100N3063', '570900.00', '40.00', '951500.00', 1, 1, 1, 415),
 (1054, 'LV429632', '935935.00', '44.75', '1694000.00', 10, 10, 1, 416),
 (1055, '29450', '243100.00', '44.75', '440000.00', 20, 20, 1, 416),
 (1056, 'LV429388', '610789.00', '44.75', '1105500.00', 19, 19, 1, 416),
@@ -24984,7 +25192,8 @@ INSERT INTO `sales_order` (`id`, `reference`, `price`, `discount`, `price_list`,
 (1489, 'GV2ME22', '0.00', '100.00', '999500.00', 10, 10, 1, 561),
 (1490, 'GV2ME32', '0.00', '100.00', '1491000.00', 10, 10, 1, 561),
 (1491, 'LC1D12M7', '0.00', '100.00', '322000.00', 10, 10, 1, 561),
-(1492, 'DOM12251SNI', '0.00', '100.00', '81950.00', 5, 5, 1, 561),
+(1492, 'DOM12251SNI', '0.00', '100.00', '81950.00', 5, 5, 1, 561);
+INSERT INTO `sales_order` (`id`, `reference`, `price`, `discount`, `price_list`, `quantity`, `sent_quantity`, `status`, `so_id`) VALUES
 (1493, 'DOM12252SNI', '0.00', '100.00', '81950.00', 5, 5, 1, 561),
 (1494, 'DOM11340SNI', '0.00', '100.00', '66550.00', 5, 5, 1, 561),
 (1495, 'DOM11341SNI', '0.00', '100.00', '66550.00', 5, 5, 1, 561),
@@ -25453,8 +25662,7 @@ INSERT INTO `sales_order` (`id`, `reference`, `price`, `discount`, `price_list`,
 (1970, 'LRD22', '272399.60', '0.00', '272399.60', 2, 2, 1, 771),
 (1971, 'LRD21', '264000.00', '0.00', '264000.00', 2, 2, 1, 771),
 (1972, 'LRD12', '218000.20', '0.00', '218000.20', 3, 3, 1, 771),
-(1973, 'LRD07', '218000.20', '0.00', '218000.20', 9, 9, 1, 771);
-INSERT INTO `sales_order` (`id`, `reference`, `price`, `discount`, `price_list`, `quantity`, `sent_quantity`, `status`, `so_id`) VALUES
+(1973, 'LRD07', '218000.20', '0.00', '218000.20', 9, 9, 1, 771),
 (1974, 'LRD08', '218000.20', '0.00', '218000.20', 7, 7, 1, 771),
 (1975, 'LRD10', '218000.20', '0.00', '218000.20', 6, 6, 1, 771),
 (1976, 'NYAF1KH', '1650.00', '0.00', '1650.00', 200, 200, 1, 771),
@@ -25528,7 +25736,92 @@ INSERT INTO `sales_order` (`id`, `reference`, `price`, `discount`, `price_list`,
 (2044, 'DOM12524', '416262.00', '32.00', '612150.00', 12, 12, 1, 800),
 (2045, 'DOM12524', '416262.00', '32.00', '612150.00', 48, 48, 1, 801),
 (2046, 'A9E21180', '833398.50', '47.00', '1572450.00', 50, 50, 1, 802),
-(2047, 'METSEDM1310', '378840.00', '40.00', '631400.00', 20, 20, 1, 803);
+(2047, 'METSEDM1310', '378840.00', '40.00', '631400.00', 20, 20, 1, 803),
+(2048, 'DOM12252SNI', '53267.50', '35.00', '81950.00', 36, 36, 1, 804),
+(2049, 'DOM11340SNI', '43257.50', '35.00', '66550.00', 60, 60, 1, 804),
+(2050, 'DOM11341SNI', '43257.50', '35.00', '66550.00', 60, 60, 1, 804),
+(2051, 'DOM11342SNI', '43257.50', '35.00', '66550.00', 60, 60, 1, 804),
+(2052, 'DOM11344SNI', '48977.50', '35.00', '75350.00', 12, 12, 1, 804),
+(2053, 'DOM11345SNI', '50765.00', '35.00', '78100.00', 12, 12, 1, 804),
+(2054, 'LC1D25BD', '914540.00', '41.00', '1550000.00', 4, 4, 1, 805),
+(2055, 'CA2KN22M7', '129635.00', '42.00', '223500.00', 15, 15, 1, 806),
+(2056, 'XB5AW34M5', '94270.00', '43.80', '167750.00', 40, 40, 1, 806),
+(2057, 'NYFGBY310', '57500.00', '4.45', '60179.00', 850, 850, 1, 807),
+(2058, 'DOM12252SNI', '55726.00', '32.00', '81950.00', 12, 12, 1, 808),
+(2059, 'DOM11341SNI', '45254.00', '32.00', '66550.00', 12, 12, 1, 808),
+(2060, 'NYM21', '5444.80', '17.00', '6560.00', 50, 50, 1, 809),
+(2061, 'NYYHY2075', '3718.40', '17.00', '4480.00', 100, 100, 1, 809),
+(2062, 'LC1D18M7', '241395.00', '43.00', '423500.00', 6, 6, 1, 810),
+(2063, 'ATV320U55N4B', '5279354.08', '49.04', '10359800.00', 10, 5, 1, 811),
+(2064, 'ATV320D15N4B', '9320991.68', '49.04', '18290800.00', 2, 0, 1, 811),
+(2065, 'DOM11353SNI', '255442.00', '32.00', '375650.00', 12, 12, 1, 812),
+(2066, 'NYM32', '9960.00', '17.00', '12000.00', 150, 150, 1, 813),
+(2067, 'RE17RAMU', '297082.00', '36.39', '467050.00', 1, 1, 1, 814),
+(2068, 'LC1F500', '16116001.00', '40.00', '26860000.00', 4, 4, 1, 815),
+(2069, 'LX1FK220', '2512200.90', '40.00', '4187000.00', 4, 4, 1, 815),
+(2070, 'LV429630', '965580.00', '43.00', '1694000.00', 10, 10, 1, 815),
+(2071, 'EZC250F3250', '960564.00', '43.00', '1685200.00', 4, 4, 1, 815),
+(2072, 'LC1D38M7', '562200.00', '40.00', '937000.00', 1, 1, 1, 816),
+(2073, 'NYM21', '5335.91', '18.66', '6560.00', 300, 300, 1, 817),
+(2074, 'NYM31', '6845.58', '18.66', '8416.00', 300, 300, 1, 817),
+(2075, 'NYM32', '9760.80', '18.66', '12000.00', 500, 500, 1, 817),
+(2076, 'NYM42', '12428.75', '18.66', '15280.00', 300, 300, 1, 817),
+(2077, 'NYMHY21', '6246.91', '18.66', '7680.00', 950, 950, 1, 817),
+(2078, 'NYYHY32', '12591.43', '18.66', '15480.00', 50, 50, 1, 817),
+(2079, 'NYM21', '8761.00', '-33.55', '6560.00', 50, 50, 1, 818),
+(2080, 'NYM31', '11239.00', '-33.54', '8416.00', 50, 50, 1, 818),
+(2081, '33466E', '14804120.10', '46.10', '27465900.00', 2, 2, 1, 819),
+(2082, '33466E', '14804120.00', '46.10', '27465900.00', 2, 2, 1, 820),
+(2083, 'A9K27216', '191620.00', '-84.34', '103950.00', 1, 1, 1, 821),
+(2084, 'LC1K0910M7', '168300.00', '40.00', '280500.00', 3, 3, 1, 822),
+(2085, 'LR2K0310', '272400.00', '40.00', '454000.00', 12, 12, 1, 822),
+(2086, 'DOM11348SNI', '213180.00', '32.00', '313500.00', 7, 7, 1, 822),
+(2087, 'DOM11352SNI', '247588.00', '32.00', '364100.00', 1, 1, 1, 822),
+(2088, 'DOM11353SNI', '255442.00', '32.00', '375650.00', 2, 2, 1, 822),
+(2090, 'LC1D115M7', '2770883.50', '22.32', '3567000.00', 3, 3, 1, 824),
+(2091, 'NYM32', '9960.00', '17.00', '12000.00', 1400, 1400, 1, 825),
+(2092, 'NYY46', '36278.00', '45.10', '66080.00', 100, 100, 1, 826),
+(2093, 'NYA1H', '2000.00', '43.18', '3520.00', 800, 800, 1, 826),
+(2094, 'NYA1M', '2000.00', '43.18', '3520.00', 800, 800, 1, 826),
+(2095, 'NYAF2B', '3200.00', '44.54', '5770.00', 900, 900, 1, 827),
+(2096, 'EZC250N3250', '1073193.00', '49.00', '2104300.00', 10, 10, 1, 828),
+(2097, 'EZC250N3200', '1073193.00', '49.00', '2104300.00', 10, 10, 1, 828),
+(2098, 'EZC250N3160', '902649.00', '49.00', '1769900.00', 10, 10, 1, 828),
+(2099, 'EZC250N3125', '865623.00', '49.00', '1697300.00', 10, 10, 1, 828),
+(2100, 'EZC100N3060', '485265.00', '49.00', '951500.00', 20, 20, 1, 828),
+(2101, 'EZC100N3050', '444312.00', '49.00', '871200.00', 20, 20, 1, 828),
+(2102, 'EZC100N3030', '444312.00', '49.00', '871200.00', 20, 20, 1, 828),
+(2103, 'NW32H13F2EH', '39224559.00', '49.00', '76910900.00', 1, 1, 1, 828),
+(2104, 'EZC100F3025', '457243.00', '35.00', '703450.00', 1, 1, 1, 829),
+(2105, 'ABL2REM24085H', '524370.00', '0.00', '524370.00', 1, 1, 1, 830),
+(2106, 'EZC100N1100', '280170.00', '40.00', '466950.00', 11, 11, 1, 831),
+(2107, 'LV432893', '6204275.00', '45.00', '11280500.00', 3, 3, 1, 832),
+(2108, 'LC1DWK12M7', '2068000.00', '43.51', '3661000.00', 12, 12, 1, 833),
+(2109, 'LADT2', '586500.00', '40.00', '977500.00', 3, 3, 1, 834),
+(2110, 'DOM11349SNI', '213180.00', '32.00', '313500.00', 3, 3, 1, 834),
+(2111, 'BLRCH104A125B40', '1254825.00', '35.00', '1930500.00', 2, 2, 1, 835),
+(2112, 'A9E21180', '833398.50', '47.00', '1572450.00', 50, 50, 1, 836),
+(2113, 'NYM32', '9779.00', '18.51', '12000.00', 1500, 1500, 1, 837),
+(2114, 'LC1K0610D7', '166078.00', '35.00', '255500.00', 2, 2, 1, 838),
+(2115, 'LC1D12M7', '209300.00', '35.00', '322000.00', 2, 2, 1, 839),
+(2116, 'EZC250N3200', '1350000.00', '35.85', '2104300.00', 1, 1, 1, 840),
+(2117, 'NFA2X216', '5880.00', '18.33', '7200.00', 500, 500, 1, 841),
+(2118, 'A9F84316', '526020.00', '40.00', '876700.00', 2, 2, 1, 842),
+(2119, 'NYM22', '7808.64', '17.00', '9408.00', 400, 400, 1, 843),
+(2120, 'NYM32', '9960.00', '17.00', '12000.00', 100, 100, 1, 843),
+(2121, 'MVS20N3MF2A', '20143002.00', '43.00', '35338600.00', 1, 0, 0, 844),
+(2122, '51213', '3775167.00', '43.00', '6623100.00', 1, 0, 0, 844),
+(2123, 'LC1D80M7', '1249600.00', '45.00', '2272000.00', 12, 0, 0, 844),
+(2124, 'LV429642ATNSX22A', '16492608.00', '43.00', '28934400.00', 1, 0, 0, 844),
+(2125, 'LV429354', '1142394.00', '43.00', '2004200.00', 1, 1, 1, 844),
+(2126, 'EZC100F3030', '386897.50', '45.00', '703450.00', 6, 6, 1, 845),
+(2127, 'LC1D38M7', '537900.00', '42.59', '937000.00', 6, 6, 1, 845),
+(2128, 'LC1F265', '6103385.00', '42.98', '10703000.00', 1, 1, 1, 846),
+(2129, 'LX1FH2202', '946615.00', '42.98', '1660000.00', 1, 1, 1, 846),
+(2130, 'A9F74104', '77539.00', '47.00', '146300.00', 3, 3, 1, 847),
+(2131, 'A9F74110', '70834.50', '47.00', '133650.00', 12, 12, 1, 847),
+(2132, 'F-SM6R-QM-A1', '46411992.00', '0.00', '46411992.00', 1, 1, 1, 848),
+(2133, 'LC1D80E7', '1363200.00', '40.00', '2272000.00', 2, 2, 1, 849);
 
 -- --------------------------------------------------------
 
@@ -25536,15 +25829,14 @@ INSERT INTO `sales_order` (`id`, `reference`, `price`, `discount`, `price_list`,
 -- Table structure for table `sales_return`
 --
 
-CREATE TABLE IF NOT EXISTS `sales_return` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `sales_return` (
+  `id` int(11) NOT NULL,
   `delivery_order_id` int(255) NOT NULL,
   `quantity` int(11) NOT NULL,
   `received` int(11) NOT NULL DEFAULT '0',
   `isdone` tinyint(1) DEFAULT '0',
-  `return_id` int(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+  `return_id` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sales_return`
@@ -25564,13 +25856,12 @@ INSERT INTO `sales_return` (`id`, `delivery_order_id`, `quantity`, `received`, `
 -- Table structure for table `sales_return_received`
 --
 
-CREATE TABLE IF NOT EXISTS `sales_return_received` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `sales_return_received` (
+  `id` int(255) NOT NULL,
   `sales_return_id` int(255) NOT NULL,
   `received_id` int(255) NOT NULL,
-  `quantity` int(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+  `quantity` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sales_return_received`
@@ -25587,13 +25878,12 @@ INSERT INTO `sales_return_received` (`id`, `sales_return_id`, `received_id`, `qu
 -- Table structure for table `sample`
 --
 
-CREATE TABLE IF NOT EXISTS `sample` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `sample` (
+  `id` int(255) NOT NULL,
   `reference` varchar(50) NOT NULL,
   `quantity` int(20) NOT NULL,
-  `code_id` int(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `code_id` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sample`
@@ -25608,13 +25898,12 @@ INSERT INTO `sample` (`id`, `reference`, `quantity`, `code_id`) VALUES
 -- Table structure for table `service_delivery_order`
 --
 
-CREATE TABLE IF NOT EXISTS `service_delivery_order` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `service_delivery_order` (
+  `id` int(255) NOT NULL,
   `service_sales_order_id` int(255) NOT NULL,
   `quantity` int(255) NOT NULL,
-  `do_id` int(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+  `do_id` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `service_delivery_order`
@@ -25644,8 +25933,8 @@ INSERT INTO `service_delivery_order` (`id`, `service_sales_order_id`, `quantity`
 -- Table structure for table `service_sales_order`
 --
 
-CREATE TABLE IF NOT EXISTS `service_sales_order` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `service_sales_order` (
+  `id` int(255) NOT NULL,
   `description` text,
   `quantity` decimal(30,1) NOT NULL,
   `unit` varchar(30) NOT NULL DEFAULT 'Lot',
@@ -25653,9 +25942,8 @@ CREATE TABLE IF NOT EXISTS `service_sales_order` (
   `unitprice` decimal(30,2) NOT NULL,
   `so_id` int(11) NOT NULL,
   `date_done` date NOT NULL,
-  `isdone` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+  `isdone` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `service_sales_order`
@@ -25686,8 +25974,8 @@ INSERT INTO `service_sales_order` (`id`, `description`, `quantity`, `unit`, `don
 -- Table structure for table `stock`
 --
 
-CREATE TABLE IF NOT EXISTS `stock` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `stock` (
+  `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `reference` varchar(50) NOT NULL,
   `transaction` text NOT NULL,
@@ -25695,9 +25983,8 @@ CREATE TABLE IF NOT EXISTS `stock` (
   `stock` int(11) NOT NULL,
   `supplier_id` int(11) DEFAULT '0',
   `customer_id` int(11) DEFAULT '0',
-  `document` varchar(30) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4246 DEFAULT CHARSET=latin1;
+  `document` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `stock`
@@ -25871,7 +26158,7 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (165, '2018-12-31', 'EZC100N3020', 'IN', 6, 6, 0, 0, 'Stock awal'),
 (166, '2018-12-31', 'EZC100N3040', 'IN', 7, 7, 0, 0, 'Stock awal'),
 (167, '2018-12-31', 'EZC100N3050', 'IN', 27, 27, 0, 0, 'Stock awal'),
-(168, '2018-12-31', 'EZC100N3060', 'IN', 16, 16, 0, 0, 'Stock awal'),
+(168, '2018-12-31', 'EZC100N3060', 'IN', 17, 17, 0, 0, 'Stock awal'),
 (169, '2018-12-31', 'EZC100N3063', 'IN', 192, 192, 0, 0, 'Stock awal'),
 (170, '2018-12-31', 'EZC100N3100', 'IN', 42, 42, 0, 0, 'Stock awal'),
 (171, '2018-12-31', 'EZC250F3160', 'IN', 2, 2, 0, 0, 'Stock awal'),
@@ -26473,7 +26760,8 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (793, '2019-02-26', 'LRD08', 'IN', 2, 4, 2, 0, '0708'),
 (794, '2019-02-27', 'ATV312H075N4', 'IN', 1, 1, 7, 0, 'DO190215832V'),
 (795, '2019-02-27', 'METSEPM5100', 'IN', 5, 5, 2, 0, '0730'),
-(840, '2019-03-04', 'ABL1REM24100', 'IN', 1, 1, 2, 0, '0758'),
+(840, '2019-03-04', 'ABL1REM24100', 'IN', 1, 1, 2, 0, '0758');
+INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stock`, `supplier_id`, `customer_id`, `document`) VALUES
 (841, '2019-03-04', 'LRD08', 'IN', 2, 6, 2, 0, '0758'),
 (842, '2019-02-01', 'EZC100N3100', 'IN', 107, 132, 2, 0, '0358'),
 (843, '2019-03-04', 'EZC250F3160', 'IN', 4, 8, 2, 0, '0758'),
@@ -26699,8 +26987,7 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (1090, '2019-02-01', 'A9N18367', 'OUT', 2, 10, 0, 15, 'SJ-AE-04P.01-II-19'),
 (1091, '2019-02-20', 'LC1D50AM7', 'OUT', 15, 1, 0, 3, 'SJ-AE-05P.20-II-19'),
 (1092, '2019-02-15', 'LC1D65AM7', 'IN', 10, 24, 2, 0, '0572'),
-(1093, '2019-02-20', 'LV432693', 'OUT', 6, 4, 0, 3, 'SJ-AE-05P.20-II-19');
-INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stock`, `supplier_id`, `customer_id`, `document`) VALUES
+(1093, '2019-02-20', 'LV432693', 'OUT', 6, 4, 0, 3, 'SJ-AE-05P.20-II-19'),
 (1094, '2019-02-02', 'XB7NA21', 'OUT', 10, 15, 0, 26, 'SJ-AE-06P.02-II-19'),
 (1095, '2019-02-02', 'XB5AA42', 'OUT', 5, 10, 0, 26, 'SJ-AE-06P.02-II-19'),
 (1096, '2019-02-02', 'RE17RAMU', 'OUT', 4, 26, 0, 11, 'SJ-AE-09P.02-II-19'),
@@ -26988,7 +27275,7 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (1384, '2019-02-27', 'DOM11335SNI', 'OUT', 1, 21, 0, 35, 'SJ-AE-86N.27-II-19'),
 (1385, '2019-02-27', '29450', 'OUT', 2, 0, 0, 7, 'SJ-AE-87P.27-II-19'),
 (1386, '2019-02-28', 'NYM41', 'OUT', 100, 200, 0, 37, 'SJ-AE-88N.28-II-19'),
-(1387, '2019-02-28', 'EZC100N3060', 'OUT', 2, 14, 0, 20, 'SJ-AE-89P.28-II-19'),
+(1387, '2019-02-28', 'EZC100N3060', 'OUT', 2, 15, 0, 20, 'SJ-AE-89P.28-II-19'),
 (1388, '2019-03-01', 'NYAF05K', 'OUT', 700, 800, 0, 3, 'SJ-AE-01P.01-III-19'),
 (1389, '2019-03-01', 'LRD06', 'OUT', 4, 16, 0, 3, 'SJ-AE-01P.01-III-19'),
 (1390, '2019-03-01', 'LRD10', 'OUT', 4, 24, 0, 3, 'SJ-AE-01P.01-III-19'),
@@ -27164,7 +27451,8 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (1562, '2019-03-29', 'LC1D18M7', 'OUT', 3, 71, 0, 10, 'SJ-AE-81N.29-III-19'),
 (1563, '2019-03-29', 'LC1D32M7', 'OUT', 3, 7, 0, 10, 'SJ-AE-81N.29-III-19'),
 (1564, '2019-03-29', 'EZC100F3100', 'OUT', 1, 13, 0, 10, 'SJ-AE-82N.29-III-19'),
-(1565, '2019-03-29', 'LC1D50AM7', 'OUT', 3, 45, 0, 10, 'SJ-AE-82N.29-III-19'),
+(1565, '2019-03-29', 'LC1D50AM7', 'OUT', 3, 45, 0, 10, 'SJ-AE-82N.29-III-19');
+INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stock`, `supplier_id`, `customer_id`, `document`) VALUES
 (1566, '2019-03-30', 'LC1D18M7', 'OUT', 2, 69, 0, 47, 'SJ-AE-83N.30-III-19'),
 (1567, '2019-03-30', 'LC1D12M7', 'OUT', 1, 94, 0, 47, 'SJ-AE-83N.30-III-19'),
 (1568, '2019-03-30', 'LRD21', 'OUT', 1, 21, 0, 47, 'SJ-AE-83N.30-III-19'),
@@ -27605,8 +27893,7 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (2010, '2019-05-17', 'LV431630', 'OUT', 3, 0, 0, 3, 'SJ-AE-44P.17-V-19'),
 (2011, '2019-05-17', 'GV2ME21', 'OUT', 10, 13, 0, 3, 'SJ-AE-45P.17-V-19'),
 (2012, '2019-05-17', 'GV2ME20', 'OUT', 5, 23, 0, 3, 'SJ-AE-45P.17-V-19'),
-(2013, '2019-05-17', 'LRD08', 'OUT', 3, 0, 0, 11, 'SJ-AE-46P.17-V-19');
-INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stock`, `supplier_id`, `customer_id`, `document`) VALUES
+(2013, '2019-05-17', 'LRD08', 'OUT', 3, 0, 0, 11, 'SJ-AE-46P.17-V-19'),
 (2014, '2019-05-17', 'A9F74306', 'OUT', 3, 0, 0, 11, 'SJ-AE-46P.17-V-19'),
 (2015, '2019-05-17', 'XB5AVG1', 'OUT', 6, 0, 0, 3, 'SJ-AE-47P.17-V-19'),
 (2016, '2019-05-17', 'NYFGBY46', 'OUT', 80, 0, 0, 32, 'SJ-AE-48P.17-V-19'),
@@ -27692,7 +27979,7 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (2096, '2019-05-23', 'A9K14116', 'OUT', 8, 53, 0, 35, 'SJ-AE-72N.23-V-19'),
 (2097, '2019-05-23', 'EZC400N3400N', 'OUT', 1, 8, 0, 11, 'SJ-AE-74P.23-V-19'),
 (2098, '2019-05-23', 'EZC100N3100', 'OUT', 3, 7, 0, 11, 'SJ-AE-74P.23-V-19'),
-(2099, '2019-05-23', 'EZC100N3060', 'OUT', 6, 8, 0, 11, 'SJ-AE-74P.23-V-19'),
+(2099, '2019-05-23', 'EZC100N3060', 'OUT', 6, 9, 0, 11, 'SJ-AE-74P.23-V-19'),
 (2100, '2019-05-23', 'NYFGBY34', 'OUT', 500, 0, 0, 32, 'SJ-AE-75P.23-V-19'),
 (2101, '2019-05-24', 'GV2ME07', 'OUT', 10, 17, 0, 79, 'SJ-AE-76P.24-V-19'),
 (2102, '2019-05-24', '33466', 'OUT', 1, 0, 0, 55, 'SJ-AE-77P.24-V-19'),
@@ -27865,7 +28152,8 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (2269, '2019-06-24', '29450', 'OUT', 26, 21, 0, 27, 'SJ-AE-28P.24-VI-19'),
 (2270, '2019-06-24', 'XS608B1PAM12', 'OUT', 3, 0, 0, 3, 'SJ-AE-29P.24-VI-19'),
 (2271, '2019-06-24', 'NYY1240', 'OUT', 1000, 0, 0, 3, 'SJ-AE-30P.24-VI-19'),
-(2272, '2019-06-24', 'NYY1150', 'OUT', 1000, 0, 0, 3, 'SJ-AE-31P.24-VI-19'),
+(2272, '2019-06-24', 'NYY1150', 'OUT', 1000, 0, 0, 3, 'SJ-AE-31P.24-VI-19');
+INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stock`, `supplier_id`, `customer_id`, `document`) VALUES
 (2273, '2019-06-24', 'NYY470', 'OUT', 100, 0, 0, 3, 'SJ-AE-31P.24-VI-19'),
 (2274, '2019-06-25', 'EZC100N3080', 'OUT', 1, 13, 0, 10, 'SJ-AE-32N.25-VI-19'),
 (2275, '2019-06-25', 'LV510337', 'OUT', 1, 22, 0, 11, 'SJ-AE-33P.25-VI-19'),
@@ -27892,7 +28180,7 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (2296, '2019-06-26', 'LRD22', 'OUT', 1, 14, 0, 1, 'SJ-AE-37P.26-VI-19'),
 (2297, '2019-06-26', 'LRD12', 'OUT', 1, 22, 0, 1, 'SJ-AE-37P.26-VI-19'),
 (2298, '2019-06-26', 'RXM2AB1P7', 'OUT', 1, 64, 0, 1, 'SJ-AE-37P.26-VI-19'),
-(2299, '2019-06-27', 'EZC100N3060', 'OUT', 1, 7, 0, 0, 'SJ-AE-38N.27-VI-19'),
+(2299, '2019-06-27', 'EZC100N3063', 'OUT', 1, 77, 0, 0, 'SJ-AE-38N.27-VI-19'),
 (2300, '2019-06-27', 'RXM4LB1P7', 'OUT', 1, 1, 0, 1, 'SJ-AE-39P.27-VI-19'),
 (2301, '2019-06-27', 'RXM4LB1P7', 'OUT', 1, 0, 0, 1, 'SJ-AE-40P.27-VI-19'),
 (2302, '2019-06-27', 'LV429632', 'OUT', 10, 0, 0, 44, 'SJ-AE-41P.27-VI-19'),
@@ -28473,7 +28761,7 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (2883, '2019-08-26', 'BC95', 'IN', 10, 10, 4, 0, 'PI-SL-AI-OHOEB'),
 (2884, '2019-08-26', 'BC16', 'IN', 64, 64, 4, 0, 'PI-SL-AI-OHOEB'),
 (2885, '2019-08-26', 'BC10', 'IN', 50, 50, 4, 0, 'PI-SL-AI-OHOEB'),
-(2886, '2019-08-28', 'EZC100N3063', 'IN', 200, 278, 2, 0, '2841'),
+(2886, '2019-08-28', 'EZC100N3063', 'IN', 200, 277, 2, 0, '2841'),
 (2887, '2019-08-28', 'BC120', 'IN', 50, 50, 4, 0, 'PI-SL-AI-OHOHB'),
 (2888, '2019-08-28', 'BC70', 'IN', 25, 25, 4, 0, 'PI-SL-AI-OHOHB'),
 (2889, '2019-08-28', 'BC50', 'IN', 80, 80, 4, 0, 'PI-SL-AI-OHOHB'),
@@ -28527,8 +28815,7 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (2938, '2019-08-08', 'RXM2LB2P7', 'OUT', 31, 0, 0, 28, 'SJ-AE-15P.08-VIII-19'),
 (2939, '2019-08-08', 'RXZE1M2C', 'OUT', 31, 0, 0, 28, 'SJ-AE-15P.08-VIII-19'),
 (2940, '2019-08-08', 'A9A15310', 'OUT', 59, 29, 0, 28, 'SJ-AE-16P.08-VIII-19'),
-(2941, '2019-08-08', 'LV429406', 'OUT', 2, 0, 0, 79, 'SJ-AE-17P.08-VIII-19');
-INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stock`, `supplier_id`, `customer_id`, `document`) VALUES
+(2941, '2019-08-08', 'LV429406', 'OUT', 2, 0, 0, 79, 'SJ-AE-17P.08-VIII-19'),
 (2942, '2019-08-08', '29450', 'OUT', 6, 4, 0, 79, 'SJ-AE-17P.08-VIII-19'),
 (2943, '2019-08-08', 'A9D41620', 'OUT', 3, 0, 0, 4, 'SJ-AE-18P.08-VIII-19'),
 (2944, '2019-08-08', 'A9D41625', 'OUT', 8, 1, 0, 4, 'SJ-AE-18P.08-VIII-19'),
@@ -28571,7 +28858,8 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (2982, '2019-08-13', 'DOM11341SNI', 'OUT', 1, 148, 0, 31, 'SJ-AE-37N.13-VIII-19'),
 (2983, '2019-08-13', 'DOM11342SNI', 'OUT', 3, 283, 0, 31, 'SJ-AE-37N.13-VIII-19'),
 (2984, '2019-08-13', 'DOM11345SNI', 'OUT', 1, 87, 0, 31, 'SJ-AE-37N.13-VIII-19'),
-(2985, '2019-08-13', 'DOM11349SNI', 'OUT', 1, 22, 0, 31, 'SJ-AE-37N.13-VIII-19'),
+(2985, '2019-08-13', 'DOM11349SNI', 'OUT', 1, 22, 0, 31, 'SJ-AE-37N.13-VIII-19');
+INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stock`, `supplier_id`, `customer_id`, `document`) VALUES
 (2986, '2019-08-13', 'EZC100F3050', 'OUT', 300, 412, 0, 27, 'SJ-AE-38P.13-VIII-19'),
 (2987, '2019-08-13', 'EZASHT200AC', 'OUT', 300, 606, 0, 27, 'SJ-AE-38P.13-VIII-19'),
 (2989, '2019-08-13', 'A9F84120', 'OUT', 1, 35, 0, 1, 'SJ-AE-40P.13-VIII-19'),
@@ -29274,7 +29562,8 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (3699, '2019-09-20', 'A9F74316', 'OUT', 1, 14, 0, 11, 'SJ-AE-71P.20-IX-19'),
 (3700, '2019-09-21', 'LC1D95M7', 'OUT', 3, 4, 0, 3, 'SJ-AE-72P.21-IX-19'),
 (3701, '2019-09-21', 'LC1D32M7', 'OUT', 5, 52, 0, 3, 'SJ-AE-72P.21-IX-19'),
-(3702, '2019-09-21', 'LC1D09M7', 'OUT', 7, 54, 0, 3, 'SJ-AE-73P.21-IX-19'),
+(3702, '2019-09-21', 'LC1D09M7', 'OUT', 7, 54, 0, 3, 'SJ-AE-73P.21-IX-19');
+INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stock`, `supplier_id`, `customer_id`, `document`) VALUES
 (3703, '2019-09-21', 'GV2ME32', 'OUT', 3, 10, 0, 3, 'SJ-AE-73P.21-IX-19'),
 (3704, '2019-09-21', 'XA2EA31', 'OUT', 100, 1, 0, 3, 'SJ-AE-74P.21-IX-19'),
 (3705, '2019-09-21', 'NYM32', 'OUT', 1250, 40900, 0, 19, 'SJ-AE-75P.21-IX-19'),
@@ -29325,8 +29614,8 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (3750, '2019-09-30', 'XA2EA42', 'OUT', 44, 2, 0, 3, 'SJ-AE-101P.30-IX-19'),
 (3751, '2019-09-30', 'NYM21', 'OUT', 150, 148150, 0, 38, 'SJ-AE-102N.30-IX-19'),
 (3752, '2019-09-30', 'NYM31', 'OUT', 150, 59400, 0, 38, 'SJ-AE-102N.30-IX-19'),
-(3753, '2019-09-27', 'DOM11342SNI', 'OUT', 12, 169, 0, 59, 'SJ-AE-103N.27-IX-19'),
-(3754, '2019-09-27', 'DOM11343SNI', 'OUT', 12, 162, 0, 59, 'SJ-AE-104N.27-IX-19'),
+(3753, '2019-09-27', 'DOM11342SNI', 'OUT', 12, 169, 0, 59, 'SJ-AE-90N.27-IX-19'),
+(3754, '2019-09-27', 'DOM11343SNI', 'OUT', 12, 162, 0, 59, 'SJ-AE-91N.27-IX-19'),
 (3755, '2019-10-07', 'ATV320D15N4B', 'IN', 2, 2, 7, 0, 'DO191018172G'),
 (3756, '2019-10-29', 'NYYHY21', 'IN', 750, 3950, 4, 0, 'PI-SL-AI-AOEGC'),
 (3758, '2019-11-05', 'NYM32', 'IN', 18750, 59500, 4, 0, 'PI-CK-AI-OCGFB'),
@@ -29350,7 +29639,7 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (3776, '2019-11-12', 'NW32H13F2EH', 'IN', 1, 1, 2, 0, '3904'),
 (3777, '2019-11-12', 'EZC250N3250', 'IN', 8, 10, 2, 0, '3904'),
 (3778, '2019-11-12', 'EZC250N3125', 'IN', 1, 16, 2, 0, '3904'),
-(3779, '2019-11-12', 'EZC100N3060', 'IN', 13, 20, 2, 0, '3904'),
+(3779, '2019-11-12', 'EZC100N3060', 'IN', 13, 22, 2, 0, '3904'),
 (3780, '2019-11-12', 'EZC100N3030', 'IN', 20, 20, 2, 0, '3904'),
 (3781, '2019-11-12', 'RXM4AB1P7', 'IN', 1, 2, 2, 0, '3904'),
 (3782, '2019-11-14', 'NYYHY32', 'IN', 100, 300, 4, 0, 'PI-SL-AI-AAABE'),
@@ -29443,8 +29732,7 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (3870, '2019-10-09', 'XSAV11373', 'OUT', 1, 0, 0, 44, 'SJ-AE-35P.09-X-19'),
 (3871, '2019-10-09', 'LV510337', 'OUT', 1, 20, 0, 10, 'SJ-AE-36N.09-X-19'),
 (3872, '2019-10-09', 'DOM11342SNI', 'OUT', 24, 128, 0, 10, 'SJ-AE-36N.09-X-19'),
-(3873, '2019-10-10', 'DOM11345SNI', 'OUT', 12, 65, 0, 35, 'SJ-AE-37N.10-X-19');
-INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stock`, `supplier_id`, `customer_id`, `document`) VALUES
+(3873, '2019-10-10', 'DOM11345SNI', 'OUT', 12, 65, 0, 35, 'SJ-AE-37N.10-X-19'),
 (3874, '2019-10-10', 'DOM11352SNI', 'OUT', 3, 1, 0, 15, 'SJ-AE-38P.10-X-19'),
 (3875, '2019-10-10', 'NYFGBY42', 'OUT', 900, 0, 0, 12, 'SJ-AE-39P.10-X-19'),
 (3876, '2019-10-10', 'NYY22', 'OUT', 200, 0, 0, 12, 'SJ-AE-39P.10-X-19'),
@@ -29680,7 +29968,7 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (4106, '2019-10-25', 'LRD10', 'OUT', 6, 5, 0, 11, 'SJ-AE-93P.25-X-19'),
 (4107, '2019-10-25', 'NYAF1KH', 'OUT', 200, 600, 0, 11, 'SJ-AE-93P.25-X-19'),
 (4108, '2019-10-25', 'EZC250N3125', 'OUT', 6, 15, 0, 11, 'SJ-AE-93P.25-X-19'),
-(4109, '2019-10-25', 'EZC100N3060', 'OUT', 2, 18, 0, 11, 'SJ-AE-93P.25-X-19'),
+(4109, '2019-10-25', 'EZC100N3060', 'OUT', 2, 20, 0, 11, 'SJ-AE-93P.25-X-19'),
 (4110, '2019-10-25', 'EZC100N3080', 'OUT', 1, 10, 0, 11, 'SJ-AE-94P.25-X-19'),
 (4111, '2019-10-25', 'A9F74350', 'OUT', 2, 0, 0, 11, 'SJ-AE-94P.25-X-19'),
 (4112, '2019-10-25', 'A9F74316', 'OUT', 2, 9, 0, 11, 'SJ-AE-94P.25-X-19'),
@@ -29816,7 +30104,93 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 (4242, '2019-12-04', '47353', 'IN', 1, 2, 2, 0, '4257'),
 (4243, '2019-12-04', 'A9F74316', 'IN', 2, 8, 2, 0, '4257'),
 (4244, '2019-12-04', 'LV516333', 'IN', 2, 2, 2, 0, '4257'),
-(4245, '2019-12-05', 'NYM42', 'IN', 250, 4350, 4, 0, 'PI-CK-AI-ODFFC');
+(4245, '2019-12-05', 'NYM42', 'IN', 250, 4350, 4, 0, 'PI-CK-AI-ODFFC'),
+(4246, '2019-11-04', 'METSEDM1310', 'OUT', 20, 0, 0, 272, 'SJ-AE-11N.04-XI-19'),
+(4247, '2019-11-04', 'DOM12252SNI', 'OUT', 36, 432, 0, 49, 'SJ-AE-12N.04-XI-19'),
+(4248, '2019-11-04', 'DOM11340SNI', 'OUT', 60, 368, 0, 49, 'SJ-AE-12N.04-XI-19'),
+(4249, '2019-11-04', 'DOM11341SNI', 'OUT', 60, 831, 0, 49, 'SJ-AE-12N.04-XI-19'),
+(4250, '2019-11-04', 'DOM11342SNI', 'OUT', 60, 281, 0, 49, 'SJ-AE-12N.04-XI-19'),
+(4251, '2019-11-04', 'DOM11344SNI', 'OUT', 12, 95, 0, 49, 'SJ-AE-12N.04-XI-19'),
+(4252, '2019-11-04', 'DOM11345SNI', 'OUT', 12, 53, 0, 49, 'SJ-AE-12N.04-XI-19'),
+(4253, '2019-11-04', 'LC1D25BD', 'OUT', 4, 0, 0, 3, 'SJ-AE-13P.04-XI-19'),
+(4254, '2019-11-04', 'CA2KN22M7', 'OUT', 15, 0, 0, 3, 'SJ-AE-14P.04-XI-19'),
+(4255, '2019-11-04', 'XB5AW34M5', 'OUT', 40, 0, 0, 3, 'SJ-AE-14P.04-XI-19'),
+(4256, '2019-11-02', 'NYFGBY310', 'OUT', 850, 0, 0, 275, 'SJ-AE-15N.02-XI-19'),
+(4257, '2019-11-04', 'DOM12252SNI', 'OUT', 12, 420, 0, 35, 'SJ-AE-16N.04-XI-19'),
+(4258, '2019-11-04', 'DOM11341SNI', 'OUT', 12, 819, 0, 35, 'SJ-AE-16N.04-XI-19'),
+(4259, '2019-11-04', 'NYM21', 'OUT', 50, 214750, 0, 38, 'SJ-AE-17N.04-XI-19'),
+(4260, '2019-11-04', 'NYYHY2075', 'OUT', 100, 21900, 0, 38, 'SJ-AE-17N.04-XI-19'),
+(4261, '2019-11-07', 'LC1D18M7', 'OUT', 6, 79, 0, 270, 'SJ-AE-18N.07-XI-19'),
+(4262, '2019-11-06', 'ATV320U55N4B', 'OUT', 2, 3, 0, 79, 'SJ-AE-19P.06-XI-19'),
+(4263, '2019-11-06', 'DOM11353SNI', 'OUT', 12, 2, 0, 15, 'SJ-AE-20P.06-XI-19'),
+(4264, '2019-11-06', 'NYM32', 'OUT', 150, 55100, 0, 6, 'SJ-AE-21P.06-XI-19'),
+(4265, '2019-11-07', 'RE17RAMU', 'OUT', 1, 11, 0, 1, 'SJ-AE-22P.07-XI-19'),
+(4266, '2019-11-11', 'LC1F500', 'OUT', 4, 0, 0, 44, 'SJ-AE-23P.11-XI-19'),
+(4267, '2019-11-11', 'LX1FK220', 'OUT', 4, 0, 0, 44, 'SJ-AE-23P.11-XI-19'),
+(4268, '2019-11-11', 'LV429630', 'OUT', 10, 0, 0, 44, 'SJ-AE-23P.11-XI-19'),
+(4269, '2019-11-11', 'EZC250F3250', 'OUT', 4, 10, 0, 44, 'SJ-AE-23P.11-XI-19'),
+(4270, '2019-11-11', 'LC1D38M7', 'OUT', 1, 6, 0, 52, 'SJ-AE-24P.11-XI-19'),
+(4271, '2019-11-11', 'NYM21', 'OUT', 300, 214450, 0, 12, 'SJ-AE-25P.11-XI-19'),
+(4272, '2019-11-11', 'NYM31', 'OUT', 300, 63850, 0, 12, 'SJ-AE-25P.11-XI-19'),
+(4273, '2019-11-11', 'NYM32', 'OUT', 500, 54600, 0, 12, 'SJ-AE-25P.11-XI-19'),
+(4274, '2019-11-11', 'NYM42', 'OUT', 300, 4050, 0, 12, 'SJ-AE-25P.11-XI-19'),
+(4275, '2019-11-11', 'NYM21', 'OUT', 50, 214400, 0, 276, 'SJ-AE-26N.11-XI-19'),
+(4276, '2019-11-11', 'NYM31', 'OUT', 50, 63800, 0, 276, 'SJ-AE-26N.11-XI-19'),
+(4277, '2019-11-11', '33466E', 'OUT', 2, 2, 0, 44, 'SJ-AE-27P.11-XI-19'),
+(4278, '2019-11-11', '33466E', 'OUT', 2, 0, 0, 44, 'SJ-AE-28P.11-XI-19'),
+(4279, '2019-11-12', 'A9K27216', 'OUT', 1, 0, 0, 40, 'SJ-AE-29P.12-XI-19'),
+(4280, '2019-11-12', 'DOM11348SNI', 'OUT', 6, 33, 0, 15, 'SJ-AE-30P.12-XI-19'),
+(4281, '2019-11-08', 'LC1D115M7', 'OUT', 3, 14, 0, 147, 'SJ-AE-31P.08-XI-19'),
+(4282, '2019-11-13', 'NYM32', 'OUT', 900, 53700, 0, 19, 'SJ-AE-32P.13-XI-19'),
+(4283, '2019-11-13', 'NYYHY32', 'OUT', 50, 600, 0, 12, 'SJ-AE-33P.13-XI-19'),
+(4284, '2019-11-13', 'NYA1H', 'OUT', 800, 2900, 0, 12, 'SJ-AE-34P.13-XI-19'),
+(4285, '2019-11-13', 'NYA1M', 'OUT', 800, 2800, 0, 12, 'SJ-AE-34P.13-XI-19'),
+(4286, '2019-11-13', 'NYAF2B', 'OUT', 900, 0, 0, 28, 'SJ-AE-35P.13-XI-19'),
+(4287, '2019-11-14', 'EZC100F3025', 'OUT', 1, 10, 0, 261, 'SJ-AE-37N.14-XI-19'),
+(4288, '2019-11-14', 'ABL2REM24085H', 'OUT', 1, 0, 0, 261, 'SJ-AE-38N.14-XI-19'),
+(4289, '2019-11-14', 'LC1K0910M7', 'OUT', 3, 0, 0, 15, 'SJ-AE-39P.14-XI-19'),
+(4290, '2019-11-14', 'LR2K0310', 'OUT', 12, 0, 0, 15, 'SJ-AE-39P.14-XI-19'),
+(4291, '2019-11-14', 'DOM11348SNI', 'OUT', 1, 32, 0, 15, 'SJ-AE-39P.14-XI-19'),
+(4292, '2019-11-14', 'DOM11352SNI', 'OUT', 1, 0, 0, 15, 'SJ-AE-39P.14-XI-19'),
+(4293, '2019-11-14', 'DOM11353SNI', 'OUT', 2, 0, 0, 15, 'SJ-AE-39P.14-XI-19'),
+(4294, '2019-11-14', 'EZC100N1100', 'OUT', 11, 0, 0, 6, 'SJ-AE-40P.14-XI-19'),
+(4295, '2019-11-15', 'NYM32', 'OUT', 500, 53200, 0, 19, 'SJ-AE-41P.15-XI-19'),
+(4296, '2019-11-18', 'LV432893', 'OUT', 3, 0, 0, 3, 'SJ-AE-42P.18-XI-19'),
+(4297, '2019-11-15', 'LC1DWK12M7', 'OUT', 12, 6, 0, 138, 'SJ-AE-43P.15-XI-19'),
+(4298, '2019-11-15', 'DOM11349SNI', 'OUT', 3, 37, 0, 15, 'SJ-AE-44P.15-XI-19'),
+(4299, '2019-11-15', 'NYY46', 'OUT', 100, 50, 0, 12, 'SJ-AE-45P.15-XI-19'),
+(4300, '2019-11-18', 'BLRCH104A125B40', 'OUT', 2, 1, 0, 26, 'SJ-AE-46P.18-XI-19'),
+(4301, '2019-11-19', 'LADT2', 'OUT', 3, 0, 0, 15, 'SJ-AE-47P.19-XI-19'),
+(4302, '2019-11-19', 'A9E21180', 'OUT', 50, 1, 0, 27, 'SJ-AE-48P.19-XI-19'),
+(4303, '2019-11-21', 'NYM32', 'OUT', 1500, 51700, 0, 3, 'SJ-AE-49P.21-XI-19'),
+(4304, '2019-11-21', 'LC1K0610D7', 'OUT', 2, 0, 0, 40, 'SJ-AE-50P.21-XI-19'),
+(4305, '2019-11-21', 'LC1D12M7', 'OUT', 2, 92, 0, 31, 'SJ-AE-51N.21-XI-19'),
+(4306, '2019-11-21', 'EZC250N3200', 'OUT', 1, 18, 0, 31, 'SJ-AE-52N.21-XI-19'),
+(4307, '2019-11-20', 'NFA2X216', 'OUT', 500, 100, 0, 277, 'SJ-AE-53P.20-XI-19'),
+(4308, '2019-11-21', 'A9F84316', 'OUT', 2, 56, 0, 12, 'SJ-AE-54P.21-XI-19'),
+(4309, '2019-11-22', 'NYMHY21', 'OUT', 950, 5600, 0, 12, 'SJ-AE-55P.22-XI-19'),
+(4310, '2019-11-22', 'ATV320U55N4B', 'OUT', 3, 0, 0, 79, 'SJ-AE-56P.22-XI-19'),
+(4311, '2019-11-23', 'NYM22', 'OUT', 400, 27550, 0, 150, 'SJ-AE-57P.23-XI-19'),
+(4312, '2019-11-23', 'NYM32', 'OUT', 100, 51600, 0, 150, 'SJ-AE-57P.23-XI-19'),
+(4313, '2019-11-23', 'LV429354', 'OUT', 1, 0, 0, 148, 'SJ-AE-58P.23-XI-19'),
+(4314, '2019-11-27', 'EZC100F3030', 'OUT', 6, 2, 0, 138, 'SJ-AE-59P.27-XI-19'),
+(4315, '2019-11-27', 'LC1F265', 'OUT', 1, 1, 0, 18, 'SJ-AE-60N.27-XI-19'),
+(4316, '2019-11-27', 'LX1FH2202', 'OUT', 1, 1, 0, 18, 'SJ-AE-60N.27-XI-19'),
+(4317, '2019-11-27', 'A9F74104', 'OUT', 3, 3, 0, 27, 'SJ-AE-61P.27-XI-19'),
+(4318, '2019-11-27', 'A9F74110', 'OUT', 12, 8, 0, 27, 'SJ-AE-61P.27-XI-19'),
+(4319, '2019-11-29', 'F-SM6R-QM-A1', 'OUT', 1, 0, 0, 147, 'SJ-AE-62P.29-XI-19'),
+(4320, '2019-11-29', 'LC1D38M7', 'OUT', 6, 0, 0, 138, 'SJ-AE-63P.29-XI-19'),
+(4321, '2019-11-29', 'LC1D80E7', 'OUT', 2, 0, 0, 15, 'SJ-AE-64P.29-XI-19'),
+(4322, '2019-11-13', 'EZC250N3250', 'OUT', 10, 5, 0, 7, 'SJ-AE-36P.13-XI-19'),
+(4323, '2019-11-13', 'EZC250N3200', 'OUT', 10, 8, 0, 7, 'SJ-AE-36P.13-XI-19'),
+(4324, '2019-11-13', 'EZC250N3160', 'OUT', 10, 7, 0, 7, 'SJ-AE-36P.13-XI-19'),
+(4325, '2019-11-13', 'EZC250N3125', 'OUT', 10, 5, 0, 7, 'SJ-AE-36P.13-XI-19'),
+(4326, '2019-11-13', 'EZC100N3060', 'OUT', 20, 0, 0, 7, 'SJ-AE-36P.13-XI-19'),
+(4327, '2019-11-13', 'EZC100N3050', 'OUT', 20, 7, 0, 7, 'SJ-AE-36P.13-XI-19'),
+(4328, '2019-11-13', 'EZC100N3030', 'OUT', 20, 0, 0, 7, 'SJ-AE-36P.13-XI-19'),
+(4329, '2019-11-13', 'NW32H13F2EH', 'OUT', 1, 0, 0, 7, 'SJ-AE-36P.13-XI-19'),
+(4330, '2019-12-06', 'XY2CZ402', 'IN', 30, 30, 2, 0, '4289'),
+(4331, '2019-12-06', 'XY2CZ503', 'IN', 120, 120, 2, 0, '4289');
 
 -- --------------------------------------------------------
 
@@ -29824,8 +30198,8 @@ INSERT INTO `stock` (`id`, `date`, `reference`, `transaction`, `quantity`, `stoc
 -- Table structure for table `stock_value_in`
 --
 
-CREATE TABLE IF NOT EXISTS `stock_value_in` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `stock_value_in` (
+  `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `reference` varchar(50) NOT NULL,
   `quantity` int(11) NOT NULL,
@@ -29833,9 +30207,8 @@ CREATE TABLE IF NOT EXISTS `stock_value_in` (
   `sisa` int(11) NOT NULL,
   `supplier_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
-  `gr_id` int(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2083 DEFAULT CHARSET=latin1;
+  `gr_id` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `stock_value_in`
@@ -29896,7 +30269,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (88, '2018-12-31', 'A9F84132', 4, '140054.20', 4, 0, 0, 0),
 (89, '2018-12-31', 'A9F84225', 2, '334705.80', 2, 0, 0, 0),
 (90, '2018-12-31', 'A9F84310', 59, '376464.00', 58, 0, 0, 0),
-(91, '2018-12-31', 'A9F84316', 62, '376464.00', 58, 0, 0, 0),
+(91, '2018-12-31', 'A9F84316', 62, '376464.00', 56, 0, 0, 0),
 (92, '2018-12-31', 'A9F84320', 36, '370894.89', 36, 0, 0, 0),
 (93, '2018-12-31', 'A9F84325', 22, '394862.77', 22, 0, 0, 0),
 (94, '2018-12-31', 'A9F84340', 4, '431904.00', 3, 0, 0, 0),
@@ -29972,7 +30345,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (166, '2018-12-31', 'RUMC22P7', 20, '72600.00', 20, 0, 0, 0),
 (167, '2018-12-31', 'REXL4TMP7', 2, '149525.20', 2, 0, 0, 0),
 (169, '2018-12-31', 'A9XPCM04', 78, '139656.00', 78, 0, 0, 0),
-(170, '2018-12-31', 'BLRCH104A125B40', 3, '859650.00', 3, 0, 0, 0),
+(170, '2018-12-31', 'BLRCH104A125B40', 3, '859650.00', 1, 0, 0, 0),
 (171, '2018-12-31', 'BLRCH150A180B40', 8, '1057100.00', 0, 0, 0, 0),
 (172, '2018-12-31', 'BLRCH250A300B40', 12, '1588433.00', 0, 0, 0, 0),
 (173, '2018-12-31', 'BLRCH500A000B40', 17, '2936997.58', 0, 0, 0, 0),
@@ -29987,7 +30360,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (182, '2018-12-31', 'DOM11338SNI', 11, '406560.00', 0, 0, 0, 0),
 (183, '2018-12-31', 'DOM11341SNI', 4, '40656.00', 0, 0, 0, 0),
 (184, '2018-12-31', 'DOM11344SNI', 26, '46200.00', 0, 0, 0, 0),
-(185, '2018-12-31', 'DOM11345SNI', 100, '44352.00', 64, 0, 0, 0),
+(185, '2018-12-31', 'DOM11345SNI', 100, '44352.00', 52, 0, 0, 0),
 (186, '2018-12-31', 'DOM11350SNI', 6, '198198.00', 2, 0, 0, 0),
 (187, '2018-12-31', 'EZASHT200AC', 81, '278256.00', 0, 0, 0, 0),
 (188, '2018-12-31', 'EZAUX11', 15, '244706.00', 15, 0, 0, 0),
@@ -29995,7 +30368,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (190, '2018-12-31', 'EZC100B3025', 2, '288330.90', 0, 0, 0, 0),
 (191, '2018-12-31', 'EZC100F3020', 12, '324901.50', 0, 0, 0, 0),
 (192, '2018-12-31', 'EZC100F3025', 8, '302895.31', 0, 0, 0, 0),
-(193, '2018-12-31', 'EZC100F3030', 12, '324901.50', 3, 0, 0, 0),
+(193, '2018-12-31', 'EZC100F3030', 12, '324901.50', 0, 0, 0, 0),
 (194, '2018-12-31', 'EZC100F3040', 2, '324901.50', 0, 0, 0, 0),
 (195, '2018-12-31', 'EZC100F3050', 74, '337656.00', 0, 0, 0, 0),
 (196, '2018-12-31', 'EZC100F3060', 9, '359352.29', 0, 0, 0, 0),
@@ -30009,9 +30382,9 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (204, '2018-12-31', 'EZC100N3015', 6, '351057.30', 6, 0, 0, 0),
 (205, '2018-12-31', 'EZC100N3020', 6, '351057.30', 6, 0, 0, 0),
 (206, '2018-12-31', 'EZC100N3040', 7, '401044.64', 0, 0, 0, 0),
-(207, '2018-12-31', 'EZC100N3050', 27, '381187.95', 27, 0, 0, 0),
-(208, '2018-12-31', 'EZC100N3060', 16, '400099.70', 5, 0, 0, 0),
-(209, '2018-12-31', 'EZC100N3063', 192, '414216.00', 78, 0, 0, 0),
+(207, '2018-12-31', 'EZC100N3050', 27, '381187.95', 7, 0, 0, 0),
+(208, '2018-12-31', 'EZC100N3060', 17, '400099.70', 0, 0, 0, 0),
+(209, '2018-12-31', 'EZC100N3063', 192, '414216.00', 77, 0, 0, 0),
 (210, '2018-12-31', 'EZC100N3100', 42, '466235.00', 0, 0, 0, 0),
 (211, '2018-12-31', 'EZC250F3160', 2, '784245.00', 0, 0, 0, 0),
 (212, '2018-12-31', 'EZC250F3200', 5, '825748.00', 0, 0, 0, 0),
@@ -30076,7 +30449,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (272, '2018-12-31', 'LC1DWK12M7', 17, '1940330.15', 0, 0, 0, 0),
 (274, '2018-12-31', 'METSEDM6200HCL10RS', 5, '892562.00', 0, 0, 0, 0),
 (275, '2018-12-31', 'METSEDM3110', 2, '317724.00', 0, 0, 0, 0),
-(276, '2018-12-31', 'LX1FH2202', 5, '701778.00', 2, 0, 0, 0),
+(276, '2018-12-31', 'LX1FH2202', 5, '701778.00', 1, 0, 0, 0),
 (277, '2018-12-31', 'LX9FG220', 2, '636174.00', 1, 0, 0, 0),
 (278, '2018-12-31', 'LX1FG110', 1, '587455.00', 1, 0, 0, 0),
 (279, '2018-12-31', 'LVR07500A40T', 4, '5609711.25', 0, 0, 0, 0),
@@ -30086,7 +30459,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (284, '2018-12-31', 'LC1E120M5', 1, '1410802.25', 1, 0, 0, 0),
 (285, '2018-12-31', 'LC1E3810M7', 10, '341825.00', 10, 0, 0, 0),
 (286, '2018-12-31', 'LC1F185', 2, '3176657.00', 1, 0, 0, 0),
-(287, '2018-12-31', 'LC1F265', 2, '4529756.00', 2, 0, 0, 0),
+(287, '2018-12-31', 'LC1F265', 2, '4529756.00', 1, 0, 0, 0),
 (288, '2018-12-31', 'LC1F400', 2, '11305580.00', 2, 0, 0, 0),
 (289, '2018-12-31', 'LC1K0910BD', 2, '139755.00', 2, 0, 0, 0),
 (290, '2018-12-31', 'LC1K0910M7', 17, '128260.00', 0, 0, 0, 0),
@@ -30153,7 +30526,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (351, '2018-12-31', 'NYY34', 200, '20430.73', 100, 0, 0, 0),
 (352, '2018-12-31', 'NYY36', 200, '27069.31', 100, 0, 0, 0),
 (353, '2018-12-31', 'NYY435', 55, '163498.21', 55, 0, 0, 0),
-(354, '2018-12-31', 'NYYHY2075', 1050, '3830.39', 700, 0, 0, 0),
+(354, '2018-12-31', 'NYYHY2075', 1050, '3830.39', 600, 0, 0, 0),
 (355, '2018-12-31', 'NYYHY3075', 700, '5876.00', 650, 0, 0, 0),
 (356, '2018-12-31', 'NYYHY31', 400, '8636.98', 400, 0, 0, 0),
 (424, '2019-01-02', 'NYAF2B', 2500, '3040.00', 0, 4, 0, 7),
@@ -30536,12 +30909,12 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (830, '2019-02-01', 'EZC250F3160', 7, '738870.83', 0, 2, 0, 426),
 (831, '2019-02-01', 'EZC250F3200', 6, '778083.08', 0, 2, 0, 427),
 (832, '2019-02-01', 'EZC250F3250', 7, '778083.08', 0, 2, 0, 428),
-(833, '2019-02-01', 'EZC250N3125', 19, '783684.83', 8, 2, 0, 429),
-(834, '2019-02-01', 'EZC250N3160', 10, '817295.33', 10, 2, 0, 430),
-(835, '2019-02-01', 'EZC250N3200', 9, '971903.63', 9, 2, 0, 431),
-(836, '2019-02-01', 'EZC250N3250', 10, '971903.63', 2, 2, 0, 432),
+(833, '2019-02-01', 'EZC250N3125', 19, '783684.83', 0, 2, 0, 429),
+(834, '2019-02-01', 'EZC250N3160', 10, '817295.33', 0, 2, 0, 430),
+(835, '2019-02-01', 'EZC250N3200', 9, '971903.63', 0, 2, 0, 431),
+(836, '2019-02-01', 'EZC250N3250', 10, '971903.63', 0, 2, 0, 432),
 (837, '2019-02-01', 'LC1D95M7', 10, '1365094.50', 0, 2, 0, 433),
-(838, '2019-02-01', 'LC1D115M7', 30, '1799721.00', 17, 2, 0, 434),
+(838, '2019-02-01', 'LC1D115M7', 30, '1799721.00', 14, 2, 0, 434),
 (839, '2019-02-07', 'LC1D50AM7', 12, '814159.50', 0, 2, 0, 420),
 (840, '2019-02-07', 'NYM44', 120, '21795.85', 0, 4, 0, 421),
 (841, '2019-02-11', 'DOM12251SNI', 12, '50265.60', 0, 2, 0, 422),
@@ -30555,7 +30928,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (849, '2019-02-16', 'EZC100B3050', 20, '304175.02', 0, 2, 0, 440),
 (850, '2019-02-16', 'EZC100B3060', 30, '331623.60', 0, 2, 0, 441),
 (851, '2019-02-16', 'EZC100F3020', 12, '324901.50', 0, 2, 0, 442),
-(852, '2019-02-16', 'EZC100F3030', 5, '324901.50', 5, 2, 0, 443),
+(852, '2019-02-16', 'EZC100F3030', 5, '324901.50', 2, 2, 0, 443),
 (853, '2019-02-16', 'EZC100F3040', 20, '324901.50', 5, 2, 0, 444),
 (854, '2019-02-16', 'EZC100F3050', 28, '324901.50', 0, 2, 0, 445),
 (855, '2019-02-16', 'EZC100F3060', 14, '324901.50', 2, 2, 0, 446),
@@ -30577,17 +30950,17 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (873, '2019-02-16', 'LC1D65AM7', 15, '1137374.70', 0, 2, 0, 464),
 (874, '2019-02-16', 'LC1D80M7', 15, '1146556.95', 14, 2, 0, 465),
 (875, '2019-02-18', 'DOM12251SNI', 420, '50265.60', 279, 2, 0, 466),
-(876, '2019-02-18', 'DOM12252SNI', 360, '50265.60', 180, 2, 0, 467),
-(877, '2019-02-18', 'DOM11340SNI', 636, '40656.00', 140, 2, 0, 468),
+(876, '2019-02-18', 'DOM12252SNI', 360, '50265.60', 132, 2, 0, 467),
+(877, '2019-02-18', 'DOM11340SNI', 636, '40656.00', 80, 2, 0, 468),
 (878, '2019-02-18', 'DOM11341SNI', 660, '40656.00', 0, 2, 0, 469),
-(879, '2019-02-18', 'DOM11342SNI', 516, '40656.00', 125, 2, 0, 470),
+(879, '2019-02-18', 'DOM11342SNI', 516, '40656.00', 65, 2, 0, 470),
 (880, '2019-02-18', 'DOM11343SNI', 288, '40656.00', 157, 2, 0, 471),
-(881, '2019-02-18', 'DOM11344SNI', 244, '46200.00', 107, 2, 0, 472),
+(881, '2019-02-18', 'DOM11344SNI', 244, '46200.00', 95, 2, 0, 472),
 (882, '2019-02-18', 'DOM11347SNI', 24, '192192.00', 11, 2, 0, 473),
 (883, '2019-02-18', 'DOM11348SNI', 24, '192192.00', 0, 2, 0, 474),
-(884, '2019-02-18', 'DOM11349SNI', 72, '192192.00', 8, 2, 0, 475),
-(885, '2019-02-21', 'EZC250N3125', 1, '783684.10', 1, 2, 0, 476),
-(886, '2019-02-21', 'EZC250N3200', 10, '971903.63', 10, 2, 0, 477),
+(884, '2019-02-18', 'DOM11349SNI', 72, '192192.00', 5, 2, 0, 475),
+(885, '2019-02-21', 'EZC250N3125', 1, '783684.10', 0, 2, 0, 476),
+(886, '2019-02-21', 'EZC250N3200', 10, '971903.63', 8, 2, 0, 477),
 (887, '2019-02-21', 'LC1D80M7', 10, '1146556.95', 10, 2, 0, 478),
 (888, '2019-02-27', 'EZC100F3020', 8, '324901.50', 0, 2, 0, 479),
 (889, '2019-02-27', 'LC1D65AM7', 25, '1137374.70', 0, 2, 0, 480),
@@ -30655,7 +31028,8 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (951, '2019-04-27', 'LADN31', 2, '113685.00', 0, 2, 0, 541),
 (952, '2019-04-27', 'LC1DFKM7', 6, '697480.00', 0, 2, 0, 542),
 (953, '2019-04-27', 'METSEDM6200HCL10RS', 12, '892562.00', 0, 2, 0, 543),
-(954, '2019-04-27', 'LC1DWK12M7', 2, '1940330.00', 0, 2, 0, 544),
+(954, '2019-04-27', 'LC1DWK12M7', 2, '1940330.00', 0, 2, 0, 544);
+INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `sisa`, `supplier_id`, `customer_id`, `gr_id`) VALUES
 (955, '2019-04-29', 'HDPE90PN10Westpex', 600, '59125.00', 0, 20, 0, 545),
 (956, '2019-04-29', 'HDPE63PN10Westpex', 600, '29095.00', 0, 20, 0, 546),
 (957, '2019-04-29', 'HDPE32PN10Westpex', 100, '7507.50', 0, 20, 0, 547),
@@ -30902,8 +31276,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1208, '2019-07-09', 'LV431630', 1, '1648801.00', 0, 2, 0, 792),
 (1209, '2019-07-09', 'LV432693', 1, '4205278.00', 0, 2, 0, 793),
 (1210, '2019-07-10', 'NYFGBY295', 604, '286995.01', 0, 4, 0, 794),
-(1211, '2019-07-11', 'NYY170', 240, '80997.00', 0, 4, 0, 795);
-INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `sisa`, `supplier_id`, `customer_id`, `gr_id`) VALUES
+(1211, '2019-07-11', 'NYY170', 240, '80997.00', 0, 4, 0, 795),
 (1212, '2019-07-11', 'NYYHY416', 30, '97469.83', 0, 4, 0, 796),
 (1213, '2019-07-11', 'A9A15310', 40, '78925.00', 0, 2, 0, 797),
 (1214, '2019-07-11', 'EZC250F3250', 1, '825748.00', 0, 2, 0, 798),
@@ -31033,7 +31406,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1341, '2019-08-10', 'EZC100F3050', 300, '337656.00', 0, 2, 0, 938),
 (1342, '2019-08-10', 'EZASHT200AC', 300, '278256.00', 0, 2, 0, 939),
 (1343, '2019-08-10', 'NYMHY32', 200, '12693.56', 0, 4, 0, 940),
-(1344, '2019-08-10', 'NYM21', 7500, '5379.20', 4600, 4, 0, 941),
+(1344, '2019-08-10', 'NYM21', 7500, '5379.20', 4200, 4, 0, 941),
 (1345, '2019-08-10', 'NYM32', 2500, '9840.03', 0, 4, 0, 942),
 (1346, '2019-08-10', 'NYM31', 5000, '6901.11', 0, 4, 0, 943),
 (1347, '2019-08-12', 'NYAF25H', 760, '33049.54', 760, 4, 0, 944),
@@ -31101,13 +31474,13 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1409, '2019-08-23', 'A9A15310', 29, '78925.00', 0, 2, 0, 1009),
 (1410, '2019-08-23', 'METSEPM2120', 10, '1727946.00', 3, 2, 0, 1010),
 (1411, '2019-08-23', 'LC1D09M7', 57, '137249.97', 0, 2, 0, 1011),
-(1412, '2019-08-23', 'LC1D12M7', 56, '160999.96', 44, 2, 0, 1012),
+(1412, '2019-08-23', 'LC1D12M7', 56, '160999.96', 42, 2, 0, 1012),
 (1413, '2019-08-23', 'LC1D32M7', 50, '380500.01', 0, 2, 0, 1013),
 (1414, '2019-08-23', 'LC1D40AM7', 25, '671000.00', 0, 2, 0, 1014),
 (1415, '2019-08-23', 'LC1D50AM7', 30, '807000.04', 6, 2, 0, 1015),
 (1416, '2019-08-23', 'GV2ME07', 15, '318250.02', 13, 2, 0, 1016),
 (1417, '2019-08-23', 'LC1D65AM7', 16, '1126999.94', 0, 2, 0, 1017),
-(1418, '2019-08-23', 'LC1D18M7', 51, '211750.00', 35, 2, 0, 1018),
+(1418, '2019-08-23', 'LC1D18M7', 51, '211750.00', 29, 2, 0, 1018),
 (1419, '2019-08-23', 'LC1D25M7', 11, '287749.99', 3, 2, 0, 1019),
 (1420, '2019-08-23', 'GV2ME08', 15, '318250.02', 0, 2, 0, 1020),
 (1421, '2019-08-23', 'GV2ME14', 5, '353250.04', 0, 2, 0, 1021),
@@ -31121,7 +31494,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1429, '2019-08-23', 'LRD10', 4, '194000.18', 0, 2, 0, 1029),
 (1430, '2019-08-23', '33478', 2, '11691405.00', 0, 2, 0, 1030),
 (1431, '2019-08-23', 'NYM22', 100, '6942.98', 0, 4, 0, 1031),
-(1432, '2019-08-23', 'NYM31', 1500, '6901.11', 1150, 4, 0, 1032),
+(1432, '2019-08-23', 'NYM31', 1500, '6901.11', 800, 4, 0, 1032),
 (1433, '2019-08-23', 'NYM32', 2700, '9840.05', 0, 4, 0, 1033),
 (1434, '2019-08-23', 'NYMHY32', 600, '12693.56', 0, 4, 0, 1034),
 (1435, '2019-08-23', 'NYA1M', 1000, '1614.95', 0, 4, 0, 1035),
@@ -31135,7 +31508,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1443, '2019-08-28', 'BC120', 50, '117553.00', 0, 4, 0, 1043),
 (1444, '2019-08-28', 'BC70', 25, '69045.81', 0, 4, 0, 1044),
 (1445, '2019-08-28', 'BC50', 80, '49053.25', 0, 4, 0, 1045),
-(1446, '2019-08-29', 'NYM22', 1250, '7714.56', 350, 4, 0, 1046),
+(1446, '2019-08-29', 'NYM22', 1250, '7714.56', 0, 4, 0, 1046),
 (1447, '2019-08-29', 'NYM32', 400, '9839.94', 0, 4, 0, 1047),
 (1448, '2019-08-30', 'A9D41625', 1, '681725.00', 0, 2, 0, 1048),
 (1449, '2019-08-30', 'NYYHY22', 400, '8891.96', 400, 4, 0, 1049),
@@ -31146,7 +31519,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1454, '2019-08-31', 'NYMHY2075', 500, '2624.00', 500, 4, 0, 1054),
 (1455, '2019-08-31', 'NYYHY2075', 50, '2624.01', 50, 4, 0, 1055),
 (1456, '2019-08-31', 'NYM42', 50, '12529.66', 0, 4, 0, 1056),
-(1457, '2019-08-29', 'NYM22', 250, '7714.48', 250, 4, 0, 1057),
+(1457, '2019-08-29', 'NYM22', 250, '7714.48', 200, 4, 0, 1057),
 (1458, '2019-08-29', 'NYM32', 400, '9840.05', 0, 4, 0, 1058),
 (1459, '2019-08-31', 'NYMHY2075', 250, '3673.60', 250, 4, 0, 1059),
 (1460, '2019-08-31', 'NYY32', 450, '11399.99', 450, 4, 0, 1060),
@@ -31174,7 +31547,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1483, '2019-09-03', 'DOM11352SNI', 4, '240306.00', 0, 2, 0, 1068),
 (1484, '2019-09-03', 'DOM11348SNI', 4, '206910.00', 0, 2, 0, 1069),
 (1485, '2019-09-04', 'NYMHY21', 200, '6297.61', 0, 4, 0, 1070),
-(1486, '2019-09-04', 'NYMHY21', 250, '6297.59', 150, 4, 0, 1071),
+(1486, '2019-09-04', 'NYMHY21', 250, '6297.59', 0, 4, 0, 1071),
 (1487, '2019-09-04', 'NYM31', 1000, '6901.11', 1000, 4, 0, 1072),
 (1488, '2019-09-04', 'NYM32', 1500, '9840.01', 0, 4, 0, 1073),
 (1489, '2019-09-04', 'NYAF2H', 350, '3039.96', 0, 4, 0, 1074),
@@ -31195,7 +31568,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1504, '2019-09-07', 'LRD365', 1, '720900.40', 0, 2, 0, 1089),
 (1505, '2019-09-07', 'NYM32', 2000, '9840.00', 0, 4, 0, 1090),
 (1506, '2019-09-09', 'ATS48D88Q', 1, '13275941.25', 0, 7, 0, 1091),
-(1507, '2019-09-11', 'A9F74110', 12, '65488.50', 8, 2, 0, 1092),
+(1507, '2019-09-11', 'A9F74110', 12, '65488.50', 0, 2, 0, 1092),
 (1508, '2019-09-11', 'A9F74340', 3, '293485.50', 0, 2, 0, 1093),
 (1509, '2019-09-11', 'EZC100F3025', 1, '344690.50', 0, 2, 0, 1094),
 (1510, '2019-09-11', 'LV430630', 1, '1480094.00', 0, 2, 0, 1095),
@@ -31212,7 +31585,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1521, '2019-09-11', 'DOM11352SNI', 3, '236665.00', 0, 2, 0, 1106),
 (1522, '2019-09-11', 'A9F74310', 4, '250904.50', 0, 2, 0, 1107),
 (1523, '2019-09-11', 'NYMHY2075', 800, '3673.56', 800, 4, 0, 1108),
-(1524, '2019-09-11', 'NYMHY21', 250, '6297.59', 250, 4, 0, 1109),
+(1524, '2019-09-11', 'NYMHY21', 250, '6297.59', 0, 4, 0, 1109),
 (1525, '2019-09-11', 'NYMHY2075', 400, '3673.56', 400, 4, 0, 1110),
 (1526, '2019-09-11', 'NYMHY2075', 600, '3673.60', 600, 4, 0, 1111),
 (1527, '2019-09-11', 'NYM34', 50, '15971.12', 50, 4, 0, 1112),
@@ -31222,8 +31595,8 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1531, '2019-09-12', 'NFA2X-T395-70', 530, '67872.76', 0, 4, 0, 1116),
 (1532, '2019-09-13', 'LC1D12BNE', 1, '471075.00', 0, 2, 0, 1117),
 (1533, '2019-09-13', 'GV3P50', 1, '1254550.00', 0, 2, 0, 1118),
-(1534, '2019-09-13', 'NYA1H', 500, '1616.00', 500, 4, 0, 1119),
-(1535, '2019-09-13', 'NYA1M', 500, '1616.00', 500, 4, 0, 1120),
+(1534, '2019-09-13', 'NYA1H', 500, '1616.00', 0, 4, 0, 1119),
+(1535, '2019-09-13', 'NYA1M', 500, '1616.00', 0, 4, 0, 1120),
 (1536, '2019-09-13', 'NYAF10KH', 100, '12837.33', 0, 4, 0, 1121),
 (1537, '2019-09-14', 'LX1D6F7', 1, '618759.90', 0, 2, 0, 1122),
 (1538, '2019-09-14', 'METSECT5CC020', 3, '209330.00', 0, 2, 0, 1123),
@@ -31258,22 +31631,22 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1567, '2019-10-04', 'XB7NS8442', 20, '62150.00', 20, 2, 0, 1152),
 (1568, '2019-10-04', 'XALK178', 20, '184525.00', 0, 2, 0, 1153),
 (1569, '2019-10-04', 'LC1D09M7', 15, '148229.95', 0, 2, 0, 1154),
-(1570, '2019-10-04', 'RE17RAMU', 5, '228525.00', 2, 2, 0, 1155),
+(1570, '2019-10-04', 'RE17RAMU', 5, '228525.00', 1, 2, 0, 1155),
 (1571, '2019-10-03', 'A9A15310', 18, '78925.00', 0, 2, 0, 1156),
 (1572, '2019-10-03', 'LRD06', 1, '213400.00', 0, 2, 0, 1157),
 (1573, '2019-10-03', 'LC1D32BD', 3, '1209599.93', 0, 2, 0, 1158),
 (1574, '2019-10-03', 'GVAE11', 4, '78029.93', 0, 2, 0, 1159),
 (1575, '2019-09-20', 'NYY32', 100, '11399.96', 100, 4, 0, 1160),
 (1576, '2019-09-20', 'NYM32', 2000, '9839.98', 0, 4, 0, 1161),
-(1577, '2019-09-20', 'NYMHY21', 500, '6297.68', 500, 4, 0, 1162),
+(1577, '2019-09-20', 'NYMHY21', 500, '6297.68', 0, 4, 0, 1162),
 (1578, '2019-09-20', 'NYMHY32', 50, '12693.60', 50, 4, 0, 1163),
 (1579, '2019-09-20', 'NYMHY32', 100, '12693.56', 100, 4, 0, 1164),
 (1580, '2019-09-21', 'NFA2X225', 100, '8706.72', 100, 4, 0, 1165),
 (1581, '2019-09-21', 'NFA2X210', 100, '4355.75', 100, 4, 0, 1166),
-(1582, '2019-09-21', 'NFA2X216', 100, '6174.99', 100, 4, 0, 1167),
+(1582, '2019-09-21', 'NFA2X216', 100, '6174.99', 0, 4, 0, 1167),
 (1583, '2019-09-21', 'NYYHY2075', 500, '3673.60', 500, 4, 0, 1168),
 (1584, '2019-09-21', 'NYYHY2075', 600, '3673.56', 600, 4, 0, 1169),
-(1585, '2019-09-21', 'NYYHY32', 50, '12693.56', 50, 4, 0, 1170),
+(1585, '2019-09-21', 'NYYHY32', 50, '12693.56', 0, 4, 0, 1170),
 (1586, '2019-09-23', 'NYM42', 100, '12529.55', 0, 4, 0, 1171),
 (1587, '2019-09-24', 'LC1D40AM7', 6, '724680.00', 0, 2, 0, 1172),
 (1588, '2019-09-24', 'LC1D65AM7', 17, '1217160.01', 0, 2, 0, 1173),
@@ -31308,7 +31681,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1617, '2019-10-10', 'BLRCH250A300B52', 2, '1670900.00', 0, 2, 0, 1202),
 (1618, '2019-10-10', 'EZC250F3125', 9, '763224.00', 0, 2, 0, 1203),
 (1619, '2019-10-10', 'LC1D65AM7', 23, '1217160.01', 0, 2, 0, 1204),
-(1620, '2019-10-10', 'EZC250F3250', 2, '825748.00', 2, 2, 0, 1205),
+(1620, '2019-10-10', 'EZC250F3250', 2, '825748.00', 0, 2, 0, 1205),
 (1621, '2019-10-10', 'EZC250F3200', 1, '825748.00', 1, 2, 0, 1206),
 (1622, '2019-10-10', 'EZC250F3160', 1, '784245.00', 0, 2, 0, 1207),
 (1623, '2019-10-11', 'LV540305', 1, '1846614.00', 0, 2, 0, 1208),
@@ -31337,7 +31710,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1646, '2019-10-16', 'LC1D12F7', 1, '173880.08', 0, 2, 0, 1230),
 (1647, '2019-10-03', 'NYY21', 2000, '6200.00', 2000, 4, 0, 1232),
 (1648, '2019-10-03', 'NYY21', 600, '6200.00', 600, 4, 0, 1233),
-(1649, '2019-10-04', 'NYMHY21', 150, '6297.50', 150, 4, 0, 1234),
+(1649, '2019-10-04', 'NYMHY21', 150, '6297.50', 100, 4, 0, 1234),
 (1650, '2019-10-03', 'NYYHY3075', 150, '5903.92', 150, 4, 0, 1235),
 (1651, '2019-10-03', 'NYY1300', 480, '310000.01', 0, 4, 0, 1236),
 (1652, '2019-10-03', 'NYYHY3075', 1250, '5904.01', 1250, 4, 0, 1238),
@@ -31345,11 +31718,11 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1654, '2019-10-04', 'NYMHY21', 2500, '6297.61', 2500, 4, 0, 1239),
 (1655, '2019-10-17', 'EZC100B3025', 2, '329450.00', 0, 3, 0, 1240),
 (1656, '2019-10-17', 'NYM21', 10000, '5379.20', 10000, 4, 0, 1241),
-(1657, '2019-10-17', 'NYM32', 5000, '9840.01', 2250, 4, 0, 1242),
+(1657, '2019-10-17', 'NYM32', 5000, '9840.01', 0, 4, 0, 1242),
 (1658, '2019-10-17', 'AAACS70', 500, '14500.00', 500, 4, 0, 1243),
 (1659, '2019-10-17', 'NYY31', 150, '7700.00', 150, 4, 0, 1244),
 (1660, '2019-10-17', 'NYM21', 250, '5379.20', 250, 4, 0, 1245),
-(1661, '2019-10-17', 'NYM32', 250, '9840.00', 250, 4, 0, 1246),
+(1661, '2019-10-17', 'NYM32', 250, '9840.00', 0, 4, 0, 1246),
 (1662, '2019-10-17', 'NYMHY2075', 250, '3673.61', 250, 4, 0, 1247),
 (1663, '2019-10-01', 'LV510307', 1, '610998.00', 0, 6, 0, 1248),
 (1664, '2019-10-17', 'NYY1240', 43, '266407.98', 0, 4, 0, 1249),
@@ -31370,25 +31743,25 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1679, '2019-10-18', 'ATV320U55N4B', 4, '6397176.50', 0, 7, 0, 1283),
 (1680, '2019-10-19', 'NYA2H', 700, '2587.97', 500, 4, 0, 1276),
 (1681, '2019-10-19', 'NYA2M', 400, '2587.97', 400, 4, 0, 1277),
-(1682, '2019-10-19', 'NYA1H', 300, '1615.02', 300, 4, 0, 1278),
-(1683, '2019-10-19', 'NYA1M', 200, '1615.02', 200, 4, 0, 1279),
+(1682, '2019-10-19', 'NYA1H', 300, '1615.02', 0, 4, 0, 1278),
+(1683, '2019-10-19', 'NYA1M', 200, '1615.02', 0, 4, 0, 1279),
 (1684, '2019-10-19', 'NYYHY4075', 100, '10168.18', 0, 4, 0, 1273),
 (1685, '2019-10-19', 'NYM31', 500, '6901.11', 500, 4, 0, 1274),
 (1686, '2019-10-19', 'NYMHY2075', 2500, '3673.60', 2500, 4, 0, 1275),
 (1687, '2019-10-19', 'NYMHY2075', 5000, '3673.60', 5000, 4, 0, 1280),
-(1688, '2019-10-19', 'NYM32', 7500, '9839.98', 7500, 4, 0, 1267),
+(1688, '2019-10-19', 'NYM32', 7500, '9839.98', 6350, 4, 0, 1267),
 (1689, '2019-10-19', 'NYM22', 2500, '7714.56', 2500, 4, 0, 1268),
 (1690, '2019-10-19', 'NYM21', 5000, '5379.22', 5000, 4, 0, 1269),
 (1691, '2019-10-19', 'NYY31', 100, '7700.00', 100, 4, 0, 1270),
 (1692, '2019-10-19', 'NYA10KH', 250, '10627.19', 0, 4, 0, 1271),
 (1693, '2019-10-19', 'NYA16KH', 300, '17280.01', 0, 4, 0, 1272),
 (1694, '2019-10-19', 'NYY410', 255, '51519.99', 0, 4, 0, 1281),
-(1695, '2019-10-21', 'NYM42', 250, '12529.62', 200, 4, 0, 1266),
+(1695, '2019-10-21', 'NYM42', 250, '12529.62', 0, 4, 0, 1266),
 (1696, '2019-10-21', 'NFA2X-T395-70', 470, '68999.70', 0, 3, 0, 1282),
 (1697, '2019-10-21', 'NYM31', 5000, '6901.11', 5000, 4, 0, 1284),
-(1698, '2019-10-21', 'NYM42', 250, '12529.62', 250, 4, 0, 1285),
+(1698, '2019-10-21', 'NYM42', 250, '12529.62', 150, 4, 0, 1285),
 (1699, '2019-10-22', 'DOM12524', 48, '379533.00', 0, 2, 0, 1286),
-(1700, '2019-10-22', 'DOM11348SNI', 10, '203775.00', 6, 2, 0, 1287),
+(1700, '2019-10-22', 'DOM11348SNI', 10, '203775.00', 0, 2, 0, 1287),
 (1701, '2019-10-22', 'EZC100F3100', 15, '381342.50', 15, 2, 0, 1288),
 (1702, '2019-10-07', 'NYFGBY42', 900, '19860.00', 0, 4, 0, 1289),
 (1703, '2019-10-23', '33478', 22, '12178546.82', 2, 1, 0, 1290),
@@ -31396,9 +31769,9 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1705, '2019-09-27', 'LC1D38M7', 6, '515350.00', 0, 2, 0, 1292),
 (1706, '2019-09-27', 'LV432693', 1, '4291100.00', 0, 2, 0, 1293),
 (1707, '2019-09-27', 'EZC100F3025', 6, '351725.00', 0, 2, 0, 1294),
-(1708, '2019-09-27', 'DOM11341SNI', 36, '43257.50', 27, 2, 0, 1295),
+(1708, '2019-09-27', 'DOM11341SNI', 36, '43257.50', 0, 2, 0, 1295),
 (1709, '2019-09-25', 'A9F74363', 1, '488928.00', 0, 2, 0, 1296),
-(1710, '2019-09-25', 'A9F74110', 12, '64152.00', 12, 2, 0, 1297),
+(1710, '2019-09-25', 'A9F74110', 12, '64152.00', 8, 2, 0, 1297),
 (1711, '2019-10-22', 'LV429388', 1, '541695.00', 0, 2, 0, 1312),
 (1712, '2019-10-24', 'MVS20N3MF2A', 1, '16962528.00', 0, 2, 0, 1313),
 (1713, '2019-10-24', 'LC1D65AM7', 18, '1217160.01', 0, 2, 0, 1298),
@@ -31413,7 +31786,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1722, '2019-10-24', 'A9F74332', 3, '287287.00', 0, 2, 0, 1307),
 (1723, '2019-10-24', 'LRD08', 8, '209520.08', 0, 2, 0, 1308),
 (1724, '2019-10-24', 'LRD22', 2, '245159.75', 0, 2, 0, 1309),
-(1725, '2019-10-24', 'A9F74104', 13, '71687.00', 6, 2, 0, 1310),
+(1725, '2019-10-24', 'A9F74104', 13, '71687.00', 3, 2, 0, 1310),
 (1726, '2019-10-24', 'A9F74325', 12, '269500.00', 9, 2, 0, 1311),
 (1728, '2019-10-07', 'NYY42', 1000, '13029.71', 0, 4, 0, 1315),
 (1729, '2019-10-08', 'NYY22', 200, '8499.98', 0, 4, 0, 1316),
@@ -31444,12 +31817,13 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1754, '2019-10-29', 'LRD07', 3, '213400.00', 0, 2, 0, 1342),
 (1755, '2019-10-29', 'LRD08', 3, '213400.00', 0, 2, 0, 1343),
 (1756, '2019-10-29', 'LRD12', 2, '213400.00', 0, 2, 0, 1344),
-(1757, '2019-10-29', 'LC1D09M7', 13, '150975.00', 7, 2, 0, 1345),
+(1757, '2019-10-29', 'LC1D09M7', 13, '150975.00', 7, 2, 0, 1345);
+INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `sisa`, `supplier_id`, `customer_id`, `gr_id`) VALUES
 (1758, '2019-10-29', 'A9F74306', 10, '256025.00', 0, 2, 0, 1346),
 (1759, '2019-10-29', 'RXM4AB1P7', 1, '51425.00', 0, 2, 0, 1347),
 (1760, '2019-10-29', 'RXZE2M114M', 1, '23292.50', 1, 2, 0, 1348),
 (1761, '2019-10-29', 'LC1K0910M7', 1, '154275.00', 0, 2, 0, 1349),
-(1762, '2019-10-21', 'ATV320U55N4B', 1, '4960271.80', 1, 7, 0, 1351),
+(1762, '2019-10-21', 'ATV320U55N4B', 1, '4960271.80', 0, 7, 0, 1351),
 (1764, '2019-09-24', 'NYMHY21', 500, '11080.65', 500, 4, 0, 1353),
 (1765, '2019-09-24', 'NYMHY2075', 500, '3673.60', 500, 4, 0, 1354),
 (1766, '2019-09-24', 'NYMHY2075', 500, '3673.60', 500, 4, 0, 1355),
@@ -31468,21 +31842,21 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1779, '2019-09-26', 'NYM42', 250, '12529.62', 250, 4, 0, 1368),
 (1780, '2019-09-26', 'NYM34', 500, '15971.21', 500, 4, 0, 1369),
 (1781, '2019-09-26', 'NYM44', 500, '20571.32', 500, 4, 0, 1370),
-(1782, '2019-09-27', 'NYAF2B', 1400, '3039.96', 300, 4, 0, 1371),
+(1782, '2019-09-27', 'NYAF2B', 1400, '3039.96', 0, 4, 0, 1371),
 (1783, '2019-09-27', 'NYAF10KH', 200, '12839.53', 0, 4, 0, 1372),
 (1784, '2019-09-27', 'NYYHY31', 1250, '8691.98', 1250, 4, 0, 1373),
 (1785, '2019-09-28', 'NYYHY2075', 650, '3673.56', 650, 4, 0, 1374),
 (1786, '2019-11-01', 'DOM12524', 12, '379533.00', 0, 2, 0, 1375),
 (1787, '2019-11-01', 'DOM12524', 48, '379533.00', 0, 2, 0, 1376),
-(1788, '2019-11-01', 'DOM11341SNI', 144, '42592.00', 144, 2, 0, 1377),
+(1788, '2019-11-01', 'DOM11341SNI', 144, '42592.00', 99, 2, 0, 1377),
 (1789, '2019-11-01', 'A9E21180', 50, '770500.50', 0, 2, 0, 1378),
-(1790, '2019-11-02', 'NYFGBY310', 850, '49686.00', 850, 4, 0, 1379),
+(1790, '2019-11-02', 'NYFGBY310', 850, '49686.00', 0, 4, 0, 1379),
 (1791, '2019-11-02', 'EZC100F3080', 2, '381342.50', 0, 2, 0, 1380),
-(1792, '2019-11-02', 'CA2KN22M7', 15, '120690.02', 15, 2, 0, 1381),
-(1793, '2019-11-02', 'XB5AW34M5', 40, '83875.00', 40, 2, 0, 1382),
+(1792, '2019-11-02', 'CA2KN22M7', 15, '120690.02', 0, 2, 0, 1381),
+(1793, '2019-11-02', 'XB5AW34M5', 40, '83875.00', 0, 2, 0, 1382),
 (1794, '2019-11-02', 'NYY32', 250, '11400.00', 250, 4, 0, 1383),
 (1795, '2019-11-02', 'NYM31', 2500, '6901.14', 2500, 4, 0, 1384),
-(1796, '2019-11-02', 'NYA1M', 1000, '1615.01', 1000, 4, 0, 1385),
+(1796, '2019-11-02', 'NYA1M', 1000, '1615.01', 900, 4, 0, 1385),
 (1797, '2019-11-02', 'NYA1H', 1000, '1615.01', 1000, 4, 0, 1386),
 (1798, '2019-11-02', 'NYA2M', 1000, '2587.99', 1000, 4, 0, 1387),
 (1799, '2019-11-02', 'NYA2H', 1000, '2587.99', 1000, 4, 0, 1388),
@@ -31494,24 +31868,24 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1805, '2019-11-01', 'NYM32', 1500, '9839.98', 1500, 4, 0, 1394),
 (1806, '2019-11-04', 'NYM31', 1750, '6901.14', 1750, 4, 0, 1395),
 (1807, '2019-11-04', 'NYM21', 250, '0.00', 250, 4, 0, 1396),
-(1808, '2019-11-01', 'ATV320U55N4B', 1, '4960271.80', 1, 7, 0, 1397),
+(1808, '2019-11-01', 'ATV320U55N4B', 1, '4960271.80', 0, 7, 0, 1397),
 (1809, '2019-10-31', 'NYFGBY46', 600, '38859.76', 0, 4, 0, 1398),
 (1810, '2019-10-28', 'NYA6KH', 300, '6422.35', 0, 4, 0, 1399),
-(1811, '2019-10-31', 'LC1D25BD', 4, '836999.90', 4, 2, 0, 1400),
+(1811, '2019-10-31', 'LC1D25BD', 4, '836999.90', 0, 2, 0, 1400),
 (1812, '2019-10-31', 'DOM11351SNI', 8, '218889.00', 2, 2, 0, 1401),
-(1813, '2019-10-31', 'METSEDM1310', 20, '372526.00', 20, 2, 0, 1404),
+(1813, '2019-10-31', 'METSEDM1310', 20, '372526.00', 0, 2, 0, 1404),
 (1814, '2019-10-31', 'LADN13', 2, '117975.00', 0, 2, 0, 1405),
 (1815, '2019-10-31', 'LRD340', 2, '619300.00', 0, 2, 0, 1406),
-(1816, '2019-11-05', '33466E', 4, '13458291.00', 4, 2, 0, 1402),
-(1817, '2019-11-05', 'DOM11353SNI', 12, '244172.50', 12, 2, 0, 1403),
+(1816, '2019-11-05', '33466E', 4, '13458291.00', 0, 2, 0, 1402),
+(1817, '2019-11-05', 'DOM11353SNI', 12, '244172.50', 0, 2, 0, 1403),
 (1818, '2019-11-05', 'NYM21', 37500, '5379.20', 37500, 4, 0, 1407),
 (1819, '2019-11-05', 'NYM21', 1000, '5379.20', 1000, 4, 0, 1408),
-(1820, '2019-11-07', 'LC1F500', 4, '14504400.13', 4, 2, 0, 1409),
-(1821, '2019-11-07', 'LX1FK220', 4, '2260979.93', 4, 2, 0, 1410),
-(1822, '2019-11-07', 'LV429630', 10, '830060.00', 10, 2, 0, 1411),
-(1823, '2019-11-07', 'EZC250F3250', 2, '825748.00', 2, 2, 0, 1412),
-(1824, '2019-11-07', 'LC1D38M7', 1, '505980.20', 1, 2, 0, 1413),
-(1825, '2019-11-08', 'A9K27216', 1, '123161.50', 1, 2, 0, 1414),
+(1820, '2019-11-07', 'LC1F500', 4, '14504400.13', 0, 2, 0, 1409),
+(1821, '2019-11-07', 'LX1FK220', 4, '2260979.93', 0, 2, 0, 1410),
+(1822, '2019-11-07', 'LV429630', 10, '830060.00', 0, 2, 0, 1411),
+(1823, '2019-11-07', 'EZC250F3250', 2, '825748.00', 0, 2, 0, 1412),
+(1824, '2019-11-07', 'LC1D38M7', 1, '505980.20', 0, 2, 0, 1413),
+(1825, '2019-11-08', 'A9K27216', 1, '123161.50', 0, 2, 0, 1414),
 (1826, '2019-11-08', 'NYM31', 5000, '6901.14', 5000, 4, 0, 1415),
 (1827, '2019-10-24', 'NYM21', 2500, '0.00', 2500, 4, 0, 1420),
 (1829, '2019-11-05', 'NYAF2H', 100, '3676.81', 100, 4, 0, 1416),
@@ -31524,7 +31898,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1836, '2019-10-29', 'NYM21', 500, '0.00', 500, 4, 0, 1426),
 (1837, '2019-10-31', 'NYM34', 150, '15971.12', 150, 4, 0, 1422),
 (1838, '2019-10-29', 'NYAF075M', 200, '1449.58', 0, 4, 0, 1427),
-(1839, '2019-11-11', 'NYAF2B', 600, '3676.81', 600, 4, 0, 1431),
+(1839, '2019-11-11', 'NYAF2B', 600, '3676.81', 0, 4, 0, 1431),
 (1840, '2019-11-11', 'NYA1H', 800, '1615.02', 800, 4, 0, 1432),
 (1841, '2019-11-11', 'NYA1M', 800, '1615.02', 800, 4, 0, 1433),
 (1842, '2019-11-08', 'NYMHY2075', 10000, '3673.60', 10000, 4, 0, 1428),
@@ -31535,26 +31909,26 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1852, '2019-11-05', 'NYM32', 18750, '9839.98', 18750, 4, 0, 1440),
 (1853, '2019-11-12', 'NFA2X210', 500, '3799.99', 500, 4, 0, 1439),
 (1854, '2019-11-11', 'NYY32', 300, '11399.98', 300, 4, 0, 1437),
-(1855, '2019-11-11', 'NYY46', 100, '30396.78', 100, 4, 0, 1438),
+(1855, '2019-11-11', 'NYY46', 100, '30396.78', 0, 4, 0, 1438),
 (1856, '2019-11-12', 'NYYHY2075', 5000, '3673.60', 5000, 4, 0, 1436),
-(1857, '2019-11-11', 'ABL2REM24085H', 1, '449460.00', 1, 2, 0, 1446),
-(1858, '2019-11-11', 'LV432893', 3, '5527445.00', 3, 2, 0, 1447),
-(1859, '2019-11-11', 'EZC100F3025', 1, '344690.50', 1, 2, 0, 1448),
-(1860, '2019-11-11', 'DOM11348SNI', 1, '203775.00', 1, 2, 0, 1449),
-(1861, '2019-11-11', 'LC1K0910M7', 3, '151470.00', 3, 2, 0, 1450),
-(1862, '2019-11-11', 'LR2K0310', 12, '245160.08', 12, 2, 0, 1451),
+(1857, '2019-11-11', 'ABL2REM24085H', 1, '449460.00', 0, 2, 0, 1446),
+(1858, '2019-11-11', 'LV432893', 3, '5527445.00', 0, 2, 0, 1447),
+(1859, '2019-11-11', 'EZC100F3025', 1, '344690.50', 0, 2, 0, 1448),
+(1860, '2019-11-11', 'DOM11348SNI', 1, '203775.00', 0, 2, 0, 1449),
+(1861, '2019-11-11', 'LC1K0910M7', 3, '151470.00', 0, 2, 0, 1450),
+(1862, '2019-11-11', 'LR2K0310', 12, '245160.08', 0, 2, 0, 1451),
 (1863, '2019-11-11', 'EZC100N3080', 9, '466235.00', 9, 2, 0, 1452),
 (1864, '2019-11-11', 'LC1D32M7', 10, '410939.98', 10, 2, 0, 1453),
-(1865, '2019-11-13', 'LC1DWK12M7', 12, '1976940.00', 12, 2, 0, 1441),
-(1866, '2019-11-13', 'DOM11352SNI', 1, '236665.00', 1, 2, 0, 1442),
-(1867, '2019-11-13', 'DOM11353SNI', 2, '244172.00', 2, 2, 0, 1443),
+(1865, '2019-11-13', 'LC1DWK12M7', 12, '1976940.00', 0, 2, 0, 1441),
+(1866, '2019-11-13', 'DOM11352SNI', 1, '236665.00', 0, 2, 0, 1442),
+(1867, '2019-11-13', 'DOM11353SNI', 2, '244172.00', 0, 2, 0, 1443),
 (1868, '2019-11-13', 'LC1D40AM7', 8, '724680.00', 8, 2, 0, 1444),
-(1869, '2019-11-13', 'EZC100N1100', 11, '228805.50', 11, 2, 0, 1445),
-(1870, '2019-11-12', 'NW32H13F2EH', 1, '36917232.00', 1, 2, 0, 1454),
-(1871, '2019-11-12', 'EZC250N3250', 8, '1010064.00', 8, 2, 0, 1455),
-(1872, '2019-11-12', 'EZC250N3125', 1, '814704.00', 1, 2, 0, 1456),
-(1873, '2019-11-12', 'EZC100N3060', 13, '456720.00', 13, 2, 0, 1457),
-(1874, '2019-11-12', 'EZC100N3030', 20, '418176.00', 20, 2, 0, 1458),
+(1869, '2019-11-13', 'EZC100N1100', 11, '228805.50', 0, 2, 0, 1445),
+(1870, '2019-11-12', 'NW32H13F2EH', 1, '36917232.00', 0, 2, 0, 1454),
+(1871, '2019-11-12', 'EZC250N3250', 8, '1010064.00', 0, 2, 0, 1455),
+(1872, '2019-11-12', 'EZC250N3125', 1, '814704.00', 0, 2, 0, 1456),
+(1873, '2019-11-12', 'EZC100N3060', 13, '456720.00', 0, 2, 0, 1457),
+(1874, '2019-11-12', 'EZC100N3030', 20, '418176.00', 0, 2, 0, 1458),
 (1875, '2019-11-12', 'RXM4AB1P7', 1, '46750.00', 1, 2, 0, 1459),
 (1876, '2019-11-14', 'NYYHY32', 100, '12693.56', 100, 4, 0, 1463),
 (1877, '2019-11-14', 'NYM31', 1000, '6901.11', 1000, 4, 0, 1464),
@@ -31567,10 +31941,10 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1884, '2019-11-01', 'NYY44', 100, '23404.81', 100, 4, 0, 1471),
 (1885, '2019-11-02', 'NYM21', 250, '0.00', 250, 4, 0, 1472),
 (1886, '2019-11-05', 'NYM21', 3750, '0.00', 3750, 4, 0, 1473),
-(1887, '2019-11-16', 'A9E21180', 50, '770500.50', 50, 2, 0, 1474),
-(1888, '2019-11-16', 'LADT2', 3, '527850.00', 3, 2, 0, 1475),
-(1890, '2019-11-16', 'LC1K0610D7', 2, '137970.00', 2, 2, 0, 1477),
-(1891, '2019-11-16', 'NFA2X216', 500, '5999.99', 500, 4, 0, 1478),
+(1887, '2019-11-16', 'A9E21180', 50, '770500.50', 0, 2, 0, 1474),
+(1888, '2019-11-16', 'LADT2', 3, '527850.00', 0, 2, 0, 1475),
+(1890, '2019-11-16', 'LC1K0610D7', 2, '137970.00', 0, 2, 0, 1477),
+(1891, '2019-11-16', 'NFA2X216', 500, '5999.99', 100, 4, 0, 1478),
 (1892, '2019-11-18', 'NYYHY32', 250, '12693.60', 250, 4, 0, 1479),
 (1893, '2019-11-20', 'NYMHY21', 500, '6297.61', 500, 4, 0, 1491),
 (1894, '2019-11-20', 'NYMHY21', 1750, '6297.59', 1750, 4, 0, 1488),
@@ -31582,7 +31956,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1900, '2019-11-19', 'NYM32', 1000, '9840.00', 1000, 4, 0, 1483),
 (1901, '2019-11-19', 'NYA1H', 100, '1615.02', 100, 4, 0, 1480),
 (1902, '2019-11-19', 'NYA1M', 100, '1615.02', 100, 4, 0, 1481),
-(1903, '2019-11-20', 'ATV320U55N4B', 3, '4960271.80', 3, 7, 0, 1493),
+(1903, '2019-11-20', 'ATV320U55N4B', 3, '4960271.80', 0, 7, 0, 1493),
 (1904, '2019-11-21', 'GGL-1600/3', 1, '4800000.00', 1, 8, 0, 1492),
 (1905, '2019-11-23', 'NYYHY31', 500, '8692.00', 500, 4, 0, 1506),
 (1906, '2019-11-25', 'NYYHY2075', 5000, '3673.60', 5000, 4, 0, 1510),
@@ -31608,9 +31982,9 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1926, '2019-11-29', 'RXZE2S114M', 5, '24750.00', 5, 2, 0, 1516),
 (1927, '2019-11-29', 'GV2ME08', 1, '318250.00', 1, 2, 0, 1517),
 (1928, '2019-11-29', 'A9F74206', 1, '151717.50', 1, 2, 0, 1518),
-(1929, '2019-11-29', 'F-SM6R-QM-A1', 1, '41255104.00', 1, 5, 0, 1519),
-(1930, '2019-11-27', 'LC1D80E7', 2, '1136000.00', 2, 2, 0, 1520),
-(1931, '2019-11-27', 'LC1D38M7', 6, '468500.00', 6, 2, 0, 1521),
+(1929, '2019-11-29', 'F-SM6R-QM-A1', 1, '41255104.00', 0, 5, 0, 1519),
+(1930, '2019-11-27', 'LC1D80E7', 2, '1136000.00', 0, 2, 0, 1520),
+(1931, '2019-11-27', 'LC1D38M7', 6, '468500.00', 0, 2, 0, 1521),
 (1932, '2019-11-29', 'NYYHY3075', 1000, '5904.00', 1000, 4, 0, 1522),
 (1933, '2019-11-29', 'XA2ET42', 30, '56265.00', 30, 2, 0, 1523),
 (1934, '2019-11-29', 'LC1D18BNE', 1, '637000.00', 1, 2, 0, 1524),
@@ -31659,7 +32033,7 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (1977, '2019-11-22', 'RXM4AB1P7', 4, '93500.00', 4, 2, 0, 1567),
 (1978, '2019-11-22', 'RXZE2M114M', 3, '42350.00', 3, 2, 0, 1568),
 (1979, '2019-11-20', 'XB4BS8442', 4, '97625.00', 4, 2, 0, 1571),
-(1980, '2019-11-21', 'LV429354', 1, '962016.00', 1, 2, 0, 1569),
+(1980, '2019-11-21', 'LV429354', 1, '962016.00', 0, 2, 0, 1569),
 (1981, '2019-11-21', 'XCJ102', 9, '109175.00', 9, 2, 0, 1570),
 (1982, '2019-11-30', 'NYM21', 4500, '5379.20', 4500, 4, 0, 1572),
 (1983, '2019-11-30', 'NYYHY42', 50, '16695.20', 50, 4, 0, 1580),
@@ -31761,7 +32135,9 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 (2079, '2019-12-04', '47353', 1, '902880.00', 1, 2, 0, 1683),
 (2080, '2019-12-04', 'A9F74316', 2, '230422.50', 2, 2, 0, 1684),
 (2081, '2019-12-04', 'LV516333', 2, '1016235.00', 2, 2, 0, 1685),
-(2082, '2019-12-05', 'NYM42', 250, '12529.60', 250, 4, 0, 1653);
+(2082, '2019-12-05', 'NYM42', 250, '12529.60', 250, 4, 0, 1653),
+(2083, '2019-12-06', 'XY2CZ402', 30, '99497.75', 30, 2, 0, 1686),
+(2084, '2019-12-06', 'XY2CZ503', 120, '28008.75', 120, 2, 0, 1687);
 
 -- --------------------------------------------------------
 
@@ -31769,14 +32145,13 @@ INSERT INTO `stock_value_in` (`id`, `date`, `reference`, `quantity`, `price`, `s
 -- Table structure for table `stock_value_out`
 --
 
-CREATE TABLE IF NOT EXISTS `stock_value_out` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `stock_value_out` (
+  `id` int(255) NOT NULL,
   `date` date NOT NULL,
   `in_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `customer_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2560 DEFAULT CHARSET=latin1;
+  `customer_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `stock_value_out`
@@ -33079,7 +33454,6 @@ INSERT INTO `stock_value_out` (`id`, `date`, `in_id`, `quantity`, `customer_id`)
 (1409, '2019-06-26', 696, 1, 1),
 (1410, '2019-06-26', 692, 1, 1),
 (1411, '2019-06-26', 164, 1, 1),
-(1412, '2019-06-27', 208, 1, 0),
 (1413, '2019-06-27', 1137, 1, 1),
 (1414, '2019-06-27', 1137, 1, 1),
 (1415, '2019-06-27', 1116, 10, 44),
@@ -33359,7 +33733,8 @@ INSERT INTO `stock_value_out` (`id`, `date`, `in_id`, `quantity`, `customer_id`)
 (1689, '2019-07-26', 1239, 24, 28),
 (1690, '2019-07-26', 1268, 54, 28),
 (1691, '2019-07-26', 1269, 54, 28),
-(1692, '2019-07-26', 929, 3, 28),
+(1692, '2019-07-26', 929, 3, 28);
+INSERT INTO `stock_value_out` (`id`, `date`, `in_id`, `quantity`, `customer_id`) VALUES
 (1693, '2019-07-26', 921, 1, 28),
 (1694, '2019-07-26', 1261, 2, 28),
 (1695, '2019-07-26', 1262, 4, 28),
@@ -33829,8 +34204,7 @@ INSERT INTO `stock_value_out` (`id`, `date`, `in_id`, `quantity`, `customer_id`)
 (2170, '2019-09-19', 248, 2, 3),
 (2171, '2019-09-19', 330, 100, 3),
 (2172, '2019-09-19', 331, 200, 3),
-(2173, '2019-09-19', 334, 300, 3);
-INSERT INTO `stock_value_out` (`id`, `date`, `in_id`, `quantity`, `customer_id`) VALUES
+(2173, '2019-09-19', 334, 300, 3),
 (2174, '2019-09-19', 332, 900, 3),
 (2175, '2019-09-19', 1346, 300, 19),
 (2176, '2019-09-19', 1490, 750, 19),
@@ -34216,7 +34590,114 @@ INSERT INTO `stock_value_out` (`id`, `date`, `in_id`, `quantity`, `customer_id`)
 (2556, '2019-11-04', 1645, 1, 49),
 (2557, '2019-11-02', 1786, 12, 27),
 (2558, '2019-11-02', 1787, 48, 27),
-(2559, '2019-11-02', 1789, 50, 27);
+(2559, '2019-11-02', 1789, 50, 27),
+(2560, '2019-11-04', 1813, 20, 272),
+(2561, '2019-11-04', 876, 36, 49),
+(2562, '2019-11-04', 877, 60, 49),
+(2563, '2019-11-04', 1708, 27, 49),
+(2564, '2019-11-04', 1788, 33, 49),
+(2565, '2019-11-04', 879, 60, 49),
+(2566, '2019-11-04', 881, 12, 49),
+(2567, '2019-11-04', 185, 12, 49),
+(2568, '2019-11-04', 1811, 4, 3),
+(2569, '2019-11-04', 1792, 15, 3),
+(2570, '2019-11-04', 1793, 40, 3),
+(2571, '2019-11-02', 1790, 850, 275),
+(2572, '2019-11-04', 876, 12, 35),
+(2573, '2019-11-04', 1788, 12, 35),
+(2574, '2019-11-04', 1344, 50, 38),
+(2575, '2019-11-04', 354, 100, 38),
+(2576, '2019-11-07', 1418, 6, 270),
+(2577, '2019-11-06', 1762, 1, 79),
+(2578, '2019-11-06', 1808, 1, 79),
+(2579, '2019-11-06', 1817, 12, 15),
+(2580, '2019-11-06', 1657, 150, 6),
+(2581, '2019-11-07', 1570, 1, 1),
+(2582, '2019-11-11', 1820, 4, 44),
+(2583, '2019-11-11', 1821, 4, 44),
+(2584, '2019-11-11', 1822, 10, 44),
+(2585, '2019-11-11', 1620, 2, 44),
+(2586, '2019-11-11', 1823, 2, 44),
+(2587, '2019-11-11', 1824, 1, 52),
+(2588, '2019-11-11', 1344, 300, 12),
+(2589, '2019-11-11', 1432, 300, 12),
+(2590, '2019-11-11', 1657, 500, 12),
+(2591, '2019-11-11', 1695, 200, 12),
+(2592, '2019-11-11', 1698, 100, 12),
+(2593, '2019-11-11', 1344, 50, 276),
+(2594, '2019-11-11', 1432, 50, 276),
+(2595, '2019-11-11', 1816, 2, 44),
+(2596, '2019-11-11', 1816, 2, 44),
+(2597, '2019-11-12', 1825, 1, 40),
+(2598, '2019-11-12', 1700, 6, 15),
+(2599, '2019-11-08', 838, 3, 147),
+(2600, '2019-11-13', 1657, 900, 19),
+(2601, '2019-11-13', 1585, 50, 12),
+(2602, '2019-11-13', 1534, 500, 12),
+(2603, '2019-11-13', 1682, 300, 12),
+(2604, '2019-11-13', 1535, 500, 12),
+(2605, '2019-11-13', 1683, 200, 12),
+(2606, '2019-11-13', 1796, 100, 12),
+(2607, '2019-11-13', 1782, 300, 28),
+(2608, '2019-11-13', 1839, 600, 28),
+(2609, '2019-11-14', 1859, 1, 261),
+(2610, '2019-11-14', 1857, 1, 261),
+(2611, '2019-11-14', 1861, 3, 15),
+(2612, '2019-11-14', 1862, 12, 15),
+(2613, '2019-11-14', 1860, 1, 15),
+(2614, '2019-11-14', 1866, 1, 15),
+(2615, '2019-11-14', 1867, 2, 15),
+(2616, '2019-11-14', 1869, 11, 6),
+(2617, '2019-11-15', 1657, 500, 19),
+(2618, '2019-11-18', 1858, 3, 3),
+(2619, '2019-11-15', 1865, 12, 138),
+(2620, '2019-11-15', 884, 3, 15),
+(2621, '2019-11-15', 1855, 100, 12),
+(2622, '2019-11-18', 170, 2, 26),
+(2623, '2019-11-19', 1888, 3, 15),
+(2624, '2019-11-19', 1887, 50, 27),
+(2625, '2019-11-21', 1657, 200, 3),
+(2626, '2019-11-21', 1661, 250, 3),
+(2627, '2019-11-21', 1688, 1050, 3),
+(2628, '2019-11-21', 1890, 2, 40),
+(2629, '2019-11-21', 1412, 2, 31),
+(2630, '2019-11-21', 835, 1, 31),
+(2631, '2019-11-20', 1582, 100, 277),
+(2632, '2019-11-20', 1891, 400, 277),
+(2633, '2019-11-21', 91, 2, 12),
+(2634, '2019-11-22', 1486, 150, 12),
+(2635, '2019-11-22', 1524, 250, 12),
+(2636, '2019-11-22', 1577, 500, 12),
+(2637, '2019-11-22', 1649, 50, 12),
+(2638, '2019-11-22', 1903, 3, 79),
+(2639, '2019-11-23', 1446, 350, 150),
+(2640, '2019-11-23', 1457, 50, 150),
+(2641, '2019-11-23', 1688, 100, 150),
+(2642, '2019-11-23', 1980, 1, 148),
+(2643, '2019-11-27', 193, 3, 138),
+(2644, '2019-11-27', 852, 3, 138),
+(2645, '2019-11-27', 287, 1, 18),
+(2646, '2019-11-27', 276, 1, 18),
+(2647, '2019-11-27', 1725, 3, 27),
+(2648, '2019-11-27', 1507, 8, 27),
+(2649, '2019-11-27', 1710, 4, 27),
+(2650, '2019-11-29', 1929, 1, 147),
+(2651, '2019-11-29', 1931, 6, 138),
+(2652, '2019-11-29', 1930, 2, 15),
+(2653, '2019-06-27', 209, 1, 0),
+(2654, '2019-11-13', 836, 2, 7),
+(2655, '2019-11-13', 1871, 8, 7),
+(2656, '2019-11-13', 835, 8, 7),
+(2657, '2019-11-13', 886, 2, 7),
+(2658, '2019-11-13', 834, 10, 7),
+(2659, '2019-11-13', 833, 8, 7),
+(2660, '2019-11-13', 885, 1, 7),
+(2661, '2019-11-13', 1872, 1, 7),
+(2662, '2019-11-13', 208, 7, 7),
+(2663, '2019-11-13', 1873, 13, 7),
+(2664, '2019-11-13', 207, 20, 7),
+(2665, '2019-11-13', 1874, 20, 7),
+(2666, '2019-11-13', 1870, 1, 7);
 
 -- --------------------------------------------------------
 
@@ -34224,8 +34705,8 @@ INSERT INTO `stock_value_out` (`id`, `date`, `in_id`, `quantity`, `customer_id`)
 -- Table structure for table `supplier`
 --
 
-CREATE TABLE IF NOT EXISTS `supplier` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `supplier` (
+  `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `address` varchar(100) NOT NULL,
   `phone` varchar(20) NOT NULL,
@@ -34234,10 +34715,8 @@ CREATE TABLE IF NOT EXISTS `supplier` (
   `created_by` int(10) NOT NULL,
   `date_created` date NOT NULL,
   `modified_by` int(10) DEFAULT NULL,
-  `date_modified` date DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `created_by` (`created_by`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+  `date_modified` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `supplier`
@@ -34279,8 +34758,8 @@ INSERT INTO `supplier` (`id`, `name`, `address`, `phone`, `npwp`, `city`, `creat
 -- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `id` int(255) NOT NULL,
   `NIK` varchar(20) NOT NULL,
   `name` text NOT NULL,
   `mail` varchar(100) NOT NULL,
@@ -34296,9 +34775,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `privilege` tinyint(1) NOT NULL DEFAULT '0',
   `hpp` tinyint(1) NOT NULL DEFAULT '0',
   `isactive` tinyint(1) NOT NULL DEFAULT '1',
-  `image_url` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+  `image_url` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -34316,6 +34794,707 @@ INSERT INTO `users` (`id`, `NIK`, `name`, `mail`, `username`, `password`, `pin`,
 (9, '3273016101940002', 'Vinna Sari Rahayu', 'danielrudianto12@gmail.com', 'vinnasari', 'bd0c358683b9cca9fc38e5116932bc1c', NULL, 'administrator', 'Jalan Sarijadi II no. 24 RT 001 RW 010, Sarijadi', 'Bandung', '0000000000', 2, '2019-10-28', 0, 0, 1, ''),
 (10, '3212031102900008', 'Kris Adiwiguna', 'yoqinfzz@gmail.com', 'yoks90', '25f9e794323b453885f5181f1b624d0b', NULL, 'Motorist', 'Jalan Taman Holis Blok B4 no. 67', 'Bandung', '4850343760', 1, '2019-11-23', 0, 0, 1, 'images/users/10.jpg'),
 (11, '3273111006890001', 'Toni Lili Kurniawan', 'tonjen1503@gmail.com', 'tonilili', '1adbb3178591fd5bb0c248518f39bf6d', NULL, 'Sales', 'Jalan Ciateul no. 42B', 'Bandung', '7840172346', 1, '2019-12-01', 0, 0, 1, '');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `absentee_list`
+--
+ALTER TABLE `absentee_list`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `adjustment_event`
+--
+ALTER TABLE `adjustment_event`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `code_adjustment_event` (`code_adjustment_event`);
+
+--
+-- Indexes for table `announcement`
+--
+ALTER TABLE `announcement`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `authorization`
+--
+ALTER TABLE `authorization`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `department_id` (`department_id`);
+
+--
+-- Indexes for table `bank_account_other`
+--
+ALTER TABLE `bank_account_other`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `created_by` (`created_by`);
+
+--
+-- Indexes for table `closed_purchaseorder`
+--
+ALTER TABLE `closed_purchaseorder`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `purchaseorder_id` (`purchaseorder_id`);
+
+--
+-- Indexes for table `code_adjustment_event`
+--
+ALTER TABLE `code_adjustment_event`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `confirmed_by` (`confirmed_by`),
+  ADD KEY `created_by` (`created_by`);
+
+--
+-- Indexes for table `code_bank`
+--
+ALTER TABLE `code_bank`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `code_bank_other`
+--
+ALTER TABLE `code_bank_other`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `code_delivery_order`
+--
+ALTER TABLE `code_delivery_order`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `code_goodreceipt`
+--
+ALTER TABLE `code_goodreceipt`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `supplier_id` (`supplier_id`),
+  ADD KEY `created_by` (`created_by`),
+  ADD KEY `invoice_id` (`invoice_id`),
+  ADD KEY `po_id` (`po_id`),
+  ADD KEY `confirmed_by` (`confirmed_by`);
+
+--
+-- Indexes for table `code_proforma_invoice`
+--
+ALTER TABLE `code_proforma_invoice`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `code_project`
+--
+ALTER TABLE `code_project`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `code_purchaseorder`
+--
+ALTER TABLE `code_purchaseorder`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `guid` (`guid`),
+  ADD KEY `supplier_id` (`supplier_id`),
+  ADD KEY `created_by` (`created_by`);
+
+--
+-- Indexes for table `code_purchase_return`
+--
+ALTER TABLE `code_purchase_return`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `code_quotation`
+--
+ALTER TABLE `code_quotation`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `GUID` (`GUID`),
+  ADD KEY `created_by` (`created_by`),
+  ADD KEY `customer_id` (`customer_id`);
+
+--
+-- Indexes for table `code_salesorder`
+--
+ALTER TABLE `code_salesorder`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `guid` (`guid`);
+
+--
+-- Indexes for table `code_sales_return`
+--
+ALTER TABLE `code_sales_return`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `code_sales_return_received`
+--
+ALTER TABLE `code_sales_return_received`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `guid` (`guid`);
+
+--
+-- Indexes for table `code_sample`
+--
+ALTER TABLE `code_sample`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `counter_bill`
+--
+ALTER TABLE `counter_bill`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `created_by` (`created_by`),
+  ADD KEY `customer_id` (`customer_id`);
+
+--
+-- Indexes for table `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
+  ADD KEY `created_by` (`created_by`);
+
+--
+-- Indexes for table `delivery_order`
+--
+ALTER TABLE `delivery_order`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `departments`
+--
+ALTER TABLE `departments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `event`
+--
+ALTER TABLE `event`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `goodreceipt`
+--
+ALTER TABLE `goodreceipt`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `received_id` (`received_id`);
+
+--
+-- Indexes for table `invoices`
+--
+ALTER TABLE `invoices`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `itemlist`
+--
+ALTER TABLE `itemlist`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `reference` (`reference`);
+
+--
+-- Indexes for table `itemlist_category`
+--
+ALTER TABLE `itemlist_category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payable`
+--
+ALTER TABLE `payable`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `petty_cash`
+--
+ALTER TABLE `petty_cash`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `petty_cash_classification`
+--
+ALTER TABLE `petty_cash_classification`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `proforma_invoice`
+--
+ALTER TABLE `proforma_invoice`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `project`
+--
+ALTER TABLE `project`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `project_delivery_order`
+--
+ALTER TABLE `project_delivery_order`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `promotion`
+--
+ALTER TABLE `promotion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `created_by` (`created_by`);
+
+--
+-- Indexes for table `purchaseorder`
+--
+ALTER TABLE `purchaseorder`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `purchaseorder_id` (`purchaseorder_id`);
+
+--
+-- Indexes for table `purchases`
+--
+ALTER TABLE `purchases`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `supplier_id` (`supplier_id`);
+
+--
+-- Indexes for table `purchase_return`
+--
+ALTER TABLE `purchase_return`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `quotation`
+--
+ALTER TABLE `quotation`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `quotation_code` (`quotation_code`);
+
+--
+-- Indexes for table `reason`
+--
+ALTER TABLE `reason`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `receivable`
+--
+ALTER TABLE `receivable`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `salary`
+--
+ALTER TABLE `salary`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `sales_order`
+--
+ALTER TABLE `sales_order`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sales_return`
+--
+ALTER TABLE `sales_return`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sales_return_received`
+--
+ALTER TABLE `sales_return_received`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sample`
+--
+ALTER TABLE `sample`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `service_delivery_order`
+--
+ALTER TABLE `service_delivery_order`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `service_sales_order`
+--
+ALTER TABLE `service_sales_order`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `stock`
+--
+ALTER TABLE `stock`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `stock_value_in`
+--
+ALTER TABLE `stock_value_in`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `stock_value_out`
+--
+ALTER TABLE `stock_value_out`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `supplier`
+--
+ALTER TABLE `supplier`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `created_by` (`created_by`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `absentee_list`
+--
+ALTER TABLE `absentee_list`
+  MODIFY `ID` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1178;
+
+--
+-- AUTO_INCREMENT for table `adjustment_event`
+--
+ALTER TABLE `adjustment_event`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+--
+-- AUTO_INCREMENT for table `announcement`
+--
+ALTER TABLE `announcement`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `authorization`
+--
+ALTER TABLE `authorization`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT for table `bank_account_other`
+--
+ALTER TABLE `bank_account_other`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `closed_purchaseorder`
+--
+ALTER TABLE `closed_purchaseorder`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `code_adjustment_event`
+--
+ALTER TABLE `code_adjustment_event`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT for table `code_bank`
+--
+ALTER TABLE `code_bank`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1137;
+
+--
+-- AUTO_INCREMENT for table `code_bank_other`
+--
+ALTER TABLE `code_bank_other`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+
+--
+-- AUTO_INCREMENT for table `code_delivery_order`
+--
+ALTER TABLE `code_delivery_order`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1371;
+
+--
+-- AUTO_INCREMENT for table `code_goodreceipt`
+--
+ALTER TABLE `code_goodreceipt`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=756;
+
+--
+-- AUTO_INCREMENT for table `code_proforma_invoice`
+--
+ALTER TABLE `code_proforma_invoice`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `code_project`
+--
+ALTER TABLE `code_project`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `code_purchaseorder`
+--
+ALTER TABLE `code_purchaseorder`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=327;
+
+--
+-- AUTO_INCREMENT for table `code_purchase_return`
+--
+ALTER TABLE `code_purchase_return`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `code_quotation`
+--
+ALTER TABLE `code_quotation`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=584;
+
+--
+-- AUTO_INCREMENT for table `code_salesorder`
+--
+ALTER TABLE `code_salesorder`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=850;
+
+--
+-- AUTO_INCREMENT for table `code_sales_return`
+--
+ALTER TABLE `code_sales_return`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `code_sales_return_received`
+--
+ALTER TABLE `code_sales_return_received`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `code_sample`
+--
+ALTER TABLE `code_sample`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `counter_bill`
+--
+ALTER TABLE `counter_bill`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=278;
+
+--
+-- AUTO_INCREMENT for table `delivery_order`
+--
+ALTER TABLE `delivery_order`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2251;
+
+--
+-- AUTO_INCREMENT for table `departments`
+--
+ALTER TABLE `departments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `event`
+--
+ALTER TABLE `event`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `goodreceipt`
+--
+ALTER TABLE `goodreceipt`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1688;
+
+--
+-- AUTO_INCREMENT for table `invoices`
+--
+ALTER TABLE `invoices`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1320;
+
+--
+-- AUTO_INCREMENT for table `itemlist`
+--
+ALTER TABLE `itemlist`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4436;
+
+--
+-- AUTO_INCREMENT for table `itemlist_category`
+--
+ALTER TABLE `itemlist_category`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `payable`
+--
+ALTER TABLE `payable`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `petty_cash`
+--
+ALTER TABLE `petty_cash`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1270;
+
+--
+-- AUTO_INCREMENT for table `petty_cash_classification`
+--
+ALTER TABLE `petty_cash_classification`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
+-- AUTO_INCREMENT for table `proforma_invoice`
+--
+ALTER TABLE `proforma_invoice`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `project`
+--
+ALTER TABLE `project`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
+
+--
+-- AUTO_INCREMENT for table `project_delivery_order`
+--
+ALTER TABLE `project_delivery_order`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+
+--
+-- AUTO_INCREMENT for table `promotion`
+--
+ALTER TABLE `promotion`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `purchaseorder`
+--
+ALTER TABLE `purchaseorder`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1711;
+
+--
+-- AUTO_INCREMENT for table `purchases`
+--
+ALTER TABLE `purchases`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=619;
+
+--
+-- AUTO_INCREMENT for table `purchase_return`
+--
+ALTER TABLE `purchase_return`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `quotation`
+--
+ALTER TABLE `quotation`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5404;
+
+--
+-- AUTO_INCREMENT for table `reason`
+--
+ALTER TABLE `reason`
+  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `receivable`
+--
+ALTER TABLE `receivable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=400;
+
+--
+-- AUTO_INCREMENT for table `salary`
+--
+ALTER TABLE `salary`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
+-- AUTO_INCREMENT for table `sales_order`
+--
+ALTER TABLE `sales_order`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2134;
+
+--
+-- AUTO_INCREMENT for table `sales_return`
+--
+ALTER TABLE `sales_return`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `sales_return_received`
+--
+ALTER TABLE `sales_return_received`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `sample`
+--
+ALTER TABLE `sample`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `service_delivery_order`
+--
+ALTER TABLE `service_delivery_order`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `service_sales_order`
+--
+ALTER TABLE `service_sales_order`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `stock`
+--
+ALTER TABLE `stock`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4332;
+
+--
+-- AUTO_INCREMENT for table `stock_value_in`
+--
+ALTER TABLE `stock_value_in`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2085;
+
+--
+-- AUTO_INCREMENT for table `stock_value_out`
+--
+ALTER TABLE `stock_value_out`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2667;
+
+--
+-- AUTO_INCREMENT for table `supplier`
+--
+ALTER TABLE `supplier`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
@@ -34431,6 +35610,7 @@ ALTER TABLE `salary`
 --
 ALTER TABLE `supplier`
   ADD CONSTRAINT `supplier_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

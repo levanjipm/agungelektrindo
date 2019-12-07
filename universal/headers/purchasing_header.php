@@ -1,4 +1,4 @@
-<div class="sidenav">
+<div class='sidenav'>
 	<button style='text-align:right' id='hide_side_button'><i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
 	<button class='dropdown_button'>Purchase Order</button>
 	<div class='dropdown-container'>
@@ -47,9 +47,9 @@
 <script>
 $('.dropdown_button').click(function(){
 	if($(this).next().is(':visible')){
-		$(this).css('color','white');
+		$(this).css('background-color','transparent');
 	} else {
-		$(this).css('color','#00ccff');
+		$(this).css('background-color','#00ccff');
 	}
 	$(this).next().toggle(350);
 });

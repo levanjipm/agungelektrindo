@@ -1,36 +1,39 @@
-<DOCTYPE html>
 <?php
-	include('inventoryheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 ?>
-<div class="main">
+<head>
+	<title>Edit delivery order</title>
+</head>
+<div class='main'>
 	<h2 style='font-family:bebasneue'>Delivery Order</h2>
-	<p>Edit delivery order<p>
+	<p style='font-family:museo'>Edit delivery order<p>
 	<hr>
-	<table class='table'>
+<?php
+	$sql 					= "SELECT * FROM code_delivery_order WHERE sent = '0' AND isdelete = '0' AND company = 'AE'";
+	$results 				= $conn->query($sql);
+	if ($results->num_rows > 0){
+?>
+	<table class='table table-bordered'>
 		<tr>
 			<th>Date</th>
 			<th>Delivery order number</th>
 			<th>Customer</th>
-			<th></th>
 		</tr>
 <?php
-	//Can only edit the delivery order which is not delivered, or not confirmed//
-	$sql = "SELECT * FROM code_delivery_order WHERE sent = '0' AND isdelete = '0'";
-	$results = $conn->query($sql);
-	if ($results->num_rows > 0){
-		$row_do 			= $results->fetch_assoc();
-		$sql_customer 		= "SELECT name FROM customer WHERE id = '" . $row_do['customer_id'] . "'";
-		$result_customer 	= $conn->query($sql_customer);
-		$customer 			= $result_customer->fetch_assoc();
-		
-		$customer_name		= $customer['name'];
+		while($row_do 		= $results->fetch_assoc()){
+			$sql_customer 		= "SELECT name FROM customer WHERE id = '" . $row_do['customer_id'] . "'";
+			$result_customer 	= $conn->query($sql_customer);
+			$customer 			= $result_customer->fetch_assoc();
+			
+			$customer_name		= $customer['name'];
 ?>
 			<tr>
 				<td><?= date('d M Y',strtotime($row_do['date'])) ?></td>
 				<td><?= $row_do['name'] ?></td>
 				<td><?= $customer_name ?></td>
 				<td>
-					<button type='button' class='button_default_dark' onclick='testform(<?= $row_do['id'] ?>)'>
+					<button type='button' class='button_success_dark' onclick='testform(<?= $row_do['id'] ?>)'>
 						<i class="fa fa-pencil" aria-hidden="true"></i>
 					</button>
 				</td>

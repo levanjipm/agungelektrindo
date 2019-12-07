@@ -1,16 +1,26 @@
+<?php
+	include($_SERVER['DOCUMENT_ROOT'] .'/agungelektrindo/codes/connect.php');
+	$sql_alert_do		= "SELECT id FROM code_delivery_order WHERE sent = '0' AND company = 'AE'";
+	$result_alert_do	= $conn->query($sql_alert_do);
+	$alert_do			= mysqli_num_rows($result_alert_do);
+	
+	$sql_alert_gr		= "SELECT id FROM code_goodreceipt WHERE isconfirm = '0'";
+	$result_alert_gr	= $conn->query($sql_alert_gr);
+	$alert_gr			= mysqli_num_rows($result_alert_gr);
+?>
 <div class='sidenav'>
 	<button type='button' style='text-align:right' id='hide_side_button'><i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
 	<button class='dropdown_button'>Delivery Order</button>
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/inventory_department/delivery_order_create_dashboard'><p>Create a DO</p></a>
 		<a href='/agungelektrindo/inventory_department/delivery_order_edit_dashboard'><p>Edit a DO</p></a>
-		<a href='/agungelektrindo/inventory_department/delivery_order_confirm_dashboard'><p>Confirm DO<span class="badge"><?= $delivery_order ?></span></p></a>
+		<a href='/agungelektrindo/inventory_department/delivery_order_confirm_dashboard'><p>Confirm DO <?php if($alert_do > 0){ ?><i class="fa fa-exclamation" aria-hidden="true"></i> <?php } ?></p></a>
 		<a href='/agungelektrindo/inventory_department/delivery_order_archive'><p>Archives</p></a>
 	</div>
 	<button class='dropdown_button'>Goods Receipt</button>
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/inventory_department/good_receipt_create_dashboard'><p>Create good receipt</p></a>
-		<a href='/agungelektrindo/inventory_department/goodreceipt_confirm_dashboard'><p>Confirm GR<span class="badge"><?= $good_receipt ?></span></p></a>
+		<a href='/agungelektrindo/inventory_department/goodreceipt_confirm_dashboard'><p>Confirm GR <?php if($alert_gr > 0){ ?><i class="fa fa-exclamation" aria-hidden="true"></i> <?php } ?></p></a>
 		<a href='/agungelektrindo/inventory_department/view_gr_archive'><p>Archives</p></a>
 	</div>
 <?php
@@ -57,9 +67,9 @@
 <script>
 	$('.dropdown_button').click(function(){
 		if($(this).next().is(':visible')){
-			$(this).css('color','white');
+			$(this).css('background-color','transparent');
 		} else {
-			$(this).css('color','#00ccff');
+			$(this).css('background-color','#00ccff');
 		}
 		$(this).next().toggle(350);
 	});
