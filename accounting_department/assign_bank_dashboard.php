@@ -1,6 +1,6 @@
 <?php
-	//Assign bank transaction//
-	include('accountingheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 ?>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Bank</h2>
@@ -40,7 +40,6 @@
 		$selector 			= $result_selector->fetch_assoc();
 ?>
 		<tr>
-			<td><?= $row['id'] ?></td>
 			<td><?= date('d M Y',strtotime($row['date'])) ?></td>
 			<td><?= $selector['name'] ?></td>
 			<td>Rp. <?= number_format($row['value'],2) ?></td>

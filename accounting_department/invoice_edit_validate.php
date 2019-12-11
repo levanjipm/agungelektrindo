@@ -45,7 +45,7 @@
 	<title>Edit sales invoice <?= $invoice_name ?></title>
 </head>
 <div class='main'>
-	<form method='POST' action='edit_invoice.php' id='myForm'>
+	<form method='POST' action='invoice_edit_input' id='myForm'>
 	<h2 style='font-family:bebasneue'>Sales Invoice</h2>
 	<p>Edit invoice</p>
 	<hr>
@@ -53,10 +53,12 @@
 	<p style='font-family:museo'><?= $invoice_name ?></p>
 <?php if($faktur != ''){ ?>
 	<label>Taxing document</label>
-	<input type='text' class='form-control' id='piash' name='faktur' value='<?= $faktur ?>'>
+	<input type='text' class='form-control' id='piash' value='<?= $faktur ?>'>
 	<script>
 		$("#piash").inputmask("999.999.99-99999999");
 	</script>
+<?php } else { ?>
+	<input type='hidden' class='form-control' id='piash'>
 <?php } ?>
 	<br>
 	<table class='table table-bordered'>
@@ -90,31 +92,27 @@
 		<tr>
 			<td><?= $reference ?></td>
 			<td><?= $description ?></td>
-			<td><?= $quantity ?></td>
-			<td>
-				<button type='button' class='btn-transparent' id='edit_price_button-<?= $delivery_order_id ?>' onclick='show_input_price(<?= $delivery_order_id ?>)'>Rp. <?= number_format($billed_price,2) ?></button>
-				<input type='number' class='form-control' id='edit_price_input-<?= $delivery_order_id ?>' name='price[<?= $delivery_order_id ?>]' value='<?= $billed_price ?>' style='display:none' onfocusout='hide_input_price(<?= $delivery_order_id ?>)'>
-			</td>
+			<td><?= number_format($quantity,0) ?></td>
+			<td>Rp. <?= number_format($billed_price,2) ?></td>
 			<td id='total_price-<?= $delivery_order_id ?>'><p>Rp. <?= number_format($total_price,2) ?></p></td>
+			<td><button type='button' class='button_success_dark' onclick='show_edit(<?= $delivery_order_id ?>)'><i class="fa fa-pencil" aria-hidden="true"></i></button></td>
 		</tr>
 <?php
 		$total 				+= $total_price;
 	}
-	
-	print_r($quantity_array);
 ?>
 		<tfoot>
 			<tr>
 				<td style='background-color:white;border:none' colspan='2'></td>
 				<td colspan='2'>Sub total</td>
-				<td>Rp. <?= number_format($total,2) ?></td>
+				<td id='sub_total_td'>Rp. <?= number_format($total,2) ?></td>
 			</tr>
 			<tr>
 				<td style='background-color:white;border:none' colspan='2'></td>
 				<td colspan='2'>Delivery fee</td>
-				<td>
-					<button type='button' class='btn-transparent' id='delivery_fee_button'>Rp. <?= number_format($delivery_fee,2) ?></button>
-					<input type='number' class='form-control' id='delivery_fee_input' style='display:none' onblur='hide_delivery_input()'>
+				<td id='delivery_fee_td'>
+					<button type='button' class='btn-transparent' onclick='show_input_delivery_fee()' id='delivery_fee_button'>Rp. <?= number_format($delivery_fee,2) ?></button>
+					<input type='number' class='form-control' onfocusout='update_delivery_fee()' value='<?= $delivery_fee ?>' style='display:none' id='delivery_fee_input'>
 				</td>
 			</tr>
 			<tr>
@@ -129,48 +127,62 @@
 	</form>
 	<button type='button' class='button_default_dark' id='edit_invoice_button'>Edit Invoice</button>
 </div>
+<div class='full_screen_wrapper'>
+	<button class='full_screen_close_button'>&times</button>
+	<div class='full_screen_box'>
+	</div>
+</div>
 <script>
-var grand_total_value = 0;
-	$('#delivery_fee_button').click(function(){
-		$(this).hide();
-		$('#delivery_fee_input').show();
-		$('#delivery_fee_input').focus();
+	function show_edit(n){
+		$.ajax({
+			url		:'invoice_edit_item_view.php',
+			data:{
+				delivery_order_id:n
+			},
+			type:'POST',
+			beforeSend:function(){
+				$('.full_screen_box').html('');
+				$('.full_screen_wrapper').fadeOut(300);
+			},
+			success:function(response){
+				$('.full_screen_box').html(response);
+				$('.full_screen_wrapper').fadeIn(300);
+			}
+		})
+	}
+	
+	$('.full_screen_close_button').click(function(){
+		$('.full_screen_wrapper').fadeOut(300);
 	});
 	
-	function hide_delivery_input(){
+	function show_input_delivery_fee(){
+		$('#delivery_fee_button').hide();
+		$('#delivery_fee_input').show();
+		$('#delivery_fee_input').focus();
+	}
+	
+	function update_delivery_fee(){
+		var grand_total				= 0 + parseFloat(<?= $total ?>) + parseFloat($('#delivery_fee_input').val());
+		$('#delivery_fee_button').text('Rp. ' + numeral($('#delivery_fee_input').val()).format('0,0.00'));
+		$('#grand_total_invoice').text('Rp. ' + numeral(grand_total).format('0,0.00'));
 		$('#delivery_fee_input').hide();
 		$('#delivery_fee_button').show();
-		var delivery_fee_value = $('#delivery_fee_input').val();
-		grand_total_value = parseInt($('#delivery_fee_input').val()) + <?= $total ?>;
-		$('#delivery_fee_button').text('Rp. ' + numeral(delivery_fee_value).format('0,0.00'));
-		$('#grand_total_invoice').text('Rp. ' + numeral(grand_total_value).format('0,0.00'));
-	};
-	
-	function show_input_price(n){
-		$('#edit_price_button-' + n).hide();
-		$('#edit_price_input-' + n).show();
-		$('#edit_price_input-' + n).focus();
 	}
 	
-	function hide_input_price(n){
-		var quantity_array		= <?= json_enconde($quantity_array) ?>;
-		var quantity			= 
-		var new_price			= $('#edit_price_input-' + n).val();
-		var total_price			= quantity * new_price;
-		
-		$('#edit_price_button-' + n).text('Rp. ' + numeral(new_price).format('0,0.00'));
-		$('#total_price-' + n).text('Rp. ' + numeral(total_price).format('0,0.00'));
-		
-		var new_total_price		= 0;
-		
-		$('input[id^="edit_price_input-"]').each(function(){
-			var uid				= parseInt($(this).attr('id').substring(18,30));
-			var quantity_cal	= parseInt($('#quantity-' + uid).text());
-			var price			= $('#edit_price_input-' + uid).val();
-		});
-		
-		$('#edit_price_button-' + n).show();
-		$('#edit_price_input-' + n).hide();
-	}
-	
+	$('#edit_invoice_button').click(function(){
+		$.ajax({
+			url:'invoice_edit_input.php',
+			data:{
+				invoice_id: <?= $invoice_id ?>,
+				delivery_fee_input:$('#delivery_fee_input').val(),
+				faktur		: $('#piash').val()
+			},
+			type:'POST',
+			beforeSend:function(){
+			},
+			success:function(){
+				window.location.href='invoice_edit_dashboard'
+			}
+		})
+	});
 </script>

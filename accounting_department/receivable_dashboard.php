@@ -47,7 +47,7 @@
 	}
 ?>
 				</select>
-				<form action='customer_view.php' method='POST' id='customer_form'>
+				<form action='customer_view' method='POST' id='customer_form'>
 					<input type='hidden' id='customer_to_view' name='customer'>
 				</form>
 			</div>

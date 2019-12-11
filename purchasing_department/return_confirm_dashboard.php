@@ -2,6 +2,9 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/purchasing_header.php');
 ?>
+<head>
+	<title>Confirm purchasing return</title>
+</head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Purchasing Return</h2>
 	<p>Confirm return</p>
@@ -10,52 +13,34 @@
 		<tr>
 			<th>Date</th>
 			<th>Supplier</th>
-			<th>
 		</tr>
 <?php
-	$sql_code				= "SELECT * FROM code_purchase_return WHERE isconfirm = '0'";
+	$sql_code				= "SELECT code_purchase_return.id, code_purchase_return.submission_date,  supplier.name, supplier.address, supplier.city FROM code_purchase_return 
+								JOIN supplier ON code_purchase_return.supplier_id = supplier.id
+								WHERE code_purchase_return.isconfirm = '0'";
 	$result_code 			= $conn->query($sql_code);
 	while($code 			= $result_code->fetch_assoc()){
-		$sql_supplier 		= "SELECT name FROM supplier WHERE id = '" . $code['supplier_id'] . "'";
-		$result_supplier 	= $conn->query($sql_supplier);
-		$supplier 			= $result_supplier->fetch_assoc();
-		
-		$supplier_name		= $supplier['name'];
+		$supplier_name		= $code['name'];
+		$supplier_address	= $code['address'];
+		$supplier_city		= $code['city'];
+		$return_date		= $code['submission_date'];
 ?>
 		<tr>
-			<td><?= date('d M Y',strtotime($code['date'])) ?></td>
+			<td><?= date('d M Y',strtotime($return_date)) ?></td>
 			<td><?= $supplier_name ?></td>
-			<td><button type='button' class='button_default_dark' onclick='submit(<?= $code['id'] ?>)'>Confirm</button></td>
+			<td><button type='button' class='button_success_dark' onclick='submit(<?= $code['id'] ?>)'><i class="fa fa-long-arrow-right" aria-hidden="true"></i></button></td>
 		</tr>
-		<form action='purchasing_return_confirm_input' method='POST' id='form_return<?= $code['id'] ?>'>
-			<input type='hidden' value='<?= $code['id'] ?>' name='id' readonly'>
-		</form>
-		<tbody>
-<?php
-		$sql_return = "SELECT * FROM purchase_return WHERE code_id = '" . $code['id'] . "'";
-		$result_return = $conn->query($sql_return);
-		while($return = $result_return->fetch_assoc()){
-?>
-			<tr>
-				<td><?= $return['reference'] ?></td>
-				<td><?php
-					$sql_item = "SELECT description FROM itemlist WHERE reference = '" . $return['reference'] . "'";
-					$result_item = $conn->query($sql_item);
-					$item = $result_item->fetch_assoc();
-					echo $item['description'];
-				?></td>
-				<td><?= $return['quantity'] ?></td>
-			</tr>
-<?php
-		}
-?>
-		</tbody>
 <?php
 	}
 ?>
+	</table>
 </div>
+<form action='return_confirm_validation' method='POST' id='purchasing_return_form'>
+	<input type='hidden' name='id' id='return_id'>
+</form>
 <script>
 	function submit(n){
-		$('#form_return' + n).submit();
+		$('#return_id').val(n);
+		$('#purchasing_return_form').submit();
 	}
 </script>

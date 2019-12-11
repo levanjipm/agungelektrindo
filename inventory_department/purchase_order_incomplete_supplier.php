@@ -27,11 +27,10 @@
   }
 }
 </style>
+<head>
+	<title>Pending purchase order <?= $supplier_name ?></title>
+</head>
 <div class='main'>
-	<button type='button' class='button_success_dark' onclick='window.print();'><i class="fa fa-print" aria-hidden="true"></i></button>
-	<a href='purchase_order_incomplete_dashboard' style='text-decoration:none'>
-		<button type='button' class='button_default_dark'><i class="fa fa-long-arrow-left" aria-hidden="true"></i></button>
-	</a>
 	<div id='printable'>
 		<h2 style='font-family:bebasneue'><?= $supplier_name ?></h2>
 		<p><?= $supplier_address ?></p>

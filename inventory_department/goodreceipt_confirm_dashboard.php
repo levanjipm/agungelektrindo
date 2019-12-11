@@ -43,8 +43,8 @@
 </div>
 <div class='full_screen_wrapper' id='view_good_receipt_wrapper'>
 	<button class='full_screen_close_button'>&times</button>
-	<div class='full_screen_box'>
-	</div>
+	<div class='full_screen_box'></div>
+	<div class='full_screen_box_loader_wrapper'><div class='full_screen_box_loader'></div></div>
 </div>
 <script>
 	function view_good_receipt(n){
@@ -78,6 +78,10 @@
 				id: n
 			},
 			type:'GET',
+			beforeSend:function(){
+				$('.full_screen_box_loader_wrapper').show();
+				$('button').attr('disabled',true);
+			},
 			success:function(){
 				location.reload();
 			},
@@ -91,6 +95,10 @@
 				id: n,
 			},
 			type:'POST',
+			beforeSend:function(){
+				$('.full_screen_box_loader_wrapper').show();
+				$('button').attr('disabled',true);
+			},
 			success:function(){
 				location.reload();
 			},

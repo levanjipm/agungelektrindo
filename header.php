@@ -9,9 +9,22 @@
 	<script src='/agungelektrindo/universal/jquery/jquery-ui.js'></script>
 	<link rel='stylesheet' href='/agungelektrindo/universal/jquery/jquery-ui.css'>
 	<script src='/agungelektrindo/universal/numeral/numeral.js'></script>
+	<script src='/agungelektrindo/universal/jquery/jquery.inputmask.bundle.js'></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 	<link rel="stylesheet" href='/agungelektrindo/css/style.css'>
 </head>
+<style>
+	.option_a{
+		text-decoration:none;
+		color:#333;
+		font-size:1.2em;
+		width:100%;
+	}
+	
+	.option_a:hover{
+		text-decoration:none!important;
+	}
+</style>
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/codes/connect.php');
 	session_start();
@@ -38,12 +51,17 @@
 		</a>
 	</div>
 	<div class='col-lg-2 col-md-4 col-sm-4 col-xs-4 col-lg-offset-6 col-md-offset-3 col-sm-offset-2 col-xs-offset-0' style='text-align:right'>
-		<h3 style='font-family:Bebasneue'><?= $name ?> 
-			<span style='display:inline-block'>
-				<a href='../codes/logout' style='padding-left:10px;text-decoration:none;color:white;' title='log out'>
-					 <i class="fa fa-sign-out" aria-hidden="true"></i>
-				</a>
-			</span>
-		</h3>
+		<button type='button' id='profile_top_nav_button'><h3 style='font-family:Bebasneue'><?= $name ?></h3></button>
 	</div>
-</div>	
+</div>
+<div class='profile_option_wrapper'>
+	<a href='/agungelektrindo/codes/logout' class='option_a'><p style='font-family:museo'>Logout</p></a>
+<?php	if($role	== 'superadmin'){ ?>
+	<a href='/dutasaptaenergi' class='option_a'><p style='font-family:museo'>Duta Sapta</p></a>
+<?php } ?>
+</div>
+<script>
+	$('#profile_top_nav_button').click(function(){
+		$('.profile_option_wrapper').toggle(300);
+	});
+</script>

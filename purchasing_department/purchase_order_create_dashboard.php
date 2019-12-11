@@ -9,6 +9,9 @@ $( function() {
 	 })
 });
 </script>
+<head>
+	<title>Create purchase order</title>
+</head>
 <div class="main">
 	<h2 style='font-family:bebasneue'>Purchase order</h2>
 	<p style='font-family:museo'>Creating new purchase order</p>

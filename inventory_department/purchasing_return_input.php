@@ -1,108 +1,61 @@
 <?php
 	include('../codes/connect.php');
-	if(!empty($_POST)){
+	session_start();
+	$creator				= $_SESSION['user_id'];
+	$return_date			= $_POST['return_date'];
+	$quantity_array			= $_POST['quantity'];
+	$guid					= $_POST['guid'];
+	$return_id				= $_POST['return_id'];
 	
-		$return_id			= $_POST['return_id'];
+	$sql_check				= "SELECT id FROM code_purchase_return_sent WHERE guid = '$guid'";
+	$result_check			= $conn->query($sql_check);
+	if(mysqli_num_rows($result_check) == 0){
+		$sql				= "SELECT COUNT(id) as returned FROM code_purchase_return_sent";
+		$result				= $conn->query($sql);
+		$row				= $result->fetch_assoc();
 		
-		$sql_awal 			= "SELECT * FROM code_purchase_return WHERE id = '$return_id'";
-		$result_awal 		= $conn->query($sql_awal);
-		$awal 				= $result_awal->fetch_assoc();
-		$supplier_id 		= $awal['supplier_id'];
+		$returned			= $row['returned'];
+		$returned++;
+		
+		$document_name		= "SJ-AE-RT-" . str_pad($returned,3,'0',STR_PAD_LEFT);
+		$sql				= "INSERT INTO code_purchase_return_sent (document, code_purchase_return_id, created_by, guid)
+								VALUES ('$document_name', '$return_id', '$creator', '$guid')";
+		$result				= $conn->query($sql);
+		if($result){
+			$sql_get		= "SELECT id FROM code_purchase_return_sent WHERE guid = '$guid'";
+			$result_get		= $conn->query($sql_get);
+			$get			= $result_get->fetch_assoc();
 			
-		$date 				= $_POST['send_date'];
-		
-		$year				= substr(date('Y',strtotime($date)),-2);
-		$month				= str_pad(date('m',strtotime($date)),2,"0",STR_PAD_LEFT);
-		
-		$document			= '';
-		$document			.= $year . $month;
-		$document			.= '/PR-AE/' . str_pad($return_id,3,'0',STR_PAD_LEFT);
+			$sent_id		= $get['id'];
 			
-		$sql_update 		= "UPDATE code_purchase_return SET send_date = '" . $date . "', issent = '1', name = '$document' WHERE id = '$return_id";
-		$result_update 		= $conn->query($sql_update);
-		$nilai 				= true;
-		
-		$sql_detail 			= "SELECT * FROM purchase_return WHERE code_id = '$return_id'";
-		$result_detail		= $conn->query($sql_detail);
-		while($detail 		= $result_detail->fetch_assoc()){
-			$reference 		= $detail['reference'];
-			$quantity 		= $detail['quantity'];
-			
-			$sql_check_stock 			= "SELECT stock FROM stock WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "' ORDER BY ID DESC LIMIT 1";
-			$result_check_stock 		= $conn->query($sql_check_stock);
-			$check_stock 				= $result_check_stock->fetch_assoc();
-			if($check_stock['stock'] 	< $quantity){
-				$nilai 					= false;
-			}
-		}
-		
-		if($nilai == true){
-			$sql_detail 		= "SELECT * FROM purchase_return WHERE code_id = '$return_id'";
-			$result_detail		= $conn->query($sql_detail);
-			while($detail 		= $result_detail->fetch_assoc()){
-				$reference 		= $detail['reference'];
-				$quantity 		= $detail['quantity'];
-				$price 			= $detail['price'];
-			
-				$sql_check_stock 		= "SELECT stock FROM stock WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "' ORDER BY ID DESC LIMIT 1";
-				$result_check_stock 	= $conn->query($sql_check_stock);
-				$check_stock 			= $result_check_stock->fetch_assoc();
-				$stock 					= $check_stock['stock'];
-				$stock_akhir 			= $stock - $quantity;
+			foreach($quantity_array as $quantity){
+				$key					= key($quantity_array);
 				
-				$sql_stock 				= "INSERT INTO stock (reference,transaction,quantity,stock,supplier_id,document)
-										VALUES ('$reference','OUT','$quantity','$stock_akhir','$supplier_id','$document')";
-				$conn->query($sql_stock);
+				$sql_check_existing		= "SELECT sent_quantity, quantity FROM purchase_return WHERE code_id = '$return_id'";
+				$result_check_existing	= $conn->query($sql_check_existing);
+				$check_existing			= $result_check_existing->fetch_assoc();
 				
-				$sql_in 				= "SELECT * FROM stock_value_in WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "' AND sisa > 0 ORDER BY id DESC";
-				$result_in 				= $conn->query($sql_in);
-				while($in 				= $result_in->fetch_assoc()){
-					$in_id 				= $in['id'];
-					$in_date 			= $in['date'];
-					$quantity_awal		= $in['quantity'];
-					$sisa 				= $in['sisa'] - $quantity;
-					if($in['sisa'] >= $quantity){
-						$quantity_akhir 	= $quantity_awal - $quantity;
-						$sql_update_in 		= "UPDATE stock_value_in SET quantity = '$quantity_akhir', sisa = '$sisa' WHERE id = '$in_id'";
-						$conn->query($sql_update_in);
-						
-						$sql_update_other 	= "INSERT INTO stock_value_in (date,reference,quantity,price,sisa,supplier_id)
-											VALUES ('$in_date','$reference','$quantity','$price','0','$supplier_id')";
-						$conn->query($sql_update_other);
-						
-						$sql_select			= "SELECT id FROM stock_value_in WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "' AND sisa = 0 ORDER BY id DESC";
-						$result_select		= $conn->query($sql_select);
-						$select_last		= $result_select->fetch_assoc();
-						
-						$last_id			= $select_last['id'];
-						
-						$sql_out			= "INSERT INTO stock_value_out (date,in_id,quantity)
-											VALUES ('$date','$last_id','$quantity')";
-						$conn->query($sql_out);
-						
-						break;
-					} else {
-						$sisa				= $quantity_awal - $in['sisa'];
-						$sql_update_in 		= "UPDATE stock_value_in SET quantity = '" . $in['sisa'] . "', sisa = '0' WHERE id = '" . $in['id'] . "'";
-						$conn->query($sql_update_in);
-						
-						$sql_update_other 	= "INSERT INTO stock_value_in (date,reference,quantity,price,sisa,supplier_id)
-											VALUES ('$in_date','$reference','$sisa','$price','0','$supplier_id')";
-						$conn->query($sql_update_other);
-						
-						$sql_terakhir 		= "SELECT id FROM stock_value_in WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "' AND sisa > 0 ORDER BY id DESC";
-						$result_terakhir 	= $conn->query($sql_terakhir);
-						$terakhir 			= $result_terakhir->fetch_assoc();
-						$id_terakhir 		= $terakhir['id'];
-						
-						$sql_out 			= "INSERT INTO stock_value_out (date,in_id,quantity)
-											VALUES ('$date','$id_terakhir','$quantity')";
-						$conn->query($sql_out);
-						
-						$quantity 			-= $sisa;
-					}
+				$sent					= $check_existing['sent_quantity'];
+				$final_quantity			= $sent + $quantity;
+				
+				$return_quantity		= $check_existing['quantity'];
+				
+				$sql					= "INSERT INTO purchase_return_sent (purchase_return_id, sent_id, quantity)
+											VALUES ('$key', '$sent_id', '$quantity')";
+				$conn->query($sql);
+				
+				if($final_quantity		== $return_quantity){
+					$sql_update			= "UPDATE purchase_return SET sent_quantity = '$final_quantity', isdone = '1' WHERE id = '$key'";
+				} else if($final_quantity	< $return_quantity){
+					$sql_update			= "UPDATE purchase_return SET sent_quantity = '$final_quantity' WHERE id = '$key'";
 				}
+				
+				$conn->query($sql_update);
+				
+				next($quantity_array);
 			}
 		}
 	}
+	
+	header('location:../inventory');
 ?>

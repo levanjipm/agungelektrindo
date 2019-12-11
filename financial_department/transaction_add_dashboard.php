@@ -45,6 +45,7 @@
 </div>
 <script>
 	$(document).ready(function(){
+		$('#date').focus();
 		open_select();
 	});
 	

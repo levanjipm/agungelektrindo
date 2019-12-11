@@ -1,7 +1,10 @@
 <?php
-	//Stock value Journal//
-	include('accountingheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 ?>
+<head>
+	<title>Stock value journal</title>
+</head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Accounting Journal</h2>
 	<p>Stock value</p>

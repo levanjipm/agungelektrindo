@@ -17,4 +17,6 @@
 					VALUES ('$date','$supplier_id','','$document_name','$description','$value','$created_by','$guid')";
 		$conn->query($sql);
 	}
+	
+	header('location:../accounting');
 ?>

@@ -1,9 +1,13 @@
 <?php
-	include('accountingheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 ?>
+<head>
+	<title>Input random debt document</title>
+</head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Debt document</h2>
-	<p>Input random debt document</p>
+	<p style='font-family:museo'>Input random debt document</p>
 	<hr>
 	<form action='random_debt_input' method='POST'>
 <?php
@@ -90,6 +94,6 @@
 				<td>Rp. <?= number_format($value,2) ?></td>
 			</tr>
 		</table>
-		<button type='submit' class='button_default_dark'>Next</button>
+		<button type='submit' class='button_success_dark'>Submit</button>
 	</div>
 </div>

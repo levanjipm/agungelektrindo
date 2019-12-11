@@ -79,7 +79,7 @@
 			},
 			type: 'POST',
 			success:function(response){
-				location.reload();
+				// location.reload();
 			},
 		})
 	};
@@ -93,8 +93,12 @@
 			},
 			type: 'POST',
 			success:function(response){
-				location.reload();
+				// location.reload();
 			},
 		})
 	};
+	
+	$('.full_screen_close_button').click(function(){
+		$('.full_screen_wrapper').fadeOut(300);
+	});
 </script>

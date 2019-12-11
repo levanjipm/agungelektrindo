@@ -2,35 +2,30 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
-<body>
-<link rel="stylesheet" href="../jquery-ui.css">
-<link rel="stylesheet" href="css/create_quotation.css">
-<script src="../jquery-ui.js"></script>
-<script src="../universal/Numeral-js-master/numeral.js"></script>
+<
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Quotataion</h2>
 	<p>Edit quotataion</p>
 	<hr>
 <?php
-	$id = $_POST['id'];
-	$sql_quotation = "SELECT * FROM code_quotation WHERE id = '" . $id . "'";
-	$result_quotation = $conn->query($sql_quotation);
-	$quotation = $result_quotation->fetch_assoc();
+	$id 				= (int)$_POST['id'];
+	$sql_quotation 		= "SELECT code_quotation.name, code_quotation.payment_id, code_quotation.date, code_quotation.payment_id, code_quotation.down_payment,
+							code_quotation.repayment, code_quotation.note, customer.name as customer_name
+							FROM code_quotation 
+							JOIN customer ON customer.id = code_quotation.customer_id
+							WHERE code_quotation.id = '$id'";
+	$result_quotation 	= $conn->query($sql_quotation);
+	$quotation 			= $result_quotation->fetch_assoc();
 	
-	$quotation_name = $quotation['name'];
-	$date 			= $quotation['date'];
-	$customer_id 	= $quotation['customer_id'];
-	$terms			= $quotation['payment_id'];
-	$dp 			= $quotation['down_payment'];
-	$lunas			= $quotation['repayment'];
-	$note 			= $quotation['note'];
-	
-	$sql_customername = "SELECT name FROM customer WHERE id = '" . $customer_id . "'";
-	$result_customername = $conn->query($sql_customername);
-	$customer_naming = $result_customername->fetch_assoc();
-	$customer_name = $customer_naming['name'];	
+	$quotation_name 	= $quotation['name'];
+	$date 				= $quotation['date'];
+	$terms				= $quotation['payment_id'];
+	$dp 				= $quotation['down_payment'];
+	$lunas				= $quotation['repayment'];
+	$note 				= $quotation['note'];
+	$customer_name		= $quotation['customer_name'];
 ?>
-	<form name="quotation" id="quotation_edit" class="form" method="POST" action="quotation_edit_input.php">
+	<form name="quotation" id="quotation_edit" class="form" method="POST" action="quotation_edit_input">
 		<input type="hidden" value="<?= $id ?>" name="id">
 		<div class="row">
 			<div class="col-sm-6">
@@ -40,7 +35,7 @@
 		</div>
 		<br>
 		<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
-		<button type='button' class='button_add_row' id='add_item_button' style='display:inline-block'>Add item</button>
+		<button type='button' class='button_default_dark' id='add_item_button' style='display:inline-block'>Add item</button>
 		<table class='table table-bordered'>
 			<tr>
 				<th style='width:20%'>Reference</th>
@@ -65,7 +60,7 @@
 					<td><input id='quantity<?=$a?>' 	class='form-control' 	name='quantity[<?=$a?>]' 	value='<?= $row['quantity']?>'></td>
 					<td id='netprice_numeral<?= $a ?>'></td>
 					<td id='total_price_numeral<?= $a ?>'></td>
-					<td><button class='button_delete_row' type='button' id='close<?= $a ?>' onclick='delete_row(<?= $a ?>)'>X</button></td>
+					<td><button class='button_danger_dark' type='button' id='close<?= $a ?>' onclick='delete_row(<?= $a ?>)'>X</button></td>
 				</tr>
 				<script>
 					$('#reference<?= $a ?>').autocomplete({
@@ -177,7 +172,7 @@ $("#add_item_button").click(function (){
 		"<td><input id='quantity" + a + "' class='form-control' name='quantity[" + a + "]'></td>"+
 		"<td id='netprice_numeral" + a + "'></td>"+
 		"<td id='total_price_numeral" + a + "'</td>"+
-		"<td><button class='button_delete_row' type='button' id='close" + a + "' onclick='delete_row(" + a + ")'>X</button></td>"+
+		"<td><button class='button_danger_dark' type='button' id='close" + a + "' onclick='delete_row(" + a + ")'>X</button></td>"+
 		"</tr>");
 		
 	$("#reference" + a).autocomplete({

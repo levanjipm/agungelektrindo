@@ -74,7 +74,7 @@
 	$vendor_phone 		= $row['phone'];	
 ?>
 <head>
-	<title><?= $po_name ?></title>
+	<title><?= $po_name . ' ' . $vendor_name ?></title>
 </head>
 <body style='width:100%;overflow-x:hidden'>
 	<div class='row'>

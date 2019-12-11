@@ -55,5 +55,5 @@
 		$conn->query($sql_update);
 		next($code_gr_array);
 	}
-	header('location:accounting');
+	header('location:/agungelektrindo/accounting');
 ?>			

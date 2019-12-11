@@ -2,97 +2,36 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
-<script type='text/javascript' src="../universal/Jquery/jquery.inputmask.bundle.js"></script>
-<div class="main">
+<head>
+	<title>Manage customers</title>
+</head>
 <style>
-	.alert_wrapper{
-		position:fixed;
-		top:20px;
-		z-index:105;
-	}
-	.notification_large{
-		position:fixed;
-		top:0;
-		left:0;
-		background-color:rgba(51,51,51,0.3);
-		width:100%;
-		text-align:center;
-		height:100%;
-	}
-	.notification_large .notification_box{
-		position:relative;
-		background-color:#fff;
-		padding:30px;
-		width:100%;
-		top:30%;
-		box-shadow: 3px 4px 3px 4px #ddd;
-	}
-	.btn-delete{
-		background-color:red;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	.btn-back{
-		background-color:#777;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	#customer_filter {
+	.search_bar {
 		padding:10px;
 		width: 130px;
 		-webkit-transition: width 0.4s ease-in-out;
 		transition: width 0.4s ease-in-out;
 	}
-	#customer_filter:focus {
+	.search_bar:focus {
 		width: 100%;
 	}
-	.view_customer_wrapper{
-		background-color:rgba(30,30,30,0.7);
-		position:fixed;
-		z-index:100;
-		top:0;
-		width:100%;
-		height:100%;
-		display:none;
-	}
-	
-	#view_customer_box{
-		position:absolute;
-		width:90%;
-		left:5%;
-		top:10%;
-		height:80%;
-		background-color:white;
-		overflow-y:scroll;
-		padding:20px;
-	}
-	
-	#button_close_customer_wrapper{
-		position:absolute;
-		background-color:transparent;
-		top:10%;
-		left:5%;
-		outline:none;
-		border:none;
-		color:#333;
-		z-index:120;
-	}
 </style>
+<script type='text/javascript' src="../universal/Jquery/jquery.inputmask.bundle.js"></script>
+<div class='main'>
 	<h2 style='font-family:bebasneue'>Customer</h2>
-	<p>Edit customer data</p>
+	<p style='font-family:museo'>Edit customer data</p>
 	<hr>
 	<label>Search</label>
 	<br>
-	<input type='text' id='customer_filter' placeholder='Search customer here'>
+	<input type='text' id='customer_filter' placeholder='Search customer here' class='search_bar'>
 	<br><br>
-	<table  class='table table-bordered' id="edititemtable">
+	<table  class='table table-bordered'>
 		<tr>
 			<th style="text-align:center"><strong>Name</strong></th>
 			<th style="text-align:center"><strong>Address</strong></th>
 			<th colspan='3'></th>
 		</tr>
+		<tbody  id="edititemtable">
 <?php
 	$sql 		= "SELECT id,name,address FROM customer ORDER BY name";
 	$result 	= $conn->query($sql);
@@ -147,6 +86,7 @@
 <?php
 	}
 ?>
+		</tbody>
 	</table>
 </div>
 <div class='full_screen_wrapper' id='delete_wrapper'>

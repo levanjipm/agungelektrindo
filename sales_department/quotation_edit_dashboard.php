@@ -2,6 +2,9 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include ($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
+<head>
+	<title>Edit or print quotation</title>
+</head>
 <style>
 	input[type=text] {
 		padding:10px;
@@ -34,9 +37,9 @@
 	}
 </style>
 <body>
-<div class="main">
+<div class='main'>
 	<h2 style='font-family:bebasneue'>Quotation</h2>
-	<p>Edit or Print Quotation</p>
+	<p style='font-family:museo'>Edit or Print Quotation</p>
 	<hr>
 	<input type="text" id="search" name="search" placeholder="Search here">
 	<br>

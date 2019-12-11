@@ -1,36 +1,49 @@
 <?php
-include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
-include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
-if(empty($_POST['id'])){
-	header('location:accounting.php');
-}
-$bank_id 		= $_POST['id'];
-$sql_bank 		= "SELECT * FROM code_bank WHERE id = '" . $bank_id . "'";
-$result_bank 	= $conn->query($sql_bank);
-$bank 			= $result_bank->fetch_assoc();
-
-$transaction 	= $bank['transaction'];
-$date 			= $bank['date'];
-$value 			= $bank['value'];
-$opponent_id 	= $bank['bank_opponent_id'];
-$opponent_type 	= $bank['label'];
-
-if($opponent_type == 'CUSTOMER'){
-	$database = 'customer';
-} else if($opponent_type == 'SUPPLIER'){
-	$database = 'supplier';
-} else if($opponent_type == 'OTHER'){
-	$database = 'bank_account_other';
-};
-
-$sql_selector 		= "SELECT name FROM " . $database . " WHERE id = '" . $opponent_id . "'";
-$result_selector 	= $conn->query($sql_selector);
-$selector 			= $result_selector->fetch_assoc();
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
+	if(empty($_POST['id'])){
 ?>
-<script src='../universal/numeral/numeral.js'></script>
+<script>
+	window.location.href='/agungelektrindo/accounting';
+</script>
+<?php
+	}
+	$bank_id 		= $_POST['id'];
+	$sql_bank 		= "SELECT * FROM code_bank WHERE id = '" . $bank_id . "'";
+	$result_bank 	= $conn->query($sql_bank);
+	$bank 			= $result_bank->fetch_assoc();
+
+	$transaction 	= $bank['transaction'];
+	$date 			= $bank['date'];
+	$value 			= $bank['value'];
+	$opponent_id 	= $bank['bank_opponent_id'];
+	$opponent_type 	= $bank['label'];
+
+	if($opponent_type == 'CUSTOMER'){
+		$database = 'customer';
+	} else if($opponent_type == 'SUPPLIER'){
+		$database = 'supplier';
+	} else if($opponent_type == 'OTHER'){
+		$database = 'bank_account_other';
+	};
+
+	$sql_selector 		= "SELECT name FROM " . $database . " WHERE id = '" . $opponent_id . "'";
+	$result_selector 	= $conn->query($sql_selector);
+	$selector 			= $result_selector->fetch_assoc();
+	
+	$selector_name		= $selector['name'];
+?>
+<head>
+	<title>Assign bank data</title>
+</head>
 <div class='main'>
-	<h2 style='font-family:bebasneue'><?= $selector['name'] ?></h2>
-	<h2>Rp. <span id='rupiah'><?= number_format($value,2) ?></span></h2>
+	<h2 style='font-family:bebasneue'>Bank</h2>
+	<p style='font-family:museo'>Assign bank data</p>
+	<hr>
+	<label>Transaction data</label>
+	<p style='font-family:museo'><?= date('d M Y',strtotime($date)) ?></p>
+	<p style='font-family:museo'><?= $selector_name . ' (' . $database . ')' ?></h2>
+	<p>Rp. <span id='rupiah'><?= number_format($value,2) ?></span></p>
 	<input type='hidden' value='<?= $value ?>' id='value_now' readonly>
 	<form action='assign_bank_input' method='POST' id='myForm'>
 	<input type='hidden' value='<?= $date ?>' name='date' readonly>
@@ -123,7 +136,7 @@ $selector 			= $result_selector->fetch_assoc();
 		$sql_invoice = "SELECT invoices.id, invoices.date, invoices.name, invoices.ongkir, invoices.value, code_delivery_order.customer_id
 						FROM invoices 
 						JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
-						WHERE customer_id = '" . $opponent_id . "' AND isdone = '0' ";
+						WHERE code_delivery_order.customer_id = '" . $opponent_id . "' AND invoices.isdone = '0' ";
 		$result_invoice = $conn->query($sql_invoice);
 		$i = 1;
 		while($invoices = $result_invoice->fetch_assoc()){

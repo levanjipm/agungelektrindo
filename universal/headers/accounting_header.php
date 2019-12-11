@@ -23,29 +23,11 @@
 	}
 ?>
 	</div>
-	<button type='button' class='btn-badge dropdown-btn' style='color:white'>
-		<i class="fa fa-code" aria-hidden="true"></i>
-		Counter Bill
-	</button>
-	<div class='dropdown-container'>
-		<a href="counter_bill_dashboard">
-			<p>Create counter bill</p>
-		</a>
-		<a href="view_counter_bill">
-			<p>View counter bill</p>
-		</a>
-	</div>
 	<button type='button' class='dropdown_button'>Journals</button>
 	<div class='dropdown-container'>
-		<a href="sales_journal">
-			<p>Sales journal</p>
-		</a>
-		<a href="purchasing_journal">
-			<p>Purchasing journal</p>
-		</a>
-		<a href="stock_value_dashboard">
-			<p>Stock value</p>
-		</a>
+		<a href='/agungelektrindo/accounting_department/sales_journal'><p>Sales journal</p></a>
+		<a href='/agungelektrindo/accounting_department/purchasing_journal'><p>Purchasing journal</p></a>
+		<a href='/agungelektrindo/accounting_department/stock_value_dashboard'><p>Stock value</p></a>
 	</div>
 	<button class='dropdown_button'>Receivable</button>
 	<div class='dropdown-container'>
@@ -59,9 +41,12 @@
 	<a href='/agungelektrindo/accounting_department/payable_dashboard'>
 		<button class='dropdown_button' style='color:white'>Payable</button>
 	</a>
-	<a href='assign_bank_dashboard'>
-		<button type='button'>Bank</button>
-	</a>
+	<button class='dropdown_button'>Bank</button>
+	<div class='dropdown-container'>
+		<a href='/agungelektrindo/accounting_department/assign_bank_dashboard'><p>Assign bank data</p></a>
+		<a href='/agungelektrindo/accounting_department/reset_bank_dashboard'><p>Edit bank data</p></a>
+		<a href='/agungelektrindo/accounting_department/set_invoice_as_done'><p>Set a transaction done</p></a>
+	</div>
 	<button type='button' class='dropdown_button' style='color:white'>Return</button>
 	<div class='dropdown-container'>
 		<a href="sales_return_dashboard.php"><p>Sales return</p></a>

@@ -12,139 +12,61 @@
 	<hr>
 	<table class='table table-bordered'>
 		<tr>
-			<th>Date</th>
 			<th>Supplier</th>
-			<th>Document Number</th>
+			<th>Documents</th>
 			<th>Value</th>
 			<th></th>
 		</tr>
 <?php
 	$i						= 0;
 	$uninvoiced_value 		= 0;
-	$gr_array				= [];
-	$sql 					= "SELECT * FROM code_goodreceipt WHERE isinvoiced = '0' ORDER BY date ASC";
-	$result 				= $conn->query($sql);
-	while($row 				= $result->fetch_assoc()){
-		$code_gr_id			= $row['id'];
-		$supplier_id 		= $row['supplier_id'];
-		$sql_supplier 		= "SELECT name FROM supplier WHERE id = '" . $supplier_id . "'";
-		$result_supplier 	= $conn->query($sql_supplier);
-		$row_supplier 		= $result_supplier->fetch_assoc();
-		$supplier_name 		= $row_supplier['name'];
-		
+	$sql_supplier			= "SELECT id, name FROM supplier ORDER BY name ASC";
+	$result_supplier		= $conn->query($sql_supplier);
+	while($supplier			= $result_supplier->fetch_assoc()){
 		$total 				= 0;
-		$sql_initial 		= "SELECT goodreceipt.quantity, purchaseorder.unitprice
-								FROM goodreceipt JOIN purchaseorder ON purchaseorder.id = goodreceipt.received_id
-								WHERE goodreceipt.gr_id = '" . $row['id'] . "'";
-		$result_initial 	= $conn->query($sql_initial);
-		while($row_initial 	= $result_initial->fetch_assoc()){
-			$quantity 		= $row_initial['quantity'];
-			$price 			= $row_initial['unitprice'];
-			$total 			+= $quantity * $price;
+		$supplier_id		= $supplier['id'];
+		$supplier_name		= $supplier['name'];
+		$sql 				= "SELECT * FROM code_goodreceipt WHERE isinvoiced = '0' AND supplier_id = '$supplier_id'";
+		$result 			= $conn->query($sql);
+		while($row			= $result->fetch_assoc()){
+			$code_gr_id			= $row['id'];
+			
+			$document			= mysqli_num_rows($result);
+			
+			$sql_initial 		= "SELECT goodreceipt.quantity, purchaseorder.unitprice
+									FROM goodreceipt JOIN purchaseorder ON purchaseorder.id = goodreceipt.received_id
+									WHERE goodreceipt.gr_id = '$code_gr_id'";
+			$result_initial 	= $conn->query($sql_initial);
+			while($row_initial 	= $result_initial->fetch_assoc()){
+				$quantity 		= $row_initial['quantity'];
+				$price 			= $row_initial['unitprice'];
+				$total 			+= $quantity * $price;
+			}
 		}
 		
 		$uninvoiced_value 	+= $total;
-		
-		$gr_array[$i]		= $code_gr_id;
-		$i++;
+		if($total			!= 0){
 ?>
 		<tr>
-			<td><?= date('d M Y',strtotime($row['date'])) ?></td>
 			<td><?= $supplier_name ?></td>
-			<td><?= $row['document']?></td>
-			<td><?= 'Rp.' . number_format($total,2); ?></td>
-			<td>
-				<button type='button' class='button_success_dark' onclick='show_detail_pending(<?= $code_gr_id ?>)'>
-					<i class="fa fa-eye" aria-hidden="true"></i>
-				</button>
-			</td>
+			<td><?= number_format($document,0) . ' pending bill(s)' ?></td>
+			<td>Rp. <?= number_format($total,2) ?></td>
+			<td><button type='button' class='button_success_dark' onclick='view_supplier(<?= $supplier_id ?>)'><i class="fa fa-eye" aria-hidden="true"></i></button></td>
 		</tr>
 <?php
+		}
 	}
-	
-	$gr_array_js	= json_encode($gr_array);
 ?>
 	</table>
 </div>
-<style>
-	#view_pending_bills_wrapper{
-		position:fixed;
-		width:100%;
-		height:100%;
-		top:0;
-		background-color:rgba(20,20,20,0.8);
-		z-index:30;
-		display:none;
-	}
-	
-	#view_pending_bills_box{
-		width:80%;
-		height:80%;
-		background-color:white;
-		z-index:35;
-		position:absolute;
-		top:10%;
-		left:10%;
-		padding:30px;
-		overflow-y:scroll;
-	}
-</style>
-<div id='view_pending_bills_wrapper'>
-	<div id='view_pending_bills_box'>
-	</div>
-</div>
-<script src='../universal/Numeral-js-master/numeral.js'></script>
+<form action='waiting_for_billing_supplier' id='billing_form' method='POST'>
+	<input type='hidden' name='supplier_id' id='supplier'>
+</form>
 <script>
-	var gr_array		= <?= $gr_array_js ?>;
-	var gr_array_length = <?= $i - 1 ?>;
-	
-	$(document).ready(function(){
-		var uninvoiced_value = numeral(<?= $uninvoiced_value?>).format('0,0.00');
-		$('#naming').text('Rp. ' + uninvoiced_value);
-	});
-	
-	function show_detail_pending(n){
-		if(n == gr_array_length){
-			var next_view	= 0;
-		} else {
-			var next_view	= n + 1;
-		}
-		
-		if(n == 0){
-			var prev_view	= gr_array_length;
-		} else {
-			var prev_view	= n - 1;
-		}
-		
-		$.ajax({
-			url:'waiting_for_billing_view.php',
-			data:{
-				code_gr:n,
-				next_view: next_view,
-				prev_view: prev_view,
-			},
-			type:'POST',
-			beforeSend:function(){
-				$('#view_pending_bills_box').html('');
-			},
-			success:function(response){
-				$('#view_pending_bills_box').html(response);
-				setTimeout(function(){
-					$('#view_pending_bills_wrapper').fadeIn();
-				},200);
-			}
-		});
+	function view_supplier(n){
+		$('#supplier').val(n);
+		$('#billing_form').submit();
 	}
 	
-	function change_slide(n){
-		$('#view_pending_bills_box').fadeOut(150);
-		$('#view_pending_bills_box').html('');
-		setTimeout(function(){
-			show_detail_pending(n);
-		},150);
-		
-		setTimeout(function(){
-			$('#view_pending_bills_box').fadeIn();
-		},450);
-	};
+	$('#naming').text('Rp. ' + numeral(<?= $uninvoiced_value ?>).format('0,0.00'));
 </script>

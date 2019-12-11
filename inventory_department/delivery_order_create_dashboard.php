@@ -18,7 +18,7 @@ $( function() {
 		border-bottom:2px solid #008080;
 	}
 </style>
-	<div class="main">
+	<div class='main'>
 		<h2 style='font-family:bebasneue'>Delivery Order</h2>
 		<p>Choose a confirmed sales order</p>
 		<hr>

@@ -1,8 +1,10 @@
 <?php
-	//Purchasing journal//
-	include('accountingheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 ?>
-<script src='../universal/Numeral-js-master/numeral.js'></script>
+<head>
+	<title>Purchasing journal</title>
+</head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Purchasing Journal</h2>
 	<p>View purchasing journal monthly</p>

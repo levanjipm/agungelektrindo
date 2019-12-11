@@ -10,5 +10,5 @@
 	$sql_update = "UPDATE code_bank SET isdone = '1' WHERE id = '" . $bank_id . "'";
 	$result_update = $conn->query($sql_update);
 	
-	header('location:accounting.php');
+	header('location:../accounting');
 ?>

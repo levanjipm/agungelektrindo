@@ -1,8 +1,10 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
-	$sql = "SELECT * FROM code_goodreceipt WHERE isinvoiced = '0' ORDER BY date ASC";
-	$result = $conn->query($sql);
+	
+	$supplier_id	= $_POST['supplier_id'];
+	$sql 			= "SELECT * FROM code_goodreceipt WHERE isinvoiced = '0'  AND supplier_id = '$supplier_id' ORDER BY date ASC";
+	$result 		= $conn->query($sql);
 ?>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Purchase Invoice</h2>
@@ -24,7 +26,7 @@
 	while($row 				= $result->fetch_assoc()){
 		$code_gr_id			= $row['id'];
 		$supplier_id 		= $row['supplier_id'];
-		$sql_supplier 		= "SELECT name FROM supplier WHERE id = '" . $supplier_id . "'";
+		$sql_supplier 		= "SELECT name FROM supplier WHERE id = '$supplier_id'";
 		$result_supplier 	= $conn->query($sql_supplier);
 		$row_supplier 		= $result_supplier->fetch_assoc();
 		$supplier_name 		= $row_supplier['name'];

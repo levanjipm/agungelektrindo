@@ -37,6 +37,18 @@
 		
 		next($reference_array);
 	}
+	
+	function GUID()
+	{
+		if (function_exists('com_create_guid') === true)
+		{
+			return trim(com_create_guid(), '{}');
+		}
+
+		return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+	}
+	
+	$guid	= GUID();
 ?>
 <head>
 	<title>Purchasing return validation</title>
@@ -46,18 +58,19 @@
 	<p style='font-family:museo'>Purchasing return</p>
 	<hr>
 <?php
-	echo $nilai;
 	if($nilai == 1){
 		$reference_array	= $_POST['reference'];
 		$quantity_array		= $_POST['quantity'];
 		$i					= 1;
 ?>
-	<h3><?= $supplier_name ?></h3>
-	<p><?= $supplier_address ?></p>
-	<p><?= $supplier_city ?></p>
-	<form action='purchasing_return_create_input' method='POST' id='return_form'>
+	<label>Supplier data</label>
+	<p style='font-family:museo'><?= $supplier_name ?></h3>
+	<p style='font-family:museo'><?= $supplier_address ?></p>
+	<p style='font-family:museo'><?= $supplier_city ?></p>
+	<form action='return_create_input' method='POST' id='return_form'>
 		<input type='hidden' value='<?= $supplier_id ?>' name='supplier'>
 		<input type='hidden' value='<?= $date ?>' name='date'>
+		<input type='hidden' value='<?= $guid ?>' name='guid'>
 		<table class='table table-bordered'>
 			<tr>
 				<th>Reference</th>
@@ -89,7 +102,7 @@
 			<td><strong>Supplier</strong></td>
 			<td><strong>Quantity</strong></td>
 			<td><strong>Price</strong></td>
-			<td><input type="radio" id='check<?= $i ?>' name='radio[<?= $i ?>]' onchange='insert_manual_price(<?= $i ?>)'>Insert manually</td>
+			<td><input type="radio" id='check<?= $i ?>' name='radio-<?= $i ?>' onchange='insert_manual_price(<?= $i ?>)' checked>Insert manually</td>
 		</tr>
 		<tr id='manual_tr<?= $i ?>'>
 			<td colspan='3'></td>
@@ -116,7 +129,7 @@
 				?></td>
 				<td><?= $value['quantity'] ?></td>
 				<td style='width:20%'>Rp. <?= number_format($value['price'],2) ?></td>
-				<td><input type='radio' value='<?= $value['price'] ?>' id='radio-<?= $i ?>'>Pick</td>
+				<td><input type='radio' value='<?= $value['price'] ?>' id='radio-<?= $i ?>' name='radio-<?= $i ?>'>Pick</td>
 			</tr>
 <?php
 			}

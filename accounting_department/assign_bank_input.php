@@ -96,7 +96,7 @@
 			
 			next($check_array);
 		}
-		header('location:accounting');
+		header('location:/agungelektrindo/accounting');
 		
 	} else if($transaction == 1){
 		$will_be_paid 	= 0;
@@ -123,7 +123,7 @@
 		}
 		if($will_be_paid == 0){
 			
-			$sql_update = "UPDATE code_bank SET isdone = '1' WHERE id = '" . $bank_id . "'";
+			$sql_update 	= "UPDATE code_bank SET isdone = '1' WHERE id = '" . $bank_id . "'";
 			$conn->query($sql_update);
 			
 		} else {
@@ -170,8 +170,11 @@
 				
 				$sql = "INSERT INTO payable (purchase_id,date,value,bank_id) VALUES ('$key','$date','$paid','$bank_id')";
 				$conn->query($sql);
+				
+				echo $remaining;
+				echo '<br>';
 				if($remaining == 0){
-					$update_invoice = "UPDATE purchases SET isdone = '1' WHERE id = '" . $key . "'";
+					$update_invoice 	= "UPDATE purchases SET isdone = '1' WHERE id = '" . $key . "'";
 					$conn->query($update_invoice);
 				}
 				
@@ -182,7 +185,7 @@
 			
 		}
 		
-		header('location:accounting');
+		header('location:/agungelektrindo/accounting');
 	}
 	
 ?>

@@ -45,7 +45,7 @@
 		$('#purchasing_return_button').addClass('active_tab');
 		$('#sales_return_button').removeClass('active_tab');
 		$.ajax({
-			url:'service_sales_order_form.php',
+			url:'purchasing_return_view.php',
 			success:function(response){
 				$('#view_pane').html(response);
 			}

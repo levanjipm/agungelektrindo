@@ -145,7 +145,7 @@ $("#add_item_button").click(function (){
 	"</tr>").find("input").each(function () {
 		});
 	$("#reference" + a).autocomplete({
-	source: "search_item.php"
+	source: "../codes/search_item.php"
 	 });
 	a++;
 });
