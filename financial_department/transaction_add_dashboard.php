@@ -2,6 +2,9 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/financial_header.php');
 ?>
+<head>
+	<title>Add bank transaction</title>
+</head>
 <div class='main'>
 	<div class='row'>
 		<div class='col-sm-12'>

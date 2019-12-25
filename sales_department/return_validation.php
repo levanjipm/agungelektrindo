@@ -50,7 +50,6 @@
 	
 	<label>GUID</label>
 	<p style='font-family:museo'><?= $guid ?></p>
-	
 	<form action='return_input' method="POST" id="return_form">
 		<input type='hidden' value='<?= $guid ?>' readonly name='guid'>
 		<input type='hidden' value='<?= $do_id ?>' readonly name='delivery_order_id'>
@@ -65,29 +64,27 @@
 			</thead>
 			<tbody>
 <?php
-	$sql_item = "SELECT id,reference,quantity FROM delivery_order WHERE do_id = '$do_id'";
-	$result_item = $conn->query($sql_item);
-	if (mysqli_num_rows($result_item) > 0){
-		while($row = $result_item->fetch_assoc()) {
-			$reference			= $row['reference'];
-			$quantity			= $row['quantity'];
-			
-			$sql_item			= "SELECT description FROM itemlist WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "'";
-			$result_item		= $conn->query($sql_item);
-			$item				= $result_item->fetch_assoc();
-			
-			$item_description	= $item['description'];
-			
-			$delivery_order		= $row['id'];
+	$sql	 				= "SELECT id,reference,quantity FROM delivery_order WHERE do_id = '$do_id'";
+	$result		 			= $conn->query($sql);
+	while($row 				= $result->fetch_assoc()) {
+		$reference			= $row['reference'];
+		$quantity			= $row['quantity'];
+		
+		$sql_item			= "SELECT description FROM itemlist WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "'";
+		$result_item		= $conn->query($sql_item);
+		$item				= $result_item->fetch_assoc();
+		
+		$item_description	= $item['description'];
+		
+		$delivery_order		= $row['id'];
 ?>
-					<tr>
-						<td><?= $reference ?></td>
-						<td><?= $item_description ?></td>
-						<td><?= $quantity ?></td>
-						<td><input type="number" class="form-control" id='return_quantity-<?= $delivery_order ?>' name="return_quantity[<?= $delivery_order ?>]" max="<?= $quantity ?>" min='0'></td>
-					</tr>
+				<tr>
+					<td><?= $reference ?></td>
+					<td><?= $item_description ?></td>
+					<td><?= $quantity ?></td>
+					<td><input type="number" class="form-control" id='return_quantity-<?= $delivery_order ?>' name="return_quantity[<?= $delivery_order ?>]" max="<?= $quantity ?>" min='0'></td>
+				</tr>
 <?php
-		};
 	}
 ?>
 			</tbody>

@@ -41,5 +41,5 @@
 		}
 	}
 	
-	header('location:inventory');
+	header('location:/agungelektrindo/inventory');
 ?>

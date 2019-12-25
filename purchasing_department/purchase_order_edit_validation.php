@@ -12,74 +12,46 @@
 <?php
 	}
 	
-	$sql_initial 	= "SELECT * FROM code_purchaseorder WHERE id = '" . $po_id . "'";
-	$result_initial = $conn->query($sql_initial);
-	$row_initial 	= $result_initial->fetch_assoc();
+	$sql_initial 			= "SELECT * FROM code_purchaseorder WHERE id = '" . $po_id . "'";
+	$result_initial 		= $conn->query($sql_initial);
+	$row_initial 			= $result_initial->fetch_assoc();
 	
-	$supplier_id 	= $row_initial['supplier_id'];
-	$tax 			= $row_initial['taxing'];
-	$top 			= $row_initial['top'];
-	$promo_code 	= $row_initial['promo_code'];
+	$purchase_order_name	= $row_initial['name'];
+	$supplier_id 			= $row_initial['supplier_id'];
+	$tax 					= $row_initial['taxing'];
+	$top 					= $row_initial['top'];
+	$promo_code 			= $row_initial['promo_code'];
 	
-	$sql_supplier 		= "SELECT name FROM supplier WHERE id = '" . $supplier_id . "'";
-	$result_supplier 	= $conn->query($sql_supplier);
-	$supplier 			= $result_supplier->fetch_assoc();
-	
-	$supplier_name		= $supplier['name'];
+	$sql_supplier 			= "SELECT name, address, city FROM supplier WHERE id = '" . $supplier_id . "'";
+	$result_supplier 		= $conn->query($sql_supplier);
+	$supplier 				= $result_supplier->fetch_assoc();
+		
+	$supplier_name			= $supplier['name'];
+	$supplier_address		= $supplier['address'];
+	$supplier_city			= $supplier['city'];
 ?>
-<link rel="stylesheet" href="../jquery-ui.css">
-<script src="../jquery-ui.js"></script>
-<style>
-	.notification_large{
-		position:fixed;
-		top:0;
-		left:0;
-		background-color:rgba(51,51,51,0.3);
-		width:100%;
-		text-align:center;
-		height:100%;
-	}
-	.notification_large .notification_box{
-		position:relative;
-		background-color:#fff;
-		padding:30px;
-		width:100%;
-		top:30%;
-		box-shadow: 3px 4px 3px 4px #ddd;
-	}
-	.btn-delete{
-		background-color:red;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	.btn-back{
-		background-color:#777;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	.btn-confirm{
-		background-color:green;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-</style>
+<head>
+	<title>Edit <?= $purchase_order_name ?></title>
+</head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Purchase order</h2>
-	<p>Edit purchase order</p>
+	<p style='font-family:museo'>Edit purchase order</p>
 	<hr>
 	<form action='purchase_order_edit' method="POST" id='edit_purchase_order_form'>
+		<label>Purchase order data</label>
+		<p style='font-family:museo'><?= $purchase_order_name ?></p>
+		<p style='font-family:museo'><?= $supplier_name ?></p>
+		<p style='font-family:museo'><?= $supplier_address ?></p>
+		<p style='font-family:museo'><?= $supplier_city ?></p>
+		
 		<input type='hidden' value='<?= $po_id ?>' name='purchase_order_id'>
-		<label>Order to</label>
-		<p><?= $supplier_name ?></p>
+		
 		<label>Promo Code</label>
 		<input type="text" class="form-control" value="<?= $promo_code?>" name="promo_code" style='width:50%'>
 		<label>Taxing option</label>
 		<select class="form-control" name="taxing" style='width:50%'>
-			<option value='1' <?php if($tax == 0) { echo 'selected'; } ?>>Tax</option>
-			<option value='2' <?php if($tax != 0) { echo 'selected'; } ?>>Non Tax</option>
+			<option value='1' <?php if($tax == 1) { echo 'selected'; } ?>>Tax</option>
+			<option value='2' <?php if($tax == 2) { echo 'selected'; } ?>>Non Tax</option>
 		</select>
 		<label>Term of payment</label>
 		<div>
@@ -166,13 +138,12 @@
 		<button type="button" class="button_default_dark" onclick="calculate()">Calculate</button>
 	</form>	
 </div>
-<div class='notification_large' style='display:none'>
-	<div class='notification_box' id='confirm_box'>
-		<h1 style='font-size:3em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h1>
-		<h2 style='font-family:bebasneue'>Are you sure to edit this purchase order?</h2>
-		<br>
-		<button type='button' class='btn btn-back'>Back</button>
-		<button type='button' class='btn btn-confirm'>Confirm</button>
+<div class='full_screen_wrapper'>
+	<div class='full_screen_notif_bar'>
+		<h1 style='font-size:3em;color:red'><i class="fa fa-exclamation" aria-hidden="true"></i></h1>
+		<p style='font-family:museo'>Are you sure to delete this purchase order?</p>
+		<button type='button' class='button_danger_dark' id='close_notif_button'>Check again</button>
+		<button type='button' class='button_success_dark' id='confirm_button'>Submit</button>
 	</div>
 </div>
 <script>
@@ -230,15 +201,19 @@
 			alert('Please insert unique references');
 			return false;
 		} else {
-			$('.notification_large').fadeIn();
+			var window_height			= $(window).height();
+			var notif_height			= $('.full_screen_notif_bar').height();
+			var difference				= window_height - notif_height;
+			$('.full_screen_notif_bar').css('top',0.7 * difference / 2);
+			$('.full_screen_wrapper').fadeIn();
 		}
 	}	
 
-	$('.btn-back').click(function(){
-		$('.notification_large').fadeOut();
+	$('#close_notif_button').click(function(){
+		$('.full_screen_wrapper').fadeOut();
 	});
 	
-	$('.btn-confirm').click(function(){
+	$('#confirm_button').click(function(){
 		$('#edit_purchase_order_form').submit();
 	});
 </script>

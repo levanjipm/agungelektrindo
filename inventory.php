@@ -71,7 +71,7 @@
 				<div class='row'>
 					<div class='col-sm-12 box' id='on_delivery_button'>
 					<?php
-						$sql_calendar = "SELECT COUNT(*) AS delivery FROM code_delivery_order WHERE date = '" . date('Y-m-d') . "' AND sent = '0'";
+						$sql_calendar = "SELECT COUNT(*) AS delivery FROM code_delivery_order WHERE sent = '0' AND company = 'AE'";
 						$result_calendar = $conn->query($sql_calendar);
 						$row = $result_calendar->fetch_assoc();
 					

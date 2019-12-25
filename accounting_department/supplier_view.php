@@ -1,90 +1,99 @@
 <?php
-	include('accountingheader.php');
-	if(empty($_POST['supplier']) || $_POST['supplier'] == 0){
-		header('location:receivable_dashboard.php');
-	}
-	$sql_supplier = "SELECT * FROM supplier WHERE id = '" . $_POST['supplier'] . "'";
-	$result_supplier = $conn->query($sql_supplier);
-	$supplier = $result_supplier->fetch_assoc();
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 	
-	$sql_invoice = "SELECT SUM(value) AS jumlah FROM purchases WHERE supplier_id = '" . $_POST['supplier'] . "'";
-	$result_invoice = $conn->query($sql_invoice);
-	$invoice = $result_invoice->fetch_assoc();
+	if(empty($_POST['supplier']) || $_POST['supplier'] == 0){
+		header('location:receivable_dashboard');
+	}
+	
+	$supplier_id			= $_POST['supplier'];
+	
+	$sql_supplier 			= "SELECT name, address, city FROM supplier WHERE id = '" . $_POST['supplier'] . "'";
+	$result_supplier 		= $conn->query($sql_supplier);
+	$supplier 				= $result_supplier->fetch_assoc();
+	
+	$supplier_name			= $supplier['name'];
+	$supplier_address		= $supplier['address'];
+	$supplier_city			= $supplier['city'];
+	
+	$sql_invoice 			= "SELECT SUM(value) AS total FROM purchases WHERE supplier_id = '" . $_POST['supplier'] . "'";
+	$result_invoice 		= $conn->query($sql_invoice);
+	$invoice 				= $result_invoice->fetch_assoc();
+	
+	$total_purchase			= $invoice['total'];
 ?>
 <div class='main'>
 	<div class='row'>
 		<div class='col-sm-5'>
-			<h2><?= $supplier['name'] ?></h2>
-			<p><?= $supplier['address'] ?></p>
-			<p><?= $supplier['city'] ?></p>
+			<h2 style='font-family:bebasneue'><?= $supplier_name ?></h2>
+			<p style='font-family:museo'><?= $supplier_address ?></p>
+			<p style='font-family:museo'><?= $supplier_city ?></p>
 		</div>
-		<div class='col-sm-3' style='background-color:#ddd;box-shadow: 10px 10px 8px #888888;padding:20px'>
+		<div class='col-sm-3 col-sm-offset-3' style='background-color:#ddd;box-shadow: 10px 10px 8px #888888;padding:20px'>
 			<div class='row'>
 				<div class='col-sm-4'>
 					<h1><i class="fa fa-credit-card-alt" aria-hidden="true"></i></h1>
 				</div>
 				<div class='col-sm-8'>
 				<p><strong>Overall purchases</strong></p>
-				Rp. <?= number_format($invoice['jumlah'],2) ?>
-				</div>
-			</div>
-		</div>
-		<div class='col-sm-3' style='background-color:#ddd;box-shadow: 10px 10px 8px #888888;padding:20px;margin-left:20px'>
-			<div class='row'>
-				<div class='col-sm-4'>
-					<h1><i class="fa fa-money" aria-hidden="true"></i></h1>
-				</div>
-				<div class='col-sm-8'>
-				<p><strong>Overall payment</strong></p>
-				Rp. <?= number_format($invoice['jumlah'],2) ?>
+				Rp. <?= number_format($total_purchase,2) ?>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class='row'>
-		<div class='col-sm-12'>
-			<h2>Unpaid invoices</h2>
-			<table class='table'>
-				<tr>
-					<th>Date</th>
-					<th>Invoice number</th>
-					<th>Value</th>
+	
+	<h3 style='font-family:bebasneue'>Unpaid invoices</h3>
+	<p style='font-family:museo' id='value'></p>
+	<a href='payable_view.php?id=<?= $supplier_id ?>'>
+		<button type='button' class='button_success_dark' title='View report'><i class='fa fa-eye'></i></button>
+	</a>
+	<br><br>
+	
+	<table class='table table-bordered'>
+		<tr>
+			<th>Date</th>
+			<th>Invoice number</th>
+			<th>Remaining value</th>
+		</tr>
 <?php
-	if($role == 'superadmin'){
-?>
-					<th></th>
-<?php
-	}
-?>
-				</tr>
-<?php
-	$sql_invoice_detail = "SELECT id, date, name, value FROM purchases
-	WHERE supplier_id = '" . $_POST['supplier'] . "' AND purchases.isdone = '0'";
-	$result_invoice_detail = $conn->query($sql_invoice_detail);
-	while($invoice_detail = $result_invoice_detail->fetch_assoc()){
+	$total_debt				= 0;
+	$sql_invoice_detail 	= "SELECT id, date, name, value FROM purchases
+								WHERE supplier_id = '$supplier_id' AND isdone = '0'";
+	$result_invoice_detail 	= $conn->query($sql_invoice_detail);
+	while($invoice_detail 	= $result_invoice_detail->fetch_assoc()){
+		$purchase_id		= $invoice_detail['id'];
+		$purchase_value		= $invoice_detail['value'];
+		
+		$sql_payable		= "SELECT SUM(payable.value) as paid FROM payable WHERE purchase_id = '$purchase_id'";
+		$result_payable		= $conn->query($sql_payable);
+		$payable			= $result_payable->fetch_assoc();
+		
+		$paid				= $payable['paid'];
+		
+		$unpaid				= $purchase_value - $paid;
+		$total_debt			+= $unpaid;
 ?>
 				<tr>
 					<td><?= date('d M Y',strtotime($invoice_detail['date'])) ?></td>
 					<td><?= $invoice_detail['name'] ?></td>
-					<td>Rp. <?= number_format($invoice_detail['value']) ?></td>
-<?php
-	if($role == 'superadmin'){
-?>
-					<td><button type='button' class='btn btn-default' onclick='submiting(<?= $invoice_detail['id'] ?>)'>Lunas</button></td>
-					<form id='hitung_lunas<?= $invoice_detail['id'] ?>' action='invoice_isdone.php' method='POST'>
-						<input type='hidden' value='<?= $invoice_detail['id'] ?>' name='id' readonly>
-					</form>
-<?php
-	}
-?>
+					<td>Rp. <?= number_format($unpaid,2) ?></td>
+<?php if($role == 'superadmin'){ ?>
+					<td><button type='button' class='button_default_dark' onclick='view_purchase(<?= $purchase_id ?>)'>Set done</button></td>
+<?php } ?>
 				</tr>
-<?php
-	}
-?>
+<?php } ?>
+			</table>
+		</div>
 	</div>
 </div>
+<form action='purchase_set_done_dashboard' method='POST' id='purchase_done_form'>
+	<input type='hidden' id='purchase_id' name='id'>
+</form>
 <script>
-	function submiting(n){
-		$('#hitung_lunas' + n).submit();
+	function view_purchase(n){
+		$('#purchase_id').val(n);
+		$('#purchase_done_form').submit();
 	};
+	
+	$('#value').text('Rp. ' + numeral(<?= $total_debt ?>).format('0,0.00'));
 </script>

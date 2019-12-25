@@ -40,13 +40,10 @@
 				<td><?= $row['name'] ?></td>
 				<td><?= $supplier_name ?></td>			
 				<td>
-					<button type="button" class="button_default_dark" onclick='edit(<?= $purchase_order_id ?>)'>
-						<i class="fa fa-eye" aria-hidden="true"></i>
+					<button type="button" class='button_success_dark' onclick='edit_purchase_order(<?= $purchase_order_id ?>)'>
+						<i class="fa fa-pencil" aria-hidden="true"></i>
 					</button>
 				</td>
-				<form method='POST' id='form<?= $purchase_order_id ?>' action='purchase_order_edit_validation'>
-					<input type='hidden' value='<?= $purchase_order_id ?>' name='id'>
-				</form>
 			</tr>
 <?php
 		}
@@ -54,8 +51,12 @@
 		</tbody>
 	</table>
 </div>
+<form method='POST' id='purchase_order_edit_form' action='purchase_order_edit_validation'>
+	<input type='hidden' id='purchase_order_id' name='id'>
+</form>
 <script>
-	function edit(n){
-		$('#form' + n).submit();
+	function edit_purchase_order(n){
+		$('#purchase_order_id').val(n);
+		$('#purchase_order_edit_form').submit();
 	}
 </script>

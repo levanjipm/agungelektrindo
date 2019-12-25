@@ -17,13 +17,14 @@
 	}
 	
 	$quantity 		= $_POST['quantity'];
+	
 	if($stock < $quantity){
 		echo ('Illegal operation. Stock insufficient');
 ?>
 	<script>
 		setTimeout(function(){
 			window.location.href='event_lost_create_dashboard';
-		},3000);
+		},1000);
 	</script>
 <?php
 	} else {
@@ -34,18 +35,18 @@
 		
 		$event_name = 'LOS' . $jumlah;
 		
-		$sql 		= "INSERT INTO code_adjustment_event (date,event_id,event_name,created_by)
-					VALUES ('$date','1','$event_name','$user_id')";
-		echo $sql;
-		$result 	= $conn->query($sql);
+		$sql 				= "INSERT INTO code_adjustment_event (date,event_id,event_name,created_by)
+								VALUES ('$date','1','$event_name','$user_id')";
+		$result 			= $conn->query($sql);
 		if($result){
 			$sql_get_id 	= "SELECT id FROM code_adjustment_event ORDER BY id DESC LIMIT 1";
 			$result_get_id 	= $conn->query($sql_get_id);
 			$get_id 		= $result_get_id->fetch_assoc();
 			$id 			= $get_id['id'];
 		
-			$sql 			= "INSERT INTO adjustment_event (reference,transaction,code_adjustment_event)
-							VALUES ('$reference','OUT','$id')";
+			$sql 			= "INSERT INTO adjustment_event (reference,transaction, quantity, code_adjustment_event)
+								VALUES ('$reference','OUT', '$quantity', '$id')";
+			echo $sql;
 			$conn->query($sql);
 		}
 	}

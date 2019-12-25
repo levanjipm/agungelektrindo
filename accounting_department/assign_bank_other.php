@@ -35,7 +35,7 @@
 	<label>Transaction data</label>
 	<p style='font-family:museo'><?= $selector['name'] ?></p>
 	<p style='font-family:museo'><?= date('d M Y',strtotime($row['date'])) ?></p>
-	<p style='font-family:museo'>Rp. <?= number_format($row['value']) ?></p>
+	<p style='font-family:museo'>Rp. <?= number_format($row['value'],2) ?></p>
 	<hr>
 	<label>Assign this transaction as</label>
 	<form action='assign_bank_other_assign' method='POST' id='assign_form'>
@@ -109,7 +109,7 @@
 			},
 			type:'POST',
 			success:function(){
-				// window.location.href='/agungelektrindo/accounting_department/assign_bank_dashboard';
+				window.location.href='/agungelektrindo/accounting_department/assign_bank_dashboard';
 			}
 		})
 	});

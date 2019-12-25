@@ -61,7 +61,7 @@
 		$result_opponent 	= $conn->query($sql_opponent);
 		$opponent 			= $result_opponent->fetch_assoc();
 		
-		$sql_invoice 		= "SELECT * FROM purchases WHERE supplier_id = '" . $opponent_id . "'";
+		$sql_invoice 		= "SELECT * FROM purchases WHERE supplier_id = '" . $opponent_id . "' AND isdone = '0'";
 		$result_invoice 	= $conn->query($sql_invoice);
 		$i = 1;
 		while($invoices = $result_invoice->fetch_assoc()){
@@ -97,15 +97,15 @@
 			console.log(pengurang);
 			console.log(value_now);
 			if($('#value_now').val() > pengurang){
-				$('#remain-' + n).html(numeral(0).format(0,0.00));
+				$('#remain-' + n).html(numeral(0).format('0,0.00'));
 				$('#remaining-' + n).val(0);
 				$('#value_now').val(value_now - pengurang);
-				$('#rupiah').html(numeral($('#value_now').val()).format(0,0.00));
+				$('#rupiah').html(numeral($('#value_now').val()).format('0,0.00'));
 			} else {
-				$('#remain-' + n).html(numeral(pengurang - value_now).format(0,0.00));
+				$('#remain-' + n).html(numeral(pengurang - value_now).format('0,0.00'));
 				$('#remaining-' + n).val(pengurang - value_now);
 				$('#value_now').val(0);	
-				$('#rupiah').html(numeral($('#value_now').val()).format(0,0.00));
+				$('#rupiah').html(numeral($('#value_now').val()).format('0,0.00'));
 			}
 			if($('#value_now').val() == 0){
 				$("input:checkbox:not(:checked)").attr('disabled',true);
@@ -118,8 +118,8 @@
 			var value_now = parseInt($('#value_now').val());
 			var remaining = parseInt($('#remaining-' + n).val());
 			$('#value_now').val(value_now + pengurang - remaining);
-			$('#rupiah').html(numeral($('#value_now').val()).format(0,0.00));
-			$('#remain-' + n).html(numeral(pengurang).format(0,0.00));
+			$('#rupiah').html(numeral($('#value_now').val()).format('0,0.00'));
+			$('#remain-' + n).html(numeral(pengurang).format('0,0.00'));
 			$('#remaining-' + n).val(pengurang);
 			if($('#value_now').val() != 0){
 				$('input[type=checkbox]').attr('disabled',false);
@@ -170,15 +170,15 @@
 			var pengurang = parseInt($('#angka' + n).val());
 			var value_now = parseInt($('#value_now').val());
 			if($('#value_now').val() > pengurang){
-				$('#remain-' + n).html(numeral(0).format(0,0.00));
+				$('#remain-' + n).html(numeral(0).format('0,0.00'));
 				$('#remaining-' + n).val(0);
 				$('#value_now').val(value_now - pengurang);
-				$('#rupiah').html(numeral($('#value_now').val()).format(0,0.00));
+				$('#rupiah').html(numeral($('#value_now').val()).format('0,0.00'));
 			} else {
-				$('#remain-' + n).html(numeral(pengurang - value_now).format(0,0.00));
+				$('#remain-' + n).html(numeral(pengurang - value_now).format('0,0.00'));
 				$('#remaining-' + n).val(pengurang - value_now);
 				$('#value_now').val(0);	
-				$('#rupiah').html(numeral($('#value_now').val()).format(0,0.00));
+				$('#rupiah').html(numeral($('#value_now').val()).format('0,0.00'));
 			}
 			if($('#value_now').val() == 0){
 				$("input:checkbox:not(:checked)").attr('disabled',true);
@@ -191,8 +191,8 @@
 			var value_now = parseInt($('#value_now').val());
 			var remaining = parseInt($('#remaining-' + n).val());
 			$('#value_now').val(value_now + pengurang - remaining);
-			$('#rupiah').html(numeral($('#value_now').val()).format(0,0.00));
-			$('#remain-' + n).html(numeral(pengurang).format(0,0.00));
+			$('#rupiah').html(numeral($('#value_now').val()).format('0,0.00'));
+			$('#remain-' + n).html(numeral(pengurang).format('0,0.00'));
 			$('#remaining-' + n).val(pengurang);
 			if($('#value_now').val() != 0){
 				$('input[type=checkbox]').attr('disabled',false);

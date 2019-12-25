@@ -116,10 +116,10 @@ $('#next_button').click(function(){
 		$('#city').focus();
 		return false;
 	} else {
-		$('#company_name').html($('#namaperusahaan').val());
-		$('#company_address').html($('#alamat').val() + ' no.' + $('#number').val() + ' blok ' + $('#blok').val());
-		$('#phone_number').html($('#phone').val());
-		$('#company_tax').html($('#npwp').val());
+		$('#company_name').text($('#name').val());
+		$('#company_address').text($('#address').val() + ' no.' + $('#number').val() + ' block ' + $('#block').val());
+		$('#phone_number').text($('#phone').val());
+		$('#company_tax').text($('#npwp').val());
 
 		$('.full_screen_wrapper').fadeIn();
 	}
@@ -141,6 +141,7 @@ $('#submit_button').click(function(){
 		},
 		type:'POST',
 		beforeSend:function(){
+			$('#submit_button').html("<i class='fa fa-spin fa-spinner'></i>");
 			$('#submit_button').attr('disabled',true);
 		},
 		success:function(){

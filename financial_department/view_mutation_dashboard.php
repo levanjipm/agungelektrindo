@@ -2,6 +2,9 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/financial_header.php');
 ?>
+<head>
+	<title>View bank mutation data</title>
+</head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Bank Account</h2>
 	<p style='font-family:museo'>Mutation</p>

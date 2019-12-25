@@ -18,8 +18,8 @@
 		$returned++;
 		
 		$document_name		= "SJ-AE-RT-" . str_pad($returned,3,'0',STR_PAD_LEFT);
-		$sql				= "INSERT INTO code_purchase_return_sent (document, code_purchase_return_id, created_by, guid)
-								VALUES ('$document_name', '$return_id', '$creator', '$guid')";
+		$sql				= "INSERT INTO code_purchase_return_sent (date, document, code_purchase_return_id, created_by, guid)
+								VALUES ('$return_date', '$document_name', '$return_id', '$creator', '$guid')";
 		$result				= $conn->query($sql);
 		if($result){
 			$sql_get		= "SELECT id FROM code_purchase_return_sent WHERE guid = '$guid'";

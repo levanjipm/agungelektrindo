@@ -6,16 +6,15 @@
 		<a href='/agungelektrindo/human_resource_department/set_inactive_dashboard'><p>Set inactive</p></a>
 		<a href='/agungelektrindo/human_resource_department/set_authority_dashboard'><p>Authority</p></a>
 	</div>
-	<a href='/agungelektrindo/human_resource_department/salary_create_dashboard'>
-		<button>Salary slip</button>
-	</a>
-	<a href='/agungelektrindo/human_resource_department/absentee_edit_dashboard'>
-		<button>Absentee list</button>
-	</a>
+	<a href='/agungelektrindo/human_resource_department/salary_create_dashboard'><button>Salary slip</button></a>
+	<a href='/agungelektrindo/human_resource_department/absentee_edit_dashboard'><button>Absentee list</button></a>
+	<button class='dropdown_button'>Tutorial</button>
+	<div class="dropdown-container">
+		<a href='/agungelektrindo/human_resource_department/create_tutorial'><p>Create new tutorial</p></a>
+		<a href='/agungelektrindo/human_resource_department/manage_tutorial'><p>Manage tutorial</p></a>
+	</div>
 	<hr>
-	<a href='/agungelektrindo/human_resource'>
-		<i class="fa fa-eercast" aria-hidden="true"></i>Human Resource Department
-	</a>
+	<a href='/agungelektrindo/human_resource'><i class="fa fa-eercast" aria-hidden="true"></i>Human Resource Department</a>
 </div>
 <div class='sidenav_small'>
 	<i class="fa fa-bars" aria-hidden="true"></i>

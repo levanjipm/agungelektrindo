@@ -126,6 +126,10 @@
 		display:none;
 	}
 	
+	.main{
+		margin-left:20px;
+	}
+	
 	.sidenav_small{
 		display:block;
 	}
@@ -240,4 +244,20 @@
 	height:60%;
 	max-height:150px;
 	text-align:center;
+}
+
+.button_information_transparent{
+	border-radius:50%;
+	background-color:white;
+	outline:none!important;
+	border:none;
+	box-shadow:1px 1px 1px 1px rgba(25,25,25,0.4);
+}
+
+.button_information_red{
+	border-radius:50%;
+	background-color:#cd607e;
+	outline:none!important;
+	border:none;
+	box-shadow:1px 1px 1px 1px rgba(25,25,25,0.4);
 }

@@ -23,7 +23,6 @@
 		}
 		
 		$sql_invoice			= "UPDATE invoices SET value = '$invoice_value' WHERE do_id = '$code_delivery_order'";
-		echo $sql_invoice;
 		$result_invoice			= $conn->query($sql_invoice);
 	}
 ?>

@@ -5,12 +5,18 @@
 		<a href='/agungelektrindo/financial_department/view_mutation_dashboard'><p>View mutation</p></a>
 		<a href='/agungelektrindo/financial_department/transaction_add_dashboard'><p>Add a transaction</p></a>
 		<a href='/agungelektrindo/financial_department/client_add_dashboard'><p>Add an opponent</p></a>
+		<a href='/agungelektrindo/financial_department/edit_transaction'><p>Edit transaction</p></a>
 	</div>
 	<button class='dropdown_button'>Petty Cash</button>
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/financial_department/petty_dashboard'><p>Add a transaction</p></a>
 		<a href='/agungelektrindo/financial_department/petty_edit'><p>Edit transaction</p></a>
 		<a href='/agungelektrindo/financial_department/petty_view'><p>View table</p></a>
+	</div>
+	<button class='dropdown_button'>Inventory management</button>
+		<div class='dropdown-container'>
+		<a href='/agungelektrindo/financial_department/inventory_management'><p>Manage inventory</p></a>
+		<a href='/agungelektrindo/financial_department/inventory_'><p>Edit transaction</p></a>
 	</div>
 	<hr>
 	<a href='/agungelektrindo/financial' style='color:#1ac6ff;text-decoration:none'><i class="fa fa-eercast" aria-hidden="true"></i>Financial Department</a>

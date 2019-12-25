@@ -1,6 +1,10 @@
 <?php
-	include('accountingheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 ?>
+<head>
+	<title>Debt document archives</title>
+</head>
 <style>
 	.btn-table{
 		background-color:transparent;
@@ -11,7 +15,7 @@
 	<h2 style='font-family:bebasneue'>Purchase Invoice</h2>
 	<p>Archives</p>
 	<hr>
-	<button type='button' class='btn btn-default' id='back_button'><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></button>
+	<button type='button' class='button_default_dark' id='back_button'><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></button>
 	<input type='hidden' value='0' id='depth'>
 	<input type='hidden' value='0' id='depth_year'>
 	<div class='row' id='folders'>
@@ -73,6 +77,7 @@
 		}
 	});
 	function view_archive_purchase(n){
-		$('#purchase_archieve_form' + n).submit();
+		$('#purchase_id').val(n);
+		$('#purchase_archieve_form').submit();
 	}
 </script>

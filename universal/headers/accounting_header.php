@@ -7,18 +7,21 @@
 		<a href='/agungelektrindo/accounting_department/invoice_edit_dashboard'><p>Edit an invoice</p></a>
 		<a href='/agungelektrindo/accounting_department/confirm_invoice_dashboard'><p>Confirm an invoice</p></a>
 <?php } ?>
-		<a href='invoice_archive.php'><p>Archives</p></a>
+		<a href='/agungelektrindo/accounting_department/invoice_archive'><p>Archives</p></a>
 	</div>
 	<button class='dropdown_button'>Purchase Invoice</button>	
 	<div class='dropdown-container'>
-		<a href='/agungelektrindo/accounting_department/debt_document_dashboard'><p>Input debt document</p></a>
+		<a href='/agungelektrindo/accounting_department/debt_document_dashboard'><p>Create debt document</p></a>
+<?php if ($role == 'superadmin'){ ?>
 		<a href='/agungelektrindo/accounting_department/confirm_purchase_dashboard'><p>Confirm document</p></a>
+		<a href='/agungelektrindo/accounting_department/edit_purchase_dashboard'><p>Edit document</p></a>
+<?php } ?>
 		<a href='/agungelektrindo/accounting_department/waiting_for_billing'><p>Pending bills</p></a>
 		<a href='/agungelektrindo/accounting_department/purchase_archive'><p>Archives</p></a>
 <?php
 	if($role == 'superadmin'){
 ?>
-		<a href='random_debt_document'><p>Input random</p></a>
+		<a href='/agungelektrindo/accounting_department/random_debt_document'><p>Input random</p></a>
 <?php
 	}
 ?>
@@ -31,12 +34,8 @@
 	</div>
 	<button class='dropdown_button'>Receivable</button>
 	<div class='dropdown-container'>
-		<a href='/agungelektrindo/accounting_department/receivable_dashboard'>
-			<p>Dashboard</p>
-		</a>
-		<a href='receivable_report_customer'>
-			<p>Report</p>
-		</a>
+		<a href='/agungelektrindo/accounting_department/receivable_dashboard'><p>Dashboard</p></a>
+		<a href='/agungelektrindo/accounting_department/receivable_report_dashboard'><p>Report</p></a>
 	</div>
 	<a href='/agungelektrindo/accounting_department/payable_dashboard'>
 		<button class='dropdown_button' style='color:white'>Payable</button>
@@ -50,7 +49,7 @@
 	<button type='button' class='dropdown_button' style='color:white'>Return</button>
 	<div class='dropdown-container'>
 		<a href="sales_return_dashboard.php"><p>Sales return</p></a>
-		<a href="purchasing_return_dashboard.php"><p>Purchasing return</p></a>
+		<a href='/agungelektrindo/accounting_department/purchasing_return_dashboard'><p>Purchasing return</p></a>
 	</div>
 	<button class='dropdown_button'>Random Invoice</button>
 	<div class='dropdown-container'>
@@ -58,9 +57,6 @@
 		<a href='/agungelektrindo/accounting_department/down_payment_dashboard'><p><i>DP Invoice</i></p></a>
 		<a href='/agungelektrindo/accounting_department/random_invoice_archive.php'><p>Archives</p></a>
 	</div>
-	<a href='/agungelektrindo/accounting_department/income_statement_dashboard'>
-		<button>Income statement</button>
-	</a>
 	<hr>
 	<a href='/agungelektrindo/accounting' style='color:#1ac6ff;text-decoration:none'><i class="fa fa-eercast" aria-hidden="true"></i>Accounting Department</a>
 </div>

@@ -57,12 +57,15 @@
 			}
 ?>
 	</div>
-	<a href='/agungelektrindo/guide/tutorial'>
-		<button>Read Tutorial</button>
-	</a>
-	<a href='/agungelektrindo/dashboard/user_dashboard' style='text-decoration:none'>
-		<button><i class="fa fa-eercast" aria-hidden="true"></i>Account</button>
-	</a>
+	<a href='/agungelektrindo/guide/tutorial'><button>Read Tutorial</button></a>
+<?php
+	if($role				== 'superadmin'){
+?>
+	<a href='/agungelektrindo/administrator'><button>Administrator</button></a>
+<?php
+	}
+?>
+	<a href='/agungelektrindo/dashboard/user_dashboard' style='text-decoration:none'><button><i class="fa fa-eercast" aria-hidden="true"></i>Account</button></a>
 </div>
 <div class='sidenav_small'><i class="fa fa-bars" aria-hidden="true"></i></div>
 <script>

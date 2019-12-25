@@ -6,7 +6,7 @@
 	$sql = "SELECT invoices.id ,invoices.name, code_delivery_order.customer_id 
 	FROM invoices 
 	JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
-	WHERE MONTH(invoices.date) = '" . $month . "' AND YEAR(invoices.date) = '" . $year . "' ORDER BY invoices.name";
+	WHERE MONTH(invoices.date) = '$month' AND YEAR(invoices.date) = '$year' AND code_delivery_order.company = 'AE' ORDER BY invoices.name";
 
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){

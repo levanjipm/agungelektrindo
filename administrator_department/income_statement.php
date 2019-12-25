@@ -16,17 +16,32 @@
 	$end_of_date	= date('Y-m-t',mktime('0','0','0',$month,1,$year));
 
 	
-	$sql_invoice		= "SELECT SUM(value) as value FROM invoices WHERE MONTH(date) = '$month' AND YEAR(date) = '$year'";
+	$sql_invoice		= "SELECT SUM(value) as value, sum(ongkir) as delivery_fee FROM invoices WHERE MONTH(date) = '$month' AND YEAR(date) = '$year'";
 	$result_invoice		= $conn->query($sql_invoice);
 	$invoice			= $result_invoice->fetch_assoc();
 		
 	$invoice_value		= $invoice['value'];
+	$invoice_delivery	= $invoice['delivery_fee'];
 	
 	$sql_purchases		= "SELECT SUM(value) as value FROM purchases WHERE MONTH(date) = '$month' AND YEAR(date) = '$year'";
 	$result_purchases	= $conn->query($sql_purchases);
 	$purchases			= $result_purchases->fetch_assoc();
 	
 	$purchase_value		= $purchases['value'];
+	
+	$sql_code_bank		= "SELECT SUM(code_bank.value) as expense_bank FROM code_bank_other JOIN code_bank ON code_bank.id = code_bank_other.bank_id
+							WHERE code_bank_other.class != '25' AND month(code_bank.date) = '$month' AND YEAR(code_bank.date) = '$year'";
+	$result_code_bank	= $conn->query($sql_code_bank);
+	$code_bank			= $result_code_bank->fetch_assoc();
+	
+	$bank				= $code_bank['expense_bank'];
+	
+	$sql_code_bank		= "SELECT SUM(code_bank.value) as income_bank FROM code_bank_other JOIN code_bank ON code_bank.id = code_bank_other.bank_id
+							WHERE code_bank_other.class = '25' AND month(code_bank.date) = '$month' AND YEAR(code_bank.date) = '$year'";
+	$result_code_bank	= $conn->query($sql_code_bank);
+	$code_bank			= $result_code_bank->fetch_assoc();
+	
+	$bank_income		= $code_bank['income_bank'];
 	
 	$total_start 		= 0;
 	$sql_in 			= "SELECT id,quantity,price FROM stock_value_in WHERE date <= '$date'";
@@ -81,15 +96,27 @@
 		<td>Rp. <?= number_format($stock_value_difference,2) ?></td>
 	</tr>
 	<tr>
+		<td>Delivery fee reimbursment</td>
+		<td>Rp. <?= number_format($invoice_delivery,2) ?></td>
+	</tr>
+	<tr>
 		<td>Gross income</td>
-		<td>Rp. <?= number_format($invoice_value - $purchase_value - $stock_value_difference,2) ?></td>
+		<td>Rp. <?= number_format($invoice_value - $purchase_value - $stock_value_difference + $invoice_delivery,2) ?></td>
 	</tr>
 	<tr>
 		<td>Petty cash expense</td>
 		<td>Rp. <?= number_format($petty_value,2) ?></td>
 	</tr>
 	<tr>
+		<td>Bank expense</td>
+		<td>Rp. <?= number_format($bank,2) ?></td>
+	</tr>
+	<tr>
+		<td>Other income</td>
+		<td>Rp. <?= number_format($bank_income,2) ?></td>
+	</tr>
+	<tr>
 		<td>Net income before tax</td>
-		<td>Rp. <?= number_format($invoice_value - $purchase_value - $stock_value_difference - $petty_value,2) ?></td>
+		<td>Rp. <?= number_format($invoice_value - $purchase_value - $stock_value_difference - $petty_value - $bank + $invoice_delivery,2) ?></td>
 	</tr>
 </table>

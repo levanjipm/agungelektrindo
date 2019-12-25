@@ -1,5 +1,6 @@
 <?php
-	include('inventoryheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 ?>
 <style>
 	.btn-table{
@@ -30,6 +31,12 @@
 	}
 ?>
 	</div>
+</div>
+<div class='full_screen_wrapper'>
+	<button class='full_screen_close_button'>&times</button>
+	<div class='full_screen_box'>
+	</div>
+</div>
 <script>
 	function view_month(n){
 		$('#depth').val(1);
@@ -45,6 +52,7 @@
 			type:"POST",
 		})
 	}
+	
 	function view_po(month,year){
 		$('#depth').val(2);
 		$.ajax({
@@ -59,6 +67,7 @@
 			type:"POST",
 		});
 	}
+	
 	$('#back_button').dblclick(function(){
 		if($('#depth').val() == 1){
 			$.ajax({
@@ -72,7 +81,22 @@
 			view_month($('#depth_year').val());
 		}
 	});
-	function view_archive_po(n){
-		$('#gr_archive_form' + n).submit();
+	
+	function view_archive(n){
+		$.ajax({
+			url:'good_receipt_view_archive.php',
+			data:{
+				id:n
+			},
+			type:'GET',
+			success:function(response){
+				$('.full_screen_box').html(response);
+				$('.full_screen_wrapper').fadeIn();
+			}
+		});
 	}
+	
+	$('.full_screen_close_button').click(function(){
+		$('.full_screen_wrapper').fadeOut();
+	});
 </script>

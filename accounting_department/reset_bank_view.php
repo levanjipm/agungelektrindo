@@ -38,7 +38,7 @@
 		<?php	if($isdelete == 1){ ?>
 			<button type='button' class='button_success_dark' onclick='open_reset_view(<?= $id ?>)'>Reset</button>
 		<?php } else { ?>
-			<button type='button' class='button_danger_dark'>Delete</button>
+			<button type='button' class='button_danger_dark' onclick='confirm_delete(<?= $id ?>)'>Delete</button>
 		<?php } ?>
 		</td>
 	</tr>
@@ -49,7 +49,6 @@
 
 <script>
 	function open_reset_view(n){
-		console.log(n);
 		$.ajax({
 			url:'reset_bank_validation.php',
 			data:{
@@ -61,9 +60,19 @@
 			},
 			success:function(response){
 				$('button').attr('disabled',false);
-				$('.full_screen_box').html(response);
-				$('.full_screen_wrapper').fadeIn(300);
+				$('#reset .full_screen_box').html(response);
+				$('#reset').fadeIn(300);
 			}
 		});
+	};
+	
+	function confirm_delete(n){
+		$('#bank_delete_id').val(n);
+		var window_height		= $(window).height();
+		var notif_height		= $('.full_screen_notif_bar').height();
+		var difference			= window_height - notif_height;
+		
+		$('.full_screen_notif_bar').css('top',0.7 * difference / 2);
+		$('#delete').fadeIn();
 	};
 </script>

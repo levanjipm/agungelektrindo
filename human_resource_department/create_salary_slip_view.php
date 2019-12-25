@@ -15,6 +15,15 @@
 	
 	$user_name_salary	= $user_salary['name'];
 	$user_address_salary	= $user_salary['address'];
+	
+	$sql_history			= "SELECT * FROM salary WHERE user_id = '$user_id_salary' ORDER BY id DESC";
+	$result_history			= $conn->query($sql_history);
+	$history				= $result_history->fetch_assoc();
+	
+	$daily					= $history['daily'];
+	$basic					= $history['basic'];
+	$bonus					= $history['bonus'];
+	$deduction				= $history['deduction'];
 ?>
 <h2 style='font-family:bebasneue'>Salary Slip</h2>
 <p>Create salary slip</p>
@@ -27,11 +36,11 @@
 <label>Attendance</label>
 <p><?= $absentee ?> days</p>
 <label>Daily wage</label>
-<input type='number' class='form-control' id='daily'>
+<input type='number' class='form-control' id='daily' value='<?= $daily ?>'>
 <label>Basic wage</label>
-<input type='number' class='form-control' id='basic'>
+<input type='number' class='form-control' id='basic' value='<?= $basic ?>'>
 <label>Bonus</label>
-<input type='number' class='form-control' id='bonus'>
+<input type='number' class='form-control' id='bonus' value='<?= $bonus ?>'>
 <label>Deduction</label>
 <input type='number' class='form-control' id='deduction'>
 <br>

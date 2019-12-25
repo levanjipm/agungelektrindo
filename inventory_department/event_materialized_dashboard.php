@@ -1,8 +1,7 @@
 <?php
-	include('inventoryheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 ?>
-<script src='../jquery-ui.js'></script>
-<link rel='stylesheet' href='../jquery-ui.css'>
 <script>
 $( function() {
 	$('#reference_dem').autocomplete({
@@ -10,51 +9,6 @@ $( function() {
 	 })
 });
 </script>
-<style>
-	.notification_large{
-		position:fixed;
-		top:0;
-		left:0;
-		background-color:rgba(51,51,51,0.3);
-		width:100%;
-		text-align:center;
-		height:100%;
-	}
-	.notification_large .notification_box{
-		position:relative;
-		background-color:#fff;
-		padding:30px;
-		width:100%;
-		top:30%;
-		box-shadow: 3px 4px 3px 4px #ddd;
-	}
-	.btn-confirm{
-		background-color:#2bf076;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	.btn-delete{
-		background-color:red;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	.btn-back{
-		background-color:#777;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	.btn-x{
-		background-color:transparent;
-		border:none;
-		outline:0!important;
-	}
-	.btn-x:focus{
-		outline: 0!important;
-	}
-</style>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Add event</h2>
 	<p><strong>Materialized</strong> Goods</p>
@@ -86,16 +40,19 @@ $( function() {
 		</div>
 	</form>
 </div>
-<div class='notification_large' style='display:none' id='confirm_notification'>
-	<div class='notification_box'>
-		<h1 style='font-size:3em;color:#2bf076'><i class="fa fa-check" aria-hidden="true"></i></h1>
-		<h2 style='font-family:bebasneue'>Are you sure to submit this event?</h2>
-		<br>
-		<button type='button' class='btn btn-back'>Back</button>
-		<button type='button' class='btn btn-confirm' id='confirm_button'>Confirm</button>
+<div class='full_screen_wrapper'>
+	<div class='full_screen_notif_bar'>
+		<h1 style='font-size:2em'><i class='fa fa-exclamation'></i></h1>
+		<p style='font-family:museo'>Are you sure to submit this event?</p>
+		<button type='button' class='button_danger_dark' id='close_notif_button'>Back</button>
+		<button type='button' class='button_success_dark' id='confirm_button'>Confirm</button>
 	</div>
 </div>
 <script>
+	$('#close_notif_button').click(function(){
+		$('.full_screen_wrapper').fadeIn();
+	});
+	
 	$('#form_dem_goods_button').click(function(){
 		$('#first_form').fadeIn();
 		$('#second_form').fadeOut();
@@ -164,7 +121,11 @@ $( function() {
 						alert('Please insert correct quantity');
 						return false;
 					} else {
-						$('#confirm_notification').fadeIn();
+						var window_height			= $(window).height();
+						var notif_height			= $('.full_screen_notif_bar').height();
+						var difference				= window_height - notif_height;
+						$('.full_screen_notif_bar').css('top', 0.7 * difference / 2)
+						$('.full_screen_wrapper').fadeIn();
 					}
 				}
 			},

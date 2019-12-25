@@ -38,6 +38,7 @@
 	<p><?= $customer_address ?></p>
 	<p><?= $customer_city ?></p>
 	<form method='POST' action='invoice_set_done_input' id='form_danil'>
+		<input type='hidden' value='<?= $customer_id ?>' name='customer_id'>
 		<label>Date done</label>
 		<input type='date' class='form-control' name='date' id='date'>
 		<br>
@@ -81,6 +82,8 @@
 	</form>
 </div>
 <script>
+	$('#date').focus();
+	
 	$('#submit_button').click(function(){
 		if($('#date').val() == ''){
 			$('#date').focus();

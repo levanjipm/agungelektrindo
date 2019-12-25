@@ -53,6 +53,7 @@
 	<button class='full_screen_close_button'>&times</button>
 	<div class='full_screen_box'>
 	</div>
+	<div class='full_screen_box_loader_wrapper'><div class='full_screen_box_loader'></div></div>
 </div>
 <script>
 	function view_delivery_order(n){

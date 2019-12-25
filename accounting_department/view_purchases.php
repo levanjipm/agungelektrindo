@@ -1,11 +1,16 @@
 <?php
-	include('accountingheader.php');
-	$id 				= $_POST['id'];
-	$sql_code 			= "SELECT * FROM purchases WHERE id = '" . $id . "'";
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
+	$id 				= $_GET['id'];
+	$sql_code 			= "SELECT * FROM purchases WHERE id = '$id'";
 	$result_code 		= $conn->query($sql_code);
 	$code 				= $result_code->fetch_assoc();
 		
 	$supplier_id 		= $code['supplier_id'];
+	$document_name		= $code['name'];
+	$document_tax		= $code['faktur'];
+	$document_date		= $code['date'];
+	
 	$sql_supplier 		= "SELECT name,address,city FROM supplier WHERE id = '" . $supplier_id . "'";
 	$result_supplier 	= $conn->query($sql_supplier);
 	$supplier 			= $result_supplier->fetch_assoc();
@@ -15,11 +20,27 @@
 	$supplier_city		= $supplier['city'];
 	
 ?>
+<head>
+	<title>View <?= $document_name . ' ' . $supplier_name ?></title>
+</head>
 <div class='main'>
-	<h3 style='font-family:bebasneue'><?= $supplier_name ?></h3>
-	<p><?= $supplier_address ?></p>
-	<p><?= $supplier_city ?></p>
-	<p><strong>Total tagihan :</strong> Rp. <span id='purchase_total'></span></p>
+	<h2 style='font-family:bebasneue'>View purchase document</h2>
+	<label>Document date</label>
+	<p style='font-family:museo'><?= date('d M Y',strtotime($document_date)) ?></p>
+	
+	<label>Document name</label>
+	<p style='font-family:museo'><?= $document_name ?></p>
+	
+	<label>Tax document</label>
+	<p style='font-family:museo'><?= $document_tax ?></p>
+	
+	<label>Supplier</label>
+	<p style='font-family:museo'><?= $supplier_name ?></h3>
+	<p style='font-family:museo'><?= $supplier_address ?></p>
+	<p style='font-family:museo'><?= $supplier_city ?></p>
+	
+	<label>Value</label>
+	<p style='font-family:museo'>Rp. <span id='purchase_total'></span></p>
 	<hr>
 <?php
 	$value_total 		= 0;
@@ -27,14 +48,15 @@
 	$result_code_gr 	= $conn->query($sql_code_gr);
 	while($code_gr 		= $result_code_gr->fetch_assoc()){
 ?>
-		<h4 style='font-family:bebasneue'><?= $code_gr['document'] ?></h4>
-			<table class='table'>
+		<label>Good receipt document</label>
+		<p style='font-family:museo'><?= $code_gr['document'] ?></p>
+			<table class='table table-bordered'>
 				<tr>
-					<th>Reference</th>
-					<th>Description</th>
-					<th>Quantity</th>
-					<th>Price</th>
-					<th>Total Price</th>
+					<th style='width:15%'>Reference</th>
+					<th style='width:30%'>Description</th>
+					<th style='width:15%'>Quantity</th>
+					<th style='width:20%'>Price</th>
+					<th style='width:20%'>Total Price</th>
 				</tr>
 <?php
 		$value 				= 0;

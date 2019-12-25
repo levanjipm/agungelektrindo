@@ -24,6 +24,7 @@
 		</tr>
 <?php
 		while($code 			= $result_code->fetch_assoc()){
+			$project_id			= $code['id'];
 			$sql_customer 		= "SELECT name FROM customer WHERE id = '" . $code['customer_id'] . "'";
 			$result_customer 	= $conn->query($sql_customer);
 			$customer 			= $result_customer->fetch_assoc();
@@ -36,13 +37,22 @@
 			<td><?= $code['description'] ?></td>
 			<td><?= $customer_name ?></td>
 			<td>
-				<button type='button' class='button_success_dark'><i class="fa fa-eye" aria-hidden="true"></i></button>
+				<button type='button' class='button_success_dark' onclick='view_project(<?= $project_id ?>)'><i class="fa fa-eye" aria-hidden="true"></i></button>
 			</td>
 		</tr>
 <?php
 		}
 ?>
 	</table>
+	<form action='project_manage' id='project_form' method='POST'>
+		<input type='hidden' name='id' id='project_id'>
+	</form>
+	<script>
+		function view_project(n){
+			$('#project_id').val(n);
+			$('#project_form').submit();
+		}
+	</script>
 <?php
 	} else {
 ?>
@@ -50,3 +60,4 @@
 <?php
 	}
 ?>
+</div>

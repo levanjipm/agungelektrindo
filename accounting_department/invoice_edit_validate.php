@@ -125,7 +125,6 @@
 	<br>
 	<input type='hidden' value='<?= $invoice_id ?>' name='invoice_id'>
 	</form>
-	<button type='button' class='button_default_dark' id='edit_invoice_button'>Edit Invoice</button>
 </div>
 <div class='full_screen_wrapper'>
 	<button class='full_screen_close_button'>&times</button>
@@ -168,21 +167,4 @@
 		$('#delivery_fee_input').hide();
 		$('#delivery_fee_button').show();
 	}
-	
-	$('#edit_invoice_button').click(function(){
-		$.ajax({
-			url:'invoice_edit_input.php',
-			data:{
-				invoice_id: <?= $invoice_id ?>,
-				delivery_fee_input:$('#delivery_fee_input').val(),
-				faktur		: $('#piash').val()
-			},
-			type:'POST',
-			beforeSend:function(){
-			},
-			success:function(){
-				window.location.href='invoice_edit_dashboard'
-			}
-		})
-	});
 </script>

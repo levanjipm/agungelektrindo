@@ -12,36 +12,23 @@
 	$quantity					= $row['quantity'];
 	$billed_price				= $row['billed_price'];
 ?>
-<h2 style='font-family:bebasneue'>Edit invoice data</h2>
+<h3 style='font-family:bebasneue'>Edit invoice data</h2>
 <hr>
-<table class='table table-bordered'>
-	<tr>
-		<th>Reference</th>
-		<th>Quantity</th>
-		<th>Price</th>
-		<th>Total price</th>
-	</tr>
-	<tr>
-		<td><?= $reference ?></td>
-		<td><?= $quantity ?></td>
-		<td><input type='number' class='form-control' id='billed_price' value='<?= $billed_price ?>' onkeyup='adjust_total_price()'></td>
-		<td id='total_price_text'></td>
-	</tr>
-</table>
-<button type='button' class='button_danger_dark' id='close_box_button'>Check again</button>
+<label>Reference</label>
+<p style='font-famliy:museo'><?= $reference ?></p>
+
+<label>Descritpion</label>
+<p style='font-family:museo'><?= $description ?></p>
+
+<label>Quantity</label>
+<p style='font-family:museo'><?= number_format($quantity) ?></p>
+
+<label>Price</label>
+<input type='number' class='form-control' id='billed_price' value='<?= $billed_price ?>'>
+
+<br>
 <button type='button' class='button_success_dark' id='submit_price_change'>Submit</button>
 <script>
-	function adjust_total_price(){
-		var unit_price			= $('#billed_price').val();
-		var quantity			= <?= $quantity ?>;
-		var total_price			= quantity * unit_price;
-		$('#total_price_text').text(numeral(total_price).format('0,0.00'));
-	}
-	
-	$(document).ready(function(){
-		adjust_total_price();
-	});
-	
 	$('#submit_price_change').click(function(){
 		$.ajax({
 			url:'invoice_edit_item_input.php',
@@ -54,12 +41,8 @@
 				$('#submit_price_change').attr('disabled',true);
 			},
 			success:function(){
-				location.reload();
+				window.location.reload();
 			}
 		});
-	});
-	
-	$('#close_box_button').click(function(){
-		$('.full_screen_close_button').click();
 	});
 </script>

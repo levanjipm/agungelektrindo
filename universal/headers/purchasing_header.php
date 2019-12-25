@@ -33,9 +33,9 @@
 	<button class='dropdown_button'>Return</button>
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/purchasing_department/return_create_dashboard'><p>Create Return</p></a>
-		<a href='/agungelektrindo/purchasing_department/purchasing_return_confirm_dashboard'><p>Confirm Return</p></a>
+		<a href='/agungelektrindo/purchasing_department/return_confirm_dashboard'><p>Confirm Return</p></a>
 	</div>
-	<a href='report_dashboard'><button>Purchase Report</button></a>
+	<a href='/agungelektrindo/purchasing_department/report_dashboard'><button>Purchase Report</button></a>
 	<hr>
 	<a href='/agungelektrindo/purchasing' style='color:#1ac6ff;text-decoration:none'>
 		<i class="fa fa-eercast" aria-hidden="true"></i>Purchasing Department

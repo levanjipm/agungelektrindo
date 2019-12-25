@@ -38,17 +38,10 @@
 	<a href='/agungelektrindo/inventory_department/check_stock'><button>Check stock</button></a>
 	<button class='dropdown_button'>Project</button>
 	<div class='dropdown-container'>
-		<a href='/agungelektrindo/inventory_department/project_delivery_order_create_dashboard'>
-			<p>Create DO</p>
-		</a>
-		<a href='/agungelektrindo/inventory_department/delivery_order_project_confirm_dashboard'>
-			<p>Confirm DO</p>
-		</a>
-		<a href="set_project_done_dashboard.php">
-			<p>Set done</p>
-		</a>
+		<a href='/agungelektrindo/inventory_department/project_delivery_order_create_dashboard'><p>Create DO</p></a>
+		<a href='/agungelektrindo/inventory_department/delivery_order_project_confirm_dashboard'><p>Confirm DO</p></a>
 	</div>
-	<a href='/agungelektrindo/inventory_department/sample_dashboard.php'>
+	<a href='/agungelektrindo/inventory_department/sample_dashboard'>
 		<button>Samples</button>
 	</a>
 	<button class='dropdown_button'>Return</button>

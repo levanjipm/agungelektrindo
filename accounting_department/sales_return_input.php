@@ -33,8 +33,21 @@
 	
 	if($result){
 		$sql			= "INSERT INTO code_bank (date, value, transaction, bank_opponent_id, label, isdone, major_id, description)
+							VALUES ('$date', '$return_price', '1', '$customer_id', 'CUSTOMER', '1', '0', '$document')";
+		$conn->query($sql);
+		
+		$sql			= "INSERT INTO code_bank (date, value, transaction, bank_opponent_id, label, isdone, major_id, description)
 							VALUES ('$date', '$return_price', '2', '$customer_id', 'CUSTOMER', '0', '0', '$document')";
 		$conn->query($sql);
+		
+		$sql_get_bank	= "SELECT id FROM code_bank WHERE value = '$return_price' AND date = '$date' AND bank_opponent_id = '$customer_id' AND label = 'CUSTOMER' ORDER BY id DESC";
+		$result_get_bank	= $conn->query($sql_get_bank);
+		$get_bank			= $result_get_bank->fetch_assoc();
+		
+		$bank_id			= $get_bank['id'];
+		
+		$sql_update			= "UPDATE code_sales_return_received SET bank_id = '$bank_id' WHERE id = '$id'";
+		$conn->query($sql_update);
 	}
 	
 	header('location:../accounting');

@@ -1,5 +1,6 @@
 <?php
-	include('accountingheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 ?>
 <style>
 	.btn-table{

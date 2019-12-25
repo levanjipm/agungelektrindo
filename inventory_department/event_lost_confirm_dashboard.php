@@ -17,7 +17,7 @@
 ?>
 	<h3 style='font-family:bebasneue'><?= $row['event_name'] ?></h3>
 	<p><?= date('d M Y',strtotime($row['date'])) ?></p>
-	<table class='table'>
+	<table class='table table-bordered'>
 		<tr>
 			<td>Reference</td>
 			<td>Description</td>

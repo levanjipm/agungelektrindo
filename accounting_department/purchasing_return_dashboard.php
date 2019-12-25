@@ -1,42 +1,52 @@
 <?php
-	include('accountingheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 ?>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Return</h2>
-	<p>Purchasing return</p>
+	<p style='font-family:museo'>Purchasing return</p>
 	<hr>
-	<table class='table'>
+	<table class='table table-bordered'>
 		<tr>
 			<th>Supplier name</th>
-			<th>Value</th>
+			<th>Document</th>
 			<th></th>
 		</tr>
 <?php
-	$sql_return = "SELECT * FROM code_purchase_return WHERE send_date <> 'NULL'";
-	$result_return = $conn->query($sql_return);
-	while($return = $result_return->fetch_assoc()){
+	$sql_return 			= "SELECT code_purchase_return_sent.document, code_purchase_return.supplier_id, code_purchase_return_sent.id
+								FROM code_purchase_return_sent 
+								JOIN code_purchase_return ON code_purchase_return_sent.code_purchase_return_id = code_purchase_return.id
+								WHERE code_purchase_return_sent.isconfirm = '1'";
+	$result_return 			= $conn->query($sql_return);
+	while($return 			= $result_return->fetch_assoc()){
+		$return_id			= $return['id'];
+		$document			= $return['document'];
+		$supplier_id		= $return['supplier_id'];
+		$sql_supplier		= "SELECT name FROM supplier WHERE id = '$supplier_id'";
+		$result_supplier	= $conn->query($sql_supplier);
+		$supplier			= $result_supplier->fetch_assoc();
+		
+		$supplier_name		= $supplier['name'];
 ?>
 		<tr>
-			<td><?php
-				$sql_customer = "SELECT name FROM supplier WHERE id = '" . $return['supplier_id'] . "'";
-				$result_customer = $conn->query($sql_customer);
-				$customer =  $result_customer->fetch_assoc();
-				echo $customer['name'];
-			?></td>
-			<td>Rp. <?= number_format($return['value'],2) ?></td>
+			<td><?= $supplier_name ?></td>
+			<td><?= $document ?></td>
 			<td>
-				<button type='button' class='btn btn-default' onclick='submiting(<?= $return['id'] ?>)'>Next</button>
-				<form action='purchase_return_validation.php' method='POST' id='form<?= $return['id'] ?>'>
-					<input type='hidden' value='<?= $return['id'] ?>' name='id'>
-				</form>
+				<button type='button' class='button_success_dark' onclick='submit(<?= $return_id ?>)'><i class='fa fa-long-arrow-right'></i></button>
 			</td>
 		</tr>
 <?php
 	}
 ?>
+	</table>
+</div>
+<form action='purchasing_return_validation' id='purchase_return_form' method='POST'>
+	<input type='hidden' name='id' id='return_id'>
+</form>
 <script>
-	function submiting(n){
-		$('#form' + n).submit();
+	function submit(n){
+		$('#return_id').val(n);
+		$('#purchase_return_form').submit();
 	}
 </script>
 </div>

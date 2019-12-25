@@ -1,5 +1,6 @@
 <?php
-	include('inventoryheader.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 	$date 		= $_POST['date'];
 	$nilai 		= 1;
 	$reference_array		= $_POST['reference'];

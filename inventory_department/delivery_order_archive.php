@@ -76,7 +76,9 @@
 			view_month($('#depth_year').val());
 		}
 	});
-	function view_archive_po(n){
-		$('#do_archieve_form' + n).submit();
+	
+	function view_delivery_order(n){
+		$('#delivery_order_id').val(n);
+		$('#delivery_order_form').submit();
 	}
 </script>

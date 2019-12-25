@@ -57,8 +57,8 @@
 						$pengurang 		= min($sisa,$quantity);
 						$sql_update 	= "UPDATE stock_value_in SET sisa = '" . ($sisa - $pengurang) . "' WHERE id = '" . $in_id . "'";
 						$result_update 	= $conn->query($sql_update);
-						$sql_out 		= "INSERT INTO stock_value_out (date,in_id,quantity,customer_id)
-										VALUES ('$date','$in_id	','$pengurang','$customer_id')";
+						$sql_out 		= "INSERT INTO stock_value_out (date,in_id,quantity,customer_id, document)
+										VALUES ('$date','$in_id	','$pengurang','$customer_id', '$document')";
 						$conn->query($sql_out);
 						
 						$quantity 		= $quantity - $pengurang;

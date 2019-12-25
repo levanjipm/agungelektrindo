@@ -99,6 +99,7 @@
 					beforeSend:function(){
 						$('#confirm_delivery_order_button').attr('disabled',true);
 						$('#cancel_delivery_order_button').attr('disabled',true);
+						$('.full_screen_box_loader_wrapper').show();
 					},
 					success:function(){
 						location.reload();
@@ -116,6 +117,7 @@
 					beforeSend:function(){
 						$('#confirm_delivery_order_button').attr('disabled',true);
 						$('#cancel_delivery_order_button').attr('disabled',true);
+						$('.full_screen_box_loader_wrapper').show();
 					},
 					success:function(){
 						location.reload();

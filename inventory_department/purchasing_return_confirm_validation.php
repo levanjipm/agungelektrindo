@@ -77,7 +77,7 @@
 		<h1 style='font-size:2em;color:green'><i class='fa fa-check'></i></h1>
 		<p style='font-familY:museo'>Are your sure to confirm this purchasing return</p>
 		<button type='button' class='button_danger_dark' id='close_notif_button'>Check again</button>
-		<button type='button' class='button_success_dark' id='confirm_return_button'>Confirm</button>
+		<button type='button' class='button_success_dark' id='confirm_button'>Confirm</button>
 	</div>
 </div>
 <script>
@@ -110,5 +110,32 @@
 	$('#confirm_delete_return').click(function(){
 		$.ajax({
 			url:'purchasing_return_delete.php',
+			data:{
+				id:<?= $id ?>,
+			},
+			type:'POST',
+			beforeSend:function(){
+				$('button').attr('disabled',true);
+			},
+			success:function(){
+				window.location.href='/agungelektrindo/inventory_department/return_confirm_dashboard';
+			}
+		})
+	});
+	
+	$('#confirm_button').click(function(){
+		$.ajax({
+			url:'purchasing_return_confirm.php',
+			data:{
+				id:<?= $id ?>,
+			},
+			type:'POST',
+			beforeSend:function(){
+				$('button').attr('disabled',true);
+			},
+			success:function(){
+				window.location.href='/agungelektrindo/inventory_department/return_confirm_dashboard';
+			}
+		})
 	});
 </script>

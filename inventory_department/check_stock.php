@@ -50,16 +50,12 @@
 			<tr>
 				<td><?= $reference ?></td>
 				<td><?= $description ?></td>
-				<td><?= $stock ?></td>
+				<td><?= number_format($stock) ?></td>
 				<td>
 					<a href='stock_card?id=<?= $item_id ?>'>
 						<button type='button' class='button_success_dark'><i class="fa fa-eye" aria-hidden="true"></i></button>
 					</a>
 				</td>
-				
-				<form id='form<?= $item_id ?>' action='stock_card' method='POST'>
-					<input type='hidden' value='<?= $item_id ?>' name='item_id'>
-				</form>
 			</tr>
 <?php
 	}
@@ -68,6 +64,10 @@
 	</table>
 </div>
 <script>
+$(document).ready(function(){
+	$('#search_item_bar').focus();
+});
+
 $('#search_item_bar').change(function () {
     $.ajax({
         url: "ajax/search_check_stock.php",

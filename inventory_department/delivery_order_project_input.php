@@ -75,5 +75,5 @@
 		next($reference_array);
 	}
 	
-	header('location:inventory');
+	header('location:/agungelektrindo/inventory');
 ?>

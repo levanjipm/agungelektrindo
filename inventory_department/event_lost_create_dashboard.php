@@ -5,6 +5,13 @@
 <head>
 	<title>Lost goods</title>
 </head>
+<script>
+$( function() {
+	$('#reference').autocomplete({
+		source: "/agungelektrindo/codes/search_item.php"
+	 })
+});
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Add event</h2>
 	<p style='font-family:museo'><strong>Lost</strong> Goods</p>

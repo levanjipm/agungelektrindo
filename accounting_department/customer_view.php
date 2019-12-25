@@ -1,14 +1,12 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
-	if(empty($_POST['customer']) || $_POST['customer'] == 0){
-?>
-<script>
-	window.location.href='/agungelektrindo/accounting';
-</script>
-<?php
-	}
-	$sql_customer 		= "SELECT name,address,city FROM customer WHERE id = '" . $_POST['customer'] . "'";
+	
+	$customer_id			= $_GET['id'];
+	$sql_customer			= "SELECT id FROM customer WHERE id = '$customer_id'";
+	$result_customer		= $conn->query($sql_customer);
+	$customer_count			= mysqli_num_rows($result_customer);
+	$sql_customer 		= "SELECT name,address,city FROM customer WHERE id = '$customer_id'";
 	$result_customer 	= $conn->query($sql_customer);
 	$customer 			= $result_customer->fetch_assoc();
 	
@@ -19,7 +17,7 @@
 	$sql_invoice 		= "SELECT SUM(invoices.value) AS jumlah
 							FROM invoices
 							JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
-							WHERE code_delivery_order.customer_id = '" . $_POST['customer'] . "'";
+							WHERE code_delivery_order.customer_id = '$customer_id'";
 	$result_invoice 	= $conn->query($sql_invoice);
 	$invoice 			= $result_invoice->fetch_assoc();
 ?>
@@ -49,6 +47,10 @@
 		<div class='col-sm-12'>
 			<h3 style='font-family:bebasneue'>Unpaid invoices</h2>
 			<p id='unpaid_invoice_total'></p>
+			<a href='receivable_view.php?id=<?= $customer_id ?>'>
+				<button type='button' class='button_success_dark' id='view_receivable_table_button' title='View report'><i class='fa fa-eye'></i></button>
+			</a>
+			<br><br>
 			<table class='table table-bordered'>
 				<tr>
 					<th>Date</th>
@@ -67,7 +69,7 @@
 	$sql_invoice_detail 	= "SELECT invoices.id, invoices.date, invoices.name AS invoice_name, invoices.value, invoices.ongkir 
 								FROM invoices
 								JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
-								WHERE code_delivery_order.customer_id = '" . $_POST['customer'] . "' AND invoices.isdone = '0'";
+								WHERE code_delivery_order.customer_id = '$customer_id' AND invoices.isdone = '0'";
 	$result_invoice_detail 	= $conn->query($sql_invoice_detail);
 	while($invoice_detail 	= $result_invoice_detail->fetch_assoc()){
 		 $sql_receivable	= "SELECT SUM(value) AS paid FROM receivable WHERE invoice_id = '" . $invoice_detail['id'] . "'";
@@ -92,15 +94,6 @@
 	}
 ?>
 			</table>
-		</div>
-	</div>
-	<div class='row'>
-		<div class='col-sm-12'>
-			<h2 style='font-family:bebasneue'>View sales</h2>
-			<label>From</label>
-			<input type='date' class='form-control' id='start_date'>
-			<label>To</label>
-			<input type='date' class='form-control' id='end_date'>
 		</div>
 	</div>
 </div>

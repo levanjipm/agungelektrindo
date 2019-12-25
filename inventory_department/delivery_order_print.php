@@ -49,6 +49,9 @@
 		$city 				= $po['retail_city'];
 	}
 ?>
+<head>
+	<title><?= $delivery_order_name . " " . $name ?></title>
+</head>
 <body>
 <div class='row' style='background-color:#ccc;z-index:0;width:100%;height:100%;margin:0'>
 	<div class='col-xs-10 col-xs-offset-1' id='printable' style='z-index:25;background-color:white'>
@@ -62,12 +65,13 @@
 				<p><b>Email :</b>AgungElektrindo@gmail.com</p>
 			</div>
 			<div class='col-xs-4 col-xs-offset-1' style="padding:20px">
-				<p><b>Tanggal:</b></p>
-				<p><?php echo date('d M Y',strtotime($date));?></p>
-				<p>Kepada Yth.</p>
-				<p><b><?= $name ?></b></p>
-				<p><?= $address ?></p>
-				<p><?= $city ?></p>
+				<p><b>Tanggal: </b><?php echo date('d M Y',strtotime($date));?></p>
+				<div style='line-height:0.6'>
+					<p>Kepada Yth.</p>
+					<p><b><?= $name ?></b></p>
+					<p><?= $address ?></p>
+					<p><?= $city ?></p>
+				</div>
 			</div>
 		</div>
 		<div class='row'>
@@ -107,9 +111,9 @@
 			</tbody>
 		</table>
 		<div style='padding-top:50px;padding-bottom:50px'>
-			<div class='col-xs-4' style='text-align:center'>Penerima,</div>
-			<div class='col-xs-4' style='text-align:center'>Pengirim,</div>
-			<div class='col-xs-4' style='text-align:center'>Hormat kami,</div>
+			<div class='col-xs-4' style='text-align:center'><p>Penerima,</p><br><br><br><hr style='border:1px solid #333;width:60%'></div>
+			<div class='col-xs-4' style='text-align:center'><p>Pengirim,</p><br><br><br><hr style='border:1px solid #333;width:60%'></div>
+			<div class='col-xs-4' style='text-align:center'><p>Hormat kami,</p><br><br><br><hr style='border:1px solid #333;width:60%'></div>
 		</div>
 	</div>
 </div>

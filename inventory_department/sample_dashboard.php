@@ -42,6 +42,20 @@
 		})
 	};
 	
+	function receive_sample(){
+		$('#receive_sample_button').addClass('active_tab');
+		$('#send_sample_button').removeClass('active_tab');
+		$.ajax({
+			url:'sample_receive_view.php',
+			beforeSend:function(){
+				$('#view_pane').html("<h1 style='font-size:4em;text-align:center'><i class='fa fa-spin fa-spinner'></i></h1>");
+			},
+			success:function(response){
+				$('#view_pane').html(response);
+			}
+		})
+	};
+	
 	$(document).ready(function(){
 		send_sample();
 	});
