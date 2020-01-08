@@ -9,10 +9,9 @@
 		<th></th>
 	</tr>
 <?php
-	$sql 		= "SELECT * FROM code_bank WHERE isdone = '0' AND transaction = '1' AND isdelete = '0' AND label <> 'OTHER'";
+	$sql 		= "SELECT * FROM code_bank WHERE isdone = '0' AND transaction = '2' AND isdelete = '0' AND label = 'OTHER'";
 	$result 	= $conn->query($sql);
 	while($row 	= $result->fetch_assoc()){
-		$id				= $row['id'];
 		$transaction 	= $row['transaction'];
 		$date 			= $row['date'];
 		$value 			= $row['value'];
@@ -31,6 +30,7 @@
 		$sql_selector 		= "SELECT name FROM " . $database . " WHERE id = '" . $opponent_id . "'";
 		$result_selector 	= $conn->query($sql_selector);
 		$selector 			= $result_selector->fetch_assoc();
+		
 		if($opponent_type			!= 'OTHER'){
 ?>
 	<tr>
@@ -59,11 +59,11 @@
 	}
 ?>
 </table>
-<form action='assign_bank_assign' method='POST' id='assign_form'>
-	<input type='hidden' id='bank_id' name='id'>
-</form>
 <form action='assign_bank_other' method='POST' id='other_form'>
-	<input type='hidden' id='bank_id_other' name='id'>
+	<input type='hidden' name='id' id='bank_id_other'>
+</form>
+<form action='assign_bank_assign' method='POST' id='assign_form'>
+	<input type='hidden' name='id' id='bank_id'>
 </form>
 <script>
 	function assign_as_payment(n){
@@ -75,4 +75,4 @@
 		$('#bank_id_other').val(n);
 		$('#other_form').submit();
 	}
-</script>	
+</script>

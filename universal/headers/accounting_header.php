@@ -45,7 +45,7 @@
 	</div>
 	<button type='button' class='dropdown_button' style='color:white'>Return</button>
 	<div class='dropdown-container'>
-		<a href="sales_return_dashboard.php"><p>Sales return</p></a>
+		<a href='/agungelektrindo/accounting_department/sales_return_dashboard'><p>Sales return</p></a>
 		<a href='/agungelektrindo/accounting_department/purchasing_return_dashboard'><p>Purchasing return</p></a>
 	</div>
 	<button class='dropdown_button'>Random Invoice</button>

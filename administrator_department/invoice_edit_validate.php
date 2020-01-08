@@ -4,7 +4,7 @@
 	if(empty($_POST['invoice_id']) || $role != 'superadmin'){
 ?>
 	<script>
-		window.location.href='/agungelektrindo/accounting';
+		window.location.href='/agungelektrindo/administrator';
 	</script>
 <?php
 	}
@@ -34,6 +34,10 @@
 	$faktur 					= $invoice['faktur'];
 	$invoice_name 				= $invoice['name'];
 	$delivery_fee				= $invoice['ongkir'];
+	
+	$sql_receivable				= "SELECT * FROM receivable WHERE invoice_id = '$invoice_id'";
+	$result_receivable			= $conn->query($sql_receivable);
+	$receivable					= mysqli_num_rows($result_receivable);
 ?>
 <style>
 	.btn-transparent{
@@ -122,13 +126,22 @@
 			</tr>
 		</tfoot>
 	</table>
+	<button type='button' class='button_danger_dark' <?php if($receivable > 0){ echo 'disabled'; } ?> id='delete_button'><i class='fa fa-trash'></i></button>
 	<br>
-	<input type='hidden' value='<?= $invoice_id ?>' name='invoice_id'>
 	</form>
 </div>
-<div class='full_screen_wrapper'>
+<div class='full_screen_wrapper' id='edit_wrapper'>
 	<button class='full_screen_close_button'>&times</button>
 	<div class='full_screen_box'>
+	</div>
+</div>
+
+<div class='full_screen_wrapper' id='delete_wrapper'>
+	<div class='full_screen_notif_bar'>
+		<h2 style='font-size:2em;color:red'><i class='fa fa-exclamation'></i></h2>
+		<p style='font-family:museo'>Are you sure to delete this invoice?</p>
+		<button type='button' class='button_danger_dark' id='close_notif_button'>Check again</button>
+		<button type='button' class='button_success_dark' id='confirm_delete_button'>Confirm</button>
 	</div>
 </div>
 <script>
@@ -140,12 +153,12 @@
 			},
 			type:'POST',
 			beforeSend:function(){
-				$('.full_screen_box').html('');
-				$('.full_screen_wrapper').fadeOut(300);
+				$('#edit_wrapper .full_screen_box').html('');
+				$('#edit_wrapper').fadeOut(300);
 			},
 			success:function(response){
-				$('.full_screen_box').html(response);
-				$('.full_screen_wrapper').fadeIn(300);
+				$('#edit_wrapper .full_screen_box').html(response);
+				$('#edit_wrapper').fadeIn(300);
 			}
 		})
 	}
@@ -161,10 +174,53 @@
 	}
 	
 	function update_delivery_fee(){
-		var grand_total				= 0 + parseFloat(<?= $total ?>) + parseFloat($('#delivery_fee_input').val());
-		$('#delivery_fee_button').text('Rp. ' + numeral($('#delivery_fee_input').val()).format('0,0.00'));
-		$('#grand_total_invoice').text('Rp. ' + numeral(grand_total).format('0,0.00'));
-		$('#delivery_fee_input').hide();
-		$('#delivery_fee_button').show();
+		$.ajax({
+			url:'invoice_delivery_fee',
+			data:{
+				invoice_id: <?= $invoice_id ?>,
+				delivery_fee: $('#delivery_fee_input').val(),
+			},
+			type:'POST',
+			beforeSend:function(){
+				$('#delivery_fee_button').attr('disabled', true);
+			},
+			success:function(){
+				$('#delivery_fee_button').attr('disabled', false);
+				var grand_total				= 0 + parseFloat(<?= $total ?>) + parseFloat($('#delivery_fee_input').val());
+				$('#delivery_fee_button').text('Rp. ' + numeral($('#delivery_fee_input').val()).format('0,0.00'));
+				$('#grand_total_invoice').text('Rp. ' + numeral(grand_total).format('0,0.00'));
+				$('#delivery_fee_input').hide();
+				$('#delivery_fee_button').show();
+			},
+		});
 	}
+	
+	$('#delete_button').click(function(){
+		var window_height		= $(window).height();
+		var notif_height		= $('#delete_wrapper .full_screen_notif_bar').height();
+		var difference			= window_height - notif_height;
+		
+		$('#delete_wrapper .full_screen_notif_bar').css('top', 0.7 * difference / 2);
+		$('#delete_wrapper').fadeIn();
+	});
+	
+	$('#close_notif_button').click(function(){
+		$('#delete_wrapper').fadeOut();
+	});
+	
+	$('#confirm_delete_button').click(function(){
+		$.ajax({
+			url:'invoice_delete.php',
+			data:{
+				invoice_id: <?= $invoice_id ?>,
+			},
+			type:'POST',
+			beforeSend:function(){
+				$('button').attr('disabled',true);
+			},
+			success:function(){
+				window.location.href='invoice_edit_dashboard';
+			}
+		});
+	});
 </script>

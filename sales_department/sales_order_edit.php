@@ -183,13 +183,12 @@ $( function() {
 		<button type='button' class='button_warning_dark' id='recalculate_button' style='display:none'>Back</button>
 		<button type='button' class='button_success_dark' id='sales_order_submit' style='display:none'>Submit</button>
 	</form>
-<div class='full_screen_wrapper'>
+<div class='full_screen_wrapper' id='delete_notification'>
 	<div class='full_screen_notif_bar'>
 		<h1 style='font-size:3em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h1>
-		<h2 style='font-family:bebasneue'>Are you sure to delete this item?</h2>
-		<br>
-		<button type='button' class='btn btn-back'>Back</button>
-		<button type='button' class='btn btn-delete' id='delete_button'>Delete</button>
+		<p style='font-family:museo'>Are you sure to delete this item?</p>
+		<button type='button' class='button_danger_dark' id='back_button'>Back</button>
+		<button type='button' class='button_success_dark' id='delete_button'>Delete</button>
 		<input type='hidden' value='0' id='delete_id'>
 	</div>
 </div>
@@ -223,16 +222,21 @@ var a = 1;
 		$('#new_item_tr-' + n).remove();
 	};
 	
+	$('#back_button').click(function(){
+		$('#delete_notification').fadeOut();
+	});
+	
 	function show_notification(n){
+		var window_height		= $(window).height();
+		var notif_height		= $('#delete_notification .full_screen_notif_bar').height();
+		var difference			= window_height - notif_height;
+		
+		$('#delete_notification .full_screen_notif_bar').css('top', 0.7 * difference / 2);		
 		$('#delete_id').val(n);
 		$('#delete_notification').fadeIn();
 	};
 	
-	$('.btn-back').click(function(){
-		$('.notification_large').fadeOut();
-	});
-	
-	$('.btn-delete').click(function(){
+	$('#delete_button').click(function(){
 		var n =  $('#delete_id').val();
 		$.ajax({
 			url:"delete_item_sales_order.php",

@@ -40,6 +40,10 @@
 	} else {
 		$invoice_type		= "NORMAL";
 	}
+	
+	$sql_payable			= "SELECT * FROM payable WHERE purchase_id = '$invoice_id'";
+	$result_payable			= $conn->query($sql_payable);
+	$payable				= mysqli_num_rows($result_payable);
 ?>
 <script src='/agungelektrindo/universal/Jquery/jquery.inputmask.bundle.js'></script>
 <head>
@@ -75,6 +79,7 @@
 	}
 ?>
 	<br>
+	<button type='button' class='button_danger_dark' id='delete_button' <?php if($payable > 0){ echo 'disabled'; } ?>><i class='fa fa-trash'></i></button>
 	<button type='button' class='button_default_dark' id='submit_button' title='Edit general data'><i class='fa fa-long-arrow-right'></i></button>
 	<br>
 	<br>
@@ -84,6 +89,14 @@
 			<p style='font-family:museo'>Are you sure to edit this debt document?</p>
 			<button type='button' class='button_danger_dark' id='close_notif_bar_button'>Check again</button>
 			<button type='button' class='button_success_dark' id='confirm_change_button'>Confirm</button>
+		</div>
+	</div>
+	<div class='full_screen_wrapper' id='delete_wrapper'>
+		<div class='full_screen_notif_bar'>
+			<h2 style='font-size:2em;color:red'><i class='fa fa-exclamation'></i></h2>
+			<p style='font-family:museo'>Are you sure to delete this invoice?</p>
+			<button type='button' class='button_danger_dark' id='close_notif_button'>Check again</button>
+			<button type='button' class='button_success_dark' id='confirm_delete_button'>Confirm</button>
 		</div>
 	</div>
 <?php
@@ -125,6 +138,35 @@
 				}
 			});
 		});
+		
+		$('#delete_button').click(function(){
+			var window_height		= $(window).height();
+			var notif_height		= $('#delete_wrapper .full_screen_notif_bar').height();
+			var difference			= window_height - notif_height;
+			
+			$('#delete_wrapper .full_screen_notif_bar').css('top', 0.7 * difference / 2);
+			$('#delete_wrapper').fadeIn();
+		});
+		
+		$('#close_notif_button').click(function(){
+			$('#delete_wrapper').fadeOut();
+		});
+		
+		$('#confirm_delete_button').click(function(){
+			$.ajax({
+				url:'purchases_delete.php',
+				data:{
+					invoice_id: <?= $invoice_id ?>,
+				},
+				type:'POST',
+				beforeSend:function(){
+					$('button').attr('disabled',true);
+				},
+				success:function(){
+					window.location.href='purchase_edit_dashboard';
+				}
+			});
+		});
 	</script>
 <?php
 	} else {
@@ -156,6 +198,35 @@
 				success:function(){
 					window.location.reload();
 					$('#confirm_change_button').attr('disabled',false);
+				}
+			});
+		});
+		
+		$('#delete_button').click(function(){
+			var window_height		= $(window).height();
+			var notif_height		= $('#delete_wrapper .full_screen_notif_bar').height();
+			var difference			= window_height - notif_height;
+			
+			$('#delete_wrapper .full_screen_notif_bar').css('top', 0.7 * difference / 2);
+			$('#delete_wrapper').fadeIn();
+		});
+		
+		$('#close_notif_button').click(function(){
+			$('#delete_wrapper').fadeOut();
+		});
+		
+		$('#confirm_delete_button').click(function(){
+			$.ajax({
+				url:'purchases_delete.php',
+				data:{
+					invoice_id: <?= $invoice_id ?>,
+				},
+				type:'POST',
+				beforeSend:function(){
+					$('button').attr('disabled',true);
+				},
+				success:function(){
+					window.location.href='invoice_edit_dashboard';
 				}
 			});
 		});

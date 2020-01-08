@@ -67,6 +67,7 @@
 				},
 				success:function(){
 					$('.full_screen_close_button').click();
+					$('#search_transaction_button').click();
 				}
 			})
 		});

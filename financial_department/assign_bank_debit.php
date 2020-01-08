@@ -9,7 +9,7 @@
 		<th></th>
 	</tr>
 <?php
-	$sql 		= "SELECT * FROM code_bank WHERE isdone = '0' AND transaction = '1' AND isdelete = '0' AND label <> 'OTHER'";
+	$sql 		= "SELECT * FROM code_bank WHERE isdone = '0' AND transaction = '1' AND isdelete = '0' AND label = 'OTHER'";
 	$result 	= $conn->query($sql);
 	while($row 	= $result->fetch_assoc()){
 		$id				= $row['id'];

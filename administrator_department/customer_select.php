@@ -1,8 +1,12 @@
 <?php
 	include('../codes/connect.php');
+	if(empty($_POST['opponent'])){
+		$opponent		= '';
+	} else {
+		$opponent			= $_POST['opponent'];
+	}
 ?>
 	<select class='form-control' id='transaction_select_to'  name='transaction_select_to'>
-		<option value=''>Please select a customer</option>
 		<option value='0'>Retail purchase</option>
 <?php
 	$sql_customer			= "SELECT id,name,city FROM customer ORDER BY name ASC";
@@ -12,7 +16,7 @@
 		$customer_name		= $customer['name'];
 		$customer_address	= $customer['city'];
 ?>
-		<option value='<?= $customer_id ?>'><?= $customer_name ?></option>
+		<option value='<?= $customer_id ?>' <?php if($customer_id == $opponent){ echo 'selected'; } ?>><?= $customer_name ?></option>
 <?php
 	}
 ?>

@@ -3,14 +3,14 @@
 	<button class='dropdown_button'>Bank Account</button>
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/financial_department/view_mutation_dashboard'><p>Mutation</p></a>
-		<a href='/agungelektrindo/financial_department/bank_assign_data'><p>Assign bank data</p></a>
+		<a href='/agungelektrindo/financial_department/assign_bank_dashboard'><p>Assign bank data</p></a>
+		<a href='/agungelektrindo/financial_department/bank_assign_data'><p>Complete bank data</p></a>
 		<a href='/agungelektrindo/financial_department/transaction_add_dashboard'><p>Add transaction</p></a>
 		<a href='/agungelektrindo/financial_department/client_add_dashboard'><p>Add opponent</p></a>
 	</div>
 	<button class='dropdown_button'>Petty Cash</button>
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/financial_department/petty_dashboard'><p>Add a transaction</p></a>
-		<a href='/agungelektrindo/financial_department/petty_edit'><p>Edit transaction</p></a>
 		<a href='/agungelektrindo/financial_department/petty_view'><p>View table</p></a>
 	</div>
 	<button class='dropdown_button'>Inventory management</button>
@@ -18,6 +18,7 @@
 		<a href='/agungelektrindo/financial_department/inventory_management'><p>Manage inventory</p></a>
 		<a href='/agungelektrindo/financial_department/inventory_'><p>Edit transaction</p></a>
 	</div>
+	<a href='/agungelektrindo/financial_department/payment_dashboard'><button>Make a payment</button></a>
 	<hr>
 	<a href='/agungelektrindo/financial' style='color:#1ac6ff;text-decoration:none'><i class="fa fa-eercast" aria-hidden="true"></i>Financial Department</a>
 </div>
