@@ -34,10 +34,13 @@
 				</label>
 				<label class='radio-inline'>
 					<input type='radio' name='transaction_to' value='other' onchange='open_select()'>Other
+				</label>
+				<label class='radio-inline'>
+					<input type='radio' name='transaction_to' value='' onchange='open_null()'>Unknown
 				</label><br><br>
 				<div id='select_wrapper'></div>
 				<label>Description</label>
-				<textarea class='form-control' form='add_transaction_form' name='description'></textarea>
+				<textarea class='form-control' name='description'></textarea>
 				<hr>
 				<button type='button' class='button_success_dark' onclick='check_all()'>
 					Submit
@@ -61,6 +64,10 @@
 				$('#select_wrapper').html(response);
 			}
 		});
+	}
+	
+	function open_null(){
+		$('#select_wrapper').html('');
 	}
 	
 	function check_all(){

@@ -130,11 +130,20 @@
 	</table>
 	<button type='button' class='button_success_dark'><i class='fa fa-print'></i></button>
 </div>
-<div class='full_screen_wrapper'>
+<div class='full_screen_wrapper' id='view_wrapper'>
 	<button class='full_screen_close_button'>&times</button>
 	<div class='full_screen_box'>
 	</div>
 </div>
+<div class='full_screen_wrapper' id='notification_wrapper'>
+	<div class='full_screen_notif_bar'>
+		<h1 style='font-size:2em;color:red'><i class='fa fa-exclamation'></i></h1>
+		<p style='font-family:museo'>Are you sure to delete this payable data?</p>
+		<button type='button' class='button_danger_dark' id='close_notification_button'>Check again</button>
+		<button type='button' class='button_success_dark' id='confirm_notification_button'>Confirm</button>
+	</div>
+</div>
+<input type='hidden' id='delete_id'>
 <script>
 	$('.completed_transaction').hide();
 	
@@ -158,13 +167,42 @@
 			},
 			type:'POST',
 			success:function(response){
-				$('.full_screen_box').html(response);
-				$('.full_screen_wrapper').fadeIn(300);
+				$('#view_wrapper .full_screen_box').html(response);
+				$('#view_wrapper').fadeIn(300);
 			}
 		});
 	};
+		
+	function confirm_delete(n){
+		$('#delete_id').val(n);
+		var window_height		= $(window).height();
+		var notif_height		= $('.full_screen_notif_bar').height();
+		var difference			= window_height - notif_height;
+		$('.full_screen_notif_bar').css('top', 0.7 * difference / 2);
+		$('#notification_wrapper').fadeIn(300);
+	};
+	
+	$('#confirm_notification_button').click(function(){
+		$.ajax({
+			url:'payable_delete.php',
+			data:{
+				payable_id:$('#delete_id').val()
+			},
+			type:'POST',
+			beforeSend:function(){
+				$('button').attr('disabled', true);
+			},
+			success:function(){
+				location.reload();
+			}
+		})
+	});
 	
 	$('.full_screen_close_button').click(function(){
-		$('.full_screen_wrapper').fadeOut(300);
+		$('#view_wrapper').fadeOut(300);
+	});
+	
+	$('#close_notification_button').click(function(){
+		$('#notification_wrapper').fadeOut(300);
 	});
 </script>

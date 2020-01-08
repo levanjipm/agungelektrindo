@@ -88,33 +88,30 @@
 						<th>Info</th>
 						<th>Value</th>
 						<th>Class</th>
-						<th>Balance</th>
 					</tr>
 <?php
-					$sql_count_petty_cash 		= "SELECT COUNT(id) AS count_entry FROM petty_cash";
-					$result_count_petty_cash	= $conn->query($sql_count_petty_cash);
-					$count_petty_cash			= $result_count_petty_cash->fetch_assoc();
-					$offset 					= $count_petty_cash['count_entry'] - 3;
-					$sql_table 					= "SELECT * FROM petty_cash ORDER BY id ASC LIMIT 10 OFFSET " . $offset;
+					$sql_table 					= "SELECT petty_cash.value, petty_cash.date, petty_cash_classification.name, petty_cash.class, petty_cash.info
+													FROM petty_cash
+													JOIN petty_cash_classification ON petty_cash.class = petty_cash_classification.id
+													ORDER BY petty_cash.date DESC, petty_cash.id ASC LIMIT 3";
 					$result_table 				= $conn->query($sql_table);
 					while($table 				= $result_table->fetch_assoc()){
-						$sql_class 				= "SELECT name FROM petty_cash_classification WHERE id = '" . $table['class'] . "'";
-						$result_class 			= $conn->query($sql_class);
-						$class 					= $result_class->fetch_assoc();
+						$petty_value			= $table['value'];
+						$petty_date				= $table['date'];
+						$class_name				= $table['name'];
+						$petty_class			= $table['class'];
+						$petty_info				= $table['info'];
 						
-						$class_name				= $class['name'];
-						
-						if($table['class'] 		== 25){
+						if($petty_class 		== 25){
 							echo ('<tr class="success">');
 						} else {
 							echo ('<tr>');
 						}
 ?>
-						<td><?= date('d M Y',strtotime($table['date'])) ?></td>
-						<td><?= $table['info'] ?></td>
-						<td>Rp. <?= number_format($table['value'],2) ?></td>
+						<td><?= date('d M Y',strtotime($petty_date)) ?></td>
+						<td><?= $petty_info ?></td>
+						<td>Rp. <?= number_format($petty_value,2) ?></td>
 						<td><?= $class_name ?></td>
-						<td>Rp. <?= number_format($table['balance'],2) ?></td>
 					</tr>
 <?php
 					}

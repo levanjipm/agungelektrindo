@@ -37,6 +37,7 @@
 	</select>
 	<br>
 	<button type='button' class='button_default_dark' id='submit_button'>Submit</button>
+	<button type='button' class='button_success_dark' id='yearly_button'>View yearly</button>
 	<br><br>
 	<div id='balance_view'></div>
 </div>
@@ -46,6 +47,25 @@
 			url:'income_statement.php',
 			data:{
 				month:$('#month').val(),
+				year:$('#year').val(),
+			},
+			beforeSend:function(){
+				$('#submit_button').attr('disabled',true);
+				$('#balance_view').html('');
+				$('#balance_view').html('<div style="position;absolute;left:0;right:0;color:##2B3940;width:100%;text-align:center;padding:20px;"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>');
+			},
+			type:'POST',
+			success:function(response){
+				$('#submit_button').attr('disabled',false);
+				$('#balance_view').html(response);
+			},
+		});
+	});
+	
+	$('#yearly_button').click(function(){
+		$.ajax({
+			url:'income_statement_yearly.php',
+			data:{
 				year:$('#year').val(),
 			},
 			beforeSend:function(){

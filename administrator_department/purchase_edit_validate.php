@@ -1,6 +1,6 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/administrator_header.php');
 	
 	if(empty($_POST['invoice_id'])){
 ?>

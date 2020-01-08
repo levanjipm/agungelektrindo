@@ -14,16 +14,24 @@
 		$database				= 'supplier';
 	} else if($transaction_to	== 'other'){
 		$database				= 'bank_account_other';
+	} else {
+		$database				= NULL;
 	}
 	
-	$transaction_id				= $_POST['transaction_select_to'];
 	
-	$sql_transaction			= "SELECT name FROM " . $database . " WHERE id = '$transaction_id'";
-	$result_transaction			= $conn->query($sql_transaction);
-	$transaction				= $result_transaction->fetch_assoc();
+	if($database != NULL){
+		$transaction_id				= $_POST['transaction_select_to'];
+		
+		$sql_transaction			= "SELECT name FROM " . $database . " WHERE id = '$transaction_id'";
+		$result_transaction			= $conn->query($sql_transaction);
+		$transaction				= $result_transaction->fetch_assoc();
 
-	$name						= $transaction['name'];
-	
+		$name						= $transaction['name'];
+	} else {
+		$transaction_id				= NULL;
+		$name						= 'Unknown';
+	}
+		
 	$description 				= mysqli_real_escape_string($conn,$_POST['description']);
 	
 	if($transaction_type == 1){
@@ -39,7 +47,7 @@
 			<h2 style='font-family:bebasneue'>Bank Account</h2>
 			<p>Add transaction</p>
 			<hr>
-			<table class='table table-hover'>
+			<table class='table table-bordered'>
 				<tr>
 					<td style='width:30%'><strong>Date</strong></td>
 					<td><?= date('d M Y',strtotime($date)) ?></td>
@@ -48,11 +56,7 @@
 					<td><strong>Opponent</strong></td>
 					<td><?= $name ?></td>
 				</tr>
-<?php if($transaction == 2){ ?>
-				<tr class='success'>
-<?php } else if($transaction == 1){ ?>
-				<tr class='warning'>
-<?php } ?>
+				<tr>
 					<td><strong>Transaction</strong></td>
 					<td><?= $trans ?></td>
 				</tr>

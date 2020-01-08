@@ -11,7 +11,7 @@
 		$conn->query($sql_stock);
 		
 		$sql_invoice	= "SELECT gr_id FROM goodreceipt WHERE id = '$good_receipt_id'";
-		$result_invoice	= $conn->query($sql);
+		$result_invoice	= $conn->query($sql_invoice);
 		$invoice		= $result_invoice->fetch_assoc();
 		
 		$gr_id			= $invoice['gr_id'];

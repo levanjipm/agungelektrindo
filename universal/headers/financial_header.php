@@ -2,10 +2,10 @@
 	<button style='text-align:right' id='hide_side_button'><i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
 	<button class='dropdown_button'>Bank Account</button>
 	<div class='dropdown-container'>
-		<a href='/agungelektrindo/financial_department/view_mutation_dashboard'><p>View mutation</p></a>
-		<a href='/agungelektrindo/financial_department/transaction_add_dashboard'><p>Add a transaction</p></a>
-		<a href='/agungelektrindo/financial_department/client_add_dashboard'><p>Add an opponent</p></a>
-		<a href='/agungelektrindo/financial_department/edit_transaction'><p>Edit transaction</p></a>
+		<a href='/agungelektrindo/financial_department/view_mutation_dashboard'><p>Mutation</p></a>
+		<a href='/agungelektrindo/financial_department/bank_assign_data'><p>Assign bank data</p></a>
+		<a href='/agungelektrindo/financial_department/transaction_add_dashboard'><p>Add transaction</p></a>
+		<a href='/agungelektrindo/financial_department/client_add_dashboard'><p>Add opponent</p></a>
 	</div>
 	<button class='dropdown_button'>Petty Cash</button>
 	<div class='dropdown-container'>

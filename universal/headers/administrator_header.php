@@ -7,12 +7,12 @@
 	</div>
 	<button class='dropdown_button'>Accounting Dept.</button>	
 	<div class='dropdown-container'>
-		<a href='/agungelektrindo/administrator_department/invoice_edit'><p>Edit invoice doc.</p></a>
-		<a href='/agungelektrindo/administrator_department/purchase_edit'><p>Edit purchase doc.</p></a>
+		<a href='/agungelektrindo/administrator_department/invoice_edit_dashboard'><p>Edit invoice doc.</p></a>
+		<a href='/agungelektrindo/administrator_department/purchase_edit_dashboard'><p>Edit purchase doc.</p></a>
 	</div>
 	<button type='button' class='dropdown_button'>Finance Dept.</button>
 	<div class='dropdown-container'>
-		<a href='/agungelektrindo/administrator_department/sales_journal'><p>Bank data</p></a>
+		<a href='/agungelektrindo/administrator_department/reset_bank_dashboard'><p>Reset bank data</p></a>
 		<a href='/agungelektrindo/administrator_department/purchasing_journal'><p>Petty cash</p></a>
 	</div>
 	<button class='dropdown_button'>Other</button>

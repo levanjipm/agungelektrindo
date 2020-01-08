@@ -4,7 +4,6 @@
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/accounting_department/invoice_create_dashboard'><p>Create an invoice<p></a>
 <?php if ($role == 'superadmin'){ ?>
-		<a href='/agungelektrindo/accounting_department/invoice_edit_dashboard'><p>Edit an invoice</p></a>
 		<a href='/agungelektrindo/accounting_department/confirm_invoice_dashboard'><p>Confirm an invoice</p></a>
 <?php } ?>
 		<a href='/agungelektrindo/accounting_department/invoice_archive'><p>Archives</p></a>
@@ -14,7 +13,6 @@
 		<a href='/agungelektrindo/accounting_department/debt_document_dashboard'><p>Create debt document</p></a>
 <?php if ($role == 'superadmin'){ ?>
 		<a href='/agungelektrindo/accounting_department/confirm_purchase_dashboard'><p>Confirm document</p></a>
-		<a href='/agungelektrindo/accounting_department/edit_purchase_dashboard'><p>Edit document</p></a>
 <?php } ?>
 		<a href='/agungelektrindo/accounting_department/waiting_for_billing'><p>Pending bills</p></a>
 		<a href='/agungelektrindo/accounting_department/purchase_archive'><p>Archives</p></a>
@@ -44,7 +42,6 @@
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/accounting_department/assign_bank_dashboard'><p>Assign bank data</p></a>
 		<a href='/agungelektrindo/accounting_department/reset_bank_dashboard'><p>Edit bank data</p></a>
-		<a href='/agungelektrindo/accounting_department/set_invoice_as_done'><p>Set a transaction done</p></a>
 	</div>
 	<button type='button' class='dropdown_button' style='color:white'>Return</button>
 	<div class='dropdown-container'>

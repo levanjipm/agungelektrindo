@@ -7,11 +7,17 @@
 	$transaction_id				= $_POST['transaction_id'];
 	$transaction_description	= mysqli_real_escape_string($conn,$_POST['transaction_description']);
 	
-	if(empty($transaction_date) || empty($transaction_value) || empty($transaction_type) || empty($transaction_to) || ($transaction_id == '')){
+	if(empty($transaction_date) || empty($transaction_value) || empty($transaction_type) || (!empty($transaction_to) && ($transaction_id == ''))){
 		header('location:/agungelektrindo/financial_department/transaction_add_dashboard');
 	} else {
-		$sql_insert = "INSERT INTO code_bank (date,value,transaction,bank_opponent_id,label, description)
-		VALUES ('$transaction_date','$transaction_value','$transaction_type','$transaction_id','$transaction_to','$transaction_description')";
+		if($transaction_id		!= ''){
+			$sql_insert 		= "INSERT INTO code_bank (date,value,transaction,bank_opponent_id,label, description)
+									VALUES ('$transaction_date','$transaction_value','$transaction_type','$transaction_id','$transaction_to','$transaction_description')";
+		} else {
+			$sql_insert 		= "INSERT INTO code_bank (date,value,transaction,bank_opponent_id,label, description)
+									VALUES ('$transaction_date','$transaction_value','$transaction_type',NULL,NULL,'$transaction_description')";
+		}
+		
 		$conn->query($sql_insert);;
 		
 		header('location:/agungelektrindo/financial_department/transaction_add_dashboard');

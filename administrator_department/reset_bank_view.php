@@ -14,6 +14,8 @@
 		$value					= $row['value'];
 		$opponent				= $row['bank_opponent_id'];
 		$label					= $row['label'];
+		
+		$isdone					= $row['isdone'];
 		$isdelete				= $row['isdelete'];
 		
 		if($label 				== 'CUSTOMER'){
@@ -35,10 +37,11 @@
 		<td><?= $opponent_name ?></td>
 		<td>Rp. <?= number_format($value,2) ?></td>
 		<td>
-		<?php	if($isdelete == 1){ ?>
+		<?php	if($isdelete == 1 && $isdone == 0){ ?>
 			<button type='button' class='button_success_dark' onclick='open_reset_view(<?= $id ?>)'><i class='fa fa-undo'></i></button>
 		<?php } else { ?>
-			<button type='button' class='button_danger_dark' disabled><i class='fa fa-trash'></i></button>
+			<button type='button' class='button_danger_dark' onclick='confirm_delete(<?= $id ?>)'><i class='fa fa-trash'></i></button>
+			<button type='button' class='button_default_dark' onclick='confirm_edit(<?= $id ?>)'><i class='fa fa-pencil'></i></button>
 		<?php } ?>
 		</td>
 	</tr>
@@ -46,6 +49,10 @@
 	}
 ?>
 </table>
+
+<form action='edit_bank_dashboard' method='POST' id='transaction_edit_form'>
+	<input type='hidden' id='bank_id' name='id'>
+</form>
 
 <script>
 	function open_reset_view(n){
@@ -74,5 +81,10 @@
 		
 		$('.full_screen_notif_bar').css('top',0.7 * difference / 2);
 		$('#delete').fadeIn();
+	};
+	
+	function confirm_edit(n){
+		$('#bank_id').val(n);
+		$('#transaction_edit_form').submit();
 	};
 </script>
