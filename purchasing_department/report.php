@@ -105,7 +105,7 @@
 			array_push($categories,$item_category['id']);
 		}
 	};
-	$where						= ' AND ';
+	$where						= ' AND (';
 	if(!empty($categories)){
 		foreach($categories as $category){
 			$where					.= "itemlist.type = '" . $category . "' OR ";
@@ -115,6 +115,7 @@
 				
 		
 		$where				= substr($where,0,-3);
+		$where					.= ')';
 		if($month	== 0){
 			$sql					= "SELECT itemlist.type, goodreceipt.quantity, goodreceipt.billed_price FROM goodreceipt 
 										JOIN code_goodreceipt ON goodreceipt.gr_id = code_goodreceipt.id

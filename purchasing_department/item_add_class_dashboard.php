@@ -9,6 +9,9 @@
 		outline:none;
 	}
 </style>
+<head>
+	<title>Edit item</title>
+</head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Item</h2>
 	<p>Add class</p>
@@ -48,6 +51,7 @@
 				<button type='button' class='button_danger_dark' onclick='delete_class(<?= $row['id'] ?>)'>
 					<i class="fa fa-trash" aria-hidden="true"></i>
 				</button>
+				<button type='button' class='button_success_dark' onclick='focus_input(<?= $row['id'] ?>)'><i class='fa fa-pencil'></i></button>
 			</td>
 <?php
 				} else {
@@ -56,6 +60,7 @@
 				<button type='button' class='button_danger_dark' disabled>
 					<i class="fa fa-trash" aria-hidden="true"></i>
 				</button>
+				<button type='button' class='button_success_dark' onclick='focus_input(<?= $row['id'] ?>)'><i class='fa fa-pencil'></i></button>
 			</td>
 <?php
 				}
@@ -67,7 +72,7 @@
 		</tbody>
 	</table>
 </div>
-<div class='full_screen_wrapper'>
+<div class='full_screen_wrapper' id='add_class_wrapper'>
 	<button class='full_screen_close_button'>&times</button>
 	<div class='full_screen_box'>
 		<h2 style='font-family:bebasneue'>Add item class</h2>
@@ -80,11 +85,11 @@
 </div>
 <script>
 	$('#add_class_button').click(function(){
-		$('.full_screen_wrapper').fadeIn();
+		$('#add_class_wrapper').fadeIn();
 	});
 	
-	$('.full_screen_close_button').click(function(){
-		$('.full_screen_wrapper').fadeOut();
+	$('#add_class_wrapper .full_screen_close_button').click(function(){
+		$('#add_class_wrapper').fadeOut();
 	});
 	
 	$('#submit_button').click(function(){
@@ -143,4 +148,8 @@
 			}
 		});
 	};
+	
+	function focus_input(n){
+		view_edit_input(n);
+	}
 </script>

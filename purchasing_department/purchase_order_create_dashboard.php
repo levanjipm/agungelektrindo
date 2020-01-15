@@ -154,7 +154,7 @@ $("#add_item_button").click(function (){
 	"<td><input type='number' id='quantity" + a + "' class='form-control' name='quantity[" + a + "]'></td>"+
 	"<td id='net_price-" + a + "'></td>"+
 	"<td id='total_price-" + a + "'></td>"+
-	"<td><button type='button' class='button_delete_row' onclick='delete_row(" + a + ")'>X</button></td>"+
+	"<td><button type='button' class='button_danger_dark' onclick='delete_row(" + a + ")'>&times</button></td>"+
 	'</tr>').find("input").each(function () {
 		});
 	$("#reference" + a).autocomplete({
