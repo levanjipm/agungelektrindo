@@ -141,7 +141,7 @@ $("#add_item_button").click(function (){
 	"<td><input type='text' id='pl" + a + "' name='pl[" + a + "]'' class='form-control'></td>"+
 	"<td id='disc" + a + "'></td>"+
 	"<td id='total" + a + "'></td>"+
-	"<td><button type='button' class='button_delete_row' onclick='delete_row(" + a + ")'>X</button></td>"+
+	"<td><button type='button' class='button_danger_dark delete_button' onclick='delete_row(" + a + ")'>X</button></td>"+
 	"</tr>").find("input").each(function () {
 		});
 	$("#reference" + a).autocomplete({
@@ -203,6 +203,8 @@ function confirm_sales_order(){
 		alert("Pick a taxing option");
 		return false;
 	} else {
+		$('#add_item_button').hide();
+		$('.delete_button').hide();
 		$('#submitbtn').show();
 		$('#back_button').show();
 		$('#calculate').hide();
@@ -267,6 +269,8 @@ function validate_sales_order(){
 $("#back_button").click(function () {
 	$('input').attr('readonly',false);
 	$('select').attr('readonly',false);
+	$('#add_item_button').show();
+	$('.delete_button').show();
 	$('#submitbtn').hide();
 	$('#back_button').hide();
 	$('#calculate').show();

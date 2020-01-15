@@ -19,7 +19,7 @@
 <?php
 	$sql_invoice = "SELECT invoices.id,invoices.date, invoices.name, code_delivery_order.customer_id FROM invoices 
 	JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
-	WHERE invoices.isconfirm = '0'";
+	WHERE invoices.isconfirm = '0' AND code_delivery_order.company = 'AE'";
 	$result_invoice = $conn->query($sql_invoice);
 	while($row_invoice = $result_invoice->fetch_assoc()){
 		$customer_id = $row_invoice['customer_id'];

@@ -127,7 +127,186 @@
 		</script>
 <?php
 		break;
-		case 'service':
+		case 'project':
+		$sql					= "SELECT date, name, customer_id, project_id FROM code_delivery_order WHERE id = '$delivery_order_id'";
+		$result					= $conn->query($sql);
+		$row					= $result->fetch_assoc();
+		
+		$customer_id			= $row['customer_id'];
+		$delivery_order_name	= $row['name'];
+		$delivery_order_date	= $row['date'];
+		$project_id				= $row['project_id'];
+		
+		$sql_project				= "SELECT * FROM code_project WHERE id = '$project_id'";
+		$result_project				= $conn->query($sql_project);
+		$project					= $result_project->fetch_assoc();
+		
+		$project_name				= $project['project_name'];
+		$project_description		= $project['description'];
+		$po_number					= $project['po_number'];
+		
+		$sql_customer			= "SELECT name, address, city FROM customer WHERE id = '$customer_id'";
+		$result_customer		= $conn->query($sql_customer);
+		
+		$customer				= $result_customer->fetch_assoc();
+		
+		$customer_name			= $customer['name'];
+		$customer_address		= $customer['address'];
+		$customer_city			= $customer['city'];
+?>
+		<h2 style='font-family:bebasneue'>Confirm delivery order</h2>
+		<label>Delivery order</label>
+		<p style='font-family:museo'><?= date('d M Y',strtotime($delivery_order_date)) ?></p>
+		<p style='font-family:museo'><?= $delivery_order_name ?></p>
+		
+		<label>Customer</label>
+		<p style='font-family:museo'><?= $customer_name ?></p>
+		<p style='font-family:museo'><?= $customer_address ?></p>
+		<p style='font-family:museo'><?= $customer_city ?></p>
+		<hr>
+		<table class='table table-bordered'>
+			<tr>
+				<th style='text-align:center'>Nama barang</th>
+				<th style='text-align:center'>Qty.</th>
+			</tr>
+			<td>
+				<p><?= $project_name ?></p>
+				<p>(<?= $project_description ?>)</p>
+			</td>
+			<td>1</td>
+		</table>
+		<button type='button' class='button_danger_dark' id='cancel_delivery_order_button'>Cancel</button>
+		<button type='button' class='button_success_dark' id='confirm_delivery_order_button'>Submit</button>
+		<script>
+			$('#cancel_delivery_order_button').click(function(){
+				$.ajax({
+					url:'delivery_order_project_delete.php',
+					data:{
+						do_id:<?= $delivery_order_id ?>
+					},
+					type:'POST',
+					beforeSend:function(){
+						$('#confirm_delivery_order_button').attr('disabled',true);
+						$('#cancel_delivery_order_button').attr('disabled',true);
+						$('.full_screen_box_loader_wrapper').show();
+					},
+					success:function(){
+						location.reload();
+					}
+				});
+			});
+			
+			$('#confirm_delivery_order_button').click(function(){
+				$.ajax({
+					url:'delivery_order_project_confirm.php',
+					data:{
+						do_id:<?= $delivery_order_id ?>
+					},
+					type:'POST',
+					beforeSend:function(){
+						$('#confirm_delivery_order_button').attr('disabled',true);
+						$('#cancel_delivery_order_button').attr('disabled',true);
+						$('.full_screen_box_loader_wrapper').show();
+					},
+					success:function(){
+						location.reload();
+					}
+				});
+			});
+		</script>
+<?php
 		break;
-	}			
+		case 'service':
+		$sql					= "SELECT date, name, customer_id FROM code_delivery_order WHERE id = '$delivery_order_id'";
+		$result					= $conn->query($sql);
+		$row					= $result->fetch_assoc();
+		
+		$customer_id			= $row['customer_id'];
+		$delivery_order_name	= $row['name'];
+		$delivery_order_date	= $row['date'];
+		
+		$sql_customer			= "SELECT name, address, city FROM customer WHERE id = '$customer_id'";
+		$result_customer		= $conn->query($sql_customer);
+		
+		$customer				= $result_customer->fetch_assoc();
+		
+		$customer_name			= $customer['name'];
+		$customer_address		= $customer['address'];
+		$customer_city			= $customer['city'];
+?>
+		<h2 style='font-family:bebasneue'>Confirm delivery order</h2>
+		<label>Delivery order</label>
+		<p style='font-family:museo'><?= date('d M Y',strtotime($delivery_order_date)) ?></p>
+		<p style='font-family:museo'><?= $delivery_order_name ?></p>
+		
+		<label>Customer</label>
+		<p style='font-family:museo'><?= $customer_name ?></p>
+		<p style='font-family:museo'><?= $customer_address ?></p>
+		<p style='font-family:museo'><?= $customer_city ?></p>
+		<hr>
+		<table class='table table-bordered'>
+			<tr>
+				<th>Service name</th>
+				<th>Quantity</th>
+			</tr>
+<?php	
+		$sql_service			= "SELECT service_delivery_order.quantity, service_sales_order.description, service_sales_order.unit FROM service_delivery_order
+									JOIN service_sales_order ON service_sales_order.id = service_delivery_order.service_sales_order_id
+									WHERE service_delivery_order.do_id = '$delivery_order_id'";
+		$result_service			= $conn->query($sql_service);
+		while($service			= $result_service->fetch_assoc()){
+			$description		= $service['description'];
+			$quantity			= $service['quantity'];
+			$unit				= $service['unit'];
+?>
+			<tr>
+				<td><?= $description ?></td>
+				<td><?= number_format($quantity,2) . ' ' . $unit ?></td>
+			</tr>
+<?php
+		}	
+?>
+		</table>
+		<button type='button' class='button_danger_dark' id='cancel_delivery_order_button'>Delete</button>
+		<button type='button' class='button_default_dark' id='confirm_delivery_order_button'>Confirm</button>
+		<script>
+			$('#cancel_delivery_order_button').click(function(){
+				$.ajax({
+					url:'delivery_order_service_delete.php',
+					data:{
+						do_id:<?= $delivery_order_id ?>
+					},
+					type:'POST',
+					beforeSend:function(){
+						$('#confirm_delivery_order_button').attr('disabled',true);
+						$('#cancel_delivery_order_button').attr('disabled',true);
+						$('.full_screen_box_loader_wrapper').show();
+					},
+					success:function(){
+						location.reload();
+					}
+				});
+			});
+			
+			$('#confirm_delivery_order_button').click(function(){
+				$.ajax({
+					url:'delivery_order_service_confirm.php',
+					data:{
+						do_id:<?= $delivery_order_id ?>
+					},
+					type:'POST',
+					beforeSend:function(){
+						$('#confirm_delivery_order_button').attr('disabled',true);
+						$('#cancel_delivery_order_button').attr('disabled',true);
+						$('.full_screen_box_loader_wrapper').show();
+					},
+					success:function(){
+						location.reload();
+					}
+				});
+			});
+		</script>
+<?php
+		break;
+	}
 ?>

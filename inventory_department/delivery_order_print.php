@@ -54,9 +54,9 @@
 </head>
 <body>
 <div class='row' style='background-color:#ccc;z-index:0;width:100%;height:100%;margin:0'>
-	<div class='col-xs-10 col-xs-offset-1' id='printable' style='z-index:25;background-color:white'>
+	<div class='col-xs-10 col-xs-offset-1' id='printable' style='z-index:25;background-color:white;padding:0'>
 		<div class='row'>
-			<div class='col-xs-2'><img src="../universal/images/logogudang.jpg" style="width:100%;height:70%;padding-top:30px"></div>
+			<div class='col-xs-2'><img src="../universal/images/logogudang.jpg" style="width:100%;height:50%;padding-top:30px"></div>
 			<div class='col-xs-5' style="line-height:0.6">
 				<h3><b>Agung Elektrindo</b></h3>
 				<p>Jalan Jamuju no. 18,</p>
@@ -66,7 +66,7 @@
 			</div>
 			<div class='col-xs-4 col-xs-offset-1' style="padding:20px">
 				<p><b>Tanggal: </b><?php echo date('d M Y',strtotime($date));?></p>
-				<div style='line-height:0.6'>
+				<div style='line-height:1'>
 					<p>Kepada Yth.</p>
 					<p><b><?= $name ?></b></p>
 					<p><?= $address ?></p>
@@ -80,7 +80,7 @@
 				<p><b>Nomor PO:</b><?= $po_name ?></p>
 			</div>
 		</div>
-		<table class='table table-bordered' style='text-align:center'>
+		<table class='table' style='text-align:center'>
 			<thead>
 				<tr>
 					<th style='text-align:center'>Referensi</th>
@@ -111,9 +111,9 @@
 			</tbody>
 		</table>
 		<div style='padding-top:50px;padding-bottom:50px'>
-			<div class='col-xs-4' style='text-align:center'><p>Penerima,</p><br><br><br><hr style='border:1px solid #333;width:60%'></div>
-			<div class='col-xs-4' style='text-align:center'><p>Pengirim,</p><br><br><br><hr style='border:1px solid #333;width:60%'></div>
-			<div class='col-xs-4' style='text-align:center'><p>Hormat kami,</p><br><br><br><hr style='border:1px solid #333;width:60%'></div>
+			<div class='col-xs-4' style='text-align:center'><p>Penerima,</p><br><br><hr style='border:1px solid #333;width:60%'></div>
+			<div class='col-xs-4' style='text-align:center'><p>Pengirim,</p><br><br><hr style='border:1px solid #333;width:60%'></div>
+			<div class='col-xs-4' style='text-align:center'><p>Hormat kami,</p><br><br><hr style='border:1px solid #333;width:60%'></div>
 		</div>
 	</div>
 </div>

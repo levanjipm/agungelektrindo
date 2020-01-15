@@ -10,6 +10,9 @@
 		margin-top:10px;
 	}
 </style>
+<head>
+	<title>Receivable</title>
+</head>
 <?php
 	$maximum 	= 0;
 	$total 		= 0;
@@ -43,9 +46,32 @@
 			<h2 style='font-family:bebasneue'>Account of receivable</h2>
 			<p>Rp. <?= number_format($total,2) ?></p>
 		</div>
+		<div class='col-sm-4 col-sm-offset-4'>
+			<label>Customer</label>
+			<select class='form-control' id='customer_id'>
+<?php
+	$sql			= "SELECT * FROM customer ORDER BY name ASC";
+	$result			= $conn->query($sql);
+	while($row		= $result->fetch_assoc()){
+		$id			= $row['id'];
+		$name		= $row['name'];
+?>
+				<option value='<?= $id ?>'><?= $name ?></option>
+<?php
+	}
+?>
+			</select>
+			<button type='button' class='button_default_dark' id='view_receivable'><i class='fa fa-long-arrow-right'></i></button>
+		</div>
 	</div>			
 	<hr>
 	<script>
+		$('#view_receivable').click(function(){
+			var customer_id		= $('#customer_id').val();
+			var link			= "customer_view.php?id=" + customer_id;
+			window.location.href=link;
+		});
+		
 		function change_customer(){
 			$('#customer_to_view').val($('#seleksi').val());
 		}

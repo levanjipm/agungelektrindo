@@ -24,7 +24,11 @@
 	}
 ?>
 	<h3 style='font-family:bebasneue'><?= $initial['name'] ?></h4>
-	<h4 style='font-family:bebasneue'><strong><?= $customer_name ?></strong></h4>
+	
+	<label>Customer</label>
+	<p style='font-family:museo'><?= $customer_name ?></p>
+	<p style='font-family:museo'><?= $customer_address ?></p>
+	<p style='font-family:museo'><?= $customer_city ?></p>
 	<table class='table table-bordered'>
 		<tr>
 			<th>Service name</th>
@@ -64,15 +68,15 @@
 			<th>Name</th>
 		</tr>
 <?php
-	$sql = "SELECT id FROM service_sales_order WHERE so_id = '" . $id . "'";
-	$result = $conn->query($sql);
-	while($row = $result->fetch_assoc()){
-		$sql_do = "SELECT service_delivery_order.do_id, code_delivery_order.name, code_delivery_order.date
-		FROM service_delivery_order
-		JOIN code_delivery_order ON code_delivery_order.id = service_delivery_order.do_id
-		WHERE service_delivery_order.service_sales_order_id = '" . $row['id'] . "'";
-		$result_do = $conn->query($sql_do);
-		while($do = $result_do->fetch_assoc()){
+	$sql 			= "SELECT id FROM service_sales_order WHERE so_id = '" . $id . "'";
+	$result 		= $conn->query($sql);
+	while($row 		= $result->fetch_assoc()){
+		$sql_do 	= "SELECT service_delivery_order.do_id, code_delivery_order.name, code_delivery_order.date
+						FROM service_delivery_order
+						JOIN code_delivery_order ON code_delivery_order.id = service_delivery_order.do_id
+						WHERE service_delivery_order.service_sales_order_id = '" . $row['id'] . "'";
+		$result_do 	= $conn->query($sql_do);
+		while($do 	= $result_do->fetch_assoc()){
 ?>
 		<tr>
 			<td><?= date('d M Y',strtotime($do['date'])) ?></td>
@@ -82,3 +86,9 @@
 		}
 	}
 ?>
+	</table>	
+	<form method='POST' action='delivery_order_service_validation'>
+		<input type='hidden' value='<?= $id ?>' name='id'>
+		<button type='submit' class='button_success_dark'><i class='fa fa-long-arrow-right'></i></button>		
+	</form>
+	

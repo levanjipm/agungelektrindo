@@ -6,11 +6,11 @@
 	$item 				= $result_item->fetch_assoc();
 	$reference 			= $item['reference'];
 	$description 		= $item['description'];
-	
-	$stock_id_array	= array();
-	$sql_stock 		= "SELECT id FROM stock WHERE reference = '" . $reference . "' ORDER BY id";
-	$result_stock 	= $conn->query($sql_stock);
-	while($stock	= $result_stock->fetch_assoc()){
+
+	$stock_id_array		= array();
+	$sql_stock 			= "SELECT id FROM stock WHERE reference = '" . $reference . "' ORDER BY id";
+	$result_stock 		= $conn->query($sql_stock);
+	while($stock		= $result_stock->fetch_assoc()){
 		array_push($stock_id_array, $stock['id']);
 	};
 	

@@ -12,8 +12,8 @@
 	
 	$month 				= date('m');
 	
-	$month_php = $month + 1;
-	$month_before_php = $month_php - 1;
+	$month_php 			= $month + 1;
+	$month_before_php 	= $month_php - 1;
 	$month_last_php = $month_before_php - 1;
 	$year = date('Y');
 	

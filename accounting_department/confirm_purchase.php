@@ -23,15 +23,22 @@
 		$row 				= $result->fetch_assoc();
 		$invoice_name 		= $row['name'];
 		
-		$sql_supplier 		= "SELECT name FROM supplier WHERE id = '" . $row['supplier_id'] . "'";
+		$sql_supplier 		= "SELECT name, address, city FROM supplier WHERE id = '" . $row['supplier_id'] . "'";
 		$result_supplier 	= $conn->query($sql_supplier);
 		$supplier 			= $result_supplier->fetch_assoc();
 		
+		$supplier_name		= $supplier['name'];
+		$supplier_address	= $supplier['address'];
+		$supplier_city		= $supplier['city'];		
 ?>
-		<h3 style='font-family:bebasneue'><?= $supplier['name'] ?></h3>
+		<label>Supplier</label>
+		<p style='font-family:museo'><?= $supplier_name ?></p>
+		<p style='font-family:museo'><?= $supplier_address ?></p>
+		<p style='font-family:museo'><?= $supplier_city ?></p>
+		
 		<p>Invoice name: <?= $row['name'] ?></p>
 		<p>Tax document number: <?= $row['faktur'] ?></p>
-		<form method="POST" action='confirm_invoice_input.php' id='input'>
+		<form method="POST" action='confirm_invoice_input' id='input'>
 			<input type='hidden' value='<?= $invoice_id ?>' name='invoice_id'>
 		</form>
 		<table class='table table-bordered'>

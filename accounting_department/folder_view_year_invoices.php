@@ -1,9 +1,9 @@
 <?php
 	include('../codes/connect.php');
 	$sql 			= "SELECT DISTINCT(YEAR(invoices.date)) AS year FROM invoices 
-						JOIN code_delivery_order ON invoices.do_id = delivery_order.id
-						WHERE code_delivery_order.company = 'AE'
-						ORDER BY invoices.date DESC";
+						JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+						WHERE code_delivery_order.company = 'AE' AND invoices.isconfirm = '1'
+						ORDER BY invoices.date asc";
 	$result 		= $conn->query($sql);
 	while($row 		= $result->fetch_assoc()){
 ?>

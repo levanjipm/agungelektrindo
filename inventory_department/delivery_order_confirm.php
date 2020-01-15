@@ -83,5 +83,8 @@
 				$conn->query($sql_updated);
 			}
 		}
-	}
+	} else if($type == 'SRVC'){
+		$sql_updated = "UPDATE code_delivery_order SET sent = '1', confirmed_by = '" . $_SESSION['user_id'] . "', confirm_date = CURDATE() WHERE id = '" . $id_do . "'";
+		$conn->query($sql_updated);
+	};
 ?>

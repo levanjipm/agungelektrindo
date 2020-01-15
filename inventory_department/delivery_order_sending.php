@@ -9,7 +9,7 @@
 			<th></th>
 		</tr>
 <?php
-	$sql_on_delivery		= "SELECT * FROM code_delivery_order WHERE sent = '0' AND date = CURDATE()";
+	$sql_on_delivery		= "SELECT * FROM code_delivery_order WHERE sent = '0'";
 	$result_on_delivery		= $conn->query($sql_on_delivery);
 	while($on_delivery		= $result_on_delivery->fetch_assoc()){
 		$do_name			= $on_delivery['name'];

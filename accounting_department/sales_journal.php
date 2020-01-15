@@ -7,7 +7,7 @@
 </head>
 <div class='main'>
 	<div class='row'>
-		<div class='col-sm-4'>
+		<div class='col-sm-3'>
 			<h2 style='font-family:bebasneue'>Sales Journal</h2>
 			<p>View sales journal monthly</p>
 		</div>
@@ -38,7 +38,14 @@
 			</select>
 		</div>
 		<div class='col-sm-2'>
-			<button type='button' class='button_default_dark' onclick='search_invoice()'>Seach</button>
+			<select class='form-control' id='company'>
+				<option value=''>Show all</option>
+				<option value='AE'>Agung Elektrindo</option>
+				<option value='DSE'>Duta Sapta Energi</option>
+			</select>
+		</div>
+		<div class='col-sm-1'>
+			<button type='button' class='button_default_dark' onclick='search_invoice()'><i class='fa fa-search'></i></button>
 		</div>
 	</div>
 	<hr>
@@ -85,7 +92,8 @@
 				method: "POST",
 				data: {
 					month: $('#month').val(),
-					year: $('#year').val()
+					year: $('#year').val(),
+					company:$('#company').val(),
 				},
 				dataType: 'html',
 				success: function(response) {

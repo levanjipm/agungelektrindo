@@ -27,12 +27,13 @@
 	<table class='table table-bordered'>
 		<tr>
 			<th>Invoice date</th>
+			<th>Overdue date</th>
 			<th>Invoice name</th>
 			<th>Tax document</th>
 			<th>Value</th>
 		</tr>
 <?php
-	$sql				= "SELECT * FROM purchases WHERE isdone = '0' AND supplier_id = '$supplier_id'";
+	$sql				= "SELECT * FROM purchases WHERE isdone = '0' AND supplier_id = '$supplier_id' ORDER BY date ASC";
 	$result				= $conn->query($sql);
 	while($row			= $result->fetch_assoc()){
 		$id				= $row['id'];
@@ -40,6 +41,20 @@
 		$value			= $row['value'];
 		$faktur			= $row['faktur'];
 		$name			= $row['name'];
+		
+		$sql_gr			= "SELECT code_purchaseorder.top FROM code_purchaseorder
+							JOIN code_goodreceipt ON code_goodreceipt.po_id = code_purchaseorder.id
+							WHERE invoice_id = '$id'";
+		$result_gr		= $conn->query($sql_gr);
+		$gr				= $result_gr->fetch_assoc();
+		$top			= $gr['top'];
+		
+		if($top			== ''){
+			$overdue_date	= date('Y-m-d', strtotime("+7 day", strtotime($date)));
+		} else {
+			$overdue_date	= date('Y-m-d', strtotime("+" . $top . " day", strtotime($date)));
+			
+		}
 		
 		$sql_payable	= "SELECT SUM(value) as paid FROM payable WHERE purchase_id = '$id'";
 		$result_payable	= $conn->query($sql_payable);
@@ -49,6 +64,7 @@
 ?>
 		<tr>
 			<td><?= date('d M Y', strtotime($date)) ?></td>
+			<td <?php if($overdue_date < date('Y-m-d')){ echo "class='danger'"; } else { echo "class='success'"; }; ?>><?= date('d M Y',strtotime($overdue_date)) ?></td>
 			<td><?= $name ?></td>
 			<td><?= $faktur ?></td>
 			<td>Rp. <?= number_format($value - $payable,2) ?></td>

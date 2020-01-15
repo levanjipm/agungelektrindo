@@ -39,14 +39,13 @@
 	<button class='dropdown_button'>Departments</button>
 	<div class="dropdown-container">
 <?php
-		$sql_super 		= "SELECT * FROM authorization WHERE user_id = '" . $user_id . "'";
-		$result_super 	= $conn->query($sql_super);
+		$sql_super 			= "SELECT authorization.department_id, departments.department FROM authorization
+								JOIN departments ON authorization.department_id = departments.id
+								WHERE authorization.user_id = '" . $user_id . "' ORDER BY departments.department";
+		$result_super 		= $conn->query($sql_super);
 		while($row_super 	= $result_super->fetch_assoc()){
 			$department 	= $row_super['department_id'];
-			$sql_dept 		= "SELECT department FROM departments WHERE id = '" . $department . "'";
-			$result_dept 	= $conn->query($sql_dept);
-			$row_dept 		= $result_dept->fetch_assoc();
-			$department 	= strtolower($row_dept['department']);
+			$department 	= strtolower($row_super['department']);
 			
 ?>
 		<a href='/agungelektrindo/<?= $department ?>' style='color:white;text-decoration:none'>
@@ -54,7 +53,7 @@
 		</a>
 		<br>
 <?php
-			}
+		}
 ?>
 	</div>
 	<a href='/agungelektrindo/guide/tutorial'><button>Read Tutorial</button></a>

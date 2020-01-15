@@ -24,8 +24,10 @@
 	}
 		
 ?>
-	<h3 style='font-family:bebasneue'><?= $initial['name'] ?></h4>
-	<h4 style='font-family:bebasneue'><strong><?= $customer_name ?></strong></h4>
+	<label>Sales order</label>
+	<p style='font-family:museo'><?= $initial['name'] ?></p>
+	<label>Customer</label>
+	<p style='font-family:museo'><strong><?= $customer_name ?></strong></p>
 	<p><?= $customer_address ?></p>
 	<p><?= $customer_city ?></p>
 	<table class='table table-bordered'>
@@ -36,8 +38,8 @@
 		</tr>
 <?php
 	$sql = "SELECT sales_order.reference, sales_order.quantity, sales_order.sent_quantity, sales_order.status 
-	FROM sales_order
-	WHERE sales_order.so_id = '" . $id . "'";
+			FROM sales_order
+			WHERE sales_order.so_id = '" . $id . "'";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){
 		if($row['status'] == 1){
@@ -58,9 +60,14 @@
 	}
 ?>
 	</table>
-	<h4 style='font-family:bebasneue'>Note</h4>
+	<label>Note</label>
 	<p><?= $note ?></p>
-	<h4 style='font-family:bebasneue'>Corresponding delivery order</h4>
+	<label>Delivery order</label>
+<?php
+	$sql_delivery_order		= "SELECT id FROM code_delivery_order WHERE so_id = '$id'";
+	$result_delivery_order	= $conn->query($sql_delivery_order);
+	if(mysqli_num_rows($result_delivery_order) > 0){
+?>
 	<table class='table table-bordered'>
 		<tr>
 			<th>Date</th>
@@ -79,3 +86,19 @@
 	}
 ?>
 	</table>
+<?php
+	} else {
+?>
+	<p style='font-family:museo'>There is no history of delivering this sales order</p>
+<?php
+	}
+?>
+	<button type='button' class='button_success_dark' onclick='send(<?= $id ?>)'><i class='fa fa-long-arrow-right'></i></button>
+	<form action='delivery_order_create' id='delivery_order_form' method='POST'>
+		<input type='hidden' value='<?= $id ?>' name='id'>
+	</form>
+	<script>
+		function send(n){
+			$('#delivery_order_form').submit();
+		}
+	</script>

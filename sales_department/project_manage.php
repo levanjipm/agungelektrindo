@@ -76,11 +76,26 @@
 		}
 ?>
 	</table>
+<?php 
+	}
+?>
+	<label>Set project as done</label>
+	<input type='date' class='form-control' id='date_done'>
+	<br>
 	<button type='button' class='button_default_dark' id='set_done_button'>Set done</button>
 </div>
-<div class='full_screen_wrapper'>
+<div class='full_screen_wrapper' id='view_delivery_order_wrapper'>
 	<button type='button' class='full_screen_close_button'>&times</button>
 	<div class='full_screen_box'>
+	</div>
+</div>
+
+<div class='full_screen_wrapper' id='done_wrapper'>
+	<div class='full_screen_notif_bar'>
+		<h2 style='color:red;font-size:2em;'><i class='fa fa-exclamation'></i></h2>
+		<p style='font-family:museo'>Are you sure to set this project as done?</p>
+		<button type='button' class='button_danger_dark' id='close_notif_bar'>Check again</button>
+		<button type='button' class='button_success_dark' id='confirm_done_button'>Submit</button>
 	</div>
 </div>
 <script>
@@ -92,17 +107,50 @@
 				delivery_order_id:n
 			},
 			success:function(response){
-				$('.full_screen_box').html(response);
-				$('.full_screen_wrapper').fadeIn();
+				$('#view_delivery_order_wrapper .full_screen_box').html(response);
+				$('#view_delivery_order_wrapper').fadeIn();
 			}
 		});
 	}
 	
-	$('.full_screen_close_button').click(function(){
-		$('.full_screen_wrapper').fadeOut();
+	$('#view_delivery_order_wrapper .full_screen_close_button').click(function(){
+		$('#view_delivery_order_wrapper').fadeOut();
+	});
+	
+	$('#set_done_button').click(function(){
+		if($('#date_done').val() == ''){
+			alert('Please insert date value');
+			$('#date_done').focus();
+			return false;
+		} else {
+			var window_height		= $(window).height();
+			var notif_height		= $('#done_wrapper .full_screen_notif_bar').height();
+			var difference			= window_height - notif_height;
+			
+			$('#done_wrapper .full_screen_notif_bar').css('top', 0.7 * difference / 2);
+			$('#done_wrapper').fadeIn();
+		};
+	});
+	
+	$('#close_notif_bar').click(function(){
+		$('#done_wrapper').fadeOut();
+	});
+	
+	$('#confirm_done_button').click(function(){
+		$.ajax({
+			url:'project_set_done.php',
+			data:{
+				project_id: <?= $project_id ?>,
+				date: $('#date_done').val()
+			},
+			type:'POST',
+			beforeSend:function(){
+				$('button').attr('disabled',true);
+			},
+			success:function(){
+				window.location.href='/agungelektrindo/sales_department/project_manage_dashboard';
+			}
+		});
 	});
 </script>
-<?php 
-	}
-?>
 	

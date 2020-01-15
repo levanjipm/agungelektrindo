@@ -16,7 +16,7 @@
 	$sql_return 			= "SELECT code_purchase_return_sent.document, code_purchase_return.supplier_id, code_purchase_return_sent.id
 								FROM code_purchase_return_sent 
 								JOIN code_purchase_return ON code_purchase_return_sent.code_purchase_return_id = code_purchase_return.id
-								WHERE code_purchase_return_sent.isconfirm = '1'";
+								WHERE code_purchase_return_sent.isconfirm = '1' AND code_purchase_return_sent.isdone = '0'";
 	$result_return 			= $conn->query($sql_return);
 	while($return 			= $result_return->fetch_assoc()){
 		$return_id			= $return['id'];

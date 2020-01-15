@@ -22,6 +22,8 @@
 	} else {
 		$type_text			= "Goods sales order";
 	}
+	
+	$note					= $row['note'];
 ?>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales Order</h2>
@@ -113,6 +115,7 @@
 	}
 ?>
 	</table>
+	<p style='font-family:museo'><?= $note ?></p>
 	<button type='button' class='button_danger_dark' id='delete_sales_order_button'>Delete</button>
 	<button type='button' class='button_default_dark' id='submit_button'>Submit</button>
 	

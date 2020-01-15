@@ -13,7 +13,7 @@
 	<h2 style='font-family:Bebasneue'>Project Delivery Order</h2>
 	<p style='font-family:museo'>Create project delivery order</p>
 	<hr>
-	<form action='delivery_order_project_validation' method='POST' id='project_form'>
+	<form action='project_delivery_order_create_validation' method='POST' id='project_form'>
 		<label>Date</label>
 		<input type='date' class='form-control' name='date' id='date'>
 		<label>Project</label>
@@ -28,7 +28,7 @@
 ?>
 			<option value='<?= $major_id ?>' style='font-weight:bold'><?= $name ?></option>
 <?php
-		$sql_project_minor				= "SELECT * FROM code_project WHERE major_id = '$major_id' AND major_id <> '0'";
+		$sql_project_minor				= "SELECT * FROM code_project WHERE major_id = '$major_id' AND major_id <> '0' AND isdone = '0'";
 		$result_project_minor			= $conn->query($sql_project_minor);
 		if(mysqli_num_rows($result_project_minor) > 0){
 			while($project_minor		= $result_project_minor->fetch_assoc()){

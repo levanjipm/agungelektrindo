@@ -3,7 +3,7 @@
 	$year			= (int)$_POST['year'];
 	$sql_month 		= "SELECT DISTINCT(MONTH(invoices.date)) AS month FROM invoices 
 						JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
-						WHERE YEAR(invoices.date) = '$year' AND code_delivery_order.company = 'AE' ORDER BY invoices.date ASC";
+						WHERE YEAR(invoices.date) = '$year' AND code_delivery_order.company = 'AE' AND invoices.isconfirm = '1' ORDER BY invoices.date ASC";
 	$result_month 	= $conn->query($sql_month);
 	while($month 	= $result_month->fetch_assoc()){
 ?>

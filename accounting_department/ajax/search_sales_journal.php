@@ -2,10 +2,25 @@
 	include('../../codes/connect.php');
 	$month 				= $_POST['month'];
 	$year 				= $_POST['year'];
-	$sql_search 		= "SELECT invoices.date, invoices.name, invoices.faktur, invoices.value, code_delivery_order.customer_id, code_delivery_order.id
-						FROM invoices JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
-						WHERE MONTH(invoices.date) = '" . $month . "' AND YEAR(invoices.date) = '" . $year . "' AND isconfirm = '1'
-						ORDER BY code_delivery_order.number ASC, date, name ASC";
+	$company			= $_POST['company'];
+	
+	if($company			== ''){
+		$sql_search 		= "SELECT invoices.date, invoices.name, invoices.faktur, invoices.value, code_delivery_order.customer_id, code_delivery_order.id
+							FROM invoices JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+							WHERE MONTH(invoices.date) = '" . $month . "' AND YEAR(invoices.date) = '" . $year . "' AND isconfirm = '1'
+							ORDER BY code_delivery_order.number ASC, date, name ASC";
+	} else if($company	== 'AE'){
+		$sql_search 		= "SELECT invoices.date, invoices.name, invoices.faktur, invoices.value, code_delivery_order.customer_id, code_delivery_order.id
+							FROM invoices JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+							WHERE MONTH(invoices.date) = '" . $month . "' AND YEAR(invoices.date) = '" . $year . "' AND isconfirm = '1' AND code_delivery_order.company = 'AE'
+							ORDER BY code_delivery_order.number ASC, date, name ASC";
+	} else if($company	== 'DSE'){
+		$sql_search 		= "SELECT invoices.date, invoices.name, invoices.faktur, invoices.value, code_delivery_order.customer_id, code_delivery_order.id
+							FROM invoices JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+							WHERE MONTH(invoices.date) = '" . $month . "' AND YEAR(invoices.date) = '" . $year . "' AND isconfirm = '1' AND code_delivery_order.company = 'DSE'
+							ORDER BY code_delivery_order.number ASC, date, name ASC";
+	};
+	
 	$result_search 		= $conn->query($sql_search);
 	$x 					= 1;
 	while($row_search 	= $result_search->fetch_assoc()){

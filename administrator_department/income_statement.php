@@ -73,6 +73,25 @@
 	
 	$stock_value_difference	= $total_start - $total_end;
 	
+	$inventory_before	= 0;
+	$inventory_after	= 0;
+	$sql			= "SELECT purchase_date, depreciation_time, initial_value FROM inventory WHERE MONTH(purchase_date) <= '$month' AND YEAR(purchase_date) <= '$year' ORDER BY purchase_date ASC";
+	$result			= $conn->query($sql);
+	while($row		= $result->fetch_assoc()){
+		$purchase_date	= $row['purchase_date'];
+		$time		= $row['depreciation_time'];
+		$value		= $row['initial_value'];
+
+		$date_dif_after		= strtotime($date) - strtotime($purchase_date);
+		$year_difference = $date_dif_after / (60 * 60 * 24 * 365);
+		
+		if($time > 0){
+			$current_value_after	= max(0,$value * ($time - $year_difference) / $time);
+		} else {
+			$current_value_after	= $value;
+		}
+		$inventory_after	+= $current_value_after;
+	}
 ?>
 <table class='table table-bordered'>
 	<tr>
@@ -92,6 +111,9 @@
 		<td>Rp. <?= number_format($total_end,2) ?></td>
 	</tr>
 	<tr>
+		<td>Closing asset value</td>
+		<td>Rp. <?= number_format($inventory_after,2) ?></td>
+	</tr>
 		<td>Stock value difference</td>
 		<td>Rp. <?= number_format($stock_value_difference,2) ?></td>
 	</tr>
@@ -101,7 +123,7 @@
 	</tr>
 	<tr>
 		<td>Gross income</td>
-		<td>Rp. <?= number_format($invoice_value - $purchase_value - $stock_value_difference + $invoice_delivery,2) ?></td>
+		<td>Rp. <?= number_format($invoice_value - $purchase_value - $stock_value_difference + $invoice_delivery + $inventory_after,2) ?></td>
 	</tr>
 	<tr>
 		<td>Petty cash expense</td>
@@ -117,6 +139,6 @@
 	</tr>
 	<tr>
 		<td>Net income before tax</td>
-		<td>Rp. <?= number_format($invoice_value - $purchase_value - $stock_value_difference - $petty_value - $bank + $invoice_delivery,2) ?></td>
+		<td>Rp. <?= number_format($invoice_value - $purchase_value - $stock_value_difference - $petty_value - $bank + $invoice_delivery + $inventory_after,2) ?></td>
 	</tr>
 </table>

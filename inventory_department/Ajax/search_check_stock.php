@@ -13,7 +13,15 @@
 			$result_stock	= $conn->query($sql_stock);
 			$stock			= $result_stock->fetch_assoc();
 			
-			$stock_			= ($stock == NULL) ? '0' : $stock['stock'];
+			$sql_minus		= "SELECT delivery_order.quantity FROM delivery_order 
+								JOIN code_delivery_order ON delivery_order.do_id = code_delivery_order.id
+								WHERE delivery_order.reference = '" . mysqli_real_escape_string($conn,$reference) . "' AND code_delivery_order.sent = '0'";
+			$result_minus	= $conn->query($sql_minus);
+			$row_minus		= $result_minus->fetch_assoc();
+			
+			$minus			= $row_minus['quantity'];
+			
+			$stock_			= ($stock == NULL) ? '0' : $stock['stock'] - $minus;
 ?>
 		<tr>
 			<td><?= $reference ?></td>
@@ -21,7 +29,7 @@
 			<td><?= $stock_ ?></td>
 			<td>
 				<a href='stock_card?id=<?= $item_id ?>'>
-					<button type='button' class='button_default_dark' onclick='view(<?= $item_id ?>)'>View</button>
+					<button type='button' class='button_success_dark' onclick='view(<?= $item_id ?>)'><i class='fa fa-eye'></i></button>
 				</a>
 			</td>
 		</tr>

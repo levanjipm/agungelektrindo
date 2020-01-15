@@ -55,10 +55,10 @@
 	</div>
 </div>
 <div class='profile_option_wrapper'>
-	<a href='/agungelektrindo/codes/logout' class='option_a'><p style='font-family:museo'>Logout</p></a>
 <?php	if($role	== 'superadmin'){ ?>
 	<a href='/dutasaptaenergi' class='option_a'><p style='font-family:museo'>Duta Sapta</p></a>
 <?php } ?>
+	<a href='/agungelektrindo/codes/logout' class='option_a'><p style='font-family:museo'>Logout</p></a>
 </div>
 <script>
 	$('#profile_top_nav_button').click(function(){

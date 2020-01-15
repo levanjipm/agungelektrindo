@@ -13,7 +13,7 @@
 	<button type='button' class='dropdown_button'>Finance Dept.</button>
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/administrator_department/reset_bank_dashboard'><p>Reset bank data</p></a>
-		<a href='/agungelektrindo/administrator_department/purchasing_journal'><p>Petty cash</p></a>
+		<a href='/agungelektrindo/administrator_department/reset_petty_dashboard'><p>Petty cash</p></a>
 	</div>
 	<button class='dropdown_button'>Other</button>
 	<div class='dropdown-container'>

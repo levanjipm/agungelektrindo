@@ -58,12 +58,20 @@
 	}
 	
 	$taxing 		= $_POST['tax'];
-	$sql_number 	= "SELECT * FROM code_delivery_order 
-					WHERE MONTH(date) = MONTH('" . $do_date . "') AND YEAR(date) = YEAR('" . $do_date . "') AND number > '0'
-					AND isdelete = '0' AND company = 'AE' ORDER BY number ASC";
+	$sql_number 	= "SELECT number FROM code_delivery_order 
+						WHERE MONTH(date) = MONTH('" . $do_date . "') AND YEAR(date) = YEAR('" . $do_date . "') AND number > '0'
+						AND isdelete = '0' AND company = 'AE' ORDER BY number ASC LIMIT 1";
 	$results 		= $conn->query($sql_number);
-	if ($results->num_rows > 0){
-		$i = 1;
+	$number			= $results->fetch_assoc();
+	$first_number	= $number['number'];
+	
+	$sql_number 	= "SELECT number FROM code_delivery_order 
+						WHERE MONTH(date) = MONTH('" . $do_date . "') AND YEAR(date) = YEAR('" . $do_date . "') AND number > '0'
+						AND isdelete = '0' AND company = 'AE' ORDER BY number ASC";
+	$results 		= $conn->query($sql_number);
+	
+	if (mysqli_num_rows($results) > 0 && $first_number == 1){
+		$i 			= 1;
 		while($row_do = $results->fetch_assoc()){
 			if ($i == $row_do['number']){
 				$i++;

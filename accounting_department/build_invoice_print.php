@@ -19,9 +19,9 @@
 <?php
 	include('../codes/connect.php');
 	
-	$id 			= $_POST['id'];
+	$id 					= $_POST['id'];
 	
-	$sql_invoice			= "SELECT invoices.faktur,invoices.value,invoices.ongkir,invoices.name,invoices.date, code_delivery_order.customer_id, code_salesorder.id as sales_order_id
+	$sql_invoice			= "SELECT invoices.down_payment, invoices.faktur,invoices.value,invoices.ongkir,invoices.name,invoices.date, code_delivery_order.customer_id, code_salesorder.id as sales_order_id
 							FROM invoices 
 							JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
 							JOIN code_salesorder ON code_salesorder.id = code_delivery_order.so_id
@@ -36,6 +36,7 @@
 	$customer_id 			= $invoice['customer_id'];
 	$faktur 				= $invoice['faktur'];
 	$sales_order_id			= $invoice['sales_order_id'];
+	$down_payment			= $invoice['down_payment'];
 	
 	$do_name = 'SJ-AE-' . substr($name,6,100);
 	if($customer_id != 0){
@@ -108,7 +109,10 @@
 		$max = ($counting <= 10)? 10: $counting;
 		$value = 0;
 			for($i = 1; $i <= $max; $i++){
-				$sql_table 		= "SELECT * FROM delivery_order WHERE do_id = '" . $do_id . "' LIMIT 1 OFFSET " . ($i - 1);
+				$sql_table 		= "SELECT delivery_order.quantity, delivery_order.reference, itemlist.description, delivery_order.billed_price
+									FROM delivery_order 
+									JOIN itemlist ON delivery_order.reference = itemlist.reference
+									WHERE do_id = '" . $do_id . "' LIMIT 1 OFFSET " . ($i - 1);
 				$result_table 	= $conn->query($sql_table);
 				$row_table 		= $result_table->fetch_assoc();
 				if(empty($row_table['reference'])){
@@ -122,21 +126,16 @@
 			</tr>
 <?php
 			} else {
+				$reference		= $row_table['reference'];
+				$description	= $row_table['description'];
+				$price			= $row_table['billed_price'];
+				$quantity		= $row_table['quantity'];
 ?>
 			<tr style='height:40px'>
 				<td><?= $i . '.' ?></td>
+				<td><?= $description . ' - ' . $reference ?></td>
+				<td><?= $quantity ?></td>
 				<td><?php
-					$sql_item 		= "SELECT description FROM itemlist WHERE reference = '" . $row_table['reference'] . "'";
-					$result_item 	= $conn->query($sql_item);
-					$row_item 		= $result_item->fetch_assoc();
-					echo $row_item['description'] . ' - ' . $row_table['reference'];
-				?></td>
-				<td><?= $row_table['quantity']; ?></td>
-				<td><?php
-					$sql_price = "SELECT price FROM sales_order WHERE so_id = '" . $so_id . "' AND reference = '" . $row_table['reference'] . "'";
-					$result_price = $conn->query($sql_price);
-					$row_price = $result_price->fetch_assoc();
-					$price = $row_price['price'];
 					if($taxing == 1){
 						echo ('Rp. ' . number_format($price * 10 /11,2));
 					} else {
@@ -145,14 +144,14 @@
 				?></td>
 				<td><?php
 					if($taxing == 1){
-						echo('Rp. ' . number_format($price * $row_table['quantity'] * 10/11,2));
+						echo('Rp. ' . number_format($price * $quantity * 10/11,2));
 					} else {
-						echo('Rp. ' . number_format($price * $row_table['quantity'],2));
+						echo('Rp. ' . number_format($price * $quantity,2));
 					}
 				?></td>
 			</tr>
 		<?php 
-			$value += $price * $row_table['quantity'];
+			$value += $price * $quantity;
 			}
 		}
 		if($taxing == 1){ 
@@ -167,11 +166,30 @@
 				<td>PPn 10%</td>
 				<td><?= 'Rp. ' . number_format($value - $value*10/11,2) ?></td>
 			</tr>
+<?php
+			if($down_payment > 0){
+?>
+			<tr>
+				<td style='background-color:white;border-bottom:none;' colspan='3'></td>
+				<td>Down payment</td>
+				<td><?= 'Rp. ' . number_format($down_payment,2) ?></td>
+			</tr>
+			<tr>
+				<td style='background-color:white;border-bottom:none;' colspan='3'></td>
+				<td>Total</td>
+				<td><?= 'Rp. ' . number_format($value - $down_payment,2) ?></td>
+			</tr>
+<?php
+			} else {
+?>
 			<tr>
 				<td style='background-color:white;border-bottom:none;' colspan='3'></td>
 				<td>Total</td>
 				<td><?= 'Rp. ' . number_format($value,2) ?></td>
 			</tr>
+<?php
+			}
+?>
 		<?php } else { ?>
 			<tr>
 				<td style='background-color:white;border-bottom:none;' colspan='3'></td>
@@ -188,21 +206,28 @@
 				<td>Ongkos Kirim</td>
 				<td><?= 'Rp. ' . number_format($ongkir,2) ?></td>
 			</tr>
+<?php
+			}
+?>
 			<tr>
 				<td style='background-color:white;border-bottom:none;' colspan='3'></td>
-				<td>Grand total</td>
-				<td><?= 'Rp. ' . number_format($ongkir + $value,2) ?></td>
+				<td>Down payment</td>
+				<td><?= 'Rp. ' . number_format($down_payment,2) ?></td>
 			</tr>
-			<?php } ?>
+			<tr>
+				<td style='background-color:white;border-bottom:none;' colspan='3'></td>
+				<td>Grand Total</td>
+				<td><?= 'Rp. ' . number_format($value - $down_payment + $ongkir,2) ?></td>
+			</tr>
 		</table>
 		<br><br><br>
 		<div class='row'>
-			<div class='col-sm-3 col-sm-offset-9' style='margin-bottom:150px'>
-				<p style='text-align:right'>Hormat kami,</p>
+			<div class='col-sm-3 col-sm-offset-9' style='margin-bottom:150px;margin-right:30px;'>
+				<p style='text-align:center'>Hormat kami,</p>
 				<?php
 					if($taxing == 1){
 				?>
-				<div style='border:1px solid #ddd;width:110px;height:80px;position:absolute;right:0%'>
+				<div style='border:1px solid #ddd;width:130px;height:80px;position:absolute;right:80px;'>
 				</div>
 				<?php
 					}
@@ -214,12 +239,14 @@
 				<p><strong>Keterangan</strong></p>
 				<ol>
 					<li>
-						<p style='line-height:1'>Pembayaran dilakukan melalui rekening</p>
-						<p style='line-height:1'>BCA Cabang Ahmad Yani II - Bandung</p>
-						<p style='line-height:1'>A/N: CV Agung Elektrindo</p>
-						<p style='line-height:1'>AC No.:8090249500</p>
+						<p style='line-height:1;font-size:1em'>Pembayaran dilakukan melalui rekening</p>
+						<p style='line-height:1;font-size:1em'>BCA Cabang Ahmad Yani II - Bandung</p>
+						<p style='line-height:1;font-size:1em'>A/N: CV Agung Elektrindo</p>
+						<p style='line-height:1;font-size:1em'>AC No.:8090249500</p>
 					</li>
-					<li>Pembayaran dengan menggunakan giro atau cek dianggap sah setelah diuangkan</li>
+					<li>
+						<p style='line-height:1.3;font-size:1em'>Pembayaran dengan menggunakan giro atau cek dianggap sah setelah diuangkan</p>
+					</li>
 				</ol>
 			</div>
 		</div>
@@ -227,7 +254,7 @@
 </div>
 <div class="row" style="background-color:#333;padding:30px;margin:0;width:100%">
 	<div class="col-sm-2 offset-sm-5">
-		<button class="button_default_dark hidden-print" type="button" id="print" onclick="printing()">Print</button>
+		<button class="button_default_dark hidden-print" type="button" id="print" onclick="printing()"><i class='fa fa-print'></i></button>
 	</div>
 </div>
 <script>

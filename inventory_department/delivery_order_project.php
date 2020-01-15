@@ -15,9 +15,8 @@
 		<div class='box' style='background-color:#eee;width:90%;text-align:center;padding:10px'>
 			<h3 style='font-family:bebasneue'><?= $row['project_name'] ?></h3>
 			<p><?= $customer_name ?></p>
-			<button type='button' class='button_default_dark' onclick='project_view(<?= $row['id'] ?>)'>View</button>
 			<button type='button' class='button_success_dark' onclick='send_project(<?= $row['id'] ?>)'>Send</button>
-			<form action='do_project_validation.php' method='POST' id='project_form-<?= $row['id'] ?>'>
+			<form action='delivery_order_project_validation' method='POST' id='project_form-<?= $row['id'] ?>'>
 				<input type='hidden' value='<?= $row['id'] ?>' name='project_id'>
 			</form>
 		</div>

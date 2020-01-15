@@ -128,6 +128,8 @@ $('#calculate_button').click(function(){
 			var input_id		= $(this).attr('id');
 			var uid				= input_id.substr(16,20);
 			var price_input		= $('#service_price' + uid).val();
+			var quantity		= $('#service_quantity' + uid).val();
+			
 			if(price_input == ''){
 				var price		= 0;
 			} else {

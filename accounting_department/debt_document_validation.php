@@ -1,9 +1,17 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
-	$supplier_id 	= $_POST['supplier'];
-	$date 			= $_POST['date'];
-	//Checking the document//
+	$supplier_id 		= $_POST['supplier'];
+	$date 				= $_POST['date'];
+	
+	$sql_supplier		= "SELECT name, address, city FROM supplier WHERE id = '$supplier_id'";
+	$result_supplier	= $conn->query($sql_supplier);
+	$supplier			= $result_supplier->fetch_assoc();
+	
+	$supplier_name		= $supplier['name'];
+	$supplier_address	= $supplier['address'];
+	$supplier_city		= $supplier['city'];
+	
 	$check_invoice 	= 1;
 	$check_po 		= 1;
 	$document_array	= $_POST['document'];
@@ -36,9 +44,9 @@
 </script>
 <?php
 	}
-	$sql_po = "SELECT taxing FROM code_purchaseorder WHERE id = '" . $po_id . "'";
-	$result_po = $conn->query($sql_po);
-	$po = $result_po->fetch_assoc();
+	$sql_po 		= "SELECT taxing FROM code_purchaseorder WHERE id = '" . $po_id . "'";
+	$result_po 		= $conn->query($sql_po);
+	$po 			= $result_po->fetch_assoc();
 	$taxing=  $po['taxing'];
 	//if it exist, then show the items//
 ?>
@@ -92,8 +100,16 @@
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Purchase invoice</h2>
 	<p>Validate purchase invoice</p>
-	<form action='debt_document_input.php' method='POST' id='debt_form'>
+	<hr>
+	<form action='debt_document_input' method='POST' id='debt_form'>
+	<label>Supplier</label>
+	<p style='font-family:museo'><?= $supplier_name ?></p>
+	<p style='font-family:museo'><?= $supplier_address ?></p>
+	<p style='font-family:museo'><?= $supplier_city ?></p>
 	<input type='hidden' value='<?= $supplier_id ?>' name='supplier'>
+	
+	<label>Purhase date</label>
+	<p style='font-family:museo'><?= date('d M Y',strtotime($date)) ?></p>
 	<input type='hidden' value='<?= $date ?>' name='date'>
 	<label>Input invoice number</label>
 	<input type='text' class='form-control' name='invoice_doc' id='inv'>
@@ -179,7 +195,7 @@
 	
 <script>
 	var total;
-	$("#fp").inputmask("999.999.99-99999999");
+	$("#fp").inputmask("999.999-99.99999999");
 	function show(n){
 		$('#input' + n).show();
 		$('#input' + n).focus();

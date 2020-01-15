@@ -8,6 +8,9 @@
 		border:none;
 	}
 </style>
+<head>
+	<title>Invoice archive</title>
+</head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales Invoice</h2>
 	<p>Archives</p>
@@ -17,7 +20,7 @@
 	<input type='hidden' value='0' id='depth_year'>
 	<div class='row' id='folders'>
 <?php
-	$sql = "SELECT DISTINCT(YEAR(date)) AS year FROM invoices ORDER BY date DESC";
+	$sql = "SELECT DISTINCT(YEAR(date)) AS year FROM invoices ORDER BY date ASC";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()){
 ?>

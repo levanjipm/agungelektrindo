@@ -27,10 +27,12 @@
 		$phone 			= '';
 		$name 			= '';
 	}
-	$sql_customer 		= "SELECT name FROM customer WHERE id = '" . $customer . "'";
+	$sql_customer 		= "SELECT name, address, city FROM customer WHERE id = '" . $customer . "'";
 	$result_customer 	= $conn->query($sql_customer);
 	$customer_row		= $result_customer->fetch_assoc();
 	$customer_name 		= $customer_row['name'];
+	$customer_address	= $customer_row['address'];
+	$customer_city		= $customer_row['city'];
 	
 	function GUID()
 	{
@@ -59,14 +61,19 @@
 		<input type='hidden' value="<?= $so_date ?>" name="today">
 		<input type='hidden' value="<?= $customer?>" name="customer">
 		<input type='hidden' value="<?= $customer_top?>" name="customer_top">
+		
+		<label>Customer</label>
 <?php if($customer == 0){ ?>
-			<h3 style="font-family:bebasneue">Retail</h3>
+			<p style="font-family:museo">Retail</p>
 <?php } else { ?>
-			<h3 style="font-family:bebasneue"><?= $customer_name ?></h3>
+			<p style="font-family:museo"><?= $customer_name ?></p>
+			<p style="font-family:museo"><?= $customer_address ?></p>
+			<p style="font-family:museo"><?= $customer_city ?></p>
 <?php }	if($customer == 0){ ?>
-			<p><?= $address ?></p>
-			<p><?= $city ?></p>
-			<p><?= $phone ?></p>
+			<p style='font-family:museo'><?= $name ?></p>
+			<p style='font-family:museo'><?= $address ?></p>
+			<p style='font-family:museo'><?= $city ?></p>
+			<p style='font-family:museo'><?= $phone ?></p>
 <?php } ?>
 		<p><strong>Purchase order number</strong></p>
 		<p><?= $po_number ?></p>

@@ -13,7 +13,7 @@
 <?php if($role == 'superadmin'){ ?>
 		<a href='/agungelektrindo/sales_department/customer_black_list'><p>Blacklist Customer</p></a>
 <?php } ?>
-
+		<a href='/agungelektrindo/sales_department/customer_view_dashboard'><p>View Customer</p></a>
 	</div>
 	<button class='dropdown_button'>Sales Order</button>
 	<div class='dropdown-container'>

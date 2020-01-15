@@ -16,20 +16,18 @@
 			if($stock['stock'] != 0 || $stock['stock'] == NULL){ $nilai++; }
 		}
 		
-		if($nilai > 1){			
+		if($nilai > 1){
+			$sql_customer 		= "SELECT name FROM customer WHERE id = '" . $row['customer_id'] . "'";
+			$result_customer 	= $conn->query($sql_customer);
+			$customer 			= $result_customer->fetch_assoc();
+			$customer_name		= $customer['name'];
 ?>
 	<div class='col-sm-4' style='margin-top:30px;text-align:center'>
 		<div class='box' style='background-color:#eee;width:90%;text-align:center;padding:10px'>
 			<h3 style='font-family:bebasneue'><?= $row['name'] ?></h3>
-			<p><?php
-				$sql_customer = "SELECT name FROM customer WHERE id = '" . $row['customer_id'] . "'";
-				$result_customer = $conn->query($sql_customer);
-				$customer = $result_customer->fetch_assoc();
-				echo $customer['name'];
-			?></p>
+			<p><?= $customer_name ?></p>
 			<p><?= $row['po_number'] ?></p>
-			<button type='button' class='button_default_dark' onclick='view(<?= $row['id'] ?>)'>View</button>
-			<button type='button' class='button_success_dark' onclick='send(<?= $row['id'] ?>)'>Send</button>
+			<button type='button' class='button_default_dark' onclick='view(<?= $row['id'] ?>)'><i class='fa fa-eye'></i></button>
 		</div>
 	</div>
 <?php
@@ -37,6 +35,3 @@
 	}
 ?>
 </div>
-<form id='delivery_order_form' method='POST' action='delivery_order_create'>
-	<input type='hidden' id='sales_order_id' name='id'>
-</form>

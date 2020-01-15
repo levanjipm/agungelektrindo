@@ -119,11 +119,6 @@ $( function() {
 		})
 	}
 	
-	function send(n){
-		$('#sales_order_id').val(n);
-		$('#delivery_order_form').submit();
-	}
-	
 	function send_project(n){
 		$('#project_form-' + n).submit();
 	}

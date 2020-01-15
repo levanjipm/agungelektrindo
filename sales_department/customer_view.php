@@ -66,13 +66,13 @@
 	<h2 style='font-family:bebasneue'>Customer</h2>
 	<p style='font-family:museo'>Customer data</p>
 	<hr>
-	<h3 style='font-family:museo'>General data</h3>
 	<label>Name</label>
 	<p style='font-family:museo'><?= $customer_name ?></p>
 	<label>Address</label>
 	<p style='font-family:museo'><?= $customer_address ?></p>
 	<p style='font-family:museo'><?= $customer_city ?></p>
 	<p style='font-family:museo'><?= $customer_phone ?></p>
+	
 	<h3 style='font-family:museo'>Purchase data</h3>
 	<table class='table table-bordered'>
 		<tr>

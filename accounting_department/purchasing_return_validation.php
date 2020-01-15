@@ -124,7 +124,7 @@
 				$('button').attr('disabled',true);
 			},
 			success:function(){
-				// window.location.href='/agungelektrindo/accounting_department/purchasing_return_dashboard';
+				window.location.href='/agungelektrindo/accounting_department/purchasing_return_dashboard';
 			}
 		});
 	});

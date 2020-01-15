@@ -2,7 +2,7 @@
 	<button type='button' class='btn-badge' style='text-align:right' id='hide_side_button'><i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
 	<button class='dropdown_button'>Sales Invoice</button>
 	<div class='dropdown-container'>
-		<a href='/agungelektrindo/accounting_department/invoice_create_dashboard'><p>Create an invoice<p></a>
+		<a href='/agungelektrindo/accounting_department/build_invoice_dashboard'><p>Create an invoice<p></a>
 <?php if ($role == 'superadmin'){ ?>
 		<a href='/agungelektrindo/accounting_department/confirm_invoice_dashboard'><p>Confirm an invoice</p></a>
 <?php } ?>
@@ -30,11 +30,9 @@
 		<a href='/agungelektrindo/accounting_department/purchasing_journal'><p>Purchasing journal</p></a>
 		<a href='/agungelektrindo/accounting_department/stock_value_dashboard'><p>Stock value</p></a>
 	</div>
-	<button class='dropdown_button'>Receivable</button>
-	<div class='dropdown-container'>
-		<a href='/agungelektrindo/accounting_department/receivable_dashboard'><p>Dashboard</p></a>
-		<a href='/agungelektrindo/accounting_department/receivable_report_dashboard'><p>Report</p></a>
-	</div>
+	<a href='/agungelektrindo/accounting_department/receivable_dashboard'>
+		<button class='dropdown_button'>Receivable</button>
+	</a>
 	<a href='/agungelektrindo/accounting_department/payable_dashboard'>
 		<button class='dropdown_button' style='color:white'>Payable</button>
 	</a>

@@ -109,7 +109,7 @@
 			},
 			type:'POST',
 			success:function(){
-				window.location.href='/agungelektrindo/accounting_department/assign_bank_dashboard';
+				window.location.href='/agungelektrindo/financial_department/assign_bank_dashboard';
 			}
 		})
 	});
