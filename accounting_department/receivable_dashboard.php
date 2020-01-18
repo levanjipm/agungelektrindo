@@ -107,6 +107,7 @@
 		$width 					= $invoice_payment;
 		$receivable_array[$customer_id]		= $width;
 	};
+	
 	arsort($receivable_array);
 	foreach($receivable_array as $bar){
 		$customer_id				= key($receivable_array);
@@ -126,14 +127,17 @@
 		<div class='col-sm-2'>Rp. <?= number_format($bar,2) ?></div>
 	</div>
 	<script>
-		setTimeout(function(){
-			$("#garis<?= $customer_id ?>").animate({
-				width: '<?= $bar * 100 / $maximum ?>%'
-			})
-		},<?= $timeout ?>)
+		$(document).ready(function(){
+			setTimeout(function(){
+				$("#garis<?= $customer_id ?>").animate({
+					width: '<?= $bar * 100 / $maximum ?>%'
+				})
+			},<?= $timeout ?>)
+		});
 	</script>
 <?php
 		$timeout = $timeout + 10;
 		next($receivable_array);
 	}
 ?>
+</div>

@@ -4,6 +4,7 @@
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/administrator_department/delivery_order_delete_dashboard'><p>Delete delivery order<p></a>
 		<a href='/agungelektrindo/administrator_department/good_receipt_delete_dashboard'><p>Delete goods receipt<p></a>
+		<a href='/agungelektrindo/administrator_department/delivery_order_project_delete_dashboard'><p>Delete project DO</p></a>
 	</div>
 	<button class='dropdown_button'>Accounting Dept.</button>	
 	<div class='dropdown-container'>
@@ -14,6 +15,11 @@
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/administrator_department/reset_bank_dashboard'><p>Reset bank data</p></a>
 		<a href='/agungelektrindo/administrator_department/reset_petty_dashboard'><p>Petty cash</p></a>
+	</div>
+	<button type='button' class='dropdown_button'>Purchasing Dept.</button>
+	<div class='dropdown-container'>
+		<a href='/agungelektrindo/administrator_department/purchase_order_edit_dashboard'><p>Edit a PO</p></a>
+		<a href='/agungelektrindo/administrator_department/purchase_order_close_dashboard'><p>Close a PO</p></a>
 	</div>
 	<button class='dropdown_button'>Other</button>
 	<div class='dropdown-container'>

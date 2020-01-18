@@ -86,7 +86,7 @@
 		}
 ?>
 		</table>
-		<button type='button' class='button_danger_dark' id='cancel_delivery_order_button'>Cancel</button>
+		<button type='button' class='button_danger_dark' id='cancel_delivery_order_button'>Delete</button>
 		<button type='button' class='button_success_dark' id='confirm_delivery_order_button'>Submit</button>
 		<script>
 			$('#cancel_delivery_order_button').click(function(){
@@ -175,7 +175,7 @@
 			</td>
 			<td>1</td>
 		</table>
-		<button type='button' class='button_danger_dark' id='cancel_delivery_order_button'>Cancel</button>
+		<button type='button' class='button_danger_dark' id='cancel_delivery_order_button'>Delete</button>
 		<button type='button' class='button_success_dark' id='confirm_delivery_order_button'>Submit</button>
 		<script>
 			$('#cancel_delivery_order_button').click(function(){

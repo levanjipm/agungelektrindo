@@ -27,6 +27,7 @@
 	<p style='font-family:museo'><?= $customer_city ?></p>
 	
 	<label>Send date</label>
+	<form action='sample_send_input.php' method='POST' id='sample_form'>
 	<input type='date' class='form-control' id='date' name='send_sample_date'>
 	<br>
 	<table class='table table-bordered'>
@@ -35,20 +36,25 @@
 				<th>Reference</th>
 				<th>Description</th>
 				<th>Quantity</th>
+				<th>Send</th>
 			</tr>
 		</thead>
 		<tbody>
 <?php
 	$validation				= TRUE;
-	$sql					= "SELECT sample.reference, itemlist.description, sample.quantity
+	$sql					= "SELECT sample.id, sample.reference, itemlist.description, sample.quantity, sample.sent
 								FROM sample 
 								JOIN itemlist ON sample.reference = itemlist.reference
 								WHERE sample.code_id = '$id'";
 	$result					= $conn->query($sql);
 	while($row				= $result->fetch_assoc()){
+		
+		$sample_id			= $row['id'];
 		$reference			= $row['reference'];
 		$description		= $row['description'];
 		$quantity			= $row['quantity'];
+		$sent				= $row['sent'];
+		
 		$sql_stock			= "SELECT stock FROM stock WHERE reference = '$reference'";
 		$result_stock		= $conn->query($sql_stock);
 		$stock				= $result_stock->fetch_assoc();
@@ -62,37 +68,49 @@
 			<tr>
 				<td><?= $reference ?></td>
 				<td><?= $description ?></td>
-				<td><?= number_format($quantity,0) ?></td>
+				<td><?= number_format($quantity - $sent,0) ?></td>
+				<td><input type='number' class='form-control' name='quantity[<?= $sample_id ?>]' id='quantity-<?= $sample_id ?>' max='<?= $quantity - $sent ?>' min='0'></td>
 			</tr>
 <?php
 	}
 ?>
 		</tbody>
 	</table>
+	</form>
 <?php if($validation			== TRUE){ ?>
 	<button type='button' class='button_success_dark' id='submit_button'>Submit</button>
 	<script>
-		$('#submit_button').click(function(){
+		function validate_form(){
 			if($('#date').val() == ''){
-				alert('Please insert send date');
+				alert('Please insert date');
 				$('#date').focus();
 				return false;
 			} else {
-				$.ajax({
-					url:'sample_send_input.php',
-					data:{
-						sample_id:<?= $id ?>,
-						date:$('#date').val(),
-					},
-					type:'POST',
-					beforeSend:function(){
-						$('#submit_button').html("<i class='fa fa-spin fa-spinner'></i>");
-					},
-					success:function(){
-						window.location.href='sample_dashboard';
+				$('input[id^="quantity-"]').each(function(){
+					var maximum		= $(this).attr('max');
+					var minimum		= $(this).attr('min');
+					
+					if($(this).val() > maximum || $(this).val() <= minimum){
+						alert('Plese insert correct quantity');
+						$(this).focus();
+						return false;
 					}
-				})
+				});
 			}
+		};
+		
+		$('#submit_button').click(function(){
+			var validation = validate_form();
+			alert(validation);
+		});
+		
+		$(document).ready(function() {
+			$(window).keydown(function(event){
+				if(event.keyCode == 13) {
+					event.preventDefault();
+					return false;
+				}
+			});
 		});
 	</script>
 <?php } ?>

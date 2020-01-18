@@ -2,10 +2,13 @@
 	include('../codes/connect.php');
 	$sales_order_id		= $_POST['sales_order_id'];
 	
-	$sql_check			= "SELECT type FROM code_salesorder WHERE id = '$sales_order_id'";
+	$sql_check			= "SELECT type, guid, document_type FROM code_salesorder WHERE id = '$sales_order_id'";
 	$result_check		= $conn->query($sql_check);
 	$check				= $result_check->fetch_assoc();
 	$type				= $check['type'];
+	$guid				= $check['guid'];
+	$document_type		= $check['document_type'];
+	$file				= $_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/sales_department/sales_order_images/' . $guid . '.' . $document_type;
 		
 	$validation			= true;
 	
@@ -24,6 +27,8 @@
 			
 			$sql 	= "DELETE FROM code_salesorder WHERE id = '$sales_order_id'";
 			$conn->query($sql);
+			
+			unlink($file);
 		}
 		
 	} else if($type == 'SRVC'){

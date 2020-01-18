@@ -18,7 +18,7 @@
 <?php
 	} else {
 		$invoice_id 		= $_POST['id'];
-		$sql 				= "SELECT name,faktur,supplier_id FROM purchases WHERE id = '" . $invoice_id . "'";
+		$sql 				= "SELECT date, name,faktur,supplier_id FROM purchases WHERE id = '" . $invoice_id . "'";
 		$result 			= $conn->query($sql);
 		$row 				= $result->fetch_assoc();
 		$invoice_name 		= $row['name'];
@@ -36,6 +36,7 @@
 		<p style='font-family:museo'><?= $supplier_address ?></p>
 		<p style='font-family:museo'><?= $supplier_city ?></p>
 		
+		<p>Invoice date: <?= date('d M Y',strtotime($row['date'])) ?></p>
 		<p>Invoice name: <?= $row['name'] ?></p>
 		<p>Tax document number: <?= $row['faktur'] ?></p>
 		<form method="POST" action='confirm_invoice_input' id='input'>
@@ -94,8 +95,8 @@
 				<td><strong>Grand total</strong></td>
 				<td>Rp. <?= number_format($total,2) ?></td>
 		</table>
-		<button type='button' class='button_success_dark' id='confirm_button'>Confirm</button>
 		<button type='button' class='button_danger_dark' id='delete_button'>Delete</button>
+		<button type='button' class='button_success_dark' id='confirm_button'>Confirm</button>
 <?php
 	}
 ?>

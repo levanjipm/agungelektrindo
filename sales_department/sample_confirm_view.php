@@ -1,28 +1,24 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/codes/connect.php');
+	
 	$sample_id				= $_POST['id'];
-	$sql_code 				= "SELECT * FROM code_sample WHERE id = 'sample_id'";
+	
+	$sql_code 				= "SELECT users.name as creator, customer.name, customer.address, customer.city 
+								FROM code_sample 
+								JOIN customer ON code_sample.customer_id = customer.id
+								JOIN users ON code_sample.created_by = users.id
+								WHERE code_sample.id = '$sample_id'";
 	$result_code 			= $conn->query($sql_code);
 	$code 					= $result_code->fetch_assoc();
-	$creator_id				= $code['created_by'];
-	$customer_id			= $code['customer_id'];
-	$sql_created 			= "SELECT name FROM users WHERE id = '$creator_id'";
-	$result_created 		= $conn->query($sql_created);
-	$created 				= $result_created->fetch_assoc();
 		
-	$sql_customer 			= "SELECT name, address, city FROM customer WHERE id = '$customer_id'";
-	$result_customer 		= $conn->query($sql_customer);
-	$customer 				= $result_customer->fetch_assoc();
-		
-	$customer_name			= $customer['name'];
-	$customer_address		= $customer['address'];
-	$customer_city			= $customer['city'];
+	$customer_name			= $code['name'];
+	$customer_address		= $code['address'];
+	$customer_city			= $code['city'];
 	
-	$creator				= $created['name'];
-	
-	
+	$creator				= $code['creator'];
 ?>
-	<h3 style='font-family:museo'>General Data</h3>
+	<h3 style='font-family:bebasneue'>Send sample</h3>
+	<hr>
 	<label>Customer</label>
 	<p style='font-family:museo'><?= $customer_name ?></p>
 	<p style='font-family:museo'><?= $customer_address ?></p>

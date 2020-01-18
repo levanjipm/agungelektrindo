@@ -33,7 +33,6 @@
 	<br>
 	<table class='table'>
 		<tr>
-			<th>ID</th>
 			<th>Date</th>
 			<th>Customer/Supplier</th>
 			<th>Document</th>
@@ -57,7 +56,6 @@
 			}
 ?>
 			<tr>
-				<td><?= $stock['id'] ?></td>
 				<td><?= date('d M Y',strtotime($stock['date'])) ?></td>
 				<td><?php
 					if($sql_name == ""){
@@ -77,7 +75,6 @@
 		} else if($stock['transaction'] == 'OUT'){
 ?>
 			<tr>
-				<td><?= $stock['id'] ?></td>
 				<td><?= date('d M Y',strtotime($stock['date'])) ?></td>
 				<td><?php
 					$sql_customer = "SELECT name FROM customer WHERE id = '" . $stock['customer_id'] . "'";

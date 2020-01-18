@@ -6,31 +6,38 @@
 	<title>Inventory Department</title>
 </head>
 <style>
-.box{
-	padding:10px;
-	background-color:#024769;
-	-moz-box-shadow:inset 0 0 5px #01141e;
-	-webkit-box-shadow: inset 0 0 5px #01141e;
-	box-shadow:inset 0 0 5px #01141e;
-	color:white;
-	text-align:center;
-	cursor:pointer;
-}
+	.box{
+		padding:10px;
+		background-color:#fff;
+		color:#024769;
+		border:3px solid #024769;
+		text-align:center;
+		cursor:pointer;
+		width:25%;
+		display:inline-block;
+		margin-left:2%;
+	}
 
-.bar_wrapper{
-	position:relative;
-	background-color:#fff;
-	width:100%;
-	height:5px;
-}
+	.box:hover{
+		background-color:#eee;
+		color:#333;
+		transition:0.3s all ease;
+	}
 
-.bar{
-	position:absolute;
-	top:0;
-	height:100%;
-	background-color:#aaa;
-	transition:0.5s all ease;
-}
+	.bar_wrapper{
+		position:relative;
+		background-color:#fff;
+		width:100%;
+		height:5px;
+	}
+
+	.bar{
+		position:absolute;
+		top:0;
+		height:100%;
+		background-color:#aaa;
+		transition:0.5s all ease;
+	}
 </style>
 <div class='main'>
 	<div class='row'>
@@ -50,7 +57,7 @@
 						}
 						
 						echo ('<h1>' . $row_pending_po['incomplete_po'] . '</h1>');
-						echo ('<h3>Pending PO</h3>');
+						echo ('<h5>Pending PO</h5>');
 					?>
 						<div class='bar_wrapper'>
 							<div class='bar' id='pending_purchaseorder_bar'></div>
@@ -82,7 +89,7 @@
 						}
 						
 						echo ('<h1>' . $row['delivery'] . '</h1>');
-						echo ('<h3>Delivery on process</h3>');
+						echo ('<h5>Delivery on process</h5>');
 					?>
 						<div class='bar_wrapper'>
 							<div class='bar' id='delivery_bar'></div>
@@ -112,7 +119,7 @@
 					}
 					
 					echo ('<h1>' . $row_pending_so['jumlah_so'] . '</h1>');
-					echo ('<h3>Pending Sales Order</h3>');
+					echo ('<h5>Pending Sales Order</h5>');
 				?>
 					<div class='bar_wrapper'>
 						<div class='bar' id='pending_so_bar'></div>

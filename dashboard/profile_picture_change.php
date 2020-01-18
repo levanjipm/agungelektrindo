@@ -18,7 +18,7 @@
 		$uploadOk = 0;
 	}
 	
-	$file_name = $target_dir . $user_id . "." . $imageFileType;
+	$file_name 	= $target_dir . $user_id . "." . $imageFileType;
 	if ($uploadOk != 0) {
 		if (move_uploaded_file($_FILES[$user_id]["tmp_name"], $file_name)) {
 			$sql = "UPDATE users SET image_url = '$file_name' WHERE id = '$user_id'";

@@ -10,10 +10,11 @@
 	</thead>
 	<tbody>
 <?php
-	$sql					= "SELECT code_sample.id, customer.name, customer.address, customer.city
+	$sql					= "SELECT DISTINCT(sample.code_id) as id, customer.name, customer.address, customer.city
 								FROM code_sample 
 								JOIN customer ON code_sample.customer_id = customer.id
-								WHERE code_sample.isconfirm = '1' AND code_sample.issent = '0'";
+								JOIN sample ON sample.code_id = code_sample.id
+								WHERE code_sample.isconfirm = '1' AND sample.status = '0'";
 	$result					= $conn->query($sql);
 	while($row				= $result->fetch_assoc()){
 		$sample_id			= $row['id'];

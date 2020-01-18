@@ -63,6 +63,7 @@ $( function() {
 			
 			<label>Term of payment</label>
 			<input type='number' class='form-control' id='customer_top' name='customer_top' readonly>
+			<br>
 		</div>
 	</div>
 	<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
@@ -118,10 +119,10 @@ $( function() {
 	<button type='button' class="button_success_dark" 	style="display:none" id="submitbtn" onclick="validate_sales_order()">Submit</button>	
 	<input type='hidden' id='check_available_input' value='true'>
 	<input type='hidden' id='check_duplicate_input' value='true'>
+	<input type='hidden' id='check_quantity_input' value='true'>
+	<input type='hidden' id='check_price_input' value='true'>
 </form>
 <script>
-
-
 $(document).ready(function() {
 	$(window).keydown(function(event){
 		if(event.keyCode == 13) {
@@ -179,6 +180,8 @@ function confirm_sales_order(){
 	var reference_array = [];
 	$('#check_available_input').val('true');
 	$('#check_duplicate_input').val('true');
+	$('#check_quantity_input').val('true');
+	$('#check_price_input').val('true');
 	
 	$('input[id^="reference"]').each(function(){
 		$.ajax({
@@ -194,6 +197,20 @@ function confirm_sales_order(){
 				}
 			},
 		})
+	});
+	
+	$('input[id^="qty"]').each(function(){
+		if($(this).val() <= 0){
+			$('#check_quantity_input').val('false');
+			return false;
+		}
+	});
+	
+	$('input[id^="vat"]').each(function(){
+		if($(this).val() < 0){
+			$('#check_price_input').val('false');
+			return false;
+		}
 	});
 	
 	if ($('#select_customer').val() == "0"){
@@ -248,7 +265,13 @@ function validate_sales_order(){
 	} else if($('#check_duplicate_input').val() == 'false'){
 		alert('There is a duplicate detected');
 		return false;
-	} else if (isNaN($('#total_number').val())){
+	} else if($('#check_quantity_input').val() == 'false'){
+		alert('Please insert correct quantity');
+		return false;
+	} else if($('#check_price_input').val() == 'false'){
+		alert('please insert correct price');
+		return false;
+	} else if(isNaN($('#total_number').val())){
 		alert("insert correct price");
 		$('input').attr('readonly',false);
 		$('input[id^="total"]').each(function(){
@@ -257,6 +280,7 @@ function validate_sales_order(){
 		$('input[id^="disc"]').each(function(){
 			$(this).val('');
 		});
+		
 		$('#total').val('');
 		$('#submitbtn').hide();
 		$('#back_button').hide();

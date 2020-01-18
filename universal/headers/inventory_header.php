@@ -13,7 +13,6 @@
 	<button class='dropdown_button'>Delivery Order</button>
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/inventory_department/delivery_order_create_dashboard'><p>Create a DO</p></a>
-		<a href='/agungelektrindo/inventory_department/delivery_order_edit_dashboard'><p>Edit a DO</p></a>
 		<a href='/agungelektrindo/inventory_department/delivery_order_confirm_dashboard'><p>Confirm DO <?php if($alert_do > 0){ ?><i class="fa fa-exclamation" aria-hidden="true"></i> <?php } ?></p></a>
 		<a href='/agungelektrindo/inventory_department/delivery_order_archive'><p>Archives</p></a>
 	</div>

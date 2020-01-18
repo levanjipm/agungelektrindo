@@ -38,14 +38,30 @@
 	$sql 				= "SELECT * FROM code_project WHERE id = '" . $project_id . "'";
 	$result 			= $conn->query($sql);
 	$row 				= $result->fetch_assoc();
+	
+	$project_name		= $row['project_name'];
+	$project_description	= $row['description'];
 		
-	$sql_customer 		= "SELECT name FROM customer WHERE id = '" . $row['customer_id'] . "'";
+	$sql_customer 		= "SELECT name, address, city FROM customer WHERE id = '" . $row['customer_id'] . "'";
 	$result_customer 	= $conn->query($sql_customer);
 	$customer 			= $result_customer->fetch_assoc();
+	
+	$customer_name		= $customer['name'];
+	$customer_address	= $customer['address'];
+	$customer_city		= $customer['city'];
 ?>
 <div class='main'>
-	<h2 style='font-family:bebasneue'><?= $row['project_name']; ?></h2>
-	<p><?= $customer['name'] ?></p>
+	<h2 style='font-family:bebasneue'>Project delivery order</h2>
+	<p style='font-family:museo'>Create project delivery order</p>
+	<hr>
+	<label>Project</label>
+	<p style='font-family:museo'><?= $project_name ?></p>
+	<p style='font-family:museo'><?= $project_description ?></p>
+	
+	<label>Customer</label>
+	<p style='font-family:museo'><?= $customer_name ?></p>
+	<p style='font-family:museo'><?= $customer_address ?></p>
+	<p style='font-family:museo'><?= $customer_city ?></p>
 	<hr>
 	<form action='project_delivery_order_create_input' method='POST' id='project_form'>
 		<input type='hidden' value='<?= $project_id ?>' readonly name='projects'>

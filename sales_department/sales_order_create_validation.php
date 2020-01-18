@@ -5,6 +5,17 @@
 <head>
 	<title>Validate sales order</title>
 </head>
+<style>
+	input[type="file"] {
+		display: none;
+	}
+	.custom-file-upload {
+		border: 1px solid #ccc;
+		display: inline-block;
+		padding: 6px 12px;
+		cursor: pointer;
+	}
+</style>
 <?php
 	$customer_top		= $_POST['customer_top'];
 	$reference_array	= $_POST['reference'];
@@ -47,7 +58,7 @@
 	$guid = GUID();
 ?>
 <div class='main'>
-	<form action="sales_order_create_input" method="POST" id='sales_order_form'>
+	<form action="sales_order_create_input" method="POST" id='sales_order_form' enctype="multipart/form-data">
 		<h2 style='font-family:bebasneue'>Sales Order</h2>
 		<p>Validate Sales Order</p>
 		<hr>
@@ -98,6 +109,11 @@
 <?php
 		}
 ?>
+		<label for="file-upload" class="custom-file-upload">
+			<i class="fa fa-cloud-upload"></i> File Upload
+		</label>
+		<input id="file-upload" type="file" name='purchase_order_file' accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps"/>
+			
 		<table class="table table-bordered">
 			<thead>
 				<tr>

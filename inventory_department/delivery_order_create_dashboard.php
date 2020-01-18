@@ -9,6 +9,9 @@ $( function() {
 	 })
 });
 </script>
+<head>
+	<title>Create delivery order</title>
+</head>
 <style>
 	.tab_top{
 		cursor:pointer;

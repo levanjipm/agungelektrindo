@@ -28,14 +28,14 @@
 ?>
 			<option value='<?= $major_id ?>' style='font-weight:bold'><?= $name ?></option>
 <?php
-		$sql_project_minor				= "SELECT * FROM code_project WHERE major_id = '$major_id' AND major_id <> '0' AND isdone = '0'";
+		$sql_project_minor				= "SELECT id, project_name FROM code_project WHERE major_id = '$major_id' AND isdone = '0'";
 		$result_project_minor			= $conn->query($sql_project_minor);
 		if(mysqli_num_rows($result_project_minor) > 0){
 			while($project_minor		= $result_project_minor->fetch_assoc()){
 				$minor_id				= $project_minor['id'];
 				$name					= $project_minor['project_name'];
 ?>
-			<option value='<? $minor_id ?>'><?= $name ?></option>
+			<option value='<?= $minor_id ?>'><?= $name ?></option>
 <?php
 			}
 		}

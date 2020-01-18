@@ -44,13 +44,29 @@
 	}
 ?>
 <body>
+<div class='loading_wrapper_initial'>
+	<div class='loading_wrapper'>
+		<h2 style='font-size:8em'><i class='fa fa-circle-o-notch fa-spin'></i></h2>
+	</div>
+</div>
+<script>
+	$( window ).on( "load", function() {
+		$('.main').hide();
+		$('.loading_wrapper_initial').show;
+	});
+	
+	$(document).ready(function(){
+		$('.loading_wrapper_initial').fadeOut(300);
+		$('.main').fadeIn(400);
+	});
+</script>
 <div class='top_navigation_bar'>
 	<div class='col-lg-4 col-md-5 col-sm-6 col-xs-8'>
 		<a href='/agungelektrindo/dashboard/user_dashboard' style='text-decoration:none;display:inline-block;color:white'>
 			<h2 style='font-family:bebasneue'>AgungElektrindo</h2>
 		</a>
 	</div>
-	<div class='col-lg-2 col-md-4 col-sm-4 col-xs-4 col-lg-offset-6 col-md-offset-3 col-sm-offset-2 col-xs-offset-0' style='text-align:right'>
+	<div class='col-lg-2 col-md-4 col-sm-3 col-xs-4 col-lg-offset-6 col-md-offset-3 col-sm-offset-3 col-xs-offset-0' style='float:right'>
 		<button type='button' id='profile_top_nav_button'><h3 style='font-family:Bebasneue'><?= $name ?></h3></button>
 	</div>
 </div>

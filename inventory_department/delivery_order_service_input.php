@@ -1,5 +1,7 @@
 <?php
 	include('../codes/connect.php');
+	session_start();
+	$creator			= $_SESSION['user_id'];
 ?>
 <script src='../universal/Jquery/jquery-3.3.0.min.js'></script>
 <?php
@@ -91,40 +93,41 @@
 	};
 	
 	$do_number_preview 	= "SJ-AE-" . str_pad($nomor,2,"0",STR_PAD_LEFT) . $tax_preview . "." . date("d",strtotime($date)). "-" . $month. "-" . date("y",strtotime($date));
-	$sql 				= "INSERT INTO code_delivery_order (date,number,tax,name,customer_id,so_id, guid)
-							VALUES ('$date','$nomor','$taxing','$do_number_preview','$customer_id','$sales_order_id', '$guid')";
+	$sql 				= "INSERT INTO code_delivery_order (date,number,tax,name,customer_id,so_id, guid, created_by, created_date)
+							VALUES ('$date','$nomor','$taxing','$do_number_preview','$customer_id','$sales_order_id', '$guid', '$creator', CURDATE())";
 	$result 			= $conn->query($sql);
 	
-	$sql_get_id			= "SELECT id FROM code_delivery_order WHERE guid = '$guid'";
-	$result_get_id		= $conn->query($sql_get_id);
-	$get				= $result_get_id->fetch_assoc();
-	
-	$delivery_order_id	= $get['id'];
-	
-	$quantity_array 	= $_POST['quantity'];
-	foreach($quantity_array as $quantity){
-		$key 			= key($quantity_array);
-		$sql_get 		= "SELECT done,quantity FROM service_sales_order WHERE id = '" . $key . "'";
-		$result_get 	= $conn->query($sql_get);
-		$get 			= $result_get->fetch_assoc();
-		$ordered 		= $get['quantity'];
-		$done 			= $get['done'];
-		$sql_insert 	= "INSERT INTO service_delivery_order (service_sales_order_id,quantity,do_id)
-							VALUES ('$key','$quantity','$delivery_order_id')";
-		$conn->query($sql_insert);
+	if($result){
+		$sql_get_id			= "SELECT id FROM code_delivery_order WHERE guid = '$guid'";
+		$result_get_id		= $conn->query($sql_get_id);
+		$get				= $result_get_id->fetch_assoc();
 		
-		if($quantity	== $ordered - $done){
-			$new_done	= $quantity + $done;
-			$sql_update	= "UPDATE service_sales_order SET done = '$new_done', isdone = '1' WHERE id = '$key'";
-			$conn->query($sql_update);
-		} else {
-			$new_done	= $quantity + $done;
-			$sql_update	= "UPDATE service_sales_order SET done = '$new_done' WHERE id = '$key'";
-			$conn->query($sql_update);
+		$delivery_order_id	= $get['id'];
+		$quantity_array 	= $_POST['quantity'];
+		
+		foreach($quantity_array as $quantity){
+			$key 			= key($quantity_array);
+			$sql_get 		= "SELECT done,quantity FROM service_sales_order WHERE id = '" . $key . "'";
+			$result_get 	= $conn->query($sql_get);
+			$get 			= $result_get->fetch_assoc();
+			$ordered 		= $get['quantity'];
+			$done 			= $get['done'];
+			$sql_insert 	= "INSERT INTO service_delivery_order (service_sales_order_id,quantity,do_id)
+								VALUES ('$key','$quantity','$delivery_order_id')";
+			$conn->query($sql_insert);
+			
+			if($quantity	== $ordered - $done){
+				$new_done	= $quantity + $done;
+				$sql_update	= "UPDATE service_sales_order SET done = '$new_done', isdone = '1' WHERE id = '$key'";
+				$conn->query($sql_update);
+			} else {
+				$new_done	= $quantity + $done;
+				$sql_update	= "UPDATE service_sales_order SET done = '$new_done' WHERE id = '$key'";
+				$conn->query($sql_update);
+			}
+			
+			next($quantity_array);
 		}
-		
-		next($quantity_array);
-	}
 ?>
 	<body>
 	<form method="POST" id="delivery_order_print_form" action="delivery_order_service_print" target="_blank">
@@ -137,6 +140,7 @@
 		});
 	</script>
 <?php
+	}
 	}
 ?>
 	<script>

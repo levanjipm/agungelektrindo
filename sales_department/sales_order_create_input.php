@@ -11,6 +11,11 @@
 	$taxing 		= $_POST['taxing'];
 	$note			= mysqli_real_escape_string($conn,$_POST['sales_order_note']);
 	
+	$sql_check		= "SELECT id FROM code_salesorder WHERE guid = '$guid'";
+	$result_check	= $conn->query($sql_check);
+	
+	if(mysqli_num_rows($result_check) == 0){
+		
 	$sql 			= "SELECT COUNT(*) AS jumlah FROM code_salesorder WHERE MONTH(date) = MONTH('" . $so_date . "') 
 					AND YEAR(date) = YEAR('" . $so_date . "')";
 	$result = $conn->query($sql);
@@ -35,8 +40,8 @@
 		$city 				= mysqli_real_escape_string($conn,$_POST['retail_city']);
 		$phone 				= mysqli_real_escape_string($conn,$_POST['retail_phone']);
 		
-		$sql 				= "INSERT INTO code_salesorder (name,created_by,date,po_number,taxing,customer_id,value,retail_name,retail_address,retail_city,retail_phone,note,top,guid) 
-							VALUES ('$so_number','$created_by','$so_date','$po_number','$taxing','','','$name','$address','$city','$phone','$note','$customer_top','$guid')";
+		$sql 				= "INSERT INTO code_salesorder (name,created_by,date,po_number,taxing,value,retail_name,retail_address,retail_city,retail_phone,note,top,guid) 
+							VALUES ('$so_number','$created_by','$so_date','$po_number','$taxing','0','$name','$address','$city','$phone','$note','$customer_top','$guid')";
 	}
 	$result					= $conn->query($sql);
 
@@ -49,6 +54,19 @@
 	$quantity_array			= $_POST['quantity'];
 	$value_after_tax_array	= $_POST['value_after_tax'];
 	$price_list_array		= $_POST['price_list'];
+	
+	$directory	 			= getcwd() . DIRECTORY_SEPARATOR;
+	$target_dir				= $directory . "/sales_order_images/";
+	$target_file 			= $target_dir . basename($_FILES["purchase_order_file"]["name"]);
+	$imageFileType 			= strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+	$file_name 				= $target_dir . $guid . "." . $imageFileType;
+
+	if($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == 'pdf' ) {
+		if (move_uploaded_file($_FILES['purchase_order_file']['tmp_name'], $file_name)) {
+			$sql_update		= "UPDATE code_salesorder SET document_type = '$imageFileType' WHERE guid = '$guid'";
+			$conn->query($sql_update);
+		}
+	}
 	
 	if($result){
 		$sales_order_value = 0;
@@ -68,9 +86,9 @@
 			next($reference_array);
 		}
 		
-		$sql					= "UPDATE code_salesorder SET value = '" . $sales_order_value . "' WHERE guid = '" . $guid . "'";
+		$sql					= "UPDATE code_salesorder SET value = '$sales_order_value' WHERE guid = '" . $guid . "'";
 		$conn->query($sql);
 	}
-	
-	header('location:/agungelektrindo/sales.php');
+	}
+	header('location:/agungelektrindo/sales');
 ?>

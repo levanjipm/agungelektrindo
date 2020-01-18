@@ -4,397 +4,207 @@
 <?php
 	include('header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
-	
-	$sql_pending_so 	= "SELECT COUNT(DISTINCT(so_id)) AS jumlah_so FROM sales_order WHERE status = '0'";
-	$result_pending_so 	= $conn->query($sql_pending_so);
-	$row_pending_so 	= $result_pending_so->fetch_assoc();
-	$pending_so 		= $row_pending_so['jumlah_so'];
-	
-	$month 				= date('m');
-	
-	$month_php 			= $month + 1;
-	$month_before_php 	= $month_php - 1;
-	$month_last_php = $month_before_php - 1;
-	$year = date('Y');
-	
-	if($month == 2){
-		$month_php = 1;
-		$month_before_php = 0;
-		$month_last_php = 11;
-		
-		$month_before = $month - 1;
-		$year_before = $year;
-		
-		$month_last = 12;
-		$year_last = $year - 1;
-		
-	} else if($month == 1){
-		$month_php = 0;
-		$month_before_php = 11;
-		$month_last_php = 10;
-		
-		$month_before = 12;
-		$year_before = $year - 1;
-		
-		$month_last = 11;
-		$year_last = $year - 1;
-	} else {
-		$month_before = $month - 1;
-		$month_last = $month - 2;
-		
-		$year_before = $year;
-		$year_last = $year;
-	}
-	
-	$sql_annual 	= "SELECT SUM(value) AS sales FROM invoices WHERE YEAR(date) = '$year'";
-	$result_annual 	= $conn->query($sql_annual);
-	$annual 		= $result_annual->fetch_assoc();
-	
-	$month_now = $month;
-	
-	$sql_this_month 	= "SELECT SUM(value) AS sales FROM invoices WHERE MONTH(date) = '$month' AND YEAR(date) = '$year'";
-	$result_this_month 	= $conn->query($sql_this_month);
-	$this_month 		= $result_this_month->fetch_assoc();
-	
-	$month_now = $month - 1;
-	if($month_now > $month){
-		$year = $year - 1;
-	}
-	$sql_month_before = "SELECT SUM(value) AS sales FROM invoices WHERE MONTH(date) = '" . $month_before . "' AND YEAR(date) = '$year_before'";
-	$result_month_before = $conn->query($sql_month_before);
-	$month_before = $result_month_before->fetch_assoc();
-	
-	$month_now = $month - 2;
-	if($month_now > $month || $this_month == 0){
-		$year = $year - 1;
-	}
-	
-	$sql_month_last = "SELECT SUM(value) AS sales FROM invoices WHERE MONTH(date) = '" . $month_last . "' AND YEAR(date) = '$year_last'";
-	$result_month_last = $conn->query($sql_month_last);
-	$month_last = $result_month_last->fetch_assoc();
-	
-	$sales_this_month = $this_month['sales'];
-	$sales_month_before = $month_before['sales'];
-	$sales_month_last = $month_last['sales'];
-	$sales_annual = $annual['sales'];
-	
-	$sales_this_month = $sales_this_month == NULL ? 0 : $sales_this_month;
-	$sales_month_before = $sales_month_before == NULL ? 0 : $sales_month_before;
-	$sales_month_last = $sales_month_last == NULL ? 0 : $sales_month_last;
-	
-	$pembagi = max($sales_this_month, $sales_month_before, $sales_month_last);
-	
-	$sales_annual = $sales_annual == '' ? 0 : $sales_annual;
 ?>
-<div class='main'>
-	<h2 style='font-family:bebasneue'>Sales</h2>
-	<hr>
-<?php
-	if($_SESSION['user_id'] == 1 || $_SESSION['user_id'] == 3 || $_SESSION['user_id'] == 7){ 
-?>
+<head>
+	<script src='/agungelektrindo/universal/chartist/dist/chartist.min.js'></script>
+	<link rel='stylesheet' href='/agungelektrindo/universal/chartist/dist/chartist.min.css'>
+</head>
 <style>
-	.progress{
-		width: 150px;
-		height: 150px;
-		line-height: 150px;
-		background: none;
-		margin: 0 auto;
-		box-shadow: none;
-		position: relative;
+	.ct-label {
+		font-size: 10px;
+		font-family:museo;
+		color:#333;
 	}
-	.progress:after{
-		content: "";
-		width: 100%;
-		height: 100%;
-		border-radius: 50%;
-		border: 2px solid #fff;
-		position: absolute;
-		top: 0;
-		left: 0;
+	
+	.ct-chart{
+		height:300px;
 	}
-	.progress > span{
-		width: 50%;
-		height: 100%;
-		overflow: hidden;
-		position: absolute;
-		top: 0;
-		z-index: 1;
+	
+	.box{
+		padding:10px;
+		background-color:#fff;
+		color:#024769;
+		border:3px solid #024769;
+		text-align:center;
+		cursor:pointer;
+		width:25%;
+		display:inline-block;
+		margin-left:2%;
 	}
-	.progress .progress-left{
-		left: 0;
+
+	.box:hover{
+		background-color:#eee;
+		color:#333;
+		transition:0.3s all ease;
 	}
-	.progress .progress-bar{
-		width: 100%;
-		height: 100%;
-		background: none;
-		border-width: 2px;
-		border-style: solid;
-		position: absolute;
-		top: 0;
+
+	.bar_wrapper{
+		position:relative;
+		background-color:#fff;
+		width:100%;
+		height:5px;
 	}
-	.progress .progress-left .progress-bar{
-		left: 100%;
-		border-top-right-radius: 80px;
-		border-bottom-right-radius: 80px;
-		border-left: 0;
-		-webkit-transform-origin: center left;
-		transform-origin: center left;
-	}
-	.progress .progress-right{
-		right: 0;
-	}
-	.progress .progress-right .progress-bar{
-		left: -100%;
-		border-top-left-radius: 80px;
-		border-bottom-left-radius: 80px;
-		border-right: 0;
-		-webkit-transform-origin: center right;
-		transform-origin: center right;
-	}
-	.progress .progress-value{
-		width: 85%;
-		height: 85%;
-		border-radius: 50%;
-		border: 2px solid #ebebeb;
-		font-size: 32px;
-		line-height: 125px;
-		text-align: center;
-		position: absolute;
-		top: 7.5%;
-		left: 7.5%;
-	}
-	.progress.blue .progress-bar{
-		border-color: #0c1012;
-	}
-	.progress.blue .progress-value{
-		color: #0c1012;
-	}
-	.progress.blue .progress-right .progress-bar{
-		animation: loadinger-2 1s linear forwards;
-	}
-	.progress.blue .progress-left .progress-bar{
-		animation: loading-2 <?php if ($pembagi == 0){ echo (0); } else if(round($sales_this_month * 1.5/ $pembagi) < 0.5){ echo (0); } else { echo (round($sales_this_month * 0.5 / $pembagi)); } ?>s linear forwards 1s;
-	}
-	.progress.yellow .progress-bar{
-		border-color: #212b31;
-	}
-	.progress.yellow .progress-value{
-		color: #212b31;
-	}
-	.progress.yellow .progress-right .progress-bar{
-		animation: loadinger-3 1s linear forwards;
-	}
-	.progress.yellow .progress-left .progress-bar{
-		animation: loading-3 <?php if ($pembagi == 0){ echo (0); } else if(round($sales_month_before * 1.5/ $pembagi) < 0.5){ echo (0); } else { echo (round($sales_month_before * 0.5 / $pembagi)); } ?>s linear forwards 1s;
-	}
-	.progress.pink .progress-bar{
-		border-color: #35474f;
-	}
-	.progress.pink .progress-value{
-		color: #35474f;
-	}
-	.progress.pink .progress-right .progress-bar{
-		animation: loadinger-4 1s linear forwards;
-	}
-	.progress.pink .progress-left .progress-bar{
-		animation: loading-4 <?php if ($pembagi == 0){ echo (0); } else if(round($sales_month_last * 1.5/ $pembagi) < 0.5){ echo (0); } else { echo (round($sales_month_last * 0.5 / $pembagi)); } ?>s linear forwards 1s;
-	}
-	.progress.green .progress-bar{
-		border-color: #3f545f;
-	}
-	.progress.green .progress-value{
-		color: #3f545f;
-	}
-	.progress.green .progress-right .progress-bar{
-		animation: loadinger-5 1s linear forwards;
-	}
-	.progress.green .progress-left .progress-bar{
-		animation: loading-5 0.8s linear forwards 1s;
-	}
-	@keyframes loadinger-2{
-		0%{
-			-webkit-transform: rotate(0deg);
-			transform: rotate(0deg);
-		}
-		100%{
-			-webkit-transform: rotate(<?php if($pembagi == 0){ echo (0); } else {echo min(180,round($sales_this_month * 180 / $pembagi)); } ?>deg);
-			transform: rotate(<?php if($pembagi == 0){ echo (0); } else {echo min(180,round($sales_this_month * 180 / $pembagi)); } ?>deg);
-		}
-	}
-	@keyframes loading-2{
-		0%{
-			-webkit-transform: rotate(0deg);
-			transform: rotate(0deg);
-		}
-		100%{
-			-webkit-transform: rotate(<?php if($pembagi == 0){ echo (0); } else if(round($sales_this_month * 170 / $pembagi) < 180){ echo (0); } else { echo (round($sales_this_month * 170 / $pembagi)); } ?>deg);
-			transform: rotate(<?php if($pembagi == 0){ echo (0); } else if(round($sales_this_month * 170 / $pembagi) < 180){ echo (0); } else { echo (round($sales_this_month * 170 / $pembagi)); } ?>deg);
-		}
-	}
-	@keyframes loadinger-3{
-		0%{
-			-webkit-transform: rotate(0deg);
-			transform: rotate(0deg);
-		}
-		100%{
-			-webkit-transform: rotate(<?php if($pembagi == 0){ echo (0); } else {echo min(180,round($sales_month_before * 180 / $pembagi)); } ?>deg);
-			transform: rotate(<?php if($pembagi == 0){ echo (0); } else {echo min(180,round($sales_month_before * 180 / $pembagi)); } ?>deg);
-		}
-	}
-	@keyframes loading-3{
-		0%{
-			-webkit-transform: rotate(0deg);
-			transform: rotate(0deg);
-		}
-		100%{
-			-webkit-transform: rotate(<?php if($pembagi == 0){ echo (0); } else if(round($sales_month_before * 170 / $pembagi) < 170){ echo (0); } else { echo (round($sales_month_before * 170 / $pembagi)); } ?>deg);
-			transform: rotate(<?php if($pembagi == 0){ echo (0); } else if(round($sales_month_before * 170 / $pembagi) < 170){ echo (0); } else { echo (round($sales_month_before * 170 / $pembagi)); } ?>deg);
-		}
-	}
-	@keyframes loadinger-4{
-		0%{
-			-webkit-transform: rotate(0deg);
-			transform: rotate(0deg);
-		}
-		100%{
-			-webkit-transform: rotate(<?php if($pembagi == 0){ echo (0); } else {echo min(180,round($sales_month_last * 180 / $pembagi)); } ?>deg);
-			transform: rotate(<?php if($pembagi == 0){ echo (0); } else {echo min(180,round($sales_month_last * 180 / $pembagi)); } ?>deg);
-		}
-	}
-	@keyframes loading-4{
-		0%{
-			-webkit-transform: rotate(0deg);
-			transform: rotate(0deg);
-		}
-		100%{
-			-webkit-transform: rotate(<?php if($pembagi == 0){ echo (0); } else if(round($sales_month_last * 170 / $pembagi) < 170){ echo (0); } else { echo (round($sales_month_last * 170 / $pembagi)); } ?>deg);
-			transform: rotate(<?php if($pembagi == 0){ echo (0); } else if(round($sales_month_last * 170 / $pembagi) < 170){ echo (0); } else { echo (round($sales_month_last * 170 / $pembagi)); } ?>deg);
-		}
-	}
-	@keyframes loadinger-5{
-		0%{
-			-webkit-transform: rotate(0deg);
-			transform: rotate(0deg);
-		}
-		100%{
-			-webkit-transform: rotate(180deg);
-			transform: rotate(180deg);
-		}
-	}
-	@keyframes loading-5{
-		0%{
-			-webkit-transform: rotate(0deg);
-			transform: rotate(0deg);
-		}
-		100%{
-			-webkit-transform: rotate(150deg);
-			transform: rotate(150deg);
-		}
-	}
-	@media only screen and (max-width: 990px){
-		.progress{ margin-bottom: 20px; }
+
+	.bar{
+		position:absolute;
+		top:0;
+		height:100%;
+		background-color:#aaa;
+		transition:0.5s all ease;
 	}
 </style>
+<?php
+	$sql_pending_sales_order		= "SELECT COUNT(DISTINCT(so_id)) as pending_sales_order FROM sales_order WHERE status = '0'";
+	$result_pending_sales_order		= $conn->query($sql_pending_sales_order);
+	$pending_sales_order			= $result_pending_sales_order->fetch_assoc();
+	
+	$pending						= $pending_sales_order['pending_sales_order'];
+	
+	$sql_ongoing_project			= "SELECT id FROM code_project WHERE isdone = '0'";
+	$result_ongoing_project			= $conn->query($sql_ongoing_project);
+	$ongoing_project				= mysqli_num_rows($result_ongoing_project);
+	
+	$sql				= "SELECT id FROM customer";
+	$result				= $conn->query($sql);
+	$customer_count		= mysqli_num_rows($result);
+	$active_customer	= 0;
+	while($row			= $result->fetch_assoc()){
+		$customer_id	= $row['id'];
+		
+		$sql_date		= "SELECT MAX(date) as date FROM code_delivery_order WHERE customer_id = '$customer_id'";
+		$result_date	= $conn->query($sql_date);
+		$date			= $result_date->fetch_assoc();
+		
+		$date_1			= $date['date'];
+		
+		$sql_date		= "SELECT MAX(date) as date FROM code_salesorder WHERE customer_id = '$customer_id'";
+		$result_date	= $conn->query($sql_date);
+		$date			= $result_date->fetch_assoc();
+		
+		$date_2			= $date['date'];
+		
+		$last_transaction		= max($date_1, $date_2);
+		
+		if($last_transaction >= date('Y-m-d',strtotime('-3month'))){
+			$active_customer++;
+		}
+	}
+?>
+<div class='main'>
 	<div class='row'>
-		<div class="col-sm-3" style='text-align:center'>
-			<div class="progress blue">
-				<span class="progress-left">
-					<span class="progress-bar"></span>
-				</span>
-				<span class="progress-right">
-					<span class="progress-bar"></span>
-				</span>
-				<div class="progress-value"><?= date('M',mktime(0,0,0,$month_php,0,$year)) ?></div>
+		<div class='col-md-12 col-sm-12 col-xs-12'>
+			<div class='box'>
+				<h1><?= $pending ?></h1>
+				<h5>Pending sales order</h5>
+				<div class='bar_wrapper'>
+					<div class='bar' id='pending_sales_order_bar'></div>
+				</div>
+				<script>
+					$(document).ready(function(){
+						$('#pending_sales_order_bar').animate({
+							width: "<?= min(100, ($pending * 2)) ?>%"
+						},300)
+					});
+				</script>
 			</div>
-			<h5><strong>Rp. <?= number_format($sales_this_month,2) ?></strong></h5>
-		</div>
-		<div class="col-sm-3" style='text-align:center'>
-			<div class="progress yellow">
-				<span class="progress-left">
-					<span class="progress-bar"></span>
-				</span>
-				<span class="progress-right">
-					<span class="progress-bar"></span>
-				</span>
-				<div class="progress-value"><?= date('M',mktime(0,0,0,$month_before_php,0,$year)) ?></div>
+			<div class='box'>
+				<h1><?= $ongoing_project ?></h1>
+				<h5>Ongoing project(s)</h5>
+				<div class='bar_wrapper'>
+					<div class='bar' id='ongoing_project_bar'></div>
+				</div>
+				<script>
+					$(document).ready(function(){
+						$('#ongoing_project_bar').animate({
+							width: "<?= max(10, ($ongoing_project * 10)) ?>%"
+						},300)
+					});
+				</script>
 			</div>
-			<h5><strong>Rp. <?= number_format($sales_month_before,2) ?></strong></h5>
-		</div>
-		<div class="col-sm-3" style='text-align:center'>
-			<div class="progress pink">
-				<span class="progress-left">
-					<span class="progress-bar"></span>
-				</span>
-				<span class="progress-right">
-					<span class="progress-bar"></span>
-				</span>
-				<div class="progress-value"><?= date('M',mktime(0,0,0,$month_last_php,0,$year)) ?></div>
+			<div class='box'>
+				<h1><?= $active_customer . ' / ' . $customer_count ?></h1>
+				<h5>Active customers</h5>
+				<div class='bar_wrapper'>
+					<div class='bar' id='active_customer_bar'></div>
+				</div>
+				<script>
+					$(document).ready(function(){
+						$('#active_customer_bar').animate({
+							width: "<?= ($active_customer * 100 / $customer_count) ?>%"
+						},300)
+					});
+				</script>
 			</div>
-			<h5><strong>Rp. <?= number_format($sales_month_last,2) ?></strong></h5>
-		</div>
-		<div class="col-sm-3" style='text-align:center'>
-			<div class="progress green">
-				<span class="progress-left">
-					<span class="progress-bar"></span>
-				</span>
-				<span class="progress-right">
-					<span class="progress-bar"></span>
-				</span>
-				<div class="progress-value"><?= $year ?></div>
-			</div>
-			<h5><strong>Rp. <?= number_format($sales_annual,2) ?></strong></h5>
 		</div>
 	</div>
-	<br>
+<?php
+	if($role == 'superadmin'){
+?>
+	<br><br><br>
+	<div class='row'>
+		<div class='col-sm-7' id='sales_chart_line'></div>
+		<div class='col-sm-5' id='sales_chart_horizontal'></div>
+	</div>
+	<script>
+		$.ajax({
+			url:'/agungelektrindo/sales_department/sales_chart_line.php',
+			success:function(response){
+				$('#sales_chart_line').html(response);
+			}
+		});
+		
+		$.ajax({
+			url:'/agungelektrindo/sales_department/sales_chart_horizontal.php',
+			success:function(response){
+				$('#sales_chart_horizontal').html(response);
+			}
+		});
+	</script>
 <?php
 	}
 ?>
-	<div class='row'>
-		<div class='col-xs-12'>
-			<h3 style='font-family:bebasneue'>General Sales Info</h3>
-			<br>
-			<table class='table'>
-				<tr>
-					<td><strong>NPWP</strong></td>
-					<td>72.418.271.2-423.000</td>
-					<td>
-						<a href='../universal/npwp.pdf' style='text-decoration:none' target='_blank'>
-							<button type='button' class='button_default_dark'>
-								Resource
-							</button>
-						</a>
-					</td>
-				</tr>
-				<tr>
-					<td>SPPKP</td>
-					<td>S-145PKP/WPJ.09/KP.0203/2015</td>
-					<td>
-						<a href='../universal/sppkp.pdf' style='text-decoration:none' target='_blank'>
-							<button type='button' class='button_default_dark'>
-								Resource
-							</button>
-						</a>
-					</td>
-				</tr>
-				<tr>
-					<td>Alamat PKP</td>
-					<td>Jalan Jamuju no. 18 RT 005/ RW 006, <br>Kelurahan Cihapit, Kecamatan Bandung Wetan, Bandung</td>
-					<td>
-					</td>
-				</tr>
-				<tr>
-					<td>Nomor Rekening </td>
-					<td>Bank Central Asia<br>
-						Cabang Ahmad Yani II<br>
-						Nomor: 8090249500<br>
-						Atas nama: CV Agung Elektrindo
-					<td id='td_bank'>
-						<button type='button' class='button_default_dark' id='bank_payment_button'><i class="fa fa-clone" aria-hidden="true"></i></button>
-					</td>
-				</tr>
-			</table>
-		</div>
-	</div>
+	<h3 style='font-family:bebasneue'>General Sales Info</h3>
+	<br>
+	<table class='table table-bordered' style='font-family:museo'>
+		<tr>
+			<td><strong>NPWP</strong></td>
+			<td>72.418.271.2-423.000</td>
+			<td>
+				<a href='/agungelektrindo/universal/asset/npwp.pdf' style='text-decoration:none' target='_blank'>
+					<button type='button' class='button_default_dark'>
+						<i class="fa fa-download" aria-hidden="true"></i>
+					</button>
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td><strong>SPPKP</strong></td>
+			<td>S-145PKP/WPJ.09/KP.0203/2015</td>
+			<td>
+				<a href='/agungelektrindo/universal/asset/sppkp.pdf' style='text-decoration:none' target='_blank'>
+					<button type='button' class='button_default_dark'>
+						<i class="fa fa-download" aria-hidden="true"></i>
+					</button>
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td>Alamat PKP</td>
+			<td>Jalan Jamuju no. 18 RT 005/ RW 006, <br>Kelurahan Cihapit, Kecamatan Bandung Wetan, Bandung</td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>Nomor Rekening </td>
+			<td>Bank Central Asia<br>
+				Cabang Ahmad Yani II<br>
+				Nomor: 8090249500<br>
+				Atas nama: CV Agung Elektrindo
+			<td id='td_bank'>
+				<button type='button' class='button_default_dark' id='bank_payment_button'><i class="fa fa-clone" aria-hidden="true"></i></button>
+			</td>
+		</tr>
+	</table>
 </div>
 <script>
 $('#bank_payment_button').click(function(){

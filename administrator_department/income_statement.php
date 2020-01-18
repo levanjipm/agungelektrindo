@@ -73,7 +73,6 @@
 	
 	$stock_value_difference	= $total_start - $total_end;
 	
-	$inventory_before	= 0;
 	$inventory_after	= 0;
 	$sql			= "SELECT purchase_date, depreciation_time, initial_value FROM inventory WHERE MONTH(purchase_date) <= '$month' AND YEAR(purchase_date) <= '$year' ORDER BY purchase_date ASC";
 	$result			= $conn->query($sql);

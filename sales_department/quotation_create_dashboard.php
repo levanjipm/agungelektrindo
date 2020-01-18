@@ -12,7 +12,7 @@ $( function() {
 <head>
 	<title>Create quotation</title>
 </head>
-<div class="main">
+<div class='main'>
 	<h2 style='font-family:bebasneue'>Quotation</h2>
 	<p>Create new quotation</p>
 	<hr>
@@ -178,14 +178,14 @@ function hitung(){
 	}
 	$('input[id^=reference]').each(function(){
 		$.ajax({
-			url: "ajax/check_item_available.php",
+			url: "/agungelektrindo/codes/check_item_availability.php",
 			data: {
 				reference: $(this).val(),
 			},
 			type: "POST",
 			dataType: "html",
 			success: function (response) {
-				if((response == 1)){
+				if((response == 0)){
 					alert('Reference not found');
 					$('#check_available_input').val('false');
 					return false;
@@ -237,7 +237,6 @@ function hitung(){
 			$('#button_validate').show();
 			$('#back').show();
 			$('#calculate').hide();
-			$('#folder').hide();
 			$('#close').hide();
 			$('#add_item_button').attr('disabled',true);
 			$('.button_delete_row').hide();
@@ -274,7 +273,6 @@ $("#back").click(function (){
 	$('#button_validate').hide();
 	$('#back').hide();
 	$('#calculate').show();
-	$('#folder').show();
 	$('#close').show();
 	$('#add_item_button').attr('disabled',false);
 	$('.button_delete_row').show();
@@ -310,7 +308,7 @@ function payment_js(){
 			"<td><input type='text' class='form-control' name='quantity[" + a + "]' id='quantity" + a + "'></td>"+
 			"<td id='unitprice" + a + "'></td>"+
 			"<td id='totalprice" + a + "'></td>"+
-			"<td><button type='button' class='button_danger_dark' onclick='delete_row(" + a + ")'>X</button></td></tr>").find("input").each(function () {
+			"<td><button type='button' class='button_danger_dark' onclick='delete_row(" + a + ")'><i class='fa fa-trash'></i></button></td></tr>").find("input").each(function () {
 			});
 		$("#reference" + a).autocomplete({
 			source: "../codes/search_item.php"
@@ -319,6 +317,7 @@ function payment_js(){
 	});
 
 	function delete_row(n){
-		$('#tr-' + n).remove();
+		$('#tr-' + n).hide(150, function(){ $(this).remove(); })
+		// $('#tr-' + n).remove();
 	};
 </script>

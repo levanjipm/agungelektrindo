@@ -3,14 +3,6 @@
 	<button class='dropdown_button'>Purchase Order</button>
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/purchasing_department/purchase_order_create_dashboard'><p>Create a PO</p></a>
-<?php
-	if($role == 'superadmin'){
-?>
-		<a href='/agungelektrindo/purchasing_department/purchase_order_edit_dashboard'><p>Edit a PO</p></a>
-		<a href='/agungelektrindo/purchasing_department/purchase_order_close_dashboard'><p>Close a PO</p></a>
-<?php
-	}
-?>
 		<a href='/agungelektrindo/purchasing_department/purchase_order_archive'><p>Archives</p></a>
 	</div>
 	<button class='dropdown_button'>Supplier</button>

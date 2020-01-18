@@ -53,7 +53,7 @@
 <script src='../universal/Numeral-js-master/numeral.js'></script>
 <script src='../universal/jquery/jquery.inputmask.bundle.js'></script>
 <style>
-.notification_large{
+	.notification_large{
 		position:fixed;
 		top:0;
 		left:0;
@@ -65,36 +65,9 @@
 	.notification_large .notification_box{
 		position:relative;
 		background-color:#fff;
-		padding:30px;
+		padding:20px;
 		width:100%;
 		top:30%;
-		box-shadow: 3px 4px 3px 4px #ddd;
-	}
-	.btn-confirm{
-		background-color:#2bf076;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	.btn-delete{
-		background-color:red;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	.btn-back{
-		background-color:#777;
-		font-family:bebasneue;
-		color:white;
-		font-size:1.5em;
-	}
-	.btn-x{
-		background-color:transparent;
-		border:none;
-		outline:0!important;
-	}
-	.btn-x:focus{
-		outline: 0!important;
 	}
 </style>
 <div class='main'>
@@ -123,6 +96,7 @@
 	
 	$i = 1;
 	$j = 1;
+	$total_invoice			= 0;
 ?>
 	<table class='table table-bordered'>
 		<tr>
@@ -136,12 +110,13 @@
 	foreach($document_array as $document){
 ?>
 		<input type='hidden' value='<?= $document ?>' name='code_gr[<?= $i ?>]'>
+		<br>
 <?php
 		$sql_general 		= "SELECT purchaseorder.id AS po_detail_id, purchaseorder.reference, purchaseorder.unitprice, goodreceipt.id, goodreceipt.quantity 
-							FROM goodreceipt 
-							JOIN purchaseorder 
-							ON purchaseorder.id = goodreceipt.received_id 
-							WHERE goodreceipt.gr_id = '" . $document . "'";
+								FROM goodreceipt 
+								JOIN purchaseorder 
+								ON purchaseorder.id = goodreceipt.received_id 
+								WHERE goodreceipt.gr_id = '" . $document . "'";
 		$result_general 	= $conn->query($sql_general);
 		while($general 		= $result_general->fetch_assoc()){
 			$reference		= $general['reference'];
@@ -154,6 +129,8 @@
 			
 			$id				= $general['id'];
 			$id_po_detail	= $general['po_detail_id'];
+			
+			$total_invoice	+= $general['unitprice'] * $general['quantity'];
 ?>
 		<tr>
 			<td style='text-align:center'><?= $reference ?></td>
@@ -178,18 +155,23 @@
 		next($document_array);
 	}
 ?>
+		<tr>
+			<td colspan='2'></td>
+			<td>Initial Value</td>
+			<td>Rp. <?= number_format($total_invoice,2) ?></td>
+		</tr>
 	</table>
 	</form>
 	<button type='button' class='button_default_dark' onclick='hitungin()'>Calculate</button>
 	<div class='notification_large' style='display:none' id='confirm_notification'>
 		<div class='notification_box'>
-			<h1 style='font-size:3em;color:#2bf076'><i class="fa fa-check" aria-hidden="true"></i></h1>
-			<h2 style='font-family:bebasneue'>Are you sure to confirm this purchase?</h2>
+			<h1 style='font-size:2em;color:#2bf076'><i class="fa fa-check" aria-hidden="true"></i></h1>
+			<p style='font-family:museo'>Are you sure to confirm this purchase?</p>
 			<p>Nomor faktur pajak : <span id='faktur_pajak_display'></span>
 			<p>Total : <span id='total_display'></span>
 			<br><br>
-			<button type='button' class='btn btn-back'>Back</button>
-			<button type='button' class='btn btn-confirm' id='confirm_button'>Confirm</button>
+			<button type='button' class='button_danger_dark' id='back_button'>Check again</button>
+			<button type='button' class='button_success_dark' id='confirm_button'>Confirm</button>
 		</div>
 	</div>
 	
@@ -230,7 +212,7 @@
 			$('#confirm_notification').fadeIn();
 		}
 	}
-	$('.btn-back').click(function(){
+	$('#back_button').click(function(){
 		$('#confirm_notification').fadeOut();
 	});
 	$('#confirm_button').click(function(){
