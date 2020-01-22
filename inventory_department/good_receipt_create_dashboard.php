@@ -18,7 +18,10 @@
 						<select class="form-control" name="supplier" id="supplier" onclick="disable()" required>
 							<option id="kosong">Please Select a supplier--</option>
 <?php
-	$sql_supplier		= "SELECT id,name FROM supplier ORDER BY name ASC";
+	$sql_supplier		= "SELECT DISTINCT(supplier.id), supplier.name FROM code_goodreceipt 
+							JOIN code_purchaseorder ON code_purchaseorder.id = code_goodreceipt.po_id
+							JOIN supplier ON code_purchaseorder.supplier_id = supplier.id
+							WHERE code_goodreceipt.isinvoiced = '0'";	
 	$result_supplier	= $conn->query($sql_supplier);
 	while($supplier		= $result_supplier->fetch_assoc()){
 		$supplier_id	= $supplier['id'];
@@ -32,7 +35,7 @@
 							<option id="kosong">--Pelase select a purchase order to receive--</option>
 						</select>
 					</div>
-					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 col-lg-offset-3 col-md-offset-3 col-sm-offset-0 col-xs-offset-0">
+					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-2 col-sm-offset-0 col-xs-offset-0">
 						<label for="date">Delivery order date</label>
 						<input type="date" class="form-control" required name="date"></input>
 					</div>

@@ -32,17 +32,18 @@
 	$so_number 				= "" . date("y",strtotime($so_date)) . date("m",strtotime($so_date)) . "-SO-" . str_pad($jumlah,3,"0",STR_PAD_LEFT);
 	
 	if($customer 			!= NULL){
-		$sql 				= "INSERT INTO code_salesorder (name,created_by,date,po_number,taxing,customer_id,value,note,top,guid) 
-							VALUES ('$so_number','$created_by','$so_date','$po_number','$taxing','$customer','0','$note','$customer_top','$guid')";	
+		$sql 				= "INSERT INTO code_salesorder (name,created_by,date,po_number,taxing,customer_id,note,top,guid) 
+							VALUES ('$so_number','$created_by','$so_date','$po_number','$taxing','$customer','$note','$customer_top','$guid')";	
 	} else {
 		$name 				= mysqli_real_escape_string($conn,$_POST['retail_name']);
 		$address 			= mysqli_real_escape_string($conn,$_POST['retail_address']);
 		$city 				= mysqli_real_escape_string($conn,$_POST['retail_city']);
 		$phone 				= mysqli_real_escape_string($conn,$_POST['retail_phone']);
 		
-		$sql 				= "INSERT INTO code_salesorder (name,created_by,date,po_number,taxing,value,retail_name,retail_address,retail_city,retail_phone,note,top,guid) 
-							VALUES ('$so_number','$created_by','$so_date','$po_number','$taxing','0','$name','$address','$city','$phone','$note','$customer_top','$guid')";
+		$sql 				= "INSERT INTO code_salesorder (name,created_by,date,po_number,taxing,retail_name,retail_address,retail_city,retail_phone,note,top,guid) 
+							VALUES ('$so_number','$created_by','$so_date','$po_number','$taxing','$name','$address','$city','$phone','$note','$customer_top','$guid')";
 	}
+	
 	$result					= $conn->query($sql);
 
 	$sql_so					= "SELECT id FROM code_salesorder WHERE guid = '" . $guid . "'"; 
@@ -54,6 +55,21 @@
 	$quantity_array			= $_POST['quantity'];
 	$value_after_tax_array	= $_POST['value_after_tax'];
 	$price_list_array		= $_POST['price_list'];
+	
+	foreach($reference_array as $reference){
+		$key				= key($reference_array);
+		$quantity			= $quantity_array[$key];
+		$value_after_tax	= $value_after_tax_array[$key];
+		$price_list			= $price_list_array[$key];
+		
+		$discount			= 100 * (1 - ($value_after_tax / $price_list));
+		
+		$sql				= "INSERT INTO sales_order (reference, price, discount, price_list, quantity, so_id)
+								VALUES ('$reference', '$value_after_tax', '$discount', '$price_list', '$quantity', '$so_id')";
+		$conn->query($sql);
+		
+		next($reference_array);
+	}
 	
 	$directory	 			= getcwd() . DIRECTORY_SEPARATOR;
 	$target_dir				= $directory . "/sales_order_images/";
@@ -67,28 +83,7 @@
 			$conn->query($sql_update);
 		}
 	}
+	}
 	
-	if($result){
-		$sales_order_value = 0;
-		foreach($reference_array as $reference){
-			$key 				= key($reference_array);
-			$quantity 			= $quantity_array[$key];
-			$value_after_tax 	= $value_after_tax_array[$key];
-			$price_list			= $price_list_array[$key];
-			$total_price		= $value_after_tax * $quantity;
-			$discount			= 100 * (1 - ($value_after_tax / $price_list));
-			$sales_order_value	+= $total_price;
-			
-			$sql 				= "INSERT INTO sales_order (reference,price,discount,price_list,quantity,so_id) 
-								VALUES ('$reference','$value_after_tax','$discount','$price_list','$quantity','$so_id')";
-			$conn->query($sql);
-			
-			next($reference_array);
-		}
-		
-		$sql					= "UPDATE code_salesorder SET value = '$sales_order_value' WHERE guid = '" . $guid . "'";
-		$conn->query($sql);
-	}
-	}
 	header('location:/agungelektrindo/sales');
 ?>

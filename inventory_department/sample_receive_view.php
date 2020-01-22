@@ -10,16 +10,19 @@
 	</thead>
 	<tbody>
 <?php
-	$sql					= "SELECT code_sample.id, customer.name, customer.address, customer.city
-								FROM code_sample 
+	$sql					= "SELECT code_sample_delivery_order.name, code_sample_delivery_order.date, customer.name as customer_name, customer.address, customer.city, code_sample_delivery_order.id
+								FROM code_sample_delivery_order 
+								JOIN code_sample ON code_sample.id = code_sample_delivery_order.code_sample
 								JOIN customer ON code_sample.customer_id = customer.id
-								WHERE code_sample.isconfirm = '1' AND code_sample.issent = '1' AND isback = '0'";
+								WHERE code_sample_delivery_order.isreturned = '0'";
 	$result					= $conn->query($sql);
 	while($row				= $result->fetch_assoc()){
-		$sample_id			= $row['id'];
-		$customer_name		= $row['name'];
-		$customer_address	= $row['address'];
-		$customer_city		= $row['city'];
+		$delivery_order_name	= $row['name'];
+		$delivery_order_date	= $row['date'];
+		$customer_name			= $row['customer_name'];
+		$customer_address		= $row['address'];
+		$customer_city			= $row['city'];
+		$delivery_order_id		= $row['id'];
 ?>
 		<tr>
 			<td>
@@ -28,7 +31,7 @@
 				<p><?= $customer_city ?></p>
 			</td>
 			<td>
-				<button type='button' class='button_success_dark' onclick='receive_sample(<?= $sample_id ?>)'><i class="fa fa-eye" aria-hidden="true"></i></button>
+				<button type='button' class='button_success_dark' onclick='receive_sample(<?= $delivery_order_id ?>)'><i class="fa fa-eye" aria-hidden="true"></i></button>
 			</td>
 		</tr>
 <?php

@@ -22,13 +22,16 @@
 <?php
 	}
 ?>
+<head>
+	<title>Create invoice</title>
+</head>
 	<div class='main'>
 		<h2 style='font-family:bebasneue'>Invoice</h2>
 		<p style='font-family:museo'>Create invoice</p>
 		<hr>
 <?php
 	$delivery_order_id			= (int)$_POST['delivery_order_id'];
-	$sql						= "SELECT code_delivery_order.project_id, code_salesorder.type FROM code_delivery_order
+	$sql						= "SELECT code_delivery_order.project_id, code_salesorder.type, code_salesorder.document_type, code_salesorder.guid FROM code_delivery_order
 									JOIN code_salesorder ON code_delivery_order.so_id = code_salesorder.id
 									WHERE code_delivery_order.id = '$delivery_order_id'";
 	$result						= $conn->query($sql);
@@ -36,6 +39,7 @@
 	
 	$project_id					= $row['project_id'];
 	$type						= $row['type'];
+	$document_type				= $row['document_type'];
 	
 	if($project_id == NULL && $type == 'GOOD'){
 		$case					= 'good';
@@ -47,14 +51,14 @@
 	
 	switch ($case) {
 		case 'good':
-		$sql						= "SELECT date, name, customer_id, so_id FROM code_delivery_order WHERE id = '$delivery_order_id'";
-		$result						= $conn->query($sql);
-		$row						= $result->fetch_assoc();
+		$sql_goods					= "SELECT date, name, customer_id, so_id FROM code_delivery_order WHERE id = '$delivery_order_id'";
+		$result_goods				= $conn->query($sql_goods);
+		$goods						= $result_goods->fetch_assoc();
 			
-		$customer_id				= $row['customer_id'];
-		$delivery_order_name		= $row['name'];
-		$delivery_order_date		= $row['date'];
-		$sales_order_id				= $row['so_id'];
+		$customer_id				= $goods['customer_id'];
+		$delivery_order_name		= $goods['name'];
+		$delivery_order_date		= $goods['date'];
+		$sales_order_id				= $goods['so_id'];
 		
 		if($customer_id != 0 || $customer_id != NULL){
 			$sql_customer			= "SELECT name, address, city FROM customer WHERE id = '$customer_id'";
@@ -91,6 +95,19 @@
 		<p style='font-family:museo'><?= $customer_name ?></p>
 		<p style='font-family:museo'><?= $customer_address ?></p>
 		<p style='font-family:museo'><?= $customer_city ?></p>
+<?php
+	if(!empty($row['document_type'])){
+		$guid					= $row['guid'];
+		$document_type			= $row['document_type'];
+		
+		$file					= '/agungelektrindo/sales_department/sales_order_images/' . $guid . '.' . $document_type;
+?>
+	<a href='<?= $file ?>' target='_blank'>
+		<button type='button' class='button_default_dark'><i class='fa fa-cloud-download'></i> Download</button>
+	</a>
+<?php
+	}
+?>
 		<hr>
 		<table class='table table-bordered'>
 			<tr>

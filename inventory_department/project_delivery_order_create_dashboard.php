@@ -8,7 +8,10 @@
 			source: "ajax/search_item.php"
 		})
 	});
-	</script>
+</script>
+<head>
+	<title>Create project delivery order</title>
+</head>
 <div class='main'>
 	<h2 style='font-family:Bebasneue'>Project Delivery Order</h2>
 	<p style='font-family:museo'>Create project delivery order</p>

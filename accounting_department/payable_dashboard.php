@@ -66,6 +66,7 @@
 		</div>		
 		<hr>
 	</div>
+	<hr>
 	<script>
 		function change_supplier(){
 			$('#supplier_to_view').val($('#seleksi').val());

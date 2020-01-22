@@ -3,6 +3,18 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 	
 	$id						= $_POST['id'];
+	$sql_check	= "SELECT id FROM code_sample_delivery_order WHERE id = '$id'";
+	$result_check	= $conn->query($sql_check);
+	$check			= mysqli_num_rows($result_check);
+	
+	if(empty($_POST['id']) || $check == 0){
+?>
+<script>
+	window.location.href='/agungelektrindo/inventory_department/sample_dashboard';
+</script>
+<?php
+	}
+	
 	$sql					= "SELECT code_sample.id, customer.name, customer.address, customer.city
 								FROM code_sample 
 								JOIN customer ON code_sample.customer_id = customer.id
@@ -13,6 +25,18 @@
 	$customer_name			= $row['name'];
 	$customer_address		= $row['address'];
 	$customer_city			= $row['city'];
+	
+	function GUID()
+	{
+		if (function_exists('com_create_guid') === true)
+		{
+			return trim(com_create_guid(), '{}');
+		}
+
+		return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+	}
+
+	$guid 			= GUID();
 ?>
 <head>
 	<title>Validate sample</title>
@@ -28,7 +52,9 @@
 	
 	<label>Send date</label>
 	<form action='sample_send_input.php' method='POST' id='sample_form'>
-	<input type='date' class='form-control' id='date' name='send_sample_date'>
+	<input type='date' class='form-control' id='date' name='send_sample_date' required>
+	<input type='hidden' class='form-control' name='code_sample_id' value='<?= $id ?>'>
+	<input type='hidden' class='form-control' name='guid' value='<?= $guid ?>'>
 	<br>
 	<table class='table table-bordered'>
 		<thead>
@@ -76,42 +102,9 @@
 ?>
 		</tbody>
 	</table>
-	</form>
+	
 <?php if($validation			== TRUE){ ?>
-	<button type='button' class='button_success_dark' id='submit_button'>Submit</button>
-	<script>
-		function validate_form(){
-			if($('#date').val() == ''){
-				alert('Please insert date');
-				$('#date').focus();
-				return false;
-			} else {
-				$('input[id^="quantity-"]').each(function(){
-					var maximum		= $(this).attr('max');
-					var minimum		= $(this).attr('min');
-					
-					if($(this).val() > maximum || $(this).val() <= minimum){
-						alert('Plese insert correct quantity');
-						$(this).focus();
-						return false;
-					}
-				});
-			}
-		};
-		
-		$('#submit_button').click(function(){
-			var validation = validate_form();
-			alert(validation);
-		});
-		
-		$(document).ready(function() {
-			$(window).keydown(function(event){
-				if(event.keyCode == 13) {
-					event.preventDefault();
-					return false;
-				}
-			});
-		});
-	</script>
+	<button type='submit' class='button_success_dark' id='submit_button'>Submit</button>
 <?php } ?>
+	</form>
 </div>

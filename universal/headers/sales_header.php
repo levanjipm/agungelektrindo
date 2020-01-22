@@ -38,6 +38,7 @@
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/sales_department/project_add_dashboard'><p>Add project</p></a>
 		<a href='/agungelektrindo/sales_department/project_manage_dashboard'><p>Manage project</p></a>
+		<a href='/agungelektrindo/sales_department/project_archives'><p>Archives</p></a>
 	</div>
 	<button class='dropdown_button'>Samples</button>
 	<div class='dropdown-container'>

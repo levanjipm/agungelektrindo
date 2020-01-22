@@ -77,7 +77,7 @@ $( function() {
 	}
 ?>
 	<hr>
-	<form method='POST' action='edit_so_validation' id='sales_order_form'>
+	<form method='POST' action='sales_order_edit_validation' id='sales_order_form'>
 		<h3 style='font-family:bebasneue'><?= $customer['name'] ?></h3>
 		<p><?= $row_initial['name'] ?></p>
 		<label>Purchase Order Number</label>
@@ -115,10 +115,10 @@ $( function() {
 			</tr>
 			<tbody id='edit_sales_order_table'>
 <?php
-	$reference_array = array();
-	$sql_so 	= "SELECT id,reference,quantity,price,price_list,sent_quantity,status FROM sales_order WHERE so_id = '" . $so_id . "'";
-	$result_so 	= $conn->query($sql_so);
-	while($so 	= $result_so->fetch_assoc()){
+	$reference_array 		= array();
+	$sql_so 				= "SELECT id,reference,quantity,price,price_list,sent_quantity,status FROM sales_order WHERE so_id = '" . $so_id . "'";
+	$result_so 				= $conn->query($sql_so);
+	while($so 				= $result_so->fetch_assoc()){
 		$reference			= $so['reference'];
 		array_push($reference_array,$reference);
 		$sent_quantity		= max(0,$so['sent_quantity']);

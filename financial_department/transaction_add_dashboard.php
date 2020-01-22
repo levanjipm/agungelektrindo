@@ -1,6 +1,22 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/financial_header.php');
+	
+	$sql		= "SELECT date, value, transaction FROM code_bank WHERE major_id = '0' ORDER BY date DESC, id DESC";
+	$result		= $conn->query($sql);
+	$row		= $result->fetch_assoc();
+	
+	$date		= $row['date'];
+	$value		= $row['value'];
+	$transaction	= $row['transaction'];
+	
+	if($transaction == 1){
+		$text	= "DB";
+	} else {
+		$text	= "CR";
+	}
+	
+	$textarea	= date('d M Y',strtotime($date)) . ' | ' . number_format($value,2) . ' ' . $text;
 ?>
 <head>
 	<title>Add bank transaction</title>
@@ -13,7 +29,7 @@
 			<hr>
 			<form action='transaction_add_validation' method='POST' id='add_transaction_form'>
 				<label>Date</label>
-				<input type='date' class='form-control' id='date' name='date'>
+				<input type='date' class='form-control' id='date' name='date' value='<?= date('Y-m-d') ?>'>
 				<label>Transaction type</label>
 				<select class='form-control' name='transaction' id='transaction'>
 					<option value='0'>Insert transaction type</option>
@@ -40,8 +56,10 @@
 				</label><br><br>
 				<div id='select_wrapper'></div>
 				<label>Description</label>
-				<textarea class='form-control' name='description'></textarea>
-				<hr>
+				<textarea class='form-control' name='description' style='resize:none'></textarea>
+				<br>
+				<label>Last transaction</label>
+				<p style='font-family:museo'><?= $textarea ?></p>
 				<button type='button' class='button_success_dark' onclick='check_all()'>
 					Submit
 				</button>

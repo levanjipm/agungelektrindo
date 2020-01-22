@@ -39,12 +39,10 @@
 	<label>Transaction data</label>
 	<p style='font-family:museo'><?= $selector['name'] ?></p>
 	<p style='font-family:museo'><?= date('d M Y',strtotime($transaction_date)) ?></p>
-	<p style='font-family:museo'>Rp. <?= number_format($transaction_value,2) ?></p>
-	<hr>
+	<br>
 	<form action='assign_bank_other_input.php' method='POST' id='input_form'>
 		<input type='hidden' value='<?= $transaction_id ?>' name='id' readonly>
-		<hr>
-		<table class='table table-hover'>
+		<table class='table table-bordered'>
 			<tr>
 				<td>Value</td>
 				<td>Rp. <?= number_format($transaction_value,2) ?></td>

@@ -62,6 +62,7 @@
 	}
 </style>
 <div class='main'>
+	<a href='/agungelektrindo/accounting_department/build_invoice_dashboard' style='text-decoration:none'>
 	<div class='box'>
 		<h2><?= $pending_invoice ?></h2>
 		<h5>Pending invoice</h5>
@@ -76,6 +77,8 @@
 			});
 		</script>
 	</div>
+	</a>
+	<a href='/agungelektrindo/accounting_department/waiting_for_billing' style='text-decoration:none'>
 	<div class='box'>
 		<h2><?= $pending_bills ?></h2>
 		<h5>Pending bills</h5>
@@ -90,6 +93,8 @@
 			});
 		</script>
 	</div>
+	</a>
+	<a href='/agungelektrindo/accounting_department/assign_bank_dashboard' style='text-decoration:none'>
 	<div class='box'>
 		<h2><?= $pending_bank ?></h2>
 		<h5>Pending bank data</h5>
@@ -104,4 +109,5 @@
 			});
 		</script>
 	</div>
+	</a>
 </div>

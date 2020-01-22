@@ -121,7 +121,7 @@
 		}
 ?>
 	<div class='row'>
-		<div class='col-sm-3'><a href='customer_view.php?id=<?= $customer_id ?>'><?= $customer_name ?></a></div>
+		<div class='col-sm-3'><a href='customer_view.php?id=<?= $customer_id ?>' style='text-decoration:none;color:#333'><?= $customer_name ?></a></div>
 		<div class='col-sm-6'><div class='row garis' style='width:0%' id='garis<?= $customer_id ?>'></div>
 		</div>
 		<div class='col-sm-2'>Rp. <?= number_format($bar,2) ?></div>

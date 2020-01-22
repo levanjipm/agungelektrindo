@@ -75,12 +75,6 @@
 			<div class='col-sm-7'>
 				<img src='../universal/images/Logo Agung.jpg' style='width:100%'>
 				<p><strong>Nomor invoice:</strong> <?= $name ?></p>
-				<?php
-					if($faktur == 'NULL' || $faktur == ''){
-					} else {
-				?>
-				<p><strong>Nomor faktur:</strong> <?= $faktur ?></p>
-					<?php } ?>
 				<p><strong>Nomor PO: </strong><?= $po_number ?></p>
 			</div>
 			<div class='col-sm-4 col-sm-offset-1'>

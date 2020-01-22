@@ -2,6 +2,9 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/purchasing_header.php');
 ?>
+<head>
+	<title>Incomplete purchase order</title>
+</head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Incomplete Purchase Order</h2>
 	<hr>

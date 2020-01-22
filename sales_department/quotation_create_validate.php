@@ -45,6 +45,9 @@
 	
 	$guid = GUID();
 ?>
+<head>
+	<title>Create quotation validate</title>
+</head>
 <body>
 <div class='main'>
 	<form action="quotation_create_input" method="POST" id="quotation_validate">

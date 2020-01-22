@@ -28,7 +28,6 @@
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/accounting_department/sales_journal'><p>Sales journal</p></a>
 		<a href='/agungelektrindo/accounting_department/purchasing_journal'><p>Purchasing journal</p></a>
-		<a href='/agungelektrindo/accounting_department/stock_value_dashboard'><p>Stock value</p></a>
 	</div>
 	<a href='/agungelektrindo/accounting_department/receivable_dashboard'>
 		<button class='dropdown_button'>Receivable</button>

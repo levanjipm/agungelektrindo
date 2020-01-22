@@ -81,5 +81,5 @@
 		}
 	}
 	
-	header('location:sales');
+	header('location:/agungelektrindo/sales');
 ?>

@@ -71,7 +71,6 @@
 		} else if($stock['transaction'] == 'OUT'){
 ?>
 			<tr>
-				<td><?= $stock['id'] ?></td>
 				<td><?= date('d M Y',strtotime($stock['date'])) ?></td>
 				<td><?php
 					$sql_customer = "SELECT name FROM customer WHERE id = '" . $stock['customer_id'] . "'";

@@ -8,14 +8,9 @@
 	
 	$sql_update				= "UPDATE code_purchaseorder SET top = '$top', taxing = '$taxing', promo_code = '$promo_code' WHERE id = '$purchase_order_id'";
 	$conn->query($sql_update);
-	
-	$reference_array		= $_POST['reference'];
-	$quantity_array			= $_POST['quantity'];
-	$price_list_array		= $_POST['price_list'];
-	$discount_array			= $_POST['discount'];
-	
-	foreach($reference_array as $reference){
-		$key			= key($reference_array);
+	$quantity_array		= $_POST['qty'];
+	foreach($quantity_array as $quantity){
+		$key			= key($quantity_array);
 		$sql			= "SELECT received_quantity FROM purchaseorder WHERE id = '$key'";
 		$result			= $conn->query($sql);
 		$row			= $result->fetch_assoc();
@@ -23,28 +18,28 @@
 		$quantity_updated	= $quantity_array[$key];
 		$received_quantity	= $row['received_quantity'];
 		
-		if($received_quantity > 0 && $quantity_updated == $received_quantity){
-			$sql_update	= "UPDATE purchaseorder SET quantity = '$quantity_updated', status = '1' WHERE id = '$key'";
+		if($received_quantity > 0 && $quantity == $received_quantity){
+			$sql_update	= "UPDATE purchaseorder SET quantity = '$quantity', status = '1' WHERE id = '$key'";
 			
-		} else if($received_quantity > 0 && $quantity_updated > $received_quantity){
-			$sql_update	= "UPDATE purchaseorder SET quantity = '$quantity_updated', status = '0' WHERE id = '$key'";
+		} else if($received_quantity > 0 && $quantity > $received_quantity){
+			$sql_update	= "UPDATE purchaseorder SET quantity = '$quantity', status = '0' WHERE id = '$key'";
 			
-		} else if($received_quantity == 0 && $quantity_updated > $received_quantity){
+		} else if($received_quantity == 0 && $quantity > $received_quantity){
 			$price_list		= $price_list_array[$key];
 			$discount		= $discount_array[$key];
 			$unit_price		= $price_list * (100 - $discount) * 0.01;
 			
 			$sql_update	= "UPDATE purchaseorder SET reference = '" . mysqli_real_escape_string($conn,$reference) . "', price_list = '$price_list', discount = '$discount', unitprice = '$unit_price', quantity = '$quantity_updated', status = '0' WHERE id = '$key'";
-		} else if($received_quantity == 0 && $quantity_updated == $received_quantity){
+		} else if($received_quantity == 0 && $quantity == $received_quantity){
 			$price_list		= $price_list_array[$key];
 			$discount		= $discount_array[$key];
 			$unit_price		= $price_list * (100 - $discount) * 0.01;
 			
 			$sql_update	= "UPDATE purchaseorder SET reference = '" . mysqli_real_escape_string($conn,$reference) . "', price_list = '$price_list', discount = '$discount', unitprice = '$unit_price', quantity = '$quantity_updated', status = '1' WHERE id = '$key'";
 		}
-		
+
 		$conn->query($sql_update);
-		next($reference_array);
+		next($quantity_array);
 	}
 	
 	if(!empty($_POST['reference-'])){
@@ -74,5 +69,5 @@
 		}
 	}
 	
-	header('location:../purchasing');
+	header('location:/agungelektrindo/administrator');
 ?>

@@ -109,6 +109,7 @@ $( function() {
 				</div>
 			</div>
 			<input type='hidden' id='check_available_input' value='true'>
+			<input type='hidden' id='check_quantity_input' value='true'>
 			<div class="row" style="padding:5px">
 				<div class="col-sm-6" style="padding:5px">
 					<div class="col-sm-6" style="padding:5px">
@@ -171,6 +172,8 @@ function evaluate_organic(x){
 
 function hitung(){
 	$('#check_available_input').val('true');
+	$('#check_quantity_input').val('true');
+	
 	var payment_term = $('#terms').val();
 	
 	if($('#add_discount').val() == ''){
@@ -193,9 +196,16 @@ function hitung(){
 			},
 		})
 	});
+	
+	$('input[id^="quantity"]').each(function(){
+		if($(this).val() == 0 || $(this).val() < 0 || $(this).val() == ''){
+			$('#check_quantity_input').val('false');
+		}
+	});
+	
 	var angka = true;
 	$('input[id^=discount]').each(function(){
-		if($(this).val() > 80 || $(this).val() == ''){
+		if($(this).val() > 80 || $(this).val() == '' || $(this).val() < 0){
 			angka = false;
 		}
 	});
@@ -243,10 +253,14 @@ function hitung(){
 		}
 	}
 };
+
 function validate(){
 	var payment_term = $('#terms').val();
 	if($('#check_available_input').val() == 'false'){
 		alert('One or more reference does not exist on database!');
+		return false;
+	} else if($('#check_quantity_input').val() == 'false'){
+		alert('Please check your quantity input');
 		return false;
 	} else if(payment_term == 2 && $('#lunas').val() == '') {
 		alert('Please insert correct payement detail!');
