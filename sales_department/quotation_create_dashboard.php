@@ -1,12 +1,19 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
+	
+	$file_name		= basename(__FILE__, ".php");
 ?>
 <script>
 $( function() {
 	$('#reference1').autocomplete({
 		source: "../codes/search_item.php"
 	 })
+});
+
+$(document).ready(function(){
+	$('#quotation').click();
+	$('#<?= $file_name ?>').addClass('active');
 });
 </script>
 <head>

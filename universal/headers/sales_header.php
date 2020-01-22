@@ -1,17 +1,17 @@
 <div class='sidenav'>
 	<button style='text-align:right' id='hide_side_button'><i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
-	<button class='dropdown_button'>Quotations</button>
+	<button class='dropdown_button' id='quotation'>Quotations</button>
 	<div class='dropdown-container'>
-		<a href='/agungelektrindo/sales_department/quotation_create_dashboard'><p>Create a quotation</p></a>
+		<a href='/agungelektrindo/sales_department/quotation_create_dashboard' id='quotation_create_dashboard'><p>Create a quotation</p></a>
 		<a href='/agungelektrindo/sales_department/quotation_edit_dashboard'><p>Print or edit a quotation</p></a>
 	</div>
 	<button class='dropdown_button'>Customers</button>
 	<div class='dropdown-container'>
-		<a href='/agungelektrindo/sales_department/customer_create_dashboard'><p>Add Customer</p></a>
-		<a href='/agungelektrindo/sales_department/customer_edit_dashboard'><p>Edit Customer</p></a>
+		<a href='/agungelektrindo/sales_department/customer_create_dashboard' id='customer_create_dashboard'><p>Add Customer</p></a>
+		<a href='/agungelektrindo/sales_department/customer_edit_dashboard' id='customer_edit_dashboard'><p>Edit Customer</p></a>
 	
 <?php if($role == 'superadmin'){ ?>
-		<a href='/agungelektrindo/sales_department/customer_black_list'><p>Blacklist Customer</p></a>
+		<a href='/agungelektrindo/sales_department/customer_black_list' id='customer_black_list'><p>Blacklist Customer</p></a>
 <?php } ?>
 		<a href='/agungelektrindo/sales_department/customer_view_dashboard'><p>View Customer</p></a>
 	</div>
@@ -69,9 +69,9 @@
 <script>
 $('.dropdown_button').click(function(){
 	if($(this).next().is(':visible')){
-		$(this).css('background-color','transparent');
+		$(this).removeClass('active');
 	} else {
-		$(this).css('background-color','#00ccff');
+		$(this).addClass('active');
 	}
 	$(this).next().toggle(350);
 });
