@@ -19,7 +19,7 @@
 	<button class='dropdown_button'>Goods Receipt</button>
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/inventory_department/good_receipt_create_dashboard'><p>Create good receipt</p></a>
-		<a href='/agungelektrindo/inventory_department/goodreceipt_confirm_dashboard'><p>Confirm GR <?php if($alert_gr > 0){ ?><i class="fa fa-exclamation" aria-hidden="true"></i> <?php } ?></p></a>
+		<a href='/agungelektrindo/inventory_department/good_receipt_confirm_dashboard'><p>Confirm GR <?php if($alert_gr > 0){ ?><i class="fa fa-exclamation" aria-hidden="true"></i> <?php } ?></p></a>
 		<a href='/agungelektrindo/inventory_department/view_gr_archive'><p>Archives</p></a>
 	</div>
 <?php

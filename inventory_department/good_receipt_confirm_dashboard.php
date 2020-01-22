@@ -13,19 +13,24 @@
 <?php
 	$sql_code_gr			= "SELECT id,supplier_id,date,document FROM code_goodreceipt WHERE isconfirm = '0' ORDER BY date ASC";
 	$result_code_gr			= $conn->query($sql_code_gr);
-	while($code_gr			= $result_code_gr->fetch_assoc()){
-	
-		$supplier_id		= $code_gr['supplier_id'];
-		$gr_date			= $code_gr['date'];
-		$gr_id				= $code_gr['id'];
-		$gr_document		= $code_gr['document'];
+	if(mysqli_num_rows($result_code_gr) == 0){
+?>
+		<p style='font-family:museo'>There is no good receipt to be confirm</p>
+<?php
+	} else {
+		while($code_gr			= $result_code_gr->fetch_assoc()){
 		
-		$sql_supplier 		= "SELECT name,city FROM supplier WHERE id = '$supplier_id'";
-		$result_supplier 	= $conn->query($sql_supplier);
-		$row_supplier		= $result_supplier->fetch_assoc();
-		
-		$supplier_name	 	= $row_supplier['name'];
-		$supplier_city	 	= $row_supplier['city'];
+			$supplier_id		= $code_gr['supplier_id'];
+			$gr_date			= $code_gr['date'];
+			$gr_id				= $code_gr['id'];
+			$gr_document		= $code_gr['document'];
+			
+			$sql_supplier 		= "SELECT name,city FROM supplier WHERE id = '$supplier_id'";
+			$result_supplier 	= $conn->query($sql_supplier);
+			$row_supplier		= $result_supplier->fetch_assoc();
+			
+			$supplier_name	 	= $row_supplier['name'];
+			$supplier_city	 	= $row_supplier['city'];
 ?>	
 		<div class='col-sm-2'>
 			<h1 style='font-size:4em;text-align:center'><i class="fa fa-file-text-o" aria-hidden="true"></i></h1>
@@ -37,6 +42,7 @@
 			</div>
 		</div>
 <?php
+		}
 	}
 ?>
 	</div>

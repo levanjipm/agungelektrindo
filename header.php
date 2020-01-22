@@ -51,7 +51,7 @@
 </div>
 <script>
 	$( window ).on( "load", function() {
-		$('.main').hide();
+		// $('.main').hide();
 		$('.loading_wrapper_initial').show;
 	});
 	

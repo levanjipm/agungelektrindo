@@ -55,7 +55,7 @@
 				<td><?= $customer_name ?></td>
 				<td>
 				<a href='sales_order_edit.php?id=<?= $row['so_id'] ?>'>
-					<button type='button' class='button_success_dark' onclick='submit_form_edit(<?= $row['so_id'] ?>)'><i class="fa fa-pencil" aria-hidden="true"></i></button>
+					<button type='button' class='button_default_dark' onclick='submit_form_edit(<?= $row['so_id'] ?>)'><i class="fa fa-pencil" aria-hidden="true"></i></button>
 				</a>
 			</td>
 			</tr>
