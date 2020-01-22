@@ -11,7 +11,7 @@
 			<h2 style=';font-family:bebasneue'>Good receipt</h2>
 			<p style='font-family:museo'>Create new good receipt</p>
 			<hr>
-			<form id='good_receipt_form' method='POST' action='good_receipt_create_input'>
+			<form id='good_receipt_form' method='POST' action='good_receipt_create_validate'>
 				<div class="row">
 					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						<label>Supplier</label>

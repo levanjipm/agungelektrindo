@@ -13,7 +13,7 @@
 		<label>Insert the delivery order to be return</label>
 		<input type="text" class="form-control" name="delivery_order_name" id='delivery_order_name' required>
 		<br>
-		<button type='button' class="button_warning_dark" id='submit_sales_return_button'>Proceed</button>
+		<button type='button' class="button_default_dark" id='submit_sales_return_button'>Proceed</button>
 	</form>
 </div>
 

@@ -17,7 +17,6 @@
 	
 	$delivery_order_id	= $get['do_id'];
 ?>
-	<script src='../universal/jquery/jquery.inputmask.bundle.js'></script>
 	<div class='main'>
 		<h2 style='font-family:bebasneue'>Invoice</h2>
 		<p style='font-family:museo'>Confirm sales invoice</p>
@@ -101,6 +100,9 @@
 ?>
 			<label>Input nomor faktur pajak</label>
 			<input type='text' class='form-control' id='piash' name='faktur' required />
+			<script>
+				$('#piash').inputmask("999.999-99.99999999");
+			</script>
 <?php
 			}
 ?>

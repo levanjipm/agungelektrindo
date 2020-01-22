@@ -19,6 +19,7 @@
 		if($transaction == 2){ //Kredit ->masuk duit//
 			$will_be_paid 	= 0;
 			$check_array	= $_POST['check'];
+			$check_quantity	= 0;
 			
 			foreach($check_array as $check){
 				if($check == 'on'){
@@ -36,16 +37,17 @@
 					$received 			= ($receivable['paid'] == NULL) ? 0: $receivable['paid'];
 						
 					$will_be_paid 		+= ($invoice['value'] + $invoice['ongkir']  - $received - $remaining);
+					
+					$check_quantity++;
 				}
 				
 				next($check_array);
 			}
-			if($will_be_paid == 0){
-				
+			if($will_be_paid == 0 && $check_quantity > 0){
 				$sql_update 	= "UPDATE code_bank SET isdone = '1' WHERE id = '" . $bank_id . "'";
 				$conn->query($sql_update);
 				
-			} else {
+			} else if($will_be_paid != 0 && $check_quantity > 0){
 				$sql_delete 	= "UPDATE code_bank SET isdelete = '1' WHERE id = '" . $bank_id . "'";
 				$conn->query($sql_delete);
 				
@@ -99,6 +101,7 @@
 		} else if($transaction == 1){
 			$will_be_paid 	= 0;
 			$check_array	= $_POST['check'];
+			$check_quantity	= 0;
 			
 			foreach($check_array as $check){
 				if($check == 'on'){
@@ -115,17 +118,19 @@
 					$paid 				= ($payable['paid'] == NULL) ? 0: $payable['paid'];
 						
 					$will_be_paid 		+= $invoice['value']  - $paid - $remaining;
+					
+					$check_quantity++;
 						
 					}
 				next($check_array);
 			}
 			
-			if($will_be_paid == 0){
+			if($will_be_paid == 0 && $check_quantity > 0){
 				
 				$sql_update 		= "UPDATE code_bank SET isdone = '1' WHERE id = '$bank_id'";
 				$conn->query($sql_update);
 				
-			} else {
+			} else if($$will_be_paid != 0 && $check_quantity > 0){
 				$sql_delete 		= "UPDATE code_bank SET isdelete = '1' WHERE id = '$bank_id'";
 				$conn->query($sql_delete);
 				

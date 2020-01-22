@@ -92,10 +92,8 @@
 <script>
 	function add(n){
 		if($('#check-' + n).prop('checked')){
-			var pengurang = parseInt($('#angka' + n).val());
-			var value_now = parseInt($('#value_now').val());
-			console.log(pengurang);
-			console.log(value_now);
+			var pengurang = parseFloat($('#angka' + n).val());
+			var value_now = parseFloat($('#value_now').val());
 			if($('#value_now').val() > pengurang){
 				$('#remain-' + n).html(numeral(0).format('0,0.00'));
 				$('#remaining-' + n).val(0);
@@ -114,9 +112,9 @@
 				$('input:checkbox(:checked)').attr('disabled',false);
 			}
 		} else {
-			var pengurang = parseInt($('#angka' + n).val());
-			var value_now = parseInt($('#value_now').val());
-			var remaining = parseInt($('#remaining-' + n).val());
+			var pengurang = parseFloat($('#angka' + n).val());
+			var value_now = parseFloat($('#value_now').val());
+			var remaining = parseFloat($('#remaining-' + n).val());
 			$('#value_now').val(value_now + pengurang - remaining);
 			$('#rupiah').html(numeral($('#value_now').val()).format('0,0.00'));
 			$('#remain-' + n).html(numeral(pengurang).format('0,0.00'));
@@ -167,8 +165,8 @@
 <script>
 	function add(n){
 		if($('#check-' + n).prop('checked')){
-			var pengurang = parseInt($('#angka' + n).val());
-			var value_now = parseInt($('#value_now').val());
+			var pengurang = parseFloat($('#angka' + n).val());
+			var value_now = parseFloat($('#value_now').val());
 			if($('#value_now').val() > pengurang){
 				$('#remain-' + n).html(numeral(0).format('0,0.00'));
 				$('#remaining-' + n).val(0);
@@ -187,9 +185,9 @@
 				$('input:checkbox(:checked)').attr('disabled',false);
 			}
 		} else {
-			var pengurang = parseInt($('#angka' + n).val());
-			var value_now = parseInt($('#value_now').val());
-			var remaining = parseInt($('#remaining-' + n).val());
+			var pengurang = parseFloat($('#angka' + n).val());
+			var value_now = parseFloat($('#value_now').val());
+			var remaining = parseFloat($('#remaining-' + n).val());
 			$('#value_now').val(value_now + pengurang - remaining);
 			$('#rupiah').html(numeral($('#value_now').val()).format('0,0.00'));
 			$('#remain-' + n).html(numeral(pengurang).format('0,0.00'));

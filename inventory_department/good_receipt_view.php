@@ -54,7 +54,5 @@
 	}
 ?>
 </table>
-<div style='text-align:center'>
-	<button type='button' class='button_danger_dark' onclick='delete_good_receipt(<?= $gr_id ?>)'>Delete</button>
-	<button type='button' class='button_success_dark' onclick='confirm_goods_receipt(<?= $gr_id ?>)'>Confirm</button>
-</div>
+<button type='button' class='button_danger_dark' onclick='delete_good_receipt(<?= $gr_id ?>)'>Delete</button>
+<button type='button' class='button_success_dark' onclick='confirm_goods_receipt(<?= $gr_id ?>)'>Confirm</button>
