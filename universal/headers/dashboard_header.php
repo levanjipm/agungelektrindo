@@ -21,7 +21,7 @@
 	if($profile_pic == ''){
 		$profile_pic = $_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/human_resource/images/users/users.png';
 	}
-	if($_SESSION['user_id'] === NULL){ header('location:../landing_page.php'); }
+	if(empty($_SESSION['user_id'])){ header('location:/agungelektrindo/codes/logout'); }
 ?>
 	<script>
 		$(document).ready(function(){
@@ -48,9 +48,9 @@
 			$department 	= strtolower($row_super['department']);
 			
 ?>
-		<a href='/agungelektrindo/<?= $department ?>' style='color:white;text-decoration:none'>
+		<a href='/agungelektrindo/<?= $department ?>' style='color:white;text-decoration:none'><button>
 			<?php $department_name = ($department == 'human_resource')? 'Human resource' : $department; echo ucwords($department_name); ?>
-		</a>
+		</button></a>
 		<br>
 <?php
 		}
@@ -68,35 +68,33 @@
 </div>
 <div class='sidenav_small'><i class="fa fa-bars" aria-hidden="true"></i></div>
 <script>
-$('.dropdown_button').click(function(){
-	if($(this).next().is(':visible')){
-		$(this).css('background-color','transparent');
-	} else {
-		$(this).css('background-color','#00ccff');
-	}
-	$(this).next().toggle(350);
-});
-
-$('#hide_side_button').click(function(){
-	$('.sidenav').toggle(200);
-	$('#show_side_button').fadeIn();
-	setTimeout(function(){	
-		$('.main').animate({
-			'margin-left':'50px'
-		},200);
-		
-		$('.sidenav_small').toggle(200);
-	},200);
-});
-
-$('.sidenav_small').click(function(){
-	$('.sidenav_small').toggle(200);
-	$('#show_side_button').hide();
-	setTimeout(function(){		
+	$('.dropdown_button').click(function(){
+		$('.dropdown-container').hide();
+		$('button').removeClass('active');
+		$(this).addClass('active');
+		$(this).next().toggle(350);
+	});
+	
+	$('#hide_side_button').click(function(){
 		$('.sidenav').toggle(200);
-		$('.main').animate({
-			'margin-left':'200px'
+		$('#show_side_button').fadeIn();
+		setTimeout(function(){	
+			$('.main').animate({
+				'margin-left':'50px'
+			},200);
+			
+			$('.sidenav_small').toggle(200);
 		},200);
-	},200);
-});
+	});
+
+	$('.sidenav_small').click(function(){
+		$('.sidenav_small').toggle(200);
+		$('#show_side_button').hide();
+		setTimeout(function(){		
+			$('.sidenav').toggle(200);
+			$('.main').animate({
+				'margin-left':'200px'
+			},200);
+		},200);
+	});
 </script>

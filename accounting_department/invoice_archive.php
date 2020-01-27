@@ -11,6 +11,10 @@
 <head>
 	<title>Invoice archive</title>
 </head>
+<script>
+	$('#sales_invoice_side').click();
+	$('#invoice_archive').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales Invoice</h2>
 	<p>Archives</p>

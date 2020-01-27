@@ -2,6 +2,13 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
+<head>
+	<title>Add Promotion</title>
+</head>
+<script>
+	$('#promotion_side').click();
+	$('#promotion_add_dashboard').find('button').addClass('activated');
+</script>
 <style>
 .fileContainer{
 	display:block;

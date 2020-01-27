@@ -1,39 +1,56 @@
 <?php
-	include('../codes/connect.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 ?>
+<div class='main'>
 	<h2 style='font-family:bebasneue'>On Delivery Process</h2>
+	<hr>
+<?php
+	$sql			= "SELECT id FROM code_delivery_order WHERE sent = '0' AND company = 'AE'";
+	$result			= $conn->query($sql);
+	if(mysqli_num_rows($result) > 0){
+?>
 	<table class='table table-bordered'>
 		<tr>
-			<th>Customer</th>
+			<th>Date</th>
 			<th>DO Number</th>
-			<th></th>
+			<th>Customer</th>
 		</tr>
 <?php
-	$sql_on_delivery		= "SELECT * FROM code_delivery_order WHERE sent = '0'";
+	$sql_on_delivery		= "SELECT code_delivery_order.date, code_delivery_order.name, customer.name as customer_name,
+								customer.address, customer.city
+								FROM code_delivery_order 
+								JOIN customer ON code_delivery_order.customer_id = customer.id
+								WHERE code_delivery_order.sent = '0' AND code_delivery_order.company = 'AE'";
 	$result_on_delivery		= $conn->query($sql_on_delivery);
-	while($on_delivery		= $result_on_delivery->fetch_assoc()){
-		$do_name			= $on_delivery['name'];
-		$customer_id		= $on_delivery['customer_id'];
-		
-		$sql_customer		= "SELECT * FROM customer WHERE id = '$customer_id'";
-		$result_customer	= $conn->query($sql_cusomter);
-		$customer			= $result_customer->fetch_assoc();
-		
-		$customer_name		= $customer['name'];
-		$customer_address	= $customer['address'];
-		$customer_city		= $customer['city'];
+	while($row				= $result_on_delivery->fetch_assoc()){
+		$delivery_order_name	= $row['name'];
+		$delivery_order_date	= $row['date'];
+		$customer_name			= $row['customer_name'];
+		$customer_address		= $row['address'];
+		$customer_city			= $row['city'];
 ?>
 		<tr>
+			<td><p style='font-family:museo'><?= date('d M Y',strtotime($delivery_order_date)) ?></p></td>
+			<td><p style='font-family:museo'><?= $delivery_order_name ?></p></td>
 			<td>
-				<h3 style='font-family:bebasneue'><?= $customer_name ?></h3>
-				<p><?= $customer_address ?></p>
+				<p style='font-family:museo'><strong><?= $customer_name ?></strong></p>
+				<p style='font-family:museo'><?= $customer_address ?></p>
+				<p style='font-family:museo'><?= $customer_city ?></p>
 			</td>
 			<td>
-				<p><?= $do_name ?></p>
+				<button type='button' class='button_success_dark'><i class='fa fa-eye'></i></button>
 			</td>
 		</tr>
 <?php	
 	}
 ?>
 	</table>
-				
+<?php
+	} else {
+?>	
+	<p style='font-family:museo'>There is no delivery</p>
+<?php
+	}
+?>
+</div>

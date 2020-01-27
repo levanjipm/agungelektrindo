@@ -29,6 +29,13 @@
 		$taxing_text	= "Non - taxable";
 	}
 ?>
+<head>
+	<title>Create project data</title>
+</head>
+<script>
+	$('#project_side').click();
+	$('#project_add_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Project</h2>
 	<p style='font-family:museo'>Add new project</p>

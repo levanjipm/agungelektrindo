@@ -25,6 +25,10 @@
 <head>
 	<title>Create invoice</title>
 </head>
+<script>
+	$('#sales_invoice_side').click();
+	$('#build_invoice_dashboard').find('button').addClass('activated');
+</script>
 	<div class='main'>
 		<h2 style='font-family:bebasneue'>Invoice</h2>
 		<p style='font-family:museo'>Create invoice</p>

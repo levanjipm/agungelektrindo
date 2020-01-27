@@ -32,7 +32,7 @@
 	repayment = '" . $lunas . "', note = '" . $comment . "' WHERE id = '" . $q_id . "'";
 	$r = $conn->query($sql_update);
 ?>
-<form method="POST" id="q_id" action="quotation_create_print.php" target="_blank">
+<form method="POST" id="q_id" action="quotation_create_print" target="_blank">
 	<input name="id" value="<?= $q_id?>" type='hidden'>
 </form>
 <script>

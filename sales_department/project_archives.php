@@ -5,6 +5,10 @@
 <head>
 	<title>Project archives</title>
 </head>
+<script>
+	$('#project_side').click();
+	$('#project_archives').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Project</h2>
 	<p style='font-family:museo'>Archives</p>

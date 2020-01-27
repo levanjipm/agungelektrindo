@@ -21,16 +21,19 @@
 	$result_customer 	= $conn->query($sql_customer);
 	$customer 			= $result_customer->fetch_assoc();
 ?>
-<script>
-$( function() {
-	$('input[id^="reference"]').autocomplete({
-		source: "/agungelektrindo/codes/search_item.php"
-	 })
-});
-</script>
 <head>
 	<title>Edit sales order</title>
 </head>
+<script>
+	$('#sales_order_side').click();
+	$('#sales_order_edit_dashboard').find('button').addClass('activated');
+	
+	$( function() {
+		$('input[id^="reference"]').autocomplete({
+			source: "/agungelektrindo/codes/search_item.php"
+		 })
+	});
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales Order</h2>
 	<p style='font-family:museo'>Edit sales order</p>
@@ -136,7 +139,7 @@ $( function() {
 					<td><input type='number' 	value='<?= $so['price']; ?>' 		class='form-control' name='price[<?= $id ?>]'			id='price<?= $id ?>'></td>
 					<td><input type='number' 	value='<?= $so['price_list']; ?>' 	class='form-control' name='price_list[<?= $id ?>]'	id='price_list<?= $id ?>'></td>
 					<td id='discount<?= $id ?>'><?= number_format(100 * (1 - ($so['price']/ $so['price_list'])),2) ?>%</td>
-					<td><button type='button' class='button_danger_dark' onclick='show_notification(<?= $id ?>)' id='delete_row_button-<?= $id ?>'>X</button></td>
+					<td><button type='button' class='button_danger_dark' onclick='show_notification(<?= $id ?>)' id='delete_row_button-<?= $id ?>'><i class='fa fa-trash'></i></button></td>
 					<script>
 						$('#exist_reference<?= $id ?>').autocomplete({
 							source: "../codes/search_item.php"
@@ -210,7 +213,7 @@ var a = 1;
 			"<td><input type='number' 	class='form-control' id='price-" + a + "' name='price_new[" + a + "]'></td>"+
 			"<td><input type='number' 	class='form-control' id='price_list-" + a + "' name='price_list_new[" + a + "]'></td>"+
 			"<td id='discount-" + a + "'></td>"+
-			"<td><button type='button' class='button_danger_dark' onclick='delete_new_row(" + a + ")' id='delete_row_button-" + a + "'>X</button></td>"+
+			"<td><button type='button' class='button_danger_dark' onclick='delete_new_row(" + a + ")' id='delete_row_button-" + a + "'><i class='fa fa-trash'></i></button></td>"+
 			"</tr>");
 		$("#reference-" + a).autocomplete({
 			source: "../codes/search_item.php"

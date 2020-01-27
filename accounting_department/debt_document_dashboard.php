@@ -3,6 +3,9 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 ?>
 <script>
+	$('#purchase_invoice_side').click();
+	$('#debt_document_dashboard').find('button').addClass('activated');
+	
 $( function() {
 	$('#supplier').autocomplete({
 		source: "ajax/search_supplier.php"

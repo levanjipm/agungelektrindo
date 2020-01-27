@@ -61,7 +61,7 @@
 				</tr>
 			</tbody>
 		</table>
-		<button type='button' class='button_success_dark' id='proceeding'>Proceed</button>
+		<button type='button' class='button_default_dark' id='proceeding'>Proceed</button>
 	</form>
 </div>
 <script>
@@ -73,7 +73,7 @@
 			"<tr id='tr-" + a + "'>"+
 			"<td><input type='text' class='form-control' id='reference" + a + "' name='reference[" + a + "]'></td>"+
 			"<td><input type='text' class='form-control' id='quantity" + a + "' name='quantity[" + a + "]'></td>"+
-			"<td><button type='button' class='button_danger_dark' onclick='delete_row(" + a + ")'>X</button></td>"+
+			"<td><button type='button' class='button_danger_dark' onclick='delete_row(" + a + ")'><i class='fa fa-trash'></i></button></td>"+
 			"</tr>"
 		)
 		

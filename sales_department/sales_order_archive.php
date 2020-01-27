@@ -5,6 +5,10 @@
 <head>
 	<title>Sales order archives</title>
 </head>
+<script>
+	$('#sales_order_side').click();
+	$('#sales_order_archive').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales Order</h2>
 	<p style='font-family:museo'>Archive</p>

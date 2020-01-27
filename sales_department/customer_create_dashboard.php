@@ -3,81 +3,82 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
 <head>
-	<script type='text/javascript' src='/agungelektrindo/universal/Jquery/jquery.inputmask.bundle.js'></script>
 	<title>Input customer data</title>
 </head>
+<script>
+	$('#customer_side').click();
+	$('#customer_create_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<div class='row' style='height:100%'>
 		<div class='col-sm-12 col-xs-12'>
 			<h2 style='font-family:bebasneue'>Customer</h2>
 			<p style='font-family:museo'>Add new customer data</p>
 			<hr>
-			<form id="inputcustomer" method="POST" action="addcustomer.php">
-				<label for="name">Company</label>
-				<div class="input-group">
-					<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-					<input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Company or person name" required></input>
+			<label for="name">Company</label>
+			<div class="input-group">
+				<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+				<input type="text" class="form-control" name="customer_name" id="customer_name" placeholder="Company or person name" required></input>
+			</div>
+			<label >Person in Charge:</label>
+			<div class="input-group">
+				<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+				<span class="input-group-addon">
+					<select name="pic_prefix" id="pic_prefix" onclick="disable()" required>
+						<option value="0" id="kosong">Select</option>
+						<option value="Bapak">Mr.</option>
+						<option value="Ibu">Ms.</option>
+					</select>
+				</span>
+				<input type="text" class="form-control" id="pic_name" name="pic_name" placeholder="Person in charge">
+			</div>
+			<div class='row'>
+				<div class="col-sm-4">
+					<label for="name">Street Name</label>
+					<input type="text" class="form-control" name="customer_address" id="customer_address" placeholder="Address" required></input>
 				</div>
-				<label >Person in Charge:</label>
-				<div class="input-group">
-					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-					<span class="input-group-addon">
-						<select name="pic_prefix" id="pic_prefix" onclick="disable()" required>
-							<option value="0" id="kosong">Select</option>
-							<option value="Bapak">Mr.</option>
-							<option value="Ibu">Ms.</option>
-						</select>
-					</span>
-					<input type="text" class="form-control" id="pic_name" name="pic_name" placeholder="Person in charge">
+				<div class="col-sm-4">
+					<label for="name">Number</label>
+					<input type="text" class="form-control" name="customer_address_number" id="customer_address_number" placeholder="Number" required></input>	
 				</div>
-				<div class='row'>
-					<div class="col-sm-4">
-						<label for="name">Street Name</label>
-						<input type="text" class="form-control" name="customer_address" id="customer_address" placeholder="Address" required></input>
-					</div>
-					<div class="col-sm-4">
-						<label for="name">Number</label>
-						<input type="text" class="form-control" name="customer_address_number" id="customer_address_number" placeholder="Number" required></input>	
-					</div>
-					<div class="col-sm-4">
-						<label for="name">City</label>
-						<input type="text" class="form-control" name="customer_city" id="customer_city" placeholder="City" required></input>
-					</div>
+				<div class="col-sm-4">
+					<label for="name">City</label>
+					<input type="text" class="form-control" name="customer_city" id="customer_city" placeholder="City" required></input>
 				</div>
-				<div class='row'>
-					<div class="col-sm-4">
-						<label for="name">Block</label>
-						<input type="text" class="form-control" name="customer_address_block" id="customer_address_block" placeholder="Block number" required></input>
-					</div>
-					<div class="col-sm-4">
-						<label for="name">RT</label>
-						<input type="text" class="form-control" name="customer_address_rt" id="customer_address_rt" placeholder="RT" required minlength="3" maxlength="3"></input>
-					</div>
-					<div class="col-sm-4">
-						<label for="name">RW</label>
-						<input type="text" class="form-control" name="customer_address_rw" id="customer_address_rw" placeholder="RW" required minlength="3" maxlength="3"></input>
-					</div>
+			</div>
+			<div class='row'>
+				<div class="col-sm-4">
+					<label for="name">Block</label>
+					<input type="text" class="form-control" name="customer_address_block" id="customer_address_block" placeholder="Block number" required></input>
 				</div>
-				<div class="row">
-					<div class="col-sm-12">
-						<label for="name">Phone Number</label>
-						<input id="customer_phone_number" name="customer_phone_number" type="text" class="form-control"></input>
-					</div>
+				<div class="col-sm-4">
+					<label for="name">RT</label>
+					<input type="text" class="form-control" name="customer_address_rt" id="customer_address_rt" placeholder="RT" required minlength="3" maxlength="3"></input>
 				</div>
-				<div class='row'>
-					<div class="col-sm-12">
-						<label for="Name">Tax Identification Number</label>
-						<input type='text' class='form-control' id='customer_npwp' name='customer_npwp'/>
-						<label>Default Term of Payment (in days)</label>
-						<input type='number' class='form-control' id='customer_default_top'>
-						<script>
-							$("#customer_npwp").inputmask("99.999.999.9-999.999");
-						</script>
-						<br>
-						<button type="button" class="button_success_dark" id="proceed_button">Submit</button>
-					</div>
+				<div class="col-sm-4">
+					<label for="name">RW</label>
+					<input type="text" class="form-control" name="customer_address_rw" id="customer_address_rw" placeholder="RW" required minlength="3" maxlength="3"></input>
 				</div>
-			</form>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<label for="name">Phone Number</label>
+					<input id="customer_phone_number" name="customer_phone_number" type="text" class="form-control"></input>
+				</div>
+			</div>
+			<div class='row'>
+				<div class="col-sm-12">
+					<label for="Name">Tax Identification Number</label>
+					<input type='text' class='form-control' id='customer_npwp' name='customer_npwp'/>
+					<label>Default Term of Payment (in days)</label>
+					<input type='number' class='form-control' id='customer_default_top'>
+					<script>
+						$("#customer_npwp").inputmask("99.999.999.9-999.999");
+					</script>
+					<br>
+					<button type="button" class="button_success_dark" id="proceed_button">Submit</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

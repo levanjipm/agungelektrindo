@@ -2,7 +2,7 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 	
-	$so_id 			= $_POST["id"];
+	$so_id 			= $_POST['id'];
 	$do_date 		= $_POST['today'];
 	$customer_id 	= $_POST['customer_id'];
 
@@ -172,8 +172,8 @@
 		foreach($reference_array as $reference){
 			$key 				= key($reference_array);
 			$quantity			= $quantity_array[$key];
-			$price				= $price_array[$key];		
-			$sql_check 			= "SELECT quantity, sent_quantity FROM sales_order WHERE so_id = '" . $so_id . "' AND reference = '" . $reference . "'";
+			$price				= $price_array[$key];	
+			$sql_check 			= "SELECT quantity, sent_quantity FROM sales_order WHERE id = '$key'";
 			$result_check 		= $conn->query($sql_check);
 			$check 				= $result_check->fetch_assoc();
 			$quantity_ordered	= $check['quantity'];
@@ -182,7 +182,7 @@
 			if($quantity + $quantity_sent > $quantity_ordered){
 ?>
 <script>
-	window.location.href='delivery_order_create';
+	window.location.href='/agungelektrindo/inventory/delivery_order_create_dashboard';
 </script>
 <?php
 			}
@@ -214,7 +214,7 @@
 	</form>
 </div>
 <script>
-$('#submit_delivery_order_button').click(function(){
-	$('#delivery_order_form').submit();
-});
+	$('#submit_delivery_order_button').click(function(){
+		$('#delivery_order_form').submit();
+	});
 </script>

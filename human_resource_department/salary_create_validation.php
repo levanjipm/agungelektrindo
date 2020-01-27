@@ -33,6 +33,9 @@
 	if($check == 0){
 ?>
 	<form action='salary_create_input' method='POST'>
+		<input type='hidden' value='<?= $user ?>' name='user'>
+		<input type='hidden' value='<?= $month ?>' name='month'>
+		<input type='hidden' value='<?= $year ?>' name='year'>
 <?php
 	}
 ?>	
@@ -47,6 +50,9 @@
 	<label>Daily wage</label>
 	<input type='number' class='form-control' name='daily' min='0' required>
 	
+	<label>Basic wage</label>
+	<input type='number' class='form-control' name='basic' min='0' required>
+	
 	<label>Bonus wage</label>
 	<input type='number' class='form-control' name='bonus' min='0' required>
 	
@@ -57,7 +63,7 @@
 	if($check == 0){
 ?>
 	<br>
-	<button type='button' class='button_success_dark'><i class='fa fa-long-arrow-right'></i></button>
+	<button type='submit' class='button_success_dark'><i class='fa fa-long-arrow-right'></i></button>
 	</form>
 <?php
 	}

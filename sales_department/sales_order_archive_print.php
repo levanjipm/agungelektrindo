@@ -44,12 +44,11 @@
 </head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales order archive</h2>
-	<h3 style='font-family:museo'>Customer data</h3>
+	<label>Customer</label>
 	<p style='font-family:museo'><?= $customer_name	?></p>
 	<p style='font-family:museo'><?= $customer_address	?></p>	
 	<p style='font-family:museo'><?= $customer_city	?></p>
-	
-	<h3 style='font-family:museo'>Sales order data</h3>
+
 	<label>Sales order name</label>
 	<p style='font-family:museo'><?= $sales_order_name ?></p>
 	
@@ -119,6 +118,38 @@
 			</tr>
 		</tfoot>
 	</table>
+	
+	<label>Delivery history</label>
 <?php
+	$sql = "SELECT * FROM code_delivery_order WHERE so_id = '$sales_order_id'";
+	$result	 = $conn->query($sql);
+	$count	 = mysqli_num_rows($result);
+	
+		if($count > 0){
+?>
+	<table class='table table-bordered'>
+		<tr>
+			<th>Date</th>
+			<th>Name</th>
+		</tr>
+<?php
+			while($row = $result->fetch_assoc()){
+				$date	= $row['date'];
+				$name	= $row['name'];
+?>
+		<tr>
+			<td><?= date('d M Y',strtotime($date)) ?></td>
+			<td><?= $name ?></td>
+		</tr>
+<?php
+			}
+?>
+	</table>
+<?php
+		} else {
+?>	
+	<p style='font-family:museo'>There is no delivery nistory data available</p>
+<?php
+		}
 	}
 ?>

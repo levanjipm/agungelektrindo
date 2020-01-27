@@ -11,7 +11,7 @@
 		width:30%;
 	}
 	
-	.button_tab.active{
+	.button_tab.activ{
 		border-bottom:2px solid #008080;
 	}
 	
@@ -19,11 +19,15 @@
 		padding:20px;
 	}
 </style>
+<script>
+	$('#customer_side').click();
+	$('#customer_black_list').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Customer</h2>
 	<p>Black list or white list customer</p>
 	<hr>
-	<button type='button' class='button_tab active' id='blacklist_button'>
+	<button type='button' class='button_tab activ' id='blacklist_button'>
 		<p>Blacklist customer</p>
 	</button>
 	<button type='button' class='button_tab' id='whitelist_button'>
@@ -36,26 +40,28 @@
 	$('.button_tab').click(function(){
 		var button_id	= $(this).attr('id');
 		if(button_id	== 'blacklist_button'){
-			$('.active').removeClass('active');
-			$('#' + button_id).addClass('active');
+			$('.activ').removeClass('activ');
+			$('#' + button_id).addClass('activ');
 			$.ajax({
 				url:'customer_black_list_view.php',
 				beforeSend:function(){
-					$('#customer_list').html('<div style="position;absolute;left:0;right:0;color:##2B3940;width:100%;text-align:center;padding:20px;"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>');
+					$('.loading_wrapper_initial').show();
 				},
 				success:function(response){
+					$('.loading_wrapper_initial').fadeOut(300);
 					$('#customer_list').html(response);
 				}
 			});
 		} else if(button_id	== 'whitelist_button'){
-			$('.active').removeClass('active');
-			$('#' + button_id).addClass('active');
+			$('.activ').removeClass('activ');
+			$('#' + button_id).addClass('activ');
 			$.ajax({
 				url:'customer_white_list_view.php',
 				beforeSend:function(){
-					$('#customer_list').html('<div style="position;absolute;left:0;right:0;color:##2B3940;width:100%;text-align:center;padding:20px;"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>');
+					$('.loading_wrapper_initial').show();
 				},
 				success:function(response){
+					$('.loading_wrapper_initial').fadeOut(300);
 					$('#customer_list').html(response);
 				}
 			});

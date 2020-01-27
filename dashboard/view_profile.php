@@ -10,7 +10,7 @@
 	$user_address		= $row['address'];
 	$user_city			= $row['city'];
 	$user_nik			= $row['NIK'];
-	$user_image_url		= $row['image_url'];
+	$user_image_url		= '/agungelektrindo/dashboard/' . $row['image_url'];
 	$user_role			= $row['role'];
 	$user_mail			= $row['mail'];
 	$user_uname			= $row['username'];

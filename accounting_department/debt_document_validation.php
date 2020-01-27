@@ -20,7 +20,7 @@
 	if(empty($_POST['document'])){
 ?>
 <script>
-	window.location.href = 'accounting';
+	window.location.href = '/agungelektrindo/accounting';
 </script>
 <?php
 	}
@@ -40,7 +40,7 @@
 	if($check_invoice > 1){
 ?>
 <script>
-	window.location.href = 'accounting';
+	window.location.href = '/agungelektrindo/accounting';
 </script>
 <?php
 	}
@@ -50,26 +50,13 @@
 	$taxing=  $po['taxing'];
 	//if it exist, then show the items//
 ?>
-<script src='../universal/Numeral-js-master/numeral.js'></script>
-<script src='../universal/jquery/jquery.inputmask.bundle.js'></script>
-<style>
-	.notification_large{
-		position:fixed;
-		top:0;
-		left:0;
-		background-color:rgba(51,51,51,0.3);
-		width:100%;
-		text-align:center;
-		height:100%;
-	}
-	.notification_large .notification_box{
-		position:relative;
-		background-color:#fff;
-		padding:20px;
-		width:100%;
-		top:30%;
-	}
-</style>
+<head>
+	<title>Validate purchase invoice</title>
+</head>
+<script>
+	$('#purchase_invoice_side').click();
+	$('#debt_document_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Purchase invoice</h2>
 	<p>Validate purchase invoice</p>
@@ -84,6 +71,7 @@
 	<label>Purhase date</label>
 	<p style='font-family:museo'><?= date('d M Y',strtotime($date)) ?></p>
 	<input type='hidden' value='<?= $date ?>' name='date'>
+	
 	<label>Input invoice number</label>
 	<input type='text' class='form-control' name='invoice_doc' id='inv'>
 <?php
@@ -136,7 +124,7 @@
 			<td style='text-align:center'><?= $reference ?></td>
 			<td style='text-align:center'><?= $description ?></td>
 			<td style='text-align:center'>
-				<?= $general['quantity'] ?>
+				<?= number_format($general['quantity']) ?>
 				<input type='hidden' value='<?= $general['quantity'] ?>' id='quantity<?= $j ?>'>
 				<input type='hidden' value='<?= $id_po_detail ?>' name='po_gr[<?= $id ?>]'>
 			</td>
@@ -163,8 +151,8 @@
 	</table>
 	</form>
 	<button type='button' class='button_default_dark' onclick='hitungin()'>Calculate</button>
-	<div class='notification_large' style='display:none' id='confirm_notification'>
-		<div class='notification_box'>
+	<div class='full_screen_wrapper' style='display:none;' id='confirm_notification'>
+		<div class='full_screen_notif_bar' style='max-height:250px'>
 			<h1 style='font-size:2em;color:#2bf076'><i class="fa fa-check" aria-hidden="true"></i></h1>
 			<p style='font-family:museo'>Are you sure to confirm this purchase?</p>
 			<p>Nomor faktur pajak : <span id='faktur_pajak_display'></span>
@@ -209,6 +197,10 @@
 				total 			= total + (quantity * price);
 			});
 			$('#total_display').html('Rp. ' + numeral(total).format('0,0.00'));
+			var window_height		= $(window).height();
+			var notif_height		= $('#confirm_notification .full_screen_notif_bar').height();
+			var difference			= window_height - notif_height;
+			$('#confirm_notification .full_screen_notif_bar').css('top', 0.7 * difference / 2);
 			$('#confirm_notification').fadeIn();
 		}
 	}

@@ -45,6 +45,12 @@
 	
 	$guid = GUID();
 ?>
+<script>
+$(document).ready(function(){
+	$('#quotation_side').click();
+	$('#quotation_create_dashboard').find('button').addClass('activated');
+});
+</script>
 <head>
 	<title>Create quotation validate</title>
 </head>

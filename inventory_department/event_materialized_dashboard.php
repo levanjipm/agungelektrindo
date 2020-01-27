@@ -28,21 +28,24 @@ $( function() {
 				<option value='4'>4</option>
 			</select>
 			<br>
-			<button type='button' class='button_warning_dark' id='back_dem_goods_button'>Back</button>
+			<a href='/agungelektrindo/inventory_department/event_add_dashboard' style='text-decoration:none'>
+				<button type='button' class='button_warning_dark'>Back</button>
+			</a>
 			<button type='button' class='button_success_dark' id='next_dem_goods_confirmation_button'>Next</button>
 		</div>
 		<div id='second_form' style='display:none'>
 			<br>
 			<div id='appended_reference'>
 			</div>
-			<button type='button' class='button_warning_dark' id='form_mat_goods_button'>Back</button>
+			<br><br>
+			<button type='button' class='button_warning_dark' id='back_button'>Back</button>
 			<button type='button' class='button_default_dark' id='submit_mat_goods_confirmation_button'>Submit</button>
 		</div>
 	</form>
 </div>
 <div class='full_screen_wrapper'>
 	<div class='full_screen_notif_bar'>
-		<h1 style='font-size:2em'><i class='fa fa-exclamation'></i></h1>
+		<h1 style='font-size:2em;color:red'><i class='fa fa-exclamation'></i></h1>
 		<p style='font-family:museo'>Are you sure to submit this event?</p>
 		<button type='button' class='button_danger_dark' id='close_notif_button'>Back</button>
 		<button type='button' class='button_success_dark' id='confirm_button'>Confirm</button>
@@ -50,12 +53,17 @@ $( function() {
 </div>
 <script>
 	$('#close_notif_button').click(function(){
-		$('.full_screen_wrapper').fadeIn();
+		$('.full_screen_wrapper').fadeOut();
 	});
 	
-	$('#form_dem_goods_button').click(function(){
+	$('#back_button').click(function(){
 		$('#first_form').fadeIn();
 		$('#second_form').fadeOut();
+	});
+	
+	$('#form_mat_goods_button').click(function(){
+		$('#first_form').fadeOut();
+		$('#second_form').fadeIn();
 	});
 	$('#back_dem_goods_button').click(function(){
 		window.history.back();

@@ -1,6 +1,9 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
+	
+	$sql_invoice 			= "SELECT * FROM purchases WHERE isconfirm = '0'";
+	$result_invoice 		= $conn->query($sql_invoice);
 ?>
 <head>
 	<title>Confirm purchase</title>
@@ -9,6 +12,9 @@
 	<h2 style='font-family:bebasneue'>Purchase Invoice</h2>
 	<p>Confirm invoice</p>
 	<hr>
+<?php
+	if(mysqli_num_rows($result_invoice) > 0){
+?>
 	<table class='table table-bordered' id='confirmation'>
 		<tr>
 			<th>Date</th>
@@ -17,8 +23,6 @@
 			<th></th>
 		</tr>
 <?php
-	$sql_invoice 			= "SELECT * FROM purchases WHERE isconfirm = '0'";
-	$result_invoice 		= $conn->query($sql_invoice);
 	while($row_invoice 		= $result_invoice->fetch_assoc()){
 		$supplier_id 		= $row_invoice['supplier_id'];
 		$sql_supplier		= "SELECT name FROM supplier WHERE id = '" . $supplier_id . "'";
@@ -53,3 +57,10 @@
 		$('#purchase_form').submit();
 	}
 </script>
+<?php
+	} else {
+?>
+	<p style='font-family:museo'>There is no purchase invoice to be confirm</p>
+<?php
+	}
+?>

@@ -37,7 +37,7 @@
 	<h3 style='font-family:bebasneue'><?=$customer_name ?></h3>
 	<p><?= $customer_address ?></p>
 	<p><?= $customer_city ?></p>
-	<form method='POST' action='invoice_isdone_input' id='form_danil'>
+	<form method='POST' action='invoice_isdone_input' id='set_invoice_done_form'>
 		<label>Date done</label>
 		<input type='date' class='form-control' name='date' id='date'>
 		<br>
@@ -87,6 +87,6 @@
 			alert('Please insert date!');
 			return false;
 		}
-		$('#form_danil').submit();
+		$('#set_invoice_done_form').submit();
 	});
 </script>

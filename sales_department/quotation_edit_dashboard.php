@@ -36,7 +36,10 @@
 		transition:0.3s all ease;
 	}
 </style>
-<body>
+<script>
+	$('#quotation_side').click();
+	$('#quotation_edit_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Quotation</h2>
 	<p style='font-family:museo'>Edit or Print Quotation</p>

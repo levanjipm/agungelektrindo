@@ -20,10 +20,13 @@ $( function() {
 		<div id='first_form'>
 			<label>Date</label>
 			<input type='date' class='form-control' name='date' id='date'>
+			
 			<label>Reference to be dematerialized</label>
 			<input type='text' class='form-control' id='reference_dem' name='reference_dem'>
+			
 			<label>Quantity to be dematerialized</label>
 			<input type='number' class='form-control' id='quantity' name='quantity_dem'>
+			
 			<label>Dematerialized into</label>
 			<select class='form-control' id='number_of_dem'>
 				<option value='2'>2</option>
@@ -31,7 +34,9 @@ $( function() {
 				<option value='4'>4</option>
 			</select>
 			<br>
-			<button type='button' class='button_warning_dark' id='back_dem_goods_button'>Back</button>
+			<a href='/agungelektrindo/inventory_department/event_add_dashboard'>
+				<button type='button' class='button_warning_dark' id='back_dem_goods_button'>Back</button>
+			</a>
 			<button type='button' class='button_success_dark' id='next_dem_goods_confirmation_button'>Next</button>
 		</div>
 		<div id='second_form' style='display:none'>
@@ -44,13 +49,12 @@ $( function() {
 		</div>
 	</form>
 </div>
-<div class='notification_large' style='display:none' id='confirm_notification'>
-	<div class='notification_box'>
-		<h1 style='font-size:3em;color:#2bf076'><i class="fa fa-check" aria-hidden="true"></i></h1>
-		<h2 style='font-family:bebasneue'>Are you sure to submit this event?</h2>
-		<br>
-		<button type='button' class='btn btn-back'>Back</button>
-		<button type='button' class='btn btn-confirm' id='confirm_button'>Confirm</button>
+<div class='full_screen_wrapper' id='confirm_notification'>
+	<div class='full_screen_notif_bar'>
+		<h1 style='font-size:2em;color:red'><i class="fa fa-exclamation" aria-hidden="true"></i></h1>
+		<p style='font-family:museo'>Are you sure to submit this event?</h2>
+		<button type='button' class='button_danger_dark' id='close_notif_bar'>Check again</button>
+		<button type='button' class='button_success_dark' id='confirm_button'>Confirm</button>
 	</div>
 </div>
 <script>
@@ -60,9 +64,7 @@ $( function() {
 			$('#first_form').fadeIn();
 		},300);
 	});
-	$('#back_dem_goods_button').click(function(){
-		window.history.back();
-	});
+
 	$('#next_dem_goods_confirmation_button').click(function(){
 		if($('#date').val() == ''){
 			alert('Please insert date!');
@@ -90,7 +92,7 @@ $( function() {
 						$('#first_form').fadeOut(200);
 						var option_number = $('#number_of_dem').val();
 						for (i = 1; i<= option_number; i++){
-							$('#appended_reference').append("<div class='row'><div class='col-sm-6'><label>Reference #" + i + "</label><input type='text' class='form-control' name='reference[" + i + "]' id='reference-" + i + "' required></div><div class='col-sm-2'><label>Quantity #" + i + "</label><input type='number' class='form-control' name='quantity[" + i + "]'>");
+						$('#appended_reference').append("<div class='row'><div class='col-sm-6'><label>Reference #" + i + "</label><input type='text' class='form-control' name='reference[" + i + "]' id='reference-" + i + "' required></div><div class='col-sm-2'><label>Quantity #" + i + "</label><input type='number' class='form-control' name='quantity[" + i + "]'></div><div class='col-sm-3'><label>Price list</label><input type='number' class='form-control' name='price[" + i + "]'></div></div>");
 							$("#reference-" + i).autocomplete({
 								source: "../codes/search_item.php"
 							 });
@@ -132,9 +134,9 @@ $( function() {
 			},
 		});
 	})
+	
 	$('#confirm_button').click(function(){
 		var reference_length = $('input[id^="reference-"]').length;
-		console.log(reference_length);
 		for(i = 1; i <= reference_length; i++){
 			if(i == reference_length){
 				$.ajax({
@@ -144,7 +146,6 @@ $( function() {
 					},
 					type:'POST',
 					success:function(response){
-						console.log(response);
 						if(response != 0){
 							$('#dematerialized_form').submit();
 						}

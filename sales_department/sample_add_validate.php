@@ -30,6 +30,10 @@
 	<title>Add sample data</title>
 	<link rel='stylesheet' href='css/create_sample.css'></script>
 </head>
+<script>
+	$('#sample_side').click();
+	$('#sample_add_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sampling</h2>
 	<p style='font-family:museo'>Add sampling</p>

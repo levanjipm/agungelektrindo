@@ -5,6 +5,10 @@
 <head>
 	<title>Validate sales order</title>
 </head>
+<script>
+	$('#sales_order_side').click();
+	$('#sales_order_create_dashboard').find('button').addClass('activated');
+</script>
 <style>
 	input[type="file"] {
 		display: none;

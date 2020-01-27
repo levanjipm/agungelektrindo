@@ -1,8 +1,21 @@
 <?php
-	include("../../codes/connect.php");	
+	include("../codes/connect.php");	
 	$term 	= mysqli_real_escape_string($conn,$_GET['term']);
+	
 	if($term != ''){
-		$sql 	= "SELECT id, reference, description FROM itemlist WHERE reference LIKE '%" . $term . "%' OR description LIKE '%" . $term . "%'";
+		// $sql_count 	= "SELECT id, reference, description FROM itemlist WHERE reference LIKE '%" . $term . "%' OR description LIKE '%" . $term . "%'";
+		// $result_count = $conn->query($sql_count);
+		// $count	= mysqli_num_rows($result_count);
+		
+		// $max_page	= $count / 25;
+		$sql	= "SELECT id, reference, description FROM itemlist WHERE reference LIKE '%$term%' OR description LIKE '%$term%'";
+		// if(!empty($_GET['page'])){
+			// $offset = ($_GET['page'] - 1) * 25; 
+			// $sql 	= "SELECT id, reference, description FROM itemlist WHERE reference LIKE '%$term%' OR description LIKE '%$term%' LIMIT 25 offset $offset";
+		// } else {
+			
+		// }
+		
 		$result = $conn->query($sql);
 		while($row = $result->fetch_assoc()) {
 			$reference		= $row['reference'];
@@ -58,7 +71,7 @@
 				<td><?= $stock ?></td>
 				<td>
 					<a href='stock_card?id=<?= $item_id ?>'>
-						<button type='button' class='button_default_dark'>View</button>
+						<button type='button' class='button_success_dark'><i class='fa fa-eye'></i></button>
 					</a>
 				</td>
 				

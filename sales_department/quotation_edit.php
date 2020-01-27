@@ -1,16 +1,9 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
-?>
-<
-<div class='main'>
-	<h2 style='font-family:bebasneue'>Quotataion</h2>
-	<p>Edit quotataion</p>
-	<hr>
-<?php
 	$id 				= (int)$_POST['id'];
 	$sql_quotation 		= "SELECT code_quotation.name, code_quotation.payment_id, code_quotation.date, code_quotation.payment_id, code_quotation.down_payment,
-							code_quotation.repayment, code_quotation.note, customer.name as customer_name
+							code_quotation.repayment, code_quotation.note, customer.name as customer_name, customer.address, customer.city
 							FROM code_quotation 
 							JOIN customer ON customer.id = code_quotation.customer_id
 							WHERE code_quotation.id = '$id'";
@@ -24,18 +17,45 @@
 	$lunas				= $quotation['repayment'];
 	$note 				= $quotation['note'];
 	$customer_name		= $quotation['customer_name'];
+	$customer_address	= $quotation['address'];
+	$customer_city		= $quotation['city'];
+	
+	if(empty($_POST['id']) || mysqli_num_rows($result_quotation) == 0){
+?>
+<script>
+	window.location.href='/agungelektrindo/codes/logout.php';
+</script>
+<?php
+	}
+	
+	$file_name			= 'quotation_edit_dashboard';
+?>
+<script>
+	$('#quotation').click();
+	$('#<?= $file_name ?>').find('button').addClass('activated');
+</script>
+<head>
+	<title>Edit quotation <?= $quotation_name ?></title>
+</head>
+<div class='main'>
+	<h2 style='font-family:bebasneue'>Quotataion</h2>
+	<p style='font-family:museo'>Edit quotataion</p>
+	<hr>
+<?php
 ?>
 	<form name="quotation" id="quotation_edit" class="form" method="POST" action="quotation_edit_input">
 		<input type="hidden" value="<?= $id ?>" name="id">
-		<div class="row">
-			<div class="col-sm-6">
-				<h2 style='font-family:bebasneue'><?= $customer_name ?></h2>
-				<h2 style='font-family:bebasneue'><?= $quotation_name ?></h2><p><?= date('d M Y',strtotime($date)) ?></p>
-			</div>
-		</div>
+		<label>Customer</label>
+		<p style='font-family:museo'><?= $customer_name ?></p>
+		<p style='font-family:museo'><?= $customer_address ?></p>
+		<p style='font-family:museo'><?= $customer_city ?></p>
+		
+		<label>Quotation data</label>
+		<p style='font-family:museo'><?= $quotation_name ?></p>
+		<p style='font-family:museo'><?= date('d M Y',strtotime($date)) ?></p>
 		<br>
-		<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
 		<button type='button' class='button_default_dark' id='add_item_button' style='display:inline-block'>Add item</button>
+		<br><br>
 		<table class='table table-bordered'>
 			<tr>
 				<th style='width:20%'>Reference</th>
@@ -60,7 +80,7 @@
 					<td><input id='quantity<?=$a?>' 	class='form-control' 	name='quantity[<?=$a?>]' 	value='<?= $row['quantity']?>'></td>
 					<td id='netprice_numeral<?= $a ?>'></td>
 					<td id='total_price_numeral<?= $a ?>'></td>
-					<td><button class='button_danger_dark' type='button' id='close<?= $a ?>' onclick='delete_row(<?= $a ?>)'>X</button></td>
+					<td><button class='button_danger_dark' type='button' id='close<?= $a ?>' onclick='delete_row(<?= $a ?>)'><i class='fa fa-trash'></i></button></td>
 				</tr>
 				<script>
 					$('#reference<?= $a ?>').autocomplete({
@@ -136,7 +156,7 @@
 		<br>
 		<div class="row">
 			<div class="col-sm-2">
-				<button type="button" class="button_add_row" onclick="hitung()" id="calculate">Calculate</button>
+				<button type="button" class="button_default_dark" onclick="hitung()" id="calculate">Calculate</button>
 			</div>
 		</div>
 		<div class="row">
@@ -156,13 +176,6 @@ function evaluate_organic(x){
 	return eval(to_be_evaluated);
 }
 
-function delete_row(x_men){
-	console.log(($('button[id^=close]')).length);
-	if(($('button[id^=close]')).length > 1){
-		x = 'barisan' + x_men;
-		$("#"+x).remove();
-	}
-};
 $("#add_item_button").click(function (){	
 	$("#detail_quotation").append(
 		"<tr id='tr-" + a + "'>"+
@@ -172,14 +185,19 @@ $("#add_item_button").click(function (){
 		"<td><input id='quantity" + a + "' class='form-control' name='quantity[" + a + "]'></td>"+
 		"<td id='netprice_numeral" + a + "'></td>"+
 		"<td id='total_price_numeral" + a + "'</td>"+
-		"<td><button class='button_danger_dark' type='button' id='close" + a + "' onclick='delete_row(" + a + ")'>X</button></td>"+
+		"<td><button class='button_danger_dark' type='button' onclick='delete_row(" + a + ")'><i class='fa fa-trash'></i></button></td>"+
 		"</tr>");
 		
 	$("#reference" + a).autocomplete({
-		source: "search_item.php"
+		source: "/agungelektrindo/codes/search_item.php"
 	 });
 	a++;
 });
+
+function delete_row(row_number){
+	$("#tr-" + row_number).remove();
+};
+
 function payment_js(){
 	var payment_term = $('#terms').val();
 	if (payment_term == 1) {

@@ -95,7 +95,7 @@
 							if($stock == NULL || $stock == 0){
 								echo ('0');
 							} else {
-								echo $stock['stock'];
+								echo number_format($stock['stock']);
 							}
 						?></td>
 					</tr>
@@ -145,15 +145,15 @@
 				jumlah_barang = jumlah_barang + $(this).val();
 			});
 			if (jumlah_barang > 0){
-			$("#do_validate").submit();
+				$("#do_validate").submit();
 			} else{
 			alert('insert correct quantity')
+			return false;
 			}
 		} else {
 			alert('error');
 		}
 	}
-	
 	</script>
 <?php
 	}

@@ -2,6 +2,13 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
+<head>
+	<title>Create project data</title>
+</head>
+<script>
+	$('#project_side').click();
+	$('#project_add_dashboard').find('button').addClass('activated');
+</script>
 <style>
 	.tab_top{
 		cursor:pointer;

@@ -6,6 +6,9 @@
 	<title>Add sample data</title>
 </head>
 <script>
+$('#sample_side').click();
+$('#sample_add_dashboard').find('button').addClass('activated');
+
 $( function() {
 	$('#reference1').autocomplete({
 		source: "../codes/search_item.php"

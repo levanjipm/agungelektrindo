@@ -21,15 +21,15 @@
 	$('.tab_button_wrapper button').click(function(){
 		var button_id			= $(this).attr('id');
 		if(button_id			== 'profile_button'){
-			var url				= 'view_profile';
+			var url				= '/agungelektrindo/dashboard/view_profile';
 		} else if(button_id		== 'news_button'){
-			var url				= 'view_news';
+			var url				= '/agungelektrindo/dashboard/view_news';
 		} else if(button_id		== 'promotion_button'){
-			var url				= 'view_promotion';
+			var url				= '/agungelektrindo/dashboard/view_promotion';
 		} else if(button_id		== 'absentee_button'){
-			var url				= 'view_absentee';
+			var url				= '/agungelektrindo/dashboard/view_absentee';
 		} else if(button_id		== 'salary_button'){
-			var url				= 'view_salary';
+			var url				= '/agungelektrindo/dashboard/view_salary';
 		}
 		
 		$.ajax({

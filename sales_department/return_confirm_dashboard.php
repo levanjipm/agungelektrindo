@@ -1,14 +1,28 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
+	
+	$sql_return 			= "SELECT * FROM code_sales_return WHERE isconfirm = '0'";
+	$result_return 			= $conn->query($sql_return);
 ?>
 <head>
 	<title>Confirm sales return</title>
 </head>
+<script>
+	$('#return_side').click();
+	$('#return_confirm_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales return</h2>
 	<p style='font-family:museo'>Confirm sales return</p>
 	<hr>
+<?php
+	if(mysqli_num_rows($result_return) == 0){
+?>
+	<p style='font-family:museo'>There is no return to be confirmed</p>
+<?php
+	} else {
+?>
 	<table class='table table-bordered'>
 		<tr>
 			<th>Delivery order date</th>
@@ -18,8 +32,6 @@
 			<th></th>
 		</tr>				
 <?php
-	$sql_return 			= "SELECT * FROM code_sales_return WHERE isconfirm = '0'";
-	$result_return 			= $conn->query($sql_return);
 	while($row_return 		= $result_return->fetch_assoc()){
 		$id					= $row_return['id'];
 		$do_id 				= $row_return['do_id'];
@@ -55,6 +67,7 @@
 <div class='full_screen_wrapper'>
 	<button class='full_screen_close_button'>&times</button>
 	<div class='full_screen_box'>
+	<div class='full_screen_box_loader_wrapper'><div class='full_screen_box_loader'></div></div>
 	</div>
 </div>
 <script>
@@ -87,6 +100,7 @@
 			beforeSend:function(){
 				$('#cancel_button').attr('disabled',true);
 				$('#confirm_button').attr('disabled',true);
+				$('.full_screen_box_loader_wrapper').show();
 			},
 			success:function(){
 				location.reload();
@@ -104,6 +118,7 @@
 			beforeSend:function(){
 				$('#cancel_button').attr('disabled',true);
 				$('#confirm_button').attr('disabled',true);
+				$('.full_screen_box_loader_wrapper').show();
 			},
 			success:function(){
 				location.reload();
@@ -111,4 +126,7 @@
 		})
 	};
 </script>
+<?php
+	}
+?>
 	

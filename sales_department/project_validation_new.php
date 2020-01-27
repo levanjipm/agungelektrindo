@@ -23,14 +23,20 @@
 	
 	$purchase_order		= mysqli_real_escape_string($conn,$_POST['purchase_order']);
 ?>
+<head>
+	<title>Create project data</title>
+</head>
+<script>
+	$('#project_side').click();
+	$('#project_add_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Project</h2>
 	<p style='font-family:museo'>Add new project</p>
 	<hr>
 	<form action='project_input_new' method='POST'>
-		<h3 style='font-family:museo'>General data</h3>
 		<label>Customer</label>
-		<h4 style='font-family:museo'><?= $customer_name ?></h4>
+		<p style='font-family:museo'><?= $customer_name ?></p>
 		<p style='font-family:museo'><?= $customer_address ?></p>
 		<p style='font-family:museo'><?= $customer_city ?></p>
 		<input type='hidden' value='<?= $customer_id ?>' name='customer_id'>

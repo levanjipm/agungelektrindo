@@ -13,7 +13,7 @@ $( function() {
 		<div class='col-sm-6'>
 			<label for="name">Customer</label>
 			<select class="form-control" id="select_customer" name="select_customer"  onclick="disable_option('customer_select_default')" onchange='show_retail()'>
-				<option value='0' id='customer_select_default'>Please select a customer--</option>
+				<option value='0' id='customer_select_default'>-- Please select a customer --</option>
 				<option value=''>Retail</option>
 <?php
 	$sql_customer 		= "SELECT id,name FROM customer WHERE is_blacklist = '0' ORDER BY name ASC";
@@ -32,13 +32,13 @@ $( function() {
 			
 			<label>Label</label>
 			<select class='form-control' name='label'>
-				<option value='0'>--Label (optional) --</option>
+				<option value='0'>-- Label (optional) --</option>
 				<option value='BLAPAK'>Bukalapak</option>
 			</select>
 			
 			<label>Seller</label>
 			<select class='form-control' name='seller'>
-				<option value=''>--Seller (optional) --</option>
+				<option value=''>-- Optional --</option>
 <?php
 	$sql_seller 		= "SELECT id,name FROM users WHERE isactive = '1'";
 	$result_seller 		= $conn->query($sql_seller);
@@ -56,7 +56,7 @@ $( function() {
 			
 			<label>Taxing option</label>
 			<select name='taxing' id='taxing' class='form-control' onclick="disable_option('taxing_option_default')">
-				<option id='taxing_option_default' value="">--Please choose taxing option--</option>
+				<option id='taxing_option_default' value="">-- Please choose taxing option --</option>
 				<option value="1">Tax</option>
 				<option value="0">Non-Tax</option>
 			</select>

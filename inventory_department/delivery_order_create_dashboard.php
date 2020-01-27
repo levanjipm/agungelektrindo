@@ -41,9 +41,10 @@ $( function() {
 				$.ajax({
 					url: 'delivery_order_goods.php',
 					beforeSend:function(){
-						$('#sales_order_pane').html("<h1 style='font-size:4em;text-align:center'><i class='fa fa-spin fa-spinner'></i></h1>");
+						$('.loading_wrapper_initial').show();
 					},
 					success: function(response){
+						$('.loading_wrapper_initial').fadeOut(300);
 						$('#sales_order_pane').html(response);
 					},
 				});
@@ -52,9 +53,10 @@ $( function() {
 				$.ajax({
 					url: 'delivery_order_service.php',
 					beforeSend:function(){
-						$('#sales_order_pane').html("<h1 style='font-size:4em;text-align:center'><i class='fa fa-spin fa-spinner'></i></h1>");
+						$('.loading_wrapper_initial').show();
 					},
 					success: function(response){
+						$('.loading_wrapper_initial').fadeOut(300);
 						$('#sales_order_pane').html(response);
 					},
 				});
@@ -63,9 +65,10 @@ $( function() {
 				$.ajax({
 					url: 'delivery_order_project.php',
 					beforeSend:function(){
-						$('#sales_order_pane').html("<h1 style='font-size:4em;text-align:center'><i class='fa fa-spin fa-spinner'></i></h1>");
+						$('.loading_wrapper_initial').show();
 					},
 					success: function(response){
+						$('.loading_wrapper_initial').fadeOut(300);
 						$('#sales_order_pane').html(response);
 					},
 				});

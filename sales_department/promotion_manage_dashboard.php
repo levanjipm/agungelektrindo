@@ -5,6 +5,10 @@
 <head>
 	<title>Manage promotion</title>
 </head>
+<script>
+	$('#promotion_side').click();
+	$('#promotion_manage_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Promotion</h2>
 	<p style='font-family:museo'>Manage promotion</p>

@@ -17,8 +17,8 @@
 			$conn->query($sql);
 		}
 		
-		header('location:dashboard/user_dashboard');
+		header("location:/agungelektrindo");
 	} else {
-		header("location:landing_page");
+		header("location:/agungelektrindo/landing_page");
 	};
 ?>

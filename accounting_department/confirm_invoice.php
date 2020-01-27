@@ -17,6 +17,10 @@
 	
 	$delivery_order_id	= $get['do_id'];
 ?>
+	<script>
+		$('#sales_invoice_side').click();
+		$('#confirm_invoice_dashboard').find('button').addClass('activated');
+	</script>
 	<div class='main'>
 		<h2 style='font-family:bebasneue'>Invoice</h2>
 		<p style='font-family:museo'>Confirm sales invoice</p>

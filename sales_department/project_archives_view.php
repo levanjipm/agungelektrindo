@@ -8,14 +8,14 @@
 		</tr>
 <?php
 	if(empty($_POST['page'])){
-		$sql		= "SELECT * FROM code_project LIMIT 20";
+		$sql		= "SELECT * FROM code_project WHERE major_id = '0' LIMIT 20";
 	} else {
 		$page		= $_POST['page'];
 		$offset		= ($page - 1) * 20;
-		$sql		= "SELECT id, project_name, customer_id, major_id FROM code_project LIMIT 20 OFFSET $offset";
+		$sql		= "SELECT id, project_name, customer_id FROM code_project WHERE major_id = '0' AND isdone = '1' AND issent = '1' LIMIT 20 OFFSET $offset";
 	}
 	
-	$sql_count		= "SELECT id FROM code_project";
+	$sql_count		= "SELECT id FROM code_project WHERE major_id = '0'";
 	$result_count	= $conn->query($sql_count);
 	
 	$count			= mysqli_num_rows($result_count);
@@ -23,7 +23,6 @@
 	
 	$result		= $conn->query($sql);
 	while($row	= $result->fetch_assoc()){
-		$major_id	= $row['major_id'];
 		$name	= $row['project_name'];
 		$id		= $row['id'];
 		$customer_id		= $row['customer_id'];
@@ -36,14 +35,16 @@
 		$customer_city		= $customer['city'];
 ?>
 		<tr>
-		<td><?php if($major_id == 0){ echo '<b>'; } ?><?= $name; ?><?php if($major_id == 0){ echo '</b>'; } ?></td>
+		<td><?= $name; ?></td>
 			<td>
 				<p style='font-family:museo'><?= $customer_name ?></p>
 				<p style='font-family:museo'><?= $customer_address ?></p>
 				<p style='font-family:museo'><?= $customer_city ?></p>
 			</td>
 			<td>
-				<button type='button' class='button_success_dark'><i class='fa fa-eye'></i></button>
+				<a href='/agungelektrindo/sales_department/project_archives_show.php?id=<?= $id ?>'>
+					<button type='button' class='button_success_dark'><i class='fa fa-eye'></i></button>
+				</a>
 			</td>
 		</tr>
 <?php

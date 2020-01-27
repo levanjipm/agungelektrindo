@@ -33,12 +33,12 @@
 ?>
 			</select>
 		</div>
-		<div class='col-sm-4 col-sm-offset-2'>
+		<div class='col-sm-6'>
 			<label>Date</label>
-			<input type='date' class='form-control' name='date' id='date'>
+			<input type='date' class='form-control' name='date' id='date' value='<?= date('Y-m-d') ?>'>
 			<label>Taxing option</label>
 			<select class='form-control' name='tax' id='tax'>
-				<option value=''>--Please select a taxing option --</option>
+				<option value=''>-- Please select a taxing option --</option>
 				<option value='1'>Tax</option>
 				<option value='2'>Non-tax</option>
 			</select>

@@ -34,7 +34,7 @@
 		$sql 	= "SELECT * FROM stock
 				INNER JOIN (SELECT reference,MAX(id) AS latest FROM stock GROUP BY reference ORDER BY id DESC) recent_stock 
 				ON stock.reference = recent_stock.reference 
-				AND stock.id = recent_stock.latest LIMIT 50";
+				AND stock.id = recent_stock.latest LIMIT 25";
 		$result = $conn->query($sql);
 		while($row = $result->fetch_assoc()) {
 			$reference		= $row['reference'];
@@ -78,16 +78,18 @@ $(document).ready(function(){
 
 $('#search_item_bar').change(function () {
     $.ajax({
-        url: "ajax/search_check_stock.php",
+        url: "check_stock_search.php",
         data: {
             term: $('#search_item_bar').val()
         },
         type: "GET",
 		beforeSend:function(){
+			$('.loading_wrapper_initial').fadeIn();
 			$('#search_item_bar').attr('disabled',true);
 			$('#check_stock_table').html('');
 		},
         success: function (response) {
+			$('.loading_wrapper_initial').fadeOut();
 			$('#search_item_bar').attr('disabled',false);
             $('#check_stock_table').append(response);
         },

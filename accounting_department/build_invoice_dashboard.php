@@ -5,6 +5,10 @@
 <head>
 	<title>Create sales invoice</title>
 </head>
+<script>
+	$('#sales_invoice_side').click();
+	$('#build_invoice_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales Invoice</h2>
 	<p style='font-family:museo'>Create sales invoice</p>

@@ -10,6 +10,10 @@
 <head>
 	<title>Confirm sample</title>
 </head>
+<script>
+	$('#sample_side').click();
+	$('#sample_confirm_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sample</h2>
 	<p style='font-family:museo'>Confirm or cancel sampling</p>

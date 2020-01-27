@@ -5,10 +5,21 @@
 <head>
 	<title>Confirm sales invoice</title>
 </head>
+<script>
+	$('#sales_invoice_side').click();
+	$('#confirm_invoice_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales Invoice</h2>
-	<p>Confirm invoice</p>
+	<p style='font-family:museo'>Confirm invoice</p>
 	<hr>
+<?php
+	$sql_invoice = "SELECT invoices.id,invoices.date, invoices.name, code_delivery_order.customer_id FROM invoices 
+					JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
+					WHERE invoices.isconfirm = '0' AND code_delivery_order.company = 'AE'";
+	$result_invoice = $conn->query($sql_invoice);
+	if(mysqli_num_rows($result_invoice) > 0){
+?>
 	<table class='table' id='confirmation'>
 		<tr>
 			<th>Date</th>
@@ -17,10 +28,7 @@
 			<th></th>
 		</tr>
 <?php
-	$sql_invoice = "SELECT invoices.id,invoices.date, invoices.name, code_delivery_order.customer_id FROM invoices 
-	JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
-	WHERE invoices.isconfirm = '0' AND code_delivery_order.company = 'AE'";
-	$result_invoice = $conn->query($sql_invoice);
+	
 	while($row_invoice = $result_invoice->fetch_assoc()){
 		$customer_id = $row_invoice['customer_id'];
 ?>
@@ -43,7 +51,6 @@
 	}
 ?>
 	</table>
-</div>
 <form action='confirm_invoice' id='confirm_invoice_form' method='POST'>
 	<input type='hidden' id='invoice_id' name='id'>
 </form>
@@ -53,3 +60,11 @@
 		$('#confirm_invoice_form').submit();
 	}
 </script>
+<?php
+	} else {
+?>
+	<p style='font-family:museo'>There is no invoice to be confirmed</p>
+<?php
+	}
+?>
+</div>

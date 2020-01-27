@@ -38,7 +38,7 @@
 	if (empty($_SESSION['user_id']) && $isactive != 1) {
 ?>
 	<script>
-		window.location.href='/agungelektrindo/codes/logout.php';
+		window.location.href='/agungelektrindo/codes/logout';
 	</script>
 <?php
 	}
@@ -51,18 +51,17 @@
 </div>
 <script>
 	$( window ).on( "load", function() {
-		// $('.main').hide();
 		$('.loading_wrapper_initial').show;
 	});
 	
 	$(document).ready(function(){
-		$('.loading_wrapper_initial').fadeOut(300);
-		$('.main').fadeIn(400);
+		$('.loading_wrapper_initial').fadeOut(450);
+		$('.main').fadeIn(450);
 	});
 </script>
 <div class='top_navigation_bar'>
 	<div class='col-lg-4 col-md-5 col-sm-6 col-xs-8'>
-		<a href='/agungelektrindo/dashboard/user_dashboard' style='text-decoration:none;display:inline-block;color:white'>
+		<a href='/agungelektrindo' style='text-decoration:none;display:inline-block;color:white'>
 			<h2 style='font-family:bebasneue'>AgungElektrindo</h2>
 		</a>
 	</div>

@@ -7,15 +7,19 @@
 <head>
 	<title>View customer</title>
 </head>
+<script>
+	$('#customer_side').click();
+	$('#customer_manage_dashboard').find('button').addClass('activated');
+</script>
 <style>
-	input[type=text] {
+	#search_bar {
 		width: 130px;
 		-webkit-transition: width 0.4s ease-in-out;
 		transition: width 0.4s ease-in-out;
 		padding:10px;
 	}
 	
-	input[type=text]:focus {
+	#search_bar:focus {
 		width: 100%;
 	}
 </style>
@@ -30,7 +34,7 @@
 <script>
 	$(document).ready(function(){
 		$.ajax({
-			url:'customer_view_table.php',
+			url:'customer_manage_view.php',
 			data:{
 			},
 			type:'GET',
@@ -45,13 +49,13 @@
 	
 	$('#search_bar').change(function(){
 		$.ajax({
-			url:'customer_view_table.php',
+			url:'customer_manage_view.php',
 			data:{
 				term:$('#search_bar').val()
 			},
 			type:'GET',
 			beforeSend:function(){
-				$('#customer_view_pane').html("<h2 style='font-size:4em;text-align:center'><i class='fa fa-spin fa-spinner'></i></h2>");
+				$('#c').html("<h2 style='font-size:4em;text-align:center'><i class='fa fa-spin fa-spinner'></i></h2>");
 			},
 			success:function(response){
 				$('#customer_view_pane').html(response);

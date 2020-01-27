@@ -21,7 +21,7 @@
 						FROM code_adjustment_event 
 						JOIN users ON users.id = code_adjustment_event.created_by
 						JOIN event ON event.id = code_adjustment_event.event_id
-						WHERE isconfirm = '0'";
+						WHERE code_adjustment_event.isconfirm = '0' AND code_adjustment_event.isdelete = '0'";
 	$result_event 	= $conn->query($sql_event);
 	while($event 	= $result_event->fetch_assoc()){
 ?>

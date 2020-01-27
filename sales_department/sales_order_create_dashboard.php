@@ -14,6 +14,10 @@
 		border-bottom:2px solid #008080;
 	}
 </style>
+<script>
+	$('#sales_order_side').click();
+	$('#sales_order_create_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales Order</h2>
 	<p>Create sales order</h2>
@@ -35,8 +39,12 @@
 		$('#sales_order_good_button').addClass('active_tab');
 		$.ajax({
 			url:'sales_order_goods_form.php',
+			beforeSend:function(){
+				$('.loading_wrapper_initial').show();
+			},
 			success:function(response){
 				$('#view_pane').html(response);
+				$('.loading_wrapper_initial').fadeOut(300);
 			}
 		});
 	};
@@ -46,8 +54,12 @@
 		$('#sales_order_good_button').removeClass('active_tab');
 		$.ajax({
 			url:'service_sales_order_form.php',
+			beforeSend:function(){
+				$('.loading_wrapper_initial').show();
+			},
 			success:function(response){
 				$('#view_pane').html(response);
+				$('.loading_wrapper_initial').fadeOut(300);
 			}
 		});
 	};

@@ -7,6 +7,10 @@
 <head>
 	<title>Confirm sales order</title>
 </head>
+<script>
+	$('#sales_order_side').click();
+	$('#sales_order_confirm_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales order</h2>
 	<p>Confirm sales order</p>

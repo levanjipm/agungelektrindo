@@ -5,12 +5,16 @@
 <head>
 	<title>Manage Projects</title>
 </head>
+<script>
+	$('#project_side').click();
+	$('#project_manage_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Project</h3>
 	<p style='font-family:museo'>View project</p>
 	<hr>
 <?php
-	$sql_code 		= "SELECT * FROM code_project WHERE isdone = '0'";
+	$sql_code 		= "SELECT * FROM code_project WHERE isdone = '0' OR issent = '0'";
 	$result_code 	= $conn->query($sql_code);
 	if(mysqli_num_rows($result_code)){
 ?>

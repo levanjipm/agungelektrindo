@@ -15,7 +15,7 @@
 	$uang 				= $bank['value'];
 	$date 				= $_POST['date'];
 	$remaining_array	= $_POST['remaining'];
-	if($isdone			== 0){
+	if($transaction_status			== 0){
 		if($transaction == 2){ //Kredit ->masuk duit//
 			$will_be_paid 	= 0;
 			$check_array	= $_POST['check'];
@@ -130,7 +130,7 @@
 				$sql_update 		= "UPDATE code_bank SET isdone = '1' WHERE id = '$bank_id'";
 				$conn->query($sql_update);
 				
-			} else if($$will_be_paid != 0 && $check_quantity > 0){
+			} else if($will_be_paid != 0 && $check_quantity > 0){
 				$sql_delete 		= "UPDATE code_bank SET isdelete = '1' WHERE id = '$bank_id'";
 				$conn->query($sql_delete);
 				
@@ -173,6 +173,7 @@
 					$paid		 	= $invoice['value'] - $paid_purchase - $remaining;
 					
 					$sql 			= "INSERT INTO payable (purchase_id,date,value,bank_id) VALUES ('$key','$date','$paid','$new_bank_id')";
+					echo $sql;
 					$conn->query($sql);
 					
 					if($remaining == 0){

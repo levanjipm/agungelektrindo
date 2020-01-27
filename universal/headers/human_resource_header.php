@@ -2,14 +2,14 @@
 	<button type='button' class='btn-badge' style='text-align:right' id='hide_side_button'><i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
 	<button class='dropdown_button'>Manage users</button>
 	<div class="dropdown-container">
-		<a href='/agungelektrindo/human_resource_department/add_user'><p>Add a user</p></a>
-		<a href='/agungelektrindo/human_resource_department/set_inactive_dashboard'><p>Set inactive</p></a>
-		<a href='/agungelektrindo/human_resource_department/set_authority_dashboard'><p>Authority</p></a>
+		<a href='/agungelektrindo/human_resource_department/add_user'><button>Add a user</button></a>
+		<a href='/agungelektrindo/human_resource_department/set_inactive_dashboard'><button>Set inactive</button></a>
+		<a href='/agungelektrindo/human_resource_department/set_authority_dashboard'><button>Authority</button></a>
 	</div>
 	<button class='dropdown_button'>Salary Slip</button>
 	<div class="dropdown-container">
-		<a href='/agungelektrindo/human_resource_department/salary_create_dashboard'><p>Create salary slip</p></a>
-		<a href='/agungelektrindo/human_resource_department/manage_tutorial'><p>Salary slip archives</p></a>
+		<a href='/agungelektrindo/human_resource_department/salary_create_dashboard'><button>Create salary slip</button></a>
+		<a href='/agungelektrindo/human_resource_department/manage_tutorial'><button>Salary slip archives</button></a>
 	</div>	
 	<hr>
 	<a href='/agungelektrindo/human_resource'><i class="fa fa-eercast" aria-hidden="true"></i>Human Resource Department</a>
@@ -19,11 +19,9 @@
 </div>
 <script>
 	$('.dropdown_button').click(function(){
-		if($(this).next().is(':visible')){
-			$(this).css('background-color','transparent');
-		} else {
-			$(this).css('background-color','#00ccff');
-		}
+		$('.dropdown-container').hide();
+		$('button').removeClass('active');
+		$(this).addClass('active');
 		$(this).next().toggle(350);
 	});
 	

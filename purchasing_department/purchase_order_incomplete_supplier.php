@@ -11,6 +11,9 @@
 	$supplier_address	= $supplier['address'];
 	$supplier_city		= $supplier['city'];
 ?>
+<head>
+	<title>Pending items from <?= $supplier_name ?></title>
+</head>
 <style>
 @media print {
   body * {

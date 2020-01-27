@@ -5,6 +5,10 @@
 <head>
 	<title>Sales return</title>
 </head>
+<script>
+	$('#return_side').click();
+	$('#return_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Return</h2>
 	<p style='font-family:museo'>Create return</p>

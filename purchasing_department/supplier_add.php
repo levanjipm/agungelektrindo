@@ -16,4 +16,6 @@
 		$sql = "INSERT INTO supplier (name, address, phone, npwp,city, created_by) VALUES ('$name','$address','$phone','$npwp','$city', '$creator')";
 		$conn->query($sql);
 	}
+	
+	header('location:/agungelektrindo/purchasing_department/supplier_manage_dashboard');
 ?>

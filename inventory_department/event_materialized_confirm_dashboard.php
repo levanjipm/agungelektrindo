@@ -18,7 +18,7 @@
 	<p style='font-family:museo'><?= $event_name ?></p>
 	
 	<label>Event date</label>
-	<p style='font-family:museo'><?= $event_date ?></p>
+	<p style='font-family:museo'><?= date('d M Y',strtotime($event_date)) ?></p>
 	
 	<table class='table table-bordered'>
 		<tr>
@@ -75,6 +75,33 @@
 	
 	$('#confirm_button').click(function(){
 		$.ajax({
+			url:'event_materialized_confirm.php',
+			data:{
+				event_id:<?= $event_id ?>,
+			},
+			type:'POST',
+			beforeSend:function(){
+				$('button').attr('disabled',true);
+			},
+			success:function(){
+				window.location.href='/agungelektrindo/inventory_department/event_confirm_dashboard';
+			}
+		})
+	});
+	
+	$('#delete_button').click(function(){
+		$.ajax({
+			url:'event_materialized_delete.php',
+			data:{
+				event_id:<?= $event_id ?>,
+			},
+			type:'POST',
+			beforeSend:function(){
+				$('button').attr('disabled',true);
+			},
+			success:function(){
+				window.location.href='/agungelektrindo/inventory_department/event_confirm_dashboard';
+			}
 		})
 	});
 </script>

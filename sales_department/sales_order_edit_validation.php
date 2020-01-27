@@ -40,6 +40,10 @@
 <head>
 	<title>Validate Sales Order</title>
 </head>
+<script>
+	$('#sales_order_side').click();
+	$('#sales_order_edit_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<form id='edit_sales_order_form' action='sales_order_edit_input' method='POST'>
 		<h2 style='font-family:bebasneue'>Sales Order</h2>

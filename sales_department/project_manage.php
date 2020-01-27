@@ -10,6 +10,8 @@
 	$project_name			= $code_project['project_name'];
 	$project_description	= $code_project['description'];
 	$customer_id			= $code_project['customer_id'];
+	$isdone					= $code_project['isdone'];
+	$issent					= $code_project['issent'];
 	
 	$sql_customer			= "SELECT name, address, city FROM customer WHERE id = '$customer_id'";
 	$result_customer		= $conn->query($sql_customer);
@@ -27,6 +29,10 @@
 <head>
 	<title>Manage <?= $project_name ?></title>
 </head>
+<script>
+	$('#project_side').click();
+	$('#project_manage_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Project</h2>
 	<p style='font-family:museo'>Manage project</p>
@@ -79,24 +85,111 @@
 <?php 
 	}
 ?>
-	<label>Set project as done</label>
-	<input type='date' class='form-control' id='date_done'>
-	<br>
-	<button type='button' class='button_default_dark' id='set_done_button'>Set done</button>
-</div>
 <div class='full_screen_wrapper' id='view_delivery_order_wrapper'>
 	<button type='button' class='full_screen_close_button'>&times</button>
 	<div class='full_screen_box'>
 	</div>
 </div>
-
-<div class='full_screen_wrapper' id='done_wrapper'>
-	<div class='full_screen_notif_bar'>
-		<h2 style='color:red;font-size:2em;'><i class='fa fa-exclamation'></i></h2>
-		<p style='font-family:museo'>Are you sure to set this project as done?</p>
-		<button type='button' class='button_danger_dark' id='close_notif_bar'>Check again</button>
-		<button type='button' class='button_success_dark' id='confirm_done_button'>Submit</button>
+<?php
+	if($isdone == 0 && $issent == 0){
+?>
+	<label>Set project as done</label>
+	<input type='date' class='form-control' id='date_done'>
+	<br>
+	<button type='button' class='button_default_dark' id='set_done_button'>Set done</button>
+	
+	<div class='full_screen_wrapper' id='done_wrapper'>
+		<div class='full_screen_notif_bar'>
+			<h2 style='color:red;font-size:2em;'><i class='fa fa-exclamation'></i></h2>
+			<p style='font-family:museo'>Are you sure to set this project as done?</p>
+			<button type='button' class='button_danger_dark' id='close_notif_bar'>Check again</button>
+			<button type='button' class='button_success_dark' id='confirm_done_button'>Submit</button>
+		</div>
 	</div>
+	<script>
+		$('#set_done_button').click(function(){
+			if($('#date_done').val() == ''){
+				alert('Please insert date value');
+				$('#date_done').focus();
+				return false;
+			} else {
+				var window_height		= $(window).height();
+				var notif_height		= $('#done_wrapper .full_screen_notif_bar').height();
+				var difference			= window_height - notif_height;
+				
+				$('#done_wrapper .full_screen_notif_bar').css('top', 0.7 * difference / 2);
+				$('#done_wrapper').fadeIn();
+			};
+		});
+		
+		$('#confirm_done_button').click(function(){
+			$.ajax({
+				url:'project_set_done.php',
+				data:{
+					project_id: <?= $project_id ?>,
+					date: $('#date_done').val()
+				},
+				type:'POST',
+				beforeSend:function(){
+					$('button').attr('disabled',true);
+				},
+				success:function(){
+					window.location.href='/agungelektrindo/sales_department/project_manage_dashboard';
+				}
+			});
+		});
+	</script>
+<?php
+	} else if($isdone == 1 && $issent == 0 && $role == 'superadmin'){
+?>
+	<label>Set project as sent</label>
+	<input type='date' class='form-control' id='date_sent'>
+	<br>
+	<button type='button' class='button_default_dark' id='set_sent_button'>Set sent</button>
+	
+	<div class='full_screen_wrapper' id='done_wrapper'>
+		<div class='full_screen_notif_bar'>
+			<h2 style='color:red;font-size:2em;'><i class='fa fa-exclamation'></i></h2>
+			<p style='font-family:museo'>Are you sure to set this project as sent?</p>
+			<button type='button' class='button_danger_dark' id='close_notif_bar'>Check again</button>
+			<button type='button' class='button_success_dark' id='confirm_sent_button'>Submit</button>
+		</div>
+	</div>
+	<script>
+		$('#set_sent_button').click(function(){
+			if($('#date_sent').val() == ''){
+				alert('Please insert date value');
+				$('#date_sent').focus();
+				return false;
+			} else {
+				var window_height		= $(window).height();
+				var notif_height		= $('#done_wrapper .full_screen_notif_bar').height();
+				var difference			= window_height - notif_height;
+				
+				$('#done_wrapper .full_screen_notif_bar').css('top', 0.7 * difference / 2);
+				$('#done_wrapper').fadeIn();
+			};
+		});
+		
+		$('#confirm_sent_button').click(function(){
+			$.ajax({
+				url:'project_set_sent.php',
+				data:{
+					project_id: <?= $project_id ?>,
+				},
+				type:'POST',
+				beforeSend:function(){
+					$('button').attr('disabled',true);
+				},
+				success:function(){
+					window.location.href='/agungelektrindo/sales_department/project_manage_dashboard';
+				}
+			});
+		});
+	</script>	
+<?php
+	}
+?>
 </div>
 <script>
 	function view_delivery_order(n){
@@ -117,40 +210,8 @@
 		$('#view_delivery_order_wrapper').fadeOut();
 	});
 	
-	$('#set_done_button').click(function(){
-		if($('#date_done').val() == ''){
-			alert('Please insert date value');
-			$('#date_done').focus();
-			return false;
-		} else {
-			var window_height		= $(window).height();
-			var notif_height		= $('#done_wrapper .full_screen_notif_bar').height();
-			var difference			= window_height - notif_height;
-			
-			$('#done_wrapper .full_screen_notif_bar').css('top', 0.7 * difference / 2);
-			$('#done_wrapper').fadeIn();
-		};
-	});
 	
 	$('#close_notif_bar').click(function(){
 		$('#done_wrapper').fadeOut();
 	});
-	
-	$('#confirm_done_button').click(function(){
-		$.ajax({
-			url:'project_set_done.php',
-			data:{
-				project_id: <?= $project_id ?>,
-				date: $('#date_done').val()
-			},
-			type:'POST',
-			beforeSend:function(){
-				$('button').attr('disabled',true);
-			},
-			success:function(){
-				window.location.href='/agungelektrindo/sales_department/project_manage_dashboard';
-			}
-		});
-	});
 </script>
-	

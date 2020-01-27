@@ -2,6 +2,13 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
+<head>
+	<title>Edit sales order</title>
+</head>
+<script>
+	$('#sales_order_side').click();
+	$('#sales_order_edit_dashboard').find('button').addClass('activated');
+</script>
 <style>
 	input[type=text] {
 		padding:10px;
@@ -14,9 +21,6 @@
 		width: 100%;
 	}
 </style>
-<head>
-	<title>Edit sales order</title>
-</head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales Order</h2>
 	<p style='font-family:museo'>Edit or close Sales Order</p>

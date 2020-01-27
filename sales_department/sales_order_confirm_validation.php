@@ -7,16 +7,25 @@
 	$result				= $conn->query($sql);
 	$row				= $result->fetch_assoc();
 	
+	$file_type			= $row['document_type'];
+	$guid				= $row['guid'];
+	
 	if($row['customer_id'] == 0){
 		$customer_name		= $row['retail_name'];
+		$customer_address	= $row['retail_address'];
+		$customer_city		= $row['retail_city'];
 	} else {
-		$sql_customer		= "SELECT name FROM customer WHERE id = '" . $row['customer_id'] . "'";
+		$sql_customer		= "SELECT name, address, city FROM customer WHERE id = '" . $row['customer_id'] . "'";
 		$result_customer	= $conn->query($sql_customer);
 		$customer			= $result_customer->fetch_assoc();
+		
 		$customer_name		= $customer['name'];
+		$customer_address	= $customer['address'];
+		$customer_city		= $customer['city'];
 	}
 	
 	$sales_order_type		= $row['type'];
+	
 	if($sales_order_type == "SRVC"){
 		$type_text			= "Service sales order";
 	} else {
@@ -25,18 +34,36 @@
 	
 	$note					= $row['note'];
 ?>
+<head>
+	<title>Confirm sales order</title>
+</head>
+<script>
+	$('#sales_order_side').click();
+	$('#sales_order_confirm_dashboard').find('button').addClass('activated');
+</script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Sales Order</h2>
 	<p style='font-family:museo'>Confirm sales order</p>
 	<hr>
-	<h3 style='font-family:museo'>General data</h3>
+	
 	<label>Customer</label>
 	<p style='font-family:museo'><?= $customer_name ?></p>
-	<label>Sales order number</label>
-	<p style='font-family:museo'><?= $row['name']; ?></p>
-	<label>Type</label>
-	<p style='font-family:museo'><?= $type_text ?></p>
+	<p style='font-family:museo'><?= $customer_address ?></p>
+	<p style='font-family:museo'><?= $customer_city ?></p>
 	
+	<label>Sales order</label>
+	<p style='font-family:museo'><?= $row['name']; ?></p>
+	<p style='font-family:museo'><?= $type_text ?></p>
+<?php
+	if(!empty($row['document_type'])){
+?>
+	<a href='/agungelektrindo/sales_department/sales_order_images/<?= $guid . '.' . $file_type ?>' target='blank'>
+		<button type='button' class='button_default_dark'><i class='fa fa-cloud-download'></i> Download</button>
+	</a>
+	<br><br>
+<?php
+	}
+?>
 	<table class='table table-bordered'>
 <?php
 	if($sales_order_type == "SRVC"){
@@ -84,11 +111,11 @@
 <?php
 	$goods_total	= 0;
 
-	$sql_goods		= "SELECT * FROM sales_order WHERE so_id = '$sales_order_id'";
-	$result_goods	= $conn->query($sql_goods);
-	while($goods	= $result_goods->fetch_assoc()){
-		$goods_total += $goods['price'] * $goods['quantity'];
-		$sql_item	= "SELECT description FROM itemlist WHERE reference = '" . mysqli_real_escape_string($conn,$goods['reference']) . "'";
+	$sql_goods			= "SELECT * FROM sales_order WHERE so_id = '$sales_order_id'";
+	$result_goods		= $conn->query($sql_goods);
+	while($goods		= $result_goods->fetch_assoc()){
+		$goods_total 	+= $goods['price'] * $goods['quantity'];
+		$sql_item		= "SELECT description FROM itemlist WHERE reference = '" . mysqli_real_escape_string($conn,$goods['reference']) . "'";
 		$result_item	= $conn->query($sql_item);
 		$item			= $result_item->fetch_assoc();
 		

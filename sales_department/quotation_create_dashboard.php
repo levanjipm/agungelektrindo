@@ -1,8 +1,6 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
-	
-	$file_name		= basename(__FILE__, ".php");
 ?>
 <script>
 $( function() {
@@ -12,8 +10,8 @@ $( function() {
 });
 
 $(document).ready(function(){
-	$('#quotation').click();
-	$('#<?= $file_name ?>').addClass('active');
+	$('#quotation_side').click();
+	$('#quotation_create_dashboard').find('button').addClass('activated');
 });
 </script>
 <head>
@@ -23,7 +21,7 @@ $(document).ready(function(){
 	<h2 style='font-family:bebasneue'>Quotation</h2>
 	<p>Create new quotation</p>
 	<hr>
-	<form id="quotation" class="form" method="POST" action="quotation_create_validate">
+	<form id="quotation_form" class="form" method="POST" action="quotation_create_validate">
 		<div class="row">
 			<div class="col-sm-6">
 				<label>Customer</label>
@@ -53,11 +51,11 @@ $(document).ready(function(){
 		<table class='table table-bordered'>
 			<tr>
 				<th style='width:25%'>Reference</th>
-				<th style='width:20%'>Price (Rp.)</th>
+				<th style='width:20%'>Price</th>
 				<th style='width:10%'>Discount</th>
 				<th style='width:15%'>Quantity</th>
-				<th style='width:20%'>Net Price (Rp.)</th>
-				<th style='width:20%'>Total Price (Rp.)</th>
+				<th style='width:20%'>Net Price</th>
+				<th style='width:20%'>Total Price</th>
 			</tr>
 			<tbody id='quotation_detail'>
 				<tr id='tr-1'>
@@ -82,13 +80,6 @@ $(document).ready(function(){
 					<td colspan='2' style='width:40%'><input type='number' class="form-control" id="add_discount" name="add_discount" step='0.001'></td>
 				</tr>
 		</table>
-		<button type='button' class='button_default_dark' id='toggle_note_button'>Toggle note</button>
-		<br>
-		<script>
-			$('#toggle_note_button').click(function(){
-				$('#note_wrapper').toggle(300);
-			});
-		</script>
 		<div id='note_wrapper'>
 			<h3><b>Note</b></h3>
 			<div class="row">
@@ -108,8 +99,6 @@ $(document).ready(function(){
 							while($rows = mysqli_fetch_array($result)) {
 							echo '<option value="' . $rows["id"] . '">'. $rows["payment_term"].'</option> ';
 							}
-						} else {
-							echo "0 results";
 						}
 					?>
 					</select>
@@ -150,7 +139,7 @@ $(document).ready(function(){
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="form-group">
-						<textarea class="form-control" name="comment" rows="3" form="quotation" style='resize:none'></textarea>
+						<textarea class="form-control" name="comment" rows="3" style='resize:none'></textarea>
 					</div>
 				</div>
 			</div>
@@ -255,8 +244,8 @@ function hitung(){
 			$('#back').show();
 			$('#calculate').hide();
 			$('#close').hide();
-			$('#add_item_button').attr('disabled',true);
-			$('.button_delete_row').hide();
+			$('#add_item_button').hide();
+			$('.button_danger_dark').hide();
 		}
 	}
 };
@@ -279,7 +268,7 @@ function validate(){
 		alert('Please insert correct payement detail!');
 		return false;
 	} else {
-		$('#quotation').submit();
+		$('#quotation_form').submit();
 	}
 }
 $("#back").click(function (){
@@ -295,8 +284,8 @@ $("#back").click(function (){
 	$('#back').hide();
 	$('#calculate').show();
 	$('#close').show();
-	$('#add_item_button').attr('disabled',false);
-	$('.button_delete_row').show();
+	$('#add_item_button').show();
+	$('.button_danger_dark').show();
 })
 
 function payment_js(){
@@ -339,6 +328,5 @@ function payment_js(){
 
 	function delete_row(n){
 		$('#tr-' + n).hide(150, function(){ $(this).remove(); })
-		// $('#tr-' + n).remove();
 	};
 </script>

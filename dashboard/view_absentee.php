@@ -170,7 +170,7 @@
 	
 	function input_absent(n){
 		$.ajax({
-			url:'input_absentee.php',
+			url:'/agungelektrindo/dashboard/input_absentee.php',
 			data:{
 				user_id: n,
 				date: "<?= date('Y-m-d') ?>",
@@ -189,7 +189,7 @@
 	
 	function delete_absent(n){
 		$.ajax({
-			url:'input_absentee.php',
+			url:'/agungelektrindo/dashboard/input_absentee.php',
 			data:{
 				user_id: n,
 				date: "<?= date('Y-m-d') ?>",

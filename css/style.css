@@ -76,7 +76,7 @@
 .dropdown-container {
 	display: none;
 	background-color:#171e21;
-	padding-left: 25px;
+	padding-left: 0px;
 	line-height:2.5;
 	width:100%;
 }
@@ -86,8 +86,14 @@
 	text-decoration:none;
 }
 
-.dropdown-container a.active{
-	border-left:5px solid white;
+.dropdown-container button{
+	width:100%;
+	border-left:10px solid transparent;
+	padding:5px;
+}
+
+.dropdown-container button.activated{
+	border-left:10px solid #0792b5;
 }
 
 .sidenav a{
@@ -130,7 +136,7 @@
 	padding:20px;
 	padding-top:90px;
 	padding-left:30px;
-	display:block;
+	display:none;
 }
 
 .form-control{

@@ -306,7 +306,7 @@
 	</div>
 	<div class="row" style="background-color:#333;padding:30px">
 		<div class="col-sm-2 offset-sm-5">
-			<button class="button_default_dark hidden-print" type="button" id="print" onclick="printing()">Print</button>
+			<button class="button_default_dark hidden-print" type="button" id="print" onclick="printing()"><i class='fa fa-print'></i></button>
 		</div>
 	</div>
 </body>
