@@ -58,7 +58,7 @@
 <?php
 	$total_debt				= 0;
 	$sql_invoice_detail 	= "SELECT id, date, name, value FROM purchases
-								WHERE supplier_id = '$supplier_id' AND isdone = '0'";
+								WHERE supplier_id = '$supplier_id' AND isdone = '0' ORDER BY date ASC";
 	$result_invoice_detail 	= $conn->query($sql_invoice_detail);
 	while($invoice_detail 	= $result_invoice_detail->fetch_assoc()){
 		$purchase_id		= $invoice_detail['id'];

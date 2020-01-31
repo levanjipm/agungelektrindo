@@ -14,15 +14,13 @@
 	<link rel="stylesheet" href='/agungelektrindo/css/style.css'>
 </head>
 <style>
-	.option_a{
-		text-decoration:none;
-		color:#333;
-		font-size:1.2em;
+	.button_outline_dark{
+		color:white;
+		background-color:transparent;
+		border:2px solid white;
+		font-size:4em;
 		width:100%;
-	}
-	
-	.option_a:hover{
-		text-decoration:none!important;
+		padding:10px;
 	}
 </style>
 <?php
@@ -43,7 +41,7 @@
 <?php
 	}
 ?>
-<body>
+<body style='background-color:#2B3940;width:100%;'>
 <div class='loading_wrapper_initial'>
 	<div class='loading_wrapper'>
 		<h2 style='font-size:8em'><i class='fa fa-circle-o-notch fa-spin'></i></h2>
@@ -58,29 +56,4 @@
 		$('.loading_wrapper_initial').fadeOut(450);
 		$('.main').fadeIn(450);
 	});
-</script>
-<div class='top_navigation_bar'>
-	<div class='col-lg-4 col-md-5 col-sm-6 col-xs-8'>
-		<a href='/agungelektrindo' style='text-decoration:none;display:inline-block;color:white'>
-			<h2 style='font-family:bebasneue'>AgungElektrindo</h2>
-		</a>
-	</div>
-	<div class='col-lg-2 col-md-4 col-sm-3 col-xs-4 col-lg-offset-6 col-md-offset-3 col-sm-offset-3 col-xs-offset-0' style='float:right'>
-		<button type='button' id='profile_top_nav_button'><h3 style='font-family:Bebasneue'><?= $name ?></h3></button>
-	</div>
-</div>
-<div class='profile_option_wrapper'>
-<?php	if($role	== 'superadmin'){ ?>
-	<a href='/dutasaptaenergi' class='option_a'><p style='font-family:museo'>Duta Sapta</p></a>
-<?php } ?>
-	<a href='/agungelektrindo/codes/logout' class='option_a'><p style='font-family:museo'>Logout</p></a>
-</div>
-<script>
-	$('#profile_top_nav_button').click(function(){
-		$('.profile_option_wrapper').toggle(300);
-	});
-	
-	if (screen.width <= 699) {
-		document.location = '/agungelektrindo/mobile;
-	}
 </script>

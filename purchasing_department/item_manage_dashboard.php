@@ -6,13 +6,13 @@
 	<title>Manage item</title>
 </head>
 <style>
-	input[type=text] {
-		padding:10px;
+	#search_item_bar {
+		padding:15px;
 		width: 130px;
 		-webkit-transition: width 0.4s ease-in-out;
 		transition: width 0.4s ease-in-out;
 	}
-	input[type=text]:focus {
+	#search_item_bar:focus {
 		width: 100%;
 	}
 </style>
@@ -20,12 +20,15 @@
 	<h2 style='font-family:bebasneue'>Item</h2>
 	<p style='font-family:museo'>Manage items</p>
 	<hr>
-	<br>
+	
+	<button type='button' class='button_default_dark' id='add_item_button'>Add item</button>
+	<br><br>
+	
 	<input type="text" id="search_item_bar" placeholder="Search for reference or description" class="form-control">
 	<br>
-	<div id='edit_item_table'>
-	</div>
+	<div id='edit_item_table'></div>
 </div>
+
 <div class='full_screen_wrapper' id='delete_large'>
 	<div class='full_screen_notif_bar'>
 		<h2 style='font-size:2em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h2>
@@ -42,6 +45,34 @@
 	</div>
 </div>
 
+<div class='full_screen_wrapper' id='add_item_wrapper'>	
+	<button type='button' class='full_screen_close_button'>&times </button>
+	<div class='full_screen_box'>
+		<form action='item_add' method='POST'>
+		<h2 style='font-family:bebasneue'>Add item form</h2>
+		<hr>
+		<label>Item Name</label>
+		<input type='text' class='form-control' placeholder='Reference' name='reference' required></input>
+		
+		<label>Type</label>
+		<select class='form-control' name='item_type'>
+<?php
+	$sql_brand 		= "SELECT id,name FROM itemlist_category ORDER BY name ASC";
+	$result_brand 	= $conn->query($sql_brand);
+	while($brand 	= $result_brand->fetch_assoc()){
+?>
+			<option value='<?= $brand['id'] ?>'><?= $brand['name'] ?></option>
+<?php
+	}
+?>
+		</select>
+		<label for="name">Item Description</label>
+		<textarea name='description' class='form-control' placeholder='Description' required style="resize:none" rows='3'></textarea>
+		<br>
+		<button class="button_success_dark">Submit</button>
+		</form>
+	</div>
+</div>
 <script>
 	function disable(n){
 		var window_height			= $(window).height();
@@ -78,28 +109,26 @@
 			},
 			success: function(response){
 				$('#edit_item_wrapper').fadeIn();
-				$('.full_screen_box').html(response);
+				$('#edit_item_wrapper .full_screen_box').html(response);
 			},
 		})
 	}
 
 	$('.full_screen_close_button').click(function(){
-		$('#edit_item_wrapper').fadeOut();
+		$(this).parent().fadeOut();
 	});
 
-	$(document).ready(function(){
-		$.ajax({
-			url: "item_edit_search.php",
-			dataType: "html",
-			beforeSend:function(){
-				$('#search_item_bar').attr('disabled',true);
-				$('#edit_item_table').html("<h2 style='font-size:4em;text-align:center'><i class='fa fa-spin fa-spinner'></i></h2>");
-			},
-			success: function (data) {
-				$('#search_item_bar').attr('disabled',false);
-				$('#edit_item_table').html(data);
-			},
-		});
+	$.ajax({
+		url: "item_edit_search.php",
+		dataType: "html",
+		beforeSend:function(){
+			$('#search_item_bar').attr('disabled',true);
+			$('#edit_item_table').html('');
+		},
+		success: function (response) {
+			$('#search_item_bar').attr('disabled',false);
+			$('#edit_item_table').html(response);
+		},
 	});
 
 	$('#search_item_bar').change(function () {	
@@ -112,12 +141,18 @@
 			dataType: "html",
 			beforeSend:function(){
 				$('#search_item_bar').attr('disabled',true);
-				$('#edit_item_table').html("<h2 style='font-size:4em;text-align:center'><i class='fa fa-spin fa-spinner'></i></h2>");
+				$('.loading_wrapper_initial').fadeIn();
+				$('#edit_item_table').html('');
 			},
-			success: function (data) {
+			success: function (response) {
 				$('#search_item_bar').attr('disabled',false);
-				$('#edit_item_table').html(data);
+				$('.loading_wrapper_initial').fadeOut();
+				$('#edit_item_table').html(response);
 			},
 		});
+	});
+	
+	$('#add_item_button').click(function(){
+		$('#add_item_wrapper').fadeIn();
 	});
 </script>

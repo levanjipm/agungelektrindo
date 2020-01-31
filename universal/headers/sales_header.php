@@ -7,7 +7,6 @@
 	</div>
 	<button class='dropdown_button' id='customer_side'>Customers</button>
 	<div class='dropdown-container'>
-		<a href='/agungelektrindo/sales_department/customer_create_dashboard' id='customer_create_dashboard'><button>Add Customer</button></a>
 		<a href='/agungelektrindo/sales_department/customer_manage_dashboard' id='customer_manage_dashboard'><button>Manage Customer</button></a>
 	
 <?php if($role == 'superadmin'){ ?>

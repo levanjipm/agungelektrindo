@@ -134,3 +134,7 @@
 		<td>Rp. <?= number_format($invoice_value - $purchase_value - $stock_value_difference - $petty_value - $bank + $invoice_delivery + $inventory_after,2) ?></td>
 	</tr>
 </table>
+<br>
+<a href='income_statement_yearly_print?year=<?= $year ?>'>
+	<button type='button' class='button_success_dark'><i class='fa fa-print'></i></button>
+</a>

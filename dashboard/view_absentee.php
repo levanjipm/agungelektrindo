@@ -60,32 +60,23 @@
 	<button type='button' class='button_default_dark' id='view_calendar_button'>View</button>
 	<br>
 	<br>
-	<table class='table table-bordered' id='table_to_absent'>
-		<tr>
-			<th>Name</th>
-			<th colspan='2'></th>
-		</tr>
-		<tbody id='table_body_absent'>
-<?php
-	$sql_user_absen 	= "SELECT id,name FROM users WHERE isactive = '1'";
-	$result_user_absen 	= $conn->query($sql_user_absen);
-	while($user_absen 	= $result_user_absen->fetch_assoc()){
-		$sql_absen 		= "SELECT * FROM absentee_list WHERE date = '" . date('Y-m-d') . "' AND user_id = '" . $user_absen['id'] . "'";
-		$result_absen 	= $conn->query($sql_absen);
-		if(mysqli_num_rows($result_absen) == 0){
-?>
-			<tr>
-				<td><?= $user_absen['name'] ?></td>
-				<td><button type='button' class='btn btn-default' onclick='input_absent(<?= $user_absen['id'] ?>)'><i class="fa fa-check" aria-hidden="true"></i></button></td>
-				<td><button type='button' class='btn btn-danger' onclick='delete_absent(<?= $user_absen['id'] ?>)'>X</button></td>
-			</tr>
-<?php
-		}
-	}
-?>
-		</tbody>
-	</table>
+	<div id='absentee_table'></div>
 <script>
+	$(document).ready(function(){
+		refresh_absentee();
+	});
+	function refresh_absentee()
+	{
+		$.ajax({
+			url:'/agungelektrindo/dashboard/view_absentee_table.php',
+			success:function(response){
+				$('#absentee_table').html(response);
+				setTimeout(function(){
+					refresh_absentee();
+				},1000);
+			}
+		});
+	}
 	$('#view_calendar_button').click(function(){
 		$('#calendar_absent_view').toggle(300);
 	});
@@ -160,49 +151,3 @@
 		</div>
 	</div>
 </div>
-<script>
-	$(document).ready(function(){
-		var Number_of_row = $('#table_body_absent tr').length;
-		if(Number_of_row == 0){
-			$('#table_to_absent').hide();
-		};
-	});
-	
-	function input_absent(n){
-		$.ajax({
-			url:'/agungelektrindo/dashboard/input_absentee.php',
-			data:{
-				user_id: n,
-				date: "<?= date('Y-m-d') ?>",
-				tipe: "1",
-			},
-			type:'POST',
-			success:function(response){
-				$('#table_body_absent').html(response);
-			},
-		});
-		var Number_of_row = $('#table_body_absent tr').length;
-		if(Number_of_row == 0){
-			$('#table_to_absent').hide();
-		};
-	};
-	
-	function delete_absent(n){
-		$.ajax({
-			url:'/agungelektrindo/dashboard/input_absentee.php',
-			data:{
-				user_id: n,
-				date: "<?= date('Y-m-d') ?>",
-				tipe: "2",
-			},
-			type:'POST',
-			success:function(response){
-				$('#table_body_absent').html(response);
-			},
-		});
-		var Number_of_row = $('#table_body_absent tr').length;
-		if(Number_of_row == 0){
-			$('#table_to_absent').hide();
-		};
-	};
-</script>

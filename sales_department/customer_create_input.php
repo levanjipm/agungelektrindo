@@ -9,7 +9,7 @@
 	$customer_pic 				= mysqli_real_escape_string($conn,$_POST['customer_pic']); 	
 	$customer_phone 			= mysqli_real_escape_string($conn,$_POST['customer_phone']);
 	$customer_name				= mysqli_real_escape_string($conn,$_POST['customer_name']);
-	$customer_alamat 			= mysqli_real_escape_string($conn,$_POST['customer_alamat']);
+	$customer_alamat 			= mysqli_real_escape_string($conn,$_POST['customer_address']);
 	$customer_blok 				= mysqli_real_escape_string($conn,$_POST['customer_blok']); 	
 	$customer_rt 				= mysqli_real_escape_string($conn,$_POST['customer_rt']); 	
 	$customer_rw 				= mysqli_real_escape_string($conn,$_POST['customer_rw']); 	
@@ -32,4 +32,6 @@
 								 VALUES ('$customer_name', '$customer_address' , '$customer_phone', '$customer_npwp', '$customer_city', '$customer_prefix', '$customer_pic', CURDATE(), '$created_by', '$customer_top')";
 		$conn->query($sql);
 	};
+	
+	header('location:/agungelektrindo/sales');
 ?>

@@ -2,73 +2,59 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
-<style>
-	.button_tab{
-		background-color:transparent;
-		border:none;
-		outline:none!important;
-		display:inline-block;
-		width:30%;
-	}
-	
-	.button_tab.activ{
-		border-bottom:2px solid #008080;
-	}
-	
-	#customer_list{
-		padding:20px;
-	}
-</style>
-<script>
-	$('#customer_side').click();
-	$('#customer_black_list').find('button').addClass('activated');
-</script>
-<div class='main'>
-	<h2 style='font-family:bebasneue'>Customer</h2>
-	<p>Black list or white list customer</p>
-	<hr>
-	<button type='button' class='button_tab activ' id='blacklist_button'>
-		<p>Blacklist customer</p>
-	</button>
-	<button type='button' class='button_tab' id='whitelist_button'>
-		<p>Whitelist customer</p>
-	</button>
-	<div id='customer_list'>
+<head>
+	<title>Black list customer</title>
+</head>
+<div class='full_screen_wrapper' id='black_list_notif'>
+	<div class='full_screen_notif_bar'>
+		<h1 style='font-size:2em;color:red'><i class="fa fa-times" aria-hidden="true"></i></h1>
+		<p style='font-family:museo'>Are you sure to <strong>blacklist</strong> this customer?</p>
+		<br>
+		<button type='button' class='button_danger_dark close_notif_button'>Check again</button>
+		<button type='button' class='button_success_dark' id='confirm_button'>Delete</button>
+		<input type='hidden' id='customer_id'>
 	</div>
 </div>
+<div class='main'>
+	<h2 style='font-family:bebasneue'>Customer</h2>
+	<p style='font-family:museo'>Black list or white list customer</p>
+	<hr>
+	<div id='customer_black_list_view'></div>
+</div>
 <script>
-	$('.button_tab').click(function(){
-		var button_id	= $(this).attr('id');
-		if(button_id	== 'blacklist_button'){
-			$('.activ').removeClass('activ');
-			$('#' + button_id).addClass('activ');
-			$.ajax({
-				url:'customer_black_list_view.php',
-				beforeSend:function(){
-					$('.loading_wrapper_initial').show();
-				},
-				success:function(response){
-					$('.loading_wrapper_initial').fadeOut(300);
-					$('#customer_list').html(response);
-				}
-			});
-		} else if(button_id	== 'whitelist_button'){
-			$('.activ').removeClass('activ');
-			$('#' + button_id).addClass('activ');
-			$.ajax({
-				url:'customer_white_list_view.php',
-				beforeSend:function(){
-					$('.loading_wrapper_initial').show();
-				},
-				success:function(response){
-					$('.loading_wrapper_initial').fadeOut(300);
-					$('#customer_list').html(response);
-				}
-			});
+	$.ajax({
+		url:'customer_black_list_view.php',
+		success:function(response){
+			$('#customer_black_list_view').html(response);
 		}
 	});
+	function black_list_customer(n){
+		var window_height		= $(window).height();
+		var notif_height		= $('.full_screen_notif_bar').height();
+		var difference			= window_height - notif_height;
+		$('.full_screen_notif_bar').css('top',0.7 * difference / 2);
+		$('.full_screen_wrapper').fadeIn();
+		$('#customer_id').val(n);
+	}
 	
-	$(document).ready(function(){
-		$('#blacklist_button').click();
+	$('#confirm_button').click(function(){
+		$.ajax({
+			url:'customer_black_list_input.php',
+			data:{
+				customer_id	: $('#customer_id').val()
+			},
+			type:'POST',
+			beforeSend:function(){
+				$('.btn-delete').attr('disabled',true);
+			},
+			success:function(){
+				$('.btn-delete').attr('disabled',false);
+				$('.btn-back').click();
+				$('#blacklist_button').click();
+			}
+		});
+	});
+	$('.close_notif_button').click(function(){
+		$('.close_notif_button').parent().parent().fadeOut();
 	});
 </script>

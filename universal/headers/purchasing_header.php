@@ -8,7 +8,6 @@
 	<a href='/agungelektrindo/purchasing_department/supplier_manage_dashboard'><button>Supplier</button></a>
 	<button class='dropdown_button'>Item list</button>
 	<div class='dropdown-container'>
-		<a href='/agungelektrindo/purchasing_department/item_add_dashboard'><button>Add item list</button></a>
 		<a href='/agungelektrindo/purchasing_department/item_manage_dashboard'><button>Manage item list</button></a>
 		<a href='/agungelektrindo/purchasing_department/item_add_class_dashboard'><button>Item list cat.</button></a>
 	</div>
@@ -17,6 +16,7 @@
 		<a href='/agungelektrindo/purchasing_department/return_create_dashboard'><button>Create Return</button></a>
 		<a href='/agungelektrindo/purchasing_department/return_confirm_dashboard'><button>Confirm Return</button></a>
 	</div>
+	<a href='/agungelektrindo/purchasing_department/restock_dashboard'><button>Restock</button></a>
 	<a href='/agungelektrindo/purchasing_department/report_dashboard'><button>Purchase Report</button></a>
 	<hr>
 	<a href='/agungelektrindo/purchasing' style='color:#1ac6ff;text-decoration:none'>

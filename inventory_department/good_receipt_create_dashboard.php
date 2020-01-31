@@ -16,13 +16,13 @@
 					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						<label>Supplier</label>
 						<select class="form-control" name="supplier" id="supplier" onclick="disable()" required>
-							<option id="kosong">Please Select a supplier--</option>
+							<option id="kosong">--Please Select a supplier--</option>
 <?php
-	$sql_supplier		= "SELECT DISTINCT(supplier.id), supplier.name FROM code_goodreceipt 
-							JOIN code_purchaseorder ON code_purchaseorder.id = code_goodreceipt.po_id
-							JOIN supplier ON code_purchaseorder.supplier_id = supplier.id
-							WHERE code_goodreceipt.isinvoiced = '0'";	
-	$result_supplier	= $conn->query($sql_supplier);
+	$sql_incomplete_supplier	= "SELECT DISTINCT(code_purchaseorder.supplier_id) as id, supplier.name FROM code_purchaseorder JOIN
+								purchaseorder ON purchaseorder.purchaseorder_id = code_purchaseorder.id JOIN
+								supplier ON code_purchaseorder.supplier_id = supplier.id
+								WHERE purchaseorder.status = '0'";
+	$result_supplier	= $conn->query($sql_incomplete_supplier);
 	while($supplier		= $result_supplier->fetch_assoc()){
 		$supplier_id	= $supplier['id'];
 		$supplier_name	= $supplier['name'];

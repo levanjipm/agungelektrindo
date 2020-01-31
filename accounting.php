@@ -15,6 +15,8 @@
 	$pending_bank		= mysqli_num_rows($result);
 ?>
 <head>
+	<script src='/agungelektrindo/universal/chartist/dist/chartist.min.js'></script>
+	<link rel='stylesheet' href='/agungelektrindo/universal/chartist/dist/chartist.min.css'>
 	<title>Accounting department</title>
 </head>
 <style>
@@ -110,4 +112,20 @@
 		</script>
 	</div>
 	</a>
+	<br><br>
+	<div class='row'>
+		<div class='col-md-8 col-sm-8 col-xs-12'>
+			<a href='/agungelektrindo/accounting_department/receivable_dashboard' style='text-decoration:none;width:100%;color:#333'>
+			<div id='receivable_chart'></div>
+			</a>
+		</div>
+	</div>
+	<script>
+		$.ajax({
+			url:'/agungelektrindo/accounting_department/receivable_chart.php',
+			success:function(response){
+				$('#receivable_chart').html(response);
+			}
+		});
+	</script>
 </div>

@@ -66,7 +66,7 @@ $( function() {
 			<br>
 		</div>
 	</div>
-	<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
+	<br>
 	<button type='button' class='button_default_dark' id='add_item_button' style='display:inline-block'>Add item</button>
 	<br><br>
 	<table class='table table-bordered'>
@@ -142,7 +142,7 @@ $("#add_item_button").click(function (){
 	"<td><input type='text' id='pl" + a + "' name='pl[" + a + "]'' class='form-control'></td>"+
 	"<td id='disc" + a + "'></td>"+
 	"<td id='total" + a + "'></td>"+
-	"<td><button type='button' class='button_danger_dark delete_button' onclick='delete_row(" + a + ")'>X</button></td>"+
+	"<td><button type='button' class='button_danger_dark delete_button' onclick='delete_row(" + a + ")'><i class='fa fa-trash'></i></button></td>"+
 	"</tr>").find("input").each(function () {
 		});
 	$("#reference" + a).autocomplete({

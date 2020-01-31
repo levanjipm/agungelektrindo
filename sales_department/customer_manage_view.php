@@ -12,7 +12,7 @@
 		<tr>
 			<th>Name</th>
 			<th>Address</th>
-			<th></th>
+			<th>Action</th>
 		</tr>
 <?php
 	if(empty($_GET['term']) || $_GET['term'] == ''){
@@ -27,7 +27,7 @@
 	
 	$max_page				= ceil($customer_count / 25);
 	
-	if(empty($_GET['term'])){
+	if(empty($_GET['term']) || $_GET['term'] == ''){
 		$sql_customer			= "SELECT * FROM customer ORDER BY name ASC LIMIT 25 OFFSET $offset";
 	} else {
 		$sql_customer			= "SELECT * FROM customer WHERE name LIKE '%$term%' OR pic LIKE '%$term%' OR address LIKE '%$term%' OR city LIKE '%$term%' LIMIT 25 OFFSET $offset";
@@ -74,13 +74,13 @@
 					<i class="fa fa-trash-o" aria-hidden="true"></i>
 				</button>
 <?php
-		} else {
+	} else {
 ?>
-				<button type='button' class='button_warning_dark' onclick='delete_customer(<?= $customer_id ?>)'>
+				<button type='button' class='button_warning_dark' onclick='delete_customer(<?= $customer_id ?>)' title='Delete <?= $customer_name ?>'>
 					<i class="fa fa-trash-o" aria-hidden="true"></i>
 				</button>
 <?php
-		}
+	}
 ?>		
 			</td>
 		</tr>
@@ -205,6 +205,7 @@
 					$('.loading_wrapper_initial').fadeOut(300);
 					$('#customer_view_pane').html(data);
 				},
+			});
 		});
 <?php
 	} else {

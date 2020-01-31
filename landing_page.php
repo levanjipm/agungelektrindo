@@ -18,6 +18,7 @@ session_destroy();
 	
 	body{
 		background-color:#2B3940;
+		color:white;
 	}
 	
 	.form-control{
@@ -32,16 +33,6 @@ session_destroy();
 		color:white;
 	}
 	
-	.login_box{
-		position:fixed;
-		top:20%;
-		height:60%;
-		min-height:200px;
-		color:#333;
-		background-color:#fff;
-		box-shadow:3px 3px 3px 3px #333;
-	}
-	
 	.form_label{
 		position:fixed;
 		top:15%;
@@ -52,12 +43,14 @@ session_destroy();
 	}
 </style>
 <body>
-<div class="row" style='display:none' id='login_wrapper_box'>
-	<div class='col-md-6 col-sm-10 col-xs-12  col-md-offset-3 col-sm-offset-1 col-xs-offset-0 login_box'>
+<div class="row" style='display:none;margin:0' id='login_wrapper_box'>
+	<div class='col-lg-6 col-md-10 col-sm-10 col-xs-12 col-lg-offset-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-0'>
 		<form style="padding:20px" method="POST" action="login" style='z-index:40!important'>
 			<h2 style='font-family:bebasneue'>Member Login</h2>
 			<label>Username</label>
 			<input type="text" placeholder="Username" class="form-control" id="username" name="username">
+			
+			<br>
 			<label>Password</label>
 			<input type="password" id='pass' name="pass" class="form-control" placeholder="Password">
 			<br>

@@ -1,7 +1,8 @@
 <?php
 	include('../codes/connect.php');
 ?>
-<h2 style='font-family:bebasneue'>Pending sales order</h2>
+<h2 style='font-family:bebasneue'>Items need to be bought</h2>
+<hr>
 <table class='table table-bordered'>
 	<tr>
 		<th>Reference</th>
@@ -19,7 +20,7 @@ while($pending_so 		= $result_pending_so->fetch_assoc()){
 	$quantity_sent 		= $pending_so['sent_quantity'];
 	$pending_so			= $quantity - $quantity_sent;
 	
-	$sql_po	 			= "SELECT quantity, received_quantity FROM purchaseorder WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "' AND status = '0'";
+	$sql_po	 			= "SELECT SUM(quantity) as quantity, SUM(received_quantity) as received_quantity FROM purchaseorder WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "' AND status = '0' GROUP BY reference";
 	$result_po 			= $conn->query($sql_po);
 	$row_po 			= $result_po->fetch_assoc();
 	
@@ -55,4 +56,3 @@ while($pending_so 		= $result_pending_so->fetch_assoc()){
 }
 ?>
 </table>
-<button type='button' class='button_default_dark'>Create purchase order</button>

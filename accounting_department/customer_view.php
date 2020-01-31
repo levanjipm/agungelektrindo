@@ -80,7 +80,7 @@
 				<tr>
 					<td><?= date('d M Y',strtotime($invoice_detail['date'])) ?></td>
 					<td><?= $invoice_detail['invoice_name'] ?></td>
-					<td>Rp. <?= number_format($invoice_detail['value'] + $invoice_detail['ongkir'] - $paid) ?></td>
+					<td>Rp. <?= number_format($invoice_detail['value'] + $invoice_detail['ongkir'] - $paid,2) ?></td>
 <?php
 	if($role == 'superadmin'){
 ?>

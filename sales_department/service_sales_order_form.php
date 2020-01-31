@@ -44,17 +44,18 @@
 			</select>
 		</div>
 	</div>
+	<br>
 	<div class='row'>
 		<div class='col-xs-12'>
-		<h4 style='font-family:bebasneue;display:inline-block'>Detail </h4>
 		<button type='button' class='button_default_dark' id='add_row_button'>Add item</button>
+		<br><br>
 		<table class='table table-bordered'>
 			<tr>
 				<th style='width:25%'>Service name</th>
 				<th style='width:10%'>Quantity</th>
 				<th style='width:10%'>Unit</th>
 				<th style='width:15%'>Price</th>
-				<th style='width:20%'></th>
+				<th style='width:20%'>Total Price</th>
 				<th style='width:10%'></th>
 			</tr>
 			<tbody id='service_body'>
@@ -165,7 +166,7 @@ $("#add_row_button").click(function (){
 		"</select></td>"+
 		"<td><input type='number' class='form-control' id='service_price" + a + "' name='service_price[" + a + "]'></td>"+
 		"<td id='service_total" + a + "'></td>"+
-		"<td><button type='button' class='button_danger_dark' onclick='remove_row(" + a + ")' id='remove_button_" + a + "'>X</button></td>"+
+		"<td><button type='button' class='button_danger_dark' onclick='remove_row(" + a + ")' id='remove_button_" + a + "'><i class='fa fa-trash'></i></button></td>"+
 		"</tr>"
 	)
 	

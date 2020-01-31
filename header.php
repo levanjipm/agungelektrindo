@@ -79,4 +79,8 @@
 	$('#profile_top_nav_button').click(function(){
 		$('.profile_option_wrapper').toggle(300);
 	});
+	
+	if (typeof window.orientation !== 'undefined') {
+		window.location.href='/agungelektrindo/mobile';
+	}
 </script>

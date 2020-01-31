@@ -70,13 +70,13 @@
 <?php
 		if($disable_condition == 0){
 ?>
-				<button type='button' class='button_warning_dark' onclick='disable(<?= $row['id'] ?>)'>
+				<button type='button' class='button_danger_dark' onclick='disable(<?= $row['id'] ?>)'>
 					<i class="fa fa-trash-o" aria-hidden="true"></i>
 				</button>
 <?php
 		} else if($disable_condition > 0){
 ?>
-				<button type='button' class='button_danger_dark' disabled>
+				<button type='button' class='button_warning_dark' disabled>
 					<i class="fa fa-trash-o" aria-hidden="true"></i>
 				</button>
 <?php
@@ -101,9 +101,8 @@
 	}
 ?>
 	</select>
-	<button type='button' class='button_default_dark' id='search_page' style='display:inline-block'><i class='fa fa-search'></i></button>
 	<script>
-		$('#search_page').click(function(){
+		$('#page').change(function(){
 			$.ajax({
 				url: "item_edit_search.php",
 				data: {
@@ -114,11 +113,13 @@
 				dataType: "html",
 				beforeSend:function(){
 					$('#search_item_bar').attr('disabled',true);
-					$('#edit_item_table').html("<h2 style='font-size:4em;text-align:center'><i class='fa fa-spin fa-spinner'></i></h2>");
+					$('.loading_wrapper_initial').fadeIn();
+					$('#edit_item_table').html('');
 				},
-				success: function (data) {
+				success: function (response) {
 					$('#search_item_bar').attr('disabled',false);
-					$('#edit_item_table').html(data);
+					$('.loading_wrapper_initial').fadeOut();
+					$('#edit_item_table').html(response);
 				},
 			});
 		});

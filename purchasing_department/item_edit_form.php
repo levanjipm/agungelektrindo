@@ -7,10 +7,14 @@
 ?>
 	<input type='hidden' value='<?= $item_id ?>' id='id'>
 	<h2 style='font-family:bebasneue'>Edit item form</h2>
+	<hr>
+	
 	<label>Reference</label>
 	<input type='text' class='form-control' value='<?= $item['reference'] ?>' id='reference'>
+	
 	<label>Description</label>
 	<textarea class='form-control' style='resize:none' rows='3' id='description'><?= $item['description'] ?></textarea>
+	
 	<label>Type</label>
 	<select class='form-control' id='type'>
 <?php
