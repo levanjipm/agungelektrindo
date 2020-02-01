@@ -4,7 +4,7 @@
 ?>
 <p style='font-family:museo'>This salary slip is confidential, please do not show them to unauthorized parties</p>
 <label>Period</label>
-<form action='print_salary' method='POST' id='salary_form' target='_blank'>
+<form action='/agungelektrindo/dashboard/print_salary' method='POST' id='salary_form' target='_blank'>
 	<select class='form-control' name='salary_period' id='salary_period'>
 		<option value='0'>Select a period</option>
 <?php
