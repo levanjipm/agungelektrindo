@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 	$id 				= (int)$_POST['id'];
 	$sql_quotation 		= "SELECT code_quotation.name, code_quotation.payment_id, code_quotation.date, code_quotation.payment_id, code_quotation.down_payment,
@@ -38,7 +38,7 @@
 	<title>Edit quotation <?= $quotation_name ?></title>
 </head>
 <div class='main'>
-	<h2 style='font-family:bebasneue'>Quotataion</h2>
+	<h2 style='font-family:bebasneue'>Quotation</h2>
 	<p style='font-family:museo'>Edit quotataion</p>
 	<hr>
 <?php
@@ -100,58 +100,38 @@
 				</tr>
 			</tfoot>
 		</table>
-		<div style="padding:20px;background-color:#eee">
-			<div class='row'>
-				<div class='col-sm-6'>
-					<h3 style='font-family:bebasneue'>Note</h3>
-					<p><b>1. Payment term</b></p>
-				</div>
-				<hr>
-			</div>
-			<div class='row'>
-				<div class='col-sm-6'>
-					<select id="terms" name="terms" class="form-control" onchange="payment_js()">
-					<?php
-						$sql_payment = "SELECT * FROM payment";
-						$result = $conn->query($sql_payment);
-						while($rows = mysqli_fetch_array($result)) {
-							if($rows['id'] == $terms){
-								echo '<option selected = "selected" value="' . $rows["id"] . '">'. $rows["payment_term"].'</option> ';
-							} else{
-							echo '<option value="' . $rows["id"] . '">'. $rows["payment_term"].'</option> ';
-							}
-						}
-					?>
-					</select>
+		<div style='padding:20px;background-color:#eee'>
+			<label>Note</label>
+			<p style='font-family:museo'><b>1. </b>Payment term</p>
+			<select id="terms" name="terms" class="form-control" onchange="payment_js()">
+			<?php
+				$sql_payment = "SELECT * FROM payment";
+				$result = $conn->query($sql_payment);
+				while($rows = mysqli_fetch_array($result)) {
+					if($rows['id'] == $terms){
+						echo '<option selected = "selected" value="' . $rows["id"] . '">'. $rows["payment_term"].'</option> ';
+					} else{
+					echo '<option value="' . $rows["id"] . '">'. $rows["payment_term"].'</option> ';
+					}
+				}
+			?>
+			</select>
+			<br>
+			<div class='form-group' style='width:45%;display:inline-block'>
+				<div class='input-group'>
+					<input class="form-control" id="dp" name="dp" maxlength='2' value="<?= $dp?>">
+					<span class="input-group-addon" style="font-size:12px;border-radius:0">%</span>
 				</div>
 			</div>
-			<div class='row'>
-				<div class="col-sm-6" style="padding:5px">
-					<div class="col-sm-6" style="padding:5px">
-						<div class="form-group">
-							<div class="input-group">
-								<input class="form-control" id="dp" name="dp" maxlength='2' value="<?= $dp?>">
-								<span class="input-group-addon" style="font-size:12px">%</span>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6" style="padding:5px">
-						<div class="form-group">
-							<div class="input-group">
-								<input class="form-control" id="lunas" name="lunas" maxlength='2' value="<?= $lunas?>">
-								<span class="input-group-addon" style="font-size:12px">days</span>
-							</div>
-						</div>
-					</div>
+			<div class='form-group' style='width:45%;display:inline-block'>
+				<div class='input-group'>
+					<input class='form-control' id='lunas' name='lunas' maxlength='2' value='<?= $lunas?>'>
+					<span class='input-group-addon' style='font-size:12px;border-radius:0'>days</span>
 				</div>
 			</div>
-			<div class='row'>
-				<div class='col-sm-12'>
-					<p><b>2. </b>Prices and availability are subject to change at any time without prior notice.</p>
-					<p><b>3. </b>Prices mentioned above are tax-included.</p>
-					<textarea class="form-control" name="comment" rows="10" form="quotation_edit"><?= $note ?></textarea>
-				</div>
-			</div>
+			<p style='font-family:museo'><b>2. </b>Prices and availability are subject to change at any time without prior notice.</p>
+			<p style='font-family:museo'><b>3. </b>Prices mentioned above are tax-included.</p>
+			<textarea class="form-control" name="comment" rows="10" form="quotation_edit"><?= $note ?></textarea>
 		</div>
 		<br>
 		<div class="row">

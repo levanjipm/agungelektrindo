@@ -88,14 +88,14 @@ $( function() {
 				<td><input id='pl1' 		name='pl[1]' 		class='form-control'></td>
 				<td id='disc1'></td>
 				<td id='total1'></td>
-				<td></td>
+				<td><button type='button' class='button_danger_dark' style='visibility:hidden'><i class='fa fa-trash'></i></button></td>
 			</tr>
 		</tbody>
 		<tfoot>	
 			<tr>
 				<td style='border:none;' colspan='4'></td>
 				<td>Total</td>
-				<td id="grand_total"></td>
+				<td id='grand_total'></td>
 				<input type='hidden' id='total_number'/>
 			</tr>
 		</tfoot>

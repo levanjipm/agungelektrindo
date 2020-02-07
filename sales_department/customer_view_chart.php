@@ -56,16 +56,16 @@
 }
 
 .ct-series-a .ct-line {
-	stroke: #2B3940;
+	stroke: #326d96;
 	stroke-width: 5px;
 }
 
 .ct-series-a .ct-area {
-	fill: #2B3940;
+	fill: #326d96;
 }
 
 .ct-series-a .ct-bar {
-	stroke: #2B3940;
+	stroke: #326d96;
 	stroke-width: 20px;
 }
 </style>

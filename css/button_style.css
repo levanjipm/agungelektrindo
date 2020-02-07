@@ -1,0 +1,55 @@
+.button_information_transparent{
+	border-radius:50%;
+	background-color:white;
+	outline:none!important;
+	border:none;
+	box-shadow:1px 1px 1px 1px rgba(25,25,25,0.4);
+}
+
+.button_information_red{
+	border-radius:50%;
+	background-color:#cd607e;
+	outline:none!important;
+	border:none;
+	box-shadow:1px 1px 1px 1px rgba(25,25,25,0.4);
+}
+
+.button_default_dark{
+	outline:none;
+	padding:5px 20px;
+	background-color:#0e3f66;
+	border:none;
+	color:white;
+}
+
+.button_success_dark{
+	outline:none;
+	padding:5px 20px;
+	background-color:#326d96;
+	border:none;
+	color:#fff;
+}
+
+.button_warning_dark{
+	outline:none;
+	padding:5px 20px;
+	background-color:#c04000;
+	border:none;
+	color:#fff;
+}
+
+.button_danger_dark{
+	outline:none;
+	padding:5px 20px;
+	background-color:#cd607e;
+	border:none;
+	color:#fff;
+}
+
+.button_gray_dark{
+	outline:none;
+	padding:5px 20px;
+	background-color:#333;
+	border:none;
+	color:#fff;
+}

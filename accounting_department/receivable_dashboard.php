@@ -1,18 +1,26 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 ?>
-<style>
-	.garis{
-		height:20px;
-		background-color:#2b64bf;
-		box-shadow: 2px 2px 4px 2px #888888;
-		margin-top:10px;
-	}
-</style>
 <head>
 	<title>Receivable</title>
 </head>
+<style>
+	.garis_wrapper{
+		transition:0.3s all ease;
+		margin-top:10px;
+	}
+	
+	.garis_wrapper:hover{
+		background-color:#afdfe6;
+		transition:0.3s all ease;
+	}
+
+	.garis{
+		height:20px;
+		box-shadow: 2px 2px 4px 2px rgba(20,20,20,0.4);
+	}
+</style>
 <?php
 	$maximum 	= 0;
 	$total 		= 0;
@@ -22,6 +30,9 @@
 								WHERE invoices.isdone = '0'
 								GROUP by code_delivery_order.customer_id";
 	$result_invoice 		= $conn->query($sql_invoice);
+	
+	$number					= mysqli_num_rows($result_invoice);
+	
 	while($invoice 			= $result_invoice->fetch_assoc()){
 		$customer_id		= $invoice['customer_id'];
 		$sql_receivable		= "SELECT SUM(receivable.value) as paid FROM receivable 
@@ -47,10 +58,10 @@
 			<p>Rp. <?= number_format($total,2) ?></p>
 		</div>
 		<div class='col-sm-4 col-sm-offset-4'>
-			<label>Customer</label>
-			<select class='form-control' id='customer_id'>
+			<label>Customer</label><br>
+			<select class='form-control' id='customer_id' style='width:80%;display:inline-block'>
 <?php
-	$sql			= "SELECT * FROM customer ORDER BY name ASC";
+	$sql			= "SELECT id,name FROM customer ORDER BY name ASC";
 	$result			= $conn->query($sql);
 	while($row		= $result->fetch_assoc()){
 		$id			= $row['id'];
@@ -61,7 +72,7 @@
 	}
 ?>
 			</select>
-			<button type='button' class='button_default_dark' id='view_receivable'><i class='fa fa-long-arrow-right'></i></button>
+			<button type='button' class='button_default_dark' id='view_receivable'><i class='fa fa-search'></i></button>
 		</div>
 	</div>			
 	<hr>
@@ -86,6 +97,7 @@
 	</script>
 <?php
 	$timeout = 0;
+	$i = 1;
 	$receivable_array			= array();
 	$sql_invoice 				= "SELECT SUM(invoices.value + invoices.ongkir) AS jumlah, code_delivery_order.customer_id, invoices.id 
 									FROM invoices 
@@ -110,6 +122,10 @@
 	
 	arsort($receivable_array);
 	foreach($receivable_array as $bar){
+		$r		= ($i * 161 / $number) + 14;
+		$g		= ($i * 160 / $number) + 63;
+		$b		= ($i * 128 / $number) + 102;
+		$rgb	= $r . ',' . $g . ',' . $b;
 		$customer_id				= key($receivable_array);
 		$sql_customer			 	= "SELECT name FROM customer WHERE id = '$customer_id'";
 		$result_customer 			= $conn->query($sql_customer);
@@ -119,13 +135,30 @@
 		} else {
 			$customer_name			= $customer['name'];
 		}
+		
+		if($customer_id != 0){
 ?>
-	<div class='row'>
-		<div class='col-sm-3'><a href='customer_view.php?id=<?= $customer_id ?>' style='text-decoration:none;color:#333'><?= $customer_name ?></a></div>
-		<div class='col-sm-6'><div class='row garis' style='width:0%' id='garis<?= $customer_id ?>'></div>
+	<div class='row garis_wrapper' onclick='view_receivable(<?= $customer_id ?>)' style='cursor:pointer'>
+<?php
+		} else {
+?>
+	<a href='customer_view.php' style='color:black;text-decoration:none'>
+		<div class='row garis_wrapper'>
+<?php
+		}
+?>
+		<div class='col-sm-3'><?= $customer_name ?></div>
+		<div class='col-sm-6'><div class='row garis' style='width:0%;background-color:rgb(<?= $rgb ?>)' id='garis<?= $customer_id ?>'></div>
 		</div>
 		<div class='col-sm-2'>Rp. <?= number_format($bar,2) ?></div>
 	</div>
+<?php
+	if($customer_id == 0){
+?>
+	</a>
+<?php
+	}
+?>
 	<script>
 		$(document).ready(function(){
 			setTimeout(function(){
@@ -138,6 +171,32 @@
 <?php
 		$timeout = $timeout + 10;
 		next($receivable_array);
+		$i++;
 	}
 ?>
 </div>
+
+<div class='full_screen_wrapper' id='view_receivable_wrapper'>
+	<button type='button' class='full_screen_close_button'>&times </button>
+	<div class='full_screen_box'>
+	</div>
+</div>
+<script>
+	function view_receivable(n){
+		$.ajax({
+			url:'receivable_dashboard_view',
+			data:{
+				id:n,
+			},
+			type:"GET",
+			success:function(response){
+				$('#view_receivable_wrapper .full_screen_box').html(response);
+				$('#view_receivable_wrapper').fadeIn();
+			}
+		});
+	}
+	
+	$('.full_screen_close_button').click(function(){
+		$(this).parent().fadeOut();
+	});
+</script>

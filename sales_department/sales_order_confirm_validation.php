@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 	
 	$sales_order_id		= $_POST['id'];
@@ -9,6 +9,7 @@
 	
 	$file_type			= $row['document_type'];
 	$guid				= $row['guid'];
+	$sales_order_name	= $row['name'];
 	
 	if($row['customer_id'] == 0){
 		$customer_name		= $row['retail_name'];
@@ -35,7 +36,7 @@
 	$note					= $row['note'];
 ?>
 <head>
-	<title>Confirm sales order</title>
+	<title>Confirm sales order <?= $sales_order_name ?></title>
 </head>
 <script>
 	$('#sales_order_side').click();

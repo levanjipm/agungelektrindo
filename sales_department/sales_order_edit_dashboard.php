@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
 <head>
@@ -10,14 +10,14 @@
 	$('#sales_order_edit_dashboard').find('button').addClass('activated');
 </script>
 <style>
-	input[type=text] {
+	#search {
 		padding:10px;
 		width: 130px;
 		-webkit-transition: width 0.4s ease-in-out;
 		transition: width 0.4s ease-in-out;
 		padding:10px;
 	}
-	input[type=text]:focus {
+	#search:focus {
 		width: 100%;
 	}
 </style>
@@ -25,8 +25,8 @@
 	<h2 style='font-family:bebasneue'>Sales Order</h2>
 	<p style='font-family:museo'>Edit or close Sales Order</p>
 	<hr>
-	<input type="text" id="search" class="form-control" placeholder="Search here">
-	<br>
+	<input type='text' id='search'>
+	<br><br>
 	<table class='table table-bordered'>
 		<tr>
 			<th>Date</th>

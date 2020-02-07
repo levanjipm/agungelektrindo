@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
 <head>
@@ -15,8 +15,8 @@ $( function() {
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Cost of Goods Sold</h2>
 	<hr>
-	<h4 style='font-family:bebasneue;display:inline-block'>Detail</h4>
-	<button type='button' class='button_default_dark' style='display:inline-block' id='add_row_button'>Add Item</button>
+	<button type='button' class='button_default_dark' id='add_row_button'>Add Item</button>
+	<br><br>
 	<form id='check_hpp_form' action='check_cost_report' method='POST'>
 		<table class='table table-bordered'>
 			<tr>
@@ -30,13 +30,13 @@ $( function() {
 					<td id='wrapper_reference1'><input type='text' class='form-control' id='reference1'></td>
 					<td id='quantity_wrapper1'></td>
 					<td id='available_quantity1'></td>
-					<td></td>
+					<td><button type='button' class='button_success_dark' style='visibility:hidden'><i class='fa fa-trash'></i></td>
 				</tr>
 			</tbody>
 		</table>
-		<button type='button' class='button_success_dark' id='check_item_button'>Check</button>
-		<button type='button' class='button_warning_dark' id='back_button' style='display:none'>Back</button>
-		<button type='submit' class='button_success_dark' id='check_hpp_button' style='display:none'>Next</button>
+		<button type='button' class='button_default_dark' id='check_item_button'>Check</button>
+		<button type='button' class='button_danger_dark' id='back_button' style='display:none'>Back</button>
+		<button type='submit' class='button_default_dark' id='check_hpp_button' style='display:none'>Next</button>
 	</form>
 </div>
 <script>
@@ -48,7 +48,7 @@ $( function() {
 				"<td id='wrapper_reference" + a + "'><input type='text' class='form-control' id='reference" + a + "'></td>"+
 				"<td id='quantity_wrapper" + a + "'></td>"+
 				"<td id='available_quantity" + a + "'></td>"+
-				"<td><button type='button' class='button_danger_dark' onclick='remove_row(" + a + ")'>X</button></td>"+
+				"<td><button type='button' class='button_danger_dark' onclick='remove_row(" + a + ")'><i class='fa fa-trash'></i></button></td>"+
 			"</tr>"
 		).find("input").each(function () {});
 		$("#reference" + a).autocomplete({

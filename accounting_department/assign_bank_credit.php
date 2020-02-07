@@ -1,5 +1,12 @@
 <?php
 	include('../codes/connect.php');
+	$sql 		= "SELECT * FROM code_bank WHERE isdone = '0' AND transaction = '2' AND isdelete = '0' AND label <> 'OTHER'";
+	$result 	= $conn->query($sql);
+	if(mysqli_num_rows($result) == 0){
+?>
+	<p style='font-family:museo'>There is no bank data to assign</p>
+<?php
+	} else{
 ?>
 <table class='table table-bordered'>
 	<tr>
@@ -9,8 +16,6 @@
 		<th></th>
 	</tr>
 <?php
-	$sql 		= "SELECT * FROM code_bank WHERE isdone = '0' AND transaction = '2' AND isdelete = '0' AND label <> 'OTHER'";
-	$result 	= $conn->query($sql);
 	while($row 	= $result->fetch_assoc()){
 		$transaction 	= $row['transaction'];
 		$date 			= $row['date'];
@@ -51,7 +56,13 @@
 		<td>Rp. <?= number_format($row['value'],2) ?></td>
 		<td>
 			<button type='button' class='button_danger_dark' disabled><i class='fa fa-plus' aria-hidden='true'></i></button>
+<?php
+	if($role == 'superadmin' || $role == 'admin'){
+?>
 			<button type='button' class='button_default_dark' onclick='assign_as_other(<?= $row['id'] ?>)'><i class='fa fa-ellipsis-v' aria-hidden='true'></i></button>
+<?php
+	}
+?>
 		</td>
 	</tr>
 <?php
@@ -76,3 +87,6 @@
 		$('#other_form').submit();
 	}
 </script>
+<?php
+	}
+?>

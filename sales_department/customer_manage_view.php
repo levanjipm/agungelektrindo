@@ -64,7 +64,7 @@
 				<button type="button" class="button_default_dark" onclick='open_edit_customer(<?= $customer_id ?>)'>
 					<i class="fa fa-pencil" aria-hidden="true"></i>
 				</button>
-				<a href='customer_view.php?id=<?= $customer_id ?>'>
+				<a href='customer_view.php?id=<?= $customer_id ?>' style='text-decoration:none'>
 					<button type='button' class='button_success_dark'><i class='fa fa-eye'></i></button>
 				</a>
 <?php
@@ -98,17 +98,18 @@
 	}
 ?>
 	</select>
-	<button type='button' class='button_default_dark' id='search_page' style='display:inline-block'><i class='fa fa-search'></i></button>
+	
 	<div class='full_screen_wrapper' id='delete_wrapper'>
 		<div class='full_screen_notif_bar'>
-			<h1 style='font-size:3em;color:red'><i class="fa fa-trash-o" aria-hidden="true"></i></h1>
+			<h1 style='font-size:3em;color:red'><i class="fa fa-trash-o"></i></h1>
 			<p style='font-family:museo'>Are you sure to delete this customer?</p>
 			<button type='button' class='button_danger_dark' id='close_notification_button'>Check again</button>
 			<button type='button' class='button_success_dark' id='confirm_delete_customer'>Confirm</button>
 		</div>
 	</div>
+	
 	<div class='full_screen_wrapper' id='edit_wrapper'>
-		<button type='button' class='full_screen_close_button'>X</button>
+		<button type='button' class='full_screen_close_button'>&times </button>
 		<div class='full_screen_box'>
 		</div>
 	</div>
@@ -190,7 +191,7 @@
 <?php
 	if(empty($_GET['term']) || $_GET['term'] == ''){
 ?>
-		$('#search_page').click(function(){
+		$('#page').change(function(){
 			$.ajax({
 				url: "customer_manage_view.php",
 				data: {
@@ -210,7 +211,7 @@
 <?php
 	} else {
 ?>
-		$('#search_page').click(function(){
+		$('#page').change(function(){
 			$.ajax({
 				url: "customer_manage_view.php",
 				data: {

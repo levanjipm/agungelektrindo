@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 	
 	$so_id 			= $_POST['id'];
@@ -18,79 +18,6 @@
 
 	$guid 			= GUID();
 	
-	switch (date('m',strtotime($do_date))) {
-		case "01" :
-			$month = 'I';
-			break;
-		case "02" :
-			$month = 'II';
-			break;
-		case "03" :
-			$month = 'III';
-			break;
-		case "04" :
-			$month = 'IV';
-			break;
-		case "05" :
-			$month = 'V';
-			break;
-		case "06" :
-			$month = 'VI';
-			break;
-		case "07" :
-			$month = 'VII';
-			break;
-		case "08" :
-			$month = 'VIII';
-			break;
-		case "09" :
-			$month = 'IX';
-			break;
-		case "10" :
-			$month = 'X';
-			break;
-		case "11" :
-			$month = 'XI';
-			break;
-		case "12" :
-			$month = 'XII';
-			break;		
-	}
-	
-	$taxing 		= $_POST['tax'];
-	$sql_number 	= "SELECT number FROM code_delivery_order 
-						WHERE MONTH(date) = MONTH('" . $do_date . "') AND YEAR(date) = YEAR('" . $do_date . "') AND number > '0'
-						AND isdelete = '0' AND company = 'AE' ORDER BY number ASC LIMIT 1";
-	$results 		= $conn->query($sql_number);
-	$number			= $results->fetch_assoc();
-	$first_number	= $number['number'];
-	
-	$sql_number 	= "SELECT number FROM code_delivery_order 
-						WHERE MONTH(date) = MONTH('" . $do_date . "') AND YEAR(date) = YEAR('" . $do_date . "') AND number > '0'
-						AND isdelete = '0' AND company = 'AE' ORDER BY number ASC";
-	$results 		= $conn->query($sql_number);
-	
-	if (mysqli_num_rows($results) > 0 && $first_number == 1){
-		$i 			= 1;
-		while($row_do = $results->fetch_assoc()){
-			if ($i == $row_do['number']){
-				$i++;
-				$nomor = $i;
-			} else {
-				break;
-			}
-		}
-	} else {
-		$nomor = 1;
-	};
-	
-	if ($taxing){
-		$tax_preview = 'P';
-	} else {
-		$tax_preview = 'N';
-	};
-	
-	$do_number_preview 		= "SJ-AE-" . str_pad($nomor,2,"0",STR_PAD_LEFT) . $tax_preview . "." . date("d",strtotime($do_date)). "-" . $month. "-" . date("y",strtotime($do_date));
 	$sql 					= "SELECT * FROM code_salesorder WHERE id = '" . $so_id . "'";
 	$result 				= $conn->query($sql);
 	$row 					= $result->fetch_assoc();
@@ -119,7 +46,6 @@
 		<input type='hidden' 	value='<?= $customer_id ?>' name='customer'>
 		<input type='hidden' 	value='<?= $taxing ?>' 		name='tax'>
 		<input type='hidden' 	value='<?= $do_date ?>' 	name='do_date'>
-		<input type='hidden' 	value='<?= $nomor ?>' 		name='do_number'>
 		<div class="row">
 			<div class="col-sm-2">
 				<img src="../universal/images/logogudang.jpg" style="width:100%;height:auto">
@@ -145,13 +71,10 @@
 		</div>
 		<div class="row">
 			<div class='col-sm-12'>
-				<label>DO Number</label>
-				<p><?= $do_number_preview ?></p>
-				<input type="hidden" name="do_name" value="<?= $do_number_preview ?>">
 				<label>PO Number</label>
 				<p><?= $po_number ?></p>
 				<input type="hidden" name="po_number" value="<?= $po_number ?>">
-				<label>Unique GUID</label>
+				<label>GUID</label>
 				<p><?= $guid ?></p>
 				<input type='hidden' value='<?= $guid ?>' name='guid'>
 			</div>

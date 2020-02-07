@@ -1,68 +1,24 @@
-<head>
-	<title>Sales Department</title>
-</head>
 <?php
-	include('header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
 <head>
+	<title>Sales</title>
 	<script src='/agungelektrindo/universal/chartist/dist/chartist.min.js'></script>
 	<link rel='stylesheet' href='/agungelektrindo/universal/chartist/dist/chartist.min.css'>
+	<link rel='stylesheet' href='/agungelektrindo/css/chart_style.css'>
+	<link rel='stylesheet' href='/agungelektrindo/css/dashboards.css'>
 </head>
-<style>
-	.ct-label {
-		font-size: 10px;
-		font-family:museo;
-		color:#333;
-	}
-	
-	.ct-chart{
-		height:300px;
-	}
-	
-	.box{
-		padding:10px;
-		background-color:#fff;
-		color:#024769;
-		border:3px solid #024769;
-		text-align:center;
-		cursor:pointer;
-		width:25%;
-		display:inline-block;
-		margin-left:2%;
-	}
-
-	.box:hover{
-		background-color:#eee;
-		color:#333;
-		transition:0.3s all ease;
-	}
-
-	.bar_wrapper{
-		position:relative;
-		background-color:#fff;
-		width:100%;
-		height:5px;
-	}
-
-	.bar{
-		position:absolute;
-		top:0;
-		height:100%;
-		background-color:#aaa;
-		transition:0.5s all ease;
-	}
-</style>
 <?php
-	$sql_pending_sales_order		= "SELECT COUNT(DISTINCT(so_id)) as pending_sales_order FROM sales_order WHERE status = '0'";
-	$result_pending_sales_order		= $conn->query($sql_pending_sales_order);
-	$pending_sales_order			= $result_pending_sales_order->fetch_assoc();
+	$sql_pending_sales_order	= "SELECT COUNT(DISTINCT(so_id)) as pending_sales_order FROM sales_order WHERE status = '0'";
+	$result_pending_sales_order	= $conn->query($sql_pending_sales_order);
+	$pending_sales_order		= $result_pending_sales_order->fetch_assoc();
 	
-	$pending						= $pending_sales_order['pending_sales_order'];
+	$pending					= $pending_sales_order['pending_sales_order'];
 	
-	$sql_ongoing_project			= "SELECT id FROM code_project WHERE isdone = '0'";
-	$result_ongoing_project			= $conn->query($sql_ongoing_project);
-	$ongoing_project				= mysqli_num_rows($result_ongoing_project);
+	$sql_ongoing_project		= "SELECT id FROM code_project WHERE isdone = '0'";
+	$result_ongoing_project		= $conn->query($sql_ongoing_project);
+	$ongoing_project			= mysqli_num_rows($result_ongoing_project);
 	
 	$sql				= "SELECT id FROM customer";
 	$result				= $conn->query($sql);
@@ -70,7 +26,6 @@
 	$active_customer	= 0;
 	while($row			= $result->fetch_assoc()){
 		$customer_id	= $row['id'];
-		
 		$sql_date		= "SELECT MAX(date) as date FROM code_delivery_order WHERE customer_id = '$customer_id'";
 		$result_date	= $conn->query($sql_date);
 		$date			= $result_date->fetch_assoc();
@@ -189,13 +144,13 @@
 			</td>
 		</tr>
 		<tr>
-			<td>Alamat PKP</td>
+			<td><strong>Alamat PKP</strong></td>
 			<td>Jalan Jamuju no. 18 RT 005/ RW 006, <br>Kelurahan Cihapit, Kecamatan Bandung Wetan, Bandung</td>
 			<td>
 			</td>
 		</tr>
 		<tr>
-			<td>Nomor Rekening </td>
+			<td><strong>Nomor Rekening</strong></td>
 			<td>Bank Central Asia<br>
 				Cabang Ahmad Yani II<br>
 				Nomor: 8090249500<br>

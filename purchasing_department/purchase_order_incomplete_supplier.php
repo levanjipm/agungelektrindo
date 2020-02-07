@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/purchasing_header.php');
 
 	$supplier_id		= $_POST['supplier_id'];
@@ -32,14 +32,14 @@
 }
 </style>
 <div class='main'>
-	<button type='button' class='button_success_dark' onclick='window.print();'><i class="fa fa-print" aria-hidden="true"></i></button>
-	<a href='purchase_order_incomplete_dashboard' style='text-decoration:none'>
-		<button type='button' class='button_default_dark'><i class="fa fa-long-arrow-left" aria-hidden="true"></i></button>
-	</a>
 	<div id='printable'>
-		<h2 style='font-family:bebasneue'><?= $supplier_name ?></h2>
-		<p><?= $supplier_address ?></p>
-		<p><?= $supplier_city ?></p>
+		<h2 style='font-family:bebasneue'>Incomplete purchase order</h2>
+		<hr>
+		
+		<label>Supplier</label>
+		<p style='font-family:museo'><?= $supplier_name ?></p>
+		<p style='font-family:museo'><?= $supplier_address ?></p>
+		<p style='font-family:museo'><?= $supplier_city ?></p>
 		<hr>
 		<table class='table table-bordered'>
 			<thead>

@@ -1,33 +1,56 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
-	
-	$customer_id			= $_GET['id'];
-	$sql_customer			= "SELECT id FROM customer WHERE id = '$customer_id'";
-	$result_customer		= $conn->query($sql_customer);
-	$customer_count			= mysqli_num_rows($result_customer);
-	
-	$sql_customer			= "SELECT name, address, city FROM customer WHERE id = '$customer_id'";
-	$result_customer		= $conn->query($sql_customer);
-	$customer				= $result_customer->fetch_assoc();
-	
-	$customer_name			= $customer['name'];
-	$customer_address		= $customer['address'];
-	$customer_city			= $customer['city'];
+	if(!empty($_GET['id'])){
+		$customer_id			= (int)$_GET['id'];
+		
+		$sql_customer			= "SELECT id FROM customer WHERE id = '$customer_id'";
+		$result_customer		= $conn->query($sql_customer);
+		$customer_count			= mysqli_num_rows($result_customer);
+		
+		$sql_customer			= "SELECT name, address, city FROM customer WHERE id = '$customer_id'";
+		$result_customer		= $conn->query($sql_customer);
+		$customer				= $result_customer->fetch_assoc();
+		
+		$customer_name			= $customer['name'];
+		$customer_address		= $customer['address'];
+		$customer_city			= $customer['city'];
+	}
 ?>
 <head>
-	<title><?= $customer_name ?> Receivable report</title>
+<?php
+	if(!empty($_GET['id'])){
+?>
+	<title><?= $customer_name ?> receivable report</title>
+<?php
+	} else {
+?>
+	<title>Retail receivable report</title>
+<?php
+	}
+?>
 </head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Receivable report</h2>
 	<hr>
+<?php
+	if(!empty($_GET['id'])){
+?>
 	<label>Customer</label>
 	<p style='font-family:museo'><?= $customer_name ?></p>
 	<p style='font-family:museo'><?= $customer_address ?></p>
 	<p style='font-family:museo'><?= $customer_city ?></p>
+	<a href='customer_view.php?id=<?= $customer_id ?>' style='text-decoration:none'><button type='button' class='button_danger_dark'><i class='fa fa-long-arrow-left'></i></button></a>
+<?php
+	} else {
+?>
+	<h2 style='font-family:bebasneue'>Retail</h2>
+	<a href='customer_view' style='text-decoration:none'><button type='button' class='button_danger_dark'><i class='fa fa-long-arrow-left'></i></button></a>
+<?php
+	}
+?>
 	<button type='button' class='button_success_dark' id='hide_completed_button' style='display:none'><i class='fa fa-eye-slash'></i></button>
 	<button type='button' class='button_default_dark' id='show_completed_button'><i class='fa fa-eye'></i></button>
-	<a href='customer_view.php?id=<?= $customer_id ?>' style='text-decoration:none'><button type='button' class='button_danger_dark'><i class='fa fa-long-arrow-left'></i></button></a>
 	<br><br>
 	<table class='table table-bordered'>
 		<thead>
@@ -43,10 +66,17 @@
 		<tbody>
 <?php
 	$credit					= 0;
-	$sql					= "SELECT invoices.isdone, invoices.id, invoices.name, invoices.value, invoices.ongkir, invoices.date, invoices.faktur FROM invoices 
-								JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
-								WHERE code_delivery_order.customer_id = '$customer_id'
-								ORDER BY invoices.date ASC, code_delivery_order.number ASC";
+	if(!empty($_GET['id'])){
+		$sql					= "SELECT invoices.isdone, invoices.id, invoices.name, invoices.value, invoices.ongkir, invoices.date, invoices.faktur FROM invoices 
+									JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+									WHERE code_delivery_order.customer_id = '$customer_id'
+									ORDER BY invoices.date ASC, code_delivery_order.number ASC";
+	} else {
+		$sql					= "SELECT invoices.isdone, invoices.id, invoices.name, invoices.value, invoices.ongkir, invoices.date, invoices.faktur FROM invoices 
+									JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+									WHERE code_delivery_order.customer_id IS NULL
+									ORDER BY invoices.date ASC, code_delivery_order.number ASC";
+	}
 	$result					= $conn->query($sql);
 	while($row				= $result->fetch_assoc()){
 		$invoice_id			= $row['id'];
@@ -94,7 +124,7 @@
 				<td>
 					Rp. <?= number_format($payment_value,2) ?>
 					<?php
-						if(empty($receivable['bank_id'])){
+						if(empty($receivable['bank_id']) && $role == 'superadmin'){
 					?>
 					<button type='button' class='button_information_red' style='float:right' onclick='confirm_delete(<?= $receivable_id ?>)'>&times</button>
 					<?php
@@ -106,8 +136,11 @@
 <?php
 		}
 	}
-	
-	$sql_bank				= "SELECT date, value FROM code_bank WHERE label = 'CUSTOMER' AND bank_opponent_id = '$customer_id' AND isdone = '0' AND isdelete = '0'";
+	if(empty($_GET['id'])){
+		$sql_bank				= "SELECT date, value FROM code_bank WHERE label = 'CUSTOMER' AND bank_opponent_id = '0' AND isdone = '0' AND isdelete = '0'";
+	} else {
+		$sql_bank				= "SELECT date, value FROM code_bank WHERE label = 'CUSTOMER' AND bank_opponent_id = '$customer_id' AND isdone = '0' AND isdelete = '0'";
+	}
 	$result_bank			= $conn->query($sql_bank);
 	while($bank				= $result_bank->fetch_assoc()){
 		$bank_date			= $bank['date'];

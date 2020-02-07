@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 	$sql_user 			= "SELECT name,role,hpp FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
 	$result_user 		= $conn->query($sql_user);
@@ -58,7 +58,7 @@ $(document).ready(function(){
 <div class='main'>
 	<form action="quotation_create_input" method="POST" id="quotation_validate">
 		<h2 style='font-family:bebasneue'>Quotation</h2>
-		<p>Validate quotation</p>
+		<p style='font-family:museo'>Validate quotation</p>
 		<hr>
 		<input type="hidden" value="<?= $q_date ?>" name="today">
 		<input type="hidden" value='<?= $customer?>' name="customer">
@@ -156,7 +156,7 @@ if($_POST['add_discount'] > 0){
 		</table>
 		<div class='row'>
 			<div class='col-sm-12'>
-				<h4 style='font-family:museo'>Note</h4>
+				<label>Note</label>
 				<ol>
 					<li><p style='font-family:museo'><?= $note ?></p></li>
 					<li><p style='font-family:museo'>Prices and availability are subject to change at any time without prior notice.</p></li>
@@ -169,7 +169,7 @@ if($_POST['add_discount'] > 0){
 				<input type="hidden" name="lunas" value="<?= $lunas ?>">
 				<input type="hidden" name="terms" value="<?= $terms ?>">
 				<input type="hidden" name="comment" value="<?= $comment ?>">
-				<button type="button" class="button_success_dark" id='proceed_button'>Proceed</button>
+				<button type="button" class='button_default_dark' id='proceed_button'>Proceed</button>
 			</div>
 		</div>
 	</form>
@@ -179,7 +179,7 @@ if($_POST['add_discount'] > 0){
 		<h1 style='font-size:3em;color:green'><i class="fa fa-check" aria-hidden="true"></i></h1>
 		<p style='font-family:museo'>Are you sure to confirm this quotation?</p>
 		<button type='button' class='button_danger_dark' id='close_notification_button'>Check again</button>
-		<button type='button' class='button_success_dark' id='confirm_quotation_button'>Confirm</button>
+		<button type='button' class='button_default_dark' id='confirm_quotation_button'>Confirm</button>
 	</div>
 </div>
 <script>

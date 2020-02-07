@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
 <script>
@@ -8,27 +8,22 @@ $( function() {
 		source: "../codes/search_item.php"
 	 })
 });
-
-$(document).ready(function(){
-	$('#quotation_side').click();
-	$('#quotation_create_dashboard').find('button').addClass('activated');
-});
 </script>
 <head>
 	<title>Create quotation</title>
 </head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Quotation</h2>
-	<p>Create new quotation</p>
+	<p style='font-family:museo'>Create new quotation</p>
 	<hr>
 	<form id="quotation_form" class="form" method="POST" action="quotation_create_validate">
-		<div class="row">
-			<div class="col-sm-6">
+		<div class='row'>
+			<div class='col-sm-6'>
 				<label>Customer</label>
 				<select class="form-control" id="quote_person" name="quote_person" onclick="disable('empty_customer')">
 				<option id="empty_customer" value="0">Please Select a customer--</option>
 					<?php
-						$sql 		= "SELECT id,name,address FROM customer WHERE is_blacklist = '0' ORDER BY name ASC";
+						$sql 		= "SELECT id,name FROM customer WHERE is_blacklist = '0' ORDER BY name ASC";
 						$result 	= $conn->query($sql);
 						while($row	= $result->fetch_assoc()){
 					?>
@@ -38,16 +33,18 @@ $(document).ready(function(){
 					?>
 				</select>
 			</div>
-			<div class="col-sm-2 offset-sm-2">
-				<label for="date">Date</label>
-				<input id="today" type="date" class="form-control" value="<?php echo date('Y-m-d');?>" name="quotation_date">
+			<div class='col-sm-4'>
+				<label>Date</label>
+				<input id="today" type="date" class='form-control' value="<?php echo date('Y-m-d');?>" name="quotation_date">
+			</div>
+			<div class='col-sm-2'>
+				<label style='color:white'>X</label>
+				<br>
+				<button type='button' class='button_default_dark' id='add_item_button'>Add item</button>
 			</div>
 		</div>
 		<br>
-		<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
-		<button type='button' class='button_default_dark' id='add_item_button' style='display:inline-block'>Add item</button>
-		<br>
-		<br>
+		
 		<table class='table table-bordered'>
 			<tr>
 				<th style='width:25%'>Reference</th>
@@ -65,7 +62,7 @@ $(document).ready(function(){
 					<td><input type='text' class='form-control' name='quantity[1]' id='quantity1'></td>
 					<td id='unitprice1'></td>
 					<td id='totalprice1'></td>
-					<td></td>
+					<td><button type='button' class='button_success_dark' style='visibility:hidden'><i class='fa fa-trash'></i></button></td>
 				</tr>
 			</tbody>
 			<tfoot>
@@ -76,88 +73,56 @@ $(document).ready(function(){
 				</tr>
 				<tr>
 					<td colspan='3'></td>
-					<td>Ad. Discount</td>
-					<td colspan='2' style='width:40%'><input type='number' class="form-control" id="add_discount" name="add_discount" step='0.001'></td>
+					<td>Discount</td>
+					<td colspan='2' style='width:40%'><input type='number' class='form-control' id='add_discount' name="add_discount" step='0.001'></td>
 				</tr>
 		</table>
-		<div id='note_wrapper'>
-			<h3><b>Note</b></h3>
-			<div class="row">
-				<div class="col-sm-6">
-					<p><b>1. Payment term</b></p>
+		
+		<div style='padding:20px;background-color:#eee'>
+			<label>Note</label>
+			
+			<p style='font-family:museo'><b>1. </b>Payment term</p>
+			<select id="terms" name="terms" class="form-control" onchange="payment_js()">
+			<?php
+				$sql_payment = "SELECT * FROM payment";
+				$result = $conn->query($sql_payment);
+				while($rows = mysqli_fetch_array($result)) {
+					if($rows['id'] == $terms){
+						echo '<option selected = "selected" value="' . $rows["id"] . '">'. $rows["payment_term"].'</option> ';
+					} else{
+					echo '<option value="' . $rows["id"] . '">'. $rows["payment_term"].'</option> ';
+					}
+				}
+			?>
+			</select>
+			<br>
+			
+			<div class='form-group' style='width:49%;display:inline-block'>
+				<div class='input-group'>
+					<input class='form-control' id='dp' name='dp' maxlength='2'>
+					<span class="input-group-addon" style="font-size:12px;border-radius:0">%</span>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<select id="terms" name="terms" class="form-control" style="width:100%" onchange="payment_js()" onclick="disable('empty_payment_term')">
-					<option value='0' id="empty_payment_term">--Please select payment terms--</option>
-					<?php
-						include("connect.php");
-						$sql_payment = "SELECT * FROM payment";
-						$result = $conn->query($sql_payment);
-						if ($result->num_rows > 0) {
-							while($rows = mysqli_fetch_array($result)) {
-							echo '<option value="' . $rows["id"] . '">'. $rows["payment_term"].'</option> ';
-							}
-						}
-					?>
-					</select>
+			<div class='form-group' style='width:50%;display:inline-block'>
+				<div class='input-group'>
+					<input class='form-control' id='lunas' name='lunas' maxlength='2' maxlength='2'>
+					<span class='input-group-addon' style='font-size:12px;border-radius:0'>days</span>
 				</div>
 			</div>
-			<input type='hidden' id='check_available_input' value='true'>
-			<input type='hidden' id='check_quantity_input' value='true'>
-			<div class="row" style="padding:5px">
-				<div class="col-sm-6" style="padding:5px">
-					<div class="col-sm-6" style="padding:5px">
-						<div class="form-group">
-							<div class="input-group">
-								<input class="form-control" id="dp" name="dp" readonly maxlength='2'>
-								<span class="input-group-addon" style="font-size:12px">%</span>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6" style="padding:5px">
-						<div class="form-group">
-							<div class="input-group">
-								<input class="form-control" id="lunas" name="lunas" readonly maxlength='2'>
-								<span class="input-group-addon" style="font-size:12px">days</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<p><b>2. </b>Prices and availability are subject to change at any time without prior notice.</p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<p><b>3. </b>Prices mentioned above are tax-included.</p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-						<textarea class="form-control" name="comment" rows="3" style='resize:none'></textarea>
-					</div>
-				</div>
-			</div>
-		</div>
-		<br>
-		<div class="row">
-			<div class="col-sm-2">
-				<button type="button" class="button_default_dark" onclick="hitung()" id="calculate">Calculate</button>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<button type="button" id="back" class="button_warning_dark" style="display:none">Back</button>
-				<button type="button" id='button_validate' class="button_success_dark" style="display:none" onclick='validate()'>Submit</button>	
-			</div>
-		</div>
+			<p style='font-family:museo'><b>2. </b>Prices and availability are subject to change at any time without prior notice.</p>
+			<p style='font-family:museo'><b>3. </b>Prices mentioned above are tax-included.</p>
+			<textarea class='form-control' name='comment' rows='3' style='resize:none' placeholder='Comment'></textarea>
+		</div><br>
+		
+		<button type='button' class='button_default_dark' onclick='calculate_quotation()' id="calculate">Calculate</button>
+		
+		<button type='button' class='button_danger_dark' id='back' style='display:none'>Check again</button>
+		<button type='button' class='button_default_dark' onclick='validate()' id='button_validate' style='display:none'>Submit</button>
 	</form>
 </div>
+<input type='hidden' id='check_available_input' value='true'>
+<input type='hidden' id='check_quantity_input' value='true'>
+
 <script>
 var a = 2;
 
@@ -166,7 +131,7 @@ function evaluate_organic(x){
 	return eval(to_be_evaluated);
 }
 
-function hitung(){
+function calculate_quotation(){
 	$('#check_available_input').val('true');
 	$('#check_quantity_input').val('true');
 	
@@ -205,6 +170,7 @@ function hitung(){
 			angka = false;
 		}
 	});
+	
 	if($('#quote_person').val() == 0){
 		alert("Please insert a customer");
 		return false;
@@ -245,7 +211,7 @@ function hitung(){
 			$('#calculate').hide();
 			$('#close').hide();
 			$('#add_item_button').hide();
-			$('.button_danger_dark').hide();
+			$('.button_danger_dark').css({'visibility':'hidden'});
 		}
 	}
 };
@@ -271,6 +237,7 @@ function validate(){
 		$('#quotation_form').submit();
 	}
 }
+
 $("#back").click(function (){
 	$('#quote_person').attr('readonly',false);
 	$('input[id^=reference]').attr('readonly',false);
@@ -285,26 +252,27 @@ $("#back").click(function (){
 	$('#calculate').show();
 	$('#close').show();
 	$('#add_item_button').show();
-	$('.button_danger_dark').show();
+	$('.button_danger_dark').css({'visibility':'visible'});
 })
 
-function payment_js(){
-	var payment_term = $('#terms').val();
-	if (payment_term == 1) {
-		$('#dp').val(0);
-		$('#dp').attr('readonly',true);
-		$('#lunas').attr('readonly',true);
-	} else if (payment_term == 2) {
-		$('#dp').attr('readonly',true);
-		$('#lunas').attr('readonly',false);
-	} else if (payment_term == 3) {
-		$('#dp').attr('readonly',true);
-		$('#lunas').attr('readonly',false);
-	} else if (payment_term == 4) {
-		$('#dp').attr('readonly',false);
-		$('#lunas').attr('readonly',false);
+	function payment_js(){
+		var payment_term = $('#terms').val();
+		if (payment_term == 1) {
+			$('#dp').val(0);
+			$('#dp').attr('readonly',true);
+			$('#lunas').attr('readonly',true);
+		} else if (payment_term == 2) {
+			$('#dp').attr('readonly',true);
+			$('#lunas').attr('readonly',false);
+		} else if (payment_term == 3) {
+			$('#dp').attr('readonly',true);
+			$('#lunas').attr('readonly',false);
+		} else if (payment_term == 4) {
+			$('#dp').attr('readonly',false);
+			$('#lunas').attr('readonly',false);
+		}
 	}
-}
+	
 	function disable(option_id){
 		$('#' + option_id).attr('disabled',true);
 	}

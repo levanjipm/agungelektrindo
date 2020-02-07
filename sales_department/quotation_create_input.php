@@ -52,7 +52,7 @@
 	};
 	
 	$sql 			= " SELECT COUNT(*) AS jumlah FROM code_quotation WHERE MONTH(date) = MONTH('" . $q_date . "') 
-					AND YEAR(date) = YEAR('" . $q_date . "') AND company = 'AE'";
+					AND YEAR(date) = YEAR('" . $q_date . "')";
 	$result 		= $conn->query($sql);
 	if($result){	
 		while($row = $result->fetch_assoc()) { 

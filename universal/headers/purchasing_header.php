@@ -1,5 +1,4 @@
 <div class='sidenav'>
-	<button style='text-align:right' id='hide_side_button'><i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
 	<button class='dropdown_button'>Purchase Order</button>
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/purchasing_department/purchase_order_create_dashboard'><button>Create a PO</button></a>
@@ -20,12 +19,10 @@
 	<a href='/agungelektrindo/purchasing_department/report_dashboard'><button>Purchase Report</button></a>
 	<hr>
 	<a href='/agungelektrindo/purchasing' style='color:#1ac6ff;text-decoration:none'>
-		<i class="fa fa-eercast" aria-hidden="true"></i>Purchasing Department
+		<button>Purchasing</button>
 	</a>
 </div>
-<div class='sidenav_small'>
-	<i class="fa fa-bars" aria-hidden="true"></i>
-</div>
+<div class='sidenav_small'></div>
 <script>
 	$('.dropdown_button').click(function(){
 		$('.dropdown-container').hide();
@@ -34,9 +31,11 @@
 		$(this).next().toggle(350);
 	});
 
+	
 	$('#hide_side_button').click(function(){
 		$('.sidenav').toggle(200);
-		$('#show_side_button').fadeIn();
+		$('#expand_side_button').fadeIn();
+		$('#hide_side_button').hide();
 		setTimeout(function(){	
 			$('.main').animate({
 				'margin-left':'50px'
@@ -46,9 +45,10 @@
 		},200);
 	});
 
-	$('.sidenav_small').click(function(){
+	$('#expand_side_button').click(function(){
 		$('.sidenav_small').toggle(200);
-		$('#show_side_button').hide();
+		$('#expand_side_button').hide();
+		$('#hide_side_button').fadeIn();
 		setTimeout(function(){		
 			$('.sidenav').toggle(200);
 			$('.main').animate({

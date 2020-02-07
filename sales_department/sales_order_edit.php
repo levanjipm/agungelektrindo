@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include ($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 	
 	$so_id 				= $_GET['id'];
@@ -15,11 +15,21 @@
 	
 	$sql_initial 		=  "SELECT name,customer_id,po_number,label, seller FROM code_salesorder WHERE id = '" . $so_id . "'";
 	$result_initial 	= $conn->query($sql_initial);
-	$row_initial 		= $result_initial->fetch_assoc();
+	$initial	 		= $result_initial->fetch_assoc();
 	
-	$sql_customer 		= "SELECT name FROM customer WHERE id = '" . $row_initial['customer_id'] . "'";
+	$po_number			= $initial['po_number'];	
+	$label				= $initial['label'];	
+	$seller				= $initial['seller'];		
+	$customer_id		= $initial['customer_id'];
+	$name				= $initial['name'];		
+	
+	$sql_customer 		= "SELECT name, address, city FROM customer WHERE id = '$customer_id'";
 	$result_customer 	= $conn->query($sql_customer);
 	$customer 			= $result_customer->fetch_assoc();
+	
+	$customer_name		= $customer['name'];
+	$customer_address	= $customer['address'];
+	$customer_city		= $customer['city'];
 ?>
 <head>
 	<title>Edit sales order</title>
@@ -41,9 +51,10 @@
 	if($role == 'superadmin'){
 ?>
 		<button type='button' class='button_danger_dark' id='close_sales_order_button'>Close this sales order</button>
+		
 		<div class='full_screen_wrapper' id='close_so_notification'>
 			<div class='full_screen_notif_bar'>
-				<h1 style='font-size:2em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h1>
+				<h1 style='font-size:2em;color:red'><i class="fa fa-ban"></i></h1>
 				<p style='font-family:museo'>Are you sure to close this sales order?</h2>
 				<br>
 				<button type='button' class='button_danger_dark' id='close_notif_close_button'>Check again</button>
@@ -81,31 +92,40 @@
 ?>
 	<hr>
 	<form method='POST' action='sales_order_edit_validation' id='sales_order_form'>
-		<h3 style='font-family:bebasneue'><?= $customer['name'] ?></h3>
-		<p><?= $row_initial['name'] ?></p>
-		<label>Purchase Order Number</label>
-		<input type='text' class='form-control' value='<?= $row_initial['po_number']; ?>' style='width:50%' name='po_number'>
+		<label>Customer</label>
+		<p style='font-family:museo'><?= $customer_name ?></p>
+		<p style='font-family:museo'><?= $customer_address ?></p>
+		<p style='font-family:museo'><?= $customer_city ?></p>
+		
+		<label>Sales order</label>
+		<p style='font-family:museo'><?= $name ?></p>
+		
+		<label>Purchase Order</label>
+		<input type='text' class='form-control' value='<?= $po_number ?>' name='po_number'>
 		<label>Label</label>
-		<select class='form-control' style='width:50%' name='label'>
+		<select class='form-control' name='label'>
 			<option value='0'>-- Label --</option>
 			<option value='BLAPAK' <?=$row_initial['label'] == 'BLAPAK' ? ' selected="selected"' : '';?>>Bukalapak</option>
 		</select>
+		
 		<label>Seller</label>
-		<select class='form-control' style='width:50%' name='seller'>
+		<select class='form-control' name='seller'>
 			<option value='0'>-- Seller --</option>
 <?php
 			$sql_seller		= "SELECT id,name FROM users WHERE isactive = '1'";
 			$result_seller	= $conn->query($sql_seller);
 			while($seller	= $result_seller->fetch_assoc()){
 ?>
-			<option value='<?= $seller['id'] ?>' <?=$row_initial['seller'] == $seller['id'] ? ' selected="selected"' : '';?>><?= $seller['name'] ?></option>
+			<option value='<?= $seller['id'] ?>' <?= $seller == $seller['id'] ? ' "selected"' : '';?>><?= $seller['name'] ?></option>
 <?php
 			}
 ?>
 		</select>
 		<br>
-		<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
+
 		<button type='button' class='button_default_dark' id='add_item_button' style='display:inline-block'>Add item</button>
+		<br><br>
+		
 		<table class='table table-bordered'>
 			<tr>
 				<th style='width:20%'>Reference</th>
@@ -183,14 +203,16 @@
 		</table>
 		<input type='hidden' value='<?= $so_id ?>' name='id_so'>
 		<button type='button' class='button_default_dark' id='calculate_button' onclick='calculate()'>Calculate</button>
-		<button type='button' class='button_warning_dark' id='recalculate_button' style='display:none'>Back</button>
-		<button type='button' class='button_success_dark' id='sales_order_submit' style='display:none'>Submit</button>
+		<button type='button' class='button_success_dark' id='recalculate_button' style='display:none'>Back</button>
+		<button type='button' class='button_default_dark' id='sales_order_submit' style='display:none'>Submit</button>
 	</form>
+</div>
+
 <div class='full_screen_wrapper' id='delete_notification'>
 	<div class='full_screen_notif_bar'>
-		<h1 style='font-size:3em;color:red'><i class="fa fa-ban" aria-hidden="true"></i></h1>
+		<h1 style='font-size:3em;color:red'><i class="fa fa-ban"></i></h1>
 		<p style='font-family:museo'>Are you sure to delete this item?</p>
-		<button type='button' class='button_danger_dark' id='back_button'>Back</button>
+		<button type='button' class='button_danger_dark' id='back_button'>Check again</button>
 		<button type='button' class='button_success_dark' id='delete_button'>Delete</button>
 		<input type='hidden' value='0' id='delete_id'>
 	</div>
@@ -314,6 +336,7 @@ var a = 1;
 			return false;
 		} else {
 			$('#sales_order_form input').attr('readonly',true);
+			$('#sales_order_form select').attr('readonly',true);
 			$('#recalculate_button').show();
 			$('#sales_order_submit').show();
 			$('#sales_order_submit').attr('disabled',false);
@@ -324,6 +347,7 @@ var a = 1;
 	
 	$('#recalculate_button').click(function(){
 		$('#sales_order_form input').attr('readonly',false);
+		$('#sales_order_form select').attr('readonly',false);
 		$('#recalculate_button').hide();
 		$('#sales_order_submit').hide();
 		$('#sales_order_submit').attr('disabled',true);

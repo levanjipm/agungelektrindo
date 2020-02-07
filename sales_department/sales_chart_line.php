@@ -7,7 +7,7 @@
 	
 	$sql			= "SELECT MONTH(invoices.date) as month, YEAR(invoices.date) as year FROM invoices 
 						JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
-						GROUP BY YEAR(invoices.date) DESC, MONTH(invoices.date) DESC LIMIT 10 OFFSET 1";
+						GROUP BY YEAR(invoices.date) DESC, MONTH(invoices.date) DESC LIMIT 13 OFFSET 1";
 	$result			= $conn->query($sql);
 	while($row		= $result->fetch_assoc()){
 		
@@ -16,7 +16,7 @@
 		
 		$sql_value_ae		= "SELECT SUM(invoices.value / 1000000) as value FROM invoices 
 								JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
-								WHERE MONTH(invoices.date) = '$month' AND YEAR(invoices.date) = '$year' AND code_delivery_order.company = 'AE'";
+								WHERE MONTH(invoices.date) = '$month' AND YEAR(invoices.date) = '$year'";
 		$result_value_ae	= $conn->query($sql_value_ae);
 		$row_value_ae		= $result_value_ae->fetch_assoc();
 		
@@ -52,12 +52,12 @@
 ?>
 <style>
 .ct-series-a .ct-line {
-	stroke: #2B3940;
+	stroke: #326d96;
 	stroke-width: 5px;
 }
 
 .ct-series-a .ct-bar {
-	stroke: #2B3940;
+	stroke: #326d96;
 	stroke-width: 20px;
 }
 </style>

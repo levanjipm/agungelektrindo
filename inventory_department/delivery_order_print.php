@@ -1,16 +1,6 @@
 <?php
-	include('../codes/connect.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/head.php');
 ?>
-<head>
-	<script src='/agungelektrindo/universal/jquery/jquery-3.3.0.min.js'></script>
-	<link rel='stylesheet' href='/agungelektrindo/universal/bootstrap/4.1.3/css/bootstrap.min.css'>
-	<script src='/agungelektrindo/universal/bootstrap/4.1.3/js/bootstrap.min.js'></script>
-	<link rel='stylesheet' href='/agungelektrindo/universal/fontawesome/css/font-awesome.min.css'>
-	<link rel='stylesheet' href='/agungelektrindo/universal/bootstrap/3.3.7/css/bootstrap.min.css'>
-	<script src='/agungelektrindo/universal/jquery/jquery-ui.js'></script>
-	<link rel='stylesheet' href='/agungelektrindo/universal/jquery/jquery-ui.css'>
-	<link rel="stylesheet" href='/agungelektrindo/css/style.css'>
-</head>
 <style>
 	#print{
 		position:fixed;

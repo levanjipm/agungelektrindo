@@ -1,6 +1,6 @@
 <?php
 	include('../codes/connect.php');
-	print_r($_POST);
+	
 	$id_so				= $_POST['id_so'];
 	$po_number			= $_POST['po_number'];
 	$label				= $_POST['label'];
@@ -10,8 +10,14 @@
 	$price_list_array	= $_POST['price_list'];
 	$price_array		= $_POST['price'];
 	
-	$sql				= "UPDATE code_salesorder SET po_number = '" . mysqli_real_escape_string($conn,$po_number) . "', 
-						label = '" . $label . "', seller = '" . $seller . "' WHERE id = '$id_so'";
+	if($seller			== ''){
+		$sql			= "UPDATE code_salesorder SET po_number = '" . mysqli_real_escape_string($conn,$po_number) . "', 
+							label = '$label' WHERE id = '$id_so'";
+	} else {
+		$sql			= "UPDATE code_salesorder SET po_number = '" . mysqli_real_escape_string($conn,$po_number) . "', 
+							label = '$label', seller = '$seller' WHERE id = '$id_so'";
+	}
+	
 	$conn->query($sql);
 	
 	foreach($quantity_array as $quantity){
@@ -38,9 +44,9 @@
 			
 			$conn->query($sql);
 			
-			$sql	= "SELECT quantity FROM sales_order WHERE id = '$key'";
-			$result	= $conn->query($sql);
-			$row	= $result->fetch_assoc();
+			$sql			= "SELECT quantity FROM sales_order WHERE id = '$key'";
+			$result			= $conn->query($sql);
+			$row			= $result->fetch_assoc();
 			
 			if($row['quantity'] == $sent_quantity){
 				$sql		= "UPDATE sales_order SET status = '1' WHERE id = '$key'";

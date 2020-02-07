@@ -1,22 +1,24 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
+	$supplier_id			= (int) $_GET['id'];
 	
-	if(empty($_POST['supplier']) || $_POST['supplier'] == 0){
-		header('location:receivable_dashboard');
-	}
-	
-	$supplier_id			= $_POST['supplier'];
-	
-	$sql_supplier 			= "SELECT name, address, city FROM supplier WHERE id = '" . $_POST['supplier'] . "'";
+	$sql_supplier 			= "SELECT name, address, city FROM supplier WHERE id = '$supplier_id'";
 	$result_supplier 		= $conn->query($sql_supplier);
 	$supplier 				= $result_supplier->fetch_assoc();
+	if(!$result_supplier || empty($_GET['id'])){
+?>
+	<script>
+		window.location.href='/agungelektrindo/payable_dashboard';
+	</script>
+<?php
+	}
 	
 	$supplier_name			= $supplier['name'];
 	$supplier_address		= $supplier['address'];
 	$supplier_city			= $supplier['city'];
 	
-	$sql_invoice 			= "SELECT SUM(value) AS total FROM purchases WHERE supplier_id = '" . $_POST['supplier'] . "'";
+	$sql_invoice 			= "SELECT SUM(value) AS total FROM purchases WHERE supplier_id = '$supplier_id'";
 	$result_invoice 		= $conn->query($sql_invoice);
 	$invoice 				= $result_invoice->fetch_assoc();
 	
@@ -54,6 +56,7 @@
 			<th>Date</th>
 			<th>Invoice number</th>
 			<th>Remaining value</th>
+			<th></th>
 		</tr>
 <?php
 	$total_debt				= 0;
@@ -63,6 +66,7 @@
 	while($invoice_detail 	= $result_invoice_detail->fetch_assoc()){
 		$purchase_id		= $invoice_detail['id'];
 		$purchase_value		= $invoice_detail['value'];
+		$purchase_name		= $invoice_detail['name'];
 		
 		$sql_payable		= "SELECT SUM(payable.value) as paid FROM payable WHERE purchase_id = '$purchase_id'";
 		$result_payable		= $conn->query($sql_payable);
@@ -73,18 +77,16 @@
 		$unpaid				= $purchase_value - $paid;
 		$total_debt			+= $unpaid;
 ?>
-				<tr>
-					<td><?= date('d M Y',strtotime($invoice_detail['date'])) ?></td>
-					<td><?= $invoice_detail['name'] ?></td>
-					<td>Rp. <?= number_format($unpaid,2) ?></td>
-<?php if($role == 'superadmin'){ ?>
-					<td><button type='button' class='button_default_dark' onclick='view_purchase(<?= $purchase_id ?>)'>Set done</button></td>
+			<tr>
+				<td><?= date('d M Y',strtotime($invoice_detail['date'])) ?></td>
+				<td><?= $invoice_detail['name'] ?></td>
+				<td>Rp. <?= number_format($unpaid,2) ?></td>
+<?php if($role == 'superadmin' || $role == 'admin'){ ?>
+				<td><button type='button' class='button_default_dark' onclick='view_purchase(<?= $purchase_id ?>)' title='Set <?= $purchase_name ?> as done'><i class='fa fa-check'></i></button></td>
 <?php } ?>
-				</tr>
+			</tr>
 <?php } ?>
-			</table>
-		</div>
-	</div>
+	</table>
 </div>
 <form action='purchase_set_done_dashboard' method='POST' id='purchase_done_form'>
 	<input type='hidden' id='purchase_id' name='id'>

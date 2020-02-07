@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 	
 	$supplier_id	= $_POST['supplier_id'];
@@ -8,7 +8,7 @@
 ?>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Purchase Invoice</h2>
-	<p>Waiting for billing</p>
+	<p style='font-family:museo'>Waiting for billing</p>
 	<div id='naming'></div>
 	<hr>
 	<table class='table table-bordered'>
@@ -67,34 +67,13 @@
 ?>
 	</table>
 </div>
-<style>
-	#view_pending_bills_wrapper{
-		position:fixed;
-		width:100%;
-		height:100%;
-		top:0;
-		background-color:rgba(20,20,20,0.8);
-		z-index:30;
-		display:none;
-	}
-	
-	#view_pending_bills_box{
-		width:80%;
-		height:80%;
-		background-color:white;
-		z-index:35;
-		position:absolute;
-		top:10%;
-		left:10%;
-		padding:30px;
-		overflow-y:scroll;
-	}
-</style>
-<div id='view_pending_bills_wrapper'>
-	<div id='view_pending_bills_box'>
+
+<div class='full_screen_wrapper'>
+	<button type='button' class='full_screen_close_button'>&times </button>
+	<div class='full_screen_box'>
 	</div>
 </div>
-<script src='../universal/Numeral-js-master/numeral.js'></script>
+
 <script>
 	var gr_array		= <?= $gr_array_js ?>;
 	var gr_array_length = <?= $i - 1 ?>;
@@ -105,47 +84,25 @@
 	});
 	
 	function show_detail_pending(n){
-		if(n == gr_array_length){
-			var next_view	= 0;
-		} else {
-			var next_view	= n + 1;
-		}
-		
-		if(n == 0){
-			var prev_view	= gr_array_length;
-		} else {
-			var prev_view	= n - 1;
-		}
-		
 		$.ajax({
 			url:'waiting_for_billing_view.php',
 			data:{
 				code_gr:n,
-				next_view: next_view,
-				prev_view: prev_view,
 			},
 			type:'POST',
 			beforeSend:function(){
-				$('#view_pending_bills_box').html('');
+				$('.full_screen_box').html('');
 			},
 			success:function(response){
-				$('#view_pending_bills_box').html(response);
+				$('.full_screen_box').html(response);
 				setTimeout(function(){
-					$('#view_pending_bills_wrapper').fadeIn();
+					$('.full_screen_wrapper').fadeIn();
 				},200);
 			}
 		});
 	}
 	
-	function change_slide(n){
-		$('#view_pending_bills_box').fadeOut(150);
-		$('#view_pending_bills_box').html('');
-		setTimeout(function(){
-			show_detail_pending(n);
-		},150);
-		
-		setTimeout(function(){
-			$('#view_pending_bills_box').fadeIn();
-		},450);
-	};
+	$('.full_screen_close_button').click(function(){
+		$(this).parent().fadeOut();
+	});
 </script>

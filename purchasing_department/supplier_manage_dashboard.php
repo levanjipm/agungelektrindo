@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/purchasing_header.php');
 ?>
 <head>
@@ -12,11 +12,10 @@
 	<button type='button' class='button_default_dark' id='add_supplier_button'>Add supplier</button>
 	<br><br>
 <?php
-$sql = "SELECT * FROM supplier";
-$result = $conn->query($sql);
-if ($result->num_rows > 0) {
+	$sql = "SELECT * FROM supplier";
+	$result = $conn->query($sql);
 ?>
-	<table  class='table table-bordered'>
+	<table class='table table-bordered'>
 		<tr>
 			<th style="text-align:center;width:30%">Name</th>
 			<th style="text-align:center;width:50%">Address</th>
@@ -24,10 +23,13 @@ if ($result->num_rows > 0) {
 		</tr>
 <?php
 	while($row = mysqli_fetch_array($result)) {
+		$supplier_id		= $row['id'];
+		$supplier_name		= $row['name'];
+		$supplier_address	= $row['address'];
 ?>
 		<tr>
-			<td><?= $row['name']?></td>
-			<td><?= $row['address']?></td>
+			<td><?= $supplier_name ?></td>
+			<td><?= $supplier_address ?></td>
 <?php
 		if($role == 'superadmin'){
 			$sql_disable 		= "SELECT 
@@ -39,8 +41,9 @@ if ($result->num_rows > 0) {
 			$disable_condition 	= $disable['purchase_order_count']  + $disable['gr_count'] + $disable['purchase_count'];
 ?>
 			<td>
-				<button type="button" class="button_default_dark" onclick='open_supplier_edit(<?= $row['id'] ?>)'><i class="fa fa-pencil" aria-hidden="true"></i></button>	
-				<button type="button" class="button_danger_dark" <?php if($disable_condition != 0){ echo ('disabled'); } ?> onclick='pop_notification_large(<?= $row['id'] ?>)'><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+				<button class='button_default_dark' onclick='open_supplier_edit(<?= $supplier_id ?>)'><i class='fa fa-pencil'></i></button>	
+				<a href='supplier_view.php?id=<?= $supplier_id ?>'><button class='button_success_dark'><i class='fa fa-eye'></i></button></a>
+				<button class='button_danger_dark' <?php if($disable_condition != 0){ echo ('disabled'); } ?> onclick='pop_notification_large(<?= $row['id'] ?>)'><i class='fa fa-trash-o'></i></button>
 			</td>		
 <?php
 		}
@@ -48,7 +51,6 @@ if ($result->num_rows > 0) {
 		</tr>
 <?php
 	}
-}
 ?>
 	</table>
 </div>

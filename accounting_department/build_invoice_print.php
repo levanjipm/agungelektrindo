@@ -1,31 +1,13 @@
-<head>
-	<title>Print Invoice</title>
-	<script src='/agungelektrindo/universal/jquery/jquery-3.3.0.min.js'></script>
-	<link rel='stylesheet' href='/agungelektrindo/universal/bootstrap/4.1.3/css/bootstrap.min.css'>
-	<script src='/agungelektrindo/universal/bootstrap/4.1.3/js/bootstrap.min.js'></script>
-	<link rel='stylesheet' href='/agungelektrindo/universal/fontawesome/css/font-awesome.min.css'>
-	<link rel='stylesheet' href='/agungelektrindo/universal/bootstrap/3.3.7/css/bootstrap.min.css'>
-	<script src='/agungelektrindo/universal/jquery/jquery-ui.js'></script>
-	<link rel='stylesheet' href='/agungelektrindo/universal/jquery/jquery-ui.css'>
-	<script src='/agungelektrindo/universal/numeral/numeral.js'></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-	<link rel="stylesheet" href='/agungelektrindo/css/style.css'>
-</head>
-<style>
-	*{
-		font-size:1.06em;
-	}
-</style>
 <?php
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/head.php');
 	include('../codes/connect.php');
-	
 	$id 					= $_POST['id'];
 	
-	$sql_invoice			= "SELECT invoices.down_payment, invoices.faktur,invoices.value,invoices.ongkir,invoices.name,invoices.date, code_delivery_order.customer_id, code_salesorder.id as sales_order_id
-							FROM invoices 
-							JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
-							JOIN code_salesorder ON code_salesorder.id = code_delivery_order.so_id
-							WHERE invoices.id = '" . $id . "'";
+	$sql_invoice			= "SELECT code_delivery_order.id as do_id, invoices.down_payment, invoices.faktur,invoices.value,invoices.ongkir,invoices.name,invoices.date, code_delivery_order.customer_id, code_salesorder.id as sales_order_id
+								FROM invoices 
+								JOIN code_delivery_order ON invoices.do_id = code_delivery_order.id
+								JOIN code_salesorder ON code_salesorder.id = code_delivery_order.so_id
+								WHERE invoices.id = '" . $id . "'";
 	$result_invoice			= $conn->query($sql_invoice);
 	$invoice				= $result_invoice->fetch_assoc();
 			
@@ -36,11 +18,12 @@
 	$customer_id 			= $invoice['customer_id'];
 	$faktur 				= $invoice['faktur'];
 	$sales_order_id			= $invoice['sales_order_id'];
+	$delivery_order_id		= $invoice['do_id'];
 	$down_payment			= $invoice['down_payment'];
 	
 	$do_name = 'SJ-AE-' . substr($name,6,100);
 	if($customer_id != 0){
-		$sql_customer 		= "SELECT name, address, city FROM customer WHERE id = '" . $customer_id . "'";
+		$sql_customer 		= "SELECT name, address, city FROM customer WHERE id = '$customer_id'";
 		$result_customer 	= $conn->query($sql_customer);
 		$row_customer 		= $result_customer->fetch_assoc();
 		
@@ -48,7 +31,7 @@
 		$customer_address 	= $row_customer['address'];
 		$customer_city 		= $row_customer['city'];
 	} else {
-		$sql_customer_so	= "SELECT retail_name, retail_address, retail_city FROM code_salesorder WHERE id = '" . $sales_order_id . "'";
+		$sql_customer_so	= "SELECT retail_name, retail_address, retail_city FROM code_salesorder WHERE id = '$sales_order_id'";
 		$result_customer_so	= $conn->query($sql_customer_so);
 		$customer_so		= $result_customer_so->fetch_assoc();
 		
@@ -57,19 +40,28 @@
 		$customer_city 		= $customer_so['retail_city'];
 	}
 	
-	$sql_do 		= "SELECT so_id,id FROM code_delivery_order WHERE name = '" . $do_name . "'";
+	$sql_do 		= "SELECT code_salesorder.po_number, code_salesorder.taxing
+						FROM code_delivery_order 
+						JOIN code_salesorder ON code_salesorder.id = code_delivery_order.so_id
+						WHERE code_delivery_order.id = '$delivery_order_id'";
 	$result_do 		= $conn->query($sql_do);
 	$row_do 		= $result_do->fetch_assoc();
-	$do_id 			= $row_do['id'];
-	$so_id 			= $row_do['so_id'];
-	
-	$sql_so 		= "SELECT po_number,taxing FROM code_salesorder WHERE id = '" . $so_id . "'";
-	$result_so 		= $conn->query($sql_so);
-	$row_so 		= $result_so->fetch_assoc();
-	$taxing 		= $row_so['taxing'];
-	$po_number 		= $row_so['po_number'];
+	$taxing 		= $row_do['taxing'];
+	$po_number 		= $row_do['po_number'];
 ?>
-<div class='row' style='background-color:#555;width:100%;margin:0'>
+<head>
+	<title><?= $name . ' ' . $customer_name ?></title>
+</head>
+<style>
+	.table-bordered th{
+		background-color:white!important;
+		color:black;
+	}
+	*{
+		font-size:1.06em;
+	}
+</style>
+<div class='row' style='background-color:#eee;width:100%;margin:0'>
 	<div class='col-sm-10 col-sm-offset-1' style='padding:50px;background-color:white;' id='printable'>
 		<div class='row'>
 			<div class='col-sm-7'>
@@ -96,7 +88,7 @@
 			</tr>
 <?php
 		$i = 1;
-		$sql_count 		= "SELECT COUNT(*) AS counter FROM delivery_order WHERE do_id = '" . $do_id . "'";
+		$sql_count 		= "SELECT COUNT(*) AS counter FROM delivery_order WHERE do_id = '$delivery_order_id'";
 		$result_count 	= $conn->query($sql_count);
 		$row_count 		= $result_count->fetch_assoc();
 		$counting 		= $row_count['counter'];
@@ -106,18 +98,13 @@
 				$sql_table 		= "SELECT delivery_order.quantity, delivery_order.reference, itemlist.description, delivery_order.billed_price
 									FROM delivery_order 
 									JOIN itemlist ON delivery_order.reference = itemlist.reference
-									WHERE do_id = '" . $do_id . "' LIMIT 1 OFFSET " . ($i - 1);
+									WHERE do_id = '$delivery_order_id' LIMIT 1 OFFSET " . ($i - 1);
 				$result_table 	= $conn->query($sql_table);
 				$row_table 		= $result_table->fetch_assoc();
 				if(empty($row_table['reference'])){
 ?>
 			<tr style='height:40px'>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
+				<td></td><td></td><td></td><td></td><td></td></tr>
 <?php
 			} else {
 				$reference		= $row_table['reference'];
@@ -246,9 +233,9 @@
 		</div>
 	</div>
 </div>
-<div class="row" style="background-color:#333;padding:30px;margin:0;width:100%">
+<div class="row" style="background-color:#424242;padding:30px;margin:0;width:100%">
 	<div class="col-sm-2 offset-sm-5">
-		<button class="button_default_dark hidden-print" type="button" id="print" onclick="printing()"><i class='fa fa-print'></i></button>
+		<button class="button_success_dark hidden-print" type="button" id="print" onclick="printing()"><i class='fa fa-print'></i></button>
 	</div>
 </div>
 <script>

@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 	
 	$customer_id			= (int)$_GET['id'];
@@ -85,10 +85,10 @@
 			<div id='sales_chart'></div>
 			
 			<label>Date start</label>
-			<input type='date' class='form-control' id='start_date'>
+			<input type='date' class='form-control' id='start_date' style='width:50%'>
 			
 			<label>Date end</label>
-			<input type='date' class='form-control' id='end_date'>
+			<input type='date' class='form-control' id='end_date' style='width:50%'>
 			
 			<br>
 			<button type='button' class='button_default_dark' id='calculate_sales_button'><i class='fa fa-search'></i></button>
@@ -178,7 +178,7 @@
 					<th>Name</th>
 				</tr>
 <?php
-	$sql_delivery_order			= "SELECT date, name FROM code_delivery_order WHERE customer_id = '$customer_id' ORDER BY date ASC LIMIT 5";
+	$sql_delivery_order			= "SELECT date, name FROM code_delivery_order WHERE customer_id = '$customer_id' ORDER BY date DESC LIMIT 5";
 	$result_delivery_order		= $conn->query($sql_delivery_order);
 	while($delivery_order		= $result_delivery_order->fetch_assoc()){
 	$do_name					= $delivery_order['name'];

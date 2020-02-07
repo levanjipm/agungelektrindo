@@ -1,5 +1,12 @@
 <?php
 	include('../codes/connect.php');
+	$sql 		= "SELECT * FROM code_bank WHERE isdone = '0' AND transaction = '1' AND isdelete = '0' AND label <> 'OTHER'";
+	$result 	= $conn->query($sql);
+	if(mysqli_num_rows($result) == 0){
+?>
+	<p style='font-family:museo'>There is no bank data to assign</p>
+<?php
+	} else{
 ?>
 <table class='table table-bordered'>
 	<tr>
@@ -76,3 +83,6 @@
 		$('#other_form').submit();
 	}
 </script>	
+<?php
+	}
+?>

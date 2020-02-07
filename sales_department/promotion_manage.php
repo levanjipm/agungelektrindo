@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 	$id					= (int)$_GET['id'];
 	$sql_ongoing		= "SELECT * FROM promotion WHERE end_date < CURDATE() AND id = '$id' ORDER BY end_date ASC";

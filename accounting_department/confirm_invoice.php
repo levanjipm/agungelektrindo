@@ -1,33 +1,40 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
+	include('../codes/connect.php');	
 	
-	if(empty($_POST['id'])){
-?>
-		<script>
-			window.location.href='invoice_create_dashboard';
-		</script>
-<?php
-	}
-	
-	$invoice_id			= $_POST['id'];
+	$invoice_id			= $_POST['invoice_id'];
 	$sql_get			= "SELECT do_id FROM invoices WHERE id = '$invoice_id'";
 	$result_get			= $conn->query($sql_get);
 	$get				= $result_get->fetch_assoc();
 	
 	$delivery_order_id	= $get['do_id'];
 ?>
+	<form method="POST" action='invoice_delete_input' id='delete_invoice_form'>
+		<input type='hidden' value='<?= $invoice_id ?>' name='invoice_id'>
+	</form>
 	<script>
-		$('#sales_invoice_side').click();
-		$('#confirm_invoice_dashboard').find('button').addClass('activated');
+		function refresh_invoice(){
+			$.ajax({
+				url:'invoice_check_confirm',
+				type:'GET',
+				data:{
+					invoice_id:<?= $invoice_id ?>
+				},
+				success:function(response){
+					if(response == 1){
+						window.location.reload();
+					} else {
+						setTimeout(function(){
+							refresh_invoice();
+						},300);
+					}
+				}
+			})
+		}
+		
+		$(document).ready(function(){
+			refresh_invoice();
+		});
 	</script>
-	<div class='main'>
-		<h2 style='font-family:bebasneue'>Invoice</h2>
-		<p style='font-family:museo'>Confirm sales invoice</p>
-		<hr>
-		<form method="POST" action='delete_invoice_input' id='delete_invoice_form'>
-			<input type='hidden' value='<?= $invoice_id ?>' name='invoice_id'>
-		</form>
 <?php
 	$sql						= "SELECT code_delivery_order.project_id, code_salesorder.type FROM code_delivery_order
 									JOIN code_salesorder ON code_delivery_order.so_id = code_salesorder.id

@@ -1,16 +1,7 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
-	$supplier_id 		= $_POST['supplier'];
 	$date 				= $_POST['date'];
-	
-	$sql_supplier		= "SELECT name, address, city FROM supplier WHERE id = '$supplier_id'";
-	$result_supplier	= $conn->query($sql_supplier);
-	$supplier			= $result_supplier->fetch_assoc();
-	
-	$supplier_name		= $supplier['name'];
-	$supplier_address	= $supplier['address'];
-	$supplier_city		= $supplier['city'];
 	
 	$check_invoice 	= 1;
 	$check_po 		= 1;
@@ -26,17 +17,17 @@
 	}
 	
 	foreach($document_array as $document){
-		$sql 		= "SELECT isinvoiced,po_id FROM code_goodreceipt WHERE id = '" . $document . "'";
-		$result 	= $conn->query($sql);
-		$row 		= $result->fetch_assoc();
-		$po_id		= $row['po_id'];
+		$sql 			= "SELECT isinvoiced, po_id FROM code_goodreceipt WHERE id = '$document'";
+		$result 		= $conn->query($sql);
+		$row 			= $result->fetch_assoc();
+		$po_id			= $row['po_id'];
 		
 		if($row['isinvoiced'] == 1){ $check_invoice++; };
-		if(in_array($po_id,$po_array)){} else {array_push($po_array,$po_id); };
+		if(in_array($po_id,$po_array)){} else {array_push($po_array,$po_id);};
 		next($document_array);
 	}
 	
-	$po_quantity	= count($po_array);
+	$po_quantity		= count($po_array);
 	if($check_invoice > 1){
 ?>
 <script>
@@ -44,11 +35,22 @@
 </script>
 <?php
 	}
-	$sql_po 		= "SELECT taxing FROM code_purchaseorder WHERE id = '" . $po_id . "'";
-	$result_po 		= $conn->query($sql_po);
-	$po 			= $result_po->fetch_assoc();
-	$taxing=  $po['taxing'];
-	//if it exist, then show the items//
+	
+	$sql_po 				= "SELECT supplier.id, code_purchaseorder.taxing, supplier.name as supplier_name, supplier.address, supplier.city, code_purchaseorder.name, code_purchaseorder.date
+								FROM code_purchaseorder 
+								JOIN supplier ON code_purchaseorder.supplier_id = supplier.id
+								WHERE code_purchaseorder.id = '$po_id'";
+	$result_po 				= $conn->query($sql_po);
+	$po 					= $result_po->fetch_assoc();
+	$taxing					= $po['taxing'];
+	
+	$purchase_order_name	= $po['name'];
+	$purchase_order_date	= $po['date'];
+	
+	$supplier_name			= $po['supplier_name'];
+	$supplier_address		= $po['address'];
+	$supplier_city			= $po['city'];
+	$supplier_id			= $po['id'];
 ?>
 <head>
 	<title>Validate purchase invoice</title>
@@ -59,18 +61,23 @@
 </script>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Purchase invoice</h2>
-	<p>Validate purchase invoice</p>
+	<p style='font-family:museo'>Validate purchase invoice</p>
 	<hr>
 	<form action='debt_document_input' method='POST' id='debt_form'>
+	
 	<label>Supplier</label>
 	<p style='font-family:museo'><?= $supplier_name ?></p>
 	<p style='font-family:museo'><?= $supplier_address ?></p>
 	<p style='font-family:museo'><?= $supplier_city ?></p>
 	<input type='hidden' value='<?= $supplier_id ?>' name='supplier'>
 	
-	<label>Purhase date</label>
+	<label>Invoice date</label>
 	<p style='font-family:museo'><?= date('d M Y',strtotime($date)) ?></p>
 	<input type='hidden' value='<?= $date ?>' name='date'>
+	
+	<label>Purchase order</label>
+	<p style='font-family:museo'><?= date('d M Y', strtotime($purchase_order_date)) ?></p>
+	<p style='font-family:museo'><?= $purchase_order_name ?></p>
 	
 	<label>Input invoice number</label>
 	<input type='text' class='form-control' name='invoice_doc' id='inv'>

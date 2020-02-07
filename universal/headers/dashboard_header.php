@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include('header.php');
 	ini_set('date.timezone', 'Asia/Jakarta');
 	
 	$sql_user 		= "SELECT * FROM users WHERE id = '" . $_SESSION['user_id'] . "'";
@@ -35,7 +35,6 @@
 	<title>User dashboard</title>
 </head>
 <div class='sidenav'>	
-	<button type='button' style='text-align:right' id='hide_side_button'><i class="fa fa-chevron-left" aria-hidden="true"></i><i class="fa fa-chevron-left" aria-hidden="true"></i></button>		
 	<button class='dropdown_button'>Departments</button>
 	<div class="dropdown-container">
 <?php
@@ -64,9 +63,9 @@
 <?php
 	}
 ?>
-	<a href='/agungelektrindo/dashboard/user_dashboard' style='text-decoration:none'><button><i class="fa fa-eercast" aria-hidden="true"></i>Account</button></a>
+	<a href='/agungelektrindo' style='text-decoration:none'><button><i class="fa fa-eercast" aria-hidden="true"></i>Account</button></a>
 </div>
-<div class='sidenav_small'><i class="fa fa-bars" aria-hidden="true"></i></div>
+<div class='sidenav_small'></div>
 <script>
 	$('.dropdown_button').click(function(){
 		$('.dropdown-container').hide();
@@ -75,9 +74,11 @@
 		$(this).next().toggle(350);
 	});
 	
+	
 	$('#hide_side_button').click(function(){
 		$('.sidenav').toggle(200);
-		$('#show_side_button').fadeIn();
+		$('#expand_side_button').fadeIn();
+		$('#hide_side_button').hide();
 		setTimeout(function(){	
 			$('.main').animate({
 				'margin-left':'50px'
@@ -87,9 +88,10 @@
 		},200);
 	});
 
-	$('.sidenav_small').click(function(){
+	$('#expand_side_button').click(function(){
 		$('.sidenav_small').toggle(200);
-		$('#show_side_button').hide();
+		$('#expand_side_button').hide();
+		$('#hide_side_button').fadeIn();
 		setTimeout(function(){		
 			$('.sidenav').toggle(200);
 			$('.main').animate({

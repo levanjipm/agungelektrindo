@@ -1,13 +1,12 @@
-<head>
-	<title>Purchasing Department</title>
-</head>
 <?php
-	include('header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/purchasing_header.php');
 ?>
 <head>
+	<title>Purchasing Department</title>
 	<script src='/agungelektrindo/universal/chartist/dist/chartist.min.js'></script>
 	<link rel='stylesheet' href='/agungelektrindo/universal/chartist/dist/chartist.min.css'>
+	<link rel='stylesheet' href='/agungelektrindo/css/dashboards.css'>
 </head>
 <style>
 	.ct-label {
@@ -18,43 +17,6 @@
 	
 	#purchase_chart_line .ct-chart{
 		height:300px;
-	}
-	
-	#purchase_chart_pie .ct-chart{
-		height:250px;
-	}
-	
-	.box{
-		padding:10px;
-		background-color:#fff;
-		color:#024769;
-		border:3px solid #024769;
-		text-align:center;
-		cursor:pointer;
-		width:25%;
-		display:inline-block;
-		margin-left:2%;
-	}
-
-	.box:hover{
-		background-color:#eee;
-		color:#333;
-		transition:0.3s all ease;
-	}
-
-	.bar_wrapper{
-		position:relative;
-		background-color:#fff;
-		width:100%;
-		height:5px;
-	}
-
-	.bar{
-		position:absolute;
-		top:0;
-		height:100%;
-		background-color:#aaa;
-		transition:0.5s all ease;
 	}
 </style>
 <div class='main'>

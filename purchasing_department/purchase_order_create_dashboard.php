@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/purchasing_header.php');
 ?>
 <script>
@@ -51,7 +51,7 @@ $( function() {
 				</div>
 			</div>
 		</div>
-		<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
+		<br>
 		<button type='button' class='button_default_dark' id='add_item_button' style='display:inline-block'>Add item</button>
 		<br>
 		<br>

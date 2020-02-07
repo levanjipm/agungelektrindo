@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 	
 	$sql		= "SELECT id FROM code_delivery_order WHERE isinvoiced = '0' AND company = 'AE'";
@@ -15,54 +15,12 @@
 	$pending_bank		= mysqli_num_rows($result);
 ?>
 <head>
+	<title>Accounting</title>
 	<script src='/agungelektrindo/universal/chartist/dist/chartist.min.js'></script>
 	<link rel='stylesheet' href='/agungelektrindo/universal/chartist/dist/chartist.min.css'>
-	<title>Accounting department</title>
+	<link rel='stylesheet' href='/agungelektrindo/css/chart_style.css'>
+	<link rel='stylesheet' href='/agungelektrindo/css/dashboards.css'>
 </head>
-<style>
-	.ct-label {
-		font-size: 10px;
-		font-family:museo;
-		color:#333;
-	}
-	
-	.ct-chart{
-		height:300px;
-	}
-	
-	.box{
-		padding:10px;
-		background-color:#fff;
-		color:#024769;
-		border:3px solid #024769;
-		text-align:center;
-		cursor:pointer;
-		width:25%;
-		display:inline-block;
-		margin-left:2%;
-	}
-
-	.box:hover{
-		background-color:#eee;
-		color:#333;
-		transition:0.3s all ease;
-	}
-
-	.bar_wrapper{
-		position:relative;
-		background-color:#fff;
-		width:100%;
-		height:5px;
-	}
-
-	.bar{
-		position:absolute;
-		top:0;
-		height:100%;
-		background-color:#aaa;
-		transition:0.5s all ease;
-	}
-</style>
 <div class='main'>
 	<a href='/agungelektrindo/accounting_department/build_invoice_dashboard' style='text-decoration:none'>
 	<div class='box'>

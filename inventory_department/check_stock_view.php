@@ -25,31 +25,27 @@
 			<th style='width:20%'></th>
 		</tr>
 <?php				
-	$sql 		= "SELECT * FROM stock
+	$sql 		= "SELECT itemlist.id, stock.reference, stock.stock, itemlist.description FROM stock
 					INNER JOIN (SELECT reference,MAX(id) AS latest FROM stock GROUP BY reference ORDER BY id DESC) recent_stock 
-					ON stock.reference = recent_stock.reference 
-					AND stock.id = recent_stock.latest 
+					ON stock.reference = recent_stock.reference
+					AND stock.id = recent_stock.latest
+					JOIN itemlist ON stock.reference = itemlist.reference
 					ORDER BY stock.reference
 					LIMIT 25";
 	$result = $conn->query($sql);
 	while($row = $result->fetch_assoc()) {
 		$reference		= $row['reference'];
 		$stock			= $row['stock'];
+		$description	= $row['description'];
+		$item_id		= $row['id'];
 		
-		$sql_item 		= "SELECT id,description FROM itemlist WHERE reference = '" . mysqli_real_escape_string($conn,$reference) . "'";
-		$result_item 	= $conn->query($sql_item);
-		$item	 		= $result_item->fetch_assoc();
-		
-		$sql_minus		= "SELECT delivery_order.quantity FROM delivery_order 
-							JOIN code_delivery_order ON delivery_order.do_id = code_delivery_order.id
+		$sql_minus		= "SELECT SUM(delivery_order.quantity) as quantity FROM delivery_order 
+							INNER JOIN code_delivery_order ON delivery_order.do_id = code_delivery_order.id
 							WHERE delivery_order.reference = '" . mysqli_real_escape_string($conn,$reference) . "' AND code_delivery_order.sent = '0'";
 		$result_minus	= $conn->query($sql_minus);
 		$row_minus		= $result_minus->fetch_assoc();
 		
 		$minus			= $row_minus['quantity'];
-		
-		$item_id 		= $item['id'];
-		$description	= $item['description'];
 ?>
 		<tr>
 			<td><?= $reference ?></td>
@@ -112,8 +108,8 @@
 			$stock			= $row['stock'];
 			$item_id 		= $row['id'];
 			$description	= $row['description'];
-			$sql_minus		= "SELECT delivery_order.quantity FROM delivery_order 
-								JOIN code_delivery_order ON delivery_order.do_id = code_delivery_order.id
+			$sql_minus		= "SELECT SUM(delivery_order.quantity) as quantity FROM delivery_order 
+								INNER JOIN code_delivery_order ON delivery_order.do_id = code_delivery_order.id
 								WHERE delivery_order.reference = '" . mysqli_real_escape_string($conn,$reference) . "' AND code_delivery_order.sent = '0'";
 			$result_minus	= $conn->query($sql_minus);
 			$row_minus		= $result_minus->fetch_assoc();

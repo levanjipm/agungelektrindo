@@ -64,7 +64,7 @@
 	<p><?= $note ?></p>
 	<label>Delivery order</label>
 <?php
-	$sql_delivery_order		= "SELECT id FROM code_delivery_order WHERE so_id = '$id'";
+	$sql_delivery_order		= "SELECT id, date, name FROM code_delivery_order WHERE so_id = '$id'";
 	$result_delivery_order	= $conn->query($sql_delivery_order);
 	if(mysqli_num_rows($result_delivery_order) > 0){
 ?>
@@ -74,9 +74,7 @@
 			<th>Name</th>
 		</tr>
 <?php
-	$sql_do 		= "SELECT id,date,name FROM code_delivery_order WHERE so_id = '" . $id . "'";
-	$result_do 		= $conn->query($sql_do);
-	while($do 		= $result_do->fetch_assoc()){
+	while($do 		= $result_delivery_order->fetch_assoc()){
 ?>
 		<tr>
 			<td><?= date('d M Y',strtotime($do['date'])) ?></td>

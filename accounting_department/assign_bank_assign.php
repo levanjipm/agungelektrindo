@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 	if(empty($_POST['id'])){
 ?>
@@ -52,8 +52,8 @@
 			<th>Date</th>
 			<th>Invoice number</th>
 			<th>Value</th>
-			<td></td>
-			<td>Remaining</td>
+			<th>Action</th>
+			<th>Remaining</th>
 		</tr>
 <?php
 	if($transaction == 1){

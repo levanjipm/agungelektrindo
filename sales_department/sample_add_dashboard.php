@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 ?>
 <head>
@@ -19,9 +19,10 @@ $( function() {
 	<h2 style='font-family:bebasneue'>Sample</h2>
 	<p style='font-family:museo'>Add sampling</p>
 	<hr>
+	
 	<form action='sample_add_validate' method='POST' id='add_sample_form'>
-		<label>Customer</label>
-		<select class='form-control' name='customer' id='customer' required>
+		<label>Customer</label><br>
+		<select class='form-control' name='customer' id='customer' required style='display:inline-block;width:45%'>
 			<option value=''>Please pick a customer</option>
 <?php	
 	$sql_customer = "SELECT id,name FROM customer ORDER BY name ASC";
@@ -33,9 +34,9 @@ $( function() {
 	}
 ?>
 		</select>
-		<br>
-		<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
 		<button type='button' class='button_default_dark' id='add_item_button' style='display:inline-block'>Add item</button>
+		
+		<br><br>
 		<table class='table table-bordered'>
 			<tr>
 				<th>Reference</th>
@@ -45,7 +46,7 @@ $( function() {
 				<tr>
 					<td><input type='text' class='form-control' id='reference1' name='reference[1]' required></td>
 					<td><input type='number' class='form-control' name='quantity[1]' min='0' required></td>
-					<td></td>
+					<td><button type='button' class='button_success_dark' style='visibility:hidden'><i class='fa fa-trash'></i></button></td>
 				</tr>
 			</tbody>
 		</table>
@@ -60,7 +61,7 @@ $('#add_item_button').click(function(){
 		"<tr id='tr-" + a + "'>" +
 		"<td><input type='text' class='form-control' id='reference" + a + "' name='reference[" + a + "]' required></td>"+
 		"<td><input type='number' class='form-control' name='quantity[" + a + "]' required min='0'></td>"+
-		"<td><button type='button' class='button_danger_dark' onclick='remove_row(" + a + ")'>X</button></td>"+
+		"<td><button type='button' class='button_danger_dark' onclick='remove_row(" + a + ")'><i class='fa fa-trash'></i></button></td>"+
 		"</tr>"
 	);
 	$('#reference' + a).autocomplete({

@@ -1,8 +1,9 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 	
-	$supplier_id			= $_GET['id'];
+	$supplier_id			= (int) $_GET['id'];
+	
 	$sql_supplier			= "SELECT id FROM supplier WHERE id = '$supplier_id'";
 	$result_supplier		= $conn->query($sql_supplier);
 	$supplier_count			= mysqli_num_rows($result_supplier);
@@ -33,6 +34,7 @@
 	<p style='font-family:museo'><?= $supplier_name ?></p>
 	<p style='font-family:museo'><?= $supplier_address ?></p>
 	<p style='font-family:museo'><?= $supplier_city ?></p>
+	
 	<button type='button' class='button_success_dark' id='hide_completed_button' style='display:none'><i class='fa fa-eye-slash'></i></button>
 	<button type='button' class='button_default_dark' id='show_completed_button'><i class='fa fa-eye'></i></button>
 	<br><br>

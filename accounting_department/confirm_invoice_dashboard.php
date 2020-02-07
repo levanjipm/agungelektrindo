@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 ?>
 <head>
@@ -14,6 +14,11 @@
 	<p style='font-family:museo'>Confirm invoice</p>
 	<hr>
 	<div id='confirm_invoice_pane'></div>
+</div>
+
+<div class='full_screen_wrapper' id='confirm_invoice_wrapper'>
+	<button class='full_screen_close_button'>&times </button>
+	<div class='full_screen_box'></div>
 </div>
 <script>
 	$(document).ready(function(){
@@ -31,4 +36,8 @@
 			}
 		})
 	}
+	
+	$('.full_screen_close_button').click(function(){
+		$(this).parent().fadeOut();
+	});
 </script>

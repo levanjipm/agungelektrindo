@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
 	$month			= date('m');
 	$year			= date('Y');
@@ -7,10 +7,6 @@
 <head>
 	<title>Manage customer</title>
 </head>
-<script>
-	$('#customer_side').click();
-	$('#customer_manage_dashboard').find('button').addClass('activated');
-</script>
 <style>
 	#search_bar {
 		width: 130px;
@@ -35,7 +31,7 @@
 </div>
 <div class='full_screen_wrapper' id='add_customer_wrapper'>
 	<div class='full_screen_box'>
-		<button type='button' class='full_screen_close_button'>&times</button>
+		<button type='button' class='full_screen_close_button'>&times </button>
 		<form action='customer_create_input' method='POST'>
 			<h2 style='font-family:bebasneue'>Customer</h2>
 			<p style='font-family:museo'>Add customer</p>
@@ -111,7 +107,7 @@
 			},
 			type:'GET',
 			beforeSend:function(){
-				$('#c').html("<h2 style='font-size:4em;text-align:center'><i class='fa fa-spin fa-spinner'></i></h2>");
+				$('#customer_view_pane').html("<h2 style='font-size:4em;text-align:center'><i class='fa fa-spin fa-spinner'></i></h2>");
 			},
 			success:function(response){
 				$('#customer_view_pane').html(response);

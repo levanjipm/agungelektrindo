@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/purchasing_header.php');
 ?>
 <head>
@@ -28,7 +28,7 @@
 ?>
 			</select>
 			<div class="input-group-append" style='width:100px'>
-				<button class="button_default_dark" type="submit" style='width:100%;height:100%' id='search_incomplete_po_supplier_button'>Search</button>
+				<button class="button_default_dark" type="submit" style='width:100%;height:100%' id='search_incomplete_po_supplier_button'><i class='fa fa-search'></i></button>
 			</div>
 		</div>
 	</form>
@@ -43,55 +43,48 @@
 		<tbody id='incomplete_po_table'>
 <?php
 	$i			= 0;
-	$sql 		= "SELECT DISTINCT(purchaseorder_id) FROM purchaseorder WHERE status = '0'";
+	$sql 		= "SELECT DISTINCT(purchaseorder.purchaseorder_id), code_purchaseorder.name, code_purchaseorder.date,
+					supplier.name as supplier_name, supplier.address, supplier.city
+					FROM purchaseorder 
+					JOIN code_purchaseorder ON purchaseorder.purchaseorder_id = code_purchaseorder.id
+					JOIN supplier ON code_purchaseorder.supplier_id = supplier.id
+					WHERE purchaseorder.status = '0'";
 	$result 	= $conn->query($sql);
 	while($row 	= $result->fetch_assoc()){
-		$po_id 	= $row['purchaseorder_id'];
+		$purchase_order_id	= $row['purchaseorder_id'];
+		$name 				= $row['name'];
+		$date 				= $row['date'];
 		
-		$sql_po 			= "SELECT id,name,supplier_id,date FROM code_purchaseorder WHERE id = '" . $po_id . "'";
-		$result_po 			= $conn->query($sql_po);
-		$row_po 			= $result_po->fetch_assoc();
-		$purchase_order_id	= $row_po['id'];
-		$supplier_id 		= $row_po['supplier_id'];
-		$name 				= $row_po['name'];
-		$date 				= $row_po['date'];
-		
-		$po_array[$i]		= $purchase_order_id;
-		
-		$sql_supplier 		= "SELECT name,city FROM supplier WHERE id = '" . $supplier_id . "'";
-		$result_supplier 	= $conn->query($sql_supplier);
-		$supplier 			= $result_supplier->fetch_assoc();
-		
-		$supplier_name		= $supplier['name'];
+		$supplier_name		= $row['supplier_name'];
+		$supplier_address	= $row['address'];
+		$supplier_city		= $row['city'];
 ?>
 			<tr>
 				<td><?= date('d M Y',strtotime($date)) ?></td>
 				<td><?= $name?></td>
-				<td><?= $supplier_name ?></td>
-				<td style="width:50%">
-					<button type='button' class="button_success_dark" onclick='showdetail(<?= $po_id ?>)' id="more_detail<?= $po_id ?>">
+				<td>
+					<p style='font-family:museo'><?= $supplier_name ?></p>
+					<p style='font-family:museo'><?= $supplier_address ?></p>
+					<p style='font-family:museo'><?= $supplier_city ?></p>
+				</td>
+				<td>
+					<button type='button' class="button_success_dark" onclick='showdetail(<?= $purchase_order_id ?>)'>
 						<i class="fa fa-eye" aria-hidden="true"></i>
 					</button>		
-				</td style="width:50%">
+				</td>
 			</tr>
 <?php
-		$i++;
 	}
-	
-	$purchase_order_array	= json_encode($po_array);
 ?>
 		</tbody>
 	</table>
 </div>
 <div class='full_screen_wrapper'>
-	<button class='full_screen_close_button'>X</button>
+	<button class='full_screen_close_button'>&times </button>
 	<div class='full_screen_box'>
 	</div>
 </div>
 <script>
-	var purchase_order_array		= <?= $purchase_order_array ?>;
-	var purchase_order_array_length	= <?= $i - 1 ?>;
-	
 	function showdetail(n){
 		$.ajax({
 			url:'purchase_order_incomplete.php',

@@ -1,14 +1,34 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/accounting_header.php');
 ?>
 <style>
 	.tab_top{
 		cursor:pointer;
+		bottom:-1px;
+		background-color:#326d96;
+		color:white;
+		padding:5px;
+		border:none;
+		transition:0.3s all ease;
+		text-align:center;
+		width:150px;
+	}
+	
+	.tab_top p{
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
 	}
 	
 	.active_tab{
-		border-bottom:2px solid #008080;
+		border-bottom:1px solid #fff;
+		border-top:1px solid #ccc;
+		border-left:1px solid #ccc;
+		border-right:1px solid #ccc;
+		background-color:white;
+		color:#424242;
+		transition:0.3s all ease;
 	}
 </style>
 <head>
@@ -18,11 +38,13 @@
 	<h2 style='font-family:bebasneue'>Bank</h2>
 	<p>Assign transaction to journal</p>
 	<hr>
-	<div class='row' style='font-family:bebasneue'>
-		<div class='col-sm-2 active_tab tab_top' disabled id='debit_button'><h3>Debit</h3></div>
-		<div class='col-sm-2 tab_top' id='credit_button'><h3>Credit</h3></div>
+	<div style='margin-left:-20px;margin-right:-10px'>
+	<div class='row' style='font-family:museo;margin:0'>
+		<div class='col-sm-2 active_tab tab_top' disabled id='debit_button'><p>Debit</p></div>
+		<div class='col-sm-2 tab_top' id='credit_button'><p>Credit</p></div>
 	</div>
-	<div id='view_pane' style='padding:20px'></div>
+	<div id='view_pane'  style='padding:15px;border:1px solid #ccc'></div>
+	</div>
 </div>
 <script>
 	$(document).ready(function(){

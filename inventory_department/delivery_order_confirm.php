@@ -4,10 +4,10 @@
 	$id_do 							= $_POST['do_id'];
 	
 	$sql_get_type 					= "SELECT code_salesorder.type
-									FROM code_salesorder
-									JOIN code_delivery_order
-									ON code_delivery_order.so_id = code_salesorder.id
-									WHERE code_delivery_order.id = '" . $id_do . "'";
+										FROM code_salesorder
+										JOIN code_delivery_order
+										ON code_delivery_order.so_id = code_salesorder.id
+										WHERE code_delivery_order.id = '" . $id_do . "'";
 	$result_get_type 				= $conn->query($sql_get_type);
 	$get_type						= $result_get_type->fetch_assoc();
 	$type 							= $get_type['type'];
@@ -16,7 +16,7 @@
 		$sql_code					= "SELECT id FROM code_delivery_order WHERE id = '$id_do' AND sent = '0'";
 		$result_code				= $conn->query($sql_code);
 		if($result_code){
-			$sql_delivery_order 		= "SELECT customer_id,name,date FROM code_delivery_order WHERE id ='" . $id_do . "'";
+			$sql_delivery_order 		= "SELECT customer_id,name,date FROM code_delivery_order WHERE id ='$id_do'";
 			$result_delivery_order		= $conn->query($sql_delivery_order);
 			$delivery_order 			= $result_delivery_order->fetch_assoc();
 			$customer_id 				= $delivery_order['customer_id'];
@@ -74,8 +74,8 @@
 					$initial_stock 	= $row_stock['stock'];
 					$end_stock 		= $initial_stock - $quantitys;
 
-					$sql_stock_out 	= "INSERT INTO stock (date,reference,transaction,quantity,stock,supplier_id,customer_id,document)
-									VALUES ('$date','$references','OUT','$quantitys','$end_stock','0','$customer_id','$document')";
+					$sql_stock_out 	= "INSERT INTO stock (date,reference,transaction,quantity,stock,customer_id,document)
+									VALUES ('$date','$references','OUT','$quantitys','$end_stock','$customer_id','$document')";
 					$conn->query($sql_stock_out);
 				}
 				

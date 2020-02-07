@@ -7,7 +7,7 @@
 	$result_invoice = $conn->query($sql_invoice);
 	if(mysqli_num_rows($result_invoice) > 0){
 ?>
-	<table class='table' id='confirmation'>
+	<table class='table table-bordered'>
 		<tr>
 			<th>Date</th>
 			<th>Invoice name</th>
@@ -17,34 +17,42 @@
 <?php
 	
 	while($row_invoice = $result_invoice->fetch_assoc()){
-		$customer_id = $row_invoice['customer_id'];
+		$invoice_id			= $row_invoice['id'];
+		$customer_id 		= $row_invoice['customer_id'];
+		$invoice_date		= $row_invoice['date'];
+		$invoice_name		= $row_invoice['name'];
+		
+		$sql_customer	 	= "SELECT name FROM customer WHERE id = '" . $customer_id . "'";
+		$result_customer 	= $conn->query($sql_customer);
+		$customer 			= $result_customer->fetch_assoc();
+		
+		$customer_name		= $customer['name'];
 ?>
 		<tr>
-			<td><?= date('d M Y',strtotime($row_invoice['date'])); ?></td>
-			<td><?= $row_invoice['name'] ?></td>
+			<td><?= date('d M Y',strtotime($invoice_date)); ?></td>
+			<td><?= $invoice_name ?></td>
+			<td><?= $customer_name ?></td>
 			<td>
-			<?php
-				$sql_customer = "SELECT name FROM customer WHERE id = '" . $customer_id . "'";
-				$result_customer = $conn->query($sql_customer);
-				$row_customer = $result_customer->fetch_assoc();
-				echo ($row_customer['name']);
-			?>
-			</td>
-			<td>
-				<button type='button' class='button_default_dark' onclick='confirming(<?= $row_invoice['id'] ?>)'>Confirm</button>
+				<button type='button' class='button_default_dark' onclick='confirming(<?= $invoice_id ?>)'><i class='fa fa-check-square-o'></i></button>
 			</td>
 		</tr>
 <?php
 	}
 ?>
 	</table>
-<form action='confirm_invoice' id='confirm_invoice_form' method='POST'>
-	<input type='hidden' id='invoice_id' name='id'>
-</form>
 <script>
 	function confirming(n){
-		$('#invoice_id').val(n);
-		$('#confirm_invoice_form').submit();
+		$.ajax({
+			url:'confirm_invoice',
+			data:{
+				invoice_id:n
+			},
+			type:'POST',
+			success:function(response){
+				$('#confirm_invoice_wrapper .full_screen_box').html(response);
+				$('#confirm_invoice_wrapper').fadeIn();
+			}
+		});
 	}
 </script>
 <?php

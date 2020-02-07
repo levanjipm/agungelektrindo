@@ -2,8 +2,7 @@
 	include('../codes/connect.php');
 	session_start();
 	$confirmed_by		= $_SESSION['user_id'];
-	//confirming goods receipt//
-	$good_receipt_id = $_POST['id'];
+	$good_receipt_id	= (int) mysqli_real_escape_string($conn,$_POST['id']);
 	$sql_status			= "SELECT isconfirm FROM code_goodreceipt WHERE id = '$good_receipt_id'";
 	$result_status		= $conn->query($sql_status);
 	$status				= $result_status->fetch_assoc();
@@ -21,20 +20,18 @@
 		$supplier_id 		= $row_get_status['supplier_id'];
 		$document 			= $row_get_status['document'];
 
-		//Scanning for coressponding items on document//
-		$sql_detail 		= "SELECT * FROM goodreceipt WHERE gr_id = '" . $good_receipt_id . "'";
+		$sql_detail 		= "SELECT id,received_id, quantity FROM goodreceipt WHERE gr_id = '$good_receipt_id'";
 		$result_detail 		= $conn->query($sql_detail);
 		while($row_detail 	= $result_detail->fetch_assoc()){
 			$goods_id 		= $row_detail['id'];
 			$received_id 	= $row_detail['received_id'];
 			$quantity 		= $row_detail['quantity'];
 			if ($quantity != 0){
-				$sql_received = "SELECT reference FROM purchaseorder WHERE id = '" . $received_id . "'";
-				$result_received = $conn->query($sql_received);
-				$row_received = $result_received->fetch_assoc();
+				$sql_received 		= "SELECT reference FROM purchaseorder WHERE id = '" . $received_id . "'";
+				$result_received 	= $conn->query($sql_received);
+				$row_received		= $result_received->fetch_assoc();
 				$reference = $row_received['reference'];
 
-				//Getting the previous stock quantity//
 				$sql_initial 	= "SELECT stock FROM stock WHERE reference = '" . $reference . "' ORDER BY id DESC LIMIT 1";
 				$result_initial = $conn->query($sql_initial);
 				if(mysqli_num_rows($result_initial) == 0){
@@ -46,8 +43,8 @@
 				}
 				//Inserting stock//
 				$final_stock 	= $stock_initial + $quantity;
-				$sql_stock 		= "INSERT INTO stock (date,reference,transaction,quantity,stock,supplier_id,customer_id,document) 
-								VALUES ('$date','$reference','IN','$quantity','$final_stock','$supplier_id','0','$document')";
+				$sql_stock 		= "INSERT INTO stock (date,reference,transaction,quantity,stock,supplier_id,document) 
+								VALUES ('$date','$reference','IN','$quantity','$final_stock','$supplier_id','$document')";
 				
 				$conn->query($sql_stock);
 				

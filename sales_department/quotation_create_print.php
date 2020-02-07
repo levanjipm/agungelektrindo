@@ -1,4 +1,5 @@
 <?php
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/head.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/codes/connect.php');
 	$q_id 					= $_POST['id'];
 	
@@ -28,12 +29,6 @@
 ?>
 <head>
 	<title><?= strtoupper($q_name . " " .$customer_name) ?></title>
-	<script src='/agungelektrindo/universal/jquery/jquery-3.3.0.min.js'></script>
-	<link rel="stylesheet" href="/agungelektrindo/universal/bootstrap/4.1.3/css/bootstrap.min.css">
-	<script src="/agungelektrindo/universal/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="/agungelektrindouniversal/fontawesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="/agungelektrindo/css/style.css">
-	<link rel="stylesheet" href="/agungelektrindo/universal/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
 	<div class="row" style='margin:0'>
@@ -66,13 +61,13 @@
 				</div>
 			</div>
 			<br><br><br>
-			<table class="table">
+			<table class="table" style='background-color:white!important'>
 				<thead>	
-					<th style="width:20%;text-align:center">Item Description</th>
-					<th style="width:20%;text-align:center">Reference</th>
-					<th style="width:20%;text-align:center">Unit price</th>
-					<th style="width:20%;text-align:center">Quantity</th>
-					<th style="width:30%;text-align:center">Total price</th>
+					<th style='width:20%;text-align:center;background-color:#fff!important;color:#000!important'>Item Description</th>
+					<th style='width:20%;text-align:center;background-color:#fff!important;color:#000!important'>Reference</th>
+					<th style='width:20%;text-align:center;background-color:#fff!important;color:#000!important'>Unit price</th>
+					<th style='width:20%;text-align:center;background-color:#fff!important;color:#000!important'>Quantity</th>
+					<th style='width:30%;text-align:center;background-color:#fff!important;color:#000!important'>Total price</th>
 				</thead>
 				<tbody>
 				<?php 
@@ -179,10 +174,10 @@
 		<div class="col-sm-2" style="background-color:#eee">
 		</div>
 	</div>
-	<div class="row" style="background-color:#333;padding:20px;margin:0">
+	<div class="row" style="background-color:#424242;padding:20px;margin:0">
 		<br><br><br>
 		<div class="col-sm-2 offset-sm-5">
-			<button class="button_default_dark hidden-print" type="button" id="print" onclick="printing('printable')">Print</button>
+			<button class="button_success_dark hidden-print" type="button" id="print" onclick="printing('printable')"><i class='fa fa-print'></i></button>
 		</div>
 	</div>
 </body>
