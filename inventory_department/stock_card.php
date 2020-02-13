@@ -1,6 +1,7 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
+	
 	$sql_item 			= "SELECT reference,description FROM itemlist WHERE id = '" . $_GET['id'] . "'";
 	$result_item 		= $conn->query($sql_item);
 	$item 				= $result_item->fetch_assoc();
@@ -23,9 +24,8 @@
 	<h2 style='font-family:bebasneue'><?= $reference ?></h2>
 	<p><?= $description ?></p>
 	<a href='check_stock' style='text-decoration:none'>
-		<button type='button' class='button_danger_dark'><i class='fa fa-long-arrow-left'></i></button>
+		<button type='button' class='button_danger_dark' title='Back'><i class='fa fa-long-arrow-left'></i></button>
 	</a>
-	<button type='button' class='button_success_dark' title='Calculate safety stock' id='safety_stock_button'><i class="fa fa-calculator" aria-hidden="true"></i></button>
 	<a href='stock_card_complete.php?id=<?= $_GET['id'] ?>'>
 		<button type='button' class='button_default_dark' title='View complete stock card data'><i class="fa fa-list-alt" aria-hidden="true"></i></button>
 	</a>
@@ -118,18 +118,3 @@
 		</tbody>
 	</table>
 </div>
-<div class='full_screen_wrapper'>
-	<button type='button' class='full_screen_close_button'>&times</button>
-	<div class='full_screen_box'>
-	</div>
-</div>
-<script>	
-	$('#safety_stock_button').click(function(){
-		$('.full_screen_box').html("<h1 style='font-size:6em;color:#333;text-align:center'><i class='fa fa-spinner fa-spin' aria-hidden='true'></i></h1>");
-		$('.full_screen_wrapper').fadeIn(300);
-	});
-	
-	$('.full_screen_close_button').click(function(){
-		$('.full_screen_wrapper').fadeOut(300);
-	});
-</script>

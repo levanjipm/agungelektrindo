@@ -1,6 +1,7 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/sales_header.php');
+	
 	$sales_order_id			= $_POST['id'];
 	
 	$sql					= "SELECT * FROM code_salesorder WHERE id = '$sales_order_id'";
@@ -134,17 +135,45 @@
 		</tr>
 <?php
 			while($row = $result->fetch_assoc()){
+				$id		= $row['id'];
 				$date	= $row['date'];
 				$name	= $row['name'];
 ?>
 		<tr>
 			<td><?= date('d M Y',strtotime($date)) ?></td>
-			<td><?= $name ?></td>
+			<td>
+				<?= $name ?>
+				<button class='button_information_transparent' onclick='view_delivery_order_detail(<?= $id ?>)'><i class='fa fa-info'></i></button>
+			</td>
 		</tr>
 <?php
 			}
 ?>
 	</table>
+	
+	<div class='full_screen_wrapper' id='goods_delivery_order_view'>
+		<button type='button' class='full_screen_close_button'>&times </button>
+		<div class='full_screen_box'></div>
+	</div>
+	<script>
+		function view_delivery_order_detail(n){
+			$.ajax({
+				url:'sales_order_archive_delivery',
+				data:{
+					delivery_order_id:n
+				},
+				type:'GET',
+				success:function(response){
+					$('#goods_delivery_order_view .full_screen_box').html(response);
+					$('#goods_delivery_order_view').fadeIn();
+				}
+			});
+		};
+		
+		$('.full_screen_close_button').click(function(){
+			$(this).parent().fadeOut();
+		});
+	</script>
 <?php
 		} else {
 ?>	

@@ -25,16 +25,17 @@ $( function() {
 		<select class='form-control' name='customer' id='customer' required style='display:inline-block;width:45%'>
 			<option value=''>Please pick a customer</option>
 <?php	
-	$sql_customer = "SELECT id,name FROM customer ORDER BY name ASC";
-	$result_customer = $conn->query($sql_customer);
-	while($customer = $result_customer->fetch_assoc()){
+	$sql_customer 		= "SELECT id,name FROM customer ORDER BY name ASC";
+	$result_customer 	= $conn->query($sql_customer);
+	while($customer 	= $result_customer->fetch_assoc()){
 ?>
 			<option value='<?= $customer['id'] ?>'><?= $customer['name'] ?></option>
 <?php
 	}
 ?>
 		</select>
-		<button type='button' class='button_default_dark' id='add_item_button' style='display:inline-block'>Add item</button>
+		<br><br>
+		<button type='button' class='button_default_dark' id='add_item_button'>Add item</button>
 		
 		<br><br>
 		<table class='table table-bordered'>

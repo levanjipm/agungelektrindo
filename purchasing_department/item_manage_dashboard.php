@@ -24,8 +24,8 @@
 	<button type='button' class='button_default_dark' id='add_item_button'>Add item</button>
 	<br><br>
 	
-	<input type="text" id="search_item_bar" placeholder="Search for reference or description" class="form-control">
-	<br>
+	<input type="text" id="search_item_bar" placeholder="Search for reference or description">
+	<br><br>
 	<div id='edit_item_table'></div>
 </div>
 

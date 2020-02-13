@@ -35,6 +35,7 @@
 	<p style='font-family:museo'><?= $supplier_address ?></p>
 	<p style='font-family:museo'><?= $supplier_city ?></p>
 	
+	<a href='supplier_view.php?id=<?= $supplier_id ?>' style='text-decoration:none'><button type='button' class='button_danger_dark'><i class='fa fa-long-arrow-left'></i></button></a>
 	<button type='button' class='button_success_dark' id='hide_completed_button' style='display:none'><i class='fa fa-eye-slash'></i></button>
 	<button type='button' class='button_default_dark' id='show_completed_button'><i class='fa fa-eye'></i></button>
 	<br><br>

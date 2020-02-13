@@ -25,8 +25,8 @@
 	<hr>
 	<button type='button' class='button_default_dark' id='add_customer_button'>Add customer</button>
 	<br><br>
-	<input type='text' class='form-control' id='search_bar'>
-	<br>
+	<input type='text' id='search_bar'>
+	<br><br>
 	<div id='customer_view_pane'></div>
 </div>
 <div class='full_screen_wrapper' id='add_customer_wrapper'>

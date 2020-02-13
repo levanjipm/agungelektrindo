@@ -24,15 +24,11 @@
 ?>
 <script>
 	window.location.href='/agungelektrindo/codes/logout.php';
-</script>
 <?php
 	}
-	
-	$file_name			= 'quotation_edit_dashboard';
 ?>
-<script>
 	$('#quotation').click();
-	$('#<?= $file_name ?>').find('button').addClass('activated');
+	$('#quotation_edit_dashboard').find('button').addClass('activated');
 </script>
 <head>
 	<title>Edit quotation <?= $quotation_name ?></title>
@@ -84,7 +80,7 @@
 				</tr>
 				<script>
 					$('#reference<?= $a ?>').autocomplete({
-						source: "search_item.php"
+						source: "/agungelektrindo/codes/search_item.php"
 					});
 				</script>
 <?php

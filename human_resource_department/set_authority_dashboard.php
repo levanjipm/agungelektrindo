@@ -1,5 +1,5 @@
 <?php
-	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/header.php');
+	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/human_resource_header.php');
 ?>
 <div class='main'>
@@ -56,4 +56,44 @@
 		$('.full_screen_box').html('');
 		$('.full_screen_wrapper').fadeOut();
 	});
+	
+	function add_auth(user,department){
+		$.ajax({
+			url		: 'add_authority.php',
+			data	: {
+				user: user,
+				dept: department,
+			},
+			type	: 'POST',
+			beforeSend:function(){
+				$('#del_auth_button').attr('disabled',true);
+			},
+			success:function(response){
+				$('#del_auth_button').attr('disabled',false);
+				if(response == 1){
+					$('#del_auth_button').removeClass('button_success_dark').addClass('button_danger_dark');
+				}
+			},
+		})
+	};
+	
+	function delete_auth(user,department){
+		$.ajax({
+			url		: 'delete_authority.php',
+			data	: {
+				user: user,
+				dept: department,
+			},
+			type	: 'POST',
+			beforeSend:function(){
+				$('#add_auth_button').attr('disabled',true);
+			},
+			success:function(response){
+				if(response == 1){
+					$('#add_auth_button').attr('disabled',false);
+					$('#add_auth_button').removeClass('button_success_dark').addClass('button_danger_dark');
+				}
+			},
+		})
+	};
 </script>

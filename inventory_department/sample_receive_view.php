@@ -1,5 +1,16 @@
 <?php
 	include('../codes/connect.php');
+	$sql					= "SELECT code_sample_delivery_order.name, code_sample_delivery_order.date, customer.name as customer_name, customer.address, customer.city, code_sample_delivery_order.id
+								FROM code_sample_delivery_order 
+								JOIN code_sample ON code_sample.id = code_sample_delivery_order.code_sample
+								JOIN customer ON code_sample.customer_id = customer.id
+								WHERE code_sample_delivery_order.isreturned = '0'";
+	$result					= $conn->query($sql);
+	if(mysqli_num_rows($result) == 0){
+?>
+	<p style='font-family:museo'>There is no sample to receive</p>
+<?php
+	} else {
 ?>
 <table class='table table-bordered'>
 	<thead>
@@ -10,12 +21,7 @@
 	</thead>
 	<tbody>
 <?php
-	$sql					= "SELECT code_sample_delivery_order.name, code_sample_delivery_order.date, customer.name as customer_name, customer.address, customer.city, code_sample_delivery_order.id
-								FROM code_sample_delivery_order 
-								JOIN code_sample ON code_sample.id = code_sample_delivery_order.code_sample
-								JOIN customer ON code_sample.customer_id = customer.id
-								WHERE code_sample_delivery_order.isreturned = '0'";
-	$result					= $conn->query($sql);
+	
 	while($row				= $result->fetch_assoc()){
 		$delivery_order_name	= $row['name'];
 		$delivery_order_date	= $row['date'];
@@ -38,12 +44,15 @@
 	}
 ?>
 </table>
-<form action='sample_receive_validation' method='POST' id='sample_form'>
+<form action='sample_receive_validation' method='POST' id='receive_sample_form'>
 	<input type='hidden' id='sample_id' name='id'>
 </form>
 <script>
 	function receive_sample(n){
 		$('#sample_id').val(n);
-		$('#sample_form').submit();
+		$('#receive_sample_form').submit();
 	}
 </script>
+<?php
+	}
+?>

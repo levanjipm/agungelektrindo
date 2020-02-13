@@ -7,6 +7,30 @@
 		top:50%;
 		right:0;
 	}
+	
+	p{
+		margin:5pt;
+	}
+
+	@media print {
+		body * {
+			visibility: hidden;
+		}
+		
+		#printable, #printable *{
+			visibility:visible!important;
+		}
+		
+		#printable{
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+		
+		@page {
+		  size: 21.59cm 13.97cm;
+		}
+	}
 </style>
 <?php
 	$do_id 						= $_POST['id'];
@@ -80,7 +104,7 @@
 			</thead>
 			<tbody>
 <?php
-	$sql 				= "SELECT * FROM delivery_order WHERE do_id = '" . $do_id . "'";
+	$sql 				= "SELECT * FROM delivery_order WHERE do_id = '$do_id'";
 	$result 			= $conn->query($sql);
 	while($row 			= $result->fetch_assoc()){
 		$reference		= $row['reference'];
@@ -108,27 +132,6 @@
 	</div>
 </div>
 <button class='button_default_dark hidden-print' id='print' onclick='printing("printable")'><i class="fa fa-print" aria-hidden="true"></i></button>
-<style>
-@media print {
-	body * {
-		visibility: hidden;
-	}
-	
-	#printable, #printable *{
-		visibility:visible!important;
-	}
-	
-	#printable{
-		position: absolute;
-		left: 0;
-		top: 0;
-	}
-	
-	@page {
-	  size: 21.59cm 13.97cm;
-	}
-}
-</style>
 <script>
 function printing(divName) {
      window.print();

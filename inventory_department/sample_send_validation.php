@@ -3,11 +3,8 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/inventory_header.php');
 	
 	$id						= $_POST['id'];
-	$sql_check	= "SELECT id FROM code_sample_delivery_order WHERE id = '$id'";
-	$result_check	= $conn->query($sql_check);
-	$check			= mysqli_num_rows($result_check);
 	
-	if(empty($_POST['id']) || $check == 0){
+	if(empty($_POST['id'])){
 ?>
 <script>
 	window.location.href='/agungelektrindo/inventory_department/sample_dashboard';
@@ -81,14 +78,14 @@
 		$quantity			= $row['quantity'];
 		$sent				= $row['sent'];
 		
-		$sql_stock			= "SELECT stock FROM stock WHERE reference = '$reference'";
+		$sql_stock			= "SELECT stock FROM stock WHERE reference = '$reference' ORDER BY id DESC";
 		$result_stock		= $conn->query($sql_stock);
 		$stock				= $result_stock->fetch_assoc();
 		
 		$stock_level		= $stock['stock'];
 		
-		if($quantity < $stock_level){
-			$vaildation		= FALSE;
+		if($quantity > $stock_level){
+			$validation		= FALSE;
 		}
 ?>
 			<tr>

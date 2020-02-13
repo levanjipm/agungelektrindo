@@ -81,8 +81,8 @@
 		$quantity_received	= $row['received_quantity'];
 		$reference			= $row['reference'];
 		$price_list			= $row['price_list'];
-		$discount			= $row['discount'];
 		$unit_price			= $row['unitprice'];
+		$discount			= 100 * (1 - $unit_price / $price_list);
 		
 		if($quantity_received > 0){
 			$disabled = 'disabled';
@@ -115,7 +115,7 @@
 				<tr id="tr<?= $row['id'] ?>">
 					<td><input type='text' value="<?= $row['reference'] ?>" 	class='form-control' id='reference<?= $row['id'] ?>' 	name='reference[<?= $row['id'] ?>]'></td>
 					<td><input type="text" value="<?= $row['price_list'] ?>" 	class='form-control' name='price_list[<?= $row['id']?>]'></td>
-					<td><input type="text" value="<?= $row['discount'] ?>" 		class='form-control' name='discount[<?= $row['id'] ?>]'	min='0' max='100'></td>
+					<td><input type="text" value="<?= $discount ?>" 		class='form-control' name='discount[<?= $row['id'] ?>]'	min='0' max='100'></td>
 					<td><input type="text" value="<?= $row['unitprice'] ?>" 	class='form-control' readonly ></td>
 					<td><input type="text" value="<?= $row['quantity'] ?>" 		class='form-control' name='quantity[<?= $row['id'] ?>]' min='<?= $min_val ?>' ></td>
 					<td><?= number_format($quantity_received,0) ?></td>

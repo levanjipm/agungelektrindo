@@ -21,6 +21,9 @@
 	$supplier_address		= $supplier['address'];
 	$supplier_city			= $supplier['city'];
 ?>
+<head>
+	<title>Set <?= $purchase_name ?> as done</title>
+</head>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Bank</h2>
 	<p style='font-family:museo'>Set purchase as done</p>
@@ -69,8 +72,8 @@
 		<button type='button' class='button_success_dark' id='confirm_button'>Confirm</button>
 	</div>
 </div>
-<form action='supplier_view' method='POST' id='redirect_form'>
-	<input type='hidden' value='<?= $supplier_id ?>' name='supplier'>
+<form action='supplier_view' method='GET' id='redirect_form'>
+	<input type='hidden' value='<?= $supplier_id ?>' name='id'>
 </form>
 <script>
 	$('#date').focus();

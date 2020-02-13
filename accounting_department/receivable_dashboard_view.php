@@ -39,13 +39,16 @@
 		</tr>
 <?php
 	while($invoice_detail 	= $result_invoice_detail->fetch_assoc()){
-		 $sql_receivable	= "SELECT SUM(value) AS paid FROM receivable WHERE invoice_id = '" . $invoice_detail['id'] . "'";
-		 $result_receivable	= $conn->query($sql_receivable);
-		 $receivable		= $result_receivable->fetch_assoc();
-		 $paid				= $receivable['paid'];
+		$sql_receivable		= "SELECT SUM(value) AS paid FROM receivable WHERE invoice_id = '" . $invoice_detail['id'] . "'";
+		$result_receivable	= $conn->query($sql_receivable);
+		$receivable			= $result_receivable->fetch_assoc();
+		$paid				= $receivable['paid'];
+		$date				= $invoice_detail['date'];
+		$difference			= strtotime(date('Y-m-d')) - strtotime($date);
+		$days 				= floor($difference / (60*60*24));
 ?>
 		<tr>
-			<td><?= date('d M Y',strtotime($invoice_detail['date'])) ?></td>
+			<td><?= date('d M Y',strtotime($date)) ?> (<?= $days ?> days)</td>
 			<td><?= $invoice_detail['invoice_name'] ?></td>
 			<td>Rp. <?= number_format($invoice_detail['value'] + $invoice_detail['ongkir'] - $paid,2) ?></td>
 		</tr>

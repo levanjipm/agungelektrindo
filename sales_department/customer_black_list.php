@@ -21,8 +21,8 @@
 	<h2 style='font-family:bebasneue'>Customer</h2>
 	<p style='font-family:museo'>Black list or white list customer</p>
 	<hr>
-	<input type='text' class='form-control' id='search_bar'>
-	<br>
+	<input type='text' id='search_bar'>
+	<br><br>
 	<div id='customer_black_list_view'></div>
 </div>
 

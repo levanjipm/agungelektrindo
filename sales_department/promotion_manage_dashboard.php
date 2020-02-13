@@ -5,24 +5,47 @@
 <head>
 	<title>Manage promotion</title>
 </head>
-<script>
-	$('#promotion_side').click();
-	$('#promotion_manage_dashboard').find('button').addClass('activated');
-</script>
+<style>
+	#search {
+		width: 130px;
+		-webkit-transition: width 0.4s ease-in-out;
+		transition: width 0.4s ease-in-out;
+		padding:10px;
+	}
+	
+	#search:focus {
+		width: 100%;
+	}
+</style>
 <div class='main'>
 	<h2 style='font-family:bebasneue'>Promotion</h2>
 	<p style='font-family:museo'>Manage promotion</p>
 	<hr>
-	<h3 style='font-family:museo'>Ongoing promotion</h3>
+	<a href='promotion_add_dashboard' style='text-decoration:none'>
+		<button type='button' class='button_default_dark'>Add promotion</button>
+	</a>
+	<br><br>
+	
+	<input type='text' id='search'>
+	
+	<br><br>
+	<label>Ongoing promotion</label>
+<?php
+	$sql_ongoing		= "SELECT * FROM promotion WHERE end_date > CURDATE() ORDER BY end_date ASC";
+	$result_ongoing		= $conn->query($sql_ongoing);
+	if(mysqli_num_rows($result_ongoing) == 0){
+?>
+	<p style='font-family:museo'>There is no promotion at the time</p>
+<?php
+	} else {
+?>
 	<table class='table table-bordered'>
 		<tr>
 			<th>Promotion name</th>
 			<th>End date</th>
-			<th></th>
+			<th>Action</th>
 		</tr>
 <?php
-	$sql_ongoing		= "SELECT * FROM promotion WHERE end_date > CURDATE() ORDER BY end_date ASC";
-	$result_ongoing		= $conn->query($sql_ongoing);
 	while($ongoing		= $result_ongoing->fetch_assoc()){
 		$id				= $ongoing['id'];
 		$name			= $ongoing['name'];
@@ -33,7 +56,7 @@
 			<td><?= date('d M Y',strtotime($date)) ?></td>
 			<td>
 				<a href='promotion_manage.php?id=<?= $id ?>'>
-					<button type='button' class='button_success_dark'><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+					<button type='button' class='button_success_dark'><i class="fa fa-pencil"></i></button>
 				</a>
 			</td>
 		</tr>
@@ -41,4 +64,7 @@
 	}
 ?>
 	</table>
+<?php
+	}
+?>
 </div>

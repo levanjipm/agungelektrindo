@@ -9,7 +9,8 @@
 	<div class="dropdown-container">
 		<a href='/agungelektrindo/human_resource_department/salary_create_dashboard'><button>Create salary slip</button></a>
 		<a href='/agungelektrindo/human_resource_department/manage_tutorial'><button>Salary slip archives</button></a>
-	</div>	
+	</div>
+	<a href='/agungelektrindo/human_resource_department/announcement_manage_dashboard'><button>Announcement</button></a>
 	<hr>
 	<a href='/agungelektrindo/human_resource'><i class="fa fa-eercast" aria-hidden="true"></i>Human Resource Department</a>
 </div>

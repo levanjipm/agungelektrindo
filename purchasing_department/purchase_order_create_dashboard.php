@@ -19,10 +19,10 @@ $( function() {
 	<br>
 	<form id='purchase_order_form' method="POST" action='purchase_order_create_validation' style="font-family:sans-serif">
 		<div class="row">
-			<div class="col-sm-5">
+			<div class="col-sm-6">
 				<label for="name">Order to</label>
-				<select class="form-control" id="selectsupplier" name="selectsupplier"  onclick="disable()">
-				<option id="kosong" value="">--Please Select a supplier--</option>
+				<select class='form-control' id='supplier' name='supplier'>
+				<option value=''>--Please Select a supplier--</option>
 					<?php
 						$sql = "SELECT id,name,address FROM supplier ORDER BY name";
 						$result = $conn->query($sql);
@@ -39,7 +39,7 @@ $( function() {
 				<input class="form-control" id="top" value="30" name="top" style='width:75%;display:inline-block;' required>
 				<span style='width:20%;display:inline-block;'>Days</span>	
 			</div>
-			<div class="col-sm-5 col-sm-offset-1">
+			<div class="col-sm-6">
 				<label for="date">Date</label>
 				<input id="today" name="today" type="date" class="form-control" value="<?= date('Y-m-d');?>">
 				<label>Send date</label>
@@ -72,7 +72,7 @@ $( function() {
 					<td><input type='number' id="quantity1" class="form-control" name="quantity[1]"></input></td>
 					<td id='net_price-1'></td>
 					<td id='total_price-1'></td>
-					<td>
+					<td><button type='button' class='button_danger_dark' style='visibility:hidden'><i class='fa fa-trash'></i></button>
 				</tr>
 			</tbody>
 			<tfoot>
@@ -118,7 +118,7 @@ $( function() {
 		</div>
 		<div class="row" style="padding-top:20px">
 			<div class="col-sm-6">
-				<button type='button' class="button_danger_dark" 	id="back" 		style="display:none">Back</button>
+				<button type='button' class="button_danger_dark" 	id="back" style='display:none'>Back</button>
 				<button type='button' class="button_success_dark"	id='submit_form_button' 	style='display:none'>Submit</button>
 			</div>
 		</div>
@@ -141,10 +141,6 @@ function evaluate_organic(x){
 	return eval(to_be_evaluated);
 }
 
-function disable(){
-	document.getElementById("kosong").disabled = true;
-}
-
 $("#add_item_button").click(function (){	
 	$("#purchaseorder_tbody").append(
 	"<tr id='tr-" + a + "'>"+
@@ -154,7 +150,7 @@ $("#add_item_button").click(function (){
 	"<td><input type='number' id='quantity" + a + "' class='form-control' name='quantity[" + a + "]'></td>"+
 	"<td id='net_price-" + a + "'></td>"+
 	"<td id='total_price-" + a + "'></td>"+
-	"<td><button type='button' class='button_danger_dark' onclick='delete_row(" + a + ")'>&times</button></td>"+
+	"<td><button type='button' class='button_danger_dark delete_button' onclick='delete_row(" + a + ")'><i class='fa fa-trash'></i></button></td>"+
 	'</tr>').find("input").each(function () {
 		});
 	$("#reference" + a).autocomplete({
@@ -234,7 +230,7 @@ function hitung(){
 	
 	$('#grand_total').val(calculated_total);
 	$('#total_number').html(numeral(calculated_total).format('0,0.00'));
-	if($('#selectsupplier').val() == 0){
+	if($('#supplier').val() == 0){
 		alert("Please insert a supplier");
 	} else if(isNaN ($('#grand_total').val())){
 		alert("Insert correct price");
@@ -249,9 +245,8 @@ function hitung(){
 		$('#submit_form_button').show();
 		$('#back').show();
 		$('#calculate').hide();
-		$('#folder').hide();
-		$('#close').hide();
-		
+		$('.delete_button').css('visibility','hidden');
+		$('#add_item_button').hide();
 		$('input').attr('readonly',true);
 	}
 };
@@ -279,7 +274,7 @@ $("#back").click(function () {
 	$('#submit_form_button').hide();
 	$('#back').hide();
 	$('#calculate').show();
-	$('#folder').show();
-	$('#close').show();
+	$('.delete_button').css('visibility','visible');
+	$('#add_item_button').show();
 });
 </script>

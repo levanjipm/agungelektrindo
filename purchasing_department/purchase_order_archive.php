@@ -3,33 +3,39 @@
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/purchasing_header.php');
 ?>
 <style>
-	.btn-table{
-		background-color:transparent;
-		border:none;
+	.box{
+		background-color:#0e3f66;
+		padding:10px;
+		text-align:center;
+		cursor:pointer;
 	}
 	
-	.done_flag{
-		padding:5px 20px;
-		border:none;
-		background-color:rgba(62, 134, 250,0.8);
-		color:white;
-		position:absolute;
-		top:10%;
-		right:20%;
-		z-index:20;
-		border-radius:3px;
+	.box img{
+		width:60%;
 	}
 	
-	.closed_flag{
-		padding:5px 20px;
-		border:none;
-		background-color:rgba(217, 47, 28,0.8);
-		color:white;
-		position:absolute;
-		top:10%;
-		right:20%;
-		z-index:20;
-		border-radius:3px;
+	.icon_wrapper{
+		padding:10px;
+		text-align:center;
+		width:15%;
+		max-width:150px;
+		min-width:30px;
+	}
+	
+	.image_wrapper{
+		background-color:#0e3f66;
+	}
+	
+	.progress_bar_wrapper{
+		width:100%;
+		background-color:#424242;
+		height:10px;
+	}
+	
+	.progress_bar{
+		width: 1%;
+		height: 10px;
+		background-color: #afdfe6;
 	}
 </style>
 <head>
@@ -39,69 +45,51 @@
 	<h2 style='font-family:bebasneue'>Purchase Order</h2>
 	<p>Archives</p>
 	<hr>
-	<button type='button' class='button_default_dark' id='back_button'><i class="fa fa-chevron-circle-left" aria-hidden="true"></i></button>
-	<input type='hidden' value='0' id='depth'>
-	<input type='hidden' value='0' id='depth_year'>
-	<div class='row' id='folders'>
+	<label>Year</label>
+	<select class='form-control' id='year' style='width:300px' onchange='update_purchase_order_view(0,1)'>
 <?php
-	$sql 		= "SELECT DISTINCT(YEAR(date)) AS year FROM code_purchaseorder";
-	$result 	= $conn->query($sql);
-	while($row 	= $result->fetch_assoc()){
+	$sql		= "SELECT DISTINCT(YEAR(date)) AS year FROM code_salesorder ORDER BY date ASC";
+	$result		= $conn->query($sql);
+	while($row	= $result->fetch_assoc()){
 ?>
-	<div class='col-sm-2 folder_year' style='cursor:pointer' ondblclick='view_month(<?= $row['year'] ?>)'>
-		<h1 style='font-size:5em'>
-			<i class="fa fa-folder-o" aria-hidden="true"></i>
-		</h1>
-		<p style='font-family:bebasneue'><?= $row['year'] ?></p>
-	</div>
+		<option value='<?= $row['year'] ?>' <?php if($row['year'] == date('Y')){ echo 'selected'; } ?>><?= $row['year'] ?></option>
 <?php
 	}
 ?>
-	</div>
+	</select>
+	<br>
+	<div id='view_pane'></div>
 </div>
 <script>
-	function view_month(n){
-		$('#depth').val(1);
-		$('#depth_year').val(n);
-		$.ajax({
-			url:'purchase_order_archive_month.php',
-			data:{
-				year:n,
-			},
-			success:function(response){
-				$('#folders').html(response);
-			},
-			type:"POST",
-		})
-	}
-	function view_po(month,year){
-		$('#depth').val(2);
-		$.ajax({
-			url:'purchase_order_archive_files.php',
-			data:{
-				year:year,
-				month:month,
-			},
-			success:function(response){
-				$('#folders').html(response);
-			},
-			type:"POST",
-		});
-	}
-	$('#back_button').dblclick(function(){
-		if($('#depth').val() == 1){
-			$.ajax({
-			url:'purchase_order_archive_year.php',
-			success:function(response){
-				$('#folders').html(response);
-			},
-			type:"POST",
-			})
-		} else if($('#depth').val() == 2){
-			view_month($('#depth_year').val());
+	$.ajax({
+		url:'purchase_order_archive_view',
+		data:{
+			year:$('#year').val(),
+			month:0,
+			page:1,
+		},
+		type:'GET',
+		success:function(response){
+			$('#view_pane').html(response);
 		}
-	});
-	function view_archive_po(n){
-		$('#po_archieve_form' + n).submit();
+	})
+	
+	function update_purchase_order_view(month, page){
+		$.ajax({
+			url:'purchase_order_archive_view',
+			data:{
+				year:$('#year').val(),
+				month:month,
+				page:page,
+			},
+			type:'GET',
+			beforeSend:function(){
+				$('.loading_wrapper_initial').fadeIn();
+			},
+			success:function(response){
+				$('.loading_wrapper_initial').fadeOut();
+				$('#view_pane').html(response);
+			}
+		})
 	}
 </script>

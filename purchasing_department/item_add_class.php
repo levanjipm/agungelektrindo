@@ -1,6 +1,6 @@
 <?php
 	include('../codes/connect.php');
-	$user = $_POST['user'];
+	$user 		= $_POST['user'];
 	$class_name = mysqli_real_escape_string($conn,$_POST['class_name']);
 	
 	$sql_search = "SELECT * FROM itemlist_category WHERE name = '" . $class_name . "'";

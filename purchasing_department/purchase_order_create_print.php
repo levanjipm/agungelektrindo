@@ -179,45 +179,43 @@
 										JOIN itemlist ON purchaseorder.reference = itemlist.reference
 										WHERE purchaseorder.purchaseorder_id = '$po_id'";
 						$result 	= $conn->query($sql_item);
-						$i 			= 0;
 						$value 		= 0;
 						while($row 			= $result->fetch_assoc()){
-							$disc[$i] 		= $row['discount'];
-							$ref[$i] 		= $row['reference'];
-							$price_list[$i] = $row['price_list'];
-							$unitprice[$i] 	= $row['unitprice'];
-							$quantity[$i] 	= $row['quantity'];
-							$totprice[$i] 	= $row['unitprice'] * $row['quantity'];	
+							$reference		= $row['reference'];
+							$price_list	 	= $row['price_list'];
+							$unitprice		= $row['unitprice'];
+							$quantity	 	= $row['quantity'];
+							$totprice	 	= $row['unitprice'] * $row['quantity'];	
+							$discount		= 100 * (1 - ($unitprice / $price_list));
 
-							$value 			+= $unitprice[$i] * $quantity[$i];
+							$value 			+= $unitprice * $quantity;
 							
-							$desc	= $row['description'];
+							$description	= $row['description'];
 							if($tax == 1){
-?>
+					?>
 							<tr>
-								<td><?= $desc ?></td>
-								<td><?= $ref[$i] ?></td>
-								<td>Rp. <?= number_format($price_list[$i] * 10 /11,2) ?></td>
-								<td><?= number_format($disc[$i],2) ?>%</td>
-								<td><?= number_format($quantity[$i],0) ?></td>
-								<td>Rp. <?= number_format($unitprice[$i] * 10 /11,2) ?></td>
-								<td>Rp.<?= number_format($totprice[$i] * 10 /11,2) ?></td>
+								<td><?= $description ?></td>
+								<td><?= $reference ?></td>
+								<td>Rp. <?= number_format($price_list * 10 /11,2) ?></td>
+								<td><?= number_format($discount,2) ?>%</td>
+								<td><?= number_format($quantity,0) ?></td>
+								<td>Rp. <?= number_format($unitprice * 10 /11,2) ?></td>
+								<td>Rp.<?= number_format($totprice * 10 /11,2) ?></td>
 							</tr>
-<?php
-} else {
-?>
+					<?php
+							} else {
+					?>
 							<tr>
-								<td><?= $desc ?></td>
-								<td><?= $ref[$i] ?></td>
-								<td>Rp. <?= number_format($price_list[$i],2) ?></td>
-								<td><?= number_format($disc[$i],0) ?>%</td>
-								<td><?= $quantity[$i] ?></td>
-								<td>Rp. <?= number_format($unitprice[$i],2) ?></td>
-								<td>Rp. <?= number_format($totprice[$i],2) ?></td>
+								<td><?= $description ?></td>
+								<td><?= $reference ?></td>
+								<td>Rp. <?= number_format($price_list,2) ?></td>
+								<td><?= number_format($discount,2) ?>%</td>
+								<td><?= number_format($quantity) ?></td>
+								<td>Rp. <?= number_format($unitprice,2) ?></td>
+								<td>Rp. <?= number_format($totprice,2) ?></td>
 							</tr>
-							<?php
+					<?php
 							}
-							$i++;
 						}
 					?>	
 					</tbody>

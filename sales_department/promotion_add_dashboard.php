@@ -58,10 +58,26 @@
 					<input type="file" class='input_file' id='promo_image' name='promo_image' onchange='edit_text()' accept="image/x-png,image/gif,image/jpeg" />
 					<div class='file_label'>Input image file</div>
 				</div>
-				<br>
-				<button type='button' class='button_success_dark' id='submit_button'>Submit</button>
+				<br><br>
+				<button type='button' class='button_success_dark' id='validate_button'><i class='fa fa-long-arrow-right'></i></button>
 			</form>
 		</div>
+	</div>
+</div>
+
+<div class='full_screen_wrapper' id='promotion_validation'>
+	<button type='button' class='full_screen_close_button'>&times </button>
+	<div class='full_screen_box'>
+		<label>Date</label>
+		<p style='font-family:museo'><span id='start_date_p'></span> - <span id='end_date_p'></span></p>
+		
+		<label>Promotion name</label>
+		<p style='font-family:museo' id='promo_name_p'></p>
+		
+		<label>Promo description</label>
+		<p style='font-family:museo' id='promo_description_p'></p>
+		
+		<button type='button' class='button_default_dark' id='submit_button'><i class='fa fa-long-arrow-right'></i></button>
 	</div>
 </div>
 <script>
@@ -74,7 +90,7 @@
 		}
 	}
 	
-	$('#submit_button').click(function(){
+	$('#validate_button').click(function(){
 		if($('#start_date').val() == ''){
 			alert('Please insert start date');
 			$('#start_date').focus();
@@ -92,7 +108,21 @@
 			$('#promo_desc').focus();
 			return false;
 		} else {
-			$('#promotion_add_form').submit();
+			transform_view();
 		}
+	});
+	
+	function transform_view(){
+		$('#start_date_p').html($('#start_date').val());
+		$('#end_date_p').html($('#end_date').val());
+		
+		$('#promo_name_p').html($('#promo_name').val());
+		$('#promo_description_p').html($('#promo_desc').val());
+		
+		$('#promotion_validation').fadeIn();
+	};
+	
+	$('#submit_button').click(function(){
+		$('#promotion_add_form').submit();
 	});
 </script>

@@ -1,81 +1,109 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/dashboard_header.php');
 ?>
+<head>
+	<title>Agung Elektrindo</title>
+</head>
+<style>
+	.main{
+		margin-left:0px!important;
+	}
+	
+	::-webkit-scrollbar{width:2px;height:2px;}
+	::-webkit-scrollbar-button{width:2px;height:2px;}
+	
+	#shortcut_department_wrapper{
+		display:block;
+		position:absolute;
+		top:0px;
+		left:-80px;
+		width:150px;
+		margin:0px;
+		overflow-y:auto;
+		overflow-x:hidden;
+		transform:rotate(-90deg) translateY(-80px);
+		transform-origin:right top;
+		padding:150px 0px 0px 0px;
+	}
+	
+	#shortcut_department_wrapper > a{
+		display:block;
+		padding:5px;
+		transform:rotate(90deg);
+		transform-origin: right top;
+		width:150px;
+		height:150px;
+		margin-top:30px;
+		background:#0e3f66;
+		transition:0.3s all ease;
+	}
+	
+	#shortcut_department_wrapper > a:hover{
+		background-color:#326d96;
+		transition:0.3s all ease;
+	}
+</style>
 <div class='main'>
-	<div class='tab_button_wrapper'>
-		<button id='profile_button' class='active'>Profile</button>
-		<button id='news_button'>News</button>
-		<button id='promotion_button'>Promotion</button>
-		<button id='salary_button'>Salary</button>
-<?php if($privilege == 1){ ?>
-		<button id='absentee_button'>Att. List</button>
-<?php } ?>
-	</div>
-	<div class='tab_view'>
+	<h2 style='font-family:bebasneue;color:#326d96'>Departments</h2>
+	<hr style='border-top:2px solid #424242;'>
+	<div class='row' style='position:relative;display:block;margin-bottom:150px;'>
+		<div id='shortcut_department_wrapper'>
 <?php
-		$sql				= "SELECT * FROM users WHERE id = '$user_id'";
-		$result				= $conn->query($sql);
-		$row				= $result->fetch_assoc();
-		
-		$user_name			= $row['name'];
-		$user_address		= $row['address'];
-		$user_city			= $row['city'];
-		$user_nik			= $row['NIK'];
-		$user_image_url		= '/agungelektrindo/dashboard/' . $row['image_url'];
-		$user_role			= $row['role'];
-		$user_mail			= $row['mail'];
-		$user_uname			= $row['username'];
+	$sql		= "SELECT departments.index_page, departments.department, departments.icon_url FROM authorization
+					JOIN departments ON departments.id = authorization.department_id
+					WHERE authorization.user_id = '" . $_SESSION['user_id'] . "'
+					ORDER BY departments.department ASC";
+	$result		= $conn->query($sql);
+	while($row	= $result->fetch_assoc()){
+		$department	= $row['department'];
+		$index_page	= $row['index_page'];
+		$image_url	= '/agungelektrindo/universal/Images/icons/' . $row['icon_url'] . '.PNG';
 ?>
-	<div class='row'>
-		<div class='col-sm-3' style='text-align:center'>
-			<img src='<?= $user_image_url ?>' style='width:100%;max-width:150px;border-radius:50%;'>
-			<h3 style='font-family:museo'><?= $user_name ?></h3>
-			<p style='font-family:museo'><?= $user_role ?></p>
-		</div>
-		<div class='col-sm-9'>
-			<h3 style='font-family:museo'>General data</h3>
-			<label>NIK</label>
-			<p style='font-family:museo'><?= $user_nik ?></p>
-			<label>Email</label>
-			<p style='font-family:museo'><?= $user_mail ?></p>
-			<label>Username</label>
-			<p style='font-family:museo'><?= $user_uname ?></p>
-			<label>Address</label>
-			<p style='font-family:museo'><?= $user_address . " " . $user_city ?></p>
-			<a href='/agungelektrindo/dashboard/profile_edit_dashboard'>
-				<button class='button_success_dark'>Edit data</button>
+			<a href='/agungelektrindo/<?= $index_page ?>' title='<?= $department ?>'>
+				<img src='<?= $image_url ?>' style='width:100%'></img>
 			</a>
+<?php
+	}
+	
+	if($privilege == 1){
+?>
+			<a href='/agungelektrindo/human_resource_department/absentee_dashboard' title='Absentee'>
+				<img src='/agungelektrindo/universal/Images/icons/icons_attendance.PNG' style='width:100%'></img>
+			</a>
+<?php
+	}
+?>
 		</div>
 	</div>
+	<div class='row' style='position:relative;display:block'>
+		<div class='col-xs-12'>
+			<h2 style='font-family:bebasneue;color:#326d96'>Recent news</h2>
+			<hr style='border-top:2px solid #424242;'>
+<?php
+	$sql		= "SELECT * FROM announcement WHERE date <= CURDATE() ORDER BY id DESC LIMIT 3";
+	$result		= $conn->query($sql);
+	while($row	= $result->fetch_assoc()){
+		$name	= $row['event'];
+		$description	= $row['description'];
+		$date			= $row['date'];
+?>
+			<label><?= $name ?></label>
+			<p><i><?= date('d M Y',strtotime($date)) ?></i></p>
+			<p style='font-family:museo'><?= $description ?></p>
+			<hr style='border-top:1px solid #424242'>
+<?php
+	}
+?>
+		</div>
 	</div>
 </div>
 <script>	
-	$('.tab_button_wrapper button').click(function(){
-		var button_id			= $(this).attr('id');
-		if(button_id			== 'profile_button'){
-			var url				= '/agungelektrindo/dashboard/view_profile';
-		} else if(button_id		== 'news_button'){
-			var url				= '/agungelektrindo/dashboard/view_news';
-		} else if(button_id		== 'promotion_button'){
-			var url				= '/agungelektrindo/dashboard/view_promotion';
-		} else if(button_id		== 'absentee_button'){
-			var url				= '/agungelektrindo/dashboard/view_absentee';
-		} else if(button_id		== 'salary_button'){
-			var url				= '/agungelektrindo/dashboard/view_salary';
-		}
-		
-		$.ajax({
-			url:url,
-			beforeSend:function(){
-				$('.tab_view').html('');
-				$('.loading_wrapper_initial').fadeIn();
-			},
-			success:function(response){
-				$('.active').removeClass('active');
-				$('#' + button_id).addClass('active');
-				$('.loading_wrapper_initial').fadeOut();
-				$('.tab_view').html(response);
-			}
-		});
+	$(window).resize(function(){
+		var window_width	= $('.main').width() + 150;
+		$('#shortcut_department_wrapper').css('max-height', window_width);
+	});
+	
+	$(document).ready(function(){
+		$(window).resize();
 	});
 </script>

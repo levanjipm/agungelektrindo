@@ -47,37 +47,34 @@
 <div class='main'>
 	<div class='row'>
 		<div class='col-sm-4'>
-			<h2 style='font-family:bebasneue'>Account of receivable</h2>
+			<h2 style='font-family:bebasneue'>Account of payable</h2>
 			<p>Rp. <?= number_format($total,2) ?></p>
 		</div>
-		<div class='col-sm-4'>
-			<br>
-			<select class='form-control' onchange='change_supplier()' id='seleksi'>
-				<option value='0'>Please insert supplier name to view</option>
+		<div class='col-sm-4 col-sm-offset-4'>
+			<label>Supplier</label><br>
+			<select class='form-control' style='width:80%;display:inline-block' id='supplier_id'>
 <?php
 	$sql_select 	= 'SELECT id,name FROM supplier';
-	$result_select = $conn->query($sql_select);
-	while($select = $result_select->fetch_assoc()){
+	$result_select 	= $conn->query($sql_select);
+	while($select 	= $result_select->fetch_assoc()){
 ?>
 				<option value='<?= $select['id'] ?>'><?= $select['name'] ?></option>
 <?php
 	}
 ?>
 			</select>
-			<form action='supplier_view' method='POST' id='supplier_form'>
-				<input type='hidden' id='supplier_to_view' name='supplier'>
-			</form>
-		</div>
-		<div class='col-sm-2'>
-			<br>
-			<button type='button' class='button_default_dark' onclick='submiting()'>
-				<i class="fa fa-search" aria-hidden="true"></i>
-			</button>
+			<button type='button' class='button_default_dark' id='view_payable'><i class='fa fa-search'></i></button>
 		</div>		
 		<hr>
 	</div>
 	<hr>
 	<script>
+		$('#view_payable').click(function(){
+			var supplier_id		= $('#supplier_id').val();
+			var link			= "supplier_view.php?id=" + supplier_id;
+			window.location.href=link;
+		});
+		
 		function change_supplier(){
 			$('#supplier_to_view').val($('#seleksi').val());
 		}
@@ -115,13 +112,11 @@
 		$b		= ($i * 128 / $number) + 102;
 		$rgb	= $r . ',' . $g . ',' . $b;
 ?>
-	<a href='/agungelektrindo/accounting_department/supplier_view.php?id=<?= $supplier_id ?>' style='text-decoration:none;color:black'>
-	<div class='row garis_wrapper'>
+	<div class='row garis_wrapper' onclick='view_payable_account(<?= $supplier_id ?>)' style='cursor:pointer'>
 		<div class='col-sm-3'><?= $supplier_name ?></div>
 		<div class='col-sm-6'><div class='row garis' style='width:0%;background-color:rgb(<?= $rgb ?>)' id='garis<?= $supplier_id ?>'></div></div>
 		<div class='col-sm-2'>Rp. <?= number_format($invoice['jumlah'] - $dibayar,2) ?></div>
 	</div>
-	</a>
 	<script>
 		setTimeout(function(){
 			$("#garis<?= $supplier_id ?>").animate({
@@ -134,3 +129,27 @@
 		$timeout = $timeout + 50;
 	}
 ?>
+</div>
+<div class='full_screen_wrapper' id='payable_wrapper'>
+	<button type='button' class='full_screen_close_button'>&times </button>
+	<div class='full_screen_box'>
+	</div>
+</div>
+<script>
+	function view_payable_account(n){
+		$.ajax({
+			url:'payable_dashboard_view',
+			data:{
+				id:n,
+			},
+			success:function(response){
+				$('#payable_wrapper .full_screen_box').html(response);
+				$('#payable_wrapper').fadeIn();
+			}
+		});
+	}
+	
+	$('.full_screen_close_button').click(function(){
+		$(this).parent().fadeOut();
+	});
+</script>

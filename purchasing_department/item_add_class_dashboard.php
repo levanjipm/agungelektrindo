@@ -16,7 +16,7 @@
 	<h2 style='font-family:bebasneue'>Item</h2>
 	<p>Add class</p>
 	<hr>
-	<button type='button' class='button_success_dark' id='add_class_button'>Add class</button>
+	<button type='button' class='button_default_dark' id='add_class_button'>Add class</button>
 	<br><br>
 	<table class='table table-bordered'>
 		<tr>
@@ -48,19 +48,19 @@
 				if($member == 0){
 ?>
 			<td>	
+				<button type='button' class='button_default_dark' onclick='focus_input(<?= $row['id'] ?>)'><i class='fa fa-pencil'></i></button>
 				<button type='button' class='button_danger_dark' onclick='delete_class(<?= $row['id'] ?>)'>
 					<i class="fa fa-trash" aria-hidden="true"></i>
 				</button>
-				<button type='button' class='button_success_dark' onclick='focus_input(<?= $row['id'] ?>)'><i class='fa fa-pencil'></i></button>
 			</td>
 <?php
 				} else {
 ?>
 			<td>	
+				<button type='button' class='button_default_dark' onclick='focus_input(<?= $row['id'] ?>)'><i class='fa fa-pencil'></i></button>
 				<button type='button' class='button_danger_dark' disabled>
 					<i class="fa fa-trash" aria-hidden="true"></i>
 				</button>
-				<button type='button' class='button_success_dark' onclick='focus_input(<?= $row['id'] ?>)'><i class='fa fa-pencil'></i></button>
 			</td>
 <?php
 				}

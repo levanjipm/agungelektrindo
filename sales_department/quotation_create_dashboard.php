@@ -205,13 +205,14 @@ function calculate_quotation(){
 			alert('Insert correct price!');
 			return false;
 		} else {
-			$(':input').attr('readonly',true);
+			$('input').attr('readonly',true);
+			$('select').attr('readonly',true);
+			$('textarea').attr('readonly',true);
 			$('#button_validate').show();
 			$('#back').show();
 			$('#calculate').hide();
-			$('#close').hide();
 			$('#add_item_button').hide();
-			$('.button_danger_dark').css({'visibility':'hidden'});
+			$('.delete_button').css({'visibility':'hidden'});
 		}
 	}
 };
@@ -239,18 +240,12 @@ function validate(){
 }
 
 $("#back").click(function (){
-	$('#quote_person').attr('readonly',false);
-	$('input[id^=reference]').attr('readonly',false);
-	$('input[id^=discount]').attr('readonly',false);
-	$('input[id^=price]').attr('readonly',false);
-	$('input[id^=quantity]').attr('readonly',false);	
-	$('#terms').attr('readonly',false);
-	$('#add_discount').attr('readonly',false);
-	$('#today').attr('readonly',false);
+	$('input').attr('readonly',false);
+	$('select').attr('readonly',false);	
+	$('textarea').attr('readonly',false);	
 	$('#button_validate').hide();
 	$('#back').hide();
 	$('#calculate').show();
-	$('#close').show();
 	$('#add_item_button').show();
 	$('.button_danger_dark').css({'visibility':'visible'});
 })
@@ -286,7 +281,7 @@ $("#back").click(function (){
 			"<td><input type='text' class='form-control' name='quantity[" + a + "]' id='quantity" + a + "'></td>"+
 			"<td id='unitprice" + a + "'></td>"+
 			"<td id='totalprice" + a + "'></td>"+
-			"<td><button type='button' class='button_danger_dark' onclick='delete_row(" + a + ")'><i class='fa fa-trash'></i></button></td></tr>").find("input").each(function () {
+			"<td><button type='button' class='button_danger_dark delete_button' onclick='delete_row(" + a + ")'><i class='fa fa-trash'></i></button></td></tr>").find("input").each(function () {
 			});
 		$("#reference" + a).autocomplete({
 			source: "../codes/search_item.php"

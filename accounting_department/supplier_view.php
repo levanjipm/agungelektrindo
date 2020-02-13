@@ -24,6 +24,9 @@
 	
 	$total_purchase			= $invoice['total'];
 ?>
+<head>
+	<title>View <?= $supplier_name ?></title>
+</head>
 <div class='main'>
 	<div class='row'>
 		<div class='col-sm-5'>

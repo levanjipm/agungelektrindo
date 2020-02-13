@@ -74,7 +74,7 @@
 			})
 		</script>
 		<div class='col-sm-3 col-xs-4' style='padding:20px;padding-top:0'>
-			<a href='/agungelektrindo/inventory_department/delivery_order_sending' style='text-decoration:none;color:#333;'>
+			<a href='/agungelektrindo/inventory_department/delivery_order_on_progress_dashboard' style='text-decoration:none;color:#333;'>
 				<div class='row'>
 					<div class='col-sm-12 box' id='on_delivery_button'>
 					<?php

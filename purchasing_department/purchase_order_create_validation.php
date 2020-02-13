@@ -1,9 +1,10 @@
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/header.php');
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/universal/headers/purchasing_header.php');
+
 	$payement 			= mysqli_real_escape_string($conn,$_POST['top']);
 	$po_date 			= mysqli_real_escape_string($conn,$_POST['today']);
-	$vendor 			= mysqli_real_escape_string($conn,$_POST['selectsupplier']); //Supplier id//
+	$vendor 			= mysqli_real_escape_string($conn,$_POST['supplier']);
 		
 	$sent_date 			= mysqli_real_escape_string($conn,$_POST['sent_date']);
 	$delivery_date 		= mysqli_real_escape_string($conn,$_POST['delivery_date']);
@@ -80,7 +81,7 @@
 	
 	$po_number = "PO-AE-" . str_pad($jumlah,2,"0",STR_PAD_LEFT) . "." . date("d",strtotime($po_date)). "-" . $month . "-" . date("y",strtotime($po_date));
 ?>
-<body>>
+<body>
 <div class='main'>
 	<form action="purchase_order_create_input.php" method="POST" id='create_po_validation_form'>
 		<h2 style="font-family:bebasneue">Purchase Order</h2>
@@ -176,15 +177,15 @@
 						Rp. <?= number_format($price,0) ?>
 						<input class="hidden" value="<?= $price?>" name='price[<?=$i?>]'>
 					</td>
-					<td>
-						<?= $discount ?> %
-						<input type='hidden' for="discount" value="<?= $discount ?>" readonly name='discount[<?=$i?>]'>
-					</td>
+					<td><?= $discount ?> %</td>
 					<td style="width:5%">
 						<?= number_format($quantity,0) ?>
 						<input type="hidden" value="<?=$quantity?>" name='quantity[<?=$i?>]'>
 					</td>
-					<td>Rp. <?= number_format($net_price,2) ?></td>
+					<td>
+						Rp. <?= number_format($net_price,2) ?>
+						<input type='hidden' value='<?= $net_price ?>' name='net_price[<?= $i ?>]'>
+					</td>
 					<td>Rp. <?= number_format($total_price,2) ?></td>
 				</tr>
 <?php

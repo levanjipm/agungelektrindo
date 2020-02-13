@@ -37,12 +37,18 @@
 	<div class='dropdown-container'>
 		<a href='/agungelektrindo/sales_department/sample_add_dashboard' id='sample_add_dashboard'><button>Create</button></a>
 		<a href='/agungelektrindo/sales_department/sample_confirm_dashboard' id='sample_confirm_dashboard'><button>Confirm</button></a>
+<?php
+	if($role == 'superadmin' || $role == 'admin'){
+?>
+		<a href='/agungelektrindo/sales_department/sample_manage_dashboard' id='sample_edit_dashboard'><button>Manage</button></a>
+<?php
+	}
+?>
 	</div>
-	<button class='dropdown_button' id='promotion_side'>Promotion</button>
-	<div class='dropdown-container'>
-		<a href='/agungelektrindo/sales_department/promotion_add_dashboard' id='promotion_add_dashboard'><button>Create</button></a>
-		<a href='/agungelektrindo/sales_department/promotion_manage_dashboard' id='promotion_manage_dashboard'><button>Manage</button></a>
-	</div>
+	
+	<a href='/agungelektrindo/sales_department/promotion_manage_dashboard'>
+		<button class='dropdown_button'>Promotion</button>
+	</a>
 <?php if($hpp == 1){ ?>
 	<a  href='/agungelektrindo/sales_department/check_cost_dashboard'>
 		<button>Check value</button>

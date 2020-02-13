@@ -1,5 +1,16 @@
 <?php
 	include('../codes/connect.php');
+	$sql					= "SELECT DISTINCT(sample.code_id) as id, customer.name, customer.address, customer.city
+								FROM code_sample 
+								JOIN customer ON code_sample.customer_id = customer.id
+								JOIN sample ON sample.code_id = code_sample.id
+								WHERE code_sample.isconfirm = '1' AND sample.status = '0'";
+	$result					= $conn->query($sql);
+	if(mysqli_num_rows($result) == 0){
+?>
+	<p style='font-family:museo'>There is no sample to send</p>
+<?php
+	} else {
 ?>
 <table class='table table-bordered'>
 	<thead>
@@ -10,12 +21,6 @@
 	</thead>
 	<tbody>
 <?php
-	$sql					= "SELECT DISTINCT(sample.code_id) as id, customer.name, customer.address, customer.city
-								FROM code_sample 
-								JOIN customer ON code_sample.customer_id = customer.id
-								JOIN sample ON sample.code_id = code_sample.id
-								WHERE code_sample.isconfirm = '1' AND sample.status = '0'";
-	$result					= $conn->query($sql);
 	while($row				= $result->fetch_assoc()){
 		$sample_id			= $row['id'];
 		$customer_name		= $row['name'];
@@ -36,12 +41,15 @@
 	}
 ?>
 </table>
-<form action='sample_send_validation' method='POST' id='sample_form'>
+<form action='sample_send_validation' method='POST' id='send_sample_form'>
 	<input type='hidden' id='sample_id' name='id'>
 </form>
 <script>
 	function view_sample(n){
 		$('#sample_id').val(n);
-		$('#sample_form').submit();
+		$('#send_sample_form').submit();
 	}
 </script>
+<?php
+	}
+?>

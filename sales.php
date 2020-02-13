@@ -48,6 +48,7 @@
 <div class='main'>
 	<div class='row'>
 		<div class='col-md-12 col-sm-12 col-xs-12'>
+			<a href='/agungelektrindo/sales_department/sales_order_pending' style='text-decoration:none'>
 			<div class='box'>
 				<h1><?= $pending ?></h1>
 				<h5>Pending sales order</h5>
@@ -62,6 +63,7 @@
 					});
 				</script>
 			</div>
+			</a>
 			<div class='box'>
 				<h1><?= $ongoing_project ?></h1>
 				<h5>Ongoing project(s)</h5>

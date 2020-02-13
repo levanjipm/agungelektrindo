@@ -14,6 +14,8 @@
 	<link rel='stylesheet' href='/agungelektrindo/css/style.css'>
 	<link rel='stylesheet' href='/agungelektrindo/css/button_style.css'>
 	<link rel='stylesheet' href='/agungelektrindo/css/table_style.css'>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <?php
 	include($_SERVER['DOCUMENT_ROOT'] . '/agungelektrindo/codes/connect.php');

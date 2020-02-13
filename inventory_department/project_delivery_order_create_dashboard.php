@@ -45,8 +45,9 @@
 	}
 ?>
 		</select>
-		<h4 style='font-family:bebasneue;display:inline-block;margin-right:10px'>Detail </h4>
-		<button type='button' class='button_default_dark' id='add_item_button' style='display:inline-block'>Add item</button>
+		<br>
+		<button type='button' class='button_default_dark' id='add_item_button'>Add item</button>
+		<br><br>
 		<table class='table table-bordered'>
 			<tr>
 				<th>Reference</th>
@@ -57,7 +58,7 @@
 				<tr>	
 					<td><input name='reference[1]' id='reference1' class='form-control'></td>
 					<td><input name='quantity[1]' id='quantity1' class='form-control'></td>
-					<td></td>
+					<td><button type='button' class='button_danger_dark' style='visibility:hidden'><i class='fa fa-trash'></i></button></td>
 				</tr>
 			</tbody>
 		</table>

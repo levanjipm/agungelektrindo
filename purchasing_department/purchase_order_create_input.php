@@ -44,28 +44,30 @@
 			if($address_choice == 1){
 				if($delivery_date == 2){
 					$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,taxing,send_date,status,promo_code,created_by,guid) 
-					VALUES ('$po_number','$vendor_id','$date','$top','$tax','','','$code_promo','" . $_SESSION['user_id'] . "','$guid')";
+					VALUES ('$po_number','$vendor_id','$date','$top','$tax',NULL,NULL,'$code_promo','" . $_SESSION['user_id'] . "','$guid')";
 				} else if($delivery_date == 3){
 					$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,taxing,send_date,status,promo_code,created_by,guid) 
-					VALUES ('$po_number','$vendor_id','$date','$top','$tax','','URGENT','$code_promo','" . $_SESSION['user_id'] . "','$guid')";
+					VALUES ('$po_number','$vendor_id','$date','$top','$tax',NULL,'URGENT','$code_promo','" . $_SESSION['user_id'] . "','$guid')";
 				} else if($delivery_date == 1){
 					$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,taxing,send_date,status,promo_code,created_by,guid) 
-					VALUES ('$po_number','$vendor_id','$date','$top','$tax','$sent_date','','$code_promo','" . $_SESSION['user_id'] . "','$guid')";
+					VALUES ('$po_number','$vendor_id','$date','$top','$tax','$sent_date',NULL,'$code_promo','" . $_SESSION['user_id'] . "','$guid')";
 				}
 			} else if($address_choice == 2){
+				
 				$dropship_name 		= mysqli_real_escape_string($conn,$_POST['dropship_name']);
 				$dropship_address 	= mysqli_real_escape_string($conn,$_POST['dropship_address']);
 				$dropship_city 		= mysqli_real_escape_string($conn,$_POST['dropship_city']);
 				$dropship_phone 	= mysqli_real_escape_string($conn,$_POST['dropship_phone']);
+				
 				if($delivery_date == 2){
 					$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,taxing,send_date,status,promo_code,created_by,dropship_name,dropship_address,dropship_city,dropship_phone,guid) 
-					VALUES ('$po_number','$vendor_id','$date','$top','$tax','','','$code_promo','" . $_SESSION[user_id] . "','$dropship_name','$dropship_address','$dropship_city','$dropship_phone','$guid')";
+					VALUES ('$po_number','$vendor_id','$date','$top','$tax',NULL,NULL,'$code_promo','" . $_SESSION[user_id] . "','$dropship_name','$dropship_address','$dropship_city','$dropship_phone','$guid')";
 				} else if($delivery_date == 3){
 					$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,taxing,send_date,status,promo_code,created_by,dropship_name,dropship_address,dropship_city,dropship_phone,guid) 
-					VALUES ('$po_number','$vendor_id','$date','$top','$tax','','URGENT','$code_promo','" . $_SESSION[user_id] . "','$dropship_name','$dropship_address','$dropship_city','$dropship_phone','$guid')";
+					VALUES ('$po_number','$vendor_id','$date','$top','$tax',NULL,'URGENT','$code_promo','" . $_SESSION[user_id] . "','$dropship_name','$dropship_address','$dropship_city','$dropship_phone','$guid')";
 				} else if($delivery_date == 1){
 					$sql = "INSERT INTO code_purchaseorder (name,supplier_id,date,top,taxing,send_date,status,promo_code,created_by,dropship_name,dropship_address,dropship_city,dropship_phone,guid) 
-					VALUES ('$po_number','$vendor_id','$date','$top','$tax','$sent_date','','$code_promo','" . $_SESSION[user_id] . "','$dropship_name','$dropship_address','$dropship_city','$dropship_phone','$guid')";
+					VALUES ('$po_number','$vendor_id','$date','$top','$tax','$sent_date',NULL,'$code_promo','" . $_SESSION[user_id] . "','$dropship_name','$dropship_address','$dropship_city','$dropship_phone','$guid')";
 				}
 			}	
 			$conn->query($sql);
@@ -77,19 +79,18 @@
 			
 			$reference_array 	= $_POST['reference'];
 			$price_array		= $_POST['price'];
-			$discount_array		= $_POST['discount'];
 			$quantity_array		= $_POST['quantity'];
+			$net_price_array	= $_POST['net_price'];
 			
 			foreach($reference_array as $reference){
 				$key		= key($reference_array);
 				$price		= $price_array[$key];
-				$discount	= $discount_array[$key];
 				$quantity	= $quantity_array[$key];
 				
-				$net_price	= $price * (100 - $discount) * 0.01;
+				$net_price	= $net_price_array[$key];
 				
-				$sql = "INSERT INTO purchaseorder (reference,price_list,discount,unitprice,quantity,purchaseorder_id) VALUES
-						('$reference','$price','$discount','$net_price','$quantity','$po_id')";
+				$sql = "INSERT INTO purchaseorder (reference,price_list,unitprice,quantity,purchaseorder_id) VALUES
+						('$reference','$price','$net_price','$quantity','$po_id')";
 				$conn->query($sql);
 				
 				next($reference_array);
