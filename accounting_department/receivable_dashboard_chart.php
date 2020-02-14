@@ -1,57 +1,5 @@
 <?php
 	include('../codes/connect.php');
-	$maximum 	= 0;
-	$total 		= 0;
-	
-	if(empty($_GET['term']) || $_GET['term'] == 1){
-		$sql_invoice	 		= "SELECT COALESCE(SUM(invoices.value + invoices.ongkir),0) AS maximum, COALESCE(SUM(receivable.value),0) as paid
-									FROM invoices
-									LEFT JOIN receivable ON receivable.invoice_id = invoices.id
-									JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
-									WHERE invoices.isdone = '0'
-									GROUP by code_delivery_order.customer_id, receivable.invoice_id ORDER BY maximum DESC";
-	} else if($_GET['term'] == 2){
-		$parameter_date			= date('Y-m-d',strtotime('-30 days'));
-		$sql_invoice	 		= "SELECT COALESCE(SUM(invoices.value + invoices.ongkir),0) AS maximum, COALESCE(SUM(receivable.value),0) as paid
-									FROM invoices
-									LEFT JOIN receivable ON receivable.invoice_id = invoices.id
-									JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
-									WHERE invoices.isdone = '0' AND invoices.date >= '$parameter_date'
-									GROUP by code_delivery_order.customer_id, receivable.invoice_id ORDER BY maximum DESC";
-	
-	} else if($_GET['term'] == 3){
-		$parameter_date_1		= date('Y-m-d',strtotime('-30 days'));
-		$parameter_date_2		= date('Y-m-d',strtotime('-45 days'));
-		$sql_invoice	 		= "SELECT COALESCE(SUM(invoices.value + invoices.ongkir),0) AS maximum, COALESCE(SUM(receivable.value),0) as paid
-									FROM invoices
-									LEFT JOIN receivable ON receivable.invoice_id = invoices.id
-									JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
-									WHERE invoices.isdone = '0' AND (invoices.date < '$parameter_date_1' AND invoices.date >= '$parameter_date_2')
-									GROUP by code_delivery_order.customer_id, receivable.invoice_id ORDER BY maximum DESC";
-	} else if($_GET['term'] == 4){
-		$parameter_date_1		= date('Y-m-d',strtotime('-45 days'));
-		$parameter_date_2		= date('Y-m-d',strtotime('-60 days'));
-		$sql_invoice	 		= "SELECT COALESCE(SUM(invoices.value + invoices.ongkir),0) AS maximum, COALESCE(SUM(receivable.value),0) as paid
-									FROM invoices
-									LEFT JOIN receivable ON receivable.invoice_id = invoices.id
-									JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
-									WHERE invoices.isdone = '0' AND (invoices.date < '$parameter_date_1' AND invoices.date >= '$parameter_date_2')
-									GROUP by code_delivery_order.customer_id, receivable.invoice_id ORDER BY maximum DESC";
-	} else if($_GET['term'] == 5){
-		$parameter_date			= date('Y-m-d',strtotime('-60 days'));
-		$sql_invoice	 		= "SELECT COALESCE(SUM(invoices.value + invoices.ongkir),0) AS maximum, COALESCE(SUM(receivable.value),0) as paid
-									FROM invoices
-									LEFT JOIN receivable ON receivable.invoice_id = invoices.id
-									JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
-									WHERE invoices.isdone = '0' AND invoices.date < '$parameter_date'
-									GROUP by code_delivery_order.customer_id, receivable.invoice_id ORDER BY maximum DESC";
-	};
-
-	$result_invoice 		= $conn->query($sql_invoice);
-	$invoice				= $result_invoice->fetch_assoc();
-	$maximum				= $invoice['maximum'] - $invoice['paid'];
-	$number					= mysqli_num_rows($result_invoice);
-	
 	$timeout 	= 0;
 	$i 			= 1;
 	if(empty($_GET['term']) || $_GET['term'] == 1){
@@ -73,7 +21,7 @@
 	} else if($_GET['term'] == 3){
 		$parameter_date_1		= date('Y-m-d',strtotime('-30 days'));
 		$parameter_date_2		= date('Y-m-d',strtotime('-45 days'));
-		$sql		 			= "SELECT COALESCE(SUM(invoices.value + invoices.ongkir),0) AS jumlah, COALESCE(code_delivery_order.customer_id,0) as customer_id, COALESCE(SUM(receivable.value),0) AS paid
+		$sql		 			= "SELECT COALESCE(SUM(invoices.value + invoices.ongkir),0) AS jumlah, COALESCE(code_delivery_order.customer_id,0) as 							customer_id, COALESCE(SUM(receivable.value),0) AS paid
 									FROM invoices
 									LEFT JOIN receivable ON receivable.invoice_id = invoices.id
 									JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
@@ -82,7 +30,7 @@
 	} else if($_GET['term'] == 4){
 		$parameter_date_1		= date('Y-m-d',strtotime('-45 days'));
 		$parameter_date_2		= date('Y-m-d',strtotime('-60 days'));
-		$sql		 			= "SELECT COALESCE(SUM(invoices.value + invoices.ongkir),0) AS jumlah, COALESCE(code_delivery_order.customer_id,0) as customer_id, COALESCE(SUM(receivable.value),0) AS paid
+		$sql		 			= "SELECT COALESCE(SUM(invoices.value + invoices.ongkir),0) AS jumlah, COALESCE(code_delivery_order.customer_id,0) as 							customer_id, COALESCE(SUM(receivable.value),0) AS paid
 									FROM invoices
 									LEFT JOIN receivable ON receivable.invoice_id = invoices.id
 									JOIN code_delivery_order ON code_delivery_order.id = invoices.do_id
@@ -105,6 +53,8 @@
 	};
 	
 	arsort($receivable_array);
+	$maximum		= MAX($receivable_array);
+	$number			= COUNT($receivable_array);
 ?>
 	<label>Term</label>
 	<select class='form-control' id='terms' style='width:150px'>

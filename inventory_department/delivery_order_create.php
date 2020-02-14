@@ -188,7 +188,6 @@ function update_quantity(){
 
 function check_delivery_order(){
 	validation			= true;
-	
 	$('input[id^="delivery_order_quantity"]').each(function(){
 		var id			= $(this).attr('id');
 		var uid			= parseInt(id.substring(23,50));
@@ -224,7 +223,6 @@ function transform_view(){
 		}
 	});
 	$('#date_p').html($('#delivery_order_date').val());
-	
 	$('#validate_delivery_order_form').fadeIn();
 };
 
